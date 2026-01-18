@@ -1,0 +1,130 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt for iOS</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/ios.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt for iOS</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt for iOS</h1>
+<span class="subtitle"></span>
+<!-- $$$ios.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt's iOS port allows you to run Qt applications on iOS devices, such as iPhones, iPads, and iPod Touches.</p>
+<a name="ios-supported-configurations"></a><a name="supported-configurations"></a>
+<h2 id="supported-configurations">Supported Configurations<a class="plink" href="#supported-configurations" title="Direct link to this headline"></a></h2>
+<p>The following configurations are supported.</p>
+<div class="table"><table class="generic" width="80%">
+<thead><tr class="qt-style"><th>Target Platform</th><th>Architecture</th><th>Build Environment</th><th>Notes</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>iOS 14, 15, 16, 17</td><td><code translate="no">armv8</code> (<code translate="no">arm64</code>)</td><td>Xcode 15 (iOS 17 SDK)</td><td></td></tr>
+<tr class="even" valign="top"><td>tvOS 12, tvOS 13</td><td><code translate="no">armv8</code> (<code translate="no">arm64</code>)</td><td>Xcode 11 (tvOS 13 SDK)</td><td>Technology Preview</td></tr>
+<tr class="odd" valign="top"><td>watchOS 5, watchOS 6</td><td><code translate="no">armv7k</code></td><td>Xcode 11 (watchOS 6 SDK)</td><td>Technology Preview. No UI.</td></tr>
+</tbody></table></div>
+<div class="table"><table class="generic" width="50%">
+<thead><tr class="qt-style"><th colspan="4">Target Devices used in Automated Testing</th></tr>
+<tr class="qt-style"><th>Device</th><th>OS Version</th><th>Architecture</th><th>Form Factor</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><a href="https://www.gsmarena.com/apple_iphone_12-10509.php" translate="no">iPhone 12</a></td><td>iOS 16</td><td>armv8 (arm64)</td><td>Mobile</td></tr>
+<tr class="even" valign="top"><td><a href="https://www.gsmarena.com/apple_iphone_11-9848.php" translate="no">iPhone 11</a></td><td>iOS 16</td><td>armv8 (arm64)</td><td>Mobile</td></tr>
+<tr class="odd" valign="top"><td><a href="https://www.gsmarena.com/apple_ipad_pro_11_(2021)-10865.php" translate="no">iPad Pro, 3rd generation</a></td><td>iOS 15</td><td>armv8 (arm64)</td><td>Tablet</td></tr>
+<tr class="even" valign="top"><td><a href="https://www.gsmarena.com/apple_ipad_9_7_(2018)-9142.php" translate="no">iPad, 6th generation</a></td><td>iOS 14</td><td>armv8 (arm64)</td><td>Tablet</td></tr>
+</tbody></table></div>
+<a name="getting-started"></a>
+<h2 id="getting-started">Getting Started<a class="plink" href="#getting-started" title="Direct link to this headline"></a></h2>
+<p>Development and deployment is done using Xcode. The supported workflow is to maintain a <code translate="no">.pro</code> file based project, which generates an Xcode project. Building and deploying can be done using either Xcode or Qt Creator. We will look at that in more detail in the next section.</p>
+<p>The minimum deployment target for Qt applications is specified in <a href="./supported-platforms.htm" translate="no">Supported Platforms</a>.</p>
+<a name="setting-up-the-development-environment"></a>
+<h3 id="setting-up-the-development-environment">Setting Up the Development Environment<a class="plink" href="#setting-up-the-development-environment" title="Direct link to this headline"></a></h3>
+<p>You can download the Qt 5 installers from the <a href="http://qt.io/download" translate="no">Downloads</a> page. For more information, see <a href="./gettingstarted.htm" translate="no">Getting Started with Qt</a>.</p>
+<p>Before installing Qt, you first need to install Xcode. You will find it in the Mac App Store <a href="http://itunes.apple.com/us/app/xcode/id497799835?ls=1&amp;mt=12" translate="no">here</a>.</p>
+<div class="admonition note">
+<p><b>Note: </b>As recommended by Apple, you should always use the latest Xcode version when building your applications for the App Store. In practice this means you also need the latest version of macOS to develop apps with Qt, due to Xcode's system requirements.</p>
+</div>
+<p>For running Qt applications on your Mac or in the simulator that comes with Xcode, this is all you need. However, for running applications on a mobile device and/or publishing your applications in the App Store, you must join the <a href="https://developer.apple.com/programs/" translate="no">Apple Developer Program</a>, and set up developer certificates and provisioning profiles. The easiest solution is to use a profile that takes any App ID (a <code translate="no">*</code>).</p>
+<p>Before building any Qt applications, you should test that Xcode is set up correctly, for example, by running one of the standard Xcode application templates on your device.</p>
+<a name="building-applications-from-the-command-line"></a>
+<h3 id="building-applications-from-the-command-line">Building Applications From the Command Line<a class="plink" href="#building-applications-from-the-command-line" title="Direct link to this headline"></a></h3>
+<p>As mentioned previously, the development workflow consists of maintaining a normal <code translate="no">.pro</code> file project and exporting it to Xcode.</p>
+<p>Here is how to build a project with Xcode:</p>
+<ul>
+<li>run qmake (if you have not done so previously)</li>
+<li>open the resulting <code translate="no">.xcodeproj</code> file in Xcode</li>
+<li>build the application in Xcode</li>
+</ul>
+<p>Note that you must re-import the project if its setup changes, for example, when adding or removing source files.</p>
+<a name="building-applications-with-qt-creator"></a>
+<h3 id="building-applications-with-qt-creator">Building Applications with Qt Creator<a class="plink" href="#building-applications-with-qt-creator" title="Direct link to this headline"></a></h3>
+<p>You can find information on how to set up and run Apple mobile device applications in Qt Creator's manual:</p>
+<ul>
+<li><a href="https://doc.qt.io/qtcreator/creator-developing-ios.html" translate="no">Connecting Apple Mobile Devices</a>.</li>
+</ul>
+<p>As mentioned previously, you must have Xcode installed.</p>
+<a name="using-objective-c-code-in-qt-applications"></a>
+<h2 id="using-objective-c-code-in-qt-applications">Using Objective-C Code in Qt Applications<a class="plink" href="#using-objective-c-code-in-qt-applications" title="Direct link to this headline"></a></h2>
+<p>Clang, the compiler used for applications on Apple Platforms, allows mixing C++ and Objective-C code. To enable this mode, suffix your source files with <code translate="no">.mm</code>, and add them to <code translate="no">OBJECTIVE_SOURCES</code> instead of <code translate="no">SOURCES</code> in the <code translate="no">.pro</code> file. This makes it possible to use frameworks from Apple's Developer Library in Qt applications. Most useful is perhaps the possibility for adding In-App Purchasing with the StoreKit framework.</p>
+<a name="examples-for-ios"></a>
+<h2 id="examples-for-ios">Examples for iOS<a class="plink" href="#examples-for-ios" title="Direct link to this headline"></a></h2>
+<p>In Qt Creator, tested examples on iOS can be looked up. Use the <code translate="no">ios</code> keyword to search for examples in the Qt Creator Welcome mode. Note that some examples may have limited functionality.</p>
+<p>For a list of examples known to work on iOS devices, visit <a href="./examples-ios.htm" translate="no">Qt for iOS Examples</a>.</p>
+<a name="related-topics"></a>
+<h2 id="related-topics">Related Topics<a class="plink" href="#related-topics" title="Direct link to this headline"></a></h2>
+<p>The following topics provide more details about Qt for iOS:</p>
+<ul>
+<li><a href="./porting-to-ios.htm" translate="no">Porting a Qt Quick Application</a></li>
+<li><a href="./ios-platform-notes.htm" translate="no">Platform Notes</a></li>
+<li><a href="./ios-building-from-source.htm" translate="no">Qt for iOS - Building from Source</a></li>
+</ul>
+</div>
+<!-- @@@ios.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

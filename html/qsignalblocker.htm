@@ -1,0 +1,138 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QSignalBlocker | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qsignalblocker.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QSignalBlocker</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QSignalBlocker Class</h1>
+<!-- $$$QSignalBlocker-brief -->
+<p>Exception-safe wrapper around <a href="./qobject.htm#blockSignals" translate="no">QObject::blockSignals</a>(). <a href="#details">More...</a></p>
+<!-- @@@QSignalBlocker -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QSignalBlocker&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += core</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.3</td></tr></tbody></table></div><p>This class was introduced in Qt 5.3.</p>
+<ul>
+<li><a href="./qsignalblocker-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<p><b>Note:</b> All functions in this class are <a href="./threads-reentrancy.htm" translate="no">reentrant</a>.</p>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsignalblocker.htm#QSignalBlocker-2" translate="no">QSignalBlocker</a></b>(QSignalBlocker &amp;&amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsignalblocker.htm#QSignalBlocker-1" translate="no">QSignalBlocker</a></b>(QObject &amp;<i>object</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsignalblocker.htm#QSignalBlocker" translate="no">QSignalBlocker</a></b>(QObject *<i>object</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSignalBlocker &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qsignalblocker.htm#operator-eq" translate="no">operator=</a></b>(QSignalBlocker &amp;&amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsignalblocker.htm#dtor.QSignalBlocker" translate="no">~QSignalBlocker</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qsignalblocker.htm#reblock" translate="no">reblock</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qsignalblocker.htm#unblock" translate="no">unblock</a></b>()</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QSignalBlocker-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QSignalBlocker can be used wherever you would otherwise use a pair of calls to blockSignals(). It blocks signals in its constructor and in the destructor it resets the state to what it was before the constructor ran.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+<span class="keyword">const</span> <span class="type"><a href="./qsignalblocker.htm#QSignalBlocker" translate="no">QSignalBlocker</a></span> blocker(someQObject);
+<span class="comment">// no signals here</span>
+}</pre></div>
+<p>is thus equivalent to</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">const</span> bool wasBlocked <span class="operator">=</span> someQObject<span class="operator">-</span><span class="operator">&gt;</span>blockSignals(<span class="keyword">true</span>);
+<span class="comment">// no signals here</span>
+someQObject<span class="operator">-</span><span class="operator">&gt;</span>blockSignals(wasBlocked);</pre></div>
+<p>except the code using QSignalBlocker is safe in the face of exceptions.</p>
+</div>
+<p><b>See also </b><a href="./qmutexlocker.htm" translate="no">QMutexLocker</a> and <a href="./qeventlooplocker.htm" translate="no">QEventLoopLocker</a>.</p>
+<!-- @@@QSignalBlocker -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QSignalBlocker$$$QSignalBlockerQSignalBlocker&& -->
+<h3 class="fn" id="QSignalBlocker-2" translate="no"><a name="QSignalBlocker-2"></a>QSignalBlocker::<span class="name">QSignalBlocker</span>(<span class="type"><a href="./qsignalblocker.htm#QSignalBlocker" translate="no">QSignalBlocker</a></span> &amp;&amp;<i>other</i>)<a class="plink" href="#QSignalBlocker-2" title="Direct link to this headline"></a></h3>
+<p>Move-constructs a signal blocker from <i translate="no">other</i>. <i translate="no">other</i> will have a no-op destructor, while responsibility for restoring the <a href="./qobject.htm#signalsBlocked" translate="no">QObject::signalsBlocked</a>() state is transferred to the new object.</p>
+<!-- @@@QSignalBlocker -->
+<!-- $$$QSignalBlocker$$$QSignalBlockerQObject& -->
+<h3 class="fn" id="QSignalBlocker-1" translate="no"><a name="QSignalBlocker-1"></a>QSignalBlocker::<span class="name">QSignalBlocker</span>(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> &amp;<i>object</i>)<a class="plink" href="#QSignalBlocker-1" title="Direct link to this headline"></a></h3>
+<p>This is an overloaded function.</p>
+<p>Calls <i translate="no">object</i>.blockSignals(true).</p>
+<!-- @@@QSignalBlocker -->
+<!-- $$$QSignalBlocker[overload1]$$$QSignalBlockerQObject* -->
+<h3 class="fn" id="QSignalBlocker" translate="no"><a name="QSignalBlocker"></a>QSignalBlocker::<span class="name">QSignalBlocker</span>(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> *<i>object</i>)<a class="plink" href="#QSignalBlocker" title="Direct link to this headline"></a></h3>
+<p>Constructor. Calls <i translate="no">object</i>-&gt;blockSignals(true).</p>
+<!-- @@@QSignalBlocker -->
+<!-- $$$operator=[overload1]$$$operator=QSignalBlocker&& -->
+<h3 class="fn" id="operator-eq" translate="no"><a name="operator-eq"></a><span class="type"><a href="./qsignalblocker.htm#QSignalBlocker" translate="no">QSignalBlocker</a></span> &amp;QSignalBlocker::<span class="name">operator=</span>(<span class="type"><a href="./qsignalblocker.htm#QSignalBlocker" translate="no">QSignalBlocker</a></span> &amp;&amp;<i>other</i>)<a class="plink" href="#operator-eq" title="Direct link to this headline"></a></h3>
+<p>Move-assigns this signal blocker from <i translate="no">other</i>. <i translate="no">other</i> will have a no-op destructor, while responsibility for restoring the <a href="./qobject.htm#signalsBlocked" translate="no">QObject::signalsBlocked</a>() state is transferred to this object.</p>
+<p>The object's signals this signal blocker was blocking prior to being moved to, if any, are unblocked <i>except</i> in the case where both instances block the same object's signals and <code translate="no">*this</code> is unblocked while <i translate="no">other</i> is not, at the time of the move.</p>
+<!-- @@@operator= -->
+<!-- $$$~QSignalBlocker[overload1]$$$~QSignalBlocker -->
+<h3 class="fn" id="dtor.QSignalBlocker" translate="no"><a name="dtor.QSignalBlocker"></a>QSignalBlocker::<span class="name">~QSignalBlocker</span>()<a class="plink" href="#dtor.QSignalBlocker" title="Direct link to this headline"></a></h3>
+<p>Destructor. Restores the <a href="./qobject.htm#signalsBlocked" translate="no">QObject::signalsBlocked</a>() state to what it was before the constructor ran, unless <a href="./qsignalblocker.htm#unblock" translate="no">unblock</a>() has been called without a following <a href="./qsignalblocker.htm#reblock" translate="no">reblock</a>(), in which case it does nothing.</p>
+<!-- @@@~QSignalBlocker -->
+<!-- $$$reblock[overload1]$$$reblock -->
+<h3 class="fn" id="reblock" translate="no"><a name="reblock"></a><span class="type">void</span> QSignalBlocker::<span class="name">reblock</span>()<a class="plink" href="#reblock" title="Direct link to this headline"></a></h3>
+<p>Re-blocks signals after a previous <a href="./qsignalblocker.htm#unblock" translate="no">unblock</a>().</p>
+<p>The numbers of reblock() and <a href="./qsignalblocker.htm#unblock" translate="no">unblock</a>() calls are not counted, so every reblock() undoes any number of <a href="./qsignalblocker.htm#unblock" translate="no">unblock</a>() calls.</p>
+<!-- @@@reblock -->
+<!-- $$$unblock[overload1]$$$unblock -->
+<h3 class="fn" id="unblock" translate="no"><a name="unblock"></a><span class="type">void</span> QSignalBlocker::<span class="name">unblock</span>()<a class="plink" href="#unblock" title="Direct link to this headline"></a></h3>
+<p>Temporarily restores the <a href="./qobject.htm#signalsBlocked" translate="no">QObject::signalsBlocked</a>() state to what it was before this <a href="./qsignalblocker.htm" translate="no">QSignalBlocker</a>'s constructor ran. To undo, use <a href="./qsignalblocker.htm#reblock" translate="no">reblock</a>().</p>
+<p>The numbers of <a href="./qsignalblocker.htm#reblock" translate="no">reblock</a>() and unblock() calls are not counted, so every unblock() undoes any number of <a href="./qsignalblocker.htm#reblock" translate="no">reblock</a>() calls.</p>
+<!-- @@@unblock -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

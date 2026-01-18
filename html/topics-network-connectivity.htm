@@ -1,0 +1,154 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Networking and Connectivity</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/topics-network-connectivity.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Networking and Connectivity</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Networking and Connectivity</h1>
+<span class="subtitle"></span>
+<!-- $$$topics-network-connectivity.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt provides classes for both high-level and low-level network communication, classes for web integration, and classes for interprocess communication.</p>
+<p>For high-level network traffic, <a href="./qtnetwork-index.htm" translate="no">Qt Network</a> provides an abstraction layer over the operations used, showing only high-level classes and functions. Qt Network can also handle lower level protocols like TCP and UDP. Classes like <a href="./qtcpsocket.htm" translate="no">QTcpSocket</a> and <a href="./qudpsocket.htm" translate="no">QUdpSocket</a> enable the developer to send and receive messages using the TCP or UDP protocol.Name resolution is done with <a href="./qhostinfo.htm" translate="no">QHostInfo</a>. <a href="./qhostinfo.htm" translate="no">QHostInfo</a> is called before creating a network connection with <a href="./qtcpsocket.htm" translate="no">QTcpSocket</a> or <a href="./qudpsocket.htm" translate="no">QUdpSocket</a>. Filtering and redistributing network traffic via proxies can handled by the QNetWorkProxy class.</p>
+<p>Qt Network also provides the <a href="./bearer-management.htm" translate="no">Bearer Management</a> API. It has functions that can start or stop network interfaces and roam between access points. It does however not take care of the network configurations itself. The platform needs to take care of that.</p>
+<p><a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a> offers a Chromium-based web engine that enables using web content in your application. <a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a> can render HTML5, XHTML, and SVG documents, and execute Javascript.</p>
+<p>Qt also offers functionalities for <i>inter-process communication</i> (IPC). The class <a href="./qprocess.htm" translate="no">QProcess</a> is used to start external programs. <a href="./qtdbus-index.htm" translate="no">Qt D-Bus</a> provides support for D-Bus, an interprocess communication and remoteprocedure calling mechanism. It mostly communicates via a central server application, called a bus. However, it is also possible to let applications communicate directly with each other. <a href="./qsharedmemory.htm" translate="no">QSharedMemory</a> provides access to a shared memory segment by multiple threads and processes. It is however also possible for a single process to exclusively lock that shared memory.</p>
+<a name="network-communication"></a>
+<h2 id="network-communication">Network Communication<a class="plink" href="#network-communication" title="Direct link to this headline"></a></h2>
+<p>Qt supports a wide range of network communication, with a focus on HTTP, TCP, and UDP.</p>
+<p>At the HTTP level, the <a href="./qtnetwork-index.htm" translate="no">Qt Network</a> module offers the network access API, which consists mainly of <a href="./qnetworkrequest.htm" translate="no">QNetworkRequest</a>, <a href="./qnetworkaccessmanager.htm" translate="no">QNetworkAccessManager</a>, and <a href="./qnetworkreply.htm" translate="no">QNetworkReply</a>. Put simply, the <a href="./qnetworkrequest.htm" translate="no">QNetworkRequest</a> resembles an HTTP request, which gets passed to the <a href="./qnetworkaccessmanager.htm" translate="no">QNetworkAccessManager</a> to send the request on the wire; this class returns a <a href="./qnetworkreply.htm" translate="no">QNetworkReply</a>, which enables parsing the HTTP reply. The network access API uses the socket classes mentioned below (for TCP and SSL) internally.</p>
+<p>For communication at the socket level, <a href="./qtcpsocket.htm" translate="no">QTcpSocket</a>, <a href="./qudpsocket.htm" translate="no">QUdpSocket</a> and <a href="./qsslsocket.htm" translate="no">QSslSocket</a> should be used. These classes offer a synchronous API through the waitFor* methods as well as an asynchronous API; if possible (i.e. if the event loop is running), the asynchronous API should always be preferred. Qt also offers <a href="./qtcpserver.htm" translate="no">QTcpServer</a> to enable the server-side part of a TCP communication. Please note that there is no HTTP server class in Qt.</p>
+<p>For secure communication via SSL, Qt Network offers a wide range of classes alongside the central <a href="./qsslsocket.htm" translate="no">QSslSocket</a>, e.g. <a href="./qsslcertificate.htm" translate="no">QSslCertificate</a>, <a href="./qsslconfiguration.htm" translate="no">QSslConfiguration</a> and <a href="./qsslerror.htm" translate="no">QSslError</a>.</p>
+<p>For mobile devices, Qt Network offers the <a href="./bearer-management.htm" translate="no">bearer management</a> API to track the status of a connection (e.g. getting notified about online/offline status or whether Wifi or 3G is used).</p>
+<p>Qt also offers HTTP support in QML by either using HTTP explicitly via <a href="./qtqml-javascript-qmlglobalobject.htm#xmlhttprequest" translate="no">XmlHttpRequest</a>, or by transparently using HTTP URLs in e.g. Image sources.</p>
+<p>Related Topics:</p>
+<ul>
+<li><a href="./qtnetwork-index.htm" translate="no">Qt Network</a> - module documentation<ul>
+<li><a href="./network.htm" translate="no">Network Programming API</a></li>
+<li><a href="./qtnetwork-programming.htm" translate="no">Network Programming with Qt</a></li>
+<li><a href="./qtnetwork-module.htm" translate="no">Qt Network C++ Classes</a></li>
+<li><a href="./ssl.htm" translate="no">Secure Sockets Layer (SSL) Classes</a></li>
+<li><a href="./bearer-management.htm" translate="no">Bearer Management</a></li>
+</ul>
+</li>
+<li><a href="./qtqml-documents-topic.htm#resource-loading-and-network-transparency" translate="no">Resource Loading and Network Transparency</a> - network and URL transparency in QML</li>
+</ul>
+<a name="websockets"></a>
+<h2 id="websockets">WebSockets<a class="plink" href="#websockets" title="Direct link to this headline"></a></h2>
+<p>An alternative to direct TCP or HTTP communication is to use the WebSocket protocol (<a href="http://tools.ietf.org/html/rfc6455" translate="no">RFC 6455</a>). It is a two-way communication protocol on top of the TCP protocol to utilize existing web infrastructure without having to create additional client-server based communication. The <a href="./qtwebsockets-index.htm" translate="no">Qt WebSockets</a> module provides both a QML and C++ API, in addition to several examples to demonstrate its use.</p>
+<a name="world-wide-web-support"></a>
+<h2 id="world-wide-web-support">World Wide Web Support<a class="plink" href="#world-wide-web-support" title="Direct link to this headline"></a></h2>
+<p>Qt makes it easy to embed web content into your Qt application using features of the Qt <a href="https://doc.qt.io/archives/qt-5.15/nolink" translate="no">WebEngine</a> layout engine. The Qt <a href="https://doc.qt.io/archives/qt-5.15/nolink" translate="no">WebEngine</a> module equips Qt with support for a broad range of standard web technologies that make it possible to embed HTML content styled with CSS and scripted with JavaScript into your Qt application. <a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a> facilitates both integration with traditional <a href="./qwidget.htm" translate="no">QWidget</a> based desktop applications as well as embedding into Qt Quick QML applications.</p>
+<p>For more information see <a href="./topics-web-content.htm" translate="no">Integrating Web Content</a>.</p>
+<a name="inter-process-communication"></a>
+<h2 id="inter-process-communication">Inter-Process Communication<a class="plink" href="#inter-process-communication" title="Direct link to this headline"></a></h2>
+<p>Qt provides several ways to implement Inter-Process Communication (IPC) in Qt applications.</p>
+<p>The cross-platform <a href="./qtnetwork-index.htm" translate="no">Qt Network</a> module provides classes that make network programming portable and easy. It offers high-level classes (e.g., <a href="./qnetworkaccessmanager.htm" translate="no">QNetworkAccessManager</a>, QFtp) that communicate using specific application-level protocols, and lower-level classes (e.g., <a href="./qtcpsocket.htm" translate="no">QTcpSocket</a>, <a href="./qtcpserver.htm" translate="no">QTcpServer</a>, <a href="./qsslsocket.htm" translate="no">QSslSocket</a>) for implementing protocols.</p>
+<p>The cross-platform shared memory class, <a href="./qsharedmemory.htm" translate="no">QSharedMemory</a>, provides access to the operating system's shared memory implementation. It allows safe access to shared memory segments by multiple threads and processes. Additionally, <a href="./qsystemsemaphore.htm" translate="no">QSystemSemaphore</a> can be used to control access to resources shared by the system, as well as to communicate between processes.</p>
+<p>The <a href="./qtdbus-index.htm" translate="no">Qt D-Bus</a> module is a cross-platform library you can use to implement IPC using the D-Bus protocol. It extends Qt's <a href="./signalsandslots.htm" translate="no">signals and slots</a> mechanism to the IPC level, allowing a signal emitted by one process to be connected to a slot in another process.</p>
+<p>The cross-platform class <a href="./qprocess.htm" translate="no">QProcess</a> can be used to start external programs as child processes, and to communicate with them. It provides an API for monitoring and controlling the state of the child process. <a href="./qprocess.htm" translate="no">QProcess</a> gives access to the input/output channels of child process by inheriting from <a href="./qiodevice.htm" translate="no">QIODevice</a>.</p>
+<p>The <a href="./qlocalsocket.htm" translate="no">QLocalSocket</a> class provides a local socket. On Windows this is a named pipe and on Unix this is a local domain socket. The <a href="./qlocalserver.htm" translate="no">QLocalServer</a> class provides a local socket based server. This class makes it possible to accept incoming local socket connections.</p>
+<p>Related Topics:</p>
+<ul>
+<li><a href="./qtdbus-index.htm" translate="no">Qt D-Bus</a> - module documentation<ul>
+<li><a href="./usingadaptors.htm" translate="no">Using Qt D-Bus Adaptors</a></li>
+<li><a href="./qdbusdeclaringsignals.htm" translate="no">Declaring Signals in D-Bus Adaptors</a></li>
+<li><a href="./qdbusdeclaringslots.htm" translate="no">Declaring Slots in D-Bus Adaptors</a></li>
+<li><a href="./qdbustypesystem.htm" translate="no">The Qt D-Bus Type System</a></li>
+<li><a href="./qdbusxml2cpp.htm" translate="no">Qt D-Bus XML compiler (qdbusxml2cpp)</a></li>
+</ul>
+</li>
+<li><a href="./qlocalsocket.htm" translate="no">QLocalSocket</a></li>
+<li><a href="./qsharedmemory.htm" translate="no">QSharedMemory</a></li>
+</ul>
+<a name="serial-port-communication"></a>
+<h2 id="serial-port-communication">Serial Port Communication<a class="plink" href="#serial-port-communication" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qtserialport-index.htm" translate="no">Qt Serial Port</a> module provides a C++ API for communicating through serial ports, using the RS-232 standard. It works with physical ports and also with drivers that emulate these ports. Examples of serial port emulators include virtual COM ports, com0com emulators, and the Bluetooth SPP.</p>
+<p>This module is designed to make serial port programming easier and portable. As of Qt 5.2, it is supported on <a href="./windows.htm" translate="no">Windows</a>, <a href="./macos.htm" translate="no">macOS</a>, and <a href="./linux.htm" translate="no">Linux</a>.</p>
+<p>Related topics:</p>
+<ul>
+<li><a href="./qtserialport-index.htm" translate="no">Qt Serial Port</a> - module documentation</li>
+<li><a href="./qtserialport-module.htm" translate="no">Qt Serial Port C++ Classes</a></li>
+</ul>
+<a name="bluetooth-communication"></a>
+<h2 id="bluetooth-communication">Bluetooth Communication<a class="plink" href="#bluetooth-communication" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qtbluetooth-index.htm" translate="no">Qt Bluetooth</a> module provides both C++ and QML APIs for the short-range (less than 100 meters) wireless protocol developed by the <a href="http://www.bluetooth.org" translate="no">Bluetooth Special Interest Group</a>. It provides classic Bluetooth and Bluetooth Low Energy features.</p>
+<p>Related topics:</p>
+<ul>
+<li><a href="./qtbluetooth-index.htm" translate="no">Qt Bluetooth</a> - module documentation<ul>
+<li><a href="./qtbluetooth-overview.htm" translate="no">Bluetooth Classic</a></li>
+<li><a href="./qtbluetooth-le-overview.htm" translate="no">Bluetooth Low Energy</a></li>
+<li><a href="./qtbluetooth-module.htm" translate="no">Qt Bluetooth C++ Classes</a></li>
+<li><a href="./qtbluetooth-qmlmodule.htm" translate="no">Qt Bluetooth QML Types</a></li>
+</ul>
+</li>
+</ul>
+<a name="near-field-communication"></a>
+<h2 id="near-field-communication">Near Field Communication<a class="plink" href="#near-field-communication" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qtnfc-index.htm" translate="no">Qt NFC</a> module provides both C++ and QML APIs for the extremely short-range (less than 20 centimeters) wireless protocol developed by the <a href="http://www.nfc-forum.org" translate="no">NFC Forum</a>.</p>
+<p>Related topics:</p>
+<ul>
+<li><a href="./qtnfc-index.htm" translate="no">Qt NFC</a> - module documentation<ul>
+<li><a href="./qtnfc-overview.htm" translate="no">Qt NFC Overview</a></li>
+<li><a href="./qtnfc-module.htm" translate="no">Qt NFC C++ Classes</a></li>
+<li><a href="./qtnfc-qmlmodule.htm" translate="no">Qt NFC QML Types</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!-- @@@topics-network-connectivity.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

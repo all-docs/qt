@@ -1,0 +1,175 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Filter Struct | Qt Serial Bus</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qcanbusdevice-filter.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtserialbus-index.htm" translate="no">Qt Serial Bus</a></li>
+                            <li><a href="./qtserialbus-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>Filter</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Filter Struct</h1>
+<span class="small-subtitle" translate="no">struct <a href="./qcanbusdevice.htm" translate="no">QCanBusDevice</a>::Filter</span>
+<!-- $$$Filter-brief -->
+<p>The <a href="./qcanbusdevice-filter.htm" translate="no">QCanBusDevice::Filter</a> struct defines a filter for CAN bus frames. <a href="#details">More...</a></p>
+<!-- @@@Filter -->
+<p>This struct was introduced in Qt 5.8.</p>
+<ul>
+<li><a href="./qcanbusdevice-filter-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#FormatFilter-enum" translate="no">FormatFilter</a></b> { MatchBaseFormat, MatchExtendedFormat, MatchBaseAndExtendedFormat }</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> flags </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#FormatFilter-enum" translate="no">FormatFilters</a></b></td></tr>
+</tbody></table></div>
+<a name="public-variables"></a>
+<h2 id="public-variables">Public Variables<a class="plink" href="#public-variables" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QCanBusDevice::Filter::FormatFilter </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#format-var" translate="no">format</a></b></td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> quint32 </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#frameId-var" translate="no">frameId</a></b></td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> quint32 </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#frameIdMask-var" translate="no">frameIdMask</a></b></td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QCanBusFrame::FrameType </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#type-var" translate="no">type</a></b></td></tr>
+</tbody></table></div>
+<a name="related-non-members"></a>
+<h2 id="related-non-members">Related Non-Members<a class="plink" href="#related-non-members" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#operator-not-eq" translate="no">operator!=</a></b>(const QCanBusDevice::Filter &amp;<i>a</i>, const QCanBusDevice::Filter &amp;<i>b</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qcanbusdevice-filter.htm#operator-eq-eq" translate="no">operator==</a></b>(const QCanBusDevice::Filter &amp;<i>a</i>, const QCanBusDevice::Filter &amp;<i>b</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$Filter-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A list of <a href="./qcanbusdevice-filter.htm" translate="no">QCanBusDevice::Filter</a> instances is passed to QCanBusDevice::setConfigurationParameter() to enable filtering. If a received CAN frame matches at least one of the filters in the list, the <a href="./qcanbusdevice.htm" translate="no">QCanBusDevice</a> will accept it.</p>
+<p>The example below demonstrates how to use the struct:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">QCanBusDevice</span><span class="operator">::</span>Filter filter;
+<span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type">QCanBusDevice</span><span class="operator">::</span>Filter<span class="operator">&gt;</span> filterList;
+
+<span class="comment">// filter all CAN bus packages with id 0x444 (base) or 0xXXXXX444 (extended)</span>
+filter<span class="operator">.</span>frameId <span class="operator">=</span> <span class="number">0x444u</span>;
+filter<span class="operator">.</span>frameIdMask <span class="operator">=</span> <span class="number">0x7FFu</span>;
+filter<span class="operator">.</span>format <span class="operator">=</span> <span class="type">QCanBusDevice</span><span class="operator">::</span>Filter<span class="operator">::</span>MatchBaseAndExtendedFormat;
+filter<span class="operator">.</span>type <span class="operator">=</span> <span class="type"><a href="./qcanbusframe.htm" translate="no">QCanBusFrame</a></span><span class="operator">::</span>InvalidFrame;
+filterList<span class="operator">.</span>append(filter);
+
+<span class="comment">// filter all DataFrames with extended CAN bus package format</span>
+filter<span class="operator">.</span>frameId <span class="operator">=</span> <span class="number">0x0</span>;
+filter<span class="operator">.</span>frameIdMask <span class="operator">=</span> <span class="number">0x0</span>;
+filter<span class="operator">.</span>format <span class="operator">=</span> <span class="type">QCanBusDevice</span><span class="operator">::</span>Filter<span class="operator">::</span>MatchExtendedFormat;
+filter<span class="operator">.</span>type <span class="operator">=</span> <span class="type"><a href="./qcanbusframe.htm" translate="no">QCanBusFrame</a></span><span class="operator">::</span>DataFrame;
+filterList<span class="operator">.</span>append(filter);
+
+<span class="comment">// apply filter</span>
+device<span class="operator">-</span><span class="operator">&gt;</span>setConfigurationParameter(<span class="type">QCanBusDevice</span><span class="operator">::</span>RawFilterKey<span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(filterList));</pre></div>
+</div>
+<!-- @@@Filter -->
+<div class="types">
+<h2>Member Type Documentation</h2>
+<!-- $$$FormatFilter$$$MatchBaseFormat$$$MatchExtendedFormat$$$MatchBaseAndExtendedFormat -->
+<h3 class="flags" id="FormatFilter-enum"><a name="FormatFilter-enum"></a>enum Filter::<span class="name">FormatFilter</span><br>flags Filter::<span class="name">FormatFilters</span><a class="plink" href="#FormatFilter-enum" title="Direct link to this headline"></a></h3>
+<p>This enum describes the format pattern, which is used to filter incoming CAN bus frames.</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tblval">Value</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">QCanBusDevice::Filter::MatchBaseFormat</code></td><td class="topAlign tblval"><code translate="no">0x0001</code></td><td class="topAlign">The CAN bus frame must use the base frame format (11 bit identifier).</td></tr>
+<tr><td class="topAlign"><code translate="no">QCanBusDevice::Filter::MatchExtendedFormat</code></td><td class="topAlign tblval"><code translate="no">0x0002</code></td><td class="topAlign">The CAN bus frame must use the extended frame format (29 bit identifier).</td></tr>
+<tr><td class="topAlign"><code translate="no">QCanBusDevice::Filter::MatchBaseAndExtendedFormat</code></td><td class="topAlign tblval"><code translate="no">0x0003</code></td><td class="topAlign">The CAN bus frame can have a base or an extended frame format.</td></tr>
+</tbody></table></div>
+<p>The FormatFilters type is a typedef for <a href="./qflags.htm">QFlags</a>&lt;FormatFilter&gt;. It stores an OR combination of FormatFilter values.</p>
+<!-- @@@FormatFilter -->
+</div>
+<div class="vars">
+<h2>Member Variable Documentation</h2>
+<!-- $$$format -->
+<h3 class="fn" id="format-var" translate="no"><a name="format-var"></a><span class="type"><a href="./qcanbusdevice-filter.htm#FormatFilter-enum" translate="no">QCanBusDevice::Filter::FormatFilter</a></span> Filter::<span class="name">format</span><a class="plink" href="#format-var" title="Direct link to this headline"></a></h3>
+<p>This variable holds the frame format of the matching CAN bus frame.</p>
+<p>By default this field is set to <a href="./qcanbusdevice-filter.htm#FormatFilter-enum" translate="no">QCanBusDevice::Filter::MatchBaseAndExtendedFormat</a>.</p>
+<!-- @@@format -->
+<!-- $$$frameId -->
+<h3 class="fn" id="frameId-var" translate="no"><a name="frameId-var"></a><span class="type"><a href="./qtglobal.htm#quint32-typedef" translate="no">quint32</a></span> Filter::<span class="name">frameId</span><a class="plink" href="#frameId-var" title="Direct link to this headline"></a></h3>
+<p>This variable holds the frame id used to filter the incoming frames.</p>
+<p>The frameId is used in conjunction with <i translate="no">frameIdMask</i>. The matching is successful if the following evaluates to <code translate="no">true</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">(receivedFrameId <span class="operator">&amp;</span> frameIdMask) <span class="operator">=</span><span class="operator">=</span> (frameId <span class="operator">&amp;</span> frameIdMask)</pre></div>
+<p>By default this field is set to <code translate="no">0x0</code>.</p>
+<p><b>See also </b><a href="./qcanbusdevice-filter.htm#frameIdMask-var" translate="no">frameIdMask</a>.</p>
+<!-- @@@frameId -->
+<!-- $$$frameIdMask -->
+<h3 class="fn" id="frameIdMask-var" translate="no"><a name="frameIdMask-var"></a><span class="type"><a href="./qtglobal.htm#quint32-typedef" translate="no">quint32</a></span> Filter::<span class="name">frameIdMask</span><a class="plink" href="#frameIdMask-var" title="Direct link to this headline"></a></h3>
+<p>This variable holds the bit mask that is applied to the frame id of the filter and the received frame.</p>
+<p>The two frame ids are matching if the following evaluates to <code translate="no">true</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">(receivedFrameId <span class="operator">&amp;</span> frameIdMask) <span class="operator">=</span><span class="operator">=</span> (frameId <span class="operator">&amp;</span> frameIdMask)</pre></div>
+<p>By default this field is set to <code translate="no">0x0</code>.</p>
+<p><b>See also </b><a href="./qcanbusdevice-filter.htm#frameId-var" translate="no">frameId</a>.</p>
+<!-- @@@frameIdMask -->
+<!-- $$$type -->
+<h3 class="fn" id="type-var" translate="no"><a name="type-var"></a><span class="type"><a href="./qcanbusframe.htm#FrameType-enum" translate="no">QCanBusFrame::FrameType</a></span> Filter::<span class="name">type</span><a class="plink" href="#type-var" title="Direct link to this headline"></a></h3>
+<p>This variable holds the type of the frame to be filtered.</p>
+<p>Any CAN bus frame type can be matched by setting this variable to <a href="./qcanbusframe.htm#FrameType-enum" translate="no">QCanBusFrame::InvalidFrame</a>. The filter object is invalid if type is equal to <a href="./qcanbusframe.htm#FrameType-enum" translate="no">QCanBusFrame::UnknownFrame</a>.</p>
+<p>By default this field is set to <a href="./qcanbusframe.htm#FrameType-enum" translate="no">QCanBusFrame::InvalidFrame</a>.</p>
+<p><b>See also </b><a href="./qcanbusframe.htm#FrameType-enum" translate="no">QCanBusFrame::FrameType</a>.</p>
+<!-- @@@type -->
+</div>
+<div class="relnonmem">
+<h2>Related Non-Members</h2>
+<!-- $$$operator!=[overload1]$$$operator!=constQCanBusDevice::Filter&constQCanBusDevice::Filter& -->
+<h3 class="fn" id="operator-not-eq" translate="no"><a name="operator-not-eq"></a><span class="type">bool</span> <span class="name">operator!=</span>(const <span class="type"><a href="./qcanbusdevice-filter.htm" translate="no">QCanBusDevice::Filter</a></span> &amp;<i>a</i>, const <span class="type"><a href="./qcanbusdevice-filter.htm" translate="no">QCanBusDevice::Filter</a></span> &amp;<i>b</i>)<a class="plink" href="#operator-not-eq" title="Direct link to this headline"></a></h3>
+<p>Returns true, if the filter <i translate="no">a</i> is not equal to the filter <i translate="no">b</i>, otherwise returns false.</p>
+<!-- @@@operator!= -->
+<!-- $$$operator==[overload1]$$$operator==constQCanBusDevice::Filter&constQCanBusDevice::Filter& -->
+<h3 class="fn" id="operator-eq-eq" translate="no"><a name="operator-eq-eq"></a><span class="type">bool</span> <span class="name">operator==</span>(const <span class="type"><a href="./qcanbusdevice-filter.htm" translate="no">QCanBusDevice::Filter</a></span> &amp;<i>a</i>, const <span class="type"><a href="./qcanbusdevice-filter.htm" translate="no">QCanBusDevice::Filter</a></span> &amp;<i>b</i>)<a class="plink" href="#operator-eq-eq" title="Direct link to this headline"></a></h3>
+<p>Returns true, if the filter <i translate="no">a</i> is equal to the filter <i translate="no">b</i>, otherwise returns false.</p>
+<!-- @@@operator== -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,134 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt KNX Device Managementes | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a>Qt KNX Device Management Classes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt KNX Device Management Classes</h1>
+<span class="subtitle"></span>
+<!-- $$$qtknx-device-management.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>A device management connection is established between a common external message interface (cEMI) client and a cEMI server to transmit cEMI frames. A cEMI frame specifies the service to use and determines whether the frame contains a request, confirmation, or indication related to the selected service.</p>
+<p>The application layer provides several application services that the application processes in devices can use to interoperate over different communication modes. The services that are available depend on the communication mode.</p>
+<p>The following diagram shows the main Qt KNX module classes that enable device management:</p>
+<p class="centerAlign"><img alt="" src="./images/qtknx-device-management-classes.png"></p><a name="creating-device-management-connections"></a>
+<h2 id="creating-device-management-connections">Creating Device Management Connections<a class="plink" href="#creating-device-management-connections" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a> class enables the opening and handling of a device management connection from a KNXnet/IP client to a KNXnet/IP server to access management functionalities on the server. The client uses the connection to send device configuration request frames to the server.</p>
+<p>As an alternative, the <a href="./qknxnetipdeviceconfigurationrequestproxy.htm" translate="no">QKnxNetIpDeviceConfigurationRequestProxy</a> class can be used to read a device configuration request from the generic <a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a> class and to create a device configuration request. Similarly, the <a href="./qknxnetipdeviceconfigurationacknowledgeproxy.htm" translate="no">QKnxNetIpDeviceConfigurationAcknowledgeProxy</a> class can be used to create a device configuration acknowledgment to confirm the reception of the request.</p>
+<a name="accessing-device-management-services"></a>
+<h2 id="accessing-device-management-services">Accessing Device Management Services<a class="plink" href="#accessing-device-management-services" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a> class represents a cEMI frame that can be transferred over an established device management connection. The <a href="./qknxdevicemanagementframe.htm#MessageCode-enum" translate="no">QKnxDeviceManagementFrame::MessageCode</a> within the frame determines the service to use and whether the frame carries a <i>request (.req)</i>, <i>indication (.ind)</i>, or <i>confirmation (.con)</i> related to the selected service.</p>
+<p>The following services are available for local device management:</p>
+<ul>
+<li>Property read (<code translate="no">M_PropRead.req</code> and <code translate="no">M_PropRead.con</code>)</li>
+<li>Property write (<code translate="no">M_PropWrite.req</code> and <code translate="no">M_PropWrite.con</code>)</li>
+<li>Property info indication service (<code translate="no">M_PropInfo.ind</code>)</li>
+<li>Function property command (<code translate="no">M_FuncPropCommand.req</code> and <code translate="no">M_FuncPropCommand.con</code>)</li>
+<li>Function property state read (<code translate="no">M_FuncPropStateRead.req</code> and <code translate="no">M_FuncPropStateRead.con</code>)</li>
+<li>Reset and restart service (<code translate="no">M_Reset.req</code>)</li>
+</ul>
+<p>Local device management services are <i>confirmed services</i>, which means that a read or write request frame sent by a cEMI client must be followed by a read or write confirmation frame sent by a cEMI server. The confirmation indicates whether the request was successful.</p>
+<p>Application layer services are invoked by the transport layer frames. The same frames are used by the remote device to respond to a remote confirmed service.</p>
+<p>The <a href="./qknxdevicemanagementframe-builder.htm" translate="no">QKnxDeviceManagementFrame::Builder</a> class can be used to construct local device management cEMI frames. The following more specialized versions of the builder are also provided, and it is recommended to prefer them over the generic version:</p>
+<ul>
+<li><a href="./qknxdevicemanagementframe-propertyreadbuilder.htm" translate="no">QKnxDeviceManagementFrame::PropertyReadBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-propertywritebuilder.htm" translate="no">QKnxDeviceManagementFrame::PropertyWriteBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-propertyinfobuilder.htm" translate="no">QKnxDeviceManagementFrame::PropertyInfoBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-functionpropertycommandbuilder.htm" translate="no">QKnxDeviceManagementFrame::FunctionPropertyCommandBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-functionpropertystatereadbuilder.htm" translate="no">QKnxDeviceManagementFrame::FunctionPropertyStateReadBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-resetbuilder.htm" translate="no">QKnxDeviceManagementFrame::ResetBuilder</a></li>
+</ul>
+<a name="property-read-and-write-services"></a>
+<h3 id="property-read-and-write-services">Property Read and Write Services<a class="plink" href="#property-read-and-write-services" title="Direct link to this headline"></a></h3>
+<p>A property read or write request is used by the management client to read or write the value of a property of an <i>interface object</i> in the management server. The interface object is identified by an object type (<a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a>) and object instance number.</p>
+<p>An interface object property (<a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a>) can be structured as an array of elements. It is addressed by a property ID, the number of elements in the array to read, and a start index, which indicates the position of the first element that the management client wants to read.</p>
+<p>A property read or write confirmation contains the requested number of elements starting from the specified position within the property of the interface object.</p>
+<p>If the interface object or property does not exist, or some other error occurs, the number of elements to read is set to zero and the start index of the response is set to the value received with the request.</p>
+<p>The data field of a negative response contains information about the error as a <a href="./qknx-netip-cemiserver.htm#Error-enum" translate="no">QKnx::NetIp::CemiServer::Error</a> value.</p>
+<a name="function-property-services"></a>
+<h3 id="function-property-services">Function Property Services<a class="plink" href="#function-property-services" title="Direct link to this headline"></a></h3>
+<p>A function property command request is used by the management client to call a property function of an interface object in the management server. The management server confirms the request with a confirmation message that contains a return code as a <a href="./qknx-netip-cemiserver.htm#ReturnCode-enum" translate="no">QKnx::NetIp::CemiServer::ReturnCode</a> value and additional data.</p>
+<p>A function property state read request is used by the management client to read the status of a property function. The management server confirms the request with a confirmation message that contains a return code and additional data.</p>
+<p>If the interface object property accessed by a function property command request or state read request is not of the property datatype <code translate="no">PDT_Function</code>, the confirmation message contains neither a return code field nor data.</p>
+<a name="property-information-services"></a>
+<h3 id="property-information-services">Property Information Services<a class="plink" href="#property-information-services" title="Direct link to this headline"></a></h3>
+<p>A property information indication is used by the management server to notify the client about an event, such as a changed management property value. If the data that the indication contains is relevant to the management procedures supported by the client, the client calls those procedures with the received data. If the data is not relevant, the client ignores the message.</p>
+<a name="reset-services"></a>
+<h3 id="reset-services">Reset Services<a class="plink" href="#reset-services" title="Direct link to this headline"></a></h3>
+<p>A reset request is used by the management client to reset the management server device. The server device executes the same actions as when it is started up. When the server receives a reset request, the server software is reinitialized. Therefore, the communication on bus and cEMI side is aborted and both communication stacks are reset.</p>
+<p>The management server sends a reset indication to the management client when the server device is reset or started up.</p>
+<a name="list-of-device-management-classes"></a>
+<h2 id="list-of-device-management-classes">List of Device Management Classes<a class="plink" href="#list-of-device-management-classes" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe.htm">QKnxDeviceManagementFrame</a></p></td><td class="tblDescr"><p>Represents a cEMI frame dedicated to KNXnet/IP device management</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe-builder.htm">QKnxDeviceManagementFrame::Builder</a></p></td><td class="tblDescr"><p>QKnxDeviceManagementFrame::Builder class provides the means to create valid device management service frames</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe-functionpropertycommandbuilder.htm">QKnxDeviceManagementFrame::FunctionPropertyCommandBuilder</a></p></td><td class="tblDescr"><p>QKnxDeviceManagementFrame::FunctionPropertyCommandBuilder class provides the means to create valid device management function property command service frames</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe-functionpropertystatereadbuilder.htm">QKnxDeviceManagementFrame::FunctionPropertyStateReadBuilder</a></p></td><td class="tblDescr"><p>QKnxDeviceManagementFrame::FunctionPropertyStateReadBuilder class provides the means to create valid device management function property state read service</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe-propertyinfobuilder.htm">QKnxDeviceManagementFrame::PropertyInfoBuilder</a></p></td><td class="tblDescr"><p>QKnxDeviceManagementFrame::PropertyInfoBuilder class provides the means to create a valid device management property info indication frame</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe-propertyreadbuilder.htm">QKnxDeviceManagementFrame::PropertyReadBuilder</a></p></td><td class="tblDescr"><p>QKnxDeviceManagementFrame::PropertyReadBuilder class provides the means to create valid device management property read service frames</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe-propertywritebuilder.htm">QKnxDeviceManagementFrame::PropertyWriteBuilder</a></p></td><td class="tblDescr"><p>QKnxDeviceManagementFrame::PropertyWriteBuilder class provides the means to create valid device management property write service frames</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qknxdevicemanagementframe-resetbuilder.htm">QKnxDeviceManagementFrame::ResetBuilder</a></p></td><td class="tblDescr"><p>QKnxDeviceManagementFrame::ResetBuilder class provides the means to build valid device management reset service frames</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qknxinterfaceobjectproperty.htm">QKnxInterfaceObjectProperty</a></p></td><td class="tblDescr"><p>Holds the properties of a KNX interface object</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qknxinterfaceobjectpropertydatatype.htm">QKnxInterfaceObjectPropertyDataType</a></p></td><td class="tblDescr"><p>Holds information about the data type of the properties of a KNX interface object</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qknxinterfaceobjecttype.htm">QKnxInterfaceObjectType</a></p></td><td class="tblDescr"><p>Holds the type of a KNX interface object</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qknxnetipdeviceconfigurationacknowledgeproxy.htm">QKnxNetIpDeviceConfigurationAcknowledgeProxy</a></p></td><td class="tblDescr"><p>The means to read a device configuration acknowledgment from the generic QKnxNetIpFrame class and to create a KNXnet/IP frame based on the information</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qknxnetipdeviceconfigurationrequestproxy.htm">QKnxNetIpDeviceConfigurationRequestProxy</a></p></td><td class="tblDescr"><p>The means to read a device configuration request from the generic QKnxNetIpFrame class and to create a KNXnet/IP frame based on the information</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qknxnetipdevicemanagement.htm">QKnxNetIpDeviceManagement</a></p></td><td class="tblDescr"><p>Enables the opening and handling of a device management connection from a KNXnet/IP client to a KNXnet/IP server</p></td></tr>
+</tbody></table></div>
+</div>
+<!-- @@@qtknx-device-management.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

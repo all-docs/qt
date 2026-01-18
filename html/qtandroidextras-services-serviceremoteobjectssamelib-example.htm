@@ -1,0 +1,203 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Android Service with Qt Remote Objects - Same Lib File | Qt Android Extras</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a></li>
+                            <li><a href="./examples-qtandroidextras.htm" translate="no">Qt Android Extras Examples</a></li>
+                            <li><a>Android Service with Qt Remote Objects - Same Lib File</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Android Service with Qt Remote Objects - Same Lib File</h1>
+<span class="subtitle"></span>
+<!-- $$$services/serviceremoteobjectssamelib-brief -->
+<p>Demonstrates how to run an Android service in a separate process using the same lib file, and how to communicate between the service process and the main process using Qt Remote Objects.</p>
+<!-- @@@services/serviceremoteobjectssamelib -->
+<!-- $$$services/serviceremoteobjectssamelib-description -->
+<div class="descr"> <a name="details"></a>
+<a name="android-service-with-remote-object-in-same-lib"></a><p class="centerAlign"><img alt="" src="./images/androidservices.png"></p><p>This example demonstrates how to create and run an Android service in a separate process from the main application process, and then exchange data between QML/C++ and the Java service using <a href="./qtremoteobjects-index.htm#qt-remote-objects" translate="no">Qt Remote Objects</a>.</p>
+<p>When clicking the <b translate="no">Send to Service</b> button, the name entered in the QML view, Qt, in this case, is sent to the Android service. Then, the service replies back with a message <code translate="no">Hello Qt</code> which is printed in the QML view.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="create-the-service"></a>
+<h4 id="create-the-service">Create the Service<a class="plink" href="#create-the-service" title="Direct link to this headline"></a></h4>
+<p>To start a service in its own process, you can extend the <code translate="no">QtService</code> class for your service. Extending <code translate="no">QtService</code> allows the service to load the necessary Qt libraries used for Qt, like <a href="./qtremoteobjects-index.htm#qt-remote-objects" translate="no">Qt Remote Objects</a> libraries.</p>
+<p>Start by creating the Java service class. The following class extends <code translate="no">QtService</code> and acts as your service entry point:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">package org.qtproject.example.qtandroidservice;
+
+import android.content.Context;
+import android.content.Intent;
+import org.qtproject.qt5.android.bindings.QtService;
+import android.util.Log;
+
+public class QtAndroidService extends QtService
+{
+    private static final String TAG = "QtAndroidService";
+
+    @Override
+    public void onCreate() {
+        Log.i(TAG, "Creating Service");
+        super.onCreate();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "Destroying Service");
+        super.onDestroy();
+    }
+}</pre></div>
+<p>This class can have any logic you want using Java code. However, you don't need any logic to communicate with Qt as that will be done using Qt Remote Objects.</p>
+<a name="manage-the-androidmanifest-xml-file"></a>
+<h4 id="manage-the-androidmanifest-xml-file">Manage the AndroidManifest.xml File<a class="plink" href="#manage-the-androidmanifest-xml-file" title="Direct link to this headline"></a></h4>
+<p>To be able to use the service, it must be declared in the <code translate="no">AndroidManifest.xml</code> file as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    &lt;service android:process=":qt_service" android:name=".QtAndroidService"&gt;
+
+            &lt;!-- Application arguments --&gt;
+            &lt;meta-data android:name="android.app.arguments" android:value="-service"/&gt;
+            &lt;!-- Application arguments --&gt;
+
+            &lt;meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/&gt;
+            &lt;meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/&gt;
+            &lt;meta-data android:name="android.app.repository" android:value="default"/&gt;
+            &lt;meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/&gt;
+            &lt;meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/&gt;
+            &lt;!-- Deploy Qt libs as part of package --&gt;
+            &lt;meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/&gt;
+
+            &lt;!-- Run with local libs --&gt;
+            &lt;meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/&gt;
+            &lt;meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/&gt;
+            &lt;meta-data android:name="android.app.load_local_libs_resource_id" android:resource="@array/load_local_libs"/&gt;
+            &lt;meta-data android:name="android.app.load_local_jars" android:value="-- %%INSERT_LOCAL_JARS%% --"/&gt;
+            &lt;meta-data android:name="android.app.static_init_classes" android:value="-- %%INSERT_INIT_CLASSES%% --"/&gt;
+            &lt;!-- Run with local libs --&gt;
+
+            &lt;!-- Background running --&gt;
+            &lt;meta-data android:name="android.app.background_running" android:value="true"/&gt;
+            &lt;!-- Background running --&gt;
+        &lt;/service&gt;</pre></div>
+<p>The important parts of this service declaration are the <code translate="no">arguments</code> and <code translate="no">lib_name</code> parts. Those will ensure that the service is run by executing the lib file of the main activity with the argument <code translate="no">-service</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            &lt;!-- Application arguments --&gt;
+            &lt;meta-data android:name="android.app.arguments" android:value="-service"/&gt;
+            &lt;!-- Application arguments --&gt;
+
+            &lt;meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/&gt;</pre></div>
+<a name="handle-the-application-start"></a>
+<h4 id="handle-the-application-start">Handle the Application Start<a class="plink" href="#handle-the-application-start" title="Direct link to this headline"></a></h4>
+<p>Since the same <code translate="no">.so</code> lib file is being used for the application and the service, you need to handle both scenarios in the <code translate="no">main()</code> function. No arguments are provided to start the main application, and therefore you must add the following in the <code translate="no">main()</code> function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">if</span> (argc <span class="operator">&lt;</span><span class="operator">=</span> <span class="number">1</span>) {</pre></div>
+<p>Then calling the following function starts the service:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> startService()
+{
+    <span class="type"><a href="./qandroidintent.htm" translate="no">QAndroidIntent</a></span> serviceIntent(<span class="type"><a href="./qtandroid.htm" translate="no">QtAndroid</a></span><span class="operator">::</span>androidActivity()<span class="operator">.</span>object()<span class="operator">,</span>
+                                        <span class="string">"org/qtproject/example/qtandroidservice/QtAndroidService"</span>);
+    <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span> result <span class="operator">=</span> <span class="type"><a href="./qtandroid.htm" translate="no">QtAndroid</a></span><span class="operator">::</span>androidActivity()<span class="operator">.</span>callObjectMethod(
+                <span class="string">"startService"</span><span class="operator">,</span>
+                <span class="string">"(Landroid/content/Intent;)Landroid/content/ComponentName;"</span><span class="operator">,</span>
+                serviceIntent<span class="operator">.</span>handle()<span class="operator">.</span>object());
+}</pre></div>
+<a name="handle-the-service-start"></a>
+<h4 id="handle-the-service-start">Handle the Service Start<a class="plink" href="#handle-the-service-start" title="Direct link to this headline"></a></h4>
+<p><a href="./qandroidservice.htm" translate="no">QAndroidService</a> is used to create the service process. The main .so lib file will be called with an argument to start the service if you add the following code:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    } <span class="keyword">else</span> <span class="keyword">if</span> (argc <span class="operator">&gt;</span> <span class="number">1</span> <span class="operator">&amp;</span><span class="operator">&amp;</span> strcmp(argv<span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">,</span> <span class="string">"-service"</span>) <span class="operator">=</span><span class="operator">=</span> <span class="number">0</span>) {</pre></div>
+<a name="communication-with-qt-remote-objects"></a>
+<h4 id="communication-with-qt-remote-objects">Communication with Qt Remote Objects<a class="plink" href="#communication-with-qt-remote-objects" title="Direct link to this headline"></a></h4>
+<p>To use <a href="./qtremoteobjects-index.htm#qt-remote-objects" translate="no">Qt Remote Objects</a>, define a <code translate="no">.rep</code> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">class QtAndroidService {
+    SLOT(void sendToService(const QString &amp;name));
+    SIGNAL(messageFromService(const QString &amp;message));
+}</pre></div>
+<p>Define the <code translate="no">.rep</code> source and replica file in your project <code translate="no">.pro</code> file as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">REPC_SOURCE += ../common/qtandroidservice.rep
+REPC_REPLICA += ../common/qtandroidservice.rep</pre></div>
+<p>Then define the class used by Qt Remote Objects, which has a <code translate="no">sendToService()</code> slot and a <code translate="no">messageFromService()</code> signal:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "rep_qtandroidservice_source.h"</span>
+
+<span class="keyword">class</span> <span class="type">QtAndroidService</span> : <span class="keyword">public</span> <span class="type">QtAndroidServiceSource</span>
+{
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> sendToService(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name) override {
+        <span class="keyword">emit</span> messageFromService(<span class="string">"Hello "</span> <span class="operator">+</span> name);
+    };
+};</pre></div>
+<p>Include the class in the previous snippet in <code translate="no">main.cpp</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "rep_qtandroidservice_replica.h"</span></pre></div>
+<p>Now, inside the service handling part, create the <a href="./qremoteobjecthost.htm" translate="no">QRemoteObjectHost</a> node:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qremoteobjecthost.htm" translate="no">QRemoteObjectHost</a></span> srcNode(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"local:replica"</span>)));
+        <span class="type">QtAndroidService</span> qtAndroidService;
+        srcNode<span class="operator">.</span>enableRemoting(<span class="operator">&amp;</span>qtAndroidService);</pre></div>
+<p>Then, in the application handling part, create the client node and connect it to the source node created in the service and connect it to the QML view:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qremoteobjectnode.htm" translate="no">QRemoteObjectNode</a></span> repNode;
+        repNode<span class="operator">.</span>connectToNode(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"local:replica"</span>)));
+        <span class="type"><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a></span><span class="operator">&lt;</span><span class="type">QtAndroidServiceReplica</span><span class="operator">&gt;</span> rep(repNode<span class="operator">.</span>acquire<span class="operator">&lt;</span><span class="type">QtAndroidServiceReplica</span><span class="operator">&gt;</span>());
+        engine<span class="operator">.</span>rootContext()<span class="operator">-</span><span class="operator">&gt;</span>setContextProperty(<span class="string">"qtAndroidService"</span><span class="operator">,</span> rep<span class="operator">.</span>data());
+        bool res <span class="operator">=</span> rep<span class="operator">-</span><span class="operator">&gt;</span>waitForSource();
+        Q_ASSERT(res);
+        rep<span class="operator">-</span><span class="operator">&gt;</span>sendToService(<span class="string">"Qt"</span>);</pre></div>
+<p>Then, add a <a href="./qml-qtqml-connections.htm" translate="no">Connections</a> element to watch for the incoming messages from the service:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-connections.htm" translate="no">Connections</a></span> {
+        <span class="name">target</span>: <span class="name">qtAndroidService</span>
+        <span class="keyword">function </span><span class="name">onMessageFromService</span>(message) {
+            <span class="name">pongText</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">message</span>
+        }
+    }</pre></div>
+<p>And set the <code translate="no">onClicked</code> for the sending button to:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="name">onClicked</span>: <span class="name">qtAndroidService</span>.<span class="name">sendToService</span>(<span class="name">pingText</span>.<span class="name">text</span>)</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtandroidextras.git/tree/examples/androidextras/services/serviceremoteobjectssamelib?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<p><b>See also </b><a href="./qtandroidextras-services-serviceremoteobjects-example.htm" translate="no">Android Service with Qt Remote Objects</a>, <a href="./android-services.htm" translate="no">Android Services</a>, <a href="./android.htm" translate="no">Qt for Android</a>, and <a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a>.</p>
+<!-- @@@services/serviceremoteobjectssamelib -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

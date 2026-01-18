@@ -1,0 +1,159 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Print Support</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtprintsupport-index.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Print Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Print Support</h1>
+<span class="subtitle"></span>
+<!-- $$$qtprintsupport-index.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt provides extensive cross-platform support for printing. Using the printing systems on each platform, Qt applications can print to attached printers and across networks to remote printers. Qt's printing system also supports PDF file generation, providing the foundation for basic report generation facilities.</p>
+<a name="classes-supporting-printing"></a>
+<h2 id="classes-supporting-printing">Classes Supporting Printing<a class="plink" href="#classes-supporting-printing" title="Direct link to this headline"></a></h2>
+<p>The following classes support the selecting and setting up of printers and printing output.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qabstractprintdialog.htm">QAbstractPrintDialog</a></p></td><td class="tblDescr"><p>Base implementation for print dialogs used to configure printers</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qpagesetupdialog.htm">QPageSetupDialog</a></p></td><td class="tblDescr"><p>Configuration dialog for the page-related options on a printer</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qprintdialog.htm">QPrintDialog</a></p></td><td class="tblDescr"><p>Dialog for specifying the printer's configuration</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qprintengine.htm">QPrintEngine</a></p></td><td class="tblDescr"><p>Defines an interface for how QPrinter interacts with a given printing subsystem</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qprintpreviewdialog.htm">QPrintPreviewDialog</a></p></td><td class="tblDescr"><p>Dialog for previewing and configuring page layouts for printer output</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qprintpreviewwidget.htm">QPrintPreviewWidget</a></p></td><td class="tblDescr"><p>Widget for previewing page layouts for printer output</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qprinter.htm">QPrinter</a></p></td><td class="tblDescr"><p>Paint device that paints on a printer</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qprinterinfo.htm">QPrinterInfo</a></p></td><td class="tblDescr"><p>Gives access to information about existing printers</p></td></tr>
+</tbody></table></div>
+<a name="paint-devices-and-printing"></a>
+<h2 id="paint-devices-and-printing">Paint Devices and Printing<a class="plink" href="#paint-devices-and-printing" title="Direct link to this headline"></a></h2>
+<p>In Qt, printers are represented by <a href="./qprinter.htm" translate="no">QPrinter</a>, a paint device that provides functionality specific to printing, such as support for multiple pages and double-sided output. As a result, printing involves using a <a href="./qpainter.htm" translate="no">QPainter</a> to paint onto a series of pages in the same way that you would paint onto a custom widget or image.</p>
+<a name="creating-a-qprinter"></a>
+<h3 id="creating-a-qprinter">Creating a QPrinter<a class="plink" href="#creating-a-qprinter" title="Direct link to this headline"></a></h3>
+<p>Although <a href="./qprinter.htm" translate="no">QPrinter</a> objects can be constructed and set up without requiring user input, printing is often performed as a result of a request by the user; for example, when the user selects the <b translate="no">File|Print...</b> menu item in a GUI application. In such cases, a newly-constructed <a href="./qprinter.htm" translate="no">QPrinter</a> object is supplied to a <a href="./qprintdialog.htm" translate="no">QPrintDialog</a>, allowing the user to specify the printer to use, paper size, and other printing properties.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qprinter.htm" translate="no">QPrinter</a></span> printer;
+
+        <span class="type"><a href="./qprintdialog.htm" translate="no">QPrintDialog</a></span> dialog(<span class="operator">&amp;</span>printer<span class="operator">,</span> <span class="keyword">this</span>);
+        dialog<span class="operator">.</span>setWindowTitle(tr(<span class="string">"Print Document"</span>));
+        <span class="keyword">if</span> (editor<span class="operator">-</span><span class="operator">&gt;</span>textCursor()<span class="operator">.</span>hasSelection())
+            dialog<span class="operator">.</span>addEnabledOption(<span class="type"><a href="./qabstractprintdialog.htm" translate="no">QAbstractPrintDialog</a></span><span class="operator">::</span>PrintSelection);
+        <span class="keyword">if</span> (dialog<span class="operator">.</span>exec() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span><span class="operator">::</span>Accepted) {
+            <span class="keyword">return</span>;
+        }</pre></div>
+<p>It is also possible to set certain default properties by modifying the <a href="./qprinter.htm" translate="no">QPrinter</a> before it is supplied to the print dialog. For example, applications that generate batches of reports for printing may set up the <a href="./qprinter.htm" translate="no">QPrinter</a> to <a href="./qprinter.htm#setOutputFileName" translate="no">write to a local file</a> by default rather than to a printer.</p>
+<a name="painting-onto-a-page"></a>
+<h3 id="painting-onto-a-page">Painting onto a Page<a class="plink" href="#painting-onto-a-page" title="Direct link to this headline"></a></h3>
+<p>Once a <a href="./qprinter.htm" translate="no">QPrinter</a> object has been constructed and set up, a <a href="./qpainter.htm" translate="no">QPainter</a> can be used to perform painting operations on it. We can construct and set up a painter in the following way:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qprinter.htm" translate="no">QPrinter</a></span> printer(<span class="type"><a href="./qprinter.htm" translate="no">QPrinter</a></span><span class="operator">::</span>HighResolution);
+    printer<span class="operator">.</span>setOutputFileName(<span class="string">"print.ps"</span>);
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter;
+    painter<span class="operator">.</span>begin(<span class="operator">&amp;</span>printer);
+
+    <span class="keyword">for</span> (<span class="type">int</span> page <span class="operator">=</span> <span class="number">0</span>; page <span class="operator">&lt;</span> numberOfPages; <span class="operator">+</span><span class="operator">+</span>page) {
+
+        <span class="comment">// Use the painter to draw on the page.</span>
+
+        <span class="keyword">if</span> (page <span class="operator">!</span><span class="operator">=</span> lastPage)
+            printer<span class="operator">.</span>newPage();
+    }
+
+    painter<span class="operator">.</span>end();</pre></div>
+<p>Since the <a href="./qprinter.htm" translate="no">QPrinter</a> starts with a blank page, we only need to call the <a href="./qprinter.htm#newPage" translate="no">newPage()</a> function after drawing each page, except for the last page.</p>
+<p>The document is sent to the printer, or written to a local file, when we call <a href="./qpainter.htm#end" translate="no">end()</a>.</p>
+<a name="coordinate-systems"></a>
+<h3 id="coordinate-systems">Coordinate Systems<a class="plink" href="#coordinate-systems" title="Direct link to this headline"></a></h3>
+<p><a href="./qprinter.htm" translate="no">QPrinter</a> provides functions that can be used to obtain information about the dimensions of the paper (the paper rectangle) and the dimensions of the printable area (the page rectangle). These are given in logical device coordinates that may differ from the physical coordinates used by the device itself, indicating that the printer is able to render text and graphics at a (typically higher) resolution than the user's display.</p>
+<p>Although we do not need to handle the conversion between logical and physical coordinates ourselves, we still need to apply transformations to painting operations because the pixel measurements used to draw on screen are often too small for the higher resolutions of typical printers.</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><b>Printer and Painter Coordinate Systems</b><p>The <a href="./qprinter-obsolete.htm#paperRect" translate="no">paperRect()</a> and <a href="./qprinter-obsolete.htm#pageRect" translate="no">pageRect()</a> functions provide information about the size of the paper used for printing and the area on it that can be painted on.</p>
+<p>The rectangle returned by <a href="./qprinter-obsolete.htm#pageRect" translate="no">pageRect()</a> usually lies inside the rectangle returned by <a href="./qprinter-obsolete.htm#paperRect" translate="no">paperRect()</a>. You do not need to take the positions and sizes of these area into account when using a <a href="./qpainter.htm" translate="no">QPainter</a> with a <a href="./qprinter.htm" translate="no">QPrinter</a> as the underlying paint device; the origin of the painter's coordinate system will coincide with the top-left corner of the page rectangle, and painting operations will be clipped to the bounds of the drawable part of the page.</p>
+</td><td><img alt="" src="./images/printer-rects.png"></td></tr>
+</tbody></table></div>
+<p>The paint system automatically uses the correct device metrics when painting text but, if you need to position text using information obtained from font metrics, you need to ensure that the print device is specified when you construct <a href="./qfontmetrics.htm" translate="no">QFontMetrics</a> and <a href="./qfontmetricsf.htm" translate="no">QFontMetricsF</a> objects, or ensure that each <a href="./qfont.htm" translate="no">QFont</a> used is constructed using the form of the constructor that accepts a <a href="./qpaintdevice.htm" translate="no">QPaintDevice</a> argument.</p>
+<a name="printing-widgets"></a>
+<h2 id="printing-widgets">Printing Widgets<a class="plink" href="#printing-widgets" title="Direct link to this headline"></a></h2>
+<p>To print a widget, you can use the <a href="./qwidget.htm#render" translate="no">QWidget::render</a>() function. As mentioned, the printer's resolution is usually higher than the screen resolution, so you will have to scale the painter. You may also want to position the widget on the page. The following code sample shows how this may look.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter;
+        painter<span class="operator">.</span>begin(<span class="operator">&amp;</span>printer);
+        <span class="type">double</span> xscale <span class="operator">=</span> printer<span class="operator">.</span>pageRect()<span class="operator">.</span>width() <span class="operator">/</span> <span class="type">double</span>(myWidget<span class="operator">-</span><span class="operator">&gt;</span>width());
+        <span class="type">double</span> yscale <span class="operator">=</span> printer<span class="operator">.</span>pageRect()<span class="operator">.</span>height() <span class="operator">/</span> <span class="type">double</span>(myWidget<span class="operator">-</span><span class="operator">&gt;</span>height());
+        <span class="type">double</span> scale <span class="operator">=</span> <a href="./qtglobal.htm#qMin" translate="no">qMin</a>(xscale<span class="operator">,</span> yscale);
+        painter<span class="operator">.</span>translate(printer<span class="operator">.</span>paperRect()<span class="operator">.</span>x() <span class="operator">+</span> printer<span class="operator">.</span>pageRect()<span class="operator">.</span>width()<span class="operator">/</span><span class="number">2</span><span class="operator">,</span>
+                           printer<span class="operator">.</span>paperRect()<span class="operator">.</span>y() <span class="operator">+</span> printer<span class="operator">.</span>pageRect()<span class="operator">.</span>height()<span class="operator">/</span><span class="number">2</span>);
+        painter<span class="operator">.</span>scale(scale<span class="operator">,</span> scale);
+        painter<span class="operator">.</span>translate(<span class="operator">-</span>width()<span class="operator">/</span><span class="number">2</span><span class="operator">,</span> <span class="operator">-</span>height()<span class="operator">/</span><span class="number">2</span>);
+
+        myWidget<span class="operator">-</span><span class="operator">&gt;</span>render(<span class="operator">&amp;</span>painter);</pre></div>
+<p>This will center the widget on the page and scale it so that it fits the page.</p>
+<a name="printing-from-complex-widgets"></a>
+<h2 id="printing-from-complex-widgets">Printing from Complex Widgets<a class="plink" href="#printing-from-complex-widgets" title="Direct link to this headline"></a></h2>
+<p>Certain widgets, such as <a href="./qtextedit.htm" translate="no">QTextEdit</a> and <a href="./qgraphicsview.htm" translate="no">QGraphicsView</a>, display rich content that is typically managed by instances of other classes, such as <a href="./qtextdocument.htm" translate="no">QTextDocument</a> and <a href="./qgraphicsscene.htm" translate="no">QGraphicsScene</a>. As a result, it is these content handling classes that usually provide printing functionality, either via a function that can be used to perform the complete task, or via a function that accepts an existing <a href="./qpainter.htm" translate="no">QPainter</a> object. Some widgets provide convenience functions to expose underlying printing features, avoiding the need to obtain the content handler just to call a single function.</p>
+<p>The following table shows which class and function are responsible for printing from a selection of different widgets. For widgets that do not expose printing functionality directly, the content handling classes containing this functionality can be obtained via a function in the corresponding widget's API.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Widget</th><th>Printing function</th><th>Accepts</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><a href="./qgraphicsview.htm" translate="no">QGraphicsView</a></td><td><a href="./qgraphicsview.htm#render" translate="no">QGraphicsView::render</a>()</td><td><a href="./qpainter.htm" translate="no">QPainter</a></td></tr>
+<tr class="even" valign="top"><td>QSvgWidget</td><td>QSvgRenderer::render()</td><td><a href="./qpainter.htm" translate="no">QPainter</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qtextedit.htm" translate="no">QTextEdit</a></td><td><a href="./qtextdocument.htm#print" translate="no">QTextDocument::print</a>()</td><td><a href="./qprinter.htm" translate="no">QPrinter</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qtextlayout.htm" translate="no">QTextLayout</a></td><td><a href="./qtextlayout.htm#draw" translate="no">QTextLayout::draw</a>()</td><td><a href="./qpainter.htm" translate="no">QPainter</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qtextline.htm" translate="no">QTextLine</a></td><td><a href="./qtextline.htm#draw" translate="no">QTextLine::draw</a>()</td><td><a href="./qpainter.htm" translate="no">QPainter</a></td></tr>
+</tbody></table></div>
+<p><a href="./qtextedit.htm" translate="no">QTextEdit</a> requires a <a href="./qprinter.htm" translate="no">QPrinter</a> rather than a <a href="./qpainter.htm" translate="no">QPainter</a> because it uses information about the configured page dimensions in order to insert page breaks at the most appropriate places in printed documents.</p>
+<a name="licenses-and-trademarks"></a>
+<h2 id="licenses-and-trademarks">Licenses and Trademarks<a class="plink" href="#licenses-and-trademarks" title="Direct link to this headline"></a></h2>
+<p>The Qt Print Support module is available under commercial licenses from <a href="http://www.qt.io/about-us/" translate="no">The Qt Company</a>. In addition, it is available under free software licenses. Since Qt 5.4, these free software licenses are <a href="http://www.gnu.org/licenses/lgpl-3.0.html" translate="no">GNU Lesser General Public License, version 3</a>, or the <a href="http://www.gnu.org/licenses/gpl-2.0.html" translate="no">GNU General Public License, version 2</a>. See <a href="./licensing.htm" translate="no">Qt Licensing</a> for further details.</p>
+<p>Please note that Adobe<sup>®</sup> places restrictions on the use of its trademarks (including logos) in conjunction with PDF; e.g. "Adobe PDF". Please refer to <a href="http://www.adobe.com" translate="no">www.adobe.com</a> for guidelines.</p>
+</div>
+<!-- @@@qtprintsupport-index.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

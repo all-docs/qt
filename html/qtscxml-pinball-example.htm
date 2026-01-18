@@ -1,0 +1,507 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt SCXML Pinball Example | Qt SCXML</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtscxml-index.htm" translate="no">Qt SCXML</a></li>
+                            <li><a href="./examples-qtscxml.htm" translate="no">Qt SCXML Examples</a></li>
+                            <li><a>Qt SCXML Pinball Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt SCXML Pinball Example</h1>
+<span class="subtitle"></span>
+<!-- $$$pinball-brief -->
+<p>Encapsulates the internal logic of an application in an SCXML file.</p>
+<!-- @@@pinball -->
+<!-- $$$pinball-description -->
+<div class="descr"> <a name="details"></a>
+<p><i>Pinball</i> demonstrates a clear separation between the user interface, which may be easily replaced, and the internal logic encapsulated in an SCXML file, which could also be used with another user interface.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="pinball-features"></a>
+<h4 id="pinball-features">Pinball Features<a class="plink" href="#pinball-features" title="Direct link to this headline"></a></h4>
+<p class="centerAlign"><img alt="Screenshot of the Pinball example" src="./images/pinball.png"></p><p>The Pinball example mimics a pinball game. The targets on the pinball table are substituted by GUI controls, mainly by push buttons. Display elements, including current score, highscore, and targets' lights, are substituted by labels. Usually, the state of the targets' lights changes very often during a game: the lights get turned on or off permanently or they blink at varying speed indicating a game (or a certain target) entered a temporary state. The state of each target light is presented as an enabled or a disabled label. There is no real ball, but clicking a target's button represents hitting a real pinball target with a ball.</p>
+<p>Our pinball contains the following features:</p>
+<ul>
+<li>Initially and when the game ends, the pinball table enters <code translate="no">offState</code>. In that state, all lights on the table blink slowly (at intervals of 1 second).</li>
+<li>After clicking the <b translate="no">START</b> button, the pinball table enters <code translate="no">onState</code>. All lights are turned off and the pinball table is ready to be played.</li>
+<li>When the table is in <code translate="no">onState</code> and the players click the <b translate="no">BALL OUT</b> button, the game ends and enters <code translate="no">offState</code>. If the players' score is higher than the current highscore, the highscore is updated.</li>
+<li>The goal is to collect the <b translate="no">JACKPOT</b>. In order to do that, the players must hit all five <b translate="no">CRAZY</b> letters twice. They have unlimited time for hitting them for the first time. However, after they have collected all the letters for the first time, they enter the <code translate="no">hurryState</code> and must collect them again within 5 seconds. If the time has passed and the letters were not collected again, the players must start collecting the letters from scratch.</li>
+<li>Scores:<ul>
+<li>1.000 per letter hit when not in <code translate="no">hurryState</code>.</li>
+<li>10.000 per letter hit when in <code translate="no">hurryState</code>.</li>
+<li>100.000 bonus for all 5 letters when not in <code translate="no">hurryState</code>.</li>
+<li>1.000.000 bonus for all 5 letters when in <code translate="no">hurryState</code> (<b translate="no">JACKPOT</b>).</li>
+</ul>
+</li>
+<li>When not in <code translate="no">hurryState</code>, the letters already hit should blink at intermediate speed (500ms). Letters not hit yet should stay off.</li>
+<li>When in <code translate="no">hurryState</code>, the letters already hit should stay on. Letters not hit yet should blink fast (200ms). In addition, the <b translate="no">HURRY</b> light should blink at the same speed.</li>
+<li>When the jackpot gets collected, the <b translate="no">JACKPOT</b> light should stay on.</li>
+</ul>
+<a name="scxml-part-internal-logic-description"></a>
+<h4 id="scxml-part-internal-logic-description">SCXML Part: Internal Logic Description<a class="plink" href="#scxml-part-internal-logic-description" title="Direct link to this headline"></a></h4>
+<p>The <i>pinball.scxml</i> file describes the internal logic implemented for the pinball game. In this example, we have chosen the ECMAScript data model:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0"
+       name="Pinball" datamodel="ecmascript"&gt;</pre></div>
+<p>The ECMAScript data model enables declaring variables with initial values that can be modified later. We declare the <code translate="no">"highscore"</code> and <code translate="no">"score"</code> variables with the initial values of 0:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    &lt;datamodel&gt;
+        &lt;data id="highScore" expr="0"/&gt;
+        &lt;data id="score" expr="0"/&gt;
+    &lt;/datamodel&gt;</pre></div>
+<p>We define a root parallel state <code translate="no">"global"</code>, with two child states, <code translate="no">guiControl</code> and <code translate="no">internalState</code>, which are also parallel. Because the top <code translate="no">global</code> state is parallel, all of its direct children are active when it is active. In this example, the role of <code translate="no">global</code> is to collect the child states and make them both active at a time.</p>
+<p class="centerAlign"><img alt="" src="./images/pinball-statechart-global.png"></p><a name="maintaining-light-state"></a>
+<h5 id="maintaining-light-state">Maintaining Light State<a class="plink" href="#maintaining-light-state" title="Direct link to this headline"></a></h5>
+<p>The <code translate="no">guiControl</code> element is responsible for maintaining the current state of each light control that is visible on the pinball table. Each light has a corresponding state.</p>
+<p class="centerAlign"><img alt="" src="./images/pinball-statechart-guicontrol.png"></p><p>For example, the light of the letter <b translate="no">C</b> corresponds to the <code translate="no">cLight</code> state. Each light state has two child states indicating whether the light is on or off:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    &lt;parallel id="global"&gt;
+        &lt;parallel id="guiControl"&gt;
+            &lt;state id="cLight"&gt;
+                &lt;state id="cLightOn"&gt;
+                    &lt;transition event="turnOffC" target="cLightOff"/&gt;
+                &lt;/state&gt;
+                &lt;state id="cLightOff"&gt;
+                    &lt;transition event="turnOnC" target="cLightOn"/&gt;
+                &lt;/state&gt;
+            &lt;/state&gt;</pre></div>
+<p>As mentioned before, the <code translate="no">guiControl</code> state is always active, and since it is of parallel type, all its direct children are always active too. Therefore, the <code translate="no">cLight</code> state is always active. However, only one of its children, <code translate="no">cLightOn</code> or <code translate="no">cLightOff</code>, is active at a time. The same applies to the other children of the <code translate="no">guiControl</code> state. In addition, we define transitions between on and off substates. For example, whenever the active state is <code translate="no">cLightOn</code> and a <code translate="no">turnOffC</code> event is received, we change the active substate of <code translate="no">cLight</code> to <code translate="no">cLightOff</code>. Whenever the active state is <code translate="no">cLightOff</code> and we receive a <code translate="no">turnOnC</code> event, we change the active substate of <code translate="no">cLight</code> to <code translate="no">cLightOn</code>.</p>
+<p>In our application, we use instances of <a href="./qlabel.htm" translate="no">QLabel</a> class in C++ to represent real lights on the table. When the light transitions into the <i>on</i> or <i>off</i> state, we enable or disable the particular label accordingly. The connection between the state machine and the GUI part of the application will be shown in the <a href="./qtscxml-sudoku-example.htm#cpp" translate="no">C++ code</a> later on. For now, it is enough to realize that changes to active states inside the state machine will serve as the external interface of the state machine that the other parts of the application (such as the GUI part) can listen to.</p>
+<p>All of the mentioned events that switch the state of a light will be generated by this state machine inside the <code translate="no">internalState</code> in reaction to running timers or external triggers.</p>
+<a name="maintaining-game-state"></a>
+<h5 id="maintaining-game-state">Maintaining Game State<a class="plink" href="#maintaining-game-state" title="Direct link to this headline"></a></h5>
+<p>The <code translate="no">internalState</code> state consists of two main parts: <code translate="no">logicalState</code> and <code translate="no">workflow</code>.</p>
+<p class="centerAlign"><img alt="" src="./images/pinball-statechart-internalstate.png"></p><p>The <code translate="no">logicalState</code> state holds the definitions for the modes that the game is able to go into and for the logical states of collected targets. The <code translate="no">workflow</code> state implements a generator for light blinking and calculates most of the new states the machine should go into depending on incoming events and on currently active states. As mentioned already, <code translate="no">internalState</code> is always active, and since it is of a parallel type, <code translate="no">logicalState</code> and <code translate="no">workflow</code> are always active too.</p>
+<a name="maintaining-logical-state-of-buttons"></a>
+<h5 id="maintaining-logical-state-of-buttons">Maintaining Logical State of Buttons<a class="plink" href="#maintaining-logical-state-of-buttons" title="Direct link to this headline"></a></h5>
+<p>The <code translate="no">logicalState</code> state consist of two parts: <code translate="no">letterState</code> and <code translate="no">modeState</code>.</p>
+<p class="centerAlign"><img alt="" src="./images/pinball-statechart-logicalstate.png"></p><p>As previously mentioned, <code translate="no">logicalState</code> is always active, and since it is of parallel type, the <code translate="no">letterState</code> and <code translate="no">modeState</code> children are always active too. Now let us look at the first part, the <code translate="no">letterState</code>, which contains one parallel <code translate="no">lettersState</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                &lt;state id="letterState"&gt;
+                    &lt;parallel id="lettersState"&gt;
+                        &lt;state id="letter.C"&gt;
+                            &lt;state id="cLetterOff"&gt;
+                                &lt;transition event="cLetterTriggered" cond="In('onState')" target="cLetterOn"/&gt;
+                            &lt;/state&gt;
+                            &lt;final id="cLetterOn"/&gt;
+                        &lt;/state&gt;
+                        &lt;state id="letter.R"&gt;
+                            ...
+                        &lt;/state&gt;
+                        &lt;state id="letter.A"&gt;
+                            ...
+                        &lt;/state&gt;
+                        &lt;state id="letter.Z"&gt;
+                            ...
+                        &lt;/state&gt;
+                        &lt;state id="letter.Y"&gt;
+                            ...
+                        &lt;/state&gt;
+                        &lt;transition event="resetLetters" target="lettersState"/&gt;
+                    &lt;/parallel&gt;
+                &lt;/state&gt;</pre></div>
+<p>The <code translate="no">lettersState</code> state maintains the logical state of the buttons pretending to be targets that were clicked by the players. The letter state for the letter <b translate="no">C</b> holds whether the target for the letter <b translate="no">C</b> was hit, while the light state for the letter <b translate="no">C</b> holds whether the light for the target for the letter <b translate="no">C</b> should be currently on or off. In a real pinball game, these states are usually orthogonal, which means that if you have not hit a target yet, the target is blinking, indicating that it is currently worth hitting. This blinking means that the light state switches between on and off at short intervals, while the target state is continouosly off, because it has not been hit yet. The author of a pinball table can decide that after a target is hit (that is, after the target state switches to on) the target's light is continuously turned off or on or the intervals between lights blinking become shorter or longer.</p>
+<p>As mentioned before, <code translate="no">letterState</code> is always active, which means that its only child <code translate="no">lettersState</code> should always be active too. However, there is one exception: for a short while the <code translate="no">lettersState</code> may end up being <i>not active</i>. This happens when the transition for <code translate="no">lettersState</code> is being performed. This transition is triggered when the <code translate="no">resetLetters</code> event occurs, and it instructs the state machine to exit <code translate="no">lettersState</code> and all its descendant states and reenter <code translate="no">lettersState</code> and set up all its descendant states with their initial states. In short, the <code translate="no">resetLetters</code> event resets the <code translate="no">lettersState</code> and all its descendant states to the default configuration.</p>
+<p>The <code translate="no">lettersState</code> contains five direct substates that correspond to five different letters. The content for other letters' states than C is not shown here, but it is analogous to the content for C's state.</p>
+<p>The <code translate="no">letter.C</code> state contains two substates reflecting its off and on states: <code translate="no">cLetterOff</code> and <code translate="no">cLetterOn</code>. The <code translate="no">letter.C</code> state inside its parallel parent <code translate="no">lettersState</code> is always active (under the condition that <code translate="no">lettersState</code> is active, as described before). However, only one of its child states is active at a time: <code translate="no">cLetterOff</code> or <code translate="no">cLetterOn</code>. The initial substate of the <code translate="no">letter.C</code> state is <code translate="no">cLetterOff</code> meaning that whenever the <code translate="no">letter.C</code> state is being activated (which happens initially and after the <code translate="no">resetLetters</code> event) its active substate will be set to <code translate="no">cLetterOff</code>.</p>
+<p>The <code translate="no">cLetterOff</code> state defines a transition, which will be triggered by the <code translate="no">cLetterTriggered</code> event. This transition activates <code translate="no">cLetterOn</code>, the other child of <code translate="no">letter.C</code>, only when the machine is in <code translate="no">onState</code> (that is, when the pinball game is running). The <code translate="no">cLetterTriggered</code> event is expected to be an event posted into the state machine from outside of the state machine. This event should be generated when the ball hits the letter <b translate="no">C</b> target. In our example we mimic it by the clicking the letter <b translate="no">C</b> button.</p>
+<p>The <code translate="no">cLetterOn</code> state is defined as a final state, which means that whenever this state is activated the <code translate="no">done.state.letter.C</code> event will be automatically posted by the state machine. This event will be used later for updating the current score.</p>
+<p>Moreover, when all <code translate="no">lettersState</code> children reach their final state, the state machine will automatically post the <code translate="no">done.state.lettersState</code> event. This event will be used later, too, for updating the current score and for turning on or off the hurry state.</p>
+<a name="maintaining-game-modes"></a>
+<h5 id="maintaining-game-modes">Maintaining Game Modes<a class="plink" href="#maintaining-game-modes" title="Direct link to this headline"></a></h5>
+<p>The <code translate="no">modeState</code> state consists of two substates, <code translate="no">offState</code> and <code translate="no">onState</code>.</p>
+<p class="centerAlign"><img alt="" src="./images/pinball-statechart-modestate.png"></p><p>The <code translate="no">offState</code> state describes what should happen before the pinball game is started and when it is over, while <code translate="no">onState</code> represents the logic appropriate for the active game.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                    &lt;state id="offState"&gt;
+                        &lt;onentry&gt;
+                            &lt;if cond="highScore &amp;lt; score"&gt;
+                                &lt;assign location="highScore" expr="score"/&gt;
+                            &lt;/if&gt;
+                            &lt;raise event="resetLetters"/&gt;
+                            &lt;raise event="update"/&gt;
+                        &lt;/onentry&gt;
+                        &lt;transition event="startTriggered" target="onState"/&gt;
+                    &lt;/state&gt;</pre></div>
+<p>When the pinball application starts or a game ends, the machine goes into <code translate="no">offState</code>. Entering that state invokes some actions, which are enclosed inside an <code translate="no">&lt;onentry&gt;</code> element. First, we update the <code translate="no">highScore</code> variable in case the current <code translate="no">highScore</code> value is less than current <code translate="no">score</code> value. This is being checked inside the <code translate="no">"cond"</code> attribute of the <code translate="no">&lt;if&gt;</code> element (note that we need to escape the "&lt;" character with "&amp;lt;"). Even in the <code translate="no">off</code> state, we want to show the last reached score, so we do not clear it here; we will do that when we enter the <code translate="no">on</code> state. Next, we raise two events: <code translate="no">resetLetters</code> to logically reset all letters that might have been hit during the last game and <code translate="no">update</code> to immediately activate the blinking and updating of all lights. When the machine is in <code translate="no">offState</code>, it is ready to transition into the <code translate="no">onState</code> if only the <code translate="no">startTriggered</code> event occurs, which is described by the &lt;transition&gt; element. This event is expected to be generated externally after clicking the <b translate="no">START</b> button on the pinball table.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                    &lt;parallel id="onState"&gt;
+                        &lt;onentry&gt;
+                            &lt;assign location="score" expr="0"/&gt;
+                        &lt;/onentry&gt;
+                        &lt;state id="hurryState"&gt;
+                            &lt;state id="hurryStateOff"&gt;
+                                &lt;onentry&gt;
+                                    &lt;raise event="resetLetters"/&gt;
+                                    &lt;raise event="update"/&gt;
+                                &lt;/onentry&gt;
+                                &lt;transition event="goToHurryOn" target="hurryStateOn"/&gt;
+                            &lt;/state&gt;
+                            &lt;state id="hurryStateOn"&gt;
+                                &lt;onentry&gt;
+                                    &lt;send event="goToHurryOff" id="hurryId" delay="5s"/&gt;
+                                    &lt;raise event="resetLetters"/&gt;
+                                    &lt;raise event="update"/&gt;
+                                &lt;/onentry&gt;
+                                &lt;transition event="goToHurryOff" target="hurryStateOff"/&gt;
+                                &lt;onexit&gt;
+                                    &lt;cancel sendid="hurryId"/&gt;
+                                &lt;/onexit&gt;
+                            &lt;/state&gt;
+                        &lt;/state&gt;
+                        &lt;state id="jackpotState"&gt;
+                            &lt;state id="jackpotStateOff"&gt;
+                                &lt;onentry&gt;
+                                    &lt;raise event="update"/&gt;
+                                &lt;/onentry&gt;
+                                &lt;transition event="goForJackpot" target="jackpotStateOn"/&gt;
+                            &lt;/state&gt;
+                            &lt;state id="jackpotStateOn"&gt;
+                                &lt;onentry&gt;
+                                    &lt;raise event="update"/&gt;
+                                &lt;/onentry&gt;
+                            &lt;/state&gt;
+                        &lt;/state&gt;
+                        &lt;transition event="ballOutTriggered" target="offState"/&gt;
+                    &lt;/parallel&gt;</pre></div>
+<a name="game-on"></a>
+<h5 id="game-on">Game On<a class="plink" href="#game-on" title="Direct link to this headline"></a></h5>
+<p>When the state machine enters <code translate="no">onState</code>, it first clears the current score variable. The <code translate="no">onState</code> state is of the parallel type and has two direct child states: <code translate="no">hurryState</code> and <code translate="no">jackpotState</code>. They are active as long as their parent, <code translate="no">onState</code>, is active. Both <code translate="no">hurryState</code> and <code translate="no">jackpotState</code> contain two substates that reflect their off and on states. Only one substate of <code translate="no">hurryState</code> and one substate of <code translate="no">jackpotState</code> can be active at a time. Initially, the off substates are active.</p>
+<p class="centerAlign"><img alt="" src="./images/pinball-statechart-onstate.png"></p><p>Whenever we enter <code translate="no">hurryStateOff</code> or <code translate="no">hurryStateOn</code>, we generate the same two events we generate when entering the <code translate="no">onState</code> state: <code translate="no">resetLetters</code> and <code translate="no">update</code>. In addition, when we enter the <code translate="no">hurryStateOn</code> state, we send a delayed event, <code translate="no">goToHurryOff</code>, with a delay of five seconds, marked with <code translate="no">hurryId</code>. This means that after five seconds we just switch the state back to <code translate="no">hurryStateOff</code> without granting the bonus points. In this way, we implement the five-second hurry feature of the pinball table. We also define transitions from <code translate="no">hurryStateOff</code> to <code translate="no">hurryStateOn</code> when the <code translate="no">goToHurryOn</code> event occurs and from <code translate="no">hurryStateOn</code> to <code translate="no">hurryStateOff</code> when the <code translate="no">goToHurryOff</code> event occurs. When we exit the <code translate="no">hurryStateOn</code> state, we cancel the possibly pending delayed event that was marked with <code translate="no">hurryId</code>. This is important in case the five secons have not elapsed yet, but players have collected all the five letters in the hurry state. We then collect the jackpot and want the pending timer to finish.</p>
+<p>The substates of <code translate="no">jackpotState</code> generate the request to update the state of lights. The <code translate="no">jackpotStateOff</code> state defines the transition to <code translate="no">jackpotStateOn</code> when the <code translate="no">goForJackpot</code> event occurs. The opposite transition is not needed, because when the jackpot gets collected, the corresponding light remains lit until the end of game. When a new game starts, the <code translate="no">jackpotState</code> is entered again which causes its initial active substate to be <code translate="no">jackpotStateOff</code>.</p>
+<p>In addition, the <code translate="no">onState</code> state defines one transition in reaction to the <code translate="no">ballOutTriggered</code> event which instructs the machine to go into the <code translate="no">offState</code>. The <code translate="no">ballOutTriggered</code> event is expected to be an event posted into the state machine from outside of the state machine. This event should be generated when the ball gets out of playing area of the table. In our example we mimic it by the clicking <b translate="no">BALL OUT</b> button. Posting the event from outside of state machine will be shown in the <a href="./qtscxml-sudoku-example.htm#cpp" translate="no">C++ code</a> later on.</p>
+<a name="generating-blinking-lights"></a>
+<h5 id="generating-blinking-lights">Generating Blinking Lights<a class="plink" href="#generating-blinking-lights" title="Direct link to this headline"></a></h5>
+<p>The <code translate="no">workflow</code> state is responsible for generating the blinking lights. The generator is defined in its <code translate="no">lightImpulseGenerator</code> substate. In addition, it is responsible for reacting to events that have been posted so far from the other parts of the state machine.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            &lt;state id="workflow"&gt;
+                &lt;state id="lightImpulseGenerator"&gt;
+                    &lt;state id="lightImpulseOn"/&gt;
+                    &lt;state id="lightImpulseOff"/&gt;
+
+                    &lt;onentry&gt;
+                        &lt;raise event="update"/&gt;
+                    &lt;/onentry&gt;
+
+                    &lt;transition event="scheduleNewImpulse"&gt;
+                        &lt;cancel sendid="lightId"/&gt;
+                        &lt;if cond="In('offState')"&gt;
+                            &lt;send event="lightImpulse" id="lightId" delay="1s"/&gt;
+                        &lt;elseif cond="In('hurryStateOff')"/&gt;
+                            &lt;send event="lightImpulse" id="lightId" delay="500ms"/&gt;
+                        &lt;else/&gt;
+                            &lt;send event="lightImpulse" id="lightId" delay="200ms"/&gt;
+                        &lt;/if&gt;
+                    &lt;/transition&gt;
+
+                    &lt;transition event="update"&gt;
+                        &lt;raise event="scheduleNewImpulse"/&gt;
+                        &lt;raise event="updateLights"/&gt;
+                    &lt;/transition&gt;
+
+                    &lt;transition event="lightImpulse" cond="In('lightImpulseOn')" target="lightImpulseOff"/&gt;
+                    &lt;transition event="lightImpulse" cond="In('lightImpulseOff')" target="lightImpulseOn"/&gt;
+                &lt;/state&gt;
+
+                &lt;transition event="done.state.letter.*"&gt;
+                    ...
+                &lt;/transition&gt;
+
+                &lt;transition event="done.state.lettersState"&gt;
+                    ...
+                &lt;/transition&gt;
+
+                &lt;transition event="updateLights"&gt;
+                    ...
+                &lt;/transition&gt;
+
+                &lt;transition event="updateLightsAccordingToLettersState"&gt;
+                    ...
+                &lt;/transition&gt;
+
+                &lt;transition event="turnOnLights"&gt;
+                    ...
+                &lt;/transition&gt;
+
+                &lt;transition event="turnOffLights"&gt;
+                    ...
+                &lt;/transition&gt;
+            &lt;/state&gt;</pre></div>
+<p>The <code translate="no">lightImpulseGenerator</code> contains two child states: <code translate="no">lightImpulseOn</code> and <code translate="no">lightImpulseOff</code>, with only one active at a time.</p>
+<p class="centerAlign"><img alt="" src="./images/pinball-statechart-workflow.png"></p><p>Whenever the delayed <code translate="no">lightImpulse</code> event is being delivered, it immediately causes the transition from <code translate="no">lightImpluseOn</code> into <code translate="no">lightImpulseOff</code> or vice versa, depending on the state the machine was in. In effect, the <code translate="no">lightImpulseGenerator</code> toggles between its on and off state. These transitions are defined inside <code translate="no">lightImpulseGenerator</code>, so it means that during this toggling the machine also exits <code translate="no">lightImpulseGenerator</code> and reenters it immediately afterwards. Entering <code translate="no">lightImpulseGenerator</code> causes the generation of the <code translate="no">update</code> event. The <code translate="no">update</code> event triggers a targetless transition and posts two other events: <code translate="no">scheduleNewImpulse</code> and <code translate="no">updateLights</code>. The first one, <code translate="no">scheduleNewImpulse</code>, returns back to the <code translate="no">lightImpulseGenerator</code>, which posts a delayed <code translate="no">lightImpulse</code> event. After the delay, the <code translate="no">lightImpulse</code> event gets delivered back to <code translate="no">lightImpulseGenerator</code>, which causes it to toggle its substate again. In this way, the machine enters into a cycle. The current delay of the <code translate="no">lightImpulse</code> event depends on the state in which the machine was in the time of posting the delayed event. If a <code translate="no">scheduleNewImpulse</code> event occurs on demand, before the next delayed <code translate="no">lightImpulse</code> event gets delivered, we cancel any possible pending events.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                &lt;transition event="done.state.letter.*"&gt;
+                    &lt;if cond="In('hurryStateOff')"&gt;
+                        &lt;assign location="score" expr="score + 1000"/&gt;
+                    &lt;elseif cond="In('hurryStateOn')"/&gt;
+                        &lt;assign location="score" expr="score + 10000"/&gt;
+                    &lt;/if&gt;
+                    &lt;raise event="updateLights"/&gt;
+                &lt;/transition&gt;
+
+                &lt;transition event="done.state.lettersState"&gt;
+                    &lt;if cond="In('hurryStateOff')"&gt;
+                        &lt;assign location="score" expr="score + 100000"/&gt;
+                        &lt;raise event="goToHurryOn"/&gt;
+                    &lt;elseif cond="In('hurryStateOn')"/&gt;
+                        &lt;assign location="score" expr="score + 1000000"/&gt;
+                        &lt;raise event="goToHurryOff"/&gt;
+                        &lt;raise event="goForJackpot"/&gt;
+                    &lt;/if&gt;
+                &lt;/transition&gt;</pre></div>
+<p>Whenever we receive the event the name of which matches the <code translate="no">done.state.letter.*</code>, we update the current score. When the machine enters the final substate of the <code translate="no">letter.C</code>, it emits the <code translate="no">done.state.letter.C</code> event. The same happens for all other letters we have previously defined. We capture the events for all letters, that is why we have used an asterisk after a dot in the event name. The transition above is targetless, since we just listen for matching events and update the internal data accordingly without changing any active state. The new score is being increased by 1.000 or 10.000 points, depending on whether we currently are in <code translate="no">hurryStateOff</code> or <code translate="no">hurryStateOn</code>. After the score is updated, we generate the <code translate="no">updateLights</code> event in order to immediately update the letters' lights accordingly. We do not generate the <code translate="no">update</code> event here, since we do not want to toggle the light impulse now, but just update the lights according to the current impulse state.</p>
+<p>We also intercept the <code translate="no">done.state.lettersState</code> event, which is being generated when all the letters have been hit. Depending on which state we are currently in, we grant the players either a small bonus of 100.000 or a big one of 1.000.000 (jackpot). In addition, we toggle the <code translate="no">hurryState</code> substate by sending the <code translate="no">goToHurryOn</code> or <code translate="no">goToHurryOff</code> event. When all letters have been collected while in <code translate="no">hurryStateOn</code>, we also raise the <code translate="no">goForJackpot</code> event which instructs the machine to activate the <code translate="no">jackpotStateOn</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                &lt;transition event="updateLights"&gt;
+                    &lt;send event="updateScore"&gt;
+                        &lt;param name="highScore" expr="highScore"/&gt;
+                        &lt;param name="score" expr="score"/&gt;
+                    &lt;/send&gt;
+                    &lt;if cond="In('jackpotStateOn')"&gt;
+                        &lt;raise event="turnOnJackpot"/&gt;
+                    &lt;else/&gt;
+                        &lt;raise event="turnOffJackpot"/&gt;
+                    &lt;/if&gt;
+
+                    &lt;if cond="In('lightImpulseOn')"&gt;
+                        &lt;if cond="In('offState')"&gt;
+                            &lt;raise event="turnOnLights"/&gt;
+                            &lt;raise event="turnOnHurry"/&gt;
+                            &lt;raise event="turnOnJackpot"/&gt;
+                            &lt;raise event="turnOnGameOver"/&gt;
+                        &lt;elseif cond="In('hurryStateOff')"/&gt;
+                            &lt;raise event="updateLightsAccordingToLettersState"/&gt;
+                            &lt;raise event="turnOffHurry"/&gt;
+                            &lt;raise event="turnOffGameOver"/&gt;
+                        &lt;else/&gt;
+                            &lt;raise event="turnOnLights"/&gt;
+                            &lt;raise event="turnOnHurry"/&gt;
+                            &lt;raise event="turnOffGameOver"/&gt;
+                        &lt;/if&gt;
+                    &lt;else/&gt;
+                        &lt;if cond="In('offState')"&gt;
+                            &lt;raise event="turnOffLights"/&gt;
+                            &lt;raise event="turnOffHurry"/&gt;
+                            &lt;raise event="turnOffJackpot"/&gt;
+                        &lt;elseif cond="In('hurryStateOff')"/&gt;
+                            &lt;raise event="turnOffLights"/&gt;
+                        &lt;else/&gt;
+                            &lt;raise event="updateLightsAccordingToLettersState"/&gt;
+                        &lt;/if&gt;
+                        &lt;raise event="turnOffHurry"/&gt;
+                        &lt;raise event="turnOffGameOver"/&gt;
+                    &lt;/if&gt;
+                &lt;/transition&gt;
+
+                &lt;transition event="updateLightsAccordingToLettersState"&gt;
+                    &lt;if cond="In('cLetterOn')"&gt;
+                        &lt;raise event="turnOnC"/&gt;
+                    &lt;else/&gt;
+                        &lt;raise event="turnOffC"/&gt;
+                    &lt;/if&gt;
+                    &lt;if cond="In('rLetterOn')"&gt;
+                        &lt;raise event="turnOnR"/&gt;
+                    &lt;else/&gt;
+                        &lt;raise event="turnOffR"/&gt;
+                    &lt;/if&gt;
+                    &lt;if cond="In('aLetterOn')"&gt;
+                        &lt;raise event="turnOnA"/&gt;
+                    &lt;else/&gt;
+                        &lt;raise event="turnOffA"/&gt;
+                    &lt;/if&gt;
+                    &lt;if cond="In('zLetterOn')"&gt;
+                        &lt;raise event="turnOnZ"/&gt;
+                    &lt;else/&gt;
+                        &lt;raise event="turnOffZ"/&gt;
+                    &lt;/if&gt;
+                    &lt;if cond="In('yLetterOn')"&gt;
+                        &lt;raise event="turnOnY"/&gt;
+                    &lt;else/&gt;
+                        &lt;raise event="turnOffY"/&gt;
+                    &lt;/if&gt;
+                &lt;/transition&gt;
+
+                &lt;transition event="turnOnLights"&gt;
+                    &lt;raise event="turnOnC"/&gt;
+                    &lt;raise event="turnOnR"/&gt;
+                    &lt;raise event="turnOnA"/&gt;
+                    &lt;raise event="turnOnZ"/&gt;
+                    &lt;raise event="turnOnY"/&gt;
+                &lt;/transition&gt;
+
+                &lt;transition event="turnOffLights"&gt;
+                    &lt;raise event="turnOffC"/&gt;
+                    &lt;raise event="turnOffR"/&gt;
+                    &lt;raise event="turnOffA"/&gt;
+                    &lt;raise event="turnOffZ"/&gt;
+                    &lt;raise event="turnOffY"/&gt;
+                &lt;/transition&gt;</pre></div>
+<p>When we receive the <code translate="no">updateLights</code> event, we first want to send a <code translate="no">updateScore</code> event outside of the state machine. We pass the current values of the <code translate="no">highScore</code> and <code translate="no">score</code> variables to the event. This event is received by the C++ part.</p>
+<p>Next, depending on whether we are in <code translate="no">jackpotStateOn</code> or <code translate="no">jackpotStateOff</code>, we send the <code translate="no">turnOnJackpot</code> or the <code translate="no">turnOffJackpot</code> event, which instructs the <code translate="no">guiControl</code> state to transition to <code translate="no">jackpotLightOn</code> or <code translate="no">jackpotLightOff</code>, respectively.</p>
+<p>When the machine is in <i>idle</i> state, (that is, in the off state) or when the game is on, but no interaction occurs, the <code translate="no">updateLights</code> event is delivered periodically during the game, each time with the <code translate="no">lightImpulseOn</code> or <code translate="no">lightImpulseOff</code> state toggled. Depending on the current state of the light impulse and on the active state (<code translate="no">offState</code>, <code translate="no">hurryStateOff</code> or <code translate="no">hurryStateOn</code>), we turn on or off all the lights according to the description of the pinball table.</p>
+<a name="gui-part-user-interface-description"></a>
+<h4 id="gui-part-user-interface-description">GUI Part: User Interface Description<a class="plink" href="#gui-part-user-interface-description" title="Direct link to this headline"></a></h4>
+<p>The GUI part of the application consists of a <i>mainwindow.ui</i> file which describes the static user interface of the game.</p>
+<a name="cpp"></a><a name="c-part-glue-gui-with-scxml"></a>
+<h4 id="c-part-glue-gui-with-scxml">C++ Part: Glue GUI with SCXML<a class="plink" href="#c-part-glue-gui-with-scxml" title="Direct link to this headline"></a></h4>
+<p>The C++ part of the application consists of a <code translate="no">MainWindow</code> class which glues the GUI part with the SCXML part. The class is declared in <i>mainwindow.h</i>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MainWindow;
+}
+<span class="keyword">class</span> <span class="type"><a href="./qscxmlstatemachine.htm" translate="no">QScxmlStateMachine</a></span>;
+QT_END_NAMESPACE
+
+<span class="keyword">class</span> MainWindow : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> MainWindow(<span class="type"><a href="./qscxmlstatemachine.htm" translate="no">QScxmlStateMachine</a></span> <span class="operator">*</span>machine<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    <span class="operator">~</span>MainWindow();
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> initAndConnect(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>state<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>widget);
+    QT_PREPEND_NAMESPACE(Ui<span class="operator">::</span>MainWindow) <span class="operator">*</span>m_ui;
+    <span class="type"><a href="./qscxmlstatemachine.htm" translate="no">QScxmlStateMachine</a></span> <span class="operator">*</span>m_machine;
+};</pre></div>
+<p>The <code translate="no">MainWindow</code> class holds the pointer to the <code translate="no">QScxmlStateMachine *m_machine</code> which is the state machine class automatically generated by Qt out of SCMXL file and the pointer to the <code translate="no">Ui::MainWindow *m_ui</code> which describes the GUI part. It also declares two helper methods.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "mainwindow.h"</span>
+<span class="preprocessor">#include "ui_mainwindow.h"</span>
+
+<span class="preprocessor">#include &lt;QScxmlStateMachine&gt;</span>
+<span class="preprocessor">#include &lt;QStringListModel&gt;</span>
+
+QT_USE_NAMESPACE
+
+MainWindow<span class="operator">::</span>MainWindow(<span class="type"><a href="./qscxmlstatemachine.htm" translate="no">QScxmlStateMachine</a></span> <span class="operator">*</span>machine<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent) :
+    <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)<span class="operator">,</span>
+    m_ui(<span class="keyword">new</span> Ui<span class="operator">::</span>MainWindow)<span class="operator">,</span>
+    m_machine(machine)
+{
+    m_ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+
+    <span class="comment">// lights</span>
+    initAndConnect(QLatin1String(<span class="string">"cLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>cLabel);
+    initAndConnect(QLatin1String(<span class="string">"rLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>rLabel);
+    initAndConnect(QLatin1String(<span class="string">"aLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>aLabel);
+    initAndConnect(QLatin1String(<span class="string">"zLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>zLabel);
+    initAndConnect(QLatin1String(<span class="string">"yLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>yLabel);
+    initAndConnect(QLatin1String(<span class="string">"hurryLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>hurryLabel);
+    initAndConnect(QLatin1String(<span class="string">"jackpotLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>jackpotLabel);
+    initAndConnect(QLatin1String(<span class="string">"gameOverLightOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>gameOverLabel);
+
+    <span class="comment">// help labels</span>
+    initAndConnect(QLatin1String(<span class="string">"offState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>offStateLabel);
+    initAndConnect(QLatin1String(<span class="string">"hurryStateOff"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>normalStateLabel);
+    initAndConnect(QLatin1String(<span class="string">"hurryStateOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>hurryStateLabel);
+    initAndConnect(QLatin1String(<span class="string">"jackpotStateOn"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>jackpotStateLabel);
+
+    <span class="comment">// context enablement</span>
+    initAndConnect(QLatin1String(<span class="string">"offState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>startButton);
+    initAndConnect(QLatin1String(<span class="string">"onState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>cButton);
+    initAndConnect(QLatin1String(<span class="string">"onState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>rButton);
+    initAndConnect(QLatin1String(<span class="string">"onState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>aButton);
+    initAndConnect(QLatin1String(<span class="string">"onState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>zButton);
+    initAndConnect(QLatin1String(<span class="string">"onState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>yButton);
+    initAndConnect(QLatin1String(<span class="string">"onState"</span>)<span class="operator">,</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>ballOutButton);
+
+    <span class="comment">// datamodel update</span>
+    m_machine<span class="operator">-</span><span class="operator">&gt;</span>connectToEvent(<span class="string">"updateScore"</span><span class="operator">,</span> <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> (<span class="keyword">const</span> <span class="type"><a href="./qscxmlevent.htm" translate="no">QScxmlEvent</a></span> <span class="operator">&amp;</span>event) {
+        <span class="keyword">const</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> data <span class="operator">=</span> event<span class="operator">.</span>data();
+        <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> highScore <span class="operator">=</span> data<span class="operator">.</span>toMap()<span class="operator">.</span>value(<span class="string">"highScore"</span>)<span class="operator">.</span>toString();
+        m_ui<span class="operator">-</span><span class="operator">&gt;</span>highScoreLabel<span class="operator">-</span><span class="operator">&gt;</span>setText(highScore);
+        <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> score <span class="operator">=</span> data<span class="operator">.</span>toMap()<span class="operator">.</span>value(<span class="string">"score"</span>)<span class="operator">.</span>toString();
+        m_ui<span class="operator">-</span><span class="operator">&gt;</span>scoreLabel<span class="operator">-</span><span class="operator">&gt;</span>setText(score);
+    });
+
+    <span class="comment">// gui interaction</span>
+    connect(m_ui<span class="operator">-</span><span class="operator">&gt;</span>cButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> { m_machine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"cLetterTriggered"</span>);
+            });
+    connect(m_ui<span class="operator">-</span><span class="operator">&gt;</span>rButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> { m_machine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"rLetterTriggered"</span>);
+            });
+    connect(m_ui<span class="operator">-</span><span class="operator">&gt;</span>aButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> { m_machine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"aLetterTriggered"</span>);
+            });
+    connect(m_ui<span class="operator">-</span><span class="operator">&gt;</span>zButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> { m_machine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"zLetterTriggered"</span>);
+            });
+    connect(m_ui<span class="operator">-</span><span class="operator">&gt;</span>yButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> { m_machine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"yLetterTriggered"</span>);
+            });
+    connect(m_ui<span class="operator">-</span><span class="operator">&gt;</span>startButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> { m_machine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"startTriggered"</span>);
+            });
+    connect(m_ui<span class="operator">-</span><span class="operator">&gt;</span>ballOutButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span> { m_machine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"ballOutTriggered"</span>);
+            });
+}</pre></div>
+<p>The constructor of the <code translate="no">MainWindow</code> class instantiates the GUI part of the application and stores the pointer to the passed <code translate="no">QScxmlStateMachine</code>. It also initializes the GUI part and glues the GUI part to the state machine by connecting their communication interfaces together.</p>
+<p>The <code translate="no">initAndConnect()</code> method connects the state with the corresponding GUI widget by binding its activity with the enabling of the widget, so that whenever the state is active, its corresponding widget is enabled and whenever the state is inactive, the widget is disabled. We do that for all lights, targets, and description labels.</p>
+<p>We also intercept the <code translate="no">updateScore</code> event sent by the state machine, in order to update the score displays with the values passed with the event.</p>
+<p>The info about hitting any GUI target needs to be passed to the state machine and we do that by connecting all target buttons' <code translate="no">clicked</code> signals to the lambda expressions which submit the corresponding event into the state machine.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "mainwindow.h"</span>
+<span class="preprocessor">#include "pinball.h"</span>
+
+<span class="preprocessor">#include &lt;QApplication&gt;</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span><span class="operator">*</span>argv)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+
+    Pinball machine;
+    MainWindow mainWindow(<span class="operator">&amp;</span>machine);
+
+    machine<span class="operator">.</span>start();
+    mainWindow<span class="operator">.</span>show();
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>In the <code translate="no">main()</code> function in the <i>main.cpp</i> file, we instantiate the <code translate="no">app</code> application object, <code translate="no">Pinball</code> state machine, and <code translate="no">MainWindow</code> GUI class. We initialize and start the state machine, show the main window, and execute the application.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtscxml.git/tree/examples/scxml/pinball?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@pinball -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

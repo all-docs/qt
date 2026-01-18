@@ -1,0 +1,335 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scatter Example | Qt Data Visualization</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li class="last"><a>Scatter Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Scatter Example</h1>
+<span class="subtitle"></span>
+<!-- $$$scatter-brief -->
+<p>Using <a href="./q3dscatter.htm" translate="no">Q3DScatter</a> in a widget application.</p>
+<!-- @@@scatter -->
+<!-- $$$scatter-description -->
+<div class="descr"> <a name="details"></a>
+<p>The scatter example shows how to make a simple 3D scatter graph using <a href="./q3dscatter.htm" translate="no">Q3DScatter</a> and combining the use of widgets for adjusting several adjustable qualities. The example shows how to:</p>
+<ul>
+<li>Create an application with <a href="./q3dscatter.htm" translate="no">Q3DScatter</a> and some widgets</li>
+<li>Use <a href="./qscatterdataproxy.htm" translate="no">QScatterDataProxy</a> to set data to the graph</li>
+<li>Adjust some graph properties using widget controls</li>
+</ul>
+<p>For instructions about how to interact with the graph, see <a href="./qtdatavisualization-interacting-with-data.htm" translate="no">this page</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/scatter-example.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-the-application"></a>
+<h4 id="creating-the-application">Creating the Application<a class="plink" href="#creating-the-application" title="Direct link to this headline"></a></h4>
+<p>First, in main.cpp, we create a <a href="./qapplication.htm" translate="no">QApplication</a>, instantiate <a href="./q3dscatter.htm" translate="no">Q3DScatter</a>, and a window container for it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+<span class="type"><a href="./q3dscatter.htm" translate="no">Q3DScatter</a></span> <span class="operator">*</span>graph <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./q3dscatter.htm" translate="no">Q3DScatter</a></span>();
+<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>container <span class="operator">=</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">::</span>createWindowContainer(graph);</pre></div>
+<p>The call to <a href="./qwidget.htm#createWindowContainer" translate="no">QWidget::createWindowContainer</a> is required, as all data visualization graph classes (<a href="./q3dbars.htm" translate="no">Q3DBars</a>, <a href="./q3dscatter.htm" translate="no">Q3DScatter</a>, and <a href="./q3dsurface.htm" translate="no">Q3DSurface</a>) inherit <a href="./qwindow.htm" translate="no">QWindow</a>. Any class inheriting <a href="./qwindow.htm" translate="no">QWindow</a> cannot be used as a widget any other way.</p>
+<p>Then we'll create horizontal and vertical layouts. We'll add the graph and the vertical layout into the horizontal one:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>widget <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>;
+<span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span> <span class="operator">*</span>hLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span>(widget);
+<span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>vLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>();
+hLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(container<span class="operator">,</span> <span class="number">1</span>);
+hLayout<span class="operator">-</span><span class="operator">&gt;</span>addLayout(vLayout);</pre></div>
+<p>We're not using the vertical layout for anything yet, but we'll get back to it in <a href="./qtdatavisualization-scatter-example.htm#using-widgets-to-control-the-graph" translate="no">Using widgets to control the graph</a></p>
+<p>Next, let's create another class to handle the data addition and other interaction with the graph. Let's call it <code translate="no">ScatterDataModifier</code> (See <a href="./qtdatavisualization-scatter-example.htm#setting-up-the-graph" translate="no">Setting up the graph</a> and <a href="./qtdatavisualization-scatter-example.htm#adding-data-to-the-graph" translate="no">Adding data to the graph</a> for details):</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ScatterDataModifier <span class="operator">*</span>modifier <span class="operator">=</span> <span class="keyword">new</span> ScatterDataModifier(graph);</pre></div>
+<p>The application main is done. We can show the graph and start the event loop:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">widget<span class="operator">-</span><span class="operator">&gt;</span>show();
+<span class="keyword">return</span> app<span class="operator">.</span>exec();</pre></div>
+<a name="setting-up-the-graph"></a>
+<h4 id="setting-up-the-graph">Setting up the Graph<a class="plink" href="#setting-up-the-graph" title="Direct link to this headline"></a></h4>
+<p>Let's set up some visual qualities for the graph in the constructor of the <code translate="no">ScatterDataModifier</code> class we instantiated in the application main:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>setType(<span class="type"><a href="./q3dtheme.htm" translate="no">Q3DTheme</a></span><span class="operator">::</span>ThemeEbony);
+<span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> font <span class="operator">=</span> m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>font();
+font<span class="operator">.</span>setPointSize(m_fontSize);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>setFont(font);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>setShadowQuality(QAbstract3DGraph<span class="operator">::</span>ShadowQualitySoftLow);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>scene()<span class="operator">-</span><span class="operator">&gt;</span>activeCamera()<span class="operator">-</span><span class="operator">&gt;</span>setCameraPreset(<span class="type"><a href="./q3dcamera.htm" translate="no">Q3DCamera</a></span><span class="operator">::</span>CameraPresetFront);</pre></div>
+<p>None of these are required, but are used to override graph defaults. You can try how it looks with the preset defaults by commenting the block above out.</p>
+<p>Finally we create a <a href="./qscatterdataproxy.htm" translate="no">QScatterDataProxy</a> and the associated <a href="./qscatter3dseries.htm" translate="no">QScatter3DSeries</a>. We set custom label format and mesh smoothing for the series and add it to the graph:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qscatterdataproxy.htm" translate="no">QScatterDataProxy</a></span> <span class="operator">*</span>proxy <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qscatterdataproxy.htm" translate="no">QScatterDataProxy</a></span>;
+QScatter3DSeries <span class="operator">*</span>series <span class="operator">=</span> <span class="keyword">new</span> QScatter3DSeries(proxy);
+series<span class="operator">-</span><span class="operator">&gt;</span>setItemLabelFormat(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"@xTitle: @xLabel @yTitle: @yLabel @zTitle: @zLabel"</span>));
+series<span class="operator">-</span><span class="operator">&gt;</span>setMeshSmooth(m_smooth);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);</pre></div>
+<p>That concludes setting up the graph.</p>
+<a name="adding-data-to-the-graph"></a>
+<h4 id="adding-data-to-the-graph">Adding Data to the Graph<a class="plink" href="#adding-data-to-the-graph" title="Direct link to this headline"></a></h4>
+<p>The last thing we do in the <code translate="no">ScatterDataModifier</code> constructor is to add data to the graph:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">addData();</pre></div>
+<p>The actual data addition is done in <code translate="no">addData()</code> method. First we configure the axes:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"X"</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisY()<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Y"</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Z"</span>);</pre></div>
+<p>This could have been done in the constructor of <code translate="no">ScatterDataModifier</code>, but we added it here to keep the constructor simpler and the axes configuration near the data.</p>
+<p>Next we create a data array:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qscatterdataproxy.htm#QScatterDataArray-typedef" translate="no">QScatterDataArray</a></span> <span class="operator">*</span>dataArray <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qscatterdataproxy.htm#QScatterDataArray-typedef" translate="no">QScatterDataArray</a></span>;
+dataArray<span class="operator">-</span><span class="operator">&gt;</span>resize(m_itemCount);
+<span class="type"><a href="./qscatterdataitem.htm" translate="no">QScatterDataItem</a></span> <span class="operator">*</span>ptrToDataArray <span class="operator">=</span> <span class="operator">&amp;</span>dataArray<span class="operator">-</span><span class="operator">&gt;</span>first();</pre></div>
+<p>and populate it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">float</span> limit <span class="operator">=</span> <a href="./qtmath.htm#qSqrt" translate="no">qSqrt</a>(m_itemCount) <span class="operator">/</span> <span class="number">2.0f</span>;
+<span class="keyword">for</span> (<span class="type">float</span> i <span class="operator">=</span> <span class="operator">-</span>limit; i <span class="operator">&lt;</span> limit; i<span class="operator">+</span><span class="operator">+</span>) {
+    <span class="keyword">for</span> (<span class="type">float</span> j <span class="operator">=</span> <span class="operator">-</span>limit; j <span class="operator">&lt;</span> limit; j<span class="operator">+</span><span class="operator">+</span>) {
+        ptrToDataArray<span class="operator">-</span><span class="operator">&gt;</span>setPosition(QVector3D(i <span class="operator">+</span> <span class="number">0.5f</span><span class="operator">,</span>
+                                              <a href="./qtmath.htm#qCos" translate="no">qCos</a>(<a href="./qtmath.htm#qDegreesToRadians" translate="no">qDegreesToRadians</a>((i <span class="operator">*</span> j) <span class="operator">/</span> m_curveDivider))<span class="operator">,</span>
+                                              j <span class="operator">+</span> <span class="number">0.5f</span>));
+        ptrToDataArray<span class="operator">+</span><span class="operator">+</span>;
+    }
+}</pre></div>
+<p>Finally we tell the proxy to start using the data we gave it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">m_graph<span class="operator">-</span><span class="operator">&gt;</span>seriesList()<span class="operator">.</span>at(<span class="number">0</span>)<span class="operator">-</span><span class="operator">&gt;</span>dataProxy()<span class="operator">-</span><span class="operator">&gt;</span>resetArray(dataArray);</pre></div>
+<p>Now our graph has the data and is ready to be used. There isn't much interaction yet, though, so let's continue by adding some widgets to play with.</p>
+<a name="using-widgets-to-control-the-graph"></a>
+<h4 id="using-widgets-to-control-the-graph">Using Widgets to Control the Graph<a class="plink" href="#using-widgets-to-control-the-graph" title="Direct link to this headline"></a></h4>
+<p>First, back in the application main, we'll create some widgets:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>themeList <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>(widget);
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Qt"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Primary Colors"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Digia"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Stone Moss"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Army Blue"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Retro"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Ebony"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Isabelle"</span>));
+themeList<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(<span class="number">6</span>);
+
+<span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>labelButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(widget);
+labelButton<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Change label style"</span>));
+
+<span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>smoothCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(widget);
+smoothCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Smooth dots"</span>));
+smoothCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(<span class="keyword">true</span>);
+
+<span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>itemStyleList <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>(widget);
+itemStyleList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Sphere"</span>)<span class="operator">,</span> <span class="type">int</span>(QAbstract3DSeries<span class="operator">::</span>MeshSphere));
+itemStyleList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Cube"</span>)<span class="operator">,</span> <span class="type">int</span>(QAbstract3DSeries<span class="operator">::</span>MeshCube));
+itemStyleList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Minimal"</span>)<span class="operator">,</span> <span class="type">int</span>(QAbstract3DSeries<span class="operator">::</span>MeshMinimal));
+itemStyleList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Point"</span>)<span class="operator">,</span> <span class="type">int</span>(QAbstract3DSeries<span class="operator">::</span>MeshPoint));
+itemStyleList<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(<span class="number">0</span>);
+
+<span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>cameraButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(widget);
+cameraButton<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Change camera preset"</span>));
+
+<span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>itemCountButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(widget);
+itemCountButton<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Toggle item count"</span>));
+
+<span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>backgroundCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(widget);
+backgroundCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Show background"</span>));
+backgroundCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(<span class="keyword">true</span>);
+
+<span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>gridCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(widget);
+gridCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Show grid"</span>));
+gridCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(<span class="keyword">true</span>);
+
+<span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>shadowQuality <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>(widget);
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"None"</span>));
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Low"</span>));
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Medium"</span>));
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"High"</span>));
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Low Soft"</span>));
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Medium Soft"</span>));
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"High Soft"</span>));
+shadowQuality<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(<span class="number">4</span>);
+
+<span class="type"><a href="./qfontcombobox.htm" translate="no">QFontComboBox</a></span> <span class="operator">*</span>fontList <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qfontcombobox.htm" translate="no">QFontComboBox</a></span>(widget);
+fontList<span class="operator">-</span><span class="operator">&gt;</span>setCurrentFont(<span class="type"><a href="./qfont.htm" translate="no">QFont</a></span>(<span class="string">"Arial"</span>));</pre></div>
+<p>And add them to the vertical layout we created earlier:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(labelButton<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(cameraButton<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(itemCountButton<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(backgroundCheckBox);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(gridCheckBox);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(smoothCheckBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(<span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Change dot style"</span>)));
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(itemStyleList);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(<span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Change theme"</span>)));
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(themeList);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(<span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Adjust shadow quality"</span>)));
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(shadowQuality);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(<span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Change font"</span>)));
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(fontList<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);</pre></div>
+<p>Now, let's connect them to methods in ScatterDataModifier:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(cameraButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>changePresetCamera);
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(labelButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>changeLabelStyle);
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(itemCountButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>toggleItemCount);
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(backgroundCheckBox<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>stateChanged<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>setBackgroundEnabled);
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(gridCheckBox<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>stateChanged<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>setGridEnabled);
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(smoothCheckBox<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>stateChanged<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>setSmoothDots);
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(modifier<span class="operator">,</span> <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>backgroundEnabledChanged<span class="operator">,</span>
+                 backgroundCheckBox<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>setChecked);
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(modifier<span class="operator">,</span> <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>gridEnabledChanged<span class="operator">,</span>
+                 gridCheckBox<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>setChecked);
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(itemStyleList<span class="operator">,</span> SIGNAL(currentIndexChanged(<span class="type">int</span>))<span class="operator">,</span> modifier<span class="operator">,</span>
+                 SLOT(changeStyle(<span class="type">int</span>)));
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(themeList<span class="operator">,</span> SIGNAL(currentIndexChanged(<span class="type">int</span>))<span class="operator">,</span> modifier<span class="operator">,</span>
+                 SLOT(changeTheme(<span class="type">int</span>)));
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(shadowQuality<span class="operator">,</span> SIGNAL(currentIndexChanged(<span class="type">int</span>))<span class="operator">,</span> modifier<span class="operator">,</span>
+                 SLOT(changeShadowQuality(<span class="type">int</span>)));
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(modifier<span class="operator">,</span> <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>shadowQualityChanged<span class="operator">,</span> shadowQuality<span class="operator">,</span>
+                 <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>setCurrentIndex);
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(graph<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./q3dscatter.htm" translate="no">Q3DScatter</a></span><span class="operator">::</span>shadowQualityChanged<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>shadowQualityUpdatedByVisual);
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(fontList<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qfontcombobox.htm" translate="no">QFontComboBox</a></span><span class="operator">::</span>currentFontChanged<span class="operator">,</span> modifier<span class="operator">,</span>
+                 <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>changeFont);
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(modifier<span class="operator">,</span> <span class="operator">&amp;</span>ScatterDataModifier<span class="operator">::</span>fontChanged<span class="operator">,</span> fontList<span class="operator">,</span>
+                 <span class="operator">&amp;</span><span class="type"><a href="./qfontcombobox.htm" translate="no">QFontComboBox</a></span><span class="operator">::</span>setCurrentFont);</pre></div>
+<p>Here are the methods in ScatterDataModifier the signals were connected to:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ScatterDataModifier<span class="operator">::</span>changeStyle(<span class="type">int</span> style)
+{
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>comboBox <span class="operator">=</span> qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span><span class="operator">&gt;</span>(sender());
+    <span class="keyword">if</span> (comboBox) {
+        m_style <span class="operator">=</span> QAbstract3DSeries<span class="operator">::</span>Mesh(comboBox<span class="operator">-</span><span class="operator">&gt;</span>itemData(style)<span class="operator">.</span>toInt());
+        <span class="keyword">if</span> (m_graph<span class="operator">-</span><span class="operator">&gt;</span>seriesList()<span class="operator">.</span>size())
+            m_graph<span class="operator">-</span><span class="operator">&gt;</span>seriesList()<span class="operator">.</span>at(<span class="number">0</span>)<span class="operator">-</span><span class="operator">&gt;</span>setMesh(m_style);
+    }
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>setSmoothDots(<span class="type">int</span> smooth)
+{
+    m_smooth <span class="operator">=</span> bool(smooth);
+    QScatter3DSeries <span class="operator">*</span>series <span class="operator">=</span> m_graph<span class="operator">-</span><span class="operator">&gt;</span>seriesList()<span class="operator">.</span>at(<span class="number">0</span>);
+    series<span class="operator">-</span><span class="operator">&gt;</span>setMeshSmooth(m_smooth);
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>changeTheme(<span class="type">int</span> theme)
+{
+    <span class="type"><a href="./q3dtheme.htm" translate="no">Q3DTheme</a></span> <span class="operator">*</span>currentTheme <span class="operator">=</span> m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme();
+    currentTheme<span class="operator">-</span><span class="operator">&gt;</span>setType(<span class="type"><a href="./q3dtheme.htm" translate="no">Q3DTheme</a></span><span class="operator">::</span>Theme(theme));
+    <span class="keyword">emit</span> backgroundEnabledChanged(currentTheme<span class="operator">-</span><span class="operator">&gt;</span>isBackgroundEnabled());
+    <span class="keyword">emit</span> gridEnabledChanged(currentTheme<span class="operator">-</span><span class="operator">&gt;</span>isGridEnabled());
+    <span class="keyword">emit</span> fontChanged(currentTheme<span class="operator">-</span><span class="operator">&gt;</span>font());
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>changePresetCamera()
+{
+    <span class="keyword">static</span> <span class="type">int</span> preset <span class="operator">=</span> <span class="type"><a href="./q3dcamera.htm" translate="no">Q3DCamera</a></span><span class="operator">::</span>CameraPresetFrontLow;
+
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>scene()<span class="operator">-</span><span class="operator">&gt;</span>activeCamera()<span class="operator">-</span><span class="operator">&gt;</span>setCameraPreset((<span class="type"><a href="./q3dcamera.htm" translate="no">Q3DCamera</a></span><span class="operator">::</span>CameraPreset)preset);
+
+    <span class="keyword">if</span> (<span class="operator">+</span><span class="operator">+</span>preset <span class="operator">&gt;</span> <span class="type"><a href="./q3dcamera.htm" translate="no">Q3DCamera</a></span><span class="operator">::</span>CameraPresetDirectlyBelow)
+        preset <span class="operator">=</span> <span class="type"><a href="./q3dcamera.htm" translate="no">Q3DCamera</a></span><span class="operator">::</span>CameraPresetFrontLow;
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>changeLabelStyle()
+{
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>setLabelBackgroundEnabled(<span class="operator">!</span>m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>isLabelBackgroundEnabled());
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>changeFont(<span class="keyword">const</span> <span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> <span class="operator">&amp;</span>font)
+{
+    <span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> newFont <span class="operator">=</span> font;
+    newFont<span class="operator">.</span>setPointSizeF(m_fontSize);
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>setFont(newFont);
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>shadowQualityUpdatedByVisual(QAbstract3DGraph<span class="operator">::</span>ShadowQuality sq)
+{
+    <span class="type">int</span> quality <span class="operator">=</span> <span class="type">int</span>(sq);
+    <span class="keyword">emit</span> shadowQualityChanged(quality); <span class="comment">// connected to a checkbox in main.cpp</span>
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>changeShadowQuality(<span class="type">int</span> quality)
+{
+    QAbstract3DGraph<span class="operator">::</span>ShadowQuality sq <span class="operator">=</span> QAbstract3DGraph<span class="operator">::</span>ShadowQuality(quality);
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>setShadowQuality(sq);
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>setBackgroundEnabled(<span class="type">int</span> enabled)
+{
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>setBackgroundEnabled((bool)enabled);
+}
+
+<span class="type">void</span> ScatterDataModifier<span class="operator">::</span>setGridEnabled(<span class="type">int</span> enabled)
+{
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>setGridEnabled((bool)enabled);
+}</pre></div>
+<p>And so we have an application in which we can control:</p>
+<ul>
+<li>Label style</li>
+<li>Camera preset</li>
+<li>Background visibility</li>
+<li>Grid visibility</li>
+<li>Dot shading smoothness</li>
+<li>Dot style</li>
+<li>Theme</li>
+<li>Shadow quality</li>
+<li>Label font</li>
+</ul>
+<a name="example-contents"></a>
+<h4 id="example-contents">Example Contents<a class="plink" href="#example-contents" title="Direct link to this headline"></a></h4>
+<p><a href="https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization/scatter?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@scatter -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

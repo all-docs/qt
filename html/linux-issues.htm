@@ -1,0 +1,100 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt for Linux/X11 - Specific Issues</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/linux-issues.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt for Linux/X11 - Specific Issues</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt for Linux/X11 - Specific Issues</h1>
+<span class="subtitle"></span>
+<!-- $$$linux-issues.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>This page contains information about the X11 platforms Qt is currently known to run on, with links to platform-specific notes.</p>
+<a name="linux"></a>
+<h2 id="linux">Linux<a class="plink" href="#linux" title="Direct link to this headline"></a></h2>
+<p>There are no known problems with using Qt on production versions of Linux/x86, Linux/ppc, Linux/amd64 and Linux/ia64 (including Altix(R)).</p>
+<p>For information about the specific compilers supported, visit the <a href="./supported-platforms.htm#reference-configurations" translate="no">supported platforms</a> page.</p>
+<a name="installation-problems"></a>
+<h3 id="installation-problems">Installation problems<a class="plink" href="#installation-problems" title="Direct link to this headline"></a></h3>
+<p>Installing the source (<i>.tgz</i>) will likely conflict with the Qt version from your Linux distribution. This can result in link errors, such as:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">undefined reference to <span class="char">'_vt.11QPushButton'</span></pre></div>
+<p>This is solved by removing the older version of the library.</p>
+<p>If you have problems installing open source versions of Qt provided by your Linux distribution, for example, from RPM or APT repositories, please consult the maintainers of the distribution.</p>
+<p>Some RPM versions have problems installing some of the Qt RPM archives where installation stops with an error message warning about a <b>Failed Dependency</b>. Use the <code translate="no">--nodeps</code> option of <code translate="no">rpm</code> as workaround this problem.</p>
+<a name="intel-c-compiler-for-linux"></a>
+<h3 id="intel-c-compiler-for-linux">Intel C++ Compiler for Linux<a class="plink" href="#intel-c-compiler-for-linux" title="Direct link to this headline"></a></h3>
+<p>Qt can be compiled with the Intel C++ compile for Linux, though, this configuration is not tested on a regular basis.</p>
+<a name="known-issues-with-intel-c-compiler-for-linux"></a>
+<h3 id="known-issues-with-intel-c-compiler-for-linux">Known Issues with Intel C++ Compiler for Linux<a class="plink" href="#known-issues-with-intel-c-compiler-for-linux" title="Direct link to this headline"></a></h3>
+<ul>
+<li>Precompiled header support does not work in version 10.0.025 and older. For these compilers, you should configure Qt with -no-pch. Precompiled header support works properly in version 10.0.026 and later.</li>
+<li>Version 10.0.026 for Intel 64 is known to miscompile qmake when building in release mode. For now, configure Qt with -debug. Version 10.1.008 and later can compile qmake in release mode.</li>
+<li>Versions 10.1.008 to 10.1.015 for both IA-32 and Intel 64 are known crash with "(0): internal error: 0_47021" when compiling <a href="./qtxmlpatterns-index.htm" translate="no">Qt XML Patterns</a> and <a href="./qtdesigner-manual.htm" translate="no">Qt Designer</a> in release mode. Version 10.1.017 compiles these modules correctly in release mode.</li>
+</ul>
+<a name="known-issues-with-gcc-compilers"></a>
+<h3 id="known-issues-with-gcc-compilers">Known Issues with GCC Compilers<a class="plink" href="#known-issues-with-gcc-compilers" title="Direct link to this headline"></a></h3>
+<p>Building Qt with certain versions of GCC has the following known issues:</p>
+<ul>
+<li>GCC 5.2.1: Nested structs do not get their constructors called under some circumstances:<ul>
+<li><a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=67550" translate="no">Related bug</a> in GCC's bug tracker</li>
+<li><a href="https://codereview.qt-project.org/161071" translate="no">A possible workaround</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<!-- @@@linux-issues.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,128 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Demo - Tweet Search</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Demo - Tweet Search</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Demo - Tweet Search</h1>
+<span class="subtitle"></span>
+<!-- $$$demos/tweetsearch-brief -->
+<p>A Twitter search client with 3D effects.</p>
+<!-- @@@demos/tweetsearch -->
+<!-- $$$demos/tweetsearch-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/qtquick-demo-tweetsearch-med-1.png"></p><p class="centerAlign"><img alt="" src="./images/qtquick-demo-tweetsearch-med-2.png"></p><p><i>Tweet Search</i> is a QML application that searches items posted to Twitter service using a number of query parameters. Search can be done for tweets from a specified user, a hashtag, or a search phrase.</p>
+<p>The search result is a list of items showing the contents of the tweet as well as the name and image of the user who posted it. Hashtags, names and links in the content are clickable. Clicking on the image will flip the item to reveal more information.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<p>Tweet Search uses Twitter API v1.1 for running seaches.</p>
+<a name="request-authentication"></a>
+<h4 id="request-authentication">Request Authentication<a class="plink" href="#request-authentication" title="Direct link to this headline"></a></h4>
+<p>Each request must be authenticated on behalf of the application. For demonstration purposes, the application uses a hard-coded token for identifying itself to the Twitter service. However, this token is subject to rate limits for the number of requests as well as possible expiration.</p>
+<p>If you are having authentication or rate limit problems running the demo, obtain a set of application-specific tokens (consumer key and consumer secret) by registering a new application on <a href="https://dev.twitter.com/apps" translate="no">https://dev.twitter.com/apps</a>.</p>
+<p>Type in the two token values in <i>TweetsModel.qml</i>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">consumerKey</span> : <span class="string">""</span>
+    property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">consumerSecret</span> : <span class="string">""</span></pre></div>
+<p>Rebuild and run the demo.</p>
+<a name="json-parsing"></a>
+<h4 id="json-parsing">JSON Parsing<a class="plink" href="#json-parsing" title="Direct link to this headline"></a></h4>
+<p>Search results are returned in JSON (JavaScript Object Notation) format. <code translate="no">TweetsModel</code> uses an <a href="./qtqml-javascript-qmlglobalobject.htm#xmlhttprequest" translate="no">XMLHTTPRequest</a> object to send an HTTP GET request, and calls JSON.parse() on the returned text string to convert it to a JavaScript object. Each object representing a tweet is then added to a <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">        var req = new <span class="name">XMLHttpRequest</span>;
+        <span class="name">req</span>.<span class="name">open</span>(<span class="string">"GET"</span>, <span class="string">"https://api.twitter.com/1.1/search/tweets.json?from="</span> <span class="operator">+</span> <span class="name">from</span> <span class="operator">+</span>
+                        <span class="string">"&amp;count=10&amp;q="</span> <span class="operator">+</span> <span class="name">encodePhrase</span>(<span class="name">phrase</span>));
+        <span class="name">req</span>.<span class="name">setRequestHeader</span>(<span class="string">"Authorization"</span>, <span class="string">"Bearer "</span> <span class="operator">+</span> <span class="name">bearerToken</span>);
+        <span class="name">req</span>.<span class="name">onload</span> <span class="operator">=</span> <span class="keyword">function</span>() {
+            var objectArray = <span class="name">JSON</span>.<span class="name">parse</span>(<span class="name">req</span>.<span class="name">responseText</span>);
+            <span class="keyword">if</span> (<span class="name">objectArray</span>.<span class="name">errors</span> <span class="operator">!==</span> <span class="name">undefined</span>) {
+                <span class="name">console</span>.<span class="name">log</span>(<span class="string">"Error fetching tweets: "</span> <span class="operator">+</span> <span class="name">objectArray</span>.<span class="name">errors</span>[<span class="number">0</span>].<span class="name">message</span>)
+            } <span class="keyword">else</span> {
+                <span class="keyword">for</span> (var key in <span class="name">objectArray</span>.<span class="name">statuses</span>) {
+                    var jsonObject = <span class="name">objectArray</span>.<span class="name">statuses</span>[<span class="name">key</span>];
+                    <span class="name">tweets</span>.<span class="name">append</span>(<span class="name">jsonObject</span>);
+                }
+            }
+            <span class="name">wrapper</span>.<span class="name">isLoaded</span>()
+        }
+        <span class="name">req</span>.<span class="name">send</span>();</pre></div>
+<p>Files:</p>
+<ul>
+<li><a href="./qtdoc-demos-tweetsearch-content-flipbar-qml.htm" translate="no">demos/tweetsearch/content/FlipBar.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-content-lineinput-qml.htm" translate="no">demos/tweetsearch/content/LineInput.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-content-listfooter-qml.htm" translate="no">demos/tweetsearch/content/ListFooter.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-content-listheader-qml.htm" translate="no">demos/tweetsearch/content/ListHeader.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-content-searchdelegate-qml.htm" translate="no">demos/tweetsearch/content/SearchDelegate.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-content-tweetdelegate-qml.htm" translate="no">demos/tweetsearch/content/TweetDelegate.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-content-tweetsmodel-qml.htm" translate="no">demos/tweetsearch/content/TweetsModel.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-main-cpp.htm" translate="no">demos/tweetsearch/main.cpp</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-tweetsearch-pro.htm" translate="no">demos/tweetsearch/tweetsearch.pro</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-tweetsearch-qml.htm" translate="no">demos/tweetsearch/tweetsearch.qml</a></li>
+<li><a href="./qtdoc-demos-tweetsearch-tweetsearch-qmlproject.htm" translate="no">demos/tweetsearch/tweetsearch.qmlproject</a></li>
+</ul>
+<p>Images:</p>
+<ul>
+<li><a href="./images/used-in-examples/demos/tweetsearch/content/resources/anonymous.png" translate="no">demos/tweetsearch/content/resources/anonymous.png</a></li>
+<li><a href="./images/used-in-examples/demos/tweetsearch/content/resources/bird-anim-sprites.png" translate="no">demos/tweetsearch/content/resources/bird-anim-sprites.png</a></li>
+<li><a href="./images/used-in-examples/demos/tweetsearch/content/resources/icon-clear.png" translate="no">demos/tweetsearch/content/resources/icon-clear.png</a></li>
+<li><a href="./images/used-in-examples/demos/tweetsearch/content/resources/icon-loading.png" translate="no">demos/tweetsearch/content/resources/icon-loading.png</a></li>
+<li><a href="./images/used-in-examples/demos/tweetsearch/content/resources/icon-refresh.png" translate="no">demos/tweetsearch/content/resources/icon-refresh.png</a></li>
+<li><a href="./images/used-in-examples/demos/tweetsearch/content/resources/icon-search.png" translate="no">demos/tweetsearch/content/resources/icon-search.png</a></li>
+</ul>
+</div>
+<p><b>See also </b><a href="./qmlapplications.htm" translate="no">QML Applications</a>.</p>
+<!-- @@@demos/tweetsearch -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

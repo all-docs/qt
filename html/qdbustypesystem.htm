@@ -1,0 +1,111 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Qt D-Bus Type System | Qt D-Bus</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qdbustypesystem.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdbus-index.htm" translate="no">Qt D-Bus</a></li>
+                            <li><a>The Qt D-Bus Type System</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qdbusdeclaringsignals.html" rel="prev">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qdbusdeclaringsignals.htm">Declaring Signals in D-Bus Adaptors</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">The Qt D-Bus Type System</h1>
+<span class="subtitle"></span>
+<!-- $$$qdbustypesystem.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>D-Bus has an extensible type system based on a few primitives and composition of the primitives in arrays and structures. Qt D-Bus implements the interface to that type system through the <a href="./qdbusargument.htm" translate="no">QDBusArgument</a> class, allowing user programs to send and receive practically every C++ type over the bus.</p>
+<a name="primitive-types"></a>
+<h2 id="primitive-types">Primitive Types<a class="plink" href="#primitive-types" title="Direct link to this headline"></a></h2>
+<p>The primitive types are supported natively by <a href="./qdbusargument.htm" translate="no">QDBusArgument</a> and need no special customization to be sent or received. They are listed below, along with the C++ class they relate to:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Qt type</th><th>D-Bus equivalent type</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>uchar</td><td>BYTE</td></tr>
+<tr class="even" valign="top"><td>bool</td><td>BOOLEAN</td></tr>
+<tr class="odd" valign="top"><td>short</td><td>INT16</td></tr>
+<tr class="even" valign="top"><td>ushort</td><td>UINT16</td></tr>
+<tr class="odd" valign="top"><td>int</td><td>INT32</td></tr>
+<tr class="even" valign="top"><td>uint</td><td>UINT32</td></tr>
+<tr class="odd" valign="top"><td>qlonglong</td><td>INT64</td></tr>
+<tr class="even" valign="top"><td>qulonglong</td><td>UINT64</td></tr>
+<tr class="odd" valign="top"><td>double</td><td>DOUBLE</td></tr>
+<tr class="even" valign="top"><td><a href="./qstring.htm" translate="no">QString</a></td><td>STRING</td></tr>
+<tr class="odd" valign="top"><td><a href="./qdbusvariant.htm" translate="no">QDBusVariant</a></td><td>VARIANT</td></tr>
+<tr class="even" valign="top"><td><a href="./qdbusobjectpath.htm" translate="no">QDBusObjectPath</a></td><td>OBJECT_PATH</td></tr>
+<tr class="odd" valign="top"><td><a href="./qdbussignature.htm" translate="no">QDBusSignature</a></td><td>SIGNATURE</td></tr>
+</tbody></table></div>
+<p>Aside from the primitive types, <a href="./qdbusargument.htm" translate="no">QDBusArgument</a> also supports two non-primitive types natively, due to their widespread use in Qt applications: <a href="./qstringlist.htm" translate="no">QStringList</a> and <a href="./qbytearray.htm" translate="no">QByteArray</a>.</p>
+<a name="compound-types"></a>
+<h2 id="compound-types">Compound Types<a class="plink" href="#compound-types" title="Direct link to this headline"></a></h2>
+<p>D-Bus specifies three types of aggregations of primitive types that allow one to create compound types. They are <code translate="no">ARRAY</code>, <code translate="no">STRUCT</code> and maps/dictionaries.</p>
+<p>Arrays are sets of zero or more elements of the same type, while structures are a set of a fixed number of elements, each of any type. Maps or dictionaries are implemented as arrays of a pair of elements, so there can be zero or more elements in one map.</p>
+<a name="extending-the-type-system"></a>
+<h2 id="extending-the-type-system">Extending the Type System<a class="plink" href="#extending-the-type-system" title="Direct link to this headline"></a></h2>
+<p>In order to use one's own type with Qt D-Bus, the type has to be declared as a Qt meta-type with the <a href="./qmetatype.htm#Q_DECLARE_METATYPE" translate="no">Q_DECLARE_METATYPE</a>() macro and registered with the <a href="./qdbusargument.htm#qDBusRegisterMetaType" translate="no">qDBusRegisterMetaType</a>() function. The streaming operators <code translate="no">operator&gt;&gt;</code> and <code translate="no">operator&lt;&lt;</code> will be automatically found by the registration system.</p>
+<p>Qt D-Bus provides template specializations for arrays and maps for use with Qt's <a href="./topics-core.htm#container-classes" translate="no">container classes</a>, such as <a href="./qmap.htm" translate="no">QMap</a> and <a href="./qlist.htm" translate="no">QList</a>, so it is not necessary to write the streaming operator functions for those. For other types, and specially for types implementing structures, the operators have to be explicitly implemented.</p>
+<p>See the documentation for <a href="./qdbusargument.htm" translate="no">QDBusArgument</a> for examples for structures, arrays and maps.</p>
+<a name="the-type-system-in-use"></a>
+<h2 id="the-type-system-in-use">The Type System in Use<a class="plink" href="#the-type-system-in-use" title="Direct link to this headline"></a></h2>
+<p>All of the Qt D-Bus types (primitives and user-defined alike) can be used to send and receive messages of all types over the bus.</p>
+<div class="admonition warning">
+<p><b>Warning: </b>You may not use any type that is not on the list above, including <i translate="no">typedefs</i> to the types listed. This also includes <a href="./qlist.htm" translate="no">QList</a>&lt;<a href="./qvariant.htm" translate="no">QVariant</a>&gt; and <a href="./qmap.htm" translate="no">QMap</a>&lt;<a href="./qstring.htm" translate="no">QString</a>,<a href="./qvariant.htm" translate="no">QVariant</a>&gt;.</p>
+</div>
+</div>
+<!-- @@@qdbustypesystem.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./qdbusdeclaringsignals.htm">Declaring Signals in D-Bus Adaptors</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

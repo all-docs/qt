@@ -1,0 +1,228 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rogue Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Rogue Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Rogue Example</h1>
+<span class="subtitle"></span>
+<!-- $$$statemachine/rogue-brief -->
+<p>The Rogue example shows how to use the Qt state machine for event handling.</p>
+<!-- @@@statemachine/rogue -->
+<!-- $$$statemachine/rogue-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/rogue-example.png"></p><p>This example implements a simple text based game. Do you see the <code translate="no">@</code> in the screenshot? That's you, the rogue. The <code translate="no">#</code> characters are walls, and the dots represent floor. In a real game, other ASCII characters would represent all kinds of objects and creatures, for instance, ancient dragons (<code translate="no">D</code>s) or food rations (<code translate="no">%</code>s). But let's not get carried away. In this game, the rogue is simply running around in an empty room.</p>
+<p>The rogue is moved with the keypad (2, 4, 8, 6). That aside, we have implemented a <code translate="no">quit</code> command that triggers if the player types <code translate="no">q</code>. The player is then asked if he/she really wants to quit.</p>
+<p>Most games have commands that need more than one key press (we think of consecutive presses, i.e., not of several keys being pressed at the same time). In this game, only the <code translate="no">quit</code> command falls under this category, but for the sake of argument, let's imagine a fully-fledged game with a rich set of commands. If we were to implement these by catching key events in <a href="./qwidget.htm#keyPressEvent" translate="no">keyPressEvent()</a>, we would have to keep a lot of class member variables to track the sequence of keys already typed (or find some other way of deducing the current state of a command). This can easily lead to spaghetti, which is--as we all well know, I'm sure--unpleasant. With a state machine, on the other hand, separate states can wait for a single key press, and that makes our lives a lot simpler.</p>
+<p>The example consists of two classes:</p>
+<ul>
+<li><code translate="no">Window</code> draws the text display of the game and sets up the state machine. The window also has a status bar above the area in which the rouge moves.</li>
+<li><code translate="no">MovementTransition</code> is a transition that carries out a single move of the rogue.</li>
+</ul>
+<p>Before we embark on a code walkthrough, it is necessary to take a closer look at the design of the machine. Here is a state chart that shows what we want to achieve:</p>
+<p class="centerAlign"><img alt="" src="./images/rogue-statechart.png"></p><p>The input state waits for a key press to start a new command. When receiving a key it recognizes, it transitions to one of the two commands of the game; though, as we will see, movement is handled by the transition itself. The quit state waits for the player to answer yes or no (by typing <code translate="no">y</code> or <code translate="no">n</code>) when asked whether he/she really wants to quit the game.</p>
+<p>The chart demonstrates how we use one state to wait for a single key press. The press received may trigger one of the transitions connected to the state.</p>
+<a name="window-class-definition"></a>
+<h4 id="window-class-definition">Window Class Definition<a class="plink" href="#window-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">Window</code> class is a widget that draws the text display of the game. It also sets up the state machine, i.e., creates and connects the states in the machine. It is the key events from this widget that are used by the machine.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Window : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> status READ status WRITE setStatus)
+
+<span class="keyword">public</span>:
+    <span class="keyword">enum</span> Direction { Up<span class="operator">,</span> Down<span class="operator">,</span> Left<span class="operator">,</span> Right };
+
+    Window();
+
+    <span class="type">void</span> movePlayer(Direction direction);
+    <span class="type">void</span> setStatus(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>status);
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> status() <span class="keyword">const</span>;
+
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> sizeHint() <span class="keyword">const</span> override;
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>event) override;</pre></div>
+<p><code translate="no">Direction</code> specifies the direction in which the rogue is to move. We use this in <code translate="no">movePlayer()</code>, which moves the rogue and repaints the window. The game has a status line above the area in which the rogue moves. The <code translate="no">status</code> property contains the text of this line. We use a property because the <a href="./qstate.htm" translate="no">QState</a> class allows setting any Qt <a href="./properties.htm" translate="no">property</a> when entered. More on this later.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">private</span>:
+    <span class="type">void</span> buildMachine();
+    <span class="type">void</span> setupMap();
+
+    <span class="type"><a href="./qchar.htm" translate="no">QChar</a></span> map<span class="operator">[</span>WIDTH<span class="operator">]</span><span class="operator">[</span>HEIGHT<span class="operator">]</span>;
+    <span class="type">int</span> pX<span class="operator">,</span> pY;
+
+    <span class="type"><a href="./qstatemachine.htm" translate="no">QStateMachine</a></span> <span class="operator">*</span>machine;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> myStatus;
+};</pre></div>
+<p>The <code translate="no">map</code> is an array with the characters that are currently displayed. We set up the array in <code translate="no">setupMap()</code>, and update it when the rogue is moved. <code translate="no">pX</code> and <code translate="no">pY</code> is the current position of the rogue. <code translate="no">WIDTH</code> and <code translate="no">HEIGHT</code> are macros specifying the dimensions of the map.</p>
+<p>The <code translate="no">paintEvent()</code> function is left out of this walkthrough. We also do not discuss other code that does not concern the state machine (the <code translate="no">setupMap()</code>, <code translate="no">status()</code>, <code translate="no">setStatus()</code>, <code translate="no">movePlayer()</code>, and <code translate="no">sizeHint()</code> functions). If you wish to take a look at the code, click on the link for the <code translate="no">window.cpp</code> file at the top of this page.</p>
+<a name="window-class-implementation"></a>
+<h4 id="window-class-implementation">Window Class Implementation<a class="plink" href="#window-class-implementation" title="Direct link to this headline"></a></h4>
+<p>Here is the constructor of <code translate="no">Window</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Window<span class="operator">::</span>Window()
+{
+    pX <span class="operator">=</span> <span class="number">5</span>;
+    pY <span class="operator">=</span> <span class="number">5</span>;
+    ...
+    setupMap();
+    buildMachine();
+}</pre></div>
+<p>The player starts off at position (5, 5). We then set up the map and statemachine. Let's proceed with the <code translate="no">buildMachine()</code> function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>buildMachine()
+{
+    machine <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstatemachine.htm" translate="no">QStateMachine</a></span>;
+
+    <span class="type"><a href="./qstate.htm" translate="no">QState</a></span> <span class="operator">*</span>inputState <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstate.htm" translate="no">QState</a></span>(machine);
+    inputState<span class="operator">-</span><span class="operator">&gt;</span>assignProperty(<span class="keyword">this</span><span class="operator">,</span> <span class="string">"status"</span><span class="operator">,</span> <span class="string">"Move the rogue with 2, 4, 6, and 8"</span>);
+
+    MovementTransition <span class="operator">*</span>transition <span class="operator">=</span> <span class="keyword">new</span> MovementTransition(<span class="keyword">this</span>);
+    inputState<span class="operator">-</span><span class="operator">&gt;</span>addTransition(transition);</pre></div>
+<p>We enter <code translate="no">inputState</code> when the machine is started and from the <code translate="no">quitState</code> if the user wants to continue playing. We then set the status to a helpful reminder of how to play the game.</p>
+<p>First, the <code translate="no">Movement</code> transition is added to the input state. This will enable the rogue to be moved with the keypad. Notice that we don't set a target state for the movement transition. This will cause the transition to be triggered (and the <a href="./qabstracttransition.htm#onTransition" translate="no">onTransition()</a> function to be invoked), but the machine will not leave the <code translate="no">inputState</code>. If we had set <code translate="no">inputState</code> as the target state, we would first have left and then entered the <code translate="no">inputState</code> again.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qstate.htm" translate="no">QState</a></span> <span class="operator">*</span>quitState <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstate.htm" translate="no">QState</a></span>(machine);
+    quitState<span class="operator">-</span><span class="operator">&gt;</span>assignProperty(<span class="keyword">this</span><span class="operator">,</span> <span class="string">"status"</span><span class="operator">,</span> <span class="string">"Really quit(y/n)?"</span>);
+
+    <span class="type"><a href="./qkeyeventtransition.htm" translate="no">QKeyEventTransition</a></span> <span class="operator">*</span>yesTransition <span class="operator">=</span> <span class="keyword">new</span>
+        <span class="type"><a href="./qkeyeventtransition.htm" translate="no">QKeyEventTransition</a></span>(<span class="keyword">this</span><span class="operator">,</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>KeyPress<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Y);
+    yesTransition<span class="operator">-</span><span class="operator">&gt;</span>setTargetState(<span class="keyword">new</span> <span class="type"><a href="./qfinalstate.htm" translate="no">QFinalState</a></span>(machine));
+    quitState<span class="operator">-</span><span class="operator">&gt;</span>addTransition(yesTransition);
+
+    <span class="type"><a href="./qkeyeventtransition.htm" translate="no">QKeyEventTransition</a></span> <span class="operator">*</span>noTransition <span class="operator">=</span>
+        <span class="keyword">new</span> <span class="type"><a href="./qkeyeventtransition.htm" translate="no">QKeyEventTransition</a></span>(<span class="keyword">this</span><span class="operator">,</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>KeyPress<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_N);
+    noTransition<span class="operator">-</span><span class="operator">&gt;</span>setTargetState(inputState);
+    quitState<span class="operator">-</span><span class="operator">&gt;</span>addTransition(noTransition);</pre></div>
+<p>When we enter <code translate="no">quitState</code>, we update the status bar of the window.</p>
+<p><code translate="no">QKeyEventTransition</code> is a utility class that removes the hassle of implementing transitions for <a href="./qkeyevent.htm" translate="no">QKeyEvent</a>s. We simply need to specify the key on which the transition should trigger and the target state of the transition.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qkeyeventtransition.htm" translate="no">QKeyEventTransition</a></span> <span class="operator">*</span>quitTransition <span class="operator">=</span>
+        <span class="keyword">new</span> <span class="type"><a href="./qkeyeventtransition.htm" translate="no">QKeyEventTransition</a></span>(<span class="keyword">this</span><span class="operator">,</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>KeyPress<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Q);
+    quitTransition<span class="operator">-</span><span class="operator">&gt;</span>setTargetState(quitState);
+    inputState<span class="operator">-</span><span class="operator">&gt;</span>addTransition(quitTransition);</pre></div>
+<p>The transition from <code translate="no">inputState</code> allows triggering the quit state when the player types <code translate="no">q</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    machine<span class="operator">-</span><span class="operator">&gt;</span>setInitialState(inputState);
+
+    connect(machine<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qstatemachine.htm" translate="no">QStateMachine</a></span><span class="operator">::</span>finished<span class="operator">,</span>
+            <a href="./qapplication.htm#qApp" translate="no">qApp</a><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>quit);
+
+    machine<span class="operator">-</span><span class="operator">&gt;</span>start();
+}</pre></div>
+<p>The machine is set up, so it's time to start it.</p>
+<a name="the-movementtransition-class"></a>
+<h4 id="the-movementtransition-class">The MovementTransition Class<a class="plink" href="#the-movementtransition-class" title="Direct link to this headline"></a></h4>
+<p><code translate="no">MovementTransition</code> is triggered when the player request the rogue to be moved (by typing 2, 4, 6, or 8) when the machine is in the <code translate="no">inputState</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MovementTransition : <span class="keyword">public</span> <span class="type"><a href="./qeventtransition.htm" translate="no">QEventTransition</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    MovementTransition(Window <span class="operator">*</span>window) :
+        <span class="type"><a href="./qeventtransition.htm" translate="no">QEventTransition</a></span>(window<span class="operator">,</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>KeyPress) {
+        <span class="keyword">this</span><span class="operator">-</span><span class="operator">&gt;</span>window <span class="operator">=</span> window;
+    }</pre></div>
+<p>In the constructor, we tell <a href="./qeventtransition.htm" translate="no">QEventTransition</a> to only send <a href="./qevent.htm#Type-enum" translate="no">KeyPress</a> events to the <a href="./qabstracttransition.htm#eventTest" translate="no">eventTest()</a> function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">protected</span>:
+    bool eventTest(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> <span class="operator">*</span>event) override {
+        <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>type() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>StateMachineWrapped <span class="operator">&amp;</span><span class="operator">&amp;</span>
+            <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qstatemachine.htm" translate="no">QStateMachine</a></span><span class="operator">::</span>WrappedEvent <span class="operator">*</span><span class="operator">&gt;</span>(event)<span class="operator">-</span><span class="operator">&gt;</span>event()<span class="operator">-</span><span class="operator">&gt;</span>type() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>KeyPress) {
+            <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> <span class="operator">*</span>wrappedEvent <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qstatemachine.htm" translate="no">QStateMachine</a></span><span class="operator">::</span>WrappedEvent <span class="operator">*</span><span class="operator">&gt;</span>(event)<span class="operator">-</span><span class="operator">&gt;</span>event();
+
+            <span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span>keyEvent <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span><span class="operator">&gt;</span>(wrappedEvent);
+            <span class="type">int</span> key <span class="operator">=</span> keyEvent<span class="operator">-</span><span class="operator">&gt;</span>key();
+
+            <span class="keyword">return</span> key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_2 <span class="operator">|</span><span class="operator">|</span> key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_8 <span class="operator">|</span><span class="operator">|</span> key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_6 <span class="operator">|</span><span class="operator">|</span>
+                   key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_4 <span class="operator">|</span><span class="operator">|</span> key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Down <span class="operator">|</span><span class="operator">|</span> key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Up <span class="operator">|</span><span class="operator">|</span>
+                   key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Right <span class="operator">|</span><span class="operator">|</span> key <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Left;
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }</pre></div>
+<p>The KeyPress events come wrapped in <a href="./qstatemachine-wrappedevent.htm" translate="no">QStateMachine::WrappedEvent</a>s. <code translate="no">event</code> must be confirmed to be a wrapped event because Qt uses other events internally. After that, it is simply a matter of checking which key has been pressed.</p>
+<p>Let's move on to the <code translate="no">onTransition()</code> function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">void</span> onTransition(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> <span class="operator">*</span>event) override {
+        <span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span>keyEvent <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span><span class="operator">&gt;</span>(
+            <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qstatemachine.htm" translate="no">QStateMachine</a></span><span class="operator">::</span>WrappedEvent <span class="operator">*</span><span class="operator">&gt;</span>(event)<span class="operator">-</span><span class="operator">&gt;</span>event());
+
+        <span class="type">int</span> key <span class="operator">=</span> keyEvent<span class="operator">-</span><span class="operator">&gt;</span>key();
+        <span class="keyword">switch</span> (key) {
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Left:
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_4:
+                window<span class="operator">-</span><span class="operator">&gt;</span>movePlayer(Window<span class="operator">::</span>Left);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Up:
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_8:
+                window<span class="operator">-</span><span class="operator">&gt;</span>movePlayer(Window<span class="operator">::</span>Up);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Right:
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_6:
+                window<span class="operator">-</span><span class="operator">&gt;</span>movePlayer(Window<span class="operator">::</span>Right);
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Down:
+            <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_2:
+                window<span class="operator">-</span><span class="operator">&gt;</span>movePlayer(Window<span class="operator">::</span>Down);
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                ;
+        }
+    }</pre></div>
+<p>When <code translate="no">onTransition()</code> is invoked, we know that we have a <a href="./qevent.htm#Type-enum" translate="no">KeyPress</a> event with 2, 4, 6, or 8, and can ask <code translate="no">Window</code> to move the player.</p>
+<a name="the-roguelike-tradition"></a>
+<h4 id="the-roguelike-tradition">The Roguelike Tradition<a class="plink" href="#the-roguelike-tradition" title="Direct link to this headline"></a></h4>
+<p>You might have been wondering why the game features a rogue. Well, these kinds of text based dungeon exploration games date back to a game called, yes, "Rogue". Although outflanked by the technology of modern 3D computer games, roguelikes have a solid community of hard-core, devoted followers.</p>
+<p>Playing these games can be surprisingly addictive (despite the lack of graphics). Angband, the perhaps most well-known rougelike, is found here: <a href="http://rephial.org/" translate="no">http://rephial.org/</a>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/statemachine/rogue?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@statemachine/rogue -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

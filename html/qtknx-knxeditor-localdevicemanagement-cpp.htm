@@ -1,0 +1,504 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Editor Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Editor Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtKnx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "localdevicemanagement.h"</span>
+<span class="preprocessor">#include "ui_localdevicemanagement.h"</span>
+
+<span class="preprocessor">#include &lt;QKnxByteArray&gt;</span>
+<span class="preprocessor">#include &lt;QKnxDeviceManagementFrameBuilder&gt;</span>
+<span class="preprocessor">#include &lt;QKnxInterfaceObjectPropertyDataType&gt;</span>
+<span class="preprocessor">#include &lt;QKnxNetIpSecureConfiguration&gt;</span>
+<span class="preprocessor">#include &lt;QMetaEnum&gt;</span>
+<span class="preprocessor">#include &lt;QMetaType&gt;</span>
+<span class="preprocessor">#include &lt;QTreeWidget&gt;</span>
+
+LocalDeviceManagement<span class="operator">::</span>LocalDeviceManagement(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">*</span> parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+    <span class="operator">,</span> ui(<span class="keyword">new</span> Ui<span class="operator">::</span>LocalDeviceManagement)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+
+    setupMessageCodeComboBox();
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> setTreeWidget <span class="operator">=</span> <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>comboBox) {
+        <span class="keyword">auto</span> treeWidget <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span>;
+        treeWidget<span class="operator">-</span><span class="operator">&gt;</span>setHeaderHidden(<span class="keyword">true</span>);
+        treeWidget<span class="operator">-</span><span class="operator">&gt;</span>setUniformRowHeights(<span class="keyword">true</span>);
+
+        comboBox<span class="operator">-</span><span class="operator">&gt;</span>setModel(treeWidget<span class="operator">-</span><span class="operator">&gt;</span>model());
+        comboBox<span class="operator">-</span><span class="operator">&gt;</span>setView(treeWidget);
+    };
+    setTreeWidget(ui<span class="operator">-</span><span class="operator">&gt;</span>property);
+    setTreeWidget(ui<span class="operator">-</span><span class="operator">&gt;</span>objectType);
+
+    setupComboBox(ui<span class="operator">-</span><span class="operator">&gt;</span>property<span class="operator">,</span> <span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>staticMetaObject);
+    setupComboBox(ui<span class="operator">-</span><span class="operator">&gt;</span>objectType<span class="operator">,</span> <span class="type"><a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a></span><span class="operator">::</span>staticMetaObject);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>connectRequestDeviceManagement<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        m_management<span class="operator">.</span>setLocalPort(<span class="number">0</span>);
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>isChecked()) {
+            <span class="keyword">auto</span> config <span class="operator">=</span> m_configs<span class="operator">.</span>value(ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+            config<span class="operator">.</span>setKeepSecureSessionAlive(<span class="keyword">true</span>);
+            m_management<span class="operator">.</span>setSecureConfiguration(config);
+            m_management<span class="operator">.</span>connectToHostEncrypted(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+                m_server<span class="operator">.</span>controlEndpointPort());
+        } <span class="keyword">else</span> {
+            m_management<span class="operator">.</span>connectToHost(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+                m_server<span class="operator">.</span>controlEndpointPort()<span class="operator">,</span> m_proto);
+        }
+    });
+
+    connect(<span class="operator">&amp;</span>m_management<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a></span><span class="operator">::</span>connected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagementSendRequest<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectRequestDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectRequestDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Successfully connected to: %1 on port: %2"</span>)
+            <span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointPort()));
+
+        m_management<span class="operator">.</span>sendFrame(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>propertyReadBuilder()
+            <span class="operator">.</span>setObjectType(<span class="type"><a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a></span><span class="operator">::</span>System<span class="operator">::</span>Device)
+            <span class="operator">.</span>setObjectInstance(<span class="number">1</span>)
+            <span class="operator">.</span>setProperty(<span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>Device<span class="operator">::</span>IoList)
+            <span class="operator">.</span>setNumberOfElements(<span class="number">1</span>)
+            <span class="operator">.</span>setStartIndex(<span class="number">0</span>)<span class="operator">.</span>createRequest());
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectRequestDeviceManagement<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        m_management<span class="operator">.</span>disconnectFromHost();
+    });
+
+    connect(<span class="operator">&amp;</span>m_management<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a></span><span class="operator">::</span>disconnected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        <span class="keyword">if</span> (<span class="operator">!</span>ui)
+            <span class="keyword">return</span>;
+        m_awaitIoListResponse <span class="operator">=</span> <span class="keyword">true</span>;
+        ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagementSendRequest<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectRequestDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectRequestDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        setupComboBox(ui<span class="operator">-</span><span class="operator">&gt;</span>objectType<span class="operator">,</span> <span class="type"><a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a></span><span class="operator">::</span>staticMetaObject);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Successfully disconnected from: %1 on port: %2\n"</span>)
+            <span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointPort()));
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagementSendRequest<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Send device management frame with cEMI payload: "</span>)
+            <span class="operator">+</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text());
+        <span class="keyword">auto</span> data <span class="operator">=</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toUtf8());
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>cemiData<span class="operator">-</span><span class="operator">&gt;</span>isEnabled())
+            data<span class="operator">.</span>append(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>cemiData<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toUtf8()));
+        m_management<span class="operator">.</span>sendFrame(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>fromBytes(data<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span>
+            data<span class="operator">.</span>size()));
+    });
+
+    connect(<span class="operator">&amp;</span>m_management<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a></span><span class="operator">::</span>frameReceived<span class="operator">,</span>
+        <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span> frame) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received device management frame with cEMI "</span>
+            <span class="string">"payload: "</span> <span class="operator">+</span> frame<span class="operator">.</span>bytes()<span class="operator">.</span>toHex()<span class="operator">.</span>toByteArray()));
+
+        <span class="keyword">if</span> (m_awaitIoListResponse)
+            handleIoListResponse(frame);
+    });
+
+    connect(<span class="operator">&amp;</span>m_management<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a></span><span class="operator">::</span>errorOccurred<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> (<span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>Error<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorString) {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>append(errorString);
+    });
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiData<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> <span class="type"><a href="./qregexpvalidator.htm" translate="no">QRegExpValidator</a></span>(<span class="type"><a href="./qregexp.htm" translate="no">QRegExp</a></span>(<span class="string">"[0-9a-fA-F]+"</span>)));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> <span class="type"><a href="./qregexpvalidator.htm" translate="no">QRegExpValidator</a></span>(<span class="type"><a href="./qregexp.htm" translate="no">QRegExp</a></span>(<span class="string">"[0-9a-fA-F]+"</span>)));
+}
+
+LocalDeviceManagement<span class="operator">::</span><span class="operator">~</span>LocalDeviceManagement()
+{
+    <span class="keyword">delete</span> ui;
+    ui <span class="operator">=</span> nullptr;
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>setNatAware(bool isNatAware)
+{
+    m_management<span class="operator">.</span>setNatAware(isNatAware);
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>setLocalAddress(<span class="keyword">const</span> <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span> <span class="operator">&amp;</span>address)
+{
+    m_management<span class="operator">.</span>disconnectFromHost();
+    m_management<span class="operator">.</span>setLocalAddress(address);
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>setKnxNetIpServer(<span class="keyword">const</span> <span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> <span class="operator">&amp;</span>server)
+{
+    m_management<span class="operator">.</span>disconnectFromHost();
+    m_server <span class="operator">=</span> server;
+
+    <span class="keyword">if</span> (m_management<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>State<span class="operator">::</span>Disconnected) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectRequestDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectRequestDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    }
+
+    updateSecureConfigCombo();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagementSendRequest<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>setTcpEnable(bool value)
+{
+    m_proto <span class="operator">=</span> (value <span class="operator">?</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>TCP_IPv4 : <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>UDP_IPv4);
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>clearLogging()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>clear();
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>on_mc_currentIndexChanged(<span class="type">int</span> index)
+{
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>size() <span class="operator">&gt;</span> <span class="number">2</span>)
+        m_fullCemiFrame <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text();
+
+    <span class="type">int</span> maxLength <span class="operator">=</span> <span class="number">10</span>;
+    bool dataEnabled <span class="operator">=</span> <span class="keyword">true</span>;
+    <span class="keyword">auto</span> cemiFrame <span class="operator">=</span> m_fullCemiFrame;
+
+    <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> data <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>itemData(index)<span class="operator">.</span>toUInt();
+    <span class="keyword">switch</span> (<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode(data)) {
+    <span class="keyword">case</span> <span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>PropertyReadRequest:
+        dataEnabled <span class="operator">=</span> <span class="keyword">false</span>;
+    <span class="keyword">case</span> <span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>PropertyWriteRequest:
+        maxLength <span class="operator">=</span> <span class="number">14</span>;
+    <span class="keyword">case</span> <span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>FunctionPropertyCommandRequest:
+    <span class="keyword">case</span> <span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>FunctionPropertyStateReadRequest:
+        <span class="keyword">if</span> (cemiFrame<span class="operator">.</span>size() <span class="operator">&lt;</span> maxLength) {
+            cemiFrame<span class="operator">.</span>append(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(ui<span class="operator">-</span><span class="operator">&gt;</span>noe<span class="operator">-</span><span class="operator">&gt;</span>value()<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>)));
+            cemiFrame<span class="operator">.</span>append(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(ui<span class="operator">-</span><span class="operator">&gt;</span>startIndex<span class="operator">-</span><span class="operator">&gt;</span>value()<span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>)));
+        }
+        cemiFrame <span class="operator">=</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(data<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>)) <span class="operator">+</span> cemiFrame<span class="operator">.</span>mid(<span class="number">2</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>ResetRequest:
+        maxLength <span class="operator">=</span> <span class="number">2</span>;
+        dataEnabled <span class="operator">=</span> <span class="keyword">false</span>;
+        cemiFrame <span class="operator">=</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(data<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>));
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        <span class="keyword">break</span>;
+    }
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setMaxLength(maxLength);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(cemiFrame);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiData<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(dataEnabled);
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>on_objectType_currentTextChanged(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>type)
+{
+    bool keyExists <span class="operator">=</span> <span class="keyword">false</span>;
+    <span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span> value <span class="operator">=</span> keyToValue(<span class="type"><a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a></span><span class="operator">::</span>staticMetaObject<span class="operator">,</span> type<span class="operator">,</span> <span class="operator">&amp;</span>keyExists);
+    <span class="keyword">if</span> (keyExists) {
+        <span class="keyword">auto</span> text <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text();
+        ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(text<span class="operator">.</span>left(<span class="number">2</span>) <span class="operator">+</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(value<span class="operator">,</span> <span class="number">4</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span>
+            QLatin1Char(<span class="char">'0'</span>)) <span class="operator">+</span> text<span class="operator">.</span>mid(<span class="number">6</span>));
+        updatePropertyTypeCombobox(type);
+    }
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>on_property_currentTextChanged(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>property)
+{
+    bool keyExists <span class="operator">=</span> <span class="keyword">false</span>;
+    <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> value <span class="operator">=</span> keyToValue(<span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>staticMetaObject<span class="operator">,</span> property<span class="operator">,</span> <span class="operator">&amp;</span>keyExists);
+    <span class="keyword">if</span> (keyExists) {
+        <span class="keyword">auto</span> text <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text();
+        ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(text<span class="operator">.</span>left(<span class="number">8</span>) <span class="operator">+</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(value<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span>
+            QLatin1Char(<span class="char">'0'</span>)) <span class="operator">+</span> text<span class="operator">.</span>mid(<span class="number">10</span>));
+    }
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>on_noe_valueChanged(<span class="type">int</span> value)
+{
+    <span class="keyword">auto</span> text <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(text<span class="operator">.</span>left(<span class="number">10</span>) <span class="operator">+</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(value<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span>
+        <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>)) <span class="operator">+</span> text<span class="operator">.</span>mid(<span class="number">11</span>));
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>on_startIndex_valueChanged(<span class="type">int</span> value)
+{
+    <span class="keyword">auto</span> text <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(text<span class="operator">.</span>left(<span class="number">11</span>) <span class="operator">+</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(value<span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span>
+        QLatin1Char(<span class="char">'0'</span>)));
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>on_objectInstance_valueChanged(<span class="type">int</span> value)
+{
+    <span class="keyword">auto</span> text <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(text<span class="operator">.</span>left(<span class="number">6</span>) <span class="operator">+</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1"</span>)<span class="operator">.</span>arg(value<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span>
+        QLatin1Char(<span class="char">'0'</span>)) <span class="operator">+</span> text<span class="operator">.</span>mid(<span class="number">8</span>));
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>on_manualInput_clicked(bool checked)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiData<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(checked);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="operator">!</span>checked);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setMaxLength(SHRT_MAX);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setFocus();
+
+    <span class="keyword">if</span> (checked) {
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>currentIndex() <span class="operator">!</span><span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">-</span><span class="number">1</span>)
+            m_fullCemiFrame <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text();
+    } <span class="keyword">else</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(m_fullCemiFrame);
+        on_mc_currentIndexChanged(ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+    }
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>onKeyringChanged(<span class="keyword">const</span> <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">&gt;</span> <span class="operator">&amp;</span>configs)
+{
+    m_configs <span class="operator">=</span> configs;
+    updateSecureConfigCombo();
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>setupMessageCodeComboBox()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"M_PropRead.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>PropertyReadRequest));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"M_PropWrite.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>PropertyWriteRequest));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"M_FuncPropCommand.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>FunctionPropertyCommandRequest));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"M_FuncPropStateRead.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>FunctionPropertyStateReadRequest));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"M_Reset.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>ResetRequest));
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>updatePropertyTypeCombobox(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>type)
+{
+    <span class="type">int</span> index <span class="operator">=</span> <span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>indexOfEnumerator(<span class="string">"General"</span>);
+    <span class="keyword">if</span> (index <span class="operator">&gt;</span><span class="operator">=</span> <span class="number">0</span>) {
+        <span class="keyword">auto</span> treeView <span class="operator">=</span> qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span> <span class="operator">*</span><span class="operator">&gt;</span>(ui<span class="operator">-</span><span class="operator">&gt;</span>property<span class="operator">-</span><span class="operator">&gt;</span>view());
+        <span class="keyword">if</span> (<span class="operator">!</span>treeView)
+            <span class="keyword">return</span>;
+
+        <span class="keyword">auto</span> topLevelItem <span class="operator">=</span> treeView<span class="operator">-</span><span class="operator">&gt;</span>takeTopLevelItem(<span class="number">0</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>property<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        treeView<span class="operator">-</span><span class="operator">&gt;</span>addTopLevelItem(topLevelItem);
+
+        <span class="keyword">auto</span> index <span class="operator">=</span> <span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>indexOfEnumerator(type<span class="operator">.</span>toLatin1());
+        <span class="keyword">if</span> (index <span class="operator">&gt;</span><span class="operator">=</span> <span class="number">0</span>) {
+            <span class="keyword">auto</span> typeEnum <span class="operator">=</span> <span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>enumerator(index);
+            topLevelItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(treeView<span class="operator">,</span> { typeEnum<span class="operator">.</span>name() });
+            <span class="keyword">for</span> (<span class="keyword">auto</span> a <span class="operator">=</span> <span class="number">0</span>; a <span class="operator">&lt;</span> typeEnum<span class="operator">.</span>keyCount(); <span class="operator">+</span><span class="operator">+</span>a)
+                topLevelItem<span class="operator">-</span><span class="operator">&gt;</span>addChild(<span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>({ typeEnum<span class="operator">.</span>key(a) }));
+            topLevelItem<span class="operator">-</span><span class="operator">&gt;</span>setFlags(topLevelItem<span class="operator">-</span><span class="operator">&gt;</span>flags() <span class="operator">&amp;</span><span class="operator">~</span><span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>ItemIsSelectable);
+        }
+        treeView<span class="operator">-</span><span class="operator">&gt;</span>expandItem(topLevelItem);
+        selectFirstSubitem(treeView<span class="operator">,</span> topLevelItem<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>property);
+    }
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>handleIoListResponse(<span class="keyword">const</span> <span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span> <span class="operator">&amp;</span>frame)
+{
+    <span class="keyword">if</span> (frame<span class="operator">.</span>objectType() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a></span><span class="operator">::</span>System<span class="operator">::</span>Device
+        <span class="operator">|</span><span class="operator">|</span> frame<span class="operator">.</span>property() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>Device<span class="operator">::</span>IoList) {
+            <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">if</span> (frame<span class="operator">.</span>isNegativeConfirmation()) {
+        <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxNetIp</span><span class="operator">::</span>CemiServer<span class="operator">::</span>Error<span class="operator">&gt;</span>();
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputDeviceManagement<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received negative confirmation. Error code: %1"</span>)
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(frame<span class="operator">.</span>error())))));
+        m_awaitIoListResponse <span class="operator">=</span> <span class="keyword">false</span>;
+        <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">auto</span> dataTypes <span class="operator">=</span> <span class="type"><a href="./qknxinterfaceobjectpropertydatatype.htm" translate="no">QKnxInterfaceObjectPropertyDataType</a></span><span class="operator">::</span>fromProperty(<span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span>
+        <span class="operator">::</span>Device<span class="operator">::</span>IoList);
+    <span class="keyword">if</span> (<span class="operator">!</span>dataTypes<span class="operator">.</span>value(<span class="number">0</span>)<span class="operator">.</span>isValid())
+        <span class="keyword">return</span>;
+
+    <span class="keyword">auto</span> data <span class="operator">=</span> frame<span class="operator">.</span>data()<span class="operator">.</span>toByteArray();
+    <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> expectedDataSize <span class="operator">=</span> dataTypes<span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">.</span>size();
+    <span class="keyword">if</span> (frame<span class="operator">.</span>startIndex() <span class="operator">=</span><span class="operator">=</span> <span class="number">0</span>) {
+        <span class="keyword">if</span> (data<span class="operator">.</span>size() <span class="operator">=</span><span class="operator">=</span> expectedDataSize) {
+            m_management<span class="operator">.</span>sendFrame(<span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span><span class="operator">::</span>propertyReadBuilder()
+                <span class="operator">.</span>setObjectType(<span class="type"><a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a></span><span class="operator">::</span>System<span class="operator">::</span>Device)
+                <span class="operator">.</span>setObjectInstance(<span class="number">1</span>)
+                <span class="operator">.</span>setProperty(<span class="type"><a href="./qknxinterfaceobjectproperty.htm" translate="no">QKnxInterfaceObjectProperty</a></span><span class="operator">::</span>Device<span class="operator">::</span>IoList)
+                <span class="operator">.</span>setNumberOfElements(data<span class="operator">.</span>toHex()<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>))
+                <span class="operator">.</span>setStartIndex(<span class="number">1</span>)
+                <span class="operator">.</span>createRequest()
+            );
+        }
+    } <span class="keyword">else</span> {
+        <span class="keyword">if</span> ((data<span class="operator">.</span>size() <span class="operator">%</span> expectedDataSize) <span class="operator">=</span><span class="operator">=</span> <span class="number">0</span>) {
+            <span class="type"><a href="./qset.htm" translate="no">QSet</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span> values;
+            <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> data<span class="operator">.</span>size(); i <span class="operator">+</span><span class="operator">=</span> expectedDataSize)
+                values<span class="operator">.</span>insert(data<span class="operator">.</span>mid(i<span class="operator">,</span> expectedDataSize)<span class="operator">.</span>toHex()<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>));
+
+            m_awaitIoListResponse <span class="operator">=</span> <span class="keyword">false</span>;
+            setupComboBox(ui<span class="operator">-</span><span class="operator">&gt;</span>objectType<span class="operator">,</span> <span class="type"><a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a></span><span class="operator">::</span>staticMetaObject<span class="operator">,</span> values);
+        }
+    }
+}
+
+<span class="type">int</span> LocalDeviceManagement<span class="operator">::</span>keyToValue(<span class="keyword">const</span> <span class="type"><a href="./qmetaobject.htm" translate="no">QMetaObject</a></span> <span class="operator">&amp;</span>object<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>key<span class="operator">,</span> bool <span class="operator">*</span>ok)
+{
+    <span class="keyword">auto</span> enumCount <span class="operator">=</span> object<span class="operator">.</span>enumeratorCount();
+    <span class="keyword">for</span> (<span class="keyword">auto</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> enumCount; <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="type">int</span> value <span class="operator">=</span> object<span class="operator">.</span>enumerator(i)<span class="operator">.</span>keyToValue(key<span class="operator">.</span>toLatin1()<span class="operator">,</span> ok);
+        <span class="keyword">if</span> (value <span class="operator">!</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span> <span class="operator">&amp;</span><span class="operator">&amp;</span> <span class="operator">*</span>ok)
+            <span class="keyword">return</span> value;
+    }
+    <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span>;
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>setupComboBox(<span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>comboBox<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qmetaobject.htm" translate="no">QMetaObject</a></span> <span class="operator">&amp;</span>object<span class="operator">,</span>
+    <span class="keyword">const</span> <span class="type"><a href="./qset.htm" translate="no">QSet</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span> <span class="operator">&amp;</span>values)
+{
+    comboBox<span class="operator">-</span><span class="operator">&gt;</span>clear();
+
+    <span class="keyword">auto</span> treeWidget <span class="operator">=</span> qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span> <span class="operator">*</span><span class="operator">&gt;</span> (comboBox<span class="operator">-</span><span class="operator">&gt;</span>view());
+    <span class="keyword">if</span> (<span class="operator">!</span>treeWidget)
+        <span class="keyword">return</span>;
+
+    <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>rootItem <span class="operator">=</span> nullptr;
+    <span class="keyword">auto</span> enumCount <span class="operator">=</span> object<span class="operator">.</span>enumeratorCount();
+    <span class="keyword">for</span> (<span class="keyword">auto</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> enumCount; <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="keyword">auto</span> typeEnum <span class="operator">=</span> object<span class="operator">.</span>enumerator(i);
+        <span class="keyword">auto</span> topLevelItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(treeWidget<span class="operator">,</span> { typeEnum<span class="operator">.</span>name() });
+        <span class="keyword">if</span> (<span class="operator">!</span>rootItem)
+            rootItem <span class="operator">=</span> topLevelItem;
+        <span class="keyword">for</span> (<span class="keyword">auto</span> a <span class="operator">=</span> <span class="number">0</span>; a <span class="operator">&lt;</span> typeEnum<span class="operator">.</span>keyCount(); <span class="operator">+</span><span class="operator">+</span>a) {
+            <span class="keyword">auto</span> subItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(topLevelItem<span class="operator">,</span> { typeEnum<span class="operator">.</span>key(a) });
+            subItem<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(values<span class="operator">.</span>isEmpty() <span class="operator">?</span> <span class="keyword">false</span> : <span class="operator">!</span>values<span class="operator">.</span>contains(typeEnum<span class="operator">.</span>value(a)));
+        }
+        topLevelItem<span class="operator">-</span><span class="operator">&gt;</span>setFlags(topLevelItem<span class="operator">-</span><span class="operator">&gt;</span>flags() <span class="operator">&amp;</span><span class="operator">~</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>ItemIsSelectable);
+    }
+    treeWidget<span class="operator">-</span><span class="operator">&gt;</span>expandItem(rootItem);
+    selectFirstSubitem(treeWidget<span class="operator">,</span> rootItem<span class="operator">,</span> comboBox);
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>selectFirstSubitem(<span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span> <span class="operator">*</span>treeWidget<span class="operator">,</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>rootItem<span class="operator">,</span>
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>comboBox)
+{
+    treeWidget<span class="operator">-</span><span class="operator">&gt;</span>setCurrentItem(rootItem<span class="operator">,</span> <span class="number">0</span>);
+    comboBox<span class="operator">-</span><span class="operator">&gt;</span>setRootModelIndex(treeWidget<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+    comboBox<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(<span class="number">0</span>);
+    treeWidget<span class="operator">-</span><span class="operator">&gt;</span>setCurrentItem(treeWidget<span class="operator">-</span><span class="operator">&gt;</span>invisibleRootItem()<span class="operator">,</span> <span class="number">0</span>);
+    comboBox<span class="operator">-</span><span class="operator">&gt;</span>setRootModelIndex(treeWidget<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+}
+
+<span class="type">void</span> LocalDeviceManagement<span class="operator">::</span>updateSecureConfigCombo()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>clear();
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="operator">!</span>m_configs<span class="operator">.</span>isEmpty());
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(m_proto <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>TCP_IPv4);
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> m_configs<span class="operator">.</span>size(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>config <span class="operator">=</span> m_configs<span class="operator">[</span>i<span class="operator">]</span>;
+        <span class="keyword">if</span> (m_server<span class="operator">.</span>individualAddress() <span class="operator">!</span><span class="operator">=</span> config<span class="operator">.</span>host())
+            <span class="keyword">continue</span>;
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"User ID: %1 (Individual Address: %2)"</span>)<span class="operator">.</span>arg(config<span class="operator">.</span>userId())
+            <span class="operator">.</span>arg(config<span class="operator">.</span>individualAddress()<span class="operator">.</span>toString())<span class="operator">,</span> i);
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

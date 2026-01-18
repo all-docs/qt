@@ -1,0 +1,159 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Insight - Qt Quick Application | Qt Insight Tracker</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtinsighttracker-index.htm" translate="no">Qt Insight Tracker</a></li>
+                            <li class="last"><a>Qt Insight - Qt Quick Application</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Insight - Qt Quick Application</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Copyright (C) 2017 The Qt Company Ltd.</span>
+<span class="comment">// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause</span>
+
+import QtQuick 2.4
+import Coffee 1.0
+import QtInsightTracker 1.0
+
+<span class="type">ApplicationFlowForm</span> {
+    <span class="name">id</span>: <span class="name">applicationFlow</span>
+    <span class="name">state</span>: <span class="string">"initial"</span>
+
+    property <span class="type">int</span> <span class="name">animationDuration</span>: <span class="number">400</span>
+
+    <span class="name">onStateChanged</span>: <span class="name">InsightTracker</span>.<span class="name">transition</span>(<span class="name">applicationFlow</span>.<span class="name">state</span>);
+
+    <span class="name">choosingCoffee</span>.brewButtonSelection.onClicked: {
+        <span class="name">applicationFlow</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">"settings"</span>
+        <span class="name">applicationFlow</span>.<span class="name">choosingCoffee</span>.<span class="name">milkSlider</span>.<span class="name">value</span> <span class="operator">=</span> <span class="name">applicationFlow</span>.<span class="name">choosingCoffee</span>.<span class="name">sideBar</span>.<span class="name">currentMilk</span>
+        <span class="name">applicationFlow</span>.<span class="name">choosingCoffee</span>.<span class="name">sugarSlider</span>.<span class="name">value</span> <span class="operator">=</span> <span class="number">2</span>
+    }
+
+    <span class="name">choosingCoffee</span>.sideBar.onCoffeeSelected: {
+        <span class="name">applicationFlow</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">"selection"</span>
+    }
+
+    <span class="name">choosingCoffee</span>.backButton.onClicked: {
+        <span class="name">applicationFlow</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">"selection"</span>
+    }
+
+    <span class="name">choosingCoffee</span>.brewButton.onClicked: {
+        <span class="name">applicationFlow</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">"empty cup"</span>
+    }
+
+    <span class="name">emptyCup</span>.continueButton.onClicked: {
+        <span class="name">applicationFlow</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">"brewing"</span>
+        <span class="name">brewing</span>.<span class="name">coffeeName</span> <span class="operator">=</span> <span class="name">choosingCoffee</span>.<span class="name">sideBar</span>.<span class="name">currentCoffee</span>
+        <span class="name">brewing</span>.<span class="name">start</span>()
+    }
+
+    <span class="name">brewing</span>.onFinished: {
+        <span class="name">finalAnimation</span>.<span class="name">start</span>()
+    }
+
+    <span class="type"><a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a></span> {
+        <span class="name">id</span>: <span class="name">finalAnimation</span>
+
+        <span class="type"><a href="./qml-qtquick-propertyaction.htm" translate="no">PropertyAction</a></span> {
+            <span class="name">target</span>: <span class="name">applicationFlow</span>
+            <span class="name">property</span>: <span class="string">"state"</span>
+            <span class="name">value</span>: <span class="string">"finished"</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> {
+            <span class="name">duration</span>: <span class="number">1000</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-propertyaction.htm" translate="no">PropertyAction</a></span> {
+            <span class="name">target</span>: <span class="name">applicationFlow</span>
+            <span class="name">property</span>: <span class="string">"state"</span>
+            <span class="name">value</span>: <span class="string">"start"</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> {
+            <span class="name">duration</span>: <span class="name">applicationFlow</span>.<span class="name">animationDuration</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> {
+            <span class="name">duration</span>: <span class="number">400</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-propertyaction.htm" translate="no">PropertyAction</a></span> {
+            <span class="name">target</span>: <span class="name">applicationFlow</span>
+            <span class="name">property</span>: <span class="string">"state"</span>
+            <span class="name">value</span>: <span class="string">"initial"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-scriptaction.htm" translate="no">ScriptAction</a></span> {
+            <span class="name">script</span>: <span class="name">InsightTracker</span>.<span class="name">startNewSession</span>();
+        }
+    }
+
+    Behavior on <span class="name">choosingCoffee</span>.x {
+        <span class="type"><a href="./qml-qtquick-propertyanimation.htm" translate="no">PropertyAnimation</a></span> {
+            <span class="name">duration</span>: <span class="name">applicationFlow</span>.<span class="name">animationDuration</span>
+            <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+        }
+    }
+
+    Behavior on <span class="name">emptyCup</span>.x {
+        <span class="type"><a href="./qml-qtquick-propertyanimation.htm" translate="no">PropertyAnimation</a></span> {
+            <span class="name">duration</span>: <span class="name">applicationFlow</span>.<span class="name">animationDuration</span>
+            <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+        }
+    }
+
+    Behavior on <span class="name">brewing</span>.x {
+        <span class="type"><a href="./qml-qtquick-propertyanimation.htm" translate="no">PropertyAnimation</a></span> {
+            <span class="name">duration</span>: <span class="name">applicationFlow</span>.<span class="name">animationDuration</span>
+            <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+        }
+    }
+
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

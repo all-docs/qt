@@ -1,0 +1,160 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick 2 Spectrogram Example | Qt Data Visualization</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li class="last"><a>Qt Quick 2 Spectrogram Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick 2 Spectrogram Example</h1>
+<span class="subtitle"></span>
+<!-- $$$qmlspectrogram-brief -->
+<p>Showing spectrogram graph in a QML application.</p>
+<!-- @@@qmlspectrogram -->
+<!-- $$$qmlspectrogram-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Qt Quick 2 Spectrogram example demonstrates how to show a polar and cartesian spectrograms and how to utilize orthographic projection to show them in 2D.</p>
+<p class="centerAlign"><img alt="" src="./images/qmlspectrogram-example.png"></p><p>Spectrogram is simply a surface graph with a range gradient used to emphasize the different values. Typically spectrograms are shown with two dimensional surfaces, which we simulate with a top down orthographic view of the graph. To enforce the 2D effect, we disable the graph rotation via mouse or touch when in the orthographic mode.</p>
+<p>The focus in this example is on showing how to display spectrograms, so the basic functionality is not explained. For more detailed QML example documentation, see <a href="./qtdatavisualization-qmlscatter-example.htm" translate="no">Qt Quick 2 Scatter Example</a>.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-a-spectrogram"></a>
+<h4 id="creating-a-spectrogram">Creating a Spectrogram<a class="plink" href="#creating-a-spectrogram" title="Direct link to this headline"></a></h4>
+<p>To create a 2D spectrogram, we define a <a href="./qml-qtdatavisualization-surface3d.htm" translate="no">Surface3D</a> item:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-surface3d.htm" translate="no">Surface3D</a></span> {
+    <span class="name">id</span>: <span class="name">surfaceGraph</span>
+    <span class="name">width</span>: <span class="name">surfaceView</span>.<span class="name">width</span>
+    <span class="name">height</span>: <span class="name">surfaceView</span>.<span class="name">height</span>
+
+    <span class="name">shadowQuality</span>: <span class="name">AbstractGraph3D</span>.<span class="name">ShadowQualityNone</span>
+    <span class="name">selectionMode</span>: <span class="name">AbstractGraph3D</span>.<span class="name">SelectionSlice</span> <span class="operator">|</span> <span class="name">AbstractGraph3D</span>.<span class="name">SelectionItemAndColumn</span>
+    <span class="name">axisX</span>: <span class="name">xAxis</span>
+    <span class="name">axisY</span>: <span class="name">yAxis</span>
+    <span class="name">axisZ</span>: <span class="name">zAxis</span>
+
+    <span class="name">theme</span>: <span class="name">customTheme</span>
+    <span class="name">inputHandler</span>: <span class="name">customInputHandler</span>
+
+    <span class="comment">// Remove the perspective and view the graph from top down to achieve 2D effect</span>
+    <span class="name">orthoProjection</span>: <span class="number">true</span>
+    <span class="name">scene</span>.activeCamera.cameraPreset: <span class="name">Camera3D</span>.<span class="name">CameraPresetDirectlyAbove</span>
+
+    <span class="name">flipHorizontalGrid</span>: <span class="number">true</span>
+
+    <span class="name">radialLabelOffset</span>: <span class="number">0.01</span>
+
+    <span class="name">horizontalAspectRatio</span>: <span class="number">1</span>
+    <span class="name">scene</span>.activeCamera.zoomLevel: <span class="number">85</span>
+
+    <span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span> {
+        <span class="name">id</span>: <span class="name">surfaceSeries</span>
+        <span class="name">flatShadingEnabled</span>: <span class="number">false</span>
+        <span class="name">drawMode</span>: <span class="name">Surface3DSeries</span>.<span class="name">DrawSurface</span>
+        <span class="name">baseGradient</span>: <span class="name">surfaceGradient</span>
+        <span class="name">colorStyle</span>: <span class="name">Theme3D</span>.<span class="name">ColorStyleRangeGradient</span>
+        <span class="name">itemLabelFormat</span>: <span class="string">"(@xLabel, @zLabel): @yLabel"</span>
+
+        <span class="type"><a href="./qml-qtdatavisualization-itemmodelsurfacedataproxy.htm" translate="no">ItemModelSurfaceDataProxy</a></span> {
+            <span class="name">itemModel</span>: <span class="name">surfaceData</span>.<span class="name">model</span>
+            <span class="name">rowRole</span>: <span class="string">"radius"</span>
+            <span class="name">columnRole</span>: <span class="string">"angle"</span>
+            <span class="name">yPosRole</span>: <span class="string">"value"</span>
+        }
+    }
+}</pre></div>
+<p>The key properties for enabling the 2D effect are <a href="./qml-qtdatavisualization-abstractgraph3d.htm#orthoProjection-prop" translate="no">orthoProjection</a> and <a href="./qml-qtdatavisualization-camera3d.htm#cameraPreset-prop" translate="no">scene.activeCamera.cameraPreset</a>. We remove the perspective by enabling orthographic projection for the graph, and then we eliminate the Y-dimension by viewing the graph directly from above:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">orthoProjection</span>: <span class="number">true</span>
+<span class="name">scene</span>.activeCamera.cameraPreset: <span class="name">Camera3D</span>.<span class="name">CameraPresetDirectlyAbove</span></pre></div>
+<p>Since this viewpoint causes the horizontal axis grid to be mostly obscured by the surface, we also specify that the horizontal grid should be drawn on top of the graph:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">flipHorizontalGrid</span>: <span class="number">true</span></pre></div>
+<a name="polar-spectrogram"></a>
+<h4 id="polar-spectrogram">Polar Spectrogram<a class="plink" href="#polar-spectrogram" title="Direct link to this headline"></a></h4>
+<p>Depending on the data, it is sometimes more natural to use a polar graph instead of a cartesian one. Qt Data Visualization supports this via <a href="./qml-qtdatavisualization-abstractgraph3d.htm#polar-prop" translate="no">polar</a> property. In this example we provide a button to switch between polar and cartesian modes:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">NewButton</span> {
+    <span class="name">id</span>: <span class="name">polarToggle</span>
+    <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+    <span class="name">Layout</span>.fillHeight: <span class="number">true</span>
+    <span class="name">text</span>: <span class="string">"Switch to polar"</span>
+    <span class="name">onClicked</span>: {
+        <span class="keyword">if</span> (<span class="name">surfaceGraph</span>.<span class="name">polar</span> <span class="operator">===</span> <span class="number">false</span>) {
+            <span class="name">surfaceGraph</span>.<span class="name">polar</span> <span class="operator">=</span> <span class="number">true</span>
+            <span class="name">text</span> <span class="operator">=</span> <span class="string">"Switch to cartesian"</span>
+        } <span class="keyword">else</span> {
+            <span class="name">surfaceGraph</span>.<span class="name">polar</span> <span class="operator">=</span> <span class="number">false</span>
+            <span class="name">text</span> <span class="operator">=</span> <span class="string">"Switch to polar"</span>
+        }
+    }
+}</pre></div>
+<p>In the polar mode, the X-axis is converted into the angular polar axis, and the Z-axis is converted into the radial polar axis. The surface points are recalculated according to new axes.</p>
+<p>The radial axis labels are drawn outside the graph by default, but in this example we want to draw them right next to the 0 degree angular axis inside the graph, so we define only a tiny offset for them:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">radialLabelOffset</span>: <span class="number">0.01</span></pre></div>
+<p>To enforce the 2D effect, graph rotation via user input is disabled when in orthographic mode. We do this by specifying a new input handler:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-touchinputhandler3d.htm" translate="no">TouchInputHandler3D</a></span> {
+    <span class="name">id</span>: <span class="name">customInputHandler</span>
+    <span class="name">rotationEnabled</span>: <span class="number">false</span>
+}
+<span class="type"><a href="./qml-qtdatavisualization-surface3d.htm" translate="no">Surface3D</a></span> {
+...
+<span class="name">inputHandler</span>: <span class="name">customInputHandler</span>
+...</pre></div>
+<p>When the projection mode changes, we adjust the value of the <a href="./qml-qtdatavisualization-inputhandler3d.htm#rotationEnabled-prop" translate="no">rotationEnabled</a> property of the <code translate="no">customInputHandler</code> to control the rotation.</p>
+<a name="example-contents"></a>
+<h4 id="example-contents">Example Contents<a class="plink" href="#example-contents" title="Direct link to this headline"></a></h4>
+<p><a href="https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization/qmlspectrogram?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@qmlspectrogram -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

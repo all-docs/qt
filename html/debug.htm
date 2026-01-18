@@ -1,0 +1,165 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debugging Techniques</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/debug.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Debugging Techniques</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Debugging Techniques</h1>
+<span class="subtitle"></span>
+<!-- $$$debug.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Here we present some useful hints to help you with debugging your Qt-based software.</p>
+<a name="configuring-qt-for-debugging"></a>
+<h2 id="configuring-qt-for-debugging">Configuring Qt for Debugging<a class="plink" href="#configuring-qt-for-debugging" title="Direct link to this headline"></a></h2>
+<p>When <a href="./configure-options.htm" translate="no">configuring</a> Qt for installation, it is possible to ensure that it is built to include debug symbols that can make it easier to track bugs in applications and libraries. However, on some platforms, building Qt in debug mode will cause applications to be larger than desirable.</p>
+<a name="debugging-in-macos-and-xcode"></a>
+<h3 id="debugging-in-macos-and-xcode">Debugging in macOS and Xcode<a class="plink" href="#debugging-in-macos-and-xcode" title="Direct link to this headline"></a></h3>
+<a name="debugging-with-without-frameworks"></a>
+<h4 id="debugging-with-without-frameworks">Debugging With/Without Frameworks<a class="plink" href="#debugging-with-without-frameworks" title="Direct link to this headline"></a></h4>
+<p>The basic stuff you need to know about debug libraries and frameworks is found at developer.apple.com in: <a href="http://developer.apple.com/technotes/tn2004/tn2124.html#SECDEBUGLIB" translate="no">Apple Technical Note TN2124</a>.</p>
+<p>When you build Qt, frameworks are built by default, and inside the framework you will find both a release and a debug version (e.g., <a href="./qtcore-module.htm" translate="no">QtCore</a> and QtCore_debug). If you pass the <code translate="no">-no-framework</code> flag when you build Qt, two dylibs are built for each Qt library (e.g., libQtCore.4.dylib and libQtCore_debug.4.dylib).</p>
+<p>What happens when you link depends on whether you use frameworks or not. We don't see a compelling reason to recommend one over the other.</p>
+<a name="with-frameworks"></a>
+<h5 id="with-frameworks">With Frameworks:<a class="plink" href="#with-frameworks" title="Direct link to this headline"></a></h5>
+<p>Since the release and debug libraries are inside the framework, the app is simply linked against the framework. Then when you run in the debugger, you will get either the release version or the debug version, depending on whether you set <code translate="no">DYLD_IMAGE_SUFFIX</code>. If you don't set it, you get the release version by default (i.e., non _debug). If you set <code translate="no">DYLD_IMAGE_SUFFIX=_debug</code>, you get the debug version.</p>
+<a name="without-frameworks"></a>
+<h5 id="without-frameworks">Without Frameworks:<a class="plink" href="#without-frameworks" title="Direct link to this headline"></a></h5>
+<p>When you tell <i>qmake</i> to generate a Makefile with the debug config, it will link against the _debug version of the libraries and generate debug symbols for the app. Running this program in GDB will then work like running GDB on other platforms, and you will be able to trace inside Qt.</p>
+<a name="command-line-options-recognized-by-qt"></a>
+<h2 id="command-line-options-recognized-by-qt">Command Line Options Recognized by Qt<a class="plink" href="#command-line-options-recognized-by-qt" title="Direct link to this headline"></a></h2>
+<p>When you run a Qt application, you can specify several command-line options that can help with debugging. These are recognized by <a href="./qapplication.htm" translate="no">QApplication</a>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Option</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><code translate="no">-nograb</code></td><td>The application should never grab <a href="./qwidget.htm#grabMouse" translate="no">the mouse</a> or <a href="./qwidget.htm#grabKeyboard" translate="no">the keyboard</a>. This option is set by default when the program is running in the <code translate="no">gdb</code> debugger under Linux.</td></tr>
+<tr class="even" valign="top"><td><code translate="no">-dograb</code></td><td>Ignore any implicit or explicit <code translate="no">-nograb</code>. <code translate="no">-dograb</code> wins over <code translate="no">-nograb</code> even when <code translate="no">-nograb</code> is last on the command line.</td></tr>
+</tbody></table></div>
+<a name="environment-variables-recognized-by-qt"></a>
+<h2 id="environment-variables-recognized-by-qt">Environment Variables Recognized by Qt<a class="plink" href="#environment-variables-recognized-by-qt" title="Direct link to this headline"></a></h2>
+<p>At runtime, a Qt application recognizes many environment variables, some of which can be helpful for debugging:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Variable</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><code translate="no">QT_DEBUG_PLUGINS</code></td><td>Set to a non-zero value to make Qt print out diagnostic information about the each (C++) plugin it tries to load.</td></tr>
+<tr class="even" valign="top"><td><code translate="no">QML_IMPORT_TRACE</code></td><td>Set to a non-zero value to make QML print out diagnostic information from the import loading mechanism.</td></tr>
+<tr class="odd" valign="top"><td><code translate="no">QT_HASH_SEED</code></td><td>Set to an integer value to disable <a href="./qhash.htm#qhash" translate="no">QHash</a> and <a href="./qset.htm" translate="no">QSet</a> using a new random ordering for each application run, which in some cases might make testing and debugging difficult.</td></tr>
+</tbody></table></div>
+<a name="warning-and-debugging-messages"></a>
+<h2 id="warning-and-debugging-messages">Warning and Debugging Messages<a class="plink" href="#warning-and-debugging-messages" title="Direct link to this headline"></a></h2>
+<p>Qt includes global C++ macros for writing out warning and debug text. The plain macros use a default <a href="./qloggingcategory.htm" translate="no">logging category</a>; the categorized logging macros allow you to specify the category. You can use them for the following purposes:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Plain macro</th><th>Categorized macro</th><th>Purpose</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>()</td><td><a href="./qloggingcategory.htm#qCDebug" translate="no">qCDebug</a>()</td><td>Used for writing custom debug output</td></tr>
+<tr class="even" valign="top"><td><a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()</td><td><a href="./qloggingcategory.htm#qCInfo" translate="no">qCInfo</a>()</td><td>Used for informational messages</td></tr>
+<tr class="odd" valign="top"><td><a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>()</td><td><a href="./qloggingcategory.htm#qCWarning" translate="no">qCWarning</a>()</td><td>Used to report warnings and recoverable errors in your application or library</td></tr>
+<tr class="even" valign="top"><td><a href="./qtglobal.htm#qCritical" translate="no">qCritical</a>()</td><td><a href="./qloggingcategory.htm#qCCritical" translate="no">qCCritical</a>()</td><td>Used for writing critical error messages and reporting system errors</td></tr>
+<tr class="odd" valign="top"><td><a href="./qtglobal.htm#qFatal" translate="no">qFatal</a>()</td><td>-</td><td>Used for writing messages about fatal errors shortly before exiting</td></tr>
+</tbody></table></div>
+<p>If you include the &lt;QtDebug&gt; header file, the <code translate="no">qDebug()</code> macro can also be used as an output stream. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Widget"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> widget <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"at position"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> widget<span class="operator">-</span><span class="operator">&gt;</span>pos();</pre></div>
+<p>The Qt implementation of these macros prints to the <code translate="no">stderr</code> output under Unix/X11 and macOS. With Windows, if it is a console application, the text is sent to console; otherwise, it is sent to the debugger.</p>
+<p>By default, only the message is printed. You can include additional information by setting the <code translate="no">QT_MESSAGE_PATTERN</code> environment variable. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QT_MESSAGE_PATTERN<span class="operator">=</span><span class="string">"[%{time process} %{type}] %{appname} %{category} %{function} - %{message}"</span></pre></div>
+<p>The format is documented in <a href="./qtglobal.htm#qSetMessagePattern" translate="no">qSetMessagePattern</a>(). You can also install your own message handler using <a href="./qtglobal.htm#qInstallMessageHandler" translate="no">qInstallMessageHandler</a>().</p>
+<p>If the <code translate="no">QT_FATAL_WARNINGS</code> environment variable is set, <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>() exits after printing the warning message. This makes it easy to obtain a backtrace in the debugger.</p>
+<p><a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>(), <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>(), and <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>() are debugging tools. They can be compiled away by defining <code translate="no">QT_NO_DEBUG_OUTPUT</code>, <code translate="no">QT_NO_INFO_OUTPUT</code>, or <code translate="no">QT_NO_WARNING_OUTPUT</code> during compilation.</p>
+<p>The debugging functions <a href="./qobject.htm#dumpObjectTree" translate="no">QObject::dumpObjectTree</a>() and <a href="./qobject.htm#dumpObjectInfo" translate="no">QObject::dumpObjectInfo</a>() are often useful when an application looks or acts strangely. More useful if you use <a href="./qobject.htm#objectName-prop" translate="no">object names</a> than not, but often useful even without names.</p>
+<p>In QML, dumpItemTree() serves the same purpose.</p>
+<a name="providing-support-for-the-qdebug-stream-operator"></a>
+<h2 id="providing-support-for-the-qdebug-stream-operator">Providing Support for the qDebug() Stream Operator<a class="plink" href="#providing-support-for-the-qdebug-stream-operator" title="Direct link to this headline"></a></h2>
+<p>You can implement the stream operator used by <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() to provide debugging support for your classes. The class that implements the stream is <code translate="no">QDebug</code>. Use <code translate="no">QDebugStateSaver</code> to temporarily save the formatting options of the stream. Use <a href="./qdebug.htm#nospace" translate="no">nospace()</a> and <a href="./qtextstream.htm#qtextstream-manipulators" translate="no">QTextStream manipulators</a> to further customize the formatting.</p>
+<p>Here is an example for a class that represents a 2D coordinate.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qdebug.htm" translate="no">QDebug</a></span> <span class="keyword">operator</span><span class="operator">&lt;</span><span class="operator">&lt;</span>(<span class="type"><a href="./qdebug.htm" translate="no">QDebug</a></span> dbg<span class="operator">,</span> <span class="keyword">const</span> Coordinate <span class="operator">&amp;</span>c)
+{
+    <span class="type"><a href="./qdebugstatesaver.htm" translate="no">QDebugStateSaver</a></span> saver(dbg);
+    dbg<span class="operator">.</span>nospace() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"("</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> c<span class="operator">.</span>x() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">", "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> c<span class="operator">.</span>y() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">")"</span>;
+
+    <span class="keyword">return</span> dbg;
+}</pre></div>
+<p>Integration of custom types with Qt's meta-object system is covered in more depth in the <a href="./custom-types.htm" translate="no">Creating Custom Qt Types</a> document.</p>
+<a name="debugging-macros"></a>
+<h2 id="debugging-macros">Debugging Macros<a class="plink" href="#debugging-macros" title="Direct link to this headline"></a></h2>
+<p>The header file <code translate="no">&lt;QtGlobal&gt;</code> contains some debugging macros and <code translate="no">#define</code>s.</p>
+<p>Three important macros are:</p>
+<ul>
+<li><a href="./qtglobal.htm#Q_ASSERT" translate="no">Q_ASSERT</a>(cond), where <code translate="no">cond</code> is a boolean expression, writes the warning "ASSERT: '<i>cond</i>' in file xyz.cpp, line 234" and exits if <code translate="no">cond</code> is false.</li>
+<li><a href="./qtglobal.htm#Q_ASSERT_X" translate="no">Q_ASSERT_X</a>(cond, where, what), where <code translate="no">cond</code> is a boolean expression, <code translate="no">where</code> a location, and <code translate="no">what</code> a message, writes the warning: "ASSERT failure in <code translate="no">where</code>: '<code translate="no">what</code>', file xyz.cpp, line 234" and exits if <code translate="no">cond</code> is false.</li>
+<li><a href="./qtglobal.htm#Q_CHECK_PTR" translate="no">Q_CHECK_PTR</a>(ptr), where <code translate="no">ptr</code> is a pointer. Writes the warning "In file xyz.cpp, line 234: Out of memory" and exits if <code translate="no">ptr</code> is 0.</li>
+</ul>
+<p>These macros are useful for detecting program errors, e.g. like this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">char</span> <span class="operator">*</span>alloc(<span class="type">int</span> size)
+{
+    Q_ASSERT(size <span class="operator">&gt;</span> <span class="number">0</span>);
+    <span class="type">char</span> <span class="operator">*</span>ptr <span class="operator">=</span> <span class="keyword">new</span> <span class="type">char</span><span class="operator">[</span>size<span class="operator">]</span>;
+    Q_CHECK_PTR(ptr);
+    <span class="keyword">return</span> ptr;
+}</pre></div>
+<p><a href="./qtglobal.htm#Q_ASSERT" translate="no">Q_ASSERT</a>(), <a href="./qtglobal.htm#Q_ASSERT_X" translate="no">Q_ASSERT_X</a>(), and <a href="./qtglobal.htm#Q_CHECK_PTR" translate="no">Q_CHECK_PTR</a>() expand to nothing if <code translate="no">QT_NO_DEBUG</code> is defined during compilation. For this reason, the arguments to these macro should not have any side-effects. Here is an incorrect usage of <a href="./qtglobal.htm#Q_CHECK_PTR" translate="no">Q_CHECK_PTR</a>():</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">char</span> <span class="operator">*</span>alloc(<span class="type">int</span> size)
+{
+    <span class="type">char</span> <span class="operator">*</span>ptr;
+    Q_CHECK_PTR(ptr <span class="operator">=</span> <span class="keyword">new</span> <span class="type">char</span><span class="operator">[</span>size<span class="operator">]</span>);  <span class="comment">// WRONG</span>
+    <span class="keyword">return</span> ptr;
+}</pre></div>
+<p>If this code is compiled with <code translate="no">QT_NO_DEBUG</code> defined, the code in the <a href="./qtglobal.htm#Q_CHECK_PTR" translate="no">Q_CHECK_PTR</a>() expression is not executed and <i>alloc</i> returns an uninitialized pointer.</p>
+<p>The Qt library contains hundreds of internal checks that will print warning messages when a programming error is detected. We therefore recommend that you use a debug version of Qt when developing Qt-based software.</p>
+<p>Logging and <a href="./qml-qtqml-loggingcategory.htm" translate="no">categorized logging</a> are also possible in <a href="./qtquick-debugging.htm" translate="no">QML</a>.</p>
+<a name="common-bugs"></a>
+<h2 id="common-bugs">Common Bugs<a class="plink" href="#common-bugs" title="Direct link to this headline"></a></h2>
+<p>There is one bug that is so common that it deserves mention here: If you include the <a href="./qobject.htm#Q_OBJECT" translate="no">Q_OBJECT</a> macro in a class declaration and run <a href="./moc.htm" translate="no">the meta-object compiler</a> (<code translate="no">moc</code>), but forget to link the <code translate="no">moc</code>-generated object code into your executable, you will get very confusing error messages. Any link error complaining about a lack of <code translate="no">vtbl</code>, <code translate="no">_vtbl</code>, <code translate="no">__vtbl</code> or similar is likely to be a result of this problem.</p>
+</div>
+<!-- @@@debug.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

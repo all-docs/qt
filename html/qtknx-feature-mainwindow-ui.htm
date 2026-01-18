@@ -1,0 +1,390 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Tunneling Features Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Tunneling Features Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Tunneling Features Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;ui version="4.0"&gt;
+ &lt;class&gt;MainWindow&lt;/class&gt;
+ &lt;widget class="QMainWindow" name="MainWindow"&gt;
+  &lt;property name="geometry"&gt;
+   &lt;rect&gt;
+    &lt;x&gt;0&lt;/x&gt;
+    &lt;y&gt;0&lt;/y&gt;
+    &lt;width&gt;867&lt;/width&gt;
+    &lt;height&gt;416&lt;/height&gt;
+   &lt;/rect&gt;
+  &lt;/property&gt;
+  &lt;property name="windowTitle"&gt;
+   &lt;string&gt;KNX tunneling features example&lt;/string&gt;
+  &lt;/property&gt;
+  &lt;widget class="QWidget" name="centralwidget"&gt;
+   &lt;layout class="QVBoxLayout" name="verticalLayout"&gt;
+    &lt;item&gt;
+     &lt;layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,1,0,0"&gt;
+      &lt;item row="0" column="0"&gt;
+       &lt;widget class="QLabel" name="serviceTypesLabel"&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Service type:&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="0" column="1"&gt;
+       &lt;widget class="QComboBox" name="serviceTypes"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="0" column="2"&gt;
+       &lt;widget class="QLabel" name="interfaceFeaturesLabel"&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Interface feature:&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="0" column="3"&gt;
+       &lt;widget class="QComboBox" name="interfaceFeatures"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="0" column="4"&gt;
+       &lt;spacer name="horizontalSpacer"&gt;
+        &lt;property name="orientation"&gt;
+         &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+        &lt;/property&gt;
+        &lt;property name="sizeHint" stdset="0"&gt;
+         &lt;size&gt;
+          &lt;width&gt;40&lt;/width&gt;
+          &lt;height&gt;20&lt;/height&gt;
+         &lt;/size&gt;
+        &lt;/property&gt;
+       &lt;/spacer&gt;
+      &lt;/item&gt;
+      &lt;item row="0" column="5"&gt;
+       &lt;widget class="QPushButton" name="sendRead"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Read&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="1" column="0"&gt;
+       &lt;widget class="QLabel" name="dataLabel"&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Data:&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="1" column="5"&gt;
+       &lt;widget class="QPushButton" name="sendWrite"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Write&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="1" column="1" colspan="3"&gt;
+       &lt;widget class="QLineEdit" name="data"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+     &lt;/layout&gt;
+    &lt;/item&gt;
+    &lt;item&gt;
+     &lt;widget class="QTreeWidget" name="communication"&gt;
+      &lt;property name="contextMenuPolicy"&gt;
+       &lt;enum&gt;Qt::DefaultContextMenu&lt;/enum&gt;
+      &lt;/property&gt;
+      &lt;property name="uniformRowHeights"&gt;
+       &lt;bool&gt;true&lt;/bool&gt;
+      &lt;/property&gt;
+      &lt;attribute name="headerShowSortIndicator" stdset="0"&gt;
+       &lt;bool&gt;false&lt;/bool&gt;
+      &lt;/attribute&gt;
+      &lt;column&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;#&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/column&gt;
+      &lt;column&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Service type&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/column&gt;
+      &lt;column&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Interface feature&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/column&gt;
+      &lt;column&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Value&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/column&gt;
+      &lt;column&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Status code&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/column&gt;
+      &lt;column&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Data&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/column&gt;
+     &lt;/widget&gt;
+    &lt;/item&gt;
+    &lt;item&gt;
+     &lt;layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,0,1,0,1,0,0"&gt;
+      &lt;item&gt;
+       &lt;widget class="QLabel" name="interfaceLabel"&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Interface:&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item&gt;
+       &lt;widget class="QComboBox" name="interfaces"&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item&gt;
+       &lt;widget class="QLabel" name="deviceLabel"&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Device:&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item&gt;
+       &lt;widget class="QComboBox" name="devices"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item&gt;
+       &lt;widget class="QCheckBox" name="secureSession"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Use secure session&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item&gt;
+       &lt;widget class="QComboBox" name="secureConfigs"&gt;
+        &lt;property name="enabled"&gt;
+         &lt;bool&gt;false&lt;/bool&gt;
+        &lt;/property&gt;
+        &lt;property name="sizePolicy"&gt;
+         &lt;sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed"&gt;
+          &lt;horstretch&gt;0&lt;/horstretch&gt;
+          &lt;verstretch&gt;0&lt;/verstretch&gt;
+         &lt;/sizepolicy&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item&gt;
+       &lt;spacer name="spacerRight"&gt;
+        &lt;property name="orientation"&gt;
+         &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+        &lt;/property&gt;
+        &lt;property name="sizeType"&gt;
+         &lt;enum&gt;QSizePolicy::Expanding&lt;/enum&gt;
+        &lt;/property&gt;
+        &lt;property name="sizeHint" stdset="0"&gt;
+         &lt;size&gt;
+          &lt;width&gt;40&lt;/width&gt;
+          &lt;height&gt;20&lt;/height&gt;
+         &lt;/size&gt;
+        &lt;/property&gt;
+       &lt;/spacer&gt;
+      &lt;/item&gt;
+      &lt;item&gt;
+       &lt;widget class="QPushButton" name="connection"&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Connect&lt;/string&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+     &lt;/layout&gt;
+    &lt;/item&gt;
+   &lt;/layout&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QMenuBar" name="menuBar"&gt;
+   &lt;property name="geometry"&gt;
+    &lt;rect&gt;
+     &lt;x&gt;0&lt;/x&gt;
+     &lt;y&gt;0&lt;/y&gt;
+     &lt;width&gt;867&lt;/width&gt;
+     &lt;height&gt;21&lt;/height&gt;
+    &lt;/rect&gt;
+   &lt;/property&gt;
+   &lt;widget class="QMenu" name="menuFile"&gt;
+    &lt;property name="title"&gt;
+     &lt;string&gt;File&lt;/string&gt;
+    &lt;/property&gt;
+    &lt;widget class="QMenu" name="menuImport"&gt;
+     &lt;property name="title"&gt;
+      &lt;string&gt;Import&lt;/string&gt;
+     &lt;/property&gt;
+     &lt;addaction name="actionImport"/&gt;
+    &lt;/widget&gt;
+    &lt;addaction name="menuImport"/&gt;
+    &lt;addaction name="separator"/&gt;
+    &lt;addaction name="actionExit"/&gt;
+   &lt;/widget&gt;
+   &lt;widget class="QMenu" name="menuEdit"&gt;
+    &lt;property name="title"&gt;
+     &lt;string&gt;Edit&lt;/string&gt;
+    &lt;/property&gt;
+    &lt;addaction name="actionClear"/&gt;
+   &lt;/widget&gt;
+   &lt;addaction name="menuFile"/&gt;
+   &lt;addaction name="menuEdit"/&gt;
+  &lt;/widget&gt;
+  &lt;action name="actionExit"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Exit&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionImport"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;KNX keyring file...&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionClear"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Clear telegram list&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+ &lt;/widget&gt;
+ &lt;resources/&gt;
+ &lt;connections&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;secureSession&lt;/sender&gt;
+   &lt;signal&gt;toggled(bool)&lt;/signal&gt;
+   &lt;receiver&gt;secureConfigs&lt;/receiver&gt;
+   &lt;slot&gt;setEnabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;516&lt;/x&gt;
+     &lt;y&gt;391&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;634&lt;/x&gt;
+     &lt;y&gt;393&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+ &lt;/connections&gt;
+&lt;/ui&gt;</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

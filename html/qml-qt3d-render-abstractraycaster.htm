@@ -1,0 +1,153 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AbstractRayCaster QML Type | Qt 3D</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qt3d-render-abstractraycaster.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qt3d-index.htm" translate="no">Qt 3D</a></li>
+                            <li><a href="./qt3d-qml.htm" translate="no">QML Types</a></li>
+                            <li><a>AbstractRayCaster QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">AbstractRayCaster QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$AbstractRayCaster-brief -->
+<p>An abstract base class for ray casting in 3d scenes. <a href="#details">More...</a></p>
+<!-- @@@AbstractRayCaster -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import Qt3D.Render 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.11</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Instantiates:</td><td class="memItemRight bottomAlign"> <a href="./qml-qt3d-render-abstractraycaster.htm" translate="no"></a><a href="./qt3drender-qabstractraycaster.htm" translate="no">QAbstractRayCaster</a></td></tr></tbody></table></div><ul>
+<li><a href="./qml-qt3d-render-abstractraycaster-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-abstractraycaster.htm#filterMode-prop" translate="no">filterMode</a></b></b> : enumeration</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-abstractraycaster.htm#hits-prop" translate="no">hits</a></b></b> : array</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-abstractraycaster.htm#runMode-prop" translate="no">runMode</a></b></b> : enumeration</li>
+</ul>
+<!-- $$$AbstractRayCaster-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>AbstractRayCaster is an abstract base class for casting rays into a 3d scene. AbstractRayCaster can not be directly instantiated, but rather through its subclasses. QAbstractRayCaster specifies common properties for all ray casters, such as run mode and layer handling, while leaving the actual ray casting details to the subclasses.</p>
+<p>Ray castings differs from picking (using <a href="./qml-qt3d-render-objectpicker.htm" translate="no">ObjectPicker</a>) in that it does not require mouse events to trigger.</p>
+<p>By default, the instances of AbstractRayCaster are disabled. When enabled, the specified ray will be tested for intersecting objects at every frame. The AbstractRayCaster.hits property will be updated with the results of the ray casting, even if no objects are found.</p>
+<p>The Qt3D.Render::PickingSettings can be used to control the ray casting, such as which primitives are tested and how the results are returned.</p>
+<p>Furthermore, Qt3D.Render::Layer components can be used to control how entities, or entity sub-graphs, react to ray casting.</p>
+<p>Note: components derived from AbstractRayCaster should not be shared amount multiple entities.</p>
+<p><b>See also </b><a href="./qml-qt3d-render-raycaster.htm" translate="no">Qt3D.Render::RayCaster</a>, <a href="./qml-qt3d-render-screenraycaster.htm" translate="no">Qt3D.Render::ScreenRayCaster</a>, <a href="./qml-qt3d-render-objectpicker.htm" translate="no">Qt3D.Render::ObjectPicker</a>, <a href="./qml-qt3d-render-pickingsettings.htm" translate="no">Qt3D.Render::PickingSettings</a>, and <a href="./qml-qt3d-render-nopicking.htm" translate="no">Qt3D.Render::NoPicking</a>.</p>
+<!-- @@@AbstractRayCaster -->
+<h2>Property Documentation</h2>
+<!-- $$$filterMode -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="filterMode-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="filterMode-prop"></a><span class="name">filterMode</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#filterMode-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds the filter mode specifying the entities to select for ray casting tests.</p>
+<p>The default value is <code translate="no">AbstractRayCaster.AcceptMatchingLayers</code>.</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">AcceptAnyMatchingLayers</code></td><td class="topAlign">Accept entities that reference one or more <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-abstractraycaster.htm" translate="no">AbstractRayCaster</a>. This is the default</td></tr>
+<tr><td class="topAlign"><code translate="no">AcceptAllMatchingLayers</code></td><td class="topAlign">Accept entities that reference all the <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-abstractraycaster.htm" translate="no">AbstractRayCaster</a></td></tr>
+<tr><td class="topAlign"><code translate="no">DiscardAnyMatchingLayers</code></td><td class="topAlign">Discard entities that reference one or more <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-abstractraycaster.htm" translate="no">AbstractRayCaster</a></td></tr>
+<tr><td class="topAlign"><code translate="no">DiscardAllMatchingLayers</code></td><td class="topAlign">Discard entities that reference all <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-abstractraycaster.htm" translate="no">AbstractRayCaster</a></td></tr>
+</tbody></table></div>
+</div></div><!-- @@@filterMode -->
+<br>
+<!-- $$$hits -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="hits-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="hits-prop"></a><span class="name">hits</span> : <span class="type">array</span><a class="plink" href="#hits-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds the results of last ray casting test as an array of javascript objects. The fields defined on the objects are defined below.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    type <span class="comment">// enum value of RayCasterHit.HitType</span>
+    entity <span class="comment">// entity that was intersected</span>
+    distance <span class="comment">// distance from ray origin to intersection</span>
+    localIntersection<span class="operator">.</span>x: <span class="comment">// coordinate of intersection in the entity's coordinate system</span>
+    localIntersection<span class="operator">.</span>y
+    localIntersection<span class="operator">.</span>z
+    worldIntersection<span class="operator">.</span>x <span class="comment">// coordinate of intersection in the model's coordinate system</span>
+    worldIntersection<span class="operator">.</span>y
+    worldIntersection<span class="operator">.</span>z
+    primitiveIndex <span class="comment">// index of the primitive (triangle, line, point) that was intersected;</span>
+                   <span class="comment">// (undefined if the picking mode is set to bounding volume)</span>
+    vertex1Index <span class="comment">// index of the first point of the triangle or line that was intersected</span>
+                 <span class="comment">// (undefined if the picking mode is set to bounding volume or points)</span>
+    vertex2Index <span class="comment">// index of the second point of the triangle or line that was intersected</span>
+                 <span class="comment">// (undefined if the picking mode is set to bounding volume or points)</span>
+    vertex3Index <span class="comment">// index of the second point of the triangle that was intersected</span>
+                 <span class="comment">// (undefined if the picking mode is set to bounding volume, points or lines)</span>
+}</pre></div>
+<p>Note that even if successive tests return the exact same results (or empty results), a change notification will be emitted at every test.</p>
+</div></div><!-- @@@hits -->
+<br>
+<!-- $$$runMode -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="runMode-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="runMode-prop"></a><span class="name">runMode</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#runMode-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds the run mode controlling how often ray casting tests are performed.</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">Continuous</code></td><td class="topAlign">Ray casting is performed at every frame as long as the component is enabled.</td></tr>
+<tr><td class="topAlign"><code translate="no">SingleShot</code></td><td class="topAlign">Ray casting is done once then the component disables itself. This is the default</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@runMode -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

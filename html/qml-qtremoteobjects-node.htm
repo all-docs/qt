@@ -1,0 +1,121 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node QML Type | Qt Remote Objects</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtremoteobjects-node.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtremoteobjects-index.htm" translate="no">Qt Remote Objects</a></li>
+                            <li><a href="./qtremoteobjects-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>Node QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Node QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Node-brief -->
+<p>A node on a Qt Remote Objects network. <a href="#details">More...</a></p>
+<!-- @@@Node -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtRemoteObjects 5.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Instantiates:</td><td class="memItemRight bottomAlign"> <a href="./qml-qtremoteobjects-node.htm" translate="no"></a><a href="./qremoteobjectnode.htm" translate="no">QRemoteObjectNode</a></td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtremoteobjects-node-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtremoteobjects-node.htm#heartbeatInterval-prop" translate="no">heartbeatInterval</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtremoteobjects-node.htm#persistedStore-prop" translate="no">persistedStore</a></b></b> : QRemoteObjectAbstractPersistedStore</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtremoteobjects-node.htm#registryUrl-prop" translate="no">registryUrl</a></b></b> : url</li>
+</ul>
+<!-- $$$Node-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The Node type provides an entry point to a Qt Remote Objects network. A network can be as simple as two nodes, or an arbitrarily complex set of processes and devices.</p>
+<p>A Node does not have a url that other nodes can connect to, and thus is able to acquire replicas only. It is not able to share source objects.</p>
+<!-- @@@Node -->
+<h2>Property Documentation</h2>
+<!-- $$$heartbeatInterval -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="heartbeatInterval-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="heartbeatInterval-prop"></a><span class="name">heartbeatInterval</span> : <span class="type">int</span><a class="plink" href="#heartbeatInterval-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Heartbeat interval in ms.</p>
+<p>The heartbeat (only helpful for socket connections) will periodically send a message to connected nodes to detect whether the connection was disrupted. Qt Remote Objects will try to reconnect automatically if it detects a dropped connection. This function can help with that detection since the client will only detect that the server is unavailable when it tries to send data.</p>
+<p>A value of <code translate="no">0</code> (the default) will disable the heartbeat.</p>
+</div></div><!-- @@@heartbeatInterval -->
+<br>
+<!-- $$$persistedStore -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="persistedStore-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="persistedStore-prop"></a><span class="name">persistedStore</span> : <span class="type">QRemoteObjectAbstractPersistedStore</span><a class="plink" href="#persistedStore-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Allows setting a <a href="./qremoteobjectabstractpersistedstore.htm" translate="no">QRemoteObjectAbstractPersistedStore</a> instance for the node.</p>
+<p>Allows replica <a href="./qtremoteobjects-repc.htm#prop" translate="no">PROP</a> members with the PERSISTED trait to save their current value when the replica is deleted and restore a stored value the next time the replica is started.</p>
+<p>Requires a <a href="./qremoteobjectabstractpersistedstore.htm" translate="no">QRemoteObjectAbstractPersistedStore</a> class implementation to control where and how persistence is handled. A default <a href="./qsettings.htm" translate="no">QSettings</a>-based implementation is provided by <a href="./qml-qtremoteobjects-settingsstore.htm" translate="no">SettingsStore</a>.</p>
+</div></div><!-- @@@persistedStore -->
+<br>
+<!-- $$$registryUrl -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="registryUrl-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="registryUrl-prop"></a><span class="name">registryUrl</span> : <span class="type">url</span><a class="plink" href="#registryUrl-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The address of the <a href="./qremoteobjectregistry.htm" translate="no">Registry</a> used by this node.</p>
+<p>This is an empty <a href="./qurl.htm" translate="no">QUrl</a> if there is no registry in use.</p>
+</div></div><!-- @@@registryUrl -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

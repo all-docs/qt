@@ -1,0 +1,129 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RotationAnimator QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-rotationanimator.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>RotationAnimator QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">RotationAnimator QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$RotationAnimator-brief -->
+<p>The RotationAnimator type animates the rotation of an Item. <a href="#details">More...</a></p>
+<!-- @@@RotationAnimator -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.2</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick-animator.htm" translate="no">Animator</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-rotationanimator-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-rotationanimator.htm#direction-prop" translate="no">direction</a></b></b> : enumeration</li>
+</ul>
+<!-- $$$RotationAnimator-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p><a href="./qml-qtquick-animator.htm" translate="no">Animator</a> types are different from normal Animation types. When using an Animator, the animation can be run in the render thread and the property value will jump to the end when the animation is complete.</p>
+<p>The value of <a href="./qml-qtquick-item.htm#rotation-prop" translate="no">Item::rotation</a> is updated after the animation has finished.</p>
+<p>The following snippet shows how to use a RotationAnimator together with a Rectangle item.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">rotatingBox</span>
+    <span class="name">width</span>: <span class="number">50</span>
+    <span class="name">height</span>: <span class="number">50</span>
+    <span class="name">color</span>: <span class="string">"lightsteelblue"</span>
+    <span class="type"><a href="./qml-qtquick-rotationanimator.htm" translate="no">RotationAnimator</a></span> {
+        <span class="name">target</span>: <span class="name">rotatingBox</span>;
+        <span class="name">from</span>: <span class="number">0</span>;
+        <span class="name">to</span>: <span class="number">360</span>;
+        <span class="name">duration</span>: <span class="number">1000</span>
+        <span class="name">running</span>: <span class="number">true</span>
+    }
+}</pre></div>
+<p>It is also possible to use the <code translate="no">on</code> keyword to tie the RotationAnimator directly to the <code translate="no">rotation</code> property of an Item instance.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">50</span>
+    <span class="name">height</span>: <span class="number">50</span>
+    <span class="name">color</span>: <span class="string">"lightsteelblue"</span>
+    RotationAnimator on <span class="name">rotation</span> {
+        <span class="name">from</span>: <span class="number">0</span>;
+        <span class="name">to</span>: <span class="number">360</span>;
+        <span class="name">duration</span>: <span class="number">1000</span>
+    }
+}</pre></div>
+<p><b>See also </b><a href="./qml-qtquick-item.htm#transformOrigin-prop" translate="no">Item::transformOrigin</a> and <a href="./qml-qtquick-scaleanimator.htm" translate="no">ScaleAnimator</a>.</p>
+<!-- @@@RotationAnimator -->
+<h2>Property Documentation</h2>
+<!-- $$$direction -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="direction-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="direction-prop"></a><span class="name">direction</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#direction-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the direction of the rotation.</p>
+<p>Possible values are:</p>
+<ul>
+<li><a href="./qml-qtquick-rotationanimator.htm" translate="no">RotationAnimator</a>.Numerical (default) - Rotate by linearly interpolating between the two numbers. A rotation from 10 to 350 will rotate 340 degrees clockwise.</li>
+<li><a href="./qml-qtquick-rotationanimator.htm" translate="no">RotationAnimator</a>.Clockwise - Rotate clockwise between the two values</li>
+<li><a href="./qml-qtquick-rotationanimator.htm" translate="no">RotationAnimator</a>.Counterclockwise - Rotate counterclockwise between the two values</li>
+<li><a href="./qml-qtquick-rotationanimator.htm" translate="no">RotationAnimator</a>.Shortest - Rotate in the direction that produces the shortest animation path. A rotation from 10 to 350 will rotate 20 degrees counterclockwise.</li>
+</ul>
+</div></div><!-- @@@direction -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

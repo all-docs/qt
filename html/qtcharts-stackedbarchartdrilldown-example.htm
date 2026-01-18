@@ -1,0 +1,176 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StackedBarChart Drilldown Example | Qt Charts</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>StackedBarChart Drilldown Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">StackedBarChart Drilldown Example</h1>
+<span class="subtitle"></span>
+<!-- $$$stackedbarchartdrilldown-brief -->
+<p>The example shows how to implement drilldown using a stacked barchart.</p>
+<!-- @@@stackedbarchartdrilldown -->
+<!-- $$$stackedbarchartdrilldown-description -->
+<div class="descr"> <a name="details"></a>
+<p>In the drilldown example we create a stacked bar chart, which shows the harvest of various chili peppers during season. In season view the harvest is grouped by month. To drill down to weekly view, right-click the selected month. On weekly view, the harvest of the month clicked is shown by week.</p>
+<p>The season view looks like this:</p>
+<p class="centerAlign"><img alt="" src="./images/examples_stackedbarchartdrilldown1.png"></p><p>Clicking on a month shows that month's harvest:</p>
+<p class="centerAlign"><img alt="" src="./images/examples_stackedbarchartdrilldown2.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="implementing-drilldown"></a>
+<h4 id="implementing-drilldown">Implementing Drilldown<a class="plink" href="#implementing-drilldown" title="Direct link to this headline"></a></h4>
+<p>First we define a drilldown series class, which adds categories to the stacked bar series and mapping for categories to other drilldown series. The purpose of the drilldown series is to contain knowledge of the drilldown structure. The mapDrilldownSeries function maps the category to a given series. We can request the mapping for a category with the drilldownSeries(int category) function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> DrilldownBarSeries : <span class="keyword">public</span> <span class="type"><a href="./qstackedbarseries.htm" translate="no">QStackedBarSeries</a></span>
+{
+    Q_OBJECT
+<span class="keyword">public</span>:
+    DrilldownBarSeries(<span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> categories<span class="operator">,</span> <span class="type">int</span> maxValue<span class="operator">,</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent <span class="operator">=</span> <span class="number">0</span>);
+
+    <span class="type">void</span> mapDrilldownSeries(<span class="type">int</span> index<span class="operator">,</span> DrilldownBarSeries <span class="operator">*</span>drilldownSeries);
+
+    DrilldownBarSeries <span class="operator">*</span>drilldownSeries(<span class="type">int</span> index);
+
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> categories();
+
+    <span class="type">int</span> maxValue();
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qmap.htm" translate="no">QMap</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">,</span> DrilldownBarSeries <span class="operator">*</span><span class="operator">&gt;</span> m_DrilldownSeries;
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> m_categories;
+    <span class="type">int</span> m_maxValue;
+};</pre></div>
+<p>Next we define our own drilldown chart, which implements the handler for the mouse click. All <a href="./qbarseries.htm" translate="no">QBarSeries</a> derived classes send out the clicked(<a href="./qbarset.htm" translate="no">QBarSet</a>*, int) signal when a series is clicked with the mouse. The parameter <a href="./qbarset.htm" translate="no">QBarSet</a> contains the pointer to the clicked bar set and parameter int contains the index of the clicked category.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> DrilldownChart : <span class="keyword">public</span> <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span>
+{
+    Q_OBJECT
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> DrilldownChart(<span class="type"><a href="./qgraphicsitem.htm" translate="no">QGraphicsItem</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>WindowFlags wFlags <span class="operator">=</span> {});
+
+    <span class="type">void</span> changeSeries(DrilldownBarSeries <span class="operator">*</span>series);
+
+<span class="keyword">public</span> Q_SLOTS:
+    <span class="type">void</span> handleClicked(<span class="type">int</span> index<span class="operator">,</span> <span class="type"><a href="./qbarset.htm" translate="no">QBarSet</a></span> <span class="operator">*</span>barset);
+
+<span class="keyword">private</span>:
+    DrilldownBarSeries <span class="operator">*</span>m_currentSeries;
+    <span class="type"><a href="./qbarcategoryaxis.htm" translate="no">QBarCategoryAxis</a></span> <span class="operator">*</span>m_axisX;
+    <span class="type"><a href="./qvalueaxis.htm" translate="no">QValueAxis</a></span> <span class="operator">*</span>m_axisY;
+};</pre></div>
+<p>Now we have our drilldown classes and we can start using them. First create the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    DrilldownChart <span class="operator">*</span>drilldownChart <span class="operator">=</span>  <span class="keyword">new</span> DrilldownChart();
+    drilldownChart<span class="operator">-</span><span class="operator">&gt;</span>setAnimationOptions(<span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>SeriesAnimations);</pre></div>
+<p>We define the categories from which the drilldown series will be constructed.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// Define categories</span>
+    <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> months <span class="operator">=</span> {
+        <span class="string">"May"</span><span class="operator">,</span> <span class="string">"Jun"</span><span class="operator">,</span> <span class="string">"Jul"</span><span class="operator">,</span> <span class="string">"Aug"</span><span class="operator">,</span> <span class="string">"Sep"</span>
+    };
+    <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> weeks <span class="operator">=</span> {
+        <span class="string">"week 1"</span><span class="operator">,</span> <span class="string">"week 2"</span><span class="operator">,</span> <span class="string">"week 3"</span><span class="operator">,</span> <span class="string">"week 4"</span>
+    };
+    <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> plants <span class="operator">=</span> {
+        <span class="string">"Habanero"</span><span class="operator">,</span> <span class="string">"Lemon Drop"</span><span class="operator">,</span> <span class="string">"Starfish"</span><span class="operator">,</span> <span class="string">"Aji Amarillo"</span>
+    };</pre></div>
+<p>To create the drilldown structure, we first create our top level series, which we call seasonSeries. For each month in seasonSeries we create a drilldown series called weeklySeries which contains more detailed data for that month. In weeklySeries, we use the drilldown handler to bring us back to seasonSeries. To do so we add mapping to the series. The seasonSeries is mapped to weeklySeries for each month. Every weeklySeries is mapped back to the seasonSeries. To make mapping work, we connect the clicked signals from our series to the drilldownChart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// Create drilldown structure</span>
+    DrilldownBarSeries <span class="operator">*</span>seasonSeries <span class="operator">=</span> <span class="keyword">new</span> DrilldownBarSeries(months<span class="operator">,</span> <span class="number">320</span><span class="operator">,</span> drilldownChart);
+    seasonSeries<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"Crop by month - Season"</span>);
+
+    <span class="comment">// Each month in season series has drilldown series for weekly data</span>
+    <span class="keyword">for</span> (<span class="type">int</span> month <span class="operator">=</span> <span class="number">0</span>; month <span class="operator">&lt;</span> months<span class="operator">.</span>count(); month<span class="operator">+</span><span class="operator">+</span>) {
+
+        <span class="comment">// Create drilldown series for every week</span>
+        DrilldownBarSeries <span class="operator">*</span>weeklySeries <span class="operator">=</span> <span class="keyword">new</span> DrilldownBarSeries(weeks<span class="operator">,</span> <span class="number">80</span><span class="operator">,</span> drilldownChart);
+        seasonSeries<span class="operator">-</span><span class="operator">&gt;</span>mapDrilldownSeries(month<span class="operator">,</span> weeklySeries);
+
+        <span class="comment">// Drilling down from weekly data brings us back to season data.</span>
+        <span class="keyword">for</span> (<span class="type">int</span> week <span class="operator">=</span> <span class="number">0</span>; week <span class="operator">&lt;</span> weeks<span class="operator">.</span>count(); week<span class="operator">+</span><span class="operator">+</span>) {
+            weeklySeries<span class="operator">-</span><span class="operator">&gt;</span>mapDrilldownSeries(week<span class="operator">,</span> seasonSeries);
+            weeklySeries<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="string">"Crop by week - "</span> <span class="operator">+</span> months<span class="operator">.</span>at(month)));
+        }
+
+        <span class="comment">// Use clicked signal to implement drilldown</span>
+        <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(weeklySeries<span class="operator">,</span> <span class="operator">&amp;</span>DrilldownBarSeries<span class="operator">::</span>clicked<span class="operator">,</span>
+                         drilldownChart<span class="operator">,</span> <span class="operator">&amp;</span>DrilldownChart<span class="operator">::</span>handleClicked);
+    }
+
+    <span class="comment">// Enable drilldown from season series using clicked signal</span>
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(seasonSeries<span class="operator">,</span> <span class="operator">&amp;</span>DrilldownBarSeries<span class="operator">::</span>clicked<span class="operator">,</span>
+                     drilldownChart<span class="operator">,</span> <span class="operator">&amp;</span>DrilldownChart<span class="operator">::</span>handleClicked);</pre></div>
+<p>When we have our drilldown structure ready, we can add the data to it. Here we generate a random crop for each plant in each week. The monthly crop is calculated from weekly crops and is set as value to the monthly series.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// Fill monthly and weekly series with data</span>
+    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>plant : plants) {
+        <span class="type"><a href="./qbarset.htm" translate="no">QBarSet</a></span> <span class="operator">*</span>monthlyCrop <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qbarset.htm" translate="no">QBarSet</a></span>(plant);
+        <span class="keyword">for</span> (<span class="type">int</span> month <span class="operator">=</span> <span class="number">0</span>; month <span class="operator">&lt;</span> months<span class="operator">.</span>count(); month<span class="operator">+</span><span class="operator">+</span>) {
+            <span class="type"><a href="./qbarset.htm" translate="no">QBarSet</a></span> <span class="operator">*</span>weeklyCrop <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qbarset.htm" translate="no">QBarSet</a></span>(plant);
+            <span class="keyword">for</span> (<span class="type">int</span> week <span class="operator">=</span> <span class="number">0</span>; week <span class="operator">&lt;</span> weeks<span class="operator">.</span>count(); week<span class="operator">+</span><span class="operator">+</span>)
+                <span class="operator">*</span>weeklyCrop <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qrandomgenerator.htm" translate="no">QRandomGenerator</a></span><span class="operator">::</span>global()<span class="operator">-</span><span class="operator">&gt;</span>bounded(<span class="number">20</span>);
+            <span class="comment">// Get the drilldown series from season series and add crop to it.</span>
+            seasonSeries<span class="operator">-</span><span class="operator">&gt;</span>drilldownSeries(month)<span class="operator">-</span><span class="operator">&gt;</span>append(weeklyCrop);
+            <span class="operator">*</span>monthlyCrop <span class="operator">&lt;</span><span class="operator">&lt;</span> weeklyCrop<span class="operator">-</span><span class="operator">&gt;</span>sum();
+        }
+        seasonSeries<span class="operator">-</span><span class="operator">&gt;</span>append(monthlyCrop);
+    }</pre></div>
+<p>Here we set the chart to show the top level series initially.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// Show season series in initial view</span>
+    drilldownChart<span class="operator">-</span><span class="operator">&gt;</span>changeSeries(seasonSeries);
+    drilldownChart<span class="operator">-</span><span class="operator">&gt;</span>setTitle(seasonSeries<span class="operator">-</span><span class="operator">&gt;</span>name());</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/stackedbarchartdrilldown?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@stackedbarchartdrilldown -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

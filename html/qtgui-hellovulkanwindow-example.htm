@@ -1,0 +1,189 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello Vulkan Window Example | Qt GUI</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a>Hello Vulkan Window Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Hello Vulkan Window Example</h1>
+<span class="subtitle"></span>
+<!-- $$$hellovulkanwindow-brief -->
+<p>Shows the basics of using <a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a>.</p>
+<!-- @@@hellovulkanwindow -->
+<!-- $$$hellovulkanwindow-description -->
+<div class="descr"> <a name="details"></a>
+<p>The <i>Hello Vulkan Window Example</i> shows the basics of using <a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a> in order to display rendering with the Vulkan graphics API on systems that support this.</p>
+<p class="centerAlign"><img alt="" src="./images/hellovulkanwindow.png"></p><p>In this example there will be no actual rendering: it simply begins and ends a render pass, which results in clearing the buffers to a fixed value. The color buffer clear value changes on every frame.</p>
+<a name="startup"></a>
+<h4 id="startup">Startup<a class="plink" href="#startup" title="Direct link to this headline"></a></h4>
+<p>Each Qt application using Vulkan will have to have a <code translate="no">Vulkan instance</code> which encapsulates application-level state and initializes a Vulkan library.</p>
+<p>A <a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a> must always be associated with a <a href="./qvulkaninstance.htm" translate="no">QVulkanInstance</a> and hence the example performs instance creation before the window. The <a href="./qvulkaninstance.htm" translate="no">QVulkanInstance</a> object must also outlive the window.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qvulkaninstance.htm" translate="no">QVulkanInstance</a></span> inst;
+
+<span class="preprocessor">#ifndef Q_OS_ANDROID</span>
+    inst<span class="operator">.</span>setLayers(<span class="type">QByteArrayList</span>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_LUNARG_standard_validation"</span>);
+<span class="preprocessor">#else</span>
+    inst<span class="operator">.</span>setLayers(<span class="type">QByteArrayList</span>()
+                   <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_GOOGLE_threading"</span>
+                   <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_LUNARG_parameter_validation"</span>
+                   <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_LUNARG_object_tracker"</span>
+                   <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_LUNARG_core_validation"</span>
+                   <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_LUNARG_image"</span>
+                   <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_LUNARG_swapchain"</span>
+                   <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VK_LAYER_GOOGLE_unique_objects"</span>);
+<span class="preprocessor">#endif</span>
+
+    <span class="keyword">if</span> (<span class="operator">!</span>inst<span class="operator">.</span>create())
+        <a href="./qtglobal.htm#qFatal" translate="no">qFatal</a>(<span class="string">"Failed to create Vulkan instance: %d"</span><span class="operator">,</span> inst<span class="operator">.</span>errorCode());</pre></div>
+<p>The example enables validation layers, when supported. When the requested layers are not present, the request will be ignored. Additional layers and extensions can be enabled in a similar manner.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    VulkanWindow w;
+    w<span class="operator">.</span>setVulkanInstance(<span class="operator">&amp;</span>inst);
+
+    w<span class="operator">.</span>resize(<span class="number">1024</span><span class="operator">,</span> <span class="number">768</span>);
+    w<span class="operator">.</span>show();</pre></div>
+<p>Once the instance is ready, it is time to create a window. Note that <code translate="no">w</code> lives on the stack and is declared after <code translate="no">inst</code>.</p>
+<a name="the-qvulkanwindow-subclass"></a>
+<h4 id="the-qvulkanwindow-subclass">The QVulkanWindow Subclass<a class="plink" href="#the-qvulkanwindow-subclass" title="Direct link to this headline"></a></h4>
+<p>To add custom functionality to a <a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a>, subclassing is used. This follows the existing patterns from <a href="./qopenglwindow.htm" translate="no">QOpenGLWindow</a> and <a href="./qopenglwidget.htm" translate="no">QOpenGLWidget</a>. However, <a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a> utilizes a separate <a href="./qvulkanwindowrenderer.htm" translate="no">QVulkanWindowRenderer</a> object. This resembles <a href="./qquickframebufferobject.htm" translate="no">QQuickFramebufferObject</a>, and allows better separation of the functions that are supposed to be reimplemented.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> VulkanRenderer : <span class="keyword">public</span> <span class="type"><a href="./qvulkanwindowrenderer.htm" translate="no">QVulkanWindowRenderer</a></span>
+{
+<span class="keyword">public</span>:
+    VulkanRenderer(<span class="type"><a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a></span> <span class="operator">*</span>w);
+
+    <span class="type">void</span> initResources() override;
+    <span class="type">void</span> initSwapChainResources() override;
+    <span class="type">void</span> releaseSwapChainResources() override;
+    <span class="type">void</span> releaseResources() override;
+
+    <span class="type">void</span> startNextFrame() override;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a></span> <span class="operator">*</span>m_window;
+    <span class="type"><a href="./qvulkandevicefunctions.htm" translate="no">QVulkanDeviceFunctions</a></span> <span class="operator">*</span>m_devFuncs;
+    <span class="type">float</span> m_green <span class="operator">=</span> <span class="number">0</span>;
+};
+
+<span class="keyword">class</span> VulkanWindow : <span class="keyword">public</span> <span class="type"><a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a></span>
+{
+<span class="keyword">public</span>:
+    <span class="type"><a href="./qvulkanwindowrenderer.htm" translate="no">QVulkanWindowRenderer</a></span> <span class="operator">*</span>createRenderer() override;
+};</pre></div>
+<p>The <a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a> subclass reimplements the factory function <a href="./qvulkanwindow.htm#createRenderer" translate="no">QVulkanWindow::createRenderer</a>(). This simply returns a new instance of the <a href="./qvulkanwindowrenderer.htm" translate="no">QVulkanWindowRenderer</a> subclass. In order to be able to access various Vulkan resources via the window object, a pointer to the window is passed and stored via the constructor.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qvulkanwindowrenderer.htm" translate="no">QVulkanWindowRenderer</a></span> <span class="operator">*</span>VulkanWindow<span class="operator">::</span>createRenderer()
+{
+    <span class="keyword">return</span> <span class="keyword">new</span> VulkanRenderer(<span class="keyword">this</span>);
+}
+
+VulkanRenderer<span class="operator">::</span>VulkanRenderer(<span class="type"><a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a></span> <span class="operator">*</span>w)
+    : m_window(w)
+{
+}</pre></div>
+<p>Graphics resource creation and destruction is typically done in one of the init - resource functions.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> VulkanRenderer<span class="operator">::</span>initResources()
+{
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>(<span class="string">"initResources"</span>);
+
+    m_devFuncs <span class="operator">=</span> m_window<span class="operator">-</span><span class="operator">&gt;</span>vulkanInstance()<span class="operator">-</span><span class="operator">&gt;</span>deviceFunctions(m_window<span class="operator">-</span><span class="operator">&gt;</span>device());
+}</pre></div>
+<a name="the-actual-rendering"></a>
+<h4 id="the-actual-rendering">The Actual Rendering<a class="plink" href="#the-actual-rendering" title="Direct link to this headline"></a></h4>
+<p><a href="./qvulkanwindow.htm" translate="no">QVulkanWindow</a> subclasses queue their draw calls in their reimplementation of QVulkanWindowRenderer::startNextFrame(). Once done, they are required to call back <a href="./qvulkanwindow.htm#frameReady" translate="no">QVulkanWindow::frameReady</a>(). The example has no asynchronous command generation, so the frameReady() call is made directly from startNextFrame().</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> VulkanRenderer<span class="operator">::</span>startNextFrame()
+{
+    m_green <span class="operator">+</span><span class="operator">=</span> <span class="number">0.005f</span>;
+    <span class="keyword">if</span> (m_green <span class="operator">&gt;</span> <span class="number">1.0f</span>)
+        m_green <span class="operator">=</span> <span class="number">0.0f</span>;
+
+    VkClearColorValue clearColor <span class="operator">=</span> {{ <span class="number">0.0f</span><span class="operator">,</span> m_green<span class="operator">,</span> <span class="number">0.0f</span><span class="operator">,</span> <span class="number">1.0f</span> }};
+    VkClearDepthStencilValue clearDS <span class="operator">=</span> { <span class="number">1.0f</span><span class="operator">,</span> <span class="number">0</span> };
+    VkClearValue clearValues<span class="operator">[</span><span class="number">2</span><span class="operator">]</span>;
+    memset(clearValues<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="keyword">sizeof</span>(clearValues));
+    clearValues<span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">.</span>color <span class="operator">=</span> clearColor;
+    clearValues<span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">.</span>depthStencil <span class="operator">=</span> clearDS;
+
+    VkRenderPassBeginInfo rpBeginInfo;
+    memset(<span class="operator">&amp;</span>rpBeginInfo<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="keyword">sizeof</span>(rpBeginInfo));
+    rpBeginInfo<span class="operator">.</span>sType <span class="operator">=</span> VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+    rpBeginInfo<span class="operator">.</span>renderPass <span class="operator">=</span> m_window<span class="operator">-</span><span class="operator">&gt;</span>defaultRenderPass();
+    rpBeginInfo<span class="operator">.</span>framebuffer <span class="operator">=</span> m_window<span class="operator">-</span><span class="operator">&gt;</span>currentFramebuffer();
+    <span class="keyword">const</span> <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> sz <span class="operator">=</span> m_window<span class="operator">-</span><span class="operator">&gt;</span>swapChainImageSize();
+    rpBeginInfo<span class="operator">.</span>renderArea<span class="operator">.</span>extent<span class="operator">.</span>width <span class="operator">=</span> sz<span class="operator">.</span>width();
+    rpBeginInfo<span class="operator">.</span>renderArea<span class="operator">.</span>extent<span class="operator">.</span>height <span class="operator">=</span> sz<span class="operator">.</span>height();
+    rpBeginInfo<span class="operator">.</span>clearValueCount <span class="operator">=</span> <span class="number">2</span>;
+    rpBeginInfo<span class="operator">.</span>pClearValues <span class="operator">=</span> clearValues;
+    VkCommandBuffer cmdBuf <span class="operator">=</span> m_window<span class="operator">-</span><span class="operator">&gt;</span>currentCommandBuffer();
+    m_devFuncs<span class="operator">-</span><span class="operator">&gt;</span>vkCmdBeginRenderPass(cmdBuf<span class="operator">,</span> <span class="operator">&amp;</span>rpBeginInfo<span class="operator">,</span> VK_SUBPASS_CONTENTS_INLINE);
+
+    <span class="comment">// Do nothing else. We will just clear to green, changing the component on</span>
+    <span class="comment">// every invocation. This also helps verifying the rate to which the thread</span>
+    <span class="comment">// is throttled to. (The elapsed time between startNextFrame calls should</span>
+    <span class="comment">// typically be around 16 ms. Note that rendering is 2 frames ahead of what</span>
+    <span class="comment">// is displayed.)</span>
+
+    m_devFuncs<span class="operator">-</span><span class="operator">&gt;</span>vkCmdEndRenderPass(cmdBuf);
+
+    m_window<span class="operator">-</span><span class="operator">&gt;</span>frameReady();
+    m_window<span class="operator">-</span><span class="operator">&gt;</span>requestUpdate(); <span class="comment">// render continuously, throttled by the presentation rate</span>
+}</pre></div>
+<p>To get continuous updates, the example simply invokes <a href="./qwindow.htm#requestUpdate" translate="no">QWindow::requestUpdate</a>() in order to schedule a repaint.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/vulkan/hellovulkanwindow?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@hellovulkanwindow -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

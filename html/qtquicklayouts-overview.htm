@@ -1,0 +1,181 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Layouts Overview | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquicklayouts-overview.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Qt Quick Layouts Overview</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Layouts Overview</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquicklayouts-overview.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt Quick Layouts are items that are used to arrange items in a user interface. Since Qt Quick Layouts also resize their items, they are well suited for resizable user interfaces.</p>
+<a name="getting-started"></a>
+<h2 id="getting-started">Getting Started<a class="plink" href="#getting-started" title="Direct link to this headline"></a></h2>
+<p>The QML types can be imported into your application using the following import statement in your <code translate="no">.qml</code> file.</p>
+<div class="pre"><pre class="cpp" translate="no">import <span class="type"><a href="./qtquick-module.htm" translate="no">QtQuick</a></span><span class="operator">.</span>Layouts <span class="number">1.11</span></pre></div>
+<a name="key-features"></a>
+<h2 id="key-features">Key Features<a class="plink" href="#key-features" title="Direct link to this headline"></a></h2>
+<p>Some of the key features are:</p>
+<ul>
+<li><a href="./qml-qtquick-layouts-layout.htm#alignment-attached-prop" translate="no">Alignment</a> of items can be specified with the <a href="./qml-qtquick-layouts-layout.htm#alignment-attached-prop" translate="no">Layout.alignment</a> property</li>
+<li><a href="./qml-qtquick-layouts-layout.htm#fillWidth-attached-prop" translate="no">Resizable items</a> can be specified with the <a href="./qml-qtquick-layouts-layout.htm#fillWidth-attached-prop" translate="no">Layout.fillWidth</a> and <a href="./qml-qtquick-layouts-layout.htm#fillHeight-attached-prop" translate="no">Layout.fillHeight</a> properties.</li>
+<li><a href="./qtquicklayouts-overview.htm#size-constraints" translate="no">Size constraints</a> can be specified with <a href="./qml-qtquick-layouts-layout.htm#minimumWidth-attached-prop" translate="no">Layout.minimumWidth</a>, <a href="./qml-qtquick-layouts-layout.htm#preferredWidth-attached-prop" translate="no">Layout.preferredWidth</a>, and <a href="./qml-qtquick-layouts-layout.htm#maximumWidth-attached-prop" translate="no">Layout.maximumWidth</a> properties ("Width" can be replaced with "Height" for specifying similar constraints to the height).</li>
+<li><a href="./qml-qtquick-layouts-rowlayout.htm#spacing-prop" translate="no">Spacings</a> can be specified with <a href="./qml-qtquick-layouts-rowlayout.htm#spacing-prop" translate="no">spacing</a>, <a href="./qml-qtquick-layouts-gridlayout.htm#rowSpacing-prop" translate="no">rowSpacing</a> or <a href="./qml-qtquick-layouts-gridlayout.htm#columnSpacing-prop" translate="no">columnSpacing</a></li>
+</ul>
+<p>In addition to the above features, <a href="./qml-qtquick-layouts-gridlayout.htm" translate="no">GridLayout</a> adds these features:</p>
+<ul>
+<li><a href="./qml-qtquick-layouts-layout.htm#row-attached-prop" translate="no">Grid coordinates</a> can be specified with the <a href="./qml-qtquick-layouts-layout.htm#row-attached-prop" translate="no">Layout.row</a> and <a href="./qml-qtquick-layouts-layout.htm#column-attached-prop" translate="no">Layout.column</a> properties.</li>
+<li><a href="./qml-qtquick-layouts-gridlayout.htm#flow-prop" translate="no">Automatic grid coordinates</a> used together with the <a href="./qml-qtquick-layouts-gridlayout.htm#flow-prop" translate="no">flow</a>, <a href="./qml-qtquick-layouts-gridlayout.htm#rows-prop" translate="no">rows</a>, and <a href="./qml-qtquick-layouts-gridlayout.htm#columns-prop" translate="no">columns</a> properties.</li>
+<li><a href="./qml-qtquick-layouts-layout.htm#columnSpan-attached-prop" translate="no">Spans</a> across rows or columns can be specified with the <a href="./qml-qtquick-layouts-layout.htm#rowSpan-attached-prop" translate="no">Layout.rowSpan</a> and <a href="./qml-qtquick-layouts-layout.htm#columnSpan-attached-prop" translate="no">Layout.columnSpan</a> properties.</li>
+</ul>
+<a name="a-simple-layout"></a>
+<h2 id="a-simple-layout">A Simple Layout<a class="plink" href="#a-simple-layout" title="Direct link to this headline"></a></h2>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-window-window.htm" translate="no">Window</a></span> {
+    <span class="type"><a href="./qml-qtquick-layouts-rowlayout.htm" translate="no">RowLayout</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">spacing</span>: <span class="number">6</span>
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">color</span>: <span class="string">'azure'</span>
+            <span class="name">Layout</span>.preferredWidth: <span class="number">100</span>
+            <span class="name">Layout</span>.preferredHeight: <span class="number">150</span>
+        }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">color</span>: <span class="string">"plum"</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">Layout</span>.fillHeight: <span class="number">true</span>
+        }
+    }
+}</pre></div>
+<p>As the intention of using a layout is to rearrange its children whenever the layout changes size, the application should make sure that the layout gets resized. In the above snippet the <a href="./qml-qtquick-layouts-rowlayout.htm" translate="no">RowLayout</a> ensures that by specifying <code translate="no">anchors.fill: parent</code>. However, it can also be by other means, such as directly specifying <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> and <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a> properties. In the same snippet, the <code translate="no">azure</code> Rectangle has a fixed size of <code translate="no">(100, 150)</code> pixels, and the <code translate="no">plum</code> Rectangle will expand to occupy all the space it gets allocated.</p>
+<div class="admonition note">
+<p><b>Note: </b>A layout is responsible for its children's geometry. You should therefore not specify <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a>, <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a>, <a href="./qml-qtquick-item.htm#x-prop" translate="no">x</a>, <a href="./qml-qtquick-item.htm#y-prop" translate="no">y</a> or any other properties that might influence those properties (such as <a href="./qml-qtquick-item.htm#anchors-prop" translate="no">anchors</a>) on those items. Otherwise there would be a conflict of interest, and the result is undefined. This is also the case if the child item is a layout. Therefore, only layouts with no parent layout can have <code translate="no">anchors.fill: parent</code>.</p>
+</div>
+<p>All items in the layout will have 6 pixels of spacing between them:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">spacing</span>: <span class="number">6</span></pre></div>
+<a name="size-constraints"></a>
+<h3 id="size-constraints">Size Constraints<a class="plink" href="#size-constraints" title="Direct link to this headline"></a></h3>
+<p>Since an item can be resized by its layout, the layout needs to know the <a href="./qml-qtquick-layouts-layout.htm#minimumWidth-attached-prop" translate="no">minimum</a>, <a href="./qml-qtquick-layouts-layout.htm#preferredWidth-attached-prop" translate="no">preferred</a>, and <a href="./qml-qtquick-layouts-layout.htm#maximumWidth-attached-prop" translate="no">maximum</a> sizes of all items where <a href="./qml-qtquick-layouts-layout.htm#fillWidth-attached-prop" translate="no">Layout.fillWidth</a> or <a href="./qml-qtquick-layouts-layout.htm#fillHeight-attached-prop" translate="no">Layout.fillHeight</a> is set to <code translate="no">true</code>. For instance, the following will produce a layout with two rectangles lying side-by-side that stretches horizontally. The azure rectangle can be resized from 50x150 to 300x150, and the plum rectangle can be resized from 100x100 to ∞x100.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-layouts-rowlayout.htm" translate="no">RowLayout</a></span> {
+    <span class="name">id</span>: <span class="name">layout</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">spacing</span>: <span class="number">6</span>
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">color</span>: <span class="string">'azure'</span>
+        <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        <span class="name">Layout</span>.minimumWidth: <span class="number">50</span>
+        <span class="name">Layout</span>.preferredWidth: <span class="number">100</span>
+        <span class="name">Layout</span>.maximumWidth: <span class="number">300</span>
+        <span class="name">Layout</span>.minimumHeight: <span class="number">150</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">text</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">+</span> <span class="string">'x'</span> <span class="operator">+</span> <span class="name">parent</span>.<span class="name">height</span>
+        }
+    }
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">color</span>: <span class="string">'plum'</span>
+        <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        <span class="name">Layout</span>.minimumWidth: <span class="number">100</span>
+        <span class="name">Layout</span>.preferredWidth: <span class="number">200</span>
+        <span class="name">Layout</span>.preferredHeight: <span class="number">100</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">text</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">+</span> <span class="string">'x'</span> <span class="operator">+</span> <span class="name">parent</span>.<span class="name">height</span>
+        }
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="&quot;RowLayout at its minimum&quot;" src="./images/rowlayout-minimum.png"></p><p>Combining each item's constraints will give these implicit constraints to the layout element:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th></th><th>minimum</th><th>preferred</th><th>maximum</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>implicit constraints (width)</td><td>156</td><td>306</td><td>∞ (<code translate="no">Number.POSITIVE_INFINITY</code>)</td></tr>
+<tr class="even" valign="top"><td>implicit constraints (heights)</td><td>150</td><td>150</td><td>150</td></tr>
+</tbody></table></div>
+<p>Thus, the layout cannot be narrower than 156 or be taller or shorter than 150 without breaking any of the constraints of its child items.</p>
+<a name="specifying-preferred-size"></a>
+<h3 id="specifying-preferred-size">Specifying Preferred Size<a class="plink" href="#specifying-preferred-size" title="Direct link to this headline"></a></h3>
+<p>For each item, the effective preferred size may come from one of several candidate properties. For determining the effective preferred size, it will query these candidate properties in the following order, and use the first candidate with a valid width or height.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Candidate properties</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><a href="./qml-qtquick-layouts-layout.htm#preferredWidth-attached-prop" translate="no">Layout.preferredWidth</a> or <a href="./qml-qtquick-layouts-layout.htm#preferredHeight-attached-prop" translate="no">Layout.preferredHeight</a></td><td>These properties are supposed to be modified by the application if the default implicit size does not give the optimal arrangement.</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtquick-item.htm#implicitWidth-prop" translate="no">implicitWidth</a> or <a href="./qml-qtquick-item.htm#implicitHeight-prop" translate="no">implicitHeight</a></td><td>These properties are supposed to be supplied by each item to give a meaningful ideal size, for example the size needed to display all the contents of a <a href="./qml-qtquick-text.htm" translate="no">Text</a> type. An implicit width or height of <code translate="no">0</code> is interpreted as invalid.</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> and <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a></td><td>If none of the above properties are valid, the layout will resort to the <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> and <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a> properties.</td></tr>
+</tbody></table></div>
+<p>An item can specify <a href="./qml-qtquick-layouts-layout.htm#preferredWidth-attached-prop" translate="no">Layout.preferredWidth</a> without having to specify <a href="./qml-qtquick-layouts-layout.htm#preferredHeight-attached-prop" translate="no">Layout.preferredHeight</a>. In this case, the effective preferred height will be determined from the <a href="./qml-qtquick-item.htm#implicitHeight-prop" translate="no">implicitHeight</a> (or ultimately <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a>).</p>
+<div class="admonition note">
+<p><b>Note: </b>Resorting to <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> or <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a> properties is only provided as a final fallback. If you want to override the preferred size, it is recommended to use <a href="./qml-qtquick-layouts-layout.htm#preferredWidth-attached-prop" translate="no">Layout.preferredWidth</a> or <a href="./qml-qtquick-layouts-layout.htm#preferredHeight-attached-prop" translate="no">Layout.preferredHeight</a>. Relying on the <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> or <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a> properties for specifying the preferred size might give some unexpected behavior. For instance, changing the <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> or <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a> properties won't trigger a layout rearrangement. Also, when the layout is forced to do a full rebuild it might use the actual width and height, and not the width and height specified in the QML file.</p>
+</div>
+<a name="connecting-windows-and-layouts"></a>
+<h2 id="connecting-windows-and-layouts">Connecting Windows and Layouts<a class="plink" href="#connecting-windows-and-layouts" title="Direct link to this headline"></a></h2>
+<p>You can just use normal anchoring concepts to ensure that the layout will follow the window resizing.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-layouts-rowlayout.htm" translate="no">RowLayout</a></span> {
+    <span class="name">id</span>: <span class="name">layout</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span></pre></div>
+<p>The size constraints of layouts can be used to ensure that the window cannot be resized beyond the layout constraints. You can take the size constraints from the layout and set these constraints on the minimumWidth, minimumHeight, maximumWidth, and maximumHeight of the Window element. The following code ensures that the window cannot be resized beyond the constraints of the layout:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">minimumWidth</span>: <span class="name">layout</span>.<span class="name">Layout</span>.<span class="name">minimumWidth</span>
+<span class="name">minimumHeight</span>: <span class="name">layout</span>.<span class="name">Layout</span>.<span class="name">minimumHeight</span>
+<span class="name">maximumWidth</span>: <span class="number">1000</span>
+<span class="name">maximumHeight</span>: <span class="name">layout</span>.<span class="name">Layout</span>.<span class="name">maximumHeight</span></pre></div>
+<div class="admonition note">
+<p><b>Note: </b>Since layout.Layout.maximumWidth is infinite in this case, we cannot bind that to the maximumWidth property of Window, since that is an integer number. We therefore set a fixed maximum width to 1000.</p>
+</div>
+<p>Finally, you usually want the initial size of the window to be the layout's implicit size:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">width</span>: <span class="name">layout</span>.<span class="name">implicitWidth</span>
+<span class="name">height</span>: <span class="name">layout</span>.<span class="name">implicitHeight</span></pre></div>
+</div>
+<!-- @@@qtquicklayouts-overview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

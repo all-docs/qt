@@ -1,0 +1,114 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LayerFilter QML Type | Qt 3D</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qt3d-render-layerfilter.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qt3d-index.htm" translate="no">Qt 3D</a></li>
+                            <li><a href="./qt3d-qml.htm" translate="no">QML Types</a></li>
+                            <li><a>LayerFilter QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">LayerFilter QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$LayerFilter-brief -->
+<p>Controls layers drawn in a frame graph branch. <a href="#details">More...</a></p>
+<!-- @@@LayerFilter -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import Qt3D.Render 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.5</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Instantiates:</td><td class="memItemRight bottomAlign"> <a href="./qml-qt3d-render-layerfilter.htm" translate="no"></a><a href="./qt3drender-qlayerfilter.htm" translate="no">QLayerFilter</a></td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qt3d-render-framegraphnode.htm" translate="no">FrameGraphNode</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qt3d-render-layerfilter-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-layerfilter.htm#filterMode-prop" translate="no">filterMode</a></b></b> : enumeration</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-layerfilter.htm#layers-prop" translate="no">layers</a></b></b> : list&lt;Layer&gt;</li>
+</ul>
+<!-- $$$LayerFilter-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A LayerFilter can be used to instruct the renderer as to which layer(s) to draw in that branch of the frame graph. The LayerFilter selects which entities to draw based on the <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> instances added to the LayerFilter and as components to the <a href="./qml-qt3d-core-entity.htm" translate="no">Entity</a>.</p>
+<p>The LayerFilter can be configured to select or discard entities with a specific <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> depending on the <a href="./qml-qt3d-render-layerfilter.htm#filterMode-prop" translate="no">filterMode</a> property. By default, entities referencing one of the <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects that are also being referenced by the <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a> are selected (AcceptAnyMatchingLayers).</p>
+<p>Within the FrameGraph tree, multiple <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a> nodes can be nested within a branch going from root to a leaf. In that case the filtering will first operate on all entities of the scene using the filtering method specified by the first declared <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a>. Then the filtered subset of entities will be filtered again based on the filtering method set on the second <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a> declared. This is then repeated until all <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a> nodes of the branch have been consumed.</p>
+<!-- @@@LayerFilter -->
+<h2>Property Documentation</h2>
+<!-- $$$filterMode -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="filterMode-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="filterMode-prop"></a><span class="name">filterMode</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#filterMode-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds the filter mode specifying the entities to select for drawing.</p>
+<p>The default value is <code translate="no">LayerFilter.AcceptMatchingLayers</code>.</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">LayerFilter.AcceptAnyMatchingLayers</code></td><td class="topAlign">Accept entities that reference one or more <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a>. This is the default</td></tr>
+<tr><td class="topAlign"><code translate="no">LayerFilter.AcceptAllMatchingLayers</code></td><td class="topAlign">Accept entities that reference all the <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a></td></tr>
+<tr><td class="topAlign"><code translate="no">LayerFilter.DiscardAnyMatchingLayers</code></td><td class="topAlign">Discard entities that reference one or more <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a></td></tr>
+<tr><td class="topAlign"><code translate="no">LayerFilter.DiscardAllMatchingLayers</code></td><td class="topAlign">Discard entities that reference all <a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a> objects added to this <a href="./qml-qt3d-render-layerfilter.htm" translate="no">LayerFilter</a></td></tr>
+</tbody></table></div>
+</div></div><!-- @@@filterMode -->
+<br>
+<!-- $$$layers -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="layers-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="layers-prop"></a><span class="qmlreadonly">[read-only] </span><span class="name">layers</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qt3d-render-layer.htm" translate="no">Layer</a></span>&gt;<a class="plink" href="#layers-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds a list of layers specifying the layers to select for drawing.</p>
+</div></div><!-- @@@layers -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,507 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt OPC UA Viewer Example | Qt OPC UA</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtopcua-opcuaviewer-mainwindow-cpp.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtopcua-index.htm" translate="no">Qt OPC UA</a></li>
+                            <li><a href="./qtopcua-examples.htm" translate="no">Qt OPC UA Examples</a></li>
+                            <li><a>Qt OPC UA Viewer Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt OPC UA Viewer Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2018 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt OPC UA module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "mainwindow.h"</span>
+<span class="preprocessor">#include "opcuamodel.h"</span>
+<span class="preprocessor">#include "certificatedialog.h"</span>
+<span class="preprocessor">#include "ui_mainwindow.h"</span>
+
+<span class="preprocessor">#include &lt;QApplication&gt;</span>
+<span class="preprocessor">#include &lt;QDir&gt;</span>
+<span class="preprocessor">#include &lt;QMessageBox&gt;</span>
+<span class="preprocessor">#include &lt;QTextCharFormat&gt;</span>
+<span class="preprocessor">#include &lt;QTextBlock&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaProvider&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaAuthenticationInformation&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaErrorState&gt;</span>
+
+<span class="keyword">static</span> MainWindow <span class="operator">*</span>mainWindowGlobal <span class="operator">=</span> nullptr;
+<span class="keyword">static</span> <span class="type"><a href="./qtglobal.htm#QtMessageHandler-typedef" translate="no">QtMessageHandler</a></span> oldMessageHandler <span class="operator">=</span> nullptr;
+
+<span class="keyword">static</span> <span class="type">void</span> messageHandler(<span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtMsgType</a></span> type<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qmessagelogcontext.htm" translate="no">QMessageLogContext</a></span> <span class="operator">&amp;</span>context<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>msg)
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>mainWindowGlobal)
+        <span class="keyword">return</span>;
+
+   <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> message;
+   <span class="type">QColor</span> color <span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>black;
+
+   <span class="keyword">switch</span> (type) {
+   <span class="keyword">case</span> <span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtWarningMsg</a></span>:
+       message <span class="operator">=</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>tr(<span class="string">"Warning"</span>);
+       color <span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>darkYellow;
+       <span class="keyword">break</span>;
+   <span class="keyword">case</span> <span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtCriticalMsg</a></span>:
+       message <span class="operator">=</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>tr(<span class="string">"Critical"</span>);
+       color <span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>darkRed;
+       <span class="keyword">break</span>;
+   <span class="keyword">case</span> <span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtFatalMsg</a></span>:
+       message <span class="operator">=</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>tr(<span class="string">"Fatal"</span>);
+        color <span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>darkRed;
+       <span class="keyword">break</span>;
+   <span class="keyword">case</span> <span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtInfoMsg</a></span>:
+       message <span class="operator">=</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>tr(<span class="string">"Info"</span>);
+       <span class="keyword">break</span>;
+   <span class="keyword">case</span> <span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtDebugMsg</a></span>:
+       message <span class="operator">=</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>tr(<span class="string">"Debug"</span>);
+       <span class="keyword">break</span>;
+   }
+   message <span class="operator">+</span><span class="operator">=</span> QLatin1String(<span class="string">": "</span>);
+   message <span class="operator">+</span><span class="operator">=</span> msg;
+
+   <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> contextStr <span class="operator">=</span>
+       <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">" (%1:%2, %3)"</span>)<span class="operator">.</span>arg(context<span class="operator">.</span>file)<span class="operator">.</span>arg(context<span class="operator">.</span>line)<span class="operator">.</span>arg(context<span class="operator">.</span>function);
+
+   <span class="comment">// Logging messages from backends are sent from different threads and need to be</span>
+   <span class="comment">// synchronized with the GUI thread.</span>
+   <span class="type"><a href="./qmetaobject.htm" translate="no">QMetaObject</a></span><span class="operator">::</span>invokeMethod(mainWindowGlobal<span class="operator">,</span> <span class="string">"log"</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>QueuedConnection<span class="operator">,</span>
+                             Q_ARG(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> message)<span class="operator">,</span>
+                             Q_ARG(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> contextStr)<span class="operator">,</span>
+                             Q_ARG(<span class="type">QColor</span><span class="operator">,</span> color));
+
+   <span class="keyword">if</span> (oldMessageHandler)
+       oldMessageHandler(type<span class="operator">,</span> context<span class="operator">,</span> msg);
+}
+
+MainWindow<span class="operator">::</span>MainWindow(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>initialUrl<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent) : <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>(parent)
+  <span class="operator">,</span> ui(<span class="keyword">new</span> Ui<span class="operator">::</span>MainWindow)
+  <span class="operator">,</span> mOpcUaModel(<span class="keyword">new</span> OpcUaModel(<span class="keyword">this</span>))
+  <span class="operator">,</span> mOpcUaProvider(<span class="keyword">new</span> <span class="type"><a href="./qopcuaprovider.htm" translate="no">QOpcUaProvider</a></span>(<span class="keyword">this</span>))
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>host<span class="operator">-</span><span class="operator">&gt;</span>setText(initialUrl);
+    mainWindowGlobal <span class="operator">=</span> <span class="keyword">this</span>;
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>quitAction<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">::</span>close);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>quitAction<span class="operator">-</span><span class="operator">&gt;</span>setShortcut(<span class="type">QKeySequence</span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CTRL <span class="operator">+</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Q));
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>aboutAction<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>aboutQt);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>aboutAction<span class="operator">-</span><span class="operator">&gt;</span>setShortcut(<span class="type">QKeySequence</span>(<span class="type">QKeySequence</span><span class="operator">::</span>HelpContents));
+
+    updateUiState();
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>opcUaPlugin<span class="operator">-</span><span class="operator">&gt;</span>addItems(<span class="type"><a href="./qopcuaprovider.htm" translate="no">QOpcUaProvider</a></span><span class="operator">::</span>availableBackends());
+    ui<span class="operator">-</span><span class="operator">&gt;</span>treeView<span class="operator">-</span><span class="operator">&gt;</span>setModel(mOpcUaModel);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>treeView<span class="operator">-</span><span class="operator">&gt;</span>header()<span class="operator">-</span><span class="operator">&gt;</span>setSectionResizeMode(<span class="type"><a href="./qheaderview.htm" translate="no">QHeaderView</a></span><span class="operator">::</span>ResizeToContents);
+
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>opcUaPlugin<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">=</span><span class="operator">=</span> <span class="number">0</span>) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>opcUaPlugin<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectButton<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(<span class="keyword">true</span>);
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>critical(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"No OPCUA plugins available"</span>)<span class="operator">,</span> tr(<span class="string">"The list of available OPCUA plugins is empty. No connection possible."</span>));
+    }
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>findServersButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>findServers);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>host<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>returnPressed<span class="operator">,</span> <span class="keyword">this</span><span class="operator">-</span><span class="operator">&gt;</span>ui<span class="operator">-</span><span class="operator">&gt;</span>findServersButton<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>() { <span class="keyword">this</span><span class="operator">-</span><span class="operator">&gt;</span>ui<span class="operator">-</span><span class="operator">&gt;</span>findServersButton<span class="operator">-</span><span class="operator">&gt;</span>animateClick(); });
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>getEndpointsButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>getEndpoints);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>connectButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>connectToServer);
+    oldMessageHandler <span class="operator">=</span> <a href="./qtglobal.htm#qInstallMessageHandler" translate="no">qInstallMessageHandler</a>(<span class="operator">&amp;</span>messageHandler);
+
+    setupPkiConfiguration();
+
+    m_identity <span class="operator">=</span> m_pkiConfig<span class="operator">.</span>applicationIdentity();
+}
+
+MainWindow<span class="operator">::</span><span class="operator">~</span>MainWindow()
+{
+    <span class="keyword">delete</span> ui;
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>setupPkiConfiguration()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> pkidir <span class="operator">=</span> <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationDirPath();
+<span class="preprocessor">#ifdef Q_OS_WIN</span>
+    pkidir <span class="operator">+</span><span class="operator">=</span> <span class="string">"../"</span>;
+<span class="preprocessor">#endif</span>
+    pkidir <span class="operator">+</span><span class="operator">=</span> <span class="string">"/pki"</span>;
+    m_pkiConfig<span class="operator">.</span>setClientCertificateFile(pkidir <span class="operator">+</span> <span class="string">"/own/certs/opcuaviewer.der"</span>);
+    m_pkiConfig<span class="operator">.</span>setPrivateKeyFile(pkidir <span class="operator">+</span> <span class="string">"/own/private/opcuaviewer.pem"</span>);
+    m_pkiConfig<span class="operator">.</span>setTrustListDirectory(pkidir <span class="operator">+</span> <span class="string">"/trusted/certs"</span>);
+    m_pkiConfig<span class="operator">.</span>setRevocationListDirectory(pkidir <span class="operator">+</span> <span class="string">"/trusted/crl"</span>);
+    m_pkiConfig<span class="operator">.</span>setIssuerListDirectory(pkidir <span class="operator">+</span> <span class="string">"/issuers/certs"</span>);
+    m_pkiConfig<span class="operator">.</span>setIssuerRevocationListDirectory(pkidir <span class="operator">+</span> <span class="string">"/issuers/crl"</span>);
+
+    <span class="comment">// create the folders if they don't exist yet</span>
+    createPkiFolders();
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>createClient()
+{
+    <span class="keyword">if</span> (mOpcUaClient <span class="operator">=</span><span class="operator">=</span> nullptr) {
+        mOpcUaClient <span class="operator">=</span> mOpcUaProvider<span class="operator">-</span><span class="operator">&gt;</span>createClient(ui<span class="operator">-</span><span class="operator">&gt;</span>opcUaPlugin<span class="operator">-</span><span class="operator">&gt;</span>currentText());
+        <span class="keyword">if</span> (<span class="operator">!</span>mOpcUaClient) {
+            <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> message(tr(<span class="string">"Connecting to the given sever failed. See the log for details."</span>));
+            log(message<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>()<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>red);
+            <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>critical(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Failed to connect to server"</span>)<span class="operator">,</span> message);
+            <span class="keyword">return</span>;
+        }
+
+        connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>connectError<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>showErrorDialog);
+        mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>setApplicationIdentity(m_identity);
+        mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>setPkiConfiguration(m_pkiConfig);
+
+        <span class="keyword">if</span> (mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>supportedUserTokenTypes()<span class="operator">.</span>contains(<span class="type"><a href="./qopcuausertokenpolicy.htm" translate="no">QOpcUaUserTokenPolicy</a></span><span class="operator">::</span>TokenType<span class="operator">::</span>Certificate)) {
+            <span class="type"><a href="./qopcuaauthenticationinformation.htm" translate="no">QOpcUaAuthenticationInformation</a></span> authInfo;
+            authInfo<span class="operator">.</span>setCertificateAuthentication();
+            mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>setAuthenticationInformation(authInfo);
+        }
+
+        connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>connected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>clientConnected);
+        connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>disconnected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>clientDisconnected);
+        connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>errorChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>clientError);
+        connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>stateChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>clientState);
+        connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>endpointsRequestFinished<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>getEndpointsComplete);
+        connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>findServersFinished<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>findServersComplete);
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>findServers()
+{
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> localeIds;
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> serverUris;
+    <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> url(ui<span class="operator">-</span><span class="operator">&gt;</span>host<span class="operator">-</span><span class="operator">&gt;</span>text());
+
+    updateUiState();
+
+    createClient();
+    <span class="comment">// set default port if missing</span>
+    <span class="keyword">if</span> (url<span class="operator">.</span>port() <span class="operator">=</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>) url<span class="operator">.</span>setPort(<span class="number">4840</span>);
+
+    <span class="keyword">if</span> (mOpcUaClient) {
+        mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>findServers(url<span class="operator">,</span> localeIds<span class="operator">,</span> serverUris);
+        <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Discovering servers on "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> url<span class="operator">.</span>toString();
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>findServersComplete(<span class="keyword">const</span> <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qopcuaapplicationdescription.htm" translate="no">QOpcUaApplicationDescription</a></span><span class="operator">&gt;</span> <span class="operator">&amp;</span>servers<span class="operator">,</span> <span class="type"><a href="./qopcua.htm" translate="no">QOpcUa</a></span><span class="operator">::</span>UaStatusCode statusCode)
+{
+    <span class="type"><a href="./qopcuaapplicationdescription.htm" translate="no">QOpcUaApplicationDescription</a></span> server;
+
+    <span class="keyword">if</span> (isSuccessStatus(statusCode)) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>server : servers) {
+            <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">&gt;</span> urls <span class="operator">=</span> server<span class="operator">.</span>discoveryUrls();
+            <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>url : qAsConst(urls))
+                ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>addItem(url);
+        }
+    }
+
+    updateUiState();
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>getEndpoints()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>clear();
+    updateUiState();
+
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>currentIndex() <span class="operator">&gt;</span><span class="operator">=</span> <span class="number">0</span>) {
+        <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> serverUrl <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>currentText();
+        createClient();
+        mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>requestEndpoints(serverUrl);
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>getEndpointsComplete(<span class="keyword">const</span> <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qopcuaendpointdescription.htm" translate="no">QOpcUaEndpointDescription</a></span><span class="operator">&gt;</span> <span class="operator">&amp;</span>endpoints<span class="operator">,</span> <span class="type"><a href="./qopcua.htm" translate="no">QOpcUa</a></span><span class="operator">::</span>UaStatusCode statusCode)
+{
+    <span class="type">int</span> index <span class="operator">=</span> <span class="number">0</span>;
+    <span class="keyword">const</span> <span class="type">char</span> <span class="operator">*</span>modes<span class="operator">[</span><span class="operator">]</span> <span class="operator">=</span> {
+        <span class="string">"Invalid"</span><span class="operator">,</span>
+        <span class="string">"None"</span><span class="operator">,</span>
+        <span class="string">"Sign"</span><span class="operator">,</span>
+        <span class="string">"SignAndEncrypt"</span>
+    };
+
+    <span class="keyword">if</span> (isSuccessStatus(statusCode)) {
+        mEndpointList <span class="operator">=</span> endpoints;
+        <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>endpoint : endpoints) {
+            <span class="keyword">if</span> (endpoint<span class="operator">.</span>securityMode() <span class="operator">&gt;</span> <span class="keyword">sizeof</span>(modes)) {
+                <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Invalid security mode"</span>;
+                <span class="keyword">continue</span>;
+            }
+
+            <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> EndpointName <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="string">"%1 (%2)"</span>)
+                    <span class="operator">.</span>arg(endpoint<span class="operator">.</span>securityPolicy()<span class="operator">,</span> modes<span class="operator">[</span>endpoint<span class="operator">.</span>securityMode()<span class="operator">]</span>);
+            ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>addItem(EndpointName<span class="operator">,</span> index<span class="operator">+</span><span class="operator">+</span>);
+        }
+    }
+
+    updateUiState();
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>connectToServer()
+{
+    <span class="keyword">if</span> (mClientConnected) {
+        mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>disconnectFromEndpoint();
+        <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>currentIndex() <span class="operator">&gt;</span><span class="operator">=</span> <span class="number">0</span>) {
+        m_endpoint <span class="operator">=</span> mEndpointList<span class="operator">[</span>ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()<span class="operator">]</span>;
+        createClient();
+        mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>connectToEndpoint(m_endpoint);
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>clientConnected()
+{
+    mClientConnected <span class="operator">=</span> <span class="keyword">true</span>;
+    updateUiState();
+
+    connect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>namespaceArrayUpdated<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>namespacesArrayUpdated);
+    mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>updateNamespaceArray();
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>clientDisconnected()
+{
+    mClientConnected <span class="operator">=</span> <span class="keyword">false</span>;
+    mOpcUaClient<span class="operator">-</span><span class="operator">&gt;</span>deleteLater();
+    mOpcUaClient <span class="operator">=</span> nullptr;
+    mOpcUaModel<span class="operator">-</span><span class="operator">&gt;</span>setOpcUaClient(nullptr);
+    updateUiState();
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>namespacesArrayUpdated(<span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>namespaceArray)
+{
+    <span class="keyword">if</span> (namespaceArray<span class="operator">.</span>isEmpty()) {
+        <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Failed to retrieve the namespaces array"</span>;
+        <span class="keyword">return</span>;
+    }
+
+    disconnect(mOpcUaClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>namespaceArrayUpdated<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>namespacesArrayUpdated);
+    mOpcUaModel<span class="operator">-</span><span class="operator">&gt;</span>setOpcUaClient(mOpcUaClient);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>treeView<span class="operator">-</span><span class="operator">&gt;</span>header()<span class="operator">-</span><span class="operator">&gt;</span>setSectionResizeMode(<span class="number">1</span> <span class="comment">/* Value column*/</span><span class="operator">,</span> <span class="type"><a href="./qheaderview.htm" translate="no">QHeaderView</a></span><span class="operator">::</span>Interactive);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>clientError(<span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>ClientError error)
+{
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Client error changed"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> error;
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>clientState(<span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span><span class="operator">::</span>ClientState state)
+{
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Client state changed"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> state;
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>updateUiState()
+{
+    <span class="comment">// allow changing the backend only if it was not already created</span>
+    ui<span class="operator">-</span><span class="operator">&gt;</span>opcUaPlugin<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(mOpcUaClient <span class="operator">=</span><span class="operator">=</span> nullptr);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>connectButton<span class="operator">-</span><span class="operator">&gt;</span>setText(mClientConnected <span class="operator">?</span> tr(<span class="string">"Disconnect"</span>) : tr(<span class="string">"Connect"</span>));
+
+    <span class="keyword">if</span> (mClientConnected) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>host<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>findServersButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>getEndpointsButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+    } <span class="keyword">else</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>host<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">&gt;</span> <span class="number">0</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">&gt;</span> <span class="number">0</span>);
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>findServersButton<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(ui<span class="operator">-</span><span class="operator">&gt;</span>host<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>isEmpty());
+        ui<span class="operator">-</span><span class="operator">&gt;</span>getEndpointsButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>currentIndex() <span class="operator">!</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>currentIndex() <span class="operator">!</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+    }
+
+    <span class="keyword">if</span> (<span class="operator">!</span>mOpcUaClient) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>servers<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>endpoints<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>getEndpointsButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>log(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>context<span class="operator">,</span> <span class="keyword">const</span> <span class="type">QColor</span> <span class="operator">&amp;</span>color)
+{
+    <span class="keyword">auto</span> cf <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>log<span class="operator">-</span><span class="operator">&gt;</span>currentCharFormat();
+    cf<span class="operator">.</span>setForeground(color);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>log<span class="operator">-</span><span class="operator">&gt;</span>setCurrentCharFormat(cf);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>log<span class="operator">-</span><span class="operator">&gt;</span>appendPlainText(text);
+    <span class="keyword">if</span> (<span class="operator">!</span>context<span class="operator">.</span>isEmpty()) {
+        cf<span class="operator">.</span>setForeground(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>gray);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>log<span class="operator">-</span><span class="operator">&gt;</span>setCurrentCharFormat(cf);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>log<span class="operator">-</span><span class="operator">&gt;</span>insertPlainText(context);
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>log(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text<span class="operator">,</span> <span class="keyword">const</span> <span class="type">QColor</span> <span class="operator">&amp;</span>color)
+{
+    log(text<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>()<span class="operator">,</span> color);
+}
+
+bool MainWindow<span class="operator">::</span>createPkiPath(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>path)
+{
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> msg <span class="operator">=</span> tr(<span class="string">"Creating PKI path '%1': %2"</span>);
+
+    <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span> dir;
+    <span class="keyword">const</span> bool ret <span class="operator">=</span> dir<span class="operator">.</span>mkpath(path);
+    <span class="keyword">if</span> (ret)
+        <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> msg<span class="operator">.</span>arg(path<span class="operator">,</span> <span class="string">"SUCCESS."</span>);
+    <span class="keyword">else</span>
+        <a href="./qtglobal.htm#qCritical" translate="no">qCritical</a>(<span class="string">"%s"</span><span class="operator">,</span> <a href="./qtglobal.htm#qPrintable" translate="no">qPrintable</a>(msg<span class="operator">.</span>arg(path<span class="operator">,</span> <span class="string">"FAILED."</span>)));
+
+    <span class="keyword">return</span> ret;
+}
+
+bool MainWindow<span class="operator">::</span>createPkiFolders()
+{
+    bool result <span class="operator">=</span> createPkiPath(m_pkiConfig<span class="operator">.</span>trustListDirectory());
+    <span class="keyword">if</span> (<span class="operator">!</span>result)
+        <span class="keyword">return</span> result;
+
+    result <span class="operator">=</span> createPkiPath(m_pkiConfig<span class="operator">.</span>revocationListDirectory());
+    <span class="keyword">if</span> (<span class="operator">!</span>result)
+        <span class="keyword">return</span> result;
+
+    result <span class="operator">=</span> createPkiPath(m_pkiConfig<span class="operator">.</span>issuerListDirectory());
+    <span class="keyword">if</span> (<span class="operator">!</span>result)
+        <span class="keyword">return</span> result;
+
+    result <span class="operator">=</span> createPkiPath(m_pkiConfig<span class="operator">.</span>issuerRevocationListDirectory());
+    <span class="keyword">if</span> (<span class="operator">!</span>result)
+        <span class="keyword">return</span> result;
+
+    <span class="keyword">return</span> result;
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>showErrorDialog(<span class="type"><a href="./qopcuaerrorstate.htm" translate="no">QOpcUaErrorState</a></span> <span class="operator">*</span>errorState)
+{
+    <span class="type">int</span> result <span class="operator">=</span> <span class="number">0</span>;
+
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> statuscode <span class="operator">=</span> <span class="type"><a href="./qopcua.htm" translate="no">QOpcUa</a></span><span class="operator">::</span>statusToString(errorState<span class="operator">-</span><span class="operator">&gt;</span>errorCode());
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> msg <span class="operator">=</span> errorState<span class="operator">-</span><span class="operator">&gt;</span>isClientSideError() <span class="operator">?</span> tr(<span class="string">"The client reported: "</span>) : tr(<span class="string">"The server reported: "</span>);
+
+    <span class="keyword">switch</span> (errorState<span class="operator">-</span><span class="operator">&gt;</span>connectionStep()) {
+    <span class="keyword">case</span> <span class="type"><a href="./qopcuaerrorstate.htm" translate="no">QOpcUaErrorState</a></span><span class="operator">::</span>ConnectionStep<span class="operator">::</span>Unknown:
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="type"><a href="./qopcuaerrorstate.htm" translate="no">QOpcUaErrorState</a></span><span class="operator">::</span>ConnectionStep<span class="operator">::</span>CertificateValidation: {
+        CertificateDialog dlg(<span class="keyword">this</span>);
+        msg <span class="operator">+</span><span class="operator">=</span> tr(<span class="string">"Server certificate validation failed with error 0x%1 (%2).\nClick 'Abort' to abort the connect, or 'Ignore' to continue connecting."</span>)
+                  <span class="operator">.</span>arg(<span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qtglobal.htm#ulong-typedef" translate="no">ulong</a></span><span class="operator">&gt;</span>(errorState<span class="operator">-</span><span class="operator">&gt;</span>errorCode())<span class="operator">,</span> <span class="number">8</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>))<span class="operator">.</span>arg(statuscode);
+        result <span class="operator">=</span> dlg<span class="operator">.</span>showCertificate(msg<span class="operator">,</span> m_endpoint<span class="operator">.</span>serverCertificate()<span class="operator">,</span> m_pkiConfig<span class="operator">.</span>trustListDirectory());
+        errorState<span class="operator">-</span><span class="operator">&gt;</span>setIgnoreError(result <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>);
+    }
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="type"><a href="./qopcuaerrorstate.htm" translate="no">QOpcUaErrorState</a></span><span class="operator">::</span>ConnectionStep<span class="operator">::</span>OpenSecureChannel:
+        msg <span class="operator">+</span><span class="operator">=</span> tr(<span class="string">"OpenSecureChannel failed with error 0x%1 (%2)."</span>)<span class="operator">.</span>arg(errorState<span class="operator">-</span><span class="operator">&gt;</span>errorCode()<span class="operator">,</span> <span class="number">8</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>))<span class="operator">.</span>arg(statuscode);
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Connection Error"</span>)<span class="operator">,</span> msg);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="type"><a href="./qopcuaerrorstate.htm" translate="no">QOpcUaErrorState</a></span><span class="operator">::</span>ConnectionStep<span class="operator">::</span>CreateSession:
+        msg <span class="operator">+</span><span class="operator">=</span> tr(<span class="string">"CreateSession failed with error 0x%1 (%2)."</span>)<span class="operator">.</span>arg(errorState<span class="operator">-</span><span class="operator">&gt;</span>errorCode()<span class="operator">,</span> <span class="number">8</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>))<span class="operator">.</span>arg(statuscode);
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Connection Error"</span>)<span class="operator">,</span> msg);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="type"><a href="./qopcuaerrorstate.htm" translate="no">QOpcUaErrorState</a></span><span class="operator">::</span>ConnectionStep<span class="operator">::</span>ActivateSession:
+        msg <span class="operator">+</span><span class="operator">=</span> tr(<span class="string">"ActivateSession failed with error 0x%1 (%2)."</span>)<span class="operator">.</span>arg(errorState<span class="operator">-</span><span class="operator">&gt;</span>errorCode()<span class="operator">,</span> <span class="number">8</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>))<span class="operator">.</span>arg(statuscode);
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Connection Error"</span>)<span class="operator">,</span> msg);
+        <span class="keyword">break</span>;
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

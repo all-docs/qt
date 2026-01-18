@@ -1,0 +1,97 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Positioning (QML) | Qt Positioning</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/location-positioning-qml.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpositioning-index.htm" translate="no">Qt Positioning</a></li>
+                            <li><a>Positioning (QML)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Positioning (QML)</h1>
+<span class="subtitle"></span>
+<!-- $$$location-positioning-qml.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="location-positioning"></a>
+<h2 id="location-positioning">Location Positioning<a class="plink" href="#location-positioning" title="Direct link to this headline"></a></h2>
+<p>Location data involves a precisely specified position on the Earth's surface — as provided by a latitude-longitude coordinate — along with associated data, such as:</p>
+<ul>
+<li>The date and time at which the position was reported</li>
+<li>The velocity of the device that reported the position</li>
+<li>The altitude of the reported position (height above sea level)</li>
+<li>The bearing of the device in degrees, relative to true north</li>
+</ul>
+<p>For more information see <a href="http://en.wikipedia.org/wiki/Geographic_coordinate" translate="no">Geographic Coordinate</a>.</p>
+<p>This data can be extracted through a variety of methods. One of the most well known methods of positioning is GPS (Global Positioning System), a publicly available system that uses radiowave signals received from Earth-orbiting satellites to calculate the precise position and time of the receiver. Another popular method is 'Cell Identifier Positioning', which uses the cell identifier of the cell site that is currently serving the receiving device to calculate its approximate location. These and other positioning methods can all be used with the Location API; the only requirement for a location data source within the API is that it provides a latitude-longitude coordinate with a date/time value, with the option of providing the other attributes listed above.</p>
+<a name="coordinates"></a>
+<h3 id="coordinates">Coordinates<a class="plink" href="#coordinates" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qml-coordinate.htm" translate="no">coordinate</a> is a basic unit of geographical information. The <a href="./qml-coordinate.htm" translate="no">coordinate</a> type has attributes to hold the <code translate="no">latitude</code>, <code translate="no">longitude</code> and <code translate="no">altitude</code>.</p>
+<a name="positions"></a>
+<h3 id="positions">Positions<a class="plink" href="#positions" title="Direct link to this headline"></a></h3>
+<p>The three dimensional position of an object such as a mobile device can be specified by giving the latitude, longitude and altitude. That is the values held in the l {coordinate} type. Additionally for computation of future positions we would like to know if the object is moving, what <a href="./qml-qtpositioning-position.htm#speed-prop" translate="no">speed</a> it is doing and what is the <a href="./qml-qtpositioning-position.htm#timestamp-prop" translate="no">timestamp</a> of the last position data. Position therefore includes values for the <a href="./qml-qtpositioning-position.htm#coordinate-prop" translate="no">coordinate</a>, <a href="./qml-qtpositioning-position.htm#speed-prop" translate="no">speed</a> and a <a href="./qml-qtpositioning-position.htm#timestamp-prop" translate="no">timestamp</a>. <a href="./qml-qtpositioning-position.htm" translate="no">Position</a> also takes responsibility for validation of sensible values for these properties. These are exposed as the <a href="./qml-qtpositioning-position.htm#latitudeValid-prop" translate="no">latitudeValid</a>, <a href="./qml-qtpositioning-position.htm#longitudeValid-prop" translate="no">longitudeValid</a>, <a href="./qml-qtpositioning-position.htm#altitudeValid-prop" translate="no">altitudeValid</a>, <a href="./qml-qtpositioning-position.htm#speedValid-prop" translate="no">speedValid</a>, <a href="./qml-qtpositioning-position.htm#horizontalAccuracyValid-prop" translate="no">horizontalAccuracyValid</a>, and <a href="./qml-qtpositioning-position.htm#verticalAccuracyValid-prop" translate="no">verticalAccuracyValid</a> properties.</p>
+<a name="positionsource-type"></a>
+<h3 id="positionsource-type">PositionSource Type<a class="plink" href="#positionsource-type" title="Direct link to this headline"></a></h3>
+<p>We have a Position type, a <a href="./qml-coordinate.htm" translate="no">coordinate</a> type but where does the data come from? Also it is a good idea to be able to indicate alternative sources. Perhaps instead of directly picking up GPS satellites it might be desirable to do some testing using a datafile.</p>
+<p>The <a href="./qml-qtpositioning-positionsource.htm" translate="no">PositionSource</a> type provides the developer with control, within the limits allowed by the platform, of the source of the geographical data. Apart from tradtional sources such as GPS and cell data the positional data can be sourced from a logfile which is in NMEA format.</p>
+<p><a href="http://en.wikipedia.org/wiki/NMEA" translate="no">NMEA</a> is a common text-based protocol for specifying navigational data. For convenience, the <a href="./qml-qtpositioning-positionsource.htm#nmeaSource-prop" translate="no">nmeaSource</a> property is provided to enable QML applications to read NMEA data from a log file or a TCP socket, the source will emit updates according to the time stamp of each NMEA sentence to produce a "replay" of the recorded data. To use a TCP socket set the "socket" uri scheme.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">PositionSource {
+    nmeaSource: <span class="string">"socket://127.0.0.1:12345"</span>
+}</pre></div>
+<a name="geoflickr-example"></a>
+<h3 id="geoflickr-example">GeoFlickr Example<a class="plink" href="#geoflickr-example" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qtpositioning-geoflickr-example.htm" translate="no">GeoFlickr Example</a> uses the Location to download thumbnail images from Flickr relevant to the current location.</p>
+</div>
+<!-- @@@location-positioning-qml.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

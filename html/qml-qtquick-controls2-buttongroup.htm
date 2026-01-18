@@ -1,0 +1,302 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ButtonGroup QML Type | Qt Quick Controls</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-controls-buttongroup.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquickcontrols-index.htm" translate="no">Qt Quick Controls</a></li>
+                            <li><a href="./qtquick-controls2-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>ButtonGroup QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">ButtonGroup QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$ButtonGroup-brief -->
+<p>Mutually-exclusive group of checkable buttons. <a href="#details">More...</a></p>
+<!-- @@@ButtonGroup -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick.Controls 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.7</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-controls2-buttongroup-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls2-buttongroup.htm#buttons-prop" translate="no">buttons</a></b></b> : list&lt;AbstractButton&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls2-buttongroup.htm#checkState-prop" translate="no">checkState</a></b></b> : enumeration</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls2-buttongroup.htm#checkedButton-prop" translate="no">checkedButton</a></b></b> : AbstractButton</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls2-buttongroup.htm#exclusive-prop" translate="no">exclusive</a></b></b> : bool</li>
+</ul>
+<a name="attached-properties"></a>
+<h2 id="attached-properties">Attached Properties<a class="plink" href="#attached-properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls2-buttongroup.htm#group-attached-prop" translate="no">group</a></b></b> : ButtonGroup</li>
+</ul>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls2-buttongroup.htm#clicked-signal" translate="no">clicked</a></b></b>(AbstractButton <i>button</i>)</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-controls2-buttongroup.htm#addButton-method" translate="no">addButton</a></b></b>(AbstractButton <i>button</i>)</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-controls2-buttongroup.htm#removeButton-method" translate="no">removeButton</a></b></b>(AbstractButton <i>button</i>)</li>
+</ul>
+<!-- $$$ButtonGroup-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>ButtonGroup is a non-visual, mutually exclusive group of buttons. It is used with controls such as <a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a>, where only one of the options can be selected at a time.</p>
+<p>The most straight-forward way to use ButtonGroup is to assign a list of buttons. For example, the list of children of a <a href="./qtquick-positioning-layouts.htm" translate="no">positioner</a> or a <a href="./qtquicklayouts-index.htm" translate="no">layout</a> that manages a group of mutually exclusive buttons.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ButtonGroup {
+    buttons: column<span class="operator">.</span>children
+}
+
+Column {
+    id: column
+
+    RadioButton {
+        checked: <span class="keyword">true</span>
+        text: qsTr(<span class="string">"DAB"</span>)
+    }
+
+    RadioButton {
+        text: qsTr(<span class="string">"FM"</span>)
+    }
+
+    RadioButton {
+        text: qsTr(<span class="string">"AM"</span>)
+    }
+}</pre></div>
+<p>Mutually exclusive buttons do not always share the same parent item, or the parent layout may sometimes contain items that should not be included in the button group. Such cases are best handled using the <a href="./qml-qtquick-controls2-buttongroup.htm#group-attached-prop" translate="no">group</a> attached property.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ButtonGroup { id: radioGroup }
+
+Column {
+    Label {
+        text: qsTr(<span class="string">"Radio:"</span>)
+    }
+
+    RadioButton {
+        checked: <span class="keyword">true</span>
+        text: qsTr(<span class="string">"DAB"</span>)
+        ButtonGroup<span class="operator">.</span>group: radioGroup
+    }
+
+    RadioButton {
+        text: qsTr(<span class="string">"FM"</span>)
+        ButtonGroup<span class="operator">.</span>group: radioGroup
+    }
+
+    RadioButton {
+        text: qsTr(<span class="string">"AM"</span>)
+        ButtonGroup<span class="operator">.</span>group: radioGroup
+    }
+}</pre></div>
+<p>More advanced use cases can be handled using the <code translate="no">addButton()</code> and <code translate="no">removeButton()</code> methods.</p>
+<p><b>See also </b><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a> and <a href="./qtquickcontrols2-buttons.htm" translate="no">Button Controls</a>.</p>
+<!-- @@@ButtonGroup -->
+<h2>Property Documentation</h2>
+<!-- $$$buttons -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="buttons-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="buttons-prop"></a><span class="qmldefault">[default] </span><span class="name">buttons</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qtquick-controls2-abstractbutton.htm" translate="no">AbstractButton</a></span>&gt;<a class="plink" href="#buttons-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the list of buttons.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ButtonGroup {
+    buttons: column<span class="operator">.</span>children
+}
+
+Column {
+    id: column
+
+    RadioButton {
+        checked: <span class="keyword">true</span>
+        text: qsTr(<span class="string">"Option A"</span>)
+    }
+
+    RadioButton {
+        text: qsTr(<span class="string">"Option B"</span>)
+    }
+}</pre></div>
+<p><b>See also </b><a href="./qml-qtquick-controls2-buttongroup.htm#group-attached-prop" translate="no">group</a>.</p>
+</div></div><!-- @@@buttons -->
+<br>
+<!-- $$$checkState -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="checkState-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="checkState-prop"></a><span class="name">checkState</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#checkState-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the combined check state of the button group.</p>
+<p>Available states:</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">Qt.Unchecked</code></td><td class="topAlign">None of the buttons are checked.</td></tr>
+<tr><td class="topAlign"><code translate="no">Qt.PartiallyChecked</code></td><td class="topAlign">Some of the buttons are checked.</td></tr>
+<tr><td class="topAlign"><code translate="no">Qt.Checked</code></td><td class="topAlign">All of the buttons are checked.</td></tr>
+</tbody></table></div>
+<p>Setting the check state of a non-exclusive button group to <code translate="no">Qt.Unchecked</code> or <code translate="no">Qt.Checked</code> unchecks or checks all buttons in the group, respectively. <code translate="no">Qt.PartiallyChecked</code> is ignored.</p>
+<p>Setting the check state of an exclusive button group to <code translate="no">Qt.Unchecked</code> unchecks the <a href="./qml-qtquick-controls2-buttongroup.htm#checkedButton-prop" translate="no">checkedButton</a>. <code translate="no">Qt.Checked</code> and <code translate="no">Qt.PartiallyChecked</code> are ignored.</p>
+<p>This property was introduced in QtQuick.Controls 2.4 (Qt 5.11).</p>
+</div></div><!-- @@@checkState -->
+<br>
+<!-- $$$checkedButton -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="checkedButton-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="checkedButton-prop"></a><span class="name">checkedButton</span> : <span class="type"><a href="./qml-qtquick-controls2-abstractbutton.htm" translate="no">AbstractButton</a></span><a class="plink" href="#checkedButton-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the currently selected button in an exclusive group, or <code translate="no">null</code> if there is none or the group is non-exclusive.</p>
+<p>By default, it is the first checked button added to an exclusive button group.</p>
+<p><b>See also </b><a href="./qml-qtquick-controls2-buttongroup.htm#exclusive-prop" translate="no">exclusive</a>.</p>
+</div></div><!-- @@@checkedButton -->
+<br>
+<!-- $$$exclusive -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="exclusive-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="exclusive-prop"></a><span class="name">exclusive</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#exclusive-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the button group is exclusive. The default value is <code translate="no">true</code>.</p>
+<p>If this property is <code translate="no">true</code>, then only one button in the group can be checked at any given time. The user can click on any button to check it, and that button will replace the existing one as the checked button in the group.</p>
+<p>In an exclusive group, the user cannot uncheck the currently checked button by clicking on it; instead, another button in the group must be clicked to set the new checked button for that group.</p>
+<p>In a non-exclusive group, checking and unchecking buttons does not affect the other buttons in the group. Furthermore, the value of the <a href="./qml-qtquick-controls2-buttongroup.htm#checkedButton-prop" translate="no">checkedButton</a> property is <code translate="no">null</code>.</p>
+<p>This property was introduced in QtQuick.Controls 2.3 (Qt 5.10).</p>
+</div></div><!-- @@@exclusive -->
+<br>
+<h2>Attached Property Documentation</h2>
+<!-- $$$group -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="group-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="group-attached-prop"></a><span class="name">ButtonGroup.group</span> : <span class="type"><a href="./qml-qtquick-controls2-buttongroup.htm" translate="no">ButtonGroup</a></span><a class="plink" href="#group-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property attaches a button to a button group.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ButtonGroup { id: group }
+
+RadioButton {
+    checked: <span class="keyword">true</span>
+    text: qsTr(<span class="string">"Option A"</span>)
+    ButtonGroup<span class="operator">.</span>group: group
+}
+
+RadioButton {
+    text: qsTr(<span class="string">"Option B"</span>)
+    ButtonGroup<span class="operator">.</span>group: group
+}</pre></div>
+<p><b>See also </b><a href="./qml-qtquick-controls2-buttongroup.htm#buttons-prop" translate="no">buttons</a>.</p>
+</div></div><!-- @@@group -->
+<br>
+<h2>Signal Documentation</h2>
+<!-- $$$clicked[overload1]$$$clickedAbstractButton -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="clicked-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="clicked-signal"></a><span class="name">clicked</span>(<span class="type"><a href="./qml-qtquick-controls2-abstractbutton.htm" translate="no">AbstractButton</a></span> <i>button</i>)<a class="plink" href="#clicked-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when a <i translate="no">button</i> in the group has been clicked.</p>
+<p>This signal is convenient for implementing a common signal handler for all buttons in the same group.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ButtonGroup {
+    buttons: column<span class="operator">.</span>children
+    onClicked: console<span class="operator">.</span>log(<span class="string">"clicked:"</span><span class="operator">,</span> button<span class="operator">.</span>text)
+}
+
+Column {
+    id: column
+    Button { text: <span class="string">"First"</span> }
+    Button { text: <span class="string">"Second"</span> }
+    Button { text: <span class="string">"Third"</span> }
+}</pre></div>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onClicked</code>.</p>
+<p>This signal was introduced in QtQuick.Controls 2.1 (Qt 5.8).</p>
+<p><b>See also </b><a href="./qml-qtquick-controls2-abstractbutton.htm#clicked-signal" translate="no">AbstractButton::clicked()</a>.</p>
+</div></div><!-- @@@clicked -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$addButton[overload1]$$$addButtonAbstractButton -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="addButton-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="addButton-method"></a><span class="type">void</span> <span class="name">addButton</span>(<span class="type"><a href="./qml-qtquick-controls2-abstractbutton.htm" translate="no">AbstractButton</a></span> <i>button</i>)<a class="plink" href="#addButton-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Adds a <i translate="no">button</i> to the button group.</p>
+<div class="admonition note">
+<p><b>Note: </b>Manually adding objects to a button group is typically unnecessary. The <a href="./qml-qtquick-controls2-buttongroup.htm#buttons-prop" translate="no">buttons</a> property and the <a href="./qml-qtquick-controls2-buttongroup.htm#group-attached-prop" translate="no">group</a> attached property provide a convenient and declarative syntax.</p>
+</div>
+<p><b>See also </b><a href="./qml-qtquick-controls2-buttongroup.htm#buttons-prop" translate="no">buttons</a> and <a href="./qml-qtquick-controls2-buttongroup.htm#group-attached-prop" translate="no">group</a>.</p>
+</div></div><!-- @@@addButton -->
+<br>
+<!-- $$$removeButton[overload1]$$$removeButtonAbstractButton -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="removeButton-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="removeButton-method"></a><span class="type">void</span> <span class="name">removeButton</span>(<span class="type"><a href="./qml-qtquick-controls2-abstractbutton.htm" translate="no">AbstractButton</a></span> <i>button</i>)<a class="plink" href="#removeButton-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Removes a <i translate="no">button</i> from the button group.</p>
+<div class="admonition note">
+<p><b>Note: </b>Manually removing objects from a button group is typically unnecessary. The <a href="./qml-qtquick-controls2-buttongroup.htm#buttons-prop" translate="no">buttons</a> property and the <a href="./qml-qtquick-controls2-buttongroup.htm#group-attached-prop" translate="no">group</a> attached property provide a convenient and declarative syntax.</p>
+</div>
+<p><b>See also </b><a href="./qml-qtquick-controls2-buttongroup.htm#buttons-prop" translate="no">buttons</a> and <a href="./qml-qtquick-controls2-buttongroup.htm#group-attached-prop" translate="no">group</a>.</p>
+</div></div><!-- @@@removeButton -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

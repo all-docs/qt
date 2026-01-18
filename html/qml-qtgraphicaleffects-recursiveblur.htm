@@ -1,0 +1,213 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RecursiveBlur QML Type | Qt Graphical Effects</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgraphicaleffects-index.htm" translate="no">Qt Graphical Effects</a></li>
+                            <li><a href="./graphicaleffects.htm" translate="no">QML Types</a></li>
+                            <li><a>RecursiveBlur QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">RecursiveBlur QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$RecursiveBlur-brief -->
+<p>Blurs repeatedly, providing a strong blur effect. <a href="#details">More...</a></p>
+<!-- @@@RecursiveBlur -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtGraphicalEffects 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtGraphicalEffects 1.0</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick-item.htm" translate="no">Item</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtgraphicaleffects-recursiveblur-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-recursiveblur.htm#cached-prop" translate="no">cached</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-recursiveblur.htm#loops-prop" translate="no">loops</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-recursiveblur.htm#progress-prop" translate="no">progress</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-recursiveblur.htm#radius-prop" translate="no">radius</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-recursiveblur.htm#source-prop" translate="no">source</a></b></b> : variant</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-recursiveblur.htm#transparentBorder-prop" translate="no">transparentBorder</a></b></b> : bool</li>
+</ul>
+<!-- $$$RecursiveBlur-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The RecursiveBlur effect softens the image by blurring it with an algorithm that uses a recursive feedback loop to blur the source multiple times. The effect may give more blurry results than <a href="./qml-qtgraphicaleffects-gaussianblur.htm" translate="no">GaussianBlur</a> or <a href="./qml-qtgraphicaleffects-fastblur.htm" translate="no">FastBlur</a>, but the result is produced asynchronously and takes more time.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Source</th><th>Effect applied</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/Original_bug.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_bug.png"></p></td></tr>
+</tbody></table></div>
+<div class="admonition note">
+<p><b>Note: </b>This effect is available when running with OpenGL.</p>
+</div>
+<a name="example"></a>
+<h2 id="example">Example<a class="plink" href="#example" title="Direct link to this headline"></a></h2>
+<p>The following example shows how to apply the effect.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.12
+import QtGraphicalEffects 1.12
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">300</span>
+    <span class="name">height</span>: <span class="number">300</span>
+
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">bug</span>
+        <span class="name">source</span>: <span class="string">"images/bug.jpg"</span>
+        <span class="name">sourceSize</span>: <span class="name">Qt</span>.<span class="name">size</span>(<span class="name">parent</span>.<span class="name">width</span>, <span class="name">parent</span>.<span class="name">height</span>)
+        <span class="name">smooth</span>: <span class="number">true</span>
+        <span class="name">visible</span>: <span class="number">false</span>
+    }
+
+    <span class="type"><a href="./qml-qtgraphicaleffects-recursiveblur.htm" translate="no">RecursiveBlur</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">bug</span>
+        <span class="name">source</span>: <span class="name">bug</span>
+        <span class="name">radius</span>: <span class="number">7.5</span>
+        <span class="name">loops</span>: <span class="number">50</span>
+    }
+}</pre></div>
+<!-- @@@RecursiveBlur -->
+<h2>Property Documentation</h2>
+<!-- $$$cached -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="cached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="cached-prop"></a><span class="name">cached</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#cached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property allows the effect output pixels to be cached in order to improve the rendering performance.</p>
+<p>Every time the source or effect properties are changed, the pixels in the cache must be updated. Memory consumption is increased, because an extra buffer of memory is required for storing the effect output.</p>
+<p>It is recommended to disable the cache when the source or the effect properties are animated.</p>
+<p>By default, the property is set to <code translate="no">false</code>.</p>
+</div></div><!-- @@@cached -->
+<br>
+<!-- $$$loops -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="loops-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="loops-prop"></a><span class="name">loops</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#loops-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the amount of blur iterations that are going to be performed for the source. When the property changes, the iterative blurring process starts. If the value is decreased or if the value changes from zero to non-zero, a snapshot is taken from the source. The snapshot is used as a starting point for the process.</p>
+<p>The iteration loop tries to run as fast as possible. The speed might be limited by the VSYNC or the time needed for one blur step, or both. Sometimes it may be desirable to perform the blurring with a slower pace. In that case, it may be convenient to control the property with Animation which increases the value.</p>
+<p>The value ranges from 0 to inf. By default, the property is set to <code translate="no">0</code>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different loops values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_loops1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_loops2.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_loops3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> loops: 4 </b></td><td><b> loops: 20 </b></td><td><b> loops: 70 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#radius-prop" translate="no">radius</a>: 7.5</td><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#radius-prop" translate="no">radius</a>: 7.5</td><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#radius-prop" translate="no">radius</a>: 7.5</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@loops -->
+<br>
+<!-- $$$progress -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="progress-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="progress-prop"></a><span class="name">progress</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#progress-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the progress of asynchronous source blurring process, from 0.0 (nothing blurred) to 1.0 (finished).</p>
+</div></div><!-- @@@progress -->
+<br>
+<!-- $$$radius -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="radius-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="radius-prop"></a><span class="name">radius</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#radius-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the distance of neighboring pixels which influence the blurring of individual pixels. A larger radius provides better quality, but is slower to render.</p>
+<p><b>Note</b>: The radius value in this effect is not intended to be changed or animated frequently. The correct way to use it is to set the correct value and keep it unchanged for the whole duration of the iterative blur sequence.</p>
+<p>The value ranges from (no blur) to 16.0 (maximum blur step). By default, the property is set to <code translate="no">0.0</code> (no blur).</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different radius values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_radius1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_radius2.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_radius3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> radius: 2.5 </b></td><td><b> radius: 4.5 </b></td><td><b> radius: 7.5 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#loops-prop" translate="no">loops</a>: 20</td><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#loops-prop" translate="no">loops</a>: 20</td><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#loops-prop" translate="no">loops</a>: 20</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@radius -->
+<br>
+<!-- $$$source -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="source-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="source-prop"></a><span class="name">source</span> : <span class="type"><a href="./qml-variant.htm" translate="no">variant</a></span><a class="plink" href="#source-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the source item that is going to be blurred.</p>
+<div class="admonition note">
+<p><b>Note: </b>It is not supported to let the effect include itself, for instance by setting source to the effect's parent.</p>
+</div>
+</div></div><!-- @@@source -->
+<br>
+<!-- $$$transparentBorder -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="transparentBorder-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="transparentBorder-prop"></a><span class="name">transparentBorder</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#transparentBorder-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the blur behavior near the edges of the item, where the pixel blurring is affected by the pixels outside the source edges.</p>
+<p>If the property is set to <code translate="no">true</code>, the pixels outside the source are interpreted to be transparent, which is similar to OpenGL clamp-to-border extension. The blur is expanded slightly outside the effect item area.</p>
+<p>If the property is set to <code translate="no">false</code>, the pixels outside the source are interpreted to contain the same color as the pixels at the edge of the item, which is similar to OpenGL clamp-to-edge behavior. The blur does not expand outside the effect item area.</p>
+<p>By default, the property is set to <code translate="no">false</code>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different transparentBorder values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_radius3.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RecursiveBlur_transparentBorder2.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> transparentBorder: false </b></td><td><b> transparentBorder: true </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#loops-prop" translate="no">loops</a>: 20</td><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#loops-prop" translate="no">loops</a>: 20</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#radius-prop" translate="no">radius</a>: 7.5</td><td><a href="./qml-qtgraphicaleffects-recursiveblur.htm#radius-prop" translate="no">radius</a>: 7.5</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@transparentBorder -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

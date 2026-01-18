@@ -1,0 +1,128 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WaylandView QML Type | Qt Wayland Compositor</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtwayland-compositor-waylandview.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwaylandcompositor-index.htm" translate="no">Qt Wayland Compositor</a></li>
+                            <li><a href="./qtwayland-compositor-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>WaylandView QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">WaylandView QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$WaylandView-brief -->
+<p>Represents a view of a surface on an output. <a href="#details">More...</a></p>
+<!-- @@@WaylandView -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtWayland.Compositor 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.8</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Instantiates:</td><td class="memItemRight bottomAlign"> <a href="./qml-qtwayland-compositor-waylandview.htm" translate="no"></a><a href="./qwaylandview.htm" translate="no">QWaylandView</a></td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtwayland-compositor-waylandview-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtwayland-compositor-waylandview.htm#allowDiscardFrontBuffer-prop" translate="no">allowDiscardFrontBuffer</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtwayland-compositor-waylandview.htm#bufferLocked-prop" translate="no">bufferLocked</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtwayland-compositor-waylandview.htm#output-prop" translate="no">output</a></b></b> : WaylandOutput</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtwayland-compositor-waylandview.htm#surface-prop" translate="no">surface</a></b></b> : WaylandSurface</li>
+</ul>
+<!-- $$$WaylandView-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The WaylandView corresponds to the presentation of a surface on a specific output, managing the buffers that contain the contents to be rendered. You can have several views into the same surface.</p>
+<!-- @@@WaylandView -->
+<h2>Property Documentation</h2>
+<!-- $$$allowDiscardFrontBuffer -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="allowDiscardFrontBuffer-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="allowDiscardFrontBuffer-prop"></a><span class="name">allowDiscardFrontBuffer</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#allowDiscardFrontBuffer-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>By default, the view locks the current buffer until advance() is called. Set this property to true to allow Qt to release the buffer when the primary view is no longer using it.</p>
+<p>This can be used to avoid the situation where a secondary view that updates on a lower frequency will throttle the frame rate of the client application.</p>
+</div></div><!-- @@@allowDiscardFrontBuffer -->
+<br>
+<!-- $$$bufferLocked -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="bufferLocked-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="bufferLocked-prop"></a><span class="name">bufferLocked</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#bufferLocked-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the view's buffer is currently locked. When the buffer is locked, advance() will not advance to the next buffer and returns <code translate="no">false</code>.</p>
+<p>The default is <code translate="no">false</code>.</p>
+</div></div><!-- @@@bufferLocked -->
+<br>
+<!-- $$$output -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="output-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="output-prop"></a><span class="name">output</span> : <span class="type"><a href="./qml-qtwayland-compositor-waylandoutput.htm" translate="no">WaylandOutput</a></span><a class="plink" href="#output-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the output on which this view displays its surface.</p>
+</div></div><!-- @@@output -->
+<br>
+<!-- $$$surface -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="surface-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="surface-prop"></a><span class="name">surface</span> : <span class="type"><a href="./qml-qtwayland-compositor-waylandsurface.htm" translate="no">WaylandSurface</a></span><a class="plink" href="#surface-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the surface viewed by this <a href="./qml-qtwayland-compositor-waylandview.htm" translate="no">WaylandView</a>.</p>
+</div></div><!-- @@@surface -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

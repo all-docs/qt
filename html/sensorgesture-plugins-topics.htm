@@ -1,0 +1,172 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QtSensorGestures Plugins | Qt Sensors</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsensors-index.htm" translate="no">Qt Sensors</a></li>
+                            <li><a>QtSensorGestures Plugins</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">QtSensorGestures Plugins</h1>
+<span class="subtitle"></span>
+<!-- $$$sensorgesture_plugins_topics-description -->
+<div class="descr"> <a name="details"></a>
+<p>The QtSensorGestures recognizer plugins are the way to create your own sensor gestures.</p>
+<p>Creating software to recognize motion gestures using sensors is a huge subject not covered here.</p>
+<p>The <a href="./qsensorgesture.htm" translate="no">QSensorGesture</a> API does not limit usage to any of the common classification methods of gesture recognition, such as Hidden Markov Models, Neural Networks, Dynamic Time Warping, or even the ad-hoc heuristic recognizers of Qt's built-in sensor gesture recognizers. It's basically a signaling system for lower level gesture recogition methods and algorithms to communicate to the higher level applications.</p>
+<a name="overview"></a>
+<h4 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h4>
+<p>The steps for creating a sensor gesture plugin are as follows:</p>
+<ul>
+<li>Sub-class from <a href="./qsensorgestureplugininterface.htm" translate="no">QSensorGesturePluginInterface</a></li>
+<li>Sub-class from <a href="./qsensorgesturerecognizer.htm" translate="no">QSensorGestureRecognizer</a> and implement gesture recognizer logic using <a href="./qtsensors-module.htm" translate="no">QtSensors</a>.</li>
+<li>Create an instance of that recognizer in the derived <a href="./qsensorgestureplugininterface.htm" translate="no">QSensorGesturePluginInterface</a> class, and call <a href="./qsensorgesturemanager.htm#registerSensorGestureRecognizer" translate="no">QSensorGestureManager::registerSensorGestureRecognizer</a>(sRec); in your registerRecognizers() function. <a href="./qsensorgesturemanager.htm" translate="no">QSensorGestureManager</a> will retain ownership of the recognizer object.<p>This is the class in which the gesture recognizer system should be implemented from.</p>
+</li>
+</ul>
+<div class="pre"><pre class="cpp prettyprint" translate="no"> MySensorGestureRecognizer<span class="operator">::</span>MySensorGestureRecognizer(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent)
+     : <span class="type"><a href="./qsensorgesturerecognizer.htm" translate="no">QSensorGestureRecognizer</a></span>(parent)
+ {
+ }
+
+ MySensorGestureRecognizer<span class="operator">::</span><span class="operator">~</span>MySensorGestureRecognizer()
+ {
+ }
+
+ bool MySensorGestureRecognizer<span class="operator">::</span>start()
+ {
+     Q_EMIT mySignal();
+     <span class="keyword">return</span> <span class="keyword">true</span>;
+ }
+
+ bool MySensorGestureRecognizer<span class="operator">::</span>stop()
+ {
+     <span class="keyword">return</span> <span class="keyword">true</span>;
+ }
+
+ bool MySensorGestureRecognizer<span class="operator">::</span>isActive()
+ {
+     <span class="keyword">return</span> <span class="keyword">true</span>;
+ }
+
+ <span class="type">void</span>  MySensorGestureRecognizer<span class="operator">::</span>create()
+ {
+ }
+
+ <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> MySensorGestureRecognizer<span class="operator">::</span>id() <span class="keyword">const</span>
+ {
+     <span class="keyword">return</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="string">"QtSensors.mygestures"</span>);
+ }
+
+ MySensorGesturePlugin<span class="operator">::</span>MySensorGesturePlugin(){}
+ MySensorGesturePlugin<span class="operator">::</span><span class="operator">~</span>MySensorGesturePlugin(){}
+
+ <span class="type"><a href="./qlist.htm" translate="no">QList</a></span> <span class="operator">&lt;</span><span class="type"><a href="./qsensorgesturerecognizer.htm" translate="no">QSensorGestureRecognizer</a></span> <span class="operator">*</span><span class="operator">&gt;</span>  MySensorGesturePlugin<span class="operator">::</span>createRecognizers()
+ {
+     <span class="type"><a href="./qlist.htm" translate="no">QList</a></span> <span class="operator">&lt;</span><span class="type"><a href="./qsensorgesturerecognizer.htm" translate="no">QSensorGestureRecognizer</a></span> <span class="operator">*</span><span class="operator">&gt;</span>  recognizers;
+     MySensorGestureRecognizer <span class="operator">*</span>recognizer <span class="operator">=</span> <span class="keyword">new</span> MySensorGestureRecognizer(<span class="keyword">this</span>);
+     recognizers<span class="operator">.</span>append(recognizer);
+
+     <span class="keyword">return</span> recognizers;
+ }
+
+ <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> MySensorGesturePlugin<span class="operator">::</span>supportedIds() <span class="keyword">const</span>
+ {
+        <span class="keyword">return</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"QtSensors.mygestures"</span>;
+ }
+</pre></div>
+<a name="recognizer-classes"></a>
+<h5 id="recognizer-classes">Recognizer Classes<a class="plink" href="#recognizer-classes" title="Direct link to this headline"></a></h5>
+<p>If you are making sensorgestures available through the QtSensorGestures API, these are the classes to subclass.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qsensorgestureplugininterface.htm">QSensorGesturePluginInterface</a></p></td><td class="tblDescr"><p>The pure virtual interface to sensor gesture plugins</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qsensorgesturerecognizer.htm">QSensorGestureRecognizer</a></p></td><td class="tblDescr"><p>The base class for a sensor gesture recognizer</p></td></tr>
+</tbody></table></div>
+<a name="qt-sensor-gestures"></a><a name="recognizer-plugins"></a>
+<h6 id="recognizer-plugins">Recognizer Plugins<a class="plink" href="#recognizer-plugins" title="Direct link to this headline"></a></h6>
+<p>The Sensor Gesture Recognizers that come with Qt are made using an ad-hoc heuristic approach. The user cannot define their own gestures, and must learn how to perform and accommodate the pre-defined gestures herein.</p>
+<p>A developer may use any method, including computationally- and training-intensive well- known classifiers, to produce gesture recognizers. There are currently no classes in Qt for gesture training, nor is it possible for the user to define his own sensor-based motion gestures.</p>
+<p>A procedure for writing ad-hoc recognizers might include:</p>
+<ul>
+<li>Obtain and gather output from the accelerometer through <code translate="no">QAccelerometerReading</code> of a gesture being performed.</li>
+<li>Use various methods and constraints on the accelerometer data to recognize the various states:<ol class="i" type="i"><li>Initial "listening" state for a gesture</li>
+<li>Start of a possible gesture, moving into a "detecting" state</li>
+<li>End of a possible gesture, moving into a "recognizing" state</li>
+<li>and finally, if it is recognized, the "recognized" state, or if not recognized, move back to the "listening" state.</li>
+</ol>
+</li>
+<li>Test procedure to make sure it is easy to perform, and will not produce too many false positive recognitions, or collisions if used with other gestures. Meaning that gestures performed get recognized as another gesture instead.</li>
+</ul>
+<p>Below you will find a list of included plugins and their signals.</p>
+<p>For the ShakeGestures plugin:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>Recognizer Id</td><td>Signals</td></tr>
+<tr class="even" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.shake</td><td>shake</td></tr>
+</tbody></table></div>
+<p>For the QtSensorGestures plugin:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>Recognizer Id</td><td>Signals</td><td>Description</td><td>Images</td></tr>
+<tr class="even" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.cover</td><td>cover</td><td>Hand covers up phone display for one second, when it's face up, using the Proximity and Orientation sensors.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-cover.png"></p></td></tr>
+<tr class="odd" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.doubletap</td><td>doubletap</td><td>Double tap of finger on phone, using the DoubleTap sensor.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-doubletap.png"></p></td></tr>
+<tr class="even" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.hover</td><td>hover</td><td>Hand hovers about 4 cm above the phone for more than 1 second, then is removed when face up, using the IR Proximity sensor.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-hover.png"></p></td></tr>
+<tr class="odd" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.pickup</td><td>pickup</td><td>Phone is resting face up on a flat curface, and is then picked up and brought up into viewing position. Uses the Accelerometer sensor.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-faceup.png"></p></td></tr>
+<tr class="even" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.shake2</td><td>shakeLeft, shakeRight, shakeUp, shakeDown</td><td>Shake phone in a certain direction, using the Accelerometer sensor.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-shake.png"></p></td></tr>
+<tr class="odd" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.slam</td><td>slam</td><td>Phone is held in a top up position with a side facing forward for a moment. Swing it quickly with a downward motion like it is being used to point at something with the top corner. Uses the Accelerometer and Orientation sensors.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-slam_1.png"></p><p class="centerAlign"><img alt="" src="./images/sensorgesture-slam_2.png"></p></td></tr>
+<tr class="even" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.turnover</td><td>turnover</td><td>Phone is turned face down and placed on a surface, using Proximity and Orientation sensors.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-facedown.png"></p></td></tr>
+<tr class="odd" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.twist</td><td>twistLeft, twistRight</td><td>Phone is held face up and then twisted left or right (left side up or right side up) and back, using the Accelerometer and Orientation sensors.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-twist.png"></p></td></tr>
+<tr class="even" valign="top"><td><a href="./qtsensors-module.htm" translate="no">QtSensors</a>.whip</td><td>whip</td><td>Move phone quickly down and then back up. Uses the Accelerometer and Orientation sensors.</td><td><p class="centerAlign"><img alt="" src="./images/sensorgesture-whip.png"></p></td></tr>
+</tbody></table></div>
+</div>
+<!-- @@@sensorgesture_plugins_topics -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

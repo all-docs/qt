@@ -1,0 +1,80 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Camera Example | Qt Multimedia</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtmultimedia-index.htm" translate="no">Qt Multimedia</a></li>
+                            <li><a>Camera Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Camera Example</h1>
+<span class="subtitle"></span>
+<!-- $$$multimediawidgets/camera-brief -->
+<p>The Camera Example shows how to use the API to capture a still image or video.</p>
+<!-- @@@multimediawidgets/camera -->
+<!-- $$$multimediawidgets/camera-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Camera Example demonstrates how you can use <a href="./qtmultimedia-index.htm" translate="no">Qt Multimedia</a> to implement some basic Camera functionality to take still images and record video clips with audio.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<p>A Camera class is created that will act as our Camera. It has a user interface, control functions, setting values and a means of defining the location where the image or video clip is to be saved. It will also store the image and video settings.</p>
+<p>The Camera class contains an instance of <a href="./qcamera.htm" translate="no">QCamera</a>, the API class interface to the hardware. It also has an instance of <a href="./qcameraimagecapture.htm" translate="no">QCameraImageCapture</a> to take still images and an instance of <a href="./qmediarecorder.htm" translate="no">QMediaRecorder</a> to record video. It also contains the user interface object.</p>
+<p>The Camera constructor does some basic initialization. The camera object is set to '0', the user interface is initialized and UI signal are connected to slots that react to the triggering event. However, most of the work is done when the <i>setCamera()</i> function is called, passing in a <a href="./qbytearray.htm" translate="no">QByteArray</a>.</p>
+<p><i>setCamera()</i> sets up various connections between the user interface and the functionality of the Camera class using signals and slots. It also instantiates and initializes the <a href="./qcamera.htm" translate="no">QCamera</a>, <a href="./qcameraimagecapture.htm" translate="no">QCameraImageCapture</a> and <a href="./qmediarecorder.htm" translate="no">QMediaRecorder</a> objects mentioned above. The still and video recording visual tabs are enabled and finally the <a href="./qcamera.htm#start" translate="no">start()</a> function of the <a href="./qcamera.htm" translate="no">QCamera</a> object is called.</p>
+<p>Now that the camera is ready for user commands it waits for a suitable event. Such an event will be the key press of either the <a href="./qt.htm#Key-enum" translate="no">Qt::Key_CameraFocus</a> or <a href="./qt.htm#Key-enum" translate="no">Qt::Key_Camera</a> buttons on the application window. Camera focus will simply display the viewfinder and lock the camera settings. Key_Camera will either call <i>takeImage()</i> if the <a href="./qcamera.htm#captureMode-prop" translate="no">captureMode()</a> is <a href="./qcamera.htm#CaptureMode-enum" translate="no">QCamera::CaptureStillImage</a>, or if the capture mode is for video then one of two actions will occur. If the recording state shows that we are currently recording then the <i>stop()</i> function is called resulting in a call to <a href="./qcamera.htm#stop" translate="no">QCamera::stop</a>(), whereas if we are not recording then a video recording is started with a call to <a href="./qmediarecorder.htm#record" translate="no">QMediaRecorder::record</a>().</p>
+<p class="centerAlign"><img alt="" src="./images/camera-example.png"></p><p><a href="https://code.qt.io/cgit/qt/qtmultimedia.git/tree/examples/multimediawidgets/camera?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@multimediawidgets/camera -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

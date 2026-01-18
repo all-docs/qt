@@ -1,0 +1,219 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RectangularGlow QML Type | Qt Graphical Effects</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgraphicaleffects-index.htm" translate="no">Qt Graphical Effects</a></li>
+                            <li><a href="./graphicaleffects.htm" translate="no">QML Types</a></li>
+                            <li><a>RectangularGlow QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">RectangularGlow QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$RectangularGlow-brief -->
+<p>Generates a blurred and colorized rectangle, which gives the impression that the source is glowing. <a href="#details">More...</a></p>
+<!-- @@@RectangularGlow -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtGraphicalEffects 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtGraphicalEffects 1.0</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick-item.htm" translate="no">Item</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtgraphicaleffects-rectangularglow-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cached-prop" translate="no">cached</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-rectangularglow.htm#color-prop" translate="no">color</a></b></b> : color</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a></b></b> : real</li>
+</ul>
+<!-- $$$RectangularGlow-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>This effect is intended to have good performance. The shape of the glow is limited to a rectangle with a custom corner radius. For situations where custom shapes are required, consider <a href="./qml-qtgraphicaleffects-glow.htm" translate="no">Glow</a> effect.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Effect applied</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_applied.png"></p></td></tr>
+</tbody></table></div>
+<div class="admonition note">
+<p><b>Note: </b>This effect is available when running with OpenGL.</p>
+</div>
+<a name="example"></a>
+<h2 id="example">Example<a class="plink" href="#example" title="Direct link to this headline"></a></h2>
+<p>The following example shows how to apply the effect.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.12
+import QtGraphicalEffects 1.12
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">300</span>
+    <span class="name">height</span>: <span class="number">300</span>
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">background</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">color</span>: <span class="string">"black"</span>
+    }
+
+    <span class="type"><a href="./qml-qtgraphicaleffects-rectangularglow.htm" translate="no">RectangularGlow</a></span> {
+        <span class="name">id</span>: <span class="name">effect</span>
+        <span class="name">anchors</span>.fill: <span class="name">rect</span>
+        <span class="name">glowRadius</span>: <span class="number">10</span>
+        <span class="name">spread</span>: <span class="number">0.2</span>
+        <span class="name">color</span>: <span class="string">"white"</span>
+        <span class="name">cornerRadius</span>: <span class="name">rect</span>.<span class="name">radius</span> <span class="operator">+</span> <span class="name">glowRadius</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">rect</span>
+        <span class="name">color</span>: <span class="string">"black"</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">width</span>: <span class="name">Math</span>.<span class="name">round</span>(<span class="name">parent</span>.<span class="name">width</span> <span class="operator">/</span> <span class="number">1.5</span>)
+        <span class="name">height</span>: <span class="name">Math</span>.<span class="name">round</span>(<span class="name">parent</span>.<span class="name">height</span> <span class="operator">/</span> <span class="number">2</span>)
+        <span class="name">radius</span>: <span class="number">25</span>
+    }
+}</pre></div>
+<!-- @@@RectangularGlow -->
+<h2>Property Documentation</h2>
+<!-- $$$cached -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="cached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="cached-prop"></a><span class="name">cached</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#cached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property allows the effect output pixels to be cached in order to improve the rendering performance.</p>
+<p>Every time the source or effect properties are changed, the pixels in the cache must be updated. Memory consumption is increased, because an extra buffer of memory is required for storing the effect output.</p>
+<p>It is recommended to disable the cache when the source or the effect properties are animated.</p>
+<p>By default, the property is set to <code translate="no">false</code>.</p>
+</div></div><!-- @@@cached -->
+<br>
+<!-- $$$color -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="color-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="color-prop"></a><span class="name">color</span> : <span class="type"><a href="./qml-color.htm" translate="no">color</a></span><a class="plink" href="#color-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the RGBA color value which is used for the glow.</p>
+<p>By default, the property is set to <code translate="no">"white"</code>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different color values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_color1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_color2.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_color3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> color: #ffffff </b></td><td><b> color: #55ff55 </b></td><td><b> color: #5555ff </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@color -->
+<br>
+<!-- $$$cornerRadius -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="cornerRadius-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="cornerRadius-prop"></a><span class="name">cornerRadius</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#cornerRadius-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the corner radius that is used to draw a glow with rounded corners.</p>
+<p>The value ranges from 0.0 to half of the effective width or height of the glow, whichever is smaller. This can be calculated with: <code translate="no">min(width, height) / 2.0 + glowRadius</code></p>
+<p>By default, the property is bound to <a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a> property. The glow behaves as if the rectangle was blurred when adjusting the <a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a> property.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different cornerRadius values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_cornerRadius1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_color1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_cornerRadius3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> cornerRadius: 0 </b></td><td><b> cornerRadius: 25 </b></td><td><b> cornerRadius: 50 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td></tr>
+<tr class="odd" valign="top"><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@cornerRadius -->
+<br>
+<!-- $$$glowRadius -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="glowRadius-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="glowRadius-prop"></a><span class="name">glowRadius</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#glowRadius-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines how many pixels outside the item area are reached by the glow.</p>
+<p>The value ranges from 0.0 (no glow) to inf (infinite glow). By default, the property is set to <code translate="no">0.0</code>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different glowRadius values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_glowRadius1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_color1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_glowRadius3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> glowRadius: 10 </b></td><td><b> glowRadius: 20 </b></td><td><b> glowRadius: 40 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#spread-prop" translate="no">spread</a>: 0</td></tr>
+<tr class="even" valign="top"><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@glowRadius -->
+<br>
+<!-- $$$spread -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="spread-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="spread-prop"></a><span class="name">spread</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#spread-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines how large part of the glow color is strengthened near the source edges.</p>
+<p>The value ranges from 0.0 (no strength increase) to 1.0 (maximum strength increase). By default, the property is set to <code translate="no">0.0</code>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different spread values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_color1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_spread2.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/RectangularGlow_spread3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> spread: 0.0 </b></td><td><b> spread: 0.5 </b></td><td><b> spread: 1.0 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#glowRadius-prop" translate="no">glowRadius</a>: 20</td></tr>
+<tr class="even" valign="top"><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td><td><a href="./qml-qtgraphicaleffects-rectangularglow.htm#cornerRadius-prop" translate="no">cornerRadius</a>: 25</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@spread -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

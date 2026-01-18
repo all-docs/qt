@@ -1,0 +1,124 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QQmlAbstractUrlInterceptor | Qt QML</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qqmlabstracturlinterceptor.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtqml-index.htm" translate="no">Qt QML</a></li>
+                            <li><a href="./qtqml-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QQmlAbstractUrlInterceptor</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QQmlAbstractUrlInterceptor Class</h1>
+<!-- $$$QQmlAbstractUrlInterceptor-brief -->
+<p>allows you to control QML file loading. <a href="#details">More...</a></p>
+<!-- @@@QQmlAbstractUrlInterceptor -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QQmlAbstractUrlInterceptor&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += qml</td></tr></tbody></table></div><ul>
+<li><a href="./qqmlabstracturlinterceptor-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="./qqmlabstracturlinterceptor.htm#DataType-enum" translate="no">DataType</a></b> { QmldirFile, JavaScriptFile, QmlFile, UrlString }</td></tr>
+</tbody></table></div>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qqmlabstracturlinterceptor.htm#QQmlAbstractUrlInterceptor" translate="no">QQmlAbstractUrlInterceptor</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qqmlabstracturlinterceptor.htm#dtor.QQmlAbstractUrlInterceptor" translate="no">~QQmlAbstractUrlInterceptor</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QUrl </td><td class="memItemRight bottomAlign"><b><a href="./qqmlabstracturlinterceptor.htm#intercept" translate="no">intercept</a></b>(const QUrl &amp;<i>url</i>, QQmlAbstractUrlInterceptor::DataType <i>type</i>) = 0</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QQmlAbstractUrlInterceptor-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QQmlAbstractUrlInterceptor is an interface which can be used to alter URLs before they are used by the QML engine. This is primarily useful for altering file urls into other file urls, such as selecting different graphical assets for the current platform.</p>
+<p>Relative URLs are intercepted after being resolved against the file path of the current QML context. URL interception also occurs after setting the base path for a loaded QML file. This means that the content loaded for that QML file uses the intercepted URL, but inside the file the pre-intercepted URL is used for resolving relative paths. This allows for interception of .qml file loading without needing all paths (or local types) inside intercepted content to insert a different relative path.</p>
+<p>Compared to setNetworkAccessManagerFactory, QQmlAbstractUrlInterceptor affects all URLs and paths, including local files and embedded resource files. QQmlAbstractUrlInterceptor is synchronous, and for asynchronous files must return a url with an asynchronous scheme (such as http or a custom scheme handled by your own custom QNetworkAccessManager). You can use a QQmlAbstractUrlInterceptor to change file URLs into networked URLs which are handled by your own custom QNetworkAccessManager.</p>
+<p>To implement support for a custom networked scheme, see setNetworkAccessManagerFactory.</p>
+</div>
+<!-- @@@QQmlAbstractUrlInterceptor -->
+<div class="types">
+<h2>Member Type Documentation</h2>
+<!-- $$$DataType$$$QmlFile$$$JavaScriptFile$$$QmldirFile$$$UrlString -->
+<h3 class="fn" id="DataType-enum" translate="no"><a name="DataType-enum"></a>enum QQmlAbstractUrlInterceptor::<span class="name">DataType</span><a class="plink" href="#DataType-enum" title="Direct link to this headline"></a></h3>
+<p>Specifies where URL interception is taking place.</p>
+<p>Because QML loads qmldir files for locating types, there are two URLs involved in loading a QML type. The URL of the (possibly implicit) qmldir used for locating the type and the URL of the file which defines the type. Intercepting both leads to either complex URL replacement or double URL replacements for the same file.</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tblval">Value</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">QQmlAbstractUrlInterceptor::QmldirFile</code></td><td class="topAlign tblval"><code translate="no">2</code></td><td class="topAlign">The URL being intercepted is for a Qmldir file. Intercepting this, but not the QmlFile, allows for swapping out entire sub trees.</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlAbstractUrlInterceptor::JavaScriptFile</code></td><td class="topAlign tblval"><code translate="no">1</code></td><td class="topAlign">The URL being intercepted is an import for a Javascript file.</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlAbstractUrlInterceptor::QmlFile</code></td><td class="topAlign tblval"><code translate="no">0</code></td><td class="topAlign">The URL being intercepted is for a Qml file. Intercepting this, but not the Qmldir file, leaves the base dir of a QML file untouched and acts like replacing the file with another file.</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlAbstractUrlInterceptor::UrlString</code></td><td class="topAlign tblval"><code translate="no">0x1000</code></td><td class="topAlign">The URL being intercepted is a url property in a QML file, and not being used to load a file through the engine.</td></tr>
+</tbody></table></div>
+<!-- @@@DataType -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QQmlAbstractUrlInterceptor[overload1]$$$QQmlAbstractUrlInterceptor -->
+<h3 class="fn" id="QQmlAbstractUrlInterceptor" translate="no"><a name="QQmlAbstractUrlInterceptor"></a>QQmlAbstractUrlInterceptor::<span class="name">QQmlAbstractUrlInterceptor</span>()<a class="plink" href="#QQmlAbstractUrlInterceptor" title="Direct link to this headline"></a></h3>
+<p>Constructor for QQmlAbstractUrlInterceptor.</p>
+<!-- @@@QQmlAbstractUrlInterceptor -->
+<!-- $$$~QQmlAbstractUrlInterceptor[overload1]$$$~QQmlAbstractUrlInterceptor -->
+<h3 class="fn" id="dtor.QQmlAbstractUrlInterceptor" translate="no"><a name="dtor.QQmlAbstractUrlInterceptor"></a><code translate="no">[virtual] </code>QQmlAbstractUrlInterceptor::<span class="name">~QQmlAbstractUrlInterceptor</span>()<a class="plink" href="#dtor.QQmlAbstractUrlInterceptor" title="Direct link to this headline"></a></h3>
+<p>Destructor for <a href="./qqmlabstracturlinterceptor.htm" translate="no">QQmlAbstractUrlInterceptor</a>.</p>
+<!-- @@@~QQmlAbstractUrlInterceptor -->
+<!-- $$$intercept[overload1]$$$interceptconstQUrl&QQmlAbstractUrlInterceptor::DataType -->
+<h3 class="fn" id="intercept" translate="no"><a name="intercept"></a><code translate="no">[pure virtual] </code><span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> QQmlAbstractUrlInterceptor::<span class="name">intercept</span>(const <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> &amp;<i>url</i>, <span class="type"><a href="./qqmlabstracturlinterceptor.htm#DataType-enum" translate="no">QQmlAbstractUrlInterceptor::DataType</a></span> <i>type</i>)<a class="plink" href="#intercept" title="Direct link to this headline"></a></h3>
+<p>A pure virtual function where you can intercept the <i translate="no">url</i>. The returned value is taken as the new value for the url. The type of url being intercepted is given by the <i translate="no">type</i> variable.</p>
+<p>Your implementation of this function must be thread-safe, as it can be called from multiple threads at the same time.</p>
+<!-- @@@intercept -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,105 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Distance Field Generator Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtdistancefieldgenerator-index.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Distance Field Generator Manual</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Distance Field Generator Manual</h1>
+<span class="subtitle"></span>
+<!-- $$$qtdistancefieldgenerator-index.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>If the user interface of an application has a lot of text, it may cause a small, but noticeable, performance impact the first time it is displayed to the user. This is especially true if the text is rendered in multiple different fonts or use a large amount of distinct characters (common for instance in writing systems such as Hanzi, written Chinese).</p>
+<p>The reason is that in order to render the text efficiently later, Qt will spend some time creating graphical assets for each of the glyphs that will later be reused. This happens the first time a glyph is displayed in the scene.</p>
+<p>For advanced users who want to optimize startup performance, it is possible to pregenerate this font cache, as long as Text.QtRendering is the rendering type in use. The Qt Distance Field Generator tool can be used to pregenerate the cache, either for all glyphs in the fonts, or just a selection that are known to be displayed during a critical phase.</p>
+<div class="admonition note">
+<p><b>Note: </b>This is a tool that may be used by advanced users to streamline their application in ways that cannot be done automatically by Qt. For most common use cases, the default behavior in Qt will be sufficient.</p>
+</div>
+<p class="centerAlign"><img alt="&quot;Qt Distance Field Generator UI&quot;" src="./images/distancefieldgenerator.png"></p><a name="general-usage"></a>
+<h2 id="general-usage">General Usage<a class="plink" href="#general-usage" title="Direct link to this headline"></a></h2>
+<p>Use the Qt Distance Field Generator in the following way:</p>
+<ul>
+<li>Load a font file with <b>File</b> &gt; <b>Open</b> font. If the font file is large, there will be some waiting as it reads the fonts and generates the distance fields.</li>
+<li>Once this is done, select the glyphs that you want to save in the pregenerated cache. This should ideally be the glyphs that are used by your application during a performance-critical phase, so that doing the generation ahead of time will give a visible impact on performance.</li>
+<li>Finally, click <b>Save</b> to save the new font file.</li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>In order to modify a font in this way, you will need to make sure its license does not prohibit it.</p>
+</div>
+<a name="selecting-glyphs"></a>
+<h2 id="selecting-glyphs">Selecting Glyphs<a class="plink" href="#selecting-glyphs" title="Direct link to this headline"></a></h2>
+<p>Glyphs can be selected in multiple ways. The simplest way is to click the grid of glyphs to select a particular glyph. You can cancel the selection by clicking on the glyph again.</p>
+<p>In addition, you can use the list of Unicode ranges to select all glyphs matching the characters in a certain range.</p>
+<p>If you want to make sure you pregenerate the glyphs for a specific string from your user interface, you can use the <b>Select</b> &gt; <b>Select</b> string function.</p>
+<div class="admonition note">
+<p><b>Note: </b>Both of the two latter selection methods base the results on the CMAP table in the font and will not do any shaping.</p>
+</div>
+<a name="using-the-file"></a>
+<h2 id="using-the-file">Using the File<a class="plink" href="#using-the-file" title="Direct link to this headline"></a></h2>
+<p>Once you have prepared a file, the next step is to load it in your application. The saved file is a copy of the original font file, and can thus be used in the same ways as any other font file. In addition, it has a special font table which is recognized by Qt and used to prepopulate the glyph cache when the font is used in Qt Quick.</p>
+<p>You can, for instance, load the font using a <code translate="no">FontLoader</code> in your application code. When it is used to display text in a <code translate="no">Text</code> element with <code translate="no">renderType</code> set to <code translate="no">Text.QtRendering</code> (the default), then the pregenerated cache will be loaded and used.</p>
+<a name="measuring-performance"></a>
+<h2 id="measuring-performance">Measuring performance<a class="plink" href="#measuring-performance" title="Direct link to this headline"></a></h2>
+<p>For analyzing the impact of distance field generation on your application, you can set the <code translate="no">QT_LOGGING_RULES</code> environment variable to <code translate="no">"qt.scenegraph.time.glyph=true"</code>.</p>
+<p>When using normal fonts with no built-in cache, you will give output similar to this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">qt<span class="operator">.</span>scenegraph<span class="operator">.</span>time<span class="operator">.</span>glyph: distancefield: <span class="number">50</span> glyphs prepared in <span class="number">16ms</span><span class="operator">,</span> rendering<span class="operator">=</span><span class="number">15</span><span class="operator">,</span> upload<span class="operator">=</span><span class="number">1</span></pre></div>
+<p>If you have pregenerated all the glyphs in use, the output will instead read something like this:</p>
+<div class="pre"><pre class="cpp" translate="no">qt<span class="operator">.</span>scenegraph<span class="operator">.</span>time<span class="operator">.</span>glyph: distancefield: <span class="number">50</span> pre<span class="operator">-</span>generated glyphs loaded in <span class="number">2ms</span></pre></div>
+<p>In this case, the time used to prepare the distance fields used to render in the application has been reduced from one full frame (16 ms) to 2 ms. You can also use the output to verify that all the glyphs in use are being loaded from the cache and to identify problematic phases in your application's life cycle, performance-wise.</p>
+</div>
+<!-- @@@qtdistancefieldgenerator-index.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,219 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Status | QDoc Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/16-qdoc-commands-status.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qdoc-index.htm" translate="no">QDoc Manual</a></li>
+                            <li><a>Status</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="15-qdoc-commands-navigation.html" rel="prev">
+<link href="17-qdoc-commands-thread.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./15-qdoc-commands-navigation.htm">Document Navigation</a>
+<a class="" href="./17-qdoc-commands-thread.htm">Thread Support</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Status</h1>
+<span class="subtitle"></span>
+<!-- $$$16-qdoc-commands-status.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>These commands are for indicating that a documented element has some special status. The element could be marked as about to be made obsolete, or that it is simply not to be included in the public interface. The <a href="./16-qdoc-commands-status.htm#since-command" translate="no">\since</a> command is for specifying the version number in which a function or class first appeared. The <a href="./16-qdoc-commands-status.htm#qmlabstract-command" translate="no">\qmlabstract</a> command is for marking a QML type as an abstract base class.</p>
+<a name="abstract-command"></a><a name="qmlabstract-command"></a><a name="abstract-and-qmlabstract"></a>
+<h2 id="abstract-and-qmlabstract">\abstract and \qmlabstract<a class="plink" href="#abstract-and-qmlabstract" title="Direct link to this headline"></a></h2>
+<p>\abstract is a synonym for the \qmlabstract command. Add this command to the <a href="./13-qdoc-commands-topics.htm#qmltype-command" translate="no">\qmltype</a> comment for a QML type when that type is meant to be used <i>only</i> as an abstract base type. When a QML type is abstract, it means that the QML type that can't be instantiated. Instead, the properties in its public API are included in the public properties list on the reference page for each QML type that inherits the abstract QML type. The properties are documented as if they are properties of the inheriting QML type.</p>
+<p>Normally, when a QML type is marked with <i>\qmlabstract</i>, it is also marked with <i>\internal</i> so that its reference page is not generated. It the abstract QML type is not marked internal, it will have a reference page in the documentation.</p>
+<a name="default-command"></a><a name="default"></a>
+<h2 id="default">\default<a class="plink" href="#default" title="Direct link to this headline"></a></h2>
+<p>The \default command is for marking a QML property as the <a href="./qtqml-syntax-objectattributes.htm#default-properties" translate="no">default property</a>. The word <code translate="no">default</code> is displayed in the documentation of the property.</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \qmlproperty list<span class="operator">&lt;</span>Change<span class="operator">&gt;</span> State<span class="operator">::</span>changes
+    This property holds the changes to apply <span class="keyword">for</span> <span class="keyword">this</span> state<span class="operator">.</span>
+    \<span class="keyword">default</span>
+
+    By <span class="keyword">default</span> these changes are applied against the <span class="keyword">default</span> state<span class="operator">.</span> If the state
+    extends another state<span class="operator">,</span> then the changes are applied against the state being
+    extended<span class="operator">.</span>
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>See how QDoc renders this property on the reference page for the <a href="./qopenglpaintdevice.htm#state-changes" translate="no">State</a> type.</p>
+<a name="dontdocument-command"></a><a name="dontdocument"></a>
+<h2 id="dontdocument">\dontdocument<a class="plink" href="#dontdocument" title="Direct link to this headline"></a></h2>
+<p>The \dontdocument command is only used in a dontdocument.qdoc file for a particular module. This file specifies publically declared classes or structs that are not meant to be documented. QDoc will not print warnings about missing \class comments for these classes and structs.</p>
+<p>Below you will find the \dontdocument command in the dontdocument.qdoc for widgets:</p>
+<div class="pre"><pre class="cpp plain" translate="no">/ *!
+   \dontdocument (QTypeInfo QMetaTypeId)
+* /</pre></div>
+<a name="inheaderfile-command"></a><a name="inheaderfile"></a>
+<h2 id="inheaderfile">\inheaderfile<a class="plink" href="#inheaderfile" title="Direct link to this headline"></a></h2>
+<p>The \inheaderfile meta-command is used for overriding the include statement generated for a C++ class, namespace, or header file reference documentation.</p>
+<p>By default, QDoc documents a <code translate="no">\class SomeClass</code> to be available with a following include statement:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;SomeClass&gt;</span></pre></div>
+<p>If the actual include statement differs from the default, this can be documented as</p>
+<div class="pre"><pre class="cpp plain" translate="no">\class SomeClass
+\inheaderfile Tools/SomeClass
+...</pre></div>
+<p>See also <a href="./13-qdoc-commands-topics.htm#class-command" translate="no">\class</a> and <a href="./13-qdoc-commands-topics.htm#headerfile-command" translate="no">\headerfile</a>.</p>
+<a name="obsolete-command"></a><a name="obsolete"></a>
+<h2 id="obsolete">\obsolete<a class="plink" href="#obsolete" title="Direct link to this headline"></a></h2>
+<p>The \obsolete command is for indicating that a function is being deprecated, and it should no longer be used in new code. There is no guarantee for how long it will remain in the library.</p>
+<p>The \obsolete command takes no arguments.</p>
+<p>When generating the reference documentation for a class, QDoc will create and link to a separate page documenting its obsolete functions. Usually an equivalent function is provided as an alternative.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \fn MyClass<span class="operator">::</span>MyObsoleteFunction
+    \obsolete
+
+    Use MyNewFunction() instead<span class="operator">.</span>
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>QDoc renders this in <code translate="no">myclass-obsolete.html</code> as:</p>
+<blockquote> <h1>Obsolete Members for MyClass</h1>
+<p><b>The following class members are obsolete.</b> They are provided to keep old source code working. We strongly advise against using them in new code.</p>
+<p>...</p>
+<ul>
+<li>void MyObsoleteFunction() <code translate="no">(obsolete)</code></li>
+<li>...</li>
+</ul>
+<hr>
+<h2>Member Function Documentation</h2>
+<h3>void MyObsoleteFunction ()</h3>
+<p>Use MyNewFunction() instead.</p>
+<p>...</p>
+</blockquote>
+<a name="internal-command"></a><a name="internal"></a>
+<h2 id="internal">\internal<a class="plink" href="#internal" title="Direct link to this headline"></a></h2>
+<p>The \internal command indicates that the referenced function is not part of the public interface.</p>
+<p>The command must stand on its own line.</p>
+<p>QDoc ignores the documentation as well as the documented item, when generating the associated class reference documentation.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \internal
+
+    Tries to find the decimal separator<span class="operator">.</span> If it can<span class="char">'t find
+    it and the thousand delimiter is != '</span><span class="operator">.</span><span class="char">' it will try to
+    find a '</span><span class="operator">.</span><span class="char">';
+* /
+int QDoubleSpinBoxPrivate::findDelimiter
+        (const QString &amp;str, int index) const
+{
+    int dotindex = str.indexOf(delimiter, index);
+    if (dotindex == -1 &amp;&amp; thousand != dot &amp;&amp; delimiter != dot)
+        dotindex = str.indexOf(dot, index);
+    return dotindex;
+}
+</span></pre></div>
+<p>This function will not be included in the documentation.</p>
+<a name="preliminary-command"></a><a name="preliminary"></a>
+<h2 id="preliminary">\preliminary<a class="plink" href="#preliminary" title="Direct link to this headline"></a></h2>
+<p>The \preliminary command is for indicating that a referenced function is still under development.</p>
+<p>The command must stand on its own line.</p>
+<p>The \preliminary command expands to a notification in the function documentation, and marks the function as preliminary when it appears in lists.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \preliminary
+
+    Returns information about the joining type attributes of the
+    character (needed <span class="keyword">for</span> certain languages such as Arabic <span class="keyword">or</span>
+    Syriac)<span class="operator">.</span>
+
+<span class="operator">*</span> <span class="operator">/</span>
+<span class="type"><a href="./qchar.htm" translate="no">QChar</a></span><span class="operator">::</span>JoiningType <span class="type"><a href="./qchar.htm" translate="no">QChar</a></span><span class="operator">::</span>joiningType() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> <span class="type"><a href="./qchar.htm" translate="no">QChar</a></span><span class="operator">::</span>joiningType(ucs);
+}</pre></div>
+<p>QDoc renders this as:</p>
+<blockquote> <h3>
+<a href="http://doc.qt.io/qt-5/qchar.html#JoiningType-enum">JoiningType</a>
+        QChar::joiningType() const</h3>
+<p><b>This function is under development and subject to change.</b></p>
+<p>Returns information about the joining type attributes of the character (needed for certain languages such as Arabic or Syriac).</p>
+</blockquote>
+<p>And the function's entry in <a href="./qchar.htm" translate="no">QChar</a>'s list of public functions will be rendered as:</p>
+<blockquote><ul>
+<li>...</li>
+<li>JoiningType <a href="./qchar.htm#joiningType" translate="no">joiningType</a>() const <code translate="no">(preliminary)</code></li>
+<li>...</li>
+</ul>
+</blockquote>
+<a name="readonly-command"></a><a name="readonly"></a>
+<h2 id="readonly">\readonly<a class="plink" href="#readonly" title="Direct link to this headline"></a></h2>
+<p>The \readonly command is used in conjunction with a <a href="./13-qdoc-commands-topics.htm#qmlproperty-command" translate="no">\qmlproperty</a> command to mark the QML property as read-only.</p>
+<a name="since-command"></a><a name="since"></a>
+<h2 id="since">\since<a class="plink" href="#since" title="Direct link to this headline"></a></h2>
+<p>The \since command tells in which minor release the associated functionality was added.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \since <span class="number">4.1</span>
+
+    Returns an icon <span class="keyword">for</span> \a standardIcon<span class="operator">.</span>
+
+    <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+
+    \sa standardPixmap()
+<span class="operator">*</span> <span class="operator">/</span>
+<span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span> <span class="type"><a href="./qstyle.htm" translate="no">QStyle</a></span><span class="operator">::</span>standardIcon(StandardPixmap standardIcon<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstyleoption.htm" translate="no">QStyleOption</a></span> <span class="operator">*</span>option<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>widget) <span class="keyword">const</span>
+{
+}</pre></div>
+<p>QDoc renders this as:</p>
+<blockquote> <h3>QIcon QStyle::standardIcon(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const</h3>
+<p>This function was introduced in Qt version 4.1</p>
+<p>Returns an icon for <i translate="no">standardIcon</i>.</p>
+<p>...</p>
+<p>See also <a href="./qstyle-obsolete.htm#standardPixmap" translate="no">standardPixmap()</a>.</p>
+</blockquote>
+<p>QDoc generates the "Qt" reference from the <a href="./25-qdoc-configuration-derivedprojects.htm#project" translate="no"><code translate="no">project</code></a> configuration variable. For that reason this reference will change according to the current documentation project.</p>
+<p>See also <a href="./25-qdoc-configuration-derivedprojects.htm#project" translate="no"><code translate="no">project</code></a>.</p>
+</div>
+<!-- @@@16-qdoc-commands-status.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./15-qdoc-commands-navigation.htm">Document Navigation</a>
+<a class="nextPage" href="./17-qdoc-commands-thread.htm">Thread Support</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

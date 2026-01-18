@@ -1,0 +1,111 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Using SystecCAN Plugin | Qt Serial Bus</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtserialbus-systeccan-overview.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtserialbus-index.htm" translate="no">Qt Serial Bus</a></li>
+                            <li><a>Using SystecCAN Plugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Using SystecCAN Plugin</h1>
+<span class="subtitle"></span>
+<!-- $$$qtserialbus-SystecCAN-overview.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>The SystecCAN plugin encapsulates the low-level API to work with the <a href="http://www.systec-electronic.com/" translate="no">SYS TEC</a> CAN adapters.</p>
+<p>This plugin requires the SYS TEC CAN device drivers and the usbcan32.dll (usbcan64.dll for 64 bit builds).</p>
+<a name="creating-can-bus-devices"></a>
+<h2 id="creating-can-bus-devices">Creating CAN Bus Devices<a class="plink" href="#creating-can-bus-devices" title="Direct link to this headline"></a></h2>
+<p>At first it is necessary to check that <a href="./qcanbus.htm" translate="no">QCanBus</a> provides the desired plugin:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">if</span> (<span class="type"><a href="./qcanbus.htm" translate="no">QCanBus</a></span><span class="operator">::</span>instance()<span class="operator">-</span><span class="operator">&gt;</span>plugins()<span class="operator">.</span>contains(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"systeccan"</span>))) {
+    <span class="comment">// plugin available</span>
+}</pre></div>
+<p>Where <i>systeccan</i> is the plugin name.</p>
+<p>Next, a connection to a specific interface can be established:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorString;
+<span class="type"><a href="./qcanbusdevice.htm" translate="no">QCanBusDevice</a></span> <span class="operator">*</span>device <span class="operator">=</span> <span class="type"><a href="./qcanbus.htm" translate="no">QCanBus</a></span><span class="operator">::</span>instance()<span class="operator">-</span><span class="operator">&gt;</span>createDevice(
+    <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"systeccan"</span>)<span class="operator">,</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"can0.0"</span>)<span class="operator">,</span> <span class="operator">&amp;</span>errorString);
+<span class="keyword">if</span> (<span class="operator">!</span>device) {
+    <span class="comment">// Error handling goes here</span>
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a> <span class="operator">&lt;</span><span class="operator">&lt;</span> errorString;
+} <span class="keyword">else</span> {
+    device<span class="operator">-</span><span class="operator">&gt;</span>connectDevice();
+}</pre></div>
+<p>Where, <i>can0.0</i> is the active CAN interface name (interface 0, channel 0). The SystecCAN plugin supports 64 USB interfaces (so called modules) from <i>can0.0</i> to <i>can63.1</i>. Each module can have one or two channels, they can be accessed by the index canX.0 or canX.1. The <a href="./qcanbus.htm#availableDevices" translate="no">availableDevices()</a> method returns a list of currently available devices.</p>
+<div class="admonition note">
+<p><b>Note: </b>SYS TEC also provides 8 or 16 channel CAN interfaces. These units consist of an USB hub and multiple two-channel modules internally.</p>
+</div>
+<p>The device is now open for writing and reading CAN frames:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcanbusframe.htm" translate="no">QCanBusFrame</a></span> frame;
+frame<span class="operator">.</span>setFrameId(<span class="number">8</span>);
+<span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> payload(<span class="string">"A36E"</span>);
+frame<span class="operator">.</span>setPayload(payload);
+device<span class="operator">-</span><span class="operator">&gt;</span>writeFrame(frame);</pre></div>
+<p>The reading can be done using the readFrame() method. The <a href="./qcanbusdevice.htm#framesReceived" translate="no">framesReceived()</a> signal is emitted when at least one new frame is available for reading:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcanbusframe.htm" translate="no">QCanBusFrame</a></span> frame <span class="operator">=</span> device<span class="operator">-</span><span class="operator">&gt;</span>readFrame();</pre></div>
+<p>SystecCAN supports the following configurations that can be controlled through setConfigurationParameter():</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Configuration parameter key</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><a href="./qcanbusdevice.htm#ConfigurationKey-enum" translate="no">QCanBusDevice::BitRateKey</a></td><td>Determines the bit rate of the CAN bus connection. The following bit rates are supported: 10000, 20000, 50000, 100000, 125000, 250000, 500000, 800000, and 1000000. Note that this configuration parameter can only be adjusted while the <a href="./qcanbusdevice.htm" translate="no">QCanBusDevice</a> is not connected.</td></tr>
+<tr class="even" valign="top"><td><a href="./qcanbusdevice.htm#ConfigurationKey-enum" translate="no">QCanBusDevice::ReceiveOwnKey</a></td><td>The reception of CAN frames on the same channel that was sending the CAN frame is disabled by default. If this option is enabled, the therefore received frames are marked with <a href="./qcanbusframe.htm#hasLocalEcho" translate="no">QCanBusFrame::hasLocalEcho</a>()</td></tr>
+</tbody></table></div>
+<p>SystecCAN supports the following additional functions:</p>
+<ul>
+<li>QCanBusDevice::resetController()</li>
+<li>QCanBusDevice::busStatus()</li>
+</ul>
+</div>
+<!-- @@@qtserialbus-SystecCAN-overview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

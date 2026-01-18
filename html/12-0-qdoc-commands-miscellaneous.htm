@@ -1,0 +1,424 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miscellaneous | QDoc Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/12-0-qdoc-commands-miscellaneous.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qdoc-index.htm" translate="no">QDoc Manual</a></li>
+                            <li><a>Miscellaneous</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="11-qdoc-commands-specialcontent.html" rel="prev">
+<link href="21-0-qdoc-configuration.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./11-qdoc-commands-specialcontent.htm">Special Content</a>
+<a class="" href="./21-0-qdoc-configuration.htm">The QDoc Configuration File</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Miscellaneous</h1>
+<span class="subtitle"></span>
+<!-- $$$12-0-qdoc-commands-miscellaneous.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>These commands provide miscellaneous functions connected to the visual appearance of the documentation, and to the process of generating the documentation.</p>
+<a name="annotatedlist-command"></a><a name="annotatedlist"></a>
+<h2 id="annotatedlist">\annotatedlist<a class="plink" href="#annotatedlist" title="Direct link to this headline"></a></h2>
+<p>The \annotatedlist command expands to a list of the members of a group, each member listed with its <i>brief</i> text. Below is an example from the Qt Reference Documentation:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+    \section1 Drag and Drop Classes
+
+    These classes deal with drag and drop and the necessary mime type
+    encoding and decoding<span class="operator">.</span>
+
+    \annotatedlist draganddrop
+
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>This generates a list of all the C++ classes and/or QML types in the <i>draganddrop</i> group. A C++ class or QML type in the <i>draganddrop</i> group will have <i>\ingroup draganddrop</i> in its <i>\class</i> or <i>\qmltype</i> comment.</p>
+<a name="generatelist-command"></a><a name="generatelist"></a>
+<h2 id="generatelist">\generatelist<a class="plink" href="#generatelist" title="Direct link to this headline"></a></h2>
+<p>The \generatelist command expands to a list of links to the documentation entities in a group. Below is an example from the Qt Reference Documentation:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \page classes<span class="operator">.</span>html
+    \title All Classes
+
+    For a shorter list that only includes the most
+    frequently used classes<span class="operator">,</span> see \l{<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="char">'s Main Classes}.
+
+    \generatelist classes Q
+* /
+</span></pre></div>
+<p>This generates the <i>All Classes</i> page. The command accepts the following arguments:</p>
+<a name="table-example"></a><a name="annotatedclasses"></a>
+<h3 id="annotatedclasses"><code translate="no">annotatedclasses</code><a class="plink" href="#annotatedclasses" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">annotatedclasses</code> argument provides a table containing the names of all the classes, and a description of each class. Each class name is a link to the class's reference documentation. For example:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./qdial.htm" translate="no">QDial</a></td><td>Rounded range control (like a speedometer or potentiometer)</td></tr>
+<tr class="even" valign="top"><td><a href="./qdialog.htm" translate="no">QDialog</a></td><td>The base class of dialog windows</td></tr>
+<tr class="odd" valign="top"><td><a href="./qdir.htm" translate="no">QDir</a></td><td>Access to directory structures and their contents</td></tr>
+</tbody></table></div>
+<p>A C++ class is documented with the <a href="./13-qdoc-commands-topics.htm#class-command" translate="no">\class</a> command. The annotation for the class is taken from the argument of the class comment's <a href="./11-qdoc-commands-specialcontent.htm#brief-command" translate="no">\brief</a> command.</p>
+<a name="annotatedexamples"></a>
+<h3 id="annotatedexamples"><code translate="no">annotatedexamples</code><a class="plink" href="#annotatedexamples" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">annotatedexamples</code> argument provides a complete list of all examples as a set of tables containing the titles of all the examples, and a description of each example. Each title is a link to the example's documentation.</p>
+<p>A separate table for each module (that has documented examples) is generated, provided that the module has defined a navigation.landingpage configuration variable. The <i>landingpage</i> variable is used as a title for a header that precedes each table.</p>
+<a name="annotatedattributions"></a>
+<h3 id="annotatedattributions"><code translate="no">annotatedattributions</code><a class="plink" href="#annotatedattributions" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">annotatedattributions</code> argument provides a complete list of all attributions as a set of tables containing the titles of all the attributions, and a description of each attribution. Each title is a link to the attribution's page.</p>
+<p>A separate table for each module (that has attributions) is generated, provided that the module has defined a navigation.landingpage configuration variable. The <i>landingpage</i> variable is used as a title for a header that precedes each table.</p>
+<a name="list-example"></a><a name="classes-op-lt-op-prefix-op-gt-op"></a>
+<h3 id="classes-op-lt-op-prefix-op-gt-op"><code translate="no">classes &lt;prefix&gt;</code><a class="plink" href="#classes-op-lt-op-prefix-op-gt-op" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">classes</code> argument provides a complete alphabetical list of the classes. The second argument, <code translate="no">&lt;prefix&gt;</code>, is the common prefix for the class names. The class names will be sorted on the character that follows the common prefix. e.g. The common prefix for the Qt classes is <code translate="no">Q</code>. The common prefix argument is optional. If no common prefix is provided, the class names will be sorted on their first character.</p>
+<p>Each class name becomes a link to the class's reference documentation. This command is used to generate the <i>All Classes</i> page this way:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \page classes<span class="operator">.</span>html
+    \title All Classes
+    \ingroup classlists
+
+    \brief Alphabetical list of classes<span class="operator">.</span>
+
+    This is a list of all <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> classes<span class="operator">.</span> For classes that
+    have been deprecated<span class="operator">,</span> see the \l{Obsolete Classes}
+    list<span class="operator">.</span>
+
+    \generatelist classes Q
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>A C++ class is documented with the <a href="./13-qdoc-commands-topics.htm#class-command" translate="no">\class</a> command.</p>
+<a name="classesbymodule"></a>
+<h3 id="classesbymodule"><code translate="no">classesbymodule</code><a class="plink" href="#classesbymodule" title="Direct link to this headline"></a></h3>
+<p>When this argument is used, a second argument is required, which specifies the module whose classes are to be listed. QDoc generates a table containing those classes. Each class is listed with the text of its <a href="./11-qdoc-commands-specialcontent.htm#brief-command" translate="no">\brief</a> command.</p>
+<p>For example, this command can be used on a module page as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \page phonon<span class="operator">-</span>module<span class="operator">.</span>html
+    \module Phonon
+    \title Phonon Module
+    \ingroup modules
+
+    \brief Contains namespaces and classes <span class="keyword">for</span> multimedia functionality<span class="operator">.</span>
+
+    \generatelist{classesbymodule Phonon}
+
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>Each class that is a member of the specified module must be marked with the <a href="./19-qdoc-commands-grouping.htm#inmodule-command" translate="no">\inmodule</a> command in its \class comment.</p>
+<a name="qmltypesbymodule"></a>
+<h3 id="qmltypesbymodule"><code translate="no">qmltypesbymodule</code><a class="plink" href="#qmltypesbymodule" title="Direct link to this headline"></a></h3>
+<p>Similar to <code translate="no">classesbymodule</code> argument, but used for listing the QML types from the QML module specified with the second argument.</p>
+<div class="admonition note">
+<p><b>Note: </b>Support for this argument was introduced in QDoc 5.6.</p>
+</div>
+<a name="jstypesbymodule"></a>
+<h3 id="jstypesbymodule"><code translate="no">jstypesbymodule</code><a class="plink" href="#jstypesbymodule" title="Direct link to this headline"></a></h3>
+<p>Similar to <code translate="no">classesbymodule</code> argument, but used for listing the JavaScript types from the module specified with the second argument.</p>
+<div class="admonition note">
+<p><b>Note: </b>Support for this argument was introduced in QDoc 5.6.</p>
+</div>
+<a name="examplefiles-op-op-regular-expression-op-op"></a>
+<h3 id="examplefiles-op-op-regular-expression-op-op"><code translate="no">examplefiles [regular_expression]</code><a class="plink" href="#examplefiles-op-op-regular-expression-op-op" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">examplefiles</code> argument lists the files that are part of an example project. The optional second argument is a regular expression; if provided, only the files whose path matches with the regular expression are listed.</p>
+<p>The <code translate="no">examplefiles</code> argument can be only used within example documentation (see <a href="./13-qdoc-commands-topics.htm#example-command" translate="no">\example</a>), and is typically used together with the <a href="./12-0-qdoc-commands-miscellaneous.htm#noautolist-command" translate="no">\noautolist</a> command.</p>
+<a name="exampleimages-op-op-regular-expression-op-op"></a>
+<h3 id="exampleimages-op-op-regular-expression-op-op"><code translate="no">exampleimages [regular_expression]</code><a class="plink" href="#exampleimages-op-op-regular-expression-op-op" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">exampleimages</code> argument lists the images that are part of an example project. The optional second argument is a regular expression; if provided, only the image files whose path matches with the regular expression are listed.</p>
+<p>The <code translate="no">exampleimages</code> argument can be only used within example documentation (see <a href="./13-qdoc-commands-topics.htm#example-command" translate="no">\example</a>), and is typically used together with the <a href="./12-0-qdoc-commands-miscellaneous.htm#noautolist-command" translate="no">\noautolist</a> command.</p>
+<a name="functionindex"></a>
+<h3 id="functionindex"><code translate="no">functionindex</code><a class="plink" href="#functionindex" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">functionindex</code> argument provides a complete alphabetical list of all the documented member functions. It is normally used only to generate the <i>Qt function index</i> page this way:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \page functions<span class="operator">.</span>html
+    \title All Functions
+    \ingroup funclists
+
+    \brief All documented <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> functions listed alphabetically with a
+    link to where each one is declared<span class="operator">.</span>
+
+    This is the list of all documented member functions and global
+    functions in the <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> API<span class="operator">.</span> Each function has a link to the
+    <span class="keyword">class</span> <span class="keyword">or</span> header file where it is declared and documented<span class="operator">.</span>
+
+    \generatelist functionindex
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<a name="legalese"></a>
+<h3 id="legalese"><code translate="no">legalese</code><a class="plink" href="#legalese" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">legalese</code> argument tells QDoc to generate a list of licenses in the current documentation project. Each license is identified using the <a href="./11-qdoc-commands-specialcontent.htm#legalese-command" translate="no">\legalese</a> command.</p>
+<a name="overviews"></a>
+<h3 id="overviews"><code translate="no">overviews</code><a class="plink" href="#overviews" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">overviews</code> argument is used to tell QDoc to generate a list by concatenating the contents of all the <a href="./13-qdoc-commands-topics.htm#group-command" translate="no">\group</a> pages. Qt uses it to generate the <i>overviews</i> page this way:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \page overviews<span class="operator">.</span>html
+
+    \title All Overviews and HOWTOs
+
+    \generatelist overviews
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<a name="attributions"></a>
+<h3 id="attributions"><code translate="no">attributions</code><a class="plink" href="#attributions" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">attributions</code> argument is used to tell QDoc to generate a list of attributions in the documentation.</p>
+<a name="related"></a>
+<h3 id="related"><code translate="no">related</code><a class="plink" href="#related" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">related</code> argument is used in combination with the <a href="./13-qdoc-commands-topics.htm#group-command" translate="no">\group</a> and <a href="./19-qdoc-commands-grouping.htm#ingroup-command" translate="no">\ingroup</a> commands to list all the overviews related to a specified group. For example, the page for the <i>Programming with Qt</i> page is generated this way:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \group qt<span class="operator">-</span>basic<span class="operator">-</span>concepts
+    \title Programming with <span class="type"><a href="./qt.htm" translate="no">Qt</a></span>
+
+    \brief The basic architecture of the <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> cross<span class="operator">-</span>platform application and UI framework<span class="operator">.</span>
+
+    <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> is a cross<span class="operator">-</span>platform application and UI framework <span class="keyword">for</span>
+    writing web<span class="operator">-</span>enabled applications <span class="keyword">for</span> desktop<span class="operator">,</span> mobile<span class="operator">,</span> and
+    embedded operating systems<span class="operator">.</span> This page contains links to
+    articles and overviews explaining key components and
+    techniuqes used in <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> development<span class="operator">.</span>
+
+    \generatelist {related}
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>Each page listed on this group page contains the command:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">\ingroup qt<span class="operator">-</span>basic<span class="operator">-</span>concepts</pre></div>
+<a name="if-command"></a><a name="if"></a>
+<h2 id="if">\if<a class="plink" href="#if" title="Direct link to this headline"></a></h2>
+<p>The \if command and the corresponding \endif command enclose parts of a QDoc comment that only will be included if the condition specified by the command's argument is true.</p>
+<p>The command reads the rest of the line and parses it as an C++ #if statement.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \<span class="keyword">if</span> defined(opensourceedition)
+
+    \note This edition is <span class="keyword">for</span> the development of
+    \l{<span class="type"><a href="./qt.htm" translate="no">Qt</a></span> Open Source Edition} {Free and Open Source}
+    software only; see \l{<span class="type"><a href="./qt.htm" translate="no">Qt</a></span> Commercial Editions}<span class="operator">.</span>
+
+    \endif
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>This QDoc comment will only be rendered if the <code translate="no">opensourceedition</code> preprocessor symbol is defined, and specified in the <a href="./22-qdoc-configuration-generalvariables.htm#defines-variable" translate="no">defines</a> variable in the configuration file to make QDoc process the code within #ifdef and #endif:</p>
+<div class="pre"><pre class="cpp" translate="no">defines <span class="operator">=</span> opensourceedition</pre></div>
+<p>You can also define the preprocessor symbol manually on the command line. For more information see the documentation of the <a href="./22-qdoc-configuration-generalvariables.htm#defines-variable" translate="no">defines</a> variable.</p>
+<p>See also <a href="./12-0-qdoc-commands-miscellaneous.htm#endif-command" translate="no">\endif</a>, <a href="./12-0-qdoc-commands-miscellaneous.htm#else-command" translate="no">\else</a>, <a href="./22-qdoc-configuration-generalvariables.htm#defines-variable" translate="no">defines</a> and <a href="./22-qdoc-configuration-generalvariables.htm#falsehoods-variable" translate="no">falsehoods</a>.</p>
+<a name="endif-command"></a><a name="endif"></a>
+<h2 id="endif">\endif<a class="plink" href="#endif" title="Direct link to this headline"></a></h2>
+<p>The \endif command and the corresponding \if command enclose parts of a QDoc comment that will be included if the condition specified by the <a href="./12-0-qdoc-commands-miscellaneous.htm#if-command" translate="no">\if</a> command's argument is true.</p>
+<p>For more information, see the documentation of the <a href="./12-0-qdoc-commands-miscellaneous.htm#if-command" translate="no">\if</a> command.</p>
+<p>See also <a href="./12-0-qdoc-commands-miscellaneous.htm#if-command" translate="no">\if</a>, <a href="./12-0-qdoc-commands-miscellaneous.htm#else-command" translate="no">\else</a>, <a href="./22-qdoc-configuration-generalvariables.htm#defines-variable" translate="no">defines</a> and <a href="./22-qdoc-configuration-generalvariables.htm#falsehoods-variable" translate="no">falsehoods</a>.</p>
+<a name="else-command"></a><a name="else"></a>
+<h2 id="else">\else<a class="plink" href="#else" title="Direct link to this headline"></a></h2>
+<p>The \else command specifies an alternative if the condition in the <a href="./12-0-qdoc-commands-miscellaneous.htm#if-command" translate="no">\if</a> command is false.</p>
+<p>The \else command can only be used within <a href="./12-0-qdoc-commands-miscellaneous.htm#if-command" translate="no">\if...\endif</a> commands, but is useful when there is only two alternatives.</p>
+<a name="include-command"></a><a name="include"></a>
+<h2 id="include">\include<a class="plink" href="#include" title="Direct link to this headline"></a></h2>
+<p>The \include command sends all or part of the file specified by its first argument to the QDoc input stream to be processed as a QDoc comment snippet.</p>
+<p>The command is useful when some snippet of commands or text is to be used in multiple places in the documentation. Use the \include command wherever you want to insert a snippet into the documentation. The file containing the snippet to include, must be located under the path(s) listed in the <a href="./22-qdoc-configuration-generalvariables.htm#sourcedirs-variable" translate="no">sourcedirs</a> or <a href="./22-qdoc-configuration-generalvariables.htm#exampledirs-variable" translate="no">exampledirs</a> QDoc configuration variable. It can be either any source file parsed by QDoc (or even the same one where \include command is used), or any other text file. To store snippets in a separate file that is not meant to be parsed by QDoc, use a file extension that is not listed in <a href="./22-qdoc-configuration-generalvariables.htm#sources-fileextensions-variable" translate="no">sources.fileextensions</a>; for example, <code translate="no">.qdocinc</code>.</p>
+<p>The command can have either one or two arguments. The first argument is always a file name. The contents of the file must be QDoc input, in other words, a sequence of QDoc commands and text, but without the enclosing QDoc comment <code translate="no">/</code><code translate="no">*!</code> ... <code translate="no">*</code><code translate="no">/</code> delimiters. If you want to include the entire named file, don't use the second argument. If you want to include only part of the file, see the <a href="./12-0-qdoc-commands-miscellaneous.htm#2-argument-form" translate="no">two argument form</a> below. Here is an example of the one argument form:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \page corefeatures<span class="operator">.</span>html
+    \title Core Features
+
+    \<span class="keyword">include</span> examples<span class="operator">/</span>signalandslots<span class="operator">.</span>qdocinc
+    \<span class="keyword">include</span> examples<span class="operator">/</span>objectmodel<span class="operator">.</span>qdocinc
+    \<span class="keyword">include</span> examples<span class="operator">/</span>layoutmanagement<span class="operator">.</span>qdocinc
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>QDoc renders this page <a href="./corefeatures.htm" translate="no">as shown here</a>.</p>
+<a name="2-argument-form"></a><a name="include-filename-snippet-identifier"></a>
+<h3 id="include-filename-snippet-identifier">\include filename snippet-identifier<a class="plink" href="#include-filename-snippet-identifier" title="Direct link to this headline"></a></h3>
+<p>It is a waste of time to make a separate <code translate="no">.qdocinc</code> file for every QDoc include snippet you want to use in multiple places in the documentation, especially given that you probably have to put the copyright/license notice in every one of these files. So if you have a large number of snippets to be included, you can put them all in a single file if you want, and surround each one with:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">//! [snippet-id1]</span>
+
+       <span class="type">QDoc</span> commands and text<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+
+<span class="comment">//! [snippet-id1]</span>
+
+    <span class="comment">//! [snippet-id2]</span>
+
+       More <span class="type">QDoc</span> commands and text<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+
+<span class="comment">//! [snippet-id2]</span></pre></div>
+<p>Then you can use the two-argument form of the command:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">\input examples<span class="operator">/</span>signalandslots<span class="operator">.</span>qdocinc snippet<span class="operator">-</span>id2
+\input examples<span class="operator">/</span>objectmodel<span class="operator">.</span>qdocinc another<span class="operator">-</span>snippet<span class="operator">-</span>id</pre></div>
+<p>It works as expected. The sequence of QDoc commands and text found between the two tags with the same name as the second argument is sent to the QDoc input stream. You can even have nested snippets.</p>
+<div class="admonition note">
+<p><b>Note: </b>Snippet identifiers work also within documentation comment (/*! .. */) blocks, so it's not necessary to use a separate <code translate="no">.qdocinc</code> file. When processing a comment block, QDoc removes any <code translate="no">//!</code> comment lines from the generated output.</p>
+</div>
+<a name="meta-command"></a><a name="meta"></a>
+<h2 id="meta">\meta<a class="plink" href="#meta" title="Direct link to this headline"></a></h2>
+<p>The \meta command is used for adding metadata to example documentation. The command has two arguments: the first argument is the name of the metadata attribute, and the second argument is the value for the attribute. Each argument should be enclosed in curly brackets, as shown in this example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \<span class="keyword">class</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+    \brief The <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="keyword">class</span> is the base <span class="keyword">class</span> of all user interface objects<span class="operator">.</span>
+
+    \ingroup basicwidgets
+
+    \meta {technology} {User Interface}
+    \meta {platform} {macOS <span class="number">10.6</span>}
+    \meta {platform} {MeeGo}
+    \meta {audience} {user}
+    \meta {audience} {programmer}
+    \meta {audience} {designer}
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>When running QDoc to generate HTML, the example above will have no effect on the generated output.</p>
+<p><b>Example Metadata</b></p>
+<p>Another use for \meta command is to include metadata (tags) in <a href="./13-qdoc-commands-topics.htm#example-command" translate="no">\example</a> documentation. By default, QDoc generates example tags based on the example's <a href="./20-qdoc-commands-namingthings.htm#title-command" translate="no">\title</a> and module name. These tags are displayed in Qt Creator's Welcome mode, helping users navigate the list of examples.</p>
+<p>Additional tags can be created with <code translate="no">\\meta {tag} {tag1,[tag2,...]}</code>. For example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">/ *!
+    \example helloworld
+    \title Hello World Example
+    \meta {tag} {tutorial,basic}
+* /</pre></div>
+<p>This would result in the following tags: <i>tutorial,basic,hello,world</i>. Common words such as <i>example</i> are ignored.</p>
+<p><b>Example Install Paths</b></p>
+<p>The \meta command combined with an argument <code translate="no">installpath</code> specifies the location of an installed example. This value overrides the one that is set using the <code translate="no">examplesinstallpath</code> configuration variable.</p>
+<div class="pre"><pre class="cpp plain" translate="no">/ *!
+    \example helloworld
+    \title Hello World Example
+    \meta {installpath} {tutorials}
+* /</pre></div>
+<p>See also <a href="./qtgui-qdocconf.htm#examplesinstallpath" translate="no">examplesinstallpath</a>.</p>
+<a name="noautolist-command"></a><a name="noautolist"></a>
+<h2 id="noautolist">\noautolist<a class="plink" href="#noautolist" title="Direct link to this headline"></a></h2>
+<p>The \noautolist command indicates that the annotated list of C++ classes or QML types, which is automatically generated at the bottom of the C++ or QML module page should be omitted, because the classes or types have been listed manually. This command can also be used with the <a href="./13-qdoc-commands-topics.htm#group-command" translate="no">\group</a> command to omit the list of group members, when they are listed manually.</p>
+<p>The command must stand on its own line. See <a href="./qtsensors-qmlmodule.htm" translate="no">Qt Sensors QML Types</a> for an example. The page is generated from <code translate="no">qtsensors5.qdoc</code>. There you will find a QDoc comment containing the <code translate="no">\qmlmodule</code> command for the <a href="./qtsensors-module.htm" translate="no">QtSensors</a> module. The same QDoc comment contains two <code translate="no">\annotated-list</code> commands to list the QML types in two separate groups. The QML types have been divided into these two groups because it makes more sense to list them this way than it does to list them in a single alphabetical list. At the bottom of the comment, <code translate="no">\noautolist</code> has been used to tell QDoc not to generate the automatic annotated list.</p>
+<p>This command was introduced in QDoc 5.6.</p>
+<p>Since Qt 5.10, this command can be applied also to <a href="./13-qdoc-commands-topics.htm#example-command" translate="no">\example</a> documentation, where it causes the automatically generated list of files and images belonging to an example project to be omitted.</p>
+<a name="omit-command"></a><a name="omit"></a>
+<h2 id="omit">\omit<a class="plink" href="#omit" title="Direct link to this headline"></a></h2>
+<p>The \omit command and the corresponding \endomit command delimit parts of the documentation that you want QDoc to skip. For example:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \table
+    \row
+        \li Basic Widgets
+        \li Basic GUI widgets such as buttons<span class="operator">,</span> comboboxes
+           and scrollbars<span class="operator">.</span>
+
+    \omit
+    \row
+        \li Component Model
+        \li Interfaces and helper classes <span class="keyword">for</span> the <span class="type"><a href="./qt.htm" translate="no">Qt</a></span>
+           Component Model<span class="operator">.</span>
+    \endomit
+
+    \row
+        \li Database Classes
+        \li Database related classes<span class="operator">,</span> e<span class="operator">.</span>g<span class="operator">.</span> <span class="keyword">for</span> SQL databases<span class="operator">.</span>
+    \endtable
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>QDoc renders this as:</p>
+<table align="center" border="0" cellpadding="2" cellspacing="1">
+<tbody><tr bgcolor="#d0d0d0" valign="top">
+<td>Basic Widgets</td>
+<td>Basic GUI widgets such as buttons, comboboxes
+                       and scrollbars.</td>
+</tr>
+<tr bgcolor="#c0c0c0" valign="top">
+<td>Database Classes</td>
+<td>Database related classes, e.g. for SQL databases.</td>
+</tr>
+</tbody></table>
+<a name="raw-command"></a><a name="raw-avoid"></a>
+<h2 id="raw-avoid">\raw (avoid)<a class="plink" href="#raw-avoid" title="Direct link to this headline"></a></h2>
+<p>The \raw command and the corresponding \endraw command delimit a block of raw mark-up language code.</p>
+<div class="admonition note">
+<p><b>Note: </b>Avoid using this command if possible. If you are trying to generate special table or list behavior, try to get the behavior you want using the <a href="./04-qdoc-commands-textmarkup.htm#span-command" translate="no">\span</a> and <a href="./04-qdoc-commands-textmarkup.htm#div-command" translate="no">\div</a> commands in your <a href="./10-qdoc-commands-tablesandlists.htm#table-command" translate="no">\table</a> or <a href="./10-qdoc-commands-tablesandlists.htm#list-command" translate="no">\list</a>.</p>
+</div>
+<p>The command takes an argument specifying the code's format. Currently, the only supported format is HTML.</p>
+<p>The \raw command is useful if you want some special HTML effects in your documentation.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> has some predefined <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> objects<span class="operator">.</span>
+
+    \raw HTML
+    <span class="operator">&lt;</span>style type<span class="operator">=</span><span class="string">"text/css"</span> id<span class="operator">=</span><span class="string">"colorstyles"</span><span class="operator">&gt;</span>
+    <span class="preprocessor">#color-blue { background-color: #0000ff; color: #ffffff }</span>
+    <span class="preprocessor">#color-darkBlue { background-color: #000080; color: #ffffff }</span>
+    <span class="preprocessor">#color-cyan { background-color: #00ffff; color: #000000 }</span>
+    <span class="operator">&lt;</span><span class="operator">/</span>style<span class="operator">&gt;</span>
+
+    <span class="operator">&lt;</span>p<span class="operator">&gt;</span>
+    <span class="operator">&lt;</span>tt id<span class="operator">=</span><span class="string">"color-blue"</span><span class="operator">&gt;</span>Blue(<span class="preprocessor">#0000ff)&lt;/tt&gt;,</span>
+    <span class="operator">&lt;</span>tt id<span class="operator">=</span><span class="string">"color-darkBlue"</span><span class="operator">&gt;</span>dark blue(<span class="preprocessor">#000080)&lt;/tt&gt; and</span>
+    <span class="operator">&lt;</span>tt id<span class="operator">=</span><span class="string">"color-cyan"</span><span class="operator">&gt;</span>cyan(<span class="preprocessor">#00ffff)&lt;/tt&gt;.</span>
+<span class="operator">&lt;</span><span class="operator">/</span>p<span class="operator">&gt;</span>
+    \endraw
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>QDoc renders this as:</p>
+<blockquote><p>Qt has some predefined <a href="./qcolor.htm" translate="no">QColor</a> objects.</p>
+
+<p>
+<tt id="color-blue">Blue(#0000ff)</tt>,
+               <tt id="color-darkBlue">dark blue(#000080)</tt> and
+               <tt id="color-cyan">cyan(#00ffff)</tt>.
+           </p>
+</blockquote>
+<div class="admonition note">
+<p><b>Note: </b>But you can achieve the exact same thing using QDoc commands. In this case, all you have to do is include the color styles in your style.css file. Then you can write:</p>
+</div>
+<div class="pre"><pre class="cpp prettyprint" translate="no">\tt {\span {id<span class="operator">=</span><span class="string">"color-blue"</span>} {Blue(<span class="preprocessor">#0000ff)}},</span>
+\tt {\span {id<span class="operator">=</span><span class="string">"color-darkBlue"</span>} {dark blue(<span class="preprocessor">#000080)}} and</span>
+\tt {\span {id<span class="operator">=</span><span class="string">"color-cyan"</span>} {cyan(<span class="preprocessor">#00ffff)}}.</span></pre></div>
+<p>...which is rendered as:</p>
+<p><code translate="no"><span id="color-blue">Blue(#0000ff)</span></code>, <code translate="no"><span id="color-darkBlue">dark blue(#000080)</span></code> and <code translate="no"><span id="color-cyan">cyan(#00ffff)</span></code>.</p>
+<a name="unicode-command"></a><a name="unicode"></a>
+<h2 id="unicode">\unicode<a class="plink" href="#unicode" title="Direct link to this headline"></a></h2>
+<p>The \unicode command allows you to insert an arbitrary Unicode character in the document.</p>
+<p>The command takes an argument specifying the character as an integer. By default, base 10 is assumed, unless a '0x' or '0' prefix is specified (for base 16 and 8, respectively). For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">O G\unicode{<span class="number">0xEA</span>}nio e as Rosas
+
+\unicode <span class="number">0xC0</span> table en famille avec <span class="number">15</span> \unicode <span class="number">0x20AC</span> par jour
+
+\unicode <span class="number">0x3A3</span> \e{a}\sub{\e{i}}</pre></div>
+<p>QDoc renders this as:</p>
+<blockquote><p>O Gênio e as Rosas</p>
+<p>À table en famille avec 15 € par jour</p>
+<p>Σ <i>a</i><sub><i>i</i></sub></p>
+</blockquote>
+</div>
+<!-- @@@12-0-qdoc-commands-miscellaneous.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./11-qdoc-commands-specialcontent.htm">Special Content</a>
+<a class="nextPage" href="./21-0-qdoc-configuration.htm">The QDoc Configuration File</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

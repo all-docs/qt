@@ -1,0 +1,157 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QCameraFocusZone | Qt Multimedia</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtmultimedia-index.htm" translate="no">Qt Multimedia</a></li>
+                            <li><a href="./qtmultimedia-modules.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QCameraFocusZone</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QCameraFocusZone Class</h1>
+<!-- $$$QCameraFocusZone-brief -->
+<p>The QCameraFocusZone class provides information on zones used for autofocusing a camera. <a href="#details">More...</a></p>
+<!-- @@@QCameraFocusZone -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QCameraFocusZone&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += multimedia</td></tr></tbody></table></div><ul>
+<li><a href="./qcamerafocuszone-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#FocusZoneStatus-enum" translate="no">FocusZoneStatus</a></b> { Invalid, Unused, Selected, Focused }</td></tr>
+</tbody></table></div>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#QCameraFocusZone" translate="no">QCameraFocusZone</a></b>(const QCameraFocusZone &amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QCameraFocusZone &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#operator-eq" translate="no">operator=</a></b>(const QCameraFocusZone &amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#dtor.QCameraFocusZone" translate="no">~QCameraFocusZone</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QRectF </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#area" translate="no">area</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#isValid" translate="no">isValid</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QCameraFocusZone::FocusZoneStatus </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#status" translate="no">status</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#operator-not-eq" translate="no">operator!=</a></b>(const QCameraFocusZone &amp;<i>other</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qcamerafocuszone.htm#operator-eq-eq" translate="no">operator==</a></b>(const QCameraFocusZone &amp;<i>other</i>) const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QCameraFocusZone-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>For cameras that support autofocusing, in order for a camera to autofocus on part of a sensor frame, it considers different zones within the frame. Which zones to use, and where the zones are located vary between different cameras.</p>
+<p>This class exposes what zones are used by a particular camera, and a list of the zones can be retrieved by a <a href="./qcamerafocus.htm" translate="no">QCameraFocus</a> instance.</p>
+<p>You can use this information to present visual feedback - for example, drawing rectangles around areas of the camera frame that are in focus, or changing the color of a zone as it comes into focus.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">focus<span class="operator">-</span><span class="operator">&gt;</span>setFocusPointMode(<span class="type"><a href="./qcamerafocus.htm" translate="no">QCameraFocus</a></span><span class="operator">::</span>FocusPointAuto);
+<span class="keyword">const</span> <span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type">QCameraFocusZone</span><span class="operator">&gt;</span> zones <span class="operator">=</span> focus<span class="operator">-</span><span class="operator">&gt;</span>focusZones();
+<span class="keyword">for</span> (<span class="keyword">const</span> <span class="type">QCameraFocusZone</span> <span class="operator">&amp;</span>zone : zones) {
+    <span class="keyword">if</span> (zone<span class="operator">.</span>status() <span class="operator">=</span><span class="operator">=</span> <span class="type">QCameraFocusZone</span><span class="operator">::</span>Focused) {
+        <span class="comment">// Draw a green box at zone.area()</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> (zone<span class="operator">.</span>status() <span class="operator">=</span><span class="operator">=</span> <span class="type">QCameraFocusZone</span><span class="operator">::</span>Selected) {
+        <span class="comment">// This area is selected for autofocusing, but is not in focus</span>
+        <span class="comment">// Draw a yellow box at zone.area()</span>
+    }
+}</pre></div>
+</div>
+<p><b>See also </b><a href="./qcamerafocus.htm" translate="no">QCameraFocus</a>.</p>
+<!-- @@@QCameraFocusZone -->
+<div class="types">
+<h2>Member Type Documentation</h2>
+<!-- $$$FocusZoneStatus$$$Invalid$$$Unused$$$Selected$$$Focused -->
+<h3 class="fn" id="FocusZoneStatus-enum" translate="no"><a name="FocusZoneStatus-enum"></a>enum QCameraFocusZone::<span class="name">FocusZoneStatus</span><a class="plink" href="#FocusZoneStatus-enum" title="Direct link to this headline"></a></h3>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tblval">Value</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">QCameraFocusZone::Invalid</code></td><td class="topAlign tblval"><code translate="no">0</code></td><td class="topAlign">This zone is not valid</td></tr>
+<tr><td class="topAlign"><code translate="no">QCameraFocusZone::Unused</code></td><td class="topAlign tblval"><code translate="no">1</code></td><td class="topAlign">This zone may be used for autofocusing, but is not currently.</td></tr>
+<tr><td class="topAlign"><code translate="no">QCameraFocusZone::Selected</code></td><td class="topAlign tblval"><code translate="no">2</code></td><td class="topAlign">This zone is currently being used for autofocusing, but is not in focus.</td></tr>
+<tr><td class="topAlign"><code translate="no">QCameraFocusZone::Focused</code></td><td class="topAlign tblval"><code translate="no">3</code></td><td class="topAlign">This zone is being used for autofocusing and is currently in focus.</td></tr>
+</tbody></table></div>
+<!-- @@@FocusZoneStatus -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QCameraFocusZone[overload1]$$$QCameraFocusZoneconstQCameraFocusZone& -->
+<h3 class="fn" id="QCameraFocusZone" translate="no"><a name="QCameraFocusZone"></a>QCameraFocusZone::<span class="name">QCameraFocusZone</span>(const <span class="type">QCameraFocusZone</span> &amp;<i>other</i>)<a class="plink" href="#QCameraFocusZone" title="Direct link to this headline"></a></h3>
+<p>Creates a new QCameraFocusZone as a copy of <i translate="no">other</i>.</p>
+<!-- @@@QCameraFocusZone -->
+<!-- $$$operator=[overload1]$$$operator=constQCameraFocusZone& -->
+<h3 class="fn" id="operator-eq" translate="no"><a name="operator-eq"></a><span class="type">QCameraFocusZone</span> &amp;QCameraFocusZone::<span class="name">operator=</span>(const <span class="type">QCameraFocusZone</span> &amp;<i>other</i>)<a class="plink" href="#operator-eq" title="Direct link to this headline"></a></h3>
+<p>Assigns <i translate="no">other</i> to this <a href="./qcamerafocuszone.htm" translate="no">QCameraFocusZone</a>.</p>
+<!-- @@@operator= -->
+<!-- $$$~QCameraFocusZone[overload1]$$$~QCameraFocusZone -->
+<h3 class="fn" id="dtor.QCameraFocusZone" translate="no"><a name="dtor.QCameraFocusZone"></a>QCameraFocusZone::<span class="name">~QCameraFocusZone</span>()<a class="plink" href="#dtor.QCameraFocusZone" title="Direct link to this headline"></a></h3>
+<p>Destroys this <a href="./qcamerafocuszone.htm" translate="no">QCameraFocusZone</a>.</p>
+<!-- @@@~QCameraFocusZone -->
+<!-- $$$area[overload1]$$$area -->
+<h3 class="fn" id="area" translate="no"><a name="area"></a><span class="type"><a href="./qrectf.htm" translate="no">QRectF</a></span> QCameraFocusZone::<span class="name">area</span>() const<a class="plink" href="#area" title="Direct link to this headline"></a></h3>
+<p>Returns the area of the camera frame that this focus zone encompasses.</p>
+<p>Coordinates are in frame relative coordinates - <code translate="no">QPointF(0,0)</code> is the top left of the frame, and <code translate="no">QPointF(1,1)</code> is the bottom right.</p>
+<!-- @@@area -->
+<!-- $$$isValid[overload1]$$$isValid -->
+<h3 class="fn" id="isValid" translate="no"><a name="isValid"></a><span class="type">bool</span> QCameraFocusZone::<span class="name">isValid</span>() const<a class="plink" href="#isValid" title="Direct link to this headline"></a></h3>
+<p>Returns true if this focus zone has a valid area and status.</p>
+<!-- @@@isValid -->
+<!-- $$$status[overload1]$$$status -->
+<h3 class="fn" id="status" translate="no"><a name="status"></a><span class="type"><a href="./qcamerafocuszone.htm#FocusZoneStatus-enum" translate="no">QCameraFocusZone::FocusZoneStatus</a></span> QCameraFocusZone::<span class="name">status</span>() const<a class="plink" href="#status" title="Direct link to this headline"></a></h3>
+<p>Returns the current status of this focus zone.</p>
+<!-- @@@status -->
+<!-- $$$operator!=[overload1]$$$operator!=constQCameraFocusZone& -->
+<h3 class="fn" id="operator-not-eq" translate="no"><a name="operator-not-eq"></a><span class="type">bool</span> QCameraFocusZone::<span class="name">operator!=</span>(const <span class="type">QCameraFocusZone</span> &amp;<i>other</i>) const<a class="plink" href="#operator-not-eq" title="Direct link to this headline"></a></h3>
+<p>Returns true if this focus zone is not the same as <i translate="no">other</i>.</p>
+<!-- @@@operator!= -->
+<!-- $$$operator==[overload1]$$$operator==constQCameraFocusZone& -->
+<h3 class="fn" id="operator-eq-eq" translate="no"><a name="operator-eq-eq"></a><span class="type">bool</span> QCameraFocusZone::<span class="name">operator==</span>(const <span class="type">QCameraFocusZone</span> &amp;<i>other</i>) const<a class="plink" href="#operator-eq-eq" title="Direct link to this headline"></a></h3>
+<p>Returns true if this focus zone is the same as <i translate="no">other</i>.</p>
+<!-- @@@operator== -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

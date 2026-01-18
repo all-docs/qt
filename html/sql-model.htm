@@ -1,0 +1,159 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Using the SQL Modeles | Qt SQL</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/sql-model.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsql-index.htm" translate="no">Qt SQL</a></li>
+                            <li><a>Using the SQL Model Classes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="sql-sqlstatements.html" rel="prev">
+<link href="sql-presenting.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./sql-sqlstatements.htm">Executing SQL Statements</a>
+<a class="" href="./sql-presenting.htm">Presenting Data in a Table View</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Using the SQL Model Classes</h1>
+<span class="subtitle"></span>
+<!-- $$$sql-model.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>In addition to <a href="./qsqlquery.htm" translate="no">QSqlQuery</a>, Qt offers three higher-level classes for accessing databases. These classes are <a href="./qsqlquerymodel.htm" translate="no">QSqlQueryModel</a>, <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a>, and <a href="./qsqlrelationaltablemodel.htm" translate="no">QSqlRelationalTableModel</a>.</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./qsqlquerymodel.htm" translate="no">QSqlQueryModel</a></td><td>A read-only model based on an arbitrary SQL query.</td></tr>
+<tr class="even" valign="top"><td><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a></td><td>A read-write model that works on a single table.</td></tr>
+<tr class="odd" valign="top"><td><a href="./qsqlrelationaltablemodel.htm" translate="no">QSqlRelationalTableModel</a></td><td>A <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> subclass with foreign key support.</td></tr>
+</tbody></table></div>
+<p>These classes derive from <a href="./qabstracttablemodel.htm" translate="no">QAbstractTableModel</a> (which in turn inherits from <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a>) and make it easy to present data from a database in an item view class such as <a href="./qlistview.htm" translate="no">QListView</a> and <a href="./qtableview.htm" translate="no">QTableView</a>. This is explained in detail in the <a href="./sql-presenting.htm" translate="no">Presenting Data in a Table View</a> section.</p>
+<p>Another advantage of using these classes is that it can make your code easier to adapt to other data sources. For example, if you use <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> and later decide to use XML files to store data instead of a database, it is essentially just a matter of replacing one data model with another.</p>
+<a name="the-sql-query-model"></a>
+<h3 id="the-sql-query-model">The SQL Query Model<a class="plink" href="#the-sql-query-model" title="Direct link to this headline"></a></h3>
+<p><a href="./qsqlquerymodel.htm" translate="no">QSqlQueryModel</a> offers a read-only model based on an SQL query.</p>
+<p>Example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qsqlquerymodel.htm" translate="no">QSqlQueryModel</a></span> model;
+    model<span class="operator">.</span>setQuery(<span class="string">"SELECT * FROM employee"</span>);
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> model<span class="operator">.</span>rowCount(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="type">int</span> id <span class="operator">=</span> model<span class="operator">.</span>record(i)<span class="operator">.</span>value(<span class="string">"id"</span>)<span class="operator">.</span>toInt();
+        <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name <span class="operator">=</span> model<span class="operator">.</span>record(i)<span class="operator">.</span>value(<span class="string">"name"</span>)<span class="operator">.</span>toString();
+        <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> id <span class="operator">&lt;</span><span class="operator">&lt;</span> name;
+    }</pre></div>
+<p>After setting the query using <a href="./qsqlquerymodel.htm#setQuery" translate="no">QSqlQueryModel::setQuery</a>(), you can use <a href="./qsqlquerymodel.htm#record" translate="no">QSqlQueryModel::record</a>(int) to access the individual records. You can also use <a href="./qsqlquerymodel.htm#data" translate="no">QSqlQueryModel::data</a>() and any of the other functions inherited from <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a>.</p>
+<p>There's also a <a href="./qsqlquerymodel.htm#setQuery" translate="no">setQuery()</a> overload that takes a <a href="./qsqlquery.htm" translate="no">QSqlQuery</a> object and operates on its result set. This enables you to use any features of <a href="./qsqlquery.htm" translate="no">QSqlQuery</a> to set up the query (e.g., prepared queries).</p>
+<a name="the-sql-table-model"></a>
+<h3 id="the-sql-table-model">The SQL Table Model<a class="plink" href="#the-sql-table-model" title="Direct link to this headline"></a></h3>
+<p><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> offers a read-write model that works on a single SQL table at a time.</p>
+<p>Example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a></span> model;
+    model<span class="operator">.</span>setTable(<span class="string">"employee"</span>);
+    model<span class="operator">.</span>setFilter(<span class="string">"salary &gt; 50000"</span>);
+    model<span class="operator">.</span>setSort(<span class="number">2</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>DescendingOrder);
+    model<span class="operator">.</span>select();
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> model<span class="operator">.</span>rowCount(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name <span class="operator">=</span> model<span class="operator">.</span>record(i)<span class="operator">.</span>value(<span class="string">"name"</span>)<span class="operator">.</span>toString();
+        <span class="type">int</span> salary <span class="operator">=</span> model<span class="operator">.</span>record(i)<span class="operator">.</span>value(<span class="string">"salary"</span>)<span class="operator">.</span>toInt();
+        <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> name <span class="operator">&lt;</span><span class="operator">&lt;</span> salary;
+    }</pre></div>
+<p><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> is a high-level alternative to <a href="./qsqlquery.htm" translate="no">QSqlQuery</a> for navigating and modifying individual SQL tables. It typically results in less code and requires no knowledge of SQL syntax.</p>
+<p>Use <a href="./qsqltablemodel.htm#record" translate="no">QSqlTableModel::record</a>() to retrieve a row in the table, and <a href="./qsqltablemodel.htm#setRecord" translate="no">QSqlTableModel::setRecord</a>() to modify the row. For example, the following code will increase every employee's salary by 10 per cent:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> model<span class="operator">.</span>rowCount(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="type"><a href="./qsqlrecord.htm" translate="no">QSqlRecord</a></span> record <span class="operator">=</span> model<span class="operator">.</span>record(i);
+        <span class="type">double</span> salary <span class="operator">=</span> record<span class="operator">.</span>value(<span class="string">"salary"</span>)<span class="operator">.</span>toInt();
+        salary <span class="operator">*</span><span class="operator">=</span> <span class="number">1.1</span>;
+        record<span class="operator">.</span>setValue(<span class="string">"salary"</span><span class="operator">,</span> salary);
+        model<span class="operator">.</span>setRecord(i<span class="operator">,</span> record);
+    }
+    model<span class="operator">.</span>submitAll();</pre></div>
+<p>You can also use <a href="./qsqltablemodel.htm#data" translate="no">QSqlTableModel::data</a>() and <a href="./qsqltablemodel.htm#setData" translate="no">QSqlTableModel::setData</a>(), which are inherited from <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a>, to access the data. For example, here's how to update a record using <a href="./qsqltablemodel.htm#setData" translate="no">setData()</a>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    model<span class="operator">.</span>setData(model<span class="operator">.</span>index(row<span class="operator">,</span> column)<span class="operator">,</span> <span class="number">75000</span>);
+    model<span class="operator">.</span>submitAll();</pre></div>
+<p>Here's how to insert a row and populate it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    model<span class="operator">.</span>insertRows(row<span class="operator">,</span> <span class="number">1</span>);
+    model<span class="operator">.</span>setData(model<span class="operator">.</span>index(row<span class="operator">,</span> <span class="number">0</span>)<span class="operator">,</span> <span class="number">1013</span>);
+    model<span class="operator">.</span>setData(model<span class="operator">.</span>index(row<span class="operator">,</span> <span class="number">1</span>)<span class="operator">,</span> <span class="string">"Peter Gordon"</span>);
+    model<span class="operator">.</span>setData(model<span class="operator">.</span>index(row<span class="operator">,</span> <span class="number">2</span>)<span class="operator">,</span> <span class="number">68500</span>);
+    model<span class="operator">.</span>submitAll();</pre></div>
+<p>Here's how to delete five consecutive rows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    model<span class="operator">.</span>removeRows(row<span class="operator">,</span> <span class="number">5</span>);
+    model<span class="operator">.</span>submitAll();</pre></div>
+<p>The first argument to <a href="./qsqltablemodel.htm#removeRows" translate="no">QSqlTableModel::removeRows</a>() is the index of the first row to delete.</p>
+<p>When you're finished changing a record, you should always call <a href="./qsqltablemodel.htm#submitAll" translate="no">QSqlTableModel::submitAll</a>() to ensure that the changes are written to the database.</p>
+<p>When and whether you actually <i>need</i> to call submitAll() depends on the table's <a href="./qsqltablemodel.htm#editStrategy" translate="no">edit strategy</a>. The default strategy is <a href="./qsqltablemodel.htm#EditStrategy-enum" translate="no">QSqlTableModel::OnRowChange</a>, which specifies that pending changes are applied to the database when the user selects a different row. Other strategies are <a href="./qsqltablemodel.htm#EditStrategy-enum" translate="no">QSqlTableModel::OnManualSubmit</a> (where all changes are cached in the model until you call submitAll()) and <a href="./qsqltablemodel.htm#EditStrategy-enum" translate="no">QSqlTableModel::OnFieldChange</a> (where no changes are cached). These are mostly useful when <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> is used with a view.</p>
+<p><a href="./qsqltablemodel.htm#EditStrategy-enum" translate="no">QSqlTableModel::OnFieldChange</a> seems to deliver the promise that you never need to call submitAll() explicitly. There are two pitfalls, though:</p>
+<ul>
+<li>Without any caching, performance may drop significantly.</li>
+<li>If you modify a primary key, the record might slip through your fingers while you are trying to populate it.</li>
+</ul>
+<a name="the-sql-relational-table-model"></a>
+<h3 id="the-sql-relational-table-model">The SQL Relational Table Model<a class="plink" href="#the-sql-relational-table-model" title="Direct link to this headline"></a></h3>
+<p><a href="./qsqlrelationaltablemodel.htm" translate="no">QSqlRelationalTableModel</a> extends <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> to provide support for foreign keys. A foreign key is a 1-to-1 mapping between a field in one table and the primary key field of another table. For example, if a <code translate="no">book</code> table has a field called <code translate="no">authorid</code> that refers to the author table's <code translate="no">id</code> field, we say that <code translate="no">authorid</code> is a foreign key.</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><img alt="" src="./images/noforeignkeys.png"></td><td><img alt="" src="./images/foreignkeys.png"></td></tr>
+</tbody></table></div>
+<p>The screenshot on the left shows a plain <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> in a <a href="./qtableview.htm" translate="no">QTableView</a>. Foreign keys (<code translate="no">city</code> and <code translate="no">country</code>) aren't resolved to human-readable values. The screenshot on the right shows a <a href="./qsqlrelationaltablemodel.htm" translate="no">QSqlRelationalTableModel</a>, with foreign keys resolved into human-readable text strings.</p>
+<p>The following code snippet shows how the <a href="./qsqlrelationaltablemodel.htm" translate="no">QSqlRelationalTableModel</a> was set up:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    model<span class="operator">-</span><span class="operator">&gt;</span>setTable(<span class="string">"employee"</span>);
+
+    model<span class="operator">-</span><span class="operator">&gt;</span>setRelation(<span class="number">2</span><span class="operator">,</span> <span class="type"><a href="./qsqlrelation.htm" translate="no">QSqlRelation</a></span>(<span class="string">"city"</span><span class="operator">,</span> <span class="string">"id"</span><span class="operator">,</span> <span class="string">"name"</span>));
+    model<span class="operator">-</span><span class="operator">&gt;</span>setRelation(<span class="number">3</span><span class="operator">,</span> <span class="type"><a href="./qsqlrelation.htm" translate="no">QSqlRelation</a></span>(<span class="string">"country"</span><span class="operator">,</span> <span class="string">"id"</span><span class="operator">,</span> <span class="string">"name"</span>));</pre></div>
+<p>See the <a href="./qsqlrelationaltablemodel.htm" translate="no">QSqlRelationalTableModel</a> documentation for details.</p>
+</div>
+<!-- @@@sql-model.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./sql-sqlstatements.htm">Executing SQL Statements</a>
+<a class="nextPage" href="./sql-presenting.htm">Presenting Data in a Table View</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

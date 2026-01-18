@@ -1,0 +1,162 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qml Weather | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-qmlweather-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Qml Weather</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qml Weather</h1>
+<span class="subtitle"></span>
+<!-- $$$qmlweather-brief -->
+<p>This is a basic demonstration showing how to use the different chart types by using qml.</p>
+<!-- @@@qmlweather -->
+<!-- $$$qmlweather-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/examples_qmlweather.png"></p><p>By default the application uses static test data to mimic a weather forecast. You can also obtain an application id from http://www.worldweatheronline.com/ to get access to weather API provided by World Weather Online. You can then give your application id as a parameter to the Qml Weather executable to make it use live data.</p>
+<p>For example:</p>
+<div class="pre"><pre class="cpp" translate="no">bin\qmlweather<span class="operator">.</span>exe <span class="number">1234567890abcdef123456</span></pre></div>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="using-charts-in-qt-quick-applications"></a>
+<h4 id="using-charts-in-qt-quick-applications">Using Charts in Qt Quick Applications<a class="plink" href="#using-charts-in-qt-quick-applications" title="Direct link to this headline"></a></h4>
+<p>The example application uses a <a href="./qml-qtcharts-chartview.htm" translate="no">ChartView</a> and a some series to visualize weather data:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtcharts-chartview.htm" translate="no">ChartView</a></span> {
+    <span class="name">id</span>: <span class="name">chartView</span>
+    <span class="name">title</span>: <span class="string">"Weather forecast"</span>
+    <span class="type"><a href="./qml-qtcharts-barcategoryaxis.htm" translate="no">BarCategoryAxis</a></span> {
+        <span class="name">id</span>: <span class="name">barCategoriesAxis</span>
+        <span class="name">titleText</span>: <span class="string">"Date"</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-valueaxis.htm" translate="no">ValueAxis</a></span>{
+        <span class="name">id</span>: <span class="name">valueAxisY2</span>
+        <span class="name">min</span>: <span class="number">0</span>
+        <span class="name">max</span>: <span class="number">10</span>
+        <span class="name">titleText</span>: <span class="string">"Rainfall [mm]"</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-valueaxis.htm" translate="no">ValueAxis</a></span> {
+        <span class="name">id</span>: <span class="name">valueAxisX</span>
+        <span class="comment">// Hide the value axis; it is only used to map the line series to bar categories axis</span>
+        <span class="name">visible</span>: <span class="number">false</span>
+        <span class="name">min</span>: <span class="number">0</span>
+        <span class="name">max</span>: <span class="number">5</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-valueaxis.htm" translate="no">ValueAxis</a></span>{
+        <span class="name">id</span>: <span class="name">valueAxisY</span>
+        <span class="name">min</span>: <span class="number">0</span>
+        <span class="name">max</span>: <span class="number">15</span>
+        <span class="name">titleText</span>: <span class="string">"Temperature [&amp;deg;C]"</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-lineseries.htm" translate="no">LineSeries</a></span> {
+        <span class="name">id</span>: <span class="name">maxTempSeries</span>
+        <span class="name">axisX</span>: <span class="name">valueAxisX</span>
+        <span class="name">axisY</span>: <span class="name">valueAxisY</span>
+        <span class="name">name</span>: <span class="string">"Max. temperature"</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-lineseries.htm" translate="no">LineSeries</a></span> {
+        <span class="name">id</span>: <span class="name">minTempSeries</span>
+        <span class="name">axisX</span>: <span class="name">valueAxisX</span>
+        <span class="name">axisY</span>: <span class="name">valueAxisY</span>
+        <span class="name">name</span>: <span class="string">"Min. temperature"</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-barseries.htm" translate="no">BarSeries</a></span> {
+        <span class="name">id</span>: <span class="name">myBarSeries</span>
+        <span class="name">axisX</span>: <span class="name">barCategoriesAxis</span>
+        <span class="name">axisYRight</span>: <span class="name">valueAxisY2</span>
+        <span class="type"><a href="./qml-qtcharts-barset.htm" translate="no">BarSet</a></span> {
+            <span class="name">id</span>: <span class="name">rainfallSet</span>
+            <span class="name">label</span>: <span class="string">"Rainfall"</span>
+        }
+    }</pre></div>
+<p>To get data with weather forecast data, we make an HTTP GET request to World Weather Online. We request the response in JSON data format.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Make HTTP GET request and parse the result</span>
+var xhr = new <span class="name">XMLHttpRequest</span>;
+<span class="name">xhr</span>.<span class="name">open</span>(<span class="string">"GET"</span>,
+         <span class="string">"http://free.worldweatheronline.com/feed/weather.ashx?q=Jyv%c3%a4skyl%c3%a4,Finland&amp;format=json&amp;num_of_days=5&amp;key="</span>
+         <span class="operator">+</span> <span class="name">weatherAppKey</span>);
+<span class="name">xhr</span>.<span class="name">onreadystatechange</span> <span class="operator">=</span> <span class="keyword">function</span>() {
+    <span class="keyword">if</span> (<span class="name">xhr</span>.<span class="name">readyState</span> <span class="operator">==</span> <span class="name">XMLHttpRequest</span>.<span class="name">DONE</span>) {
+        var a = <span class="name">JSON</span>.<span class="name">parse</span>(<span class="name">xhr</span>.<span class="name">responseText</span>);
+        <span class="name">parseWeatherData</span>(<span class="name">a</span>);
+    }
+}
+<span class="name">xhr</span>.<span class="name">send</span>();</pre></div>
+<p>The JSON response contains an array of forecast data:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Loop through the parsed JSON</span>
+<span class="keyword">for</span> (var i in <span class="name">weatherData</span>.<span class="name">data</span>.<span class="name">weather</span>) {
+    var weatherObj = <span class="name">weatherData</span>.<span class="name">data</span>.<span class="name">weather</span>[<span class="name">i</span>];</pre></div>
+<p>That is then used as input data for our series and a ListModel we use as a container for weather icon URLs:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Store temperature values, rainfall and weather icon.</span>
+<span class="comment">// The temperature values begin from 0.5 instead of 0.0 to make the start from the</span>
+<span class="comment">// middle of the rainfall bars. This makes the temperature lines visually better</span>
+<span class="comment">// synchronized with the rainfall bars.</span>
+<span class="name">maxTempSeries</span>.<span class="name">append</span>(<span class="name">Number</span>(<span class="name">i</span>) <span class="operator">+</span> <span class="number">0.5</span>, <span class="name">weatherObj</span>.<span class="name">tempMaxC</span>);
+<span class="name">minTempSeries</span>.<span class="name">append</span>(<span class="name">Number</span>(<span class="name">i</span>) <span class="operator">+</span> <span class="number">0.5</span>, <span class="name">weatherObj</span>.<span class="name">tempMinC</span>);
+<span class="name">rainfallSet</span>.<span class="name">append</span>(<span class="name">i</span>, <span class="name">weatherObj</span>.<span class="name">precipMM</span>);
+<span class="name">weatherImageModel</span>.<span class="name">append</span>({"imageSource":<span class="name">weatherObj</span>.<span class="name">weatherIconUrl</span>[<span class="number">0</span>].<span class="name">value</span>});</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/qmlweather?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@qmlweather -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

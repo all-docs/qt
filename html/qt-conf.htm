@@ -1,0 +1,116 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Using qt.conf</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qt-conf.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Using qt.conf</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Using qt.conf</h1>
+<span class="subtitle"></span>
+<!-- $$$qt-conf.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>You can use the <code translate="no">qt.conf</code> file to override paths or to specify arguments to be passed to the platform plugins.</p>
+<a name="format-and-location"></a>
+<h2 id="format-and-location">Format and Location<a class="plink" href="#format-and-location" title="Direct link to this headline"></a></h2>
+<p>The <code translate="no">qt.conf</code> file is an INI text file, as described in the <a href="./qsettings.htm#Format-enum" translate="no">QSettings</a> documentation.</p>
+<p><a href="./qlibraryinfo.htm" translate="no">QLibraryInfo</a> will load <code translate="no">qt.conf</code> from one of the following locations:</p>
+<ol class="1" type="1"><li><code translate="no">:/qt/etc/qt.conf</code> using the resource system</li>
+<li>on macOS, in the Resource directory inside the application bundle, for example <code translate="no">assistant.app/Contents/Resources/qt.conf</code></li>
+<li>in the directory containing the application executable, i.e. <a href="./qcoreapplication.htm#applicationDirPath" translate="no">QCoreApplication::applicationDirPath</a>() + <a href="./qdir.htm#separator" translate="no">QDir::separator</a>() + "qt.conf"</li>
+</ol>
+<a name="overriding-paths"></a>
+<h2 id="overriding-paths">Overriding Paths<a class="plink" href="#overriding-paths" title="Direct link to this headline"></a></h2>
+<p>The <code translate="no">qt.conf</code> file can be used to override the hard-coded paths that are compiled into the Qt library. These paths are accessible using the <a href="./qlibraryinfo.htm" translate="no">QLibraryInfo</a> class. Without <code translate="no">qt.conf</code>, the functions in <a href="./qlibraryinfo.htm" translate="no">QLibraryInfo</a> return these hard-coded paths; otherwise they return the paths as specified in <code translate="no">qt.conf</code>.</p>
+<p>Without <code translate="no">qt.conf</code>, the Qt libraries will use the hard-coded paths to look for plugins, translations, and so on. These paths may not exist on the target system, or they may not be accessible. Because of this, you may need <code translate="no">qt.conf</code> to make the Qt libraries look elsewhere.</p>
+<p>The file should have a <code translate="no">Paths</code> group which contains the entries that correspond to each value of the <a href="./qlibraryinfo.htm#LibraryLocation-enum" translate="no">QLibraryInfo::LibraryLocation</a> enum. See the <a href="./qlibraryinfo.htm" translate="no">QLibraryInfo</a> documentation for details on the meaning of the various locations.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Entry</th><th>Default Value</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>Prefix</td><td><a href="./qcoreapplication.htm#applicationDirPath" translate="no">QCoreApplication::applicationDirPath</a>()</td></tr>
+<tr class="even" valign="top"><td>Documentation</td><td><code translate="no">doc</code></td></tr>
+<tr class="odd" valign="top"><td>Headers</td><td><code translate="no">include</code></td></tr>
+<tr class="even" valign="top"><td>Libraries</td><td><code translate="no">lib</code></td></tr>
+<tr class="odd" valign="top"><td>LibraryExecutables</td><td><code translate="no">libexec</code></td></tr>
+<tr class="even" valign="top"><td>Binaries</td><td><code translate="no">bin</code></td></tr>
+<tr class="odd" valign="top"><td>Plugins</td><td><code translate="no">plugins</code></td></tr>
+<tr class="even" valign="top"><td>Imports</td><td><code translate="no">imports</code></td></tr>
+<tr class="odd" valign="top"><td>Qml2Imports</td><td><code translate="no">qml</code></td></tr>
+<tr class="even" valign="top"><td>ArchData</td><td><code translate="no">.</code></td></tr>
+<tr class="odd" valign="top"><td>Data</td><td><code translate="no">.</code></td></tr>
+<tr class="even" valign="top"><td>Translations</td><td><code translate="no">translations</code></td></tr>
+<tr class="odd" valign="top"><td>Examples</td><td><code translate="no">examples</code></td></tr>
+<tr class="even" valign="top"><td>Tests</td><td><code translate="no">tests</code></td></tr>
+<tr class="odd" valign="top"><td>Settings</td><td><code translate="no">.</code></td></tr>
+</tbody></table></div>
+<p>Absolute paths are used as specified in the <code translate="no">qt.conf</code> file. All paths are relative to the <code translate="no">Prefix</code>. On Windows and X11, the <code translate="no">Prefix</code> is relative to the directory containing the application executable (<a href="./qcoreapplication.htm#applicationDirPath" translate="no">QCoreApplication::applicationDirPath</a>()). On macOS, the <code translate="no">Prefix</code> is relative to the <code translate="no">Contents</code> in the application bundle. For example, <code translate="no">application.app/Contents/plugins/</code> is the default location for loading Qt plugins. Note that the plugins need to be placed in specific sub-directories under the <code translate="no">plugins</code> directory (see <a href="./plugins-howto.htm" translate="no">How to Create Qt Plugins</a> for details).</p>
+<p>For example, a <code translate="no">qt.conf</code> file could contain the following:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">[</span>Paths<span class="operator">]</span>
+Prefix <span class="operator">=</span> <span class="operator">/</span>some<span class="operator">/</span>path
+Translations <span class="operator">=</span> i18n</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>The backslash character is treated as a special character in INI files (see <a href="./qsettings.htm" translate="no">QSettings</a>). It is therefore recommended to use forward slashes for paths on Windows as well. Otherwise, an escape character is required:</p>
+</div>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Prefix <span class="operator">=</span> c:\\SomePath</pre></div>
+<a name="configuring-arguments-to-the-platform-plugins"></a>
+<h2 id="configuring-arguments-to-the-platform-plugins">Configuring Arguments to the Platform Plugins<a class="plink" href="#configuring-arguments-to-the-platform-plugins" title="Direct link to this headline"></a></h2>
+<p>The <code translate="no">qt.conf</code> may contain a <code translate="no">Platforms</code> group, whose keys are comma-delimited lists of arguments to be passed to the platform plugin. The key name is the name of the platform plugin with the first letter upper-cased followed by <code translate="no">Arguments</code>.</p>
+<p>For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">[</span>Platforms<span class="operator">]</span>
+WindowsArguments <span class="operator">=</span> fontengine<span class="operator">=</span>freetype</pre></div>
+<p>would cause the Windows platform plugin to use the <a href="./qt-embedded-fonts.htm#freetype" translate="no">FreeType</a> font engine.</p>
+</div>
+<!-- @@@qt-conf.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

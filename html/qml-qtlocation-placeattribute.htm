@@ -1,0 +1,136 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlaceAttribute QML Type | Qt Location</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>PlaceAttribute QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">PlaceAttribute QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$PlaceAttribute-brief -->
+<p>The PlaceAttribute type holds generic place attribute information. <a href="#details">More...</a></p>
+<!-- @@@PlaceAttribute -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtLocation 5.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtLocation 5.5</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtlocation-placeattribute-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-placeattribute.htm#attribute-prop" translate="no">attribute</a></b></b> : QPlaceAttribute</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-placeattribute.htm#label-prop" translate="no">label</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-placeattribute.htm#text-prop" translate="no">text</a></b></b> : string</li>
+</ul>
+<!-- $$$PlaceAttribute-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A place attribute stores an additional piece of information about a <a href="./qml-qtlocation-place.htm" translate="no">Place</a> that is not otherwise exposed through the <a href="./qml-qtlocation-place.htm" translate="no">Place</a> type. A PlaceAttribute is a textual piece of data, accessible through the <a href="./qml-qtlocation-placeattribute.htm#text-prop" translate="no">text</a> property, and a <a href="./qml-qtlocation-placeattribute.htm#label-prop" translate="no">label</a>. Both the <a href="./qml-qtlocation-placeattribute.htm#text-prop" translate="no">text</a> and <a href="./qml-qtlocation-placeattribute.htm#label-prop" translate="no">label</a> properties are intended to be displayed to the user. PlaceAttributes are stored in an <a href="./qml-qtlocation-extendedattributes.htm" translate="no">ExtendedAttributes</a> map with a unique key.</p>
+<p>The following example shows how to display all attributes in a list:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+import QtPositioning 5.5
+import QtLocation 5.6
+
+<span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">model</span>: <span class="name">place</span>.<span class="name">extendedAttributes</span>.<span class="name">keys</span>()
+    <span class="name">delegate</span>: <span class="name">Text</span> {
+        <span class="name">text</span>: <span class="string">"&lt;b&gt;"</span> <span class="operator">+</span> <span class="name">place</span>.<span class="name">extendedAttributes</span>[<span class="name">modelData</span>].<span class="name">label</span> <span class="operator">+</span> <span class="string">": &lt;/b&gt;"</span> <span class="operator">+</span>
+              <span class="name">place</span>.<span class="name">extendedAttributes</span>[<span class="name">modelData</span>].<span class="name">text</span>
+    }
+}</pre></div>
+<p>The following example shows how to assign and modify an attribute:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="comment">//assign a new attribute to a place</span>
+    var smokingAttrib = <span class="name">Qt</span>.<span class="name">createQmlObject</span>(<span class="string">'import QtLocation 5.3; PlaceAttribute {}'</span>, <span class="name">place</span>);
+    <span class="name">smokingAttrib</span>.<span class="name">label</span> <span class="operator">=</span> <span class="string">"Smoking Allowed"</span>
+    <span class="name">smokingAttrib</span>.<span class="name">text</span> <span class="operator">=</span> <span class="string">"No"</span>
+    <span class="name">place</span>.<span class="name">extendedAttributes</span>.<span class="name">smoking</span> <span class="operator">=</span> <span class="name">smokingAttrib</span>;
+
+    <span class="comment">//modify an existing attribute</span>
+    <span class="name">place</span>.<span class="name">extendedAttributes</span>.<span class="name">smoking</span>.<span class="name">text</span> <span class="operator">=</span> <span class="string">"Yes"</span></pre></div>
+<!-- @@@PlaceAttribute -->
+<h2>Property Documentation</h2>
+<!-- $$$attribute -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="attribute-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="attribute-prop"></a><span class="name">attribute</span> : <span class="type">QPlaceAttribute</span><a class="plink" href="#attribute-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>For details on how to use this property to interface between C++ and QML see "<a href="./location-cpp-qml.htm#placeattribute-qplaceattribute" translate="no">Interfaces between C++ and QML Code</a>".</p>
+</div></div><!-- @@@attribute -->
+<br>
+<!-- $$$label -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="label-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="label-prop"></a><span class="name">label</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#label-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the attribute label which is a user visible string describing the attribute.</p>
+</div></div><!-- @@@label -->
+<br>
+<!-- $$$text -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="text-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="text-prop"></a><span class="name">text</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#text-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the attribute text which can be used to show additional information about the place.</p>
+</div></div><!-- @@@text -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

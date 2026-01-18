@@ -1,0 +1,209 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donut Chart Breakdown Example | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-donutbreakdown-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Donut Chart Breakdown Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Donut Chart Breakdown Example</h1>
+<span class="subtitle"></span>
+<!-- $$$donutbreakdown-brief -->
+<p>This example shows how to use create a donut breakdown chart using <a href="./qpieseries.htm" translate="no">QPieSeries</a> API.</p>
+<!-- @@@donutbreakdown -->
+<!-- $$$donutbreakdown-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/examples_donutbreakdown.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-donut-breakdown-charts"></a>
+<h4 id="creating-donut-breakdown-charts">Creating Donut Breakdown Charts<a class="plink" href="#creating-donut-breakdown-charts" title="Direct link to this headline"></a></h4>
+<p>Let's start by defining some data for the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// Graph is based on data of 'Total consumption of energy increased by 10 per cent in 2010'</span>
+<span class="comment">// Statistics Finland, 13 December 2011</span>
+<span class="comment">// http://www.stat.fi/til/ekul/2010/ekul_2010_2011-12-13_tie_001_en.html</span>
+
+<span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span> <span class="operator">*</span>series1 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span>();
+series1<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"Fossil fuels"</span>);
+series1<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Oil"</span><span class="operator">,</span> <span class="number">353295</span>);
+series1<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Coal"</span><span class="operator">,</span> <span class="number">188500</span>);
+series1<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Natural gas"</span><span class="operator">,</span> <span class="number">148680</span>);
+series1<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Peat"</span><span class="operator">,</span> <span class="number">94545</span>);
+
+<span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span> <span class="operator">*</span>series2 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span>();
+series2<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"Renewables"</span>);
+series2<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Wood fuels"</span><span class="operator">,</span> <span class="number">319663</span>);
+series2<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Hydro power"</span><span class="operator">,</span> <span class="number">45875</span>);
+series2<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Wind power"</span><span class="operator">,</span> <span class="number">1060</span>);
+
+<span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span> <span class="operator">*</span>series3 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span>();
+series3<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"Others"</span>);
+series3<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Nuclear energy"</span><span class="operator">,</span> <span class="number">238789</span>);
+series3<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Import energy"</span><span class="operator">,</span> <span class="number">37802</span>);
+series3<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Other"</span><span class="operator">,</span> <span class="number">32441</span>);</pre></div>
+<p>Then we create a chart where we add the data. Note that this is our own chart derived from <a href="./qchart.htm" translate="no">QChart</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">DonutBreakdownChart <span class="operator">*</span>donutBreakdown <span class="operator">=</span> <span class="keyword">new</span> DonutBreakdownChart();
+donutBreakdown<span class="operator">-</span><span class="operator">&gt;</span>setAnimationOptions(<span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>AllAnimations);
+donutBreakdown<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Total consumption of energy in Finland 2010"</span>);
+donutBreakdown<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>setAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignRight);
+donutBreakdown<span class="operator">-</span><span class="operator">&gt;</span>addBreakdownSeries(series1<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>red);
+donutBreakdown<span class="operator">-</span><span class="operator">&gt;</span>addBreakdownSeries(series2<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>darkGreen);
+donutBreakdown<span class="operator">-</span><span class="operator">&gt;</span>addBreakdownSeries(series3<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>darkBlue);</pre></div>
+<p>Our own chart works in such a way that we create a main series in the constructor we create a main series, which aggregates the data provided by the breakdown series. This is the piechart in the center.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">DonutBreakdownChart<span class="operator">::</span>DonutBreakdownChart(<span class="type"><a href="./qgraphicsitem.htm" translate="no">QGraphicsItem</a></span> <span class="operator">*</span>parent<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>WindowFlags wFlags)
+    : <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span>(<span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>ChartTypeCartesian<span class="operator">,</span> parent<span class="operator">,</span> wFlags)
+{
+    <span class="comment">// create the series for main center pie</span>
+    m_mainSeries <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span>();
+    m_mainSeries<span class="operator">-</span><span class="operator">&gt;</span>setPieSize(<span class="number">0.7</span>);
+    <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>addSeries(m_mainSeries);
+}</pre></div>
+<p>When a breakdown series is added the data is used to create a slice in the main series and the breakdown series itself is used to create a segment of a donut positioned so that it is aligned with the corresponding slice in the main series.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DonutBreakdownChart<span class="operator">::</span>addBreakdownSeries(<span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span> <span class="operator">*</span>breakdownSeries<span class="operator">,</span> <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> color)
+{
+    <span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> font(<span class="string">"Arial"</span><span class="operator">,</span> <span class="number">8</span>);
+
+    <span class="comment">// add breakdown series as a slice to center pie</span>
+    MainSlice <span class="operator">*</span>mainSlice <span class="operator">=</span> <span class="keyword">new</span> MainSlice(breakdownSeries);
+    mainSlice<span class="operator">-</span><span class="operator">&gt;</span>setName(breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>name());
+    mainSlice<span class="operator">-</span><span class="operator">&gt;</span>setValue(breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>sum());
+    m_mainSeries<span class="operator">-</span><span class="operator">&gt;</span>append(mainSlice);
+
+    <span class="comment">// customize the slice</span>
+    mainSlice<span class="operator">-</span><span class="operator">&gt;</span>setBrush(color);
+    mainSlice<span class="operator">-</span><span class="operator">&gt;</span>setLabelVisible();
+    mainSlice<span class="operator">-</span><span class="operator">&gt;</span>setLabelColor(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>white);
+    mainSlice<span class="operator">-</span><span class="operator">&gt;</span>setLabelPosition(<span class="type"><a href="./qpieslice.htm" translate="no">QPieSlice</a></span><span class="operator">::</span>LabelInsideHorizontal);
+    mainSlice<span class="operator">-</span><span class="operator">&gt;</span>setLabelFont(font);
+
+    <span class="comment">// position and customize the breakdown series</span>
+    breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>setPieSize(<span class="number">0.8</span>);
+    breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>setHoleSize(<span class="number">0.7</span>);
+    breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>setLabelsVisible();
+    <span class="keyword">const</span> <span class="keyword">auto</span> slices <span class="operator">=</span> breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>slices();
+    <span class="keyword">for</span> (<span class="type"><a href="./qpieslice.htm" translate="no">QPieSlice</a></span> <span class="operator">*</span>slice : slices) {
+        color <span class="operator">=</span> color<span class="operator">.</span>lighter(<span class="number">115</span>);
+        slice<span class="operator">-</span><span class="operator">&gt;</span>setBrush(color);
+        slice<span class="operator">-</span><span class="operator">&gt;</span>setLabelFont(font);
+    }
+
+    <span class="comment">// add the series to the chart</span>
+    <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>addSeries(breakdownSeries);
+
+    <span class="comment">// recalculate breakdown donut segments</span>
+    recalculateAngles();
+
+    <span class="comment">// update customize legend markers</span>
+    updateLegendMarkers();
+}</pre></div>
+<p>Here's how the start and end angles for the donut segments are calculated.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DonutBreakdownChart<span class="operator">::</span>recalculateAngles()
+{
+    <span class="type"><a href="./qtglobal.htm#qreal-typedef" translate="no">qreal</a></span> angle <span class="operator">=</span> <span class="number">0</span>;
+    <span class="keyword">const</span> <span class="keyword">auto</span> slices <span class="operator">=</span> m_mainSeries<span class="operator">-</span><span class="operator">&gt;</span>slices();
+    <span class="keyword">for</span> (<span class="type"><a href="./qpieslice.htm" translate="no">QPieSlice</a></span> <span class="operator">*</span>slice : slices) {
+        <span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span> <span class="operator">*</span>breakdownSeries <span class="operator">=</span> qobject_cast<span class="operator">&lt;</span>MainSlice <span class="operator">*</span><span class="operator">&gt;</span>(slice)<span class="operator">-</span><span class="operator">&gt;</span>breakdownSeries();
+        breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>setPieStartAngle(angle);
+        angle <span class="operator">+</span><span class="operator">=</span> slice<span class="operator">-</span><span class="operator">&gt;</span>percentage() <span class="operator">*</span> <span class="number">360.0</span>; <span class="comment">// full pie is 360.0</span>
+        breakdownSeries<span class="operator">-</span><span class="operator">&gt;</span>setPieEndAngle(angle);
+    }
+}</pre></div>
+<p>The legend markers are customized to show the breakdown percentage. The markers for the main level slices are hidden.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DonutBreakdownChart<span class="operator">::</span>updateLegendMarkers()
+{
+    <span class="comment">// go through all markers</span>
+    <span class="keyword">const</span> <span class="keyword">auto</span> allseries <span class="operator">=</span> series();
+    <span class="keyword">for</span> (<span class="type"><a href="./qabstractseries.htm" translate="no">QAbstractSeries</a></span> <span class="operator">*</span>series : allseries) {
+        <span class="keyword">const</span> <span class="keyword">auto</span> markers <span class="operator">=</span> legend()<span class="operator">-</span><span class="operator">&gt;</span>markers(series);
+        <span class="keyword">for</span> (<span class="type"><a href="./qlegendmarker.htm" translate="no">QLegendMarker</a></span> <span class="operator">*</span>marker : markers) {
+            <span class="type"><a href="./qpielegendmarker.htm" translate="no">QPieLegendMarker</a></span> <span class="operator">*</span>pieMarker <span class="operator">=</span> qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qpielegendmarker.htm" translate="no">QPieLegendMarker</a></span> <span class="operator">*</span><span class="operator">&gt;</span>(marker);
+            <span class="keyword">if</span> (series <span class="operator">=</span><span class="operator">=</span> m_mainSeries) {
+                <span class="comment">// hide markers from main series</span>
+                pieMarker<span class="operator">-</span><span class="operator">&gt;</span>setVisible(<span class="keyword">false</span>);
+            } <span class="keyword">else</span> {
+                <span class="comment">// modify markers from breakdown series</span>
+                pieMarker<span class="operator">-</span><span class="operator">&gt;</span>setLabel(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="string">"%1 %2%"</span>)
+                                    <span class="operator">.</span>arg(pieMarker<span class="operator">-</span><span class="operator">&gt;</span>slice()<span class="operator">-</span><span class="operator">&gt;</span>label())
+                                    <span class="operator">.</span>arg(pieMarker<span class="operator">-</span><span class="operator">&gt;</span>slice()<span class="operator">-</span><span class="operator">&gt;</span>percentage() <span class="operator">*</span> <span class="number">100</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="char">'f'</span><span class="operator">,</span> <span class="number">2</span>));
+                pieMarker<span class="operator">-</span><span class="operator">&gt;</span>setFont(<span class="type"><a href="./qfont.htm" translate="no">QFont</a></span>(<span class="string">"Arial"</span><span class="operator">,</span> <span class="number">8</span>));
+            }
+        }
+    }
+}</pre></div>
+<p>Instead the main level slices show the percentage on the label.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MainSlice<span class="operator">::</span>MainSlice(<span class="type"><a href="./qpieseries.htm" translate="no">QPieSeries</a></span> <span class="operator">*</span>breakdownSeries<span class="operator">,</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qpieslice.htm" translate="no">QPieSlice</a></span>(parent)<span class="operator">,</span>
+      m_breakdownSeries(breakdownSeries)
+{
+    connect(<span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainSlice<span class="operator">::</span>percentageChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainSlice<span class="operator">::</span>updateLabel);
+}
+<span class="type">void</span> MainSlice<span class="operator">::</span>updateLabel()
+{
+    <span class="keyword">this</span><span class="operator">-</span><span class="operator">&gt;</span>setLabel(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="string">"%1 %2%"</span>)<span class="operator">.</span>arg(m_name)<span class="operator">.</span>arg(percentage() <span class="operator">*</span> <span class="number">100</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="char">'f'</span><span class="operator">,</span> <span class="number">2</span>));
+}</pre></div>
+<p>Now that we have our chart defined, we can finally create a <a href="./qchartview.htm" translate="no">QChartView</a> and show the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span> window;
+<span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span>(donutBreakdown);
+chartView<span class="operator">-</span><span class="operator">&gt;</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);
+window<span class="operator">.</span>setCentralWidget(chartView);
+window<span class="operator">.</span>resize(<span class="number">800</span><span class="operator">,</span> <span class="number">500</span>);
+window<span class="operator">.</span>show();</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/donutbreakdown?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@donutbreakdown -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

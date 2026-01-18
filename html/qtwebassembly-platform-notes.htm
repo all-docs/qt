@@ -1,0 +1,131 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt WebAssembly Platform Notes</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt WebAssembly Platform Notes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt WebAssembly Platform Notes</h1>
+<span class="subtitle"></span>
+<!-- $$$qtwebassembly-platform-notes.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>WebAssembly (or webasm) is a bytecode format intended to be executed in a virtual machine inside a web browser. This allows an application to be deployed to a device with a compliant web browser without going through any installation steps. The application will run inside a secure sandbox in the web browser. This makes it appropriate for applications that do not need full access to the device capabilities, but benefits from a swift and uncomplicated installation process.</p>
+<a name="supported-target-browsers-and-devices"></a>
+<h2 id="supported-target-browsers-and-devices">Supported target browsers and devices<a class="plink" href="#supported-target-browsers-and-devices" title="Direct link to this headline"></a></h2>
+<a name="desktop"></a>
+<h3 id="desktop">Desktop<a class="plink" href="#desktop" title="Direct link to this headline"></a></h3>
+<ul>
+<li>Chrome</li>
+<li>FireFox</li>
+<li>Safari</li>
+<li>Edge(Chrome)</li>
+</ul>
+<p>If the browser supports WebAssembly, then Qt should run.</p>
+<div class="admonition note">
+<p><b>Note: </b>Qt has a fixed WebGL requirement, also for apps that do not use WebGL directly. Browsers often blacklist WebGL for older/unsupported GPUs.</p>
+</div>
+<a name="mobile"></a>
+<h3 id="mobile">Mobile<a class="plink" href="#mobile" title="Direct link to this headline"></a></h3>
+<ul>
+<li>Android Browser</li>
+<li>Mobile Safari</li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>There is currently no support for text input using the virtual keyboard. Safari currently does not support wasm modules of the size Qt produces.</p>
+</div>
+<p>Qt does not make direct use of operating system features and it makes no difference if, for example, FireFox runs on Windows or macOS. Qt does use some operating system adaptations, for example for ctrl/cmd key handling on macOS.</p>
+<a name="known-issues"></a>
+<h4 id="known-issues">Known issues<a class="plink" href="#known-issues" title="Direct link to this headline"></a></h4>
+<p>Refer to the <a href="https://wiki.qt.io/Qt_for_WebAssembly#Known%20issues" translate="no">wiki</a>.</p>
+<a name="known-limitations"></a>
+<h4 id="known-limitations">Known limitations<a class="plink" href="#known-limitations" title="Direct link to this headline"></a></h4>
+<ul>
+<li>Debugging: Qt debug and logging output is printed on the JavaScript console, which can be accessed via browser "Developer Tools" or similar.</li>
+<li>Nested event loops are not supported. Applications should not call, for example, <a href="./qdialog.htm#exec" translate="no">QDialog::exec</a>() or create a new <a href="./qeventloop.htm" translate="no">QEventLoop</a> object.</li>
+<li>Qt renders application content to a canvas element, and does not use (other) native DOM elements. This means accessibility (screen readers) are not supported and that text inputs won't trigger virtual keyboards.</li>
+<li>WebGL is required, even for applications which do not use OpenGL themselves. Most modern browsers support WebGL, but note that some browsers blacklist certain older GPUs. The Qt loader will detect this and display an error message.</li>
+<li>Child OpenGL windows are not supported. The window compositor (in the Qt for Wasm platform plugin) supports raster windows only.</li>
+<li>Qt will detect OpenGL support as OpenGL ES. In reality the browser will be providing WebGL. WebGL is based on ES and is very similar, but there are some incompatibilities. See WebGL and OpenGL Differences.</li>
+<li>Applications do not have access to system fonts. Font files must be distributed with the application, for example in Qt resources. Qt for WebAssembly itself embeds one such font.</li>
+<li>High-DPI and scaling: High-DPI rendering is supported, and so is setting the overall UI visual size using the browser zoom feature. Browser font size (and type) settings have no effect on Qt applications.</li>
+<li>There may be artifacts of uninitialized graphics memory on some Qt Quick Controls 2 components, such as checkboxes.</li>
+<li>Network access: the web sandbox limits network access to a subset of what is available for native apps.<ul>
+<li><a href="./qnetworkaccessmanager.htm" translate="no">QNetworkAccessManager</a> http requests to the web page origin server, or to a server which supports CORS.</li>
+<li>QWebScoket connections to any host.</li>
+<li>TCP and UDP socked tunneling using over WebSockets using a websockify server [implemented by Emscripten, not tested].<ul>
+<li>Websockify v0.8.0 can be used to tunnel TCP connections with QT5.12 but it is MANDATORY to specify the base64 or binary subprotocols before calling <a href="./qwebsocket.htm#open" translate="no">QWebSocket::open</a>().</li>
+<li>For example:<p><a href="./qwebsocket.htm" translate="no">QWebSocket</a> socket;</p>
+<p><a href="./qurl.htm" translate="no">QUrl</a> url{<a href="./qstring.htm" translate="no">QString</a>("ws://server:port")};</p>
+<p><a href="./qnetworkrequest.htm" translate="no">QNetworkRequest</a> request{url};</p>
+<p>request.setRawHeader("Sec-WebSocket-Protocol", "binary");</p>
+<p>socket.open(request);</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Link-time warnings of the form: "cannot represent a NaN literal '0x7fdae4bde910' with custom bit pattern", are expected.</li>
+<li>Expected footprint (download size): Wasm modules as produced by the compiler can be large, but compress well.</li>
+</ul>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Example</th><th>gzip</th><th>brotli</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>helloglwindow (<a href="./qtcore-module.htm" translate="no">QtCore</a> + <a href="./qtgui-module.htm" translate="no">QtGui</a>)</td><td>2.8M</td><td>2.1M</td></tr>
+<tr class="even" valign="top"><td>wiggly widget (<a href="./qtcore-module.htm" translate="no">QtCore</a> + <a href="./qtgui-module.htm" translate="no">QtGui</a> + <a href="./qtwidgets-module.htm" translate="no">QtWidgets</a>)</td><td>4.3M</td><td>3.2M</td></tr>
+<tr class="odd" valign="top"><td>SensorTag (<a href="./qtcore-module.htm" translate="no">QtCore</a> + <a href="./qtgui-module.htm" translate="no">QtGui</a> + <a href="./qtwidgets-module.htm" translate="no">QtWidgets</a> + <a href="./qtquick-module.htm" translate="no">QtQuick</a> + <a href="./qtcharts-module.htm" translate="no">QtCharts</a>)</td><td>8.6M</td><td>6.3M</td></tr>
+</tbody></table></div>
+<p>Compression is typically handled on the web server side, using standard compression features: the server compresses automatically or picks up pre-compressed versions of the files. There's generally no need to have special handling of wasm files.</p>
+</div>
+<!-- @@@qtwebassembly-platform-notes.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

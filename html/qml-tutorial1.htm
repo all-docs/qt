@@ -1,0 +1,126 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML Tutorial 1 - Basic Types | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-tutorial1.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>QML Tutorial 1 - Basic Types</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qml-tutorial.html" rel="prev">
+<link href="qml-tutorial2.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qml-tutorial.htm">QML Tutorial</a>
+<a class="" href="./qml-tutorial2.htm">QML Tutorial 2 - QML Components</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">QML Tutorial 1 - Basic Types</h1>
+<span class="subtitle"></span>
+<!-- $$$qml-tutorial1.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>This first program is a very simple "Hello world" example that introduces some basic QML concepts. The picture below is a screenshot of this program.</p>
+<p class="centerAlign"><img alt="" src="./images/declarative-tutorial1.png"></p><p>Here is the QML code for the application:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">page</span>
+    <span class="name">width</span>: <span class="number">320</span>; <span class="name">height</span>: <span class="number">480</span>
+    <span class="name">color</span>: <span class="string">"lightgray"</span>
+
+    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">id</span>: <span class="name">helloText</span>
+        <span class="name">text</span>: <span class="string">"Hello world!"</span>
+        <span class="name">y</span>: <span class="number">30</span>
+        <span class="name">anchors</span>.horizontalCenter: <span class="name">page</span>.<span class="name">horizontalCenter</span>
+        <span class="name">font</span>.pointSize: <span class="number">24</span>; <span class="name">font</span>.bold: <span class="number">true</span>
+    }
+}</pre></div>
+<a name="walkthrough"></a>
+<h2 id="walkthrough">Walkthrough<a class="plink" href="#walkthrough" title="Direct link to this headline"></a></h2>
+<a name="import"></a>
+<h3 id="import">Import<a class="plink" href="#import" title="Direct link to this headline"></a></h3>
+<p>First, we need to import the types that we need for this example. Most QML files will import the built-in QML types (like <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a>, <a href="./qml-qtquick-image.htm" translate="no">Image</a>, ...) that come with Qt, using:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0</pre></div>
+<a name="rectangle-type"></a>
+<h3 id="rectangle-type">Rectangle Type<a class="plink" href="#rectangle-type" title="Direct link to this headline"></a></h3>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">page</span>
+    <span class="name">width</span>: <span class="number">320</span>; <span class="name">height</span>: <span class="number">480</span>
+    <span class="name">color</span>: <span class="string">"lightgray"</span></pre></div>
+<p>We declare a root object of type <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a>. It is one of the basic building blocks you can use to create an application in QML. We give it an <code translate="no">id</code> to be able to refer to it later. In this case, we call it "page". We also set the <code translate="no">width</code>, <code translate="no">height</code> and <code translate="no">color</code> properties. The <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> type contains many other properties (such as <code translate="no">x</code> and <code translate="no">y</code>), but these are left at their default values.</p>
+<a name="text-type"></a>
+<h3 id="text-type">Text Type<a class="plink" href="#text-type" title="Direct link to this headline"></a></h3>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">id</span>: <span class="name">helloText</span>
+        <span class="name">text</span>: <span class="string">"Hello world!"</span>
+        <span class="name">y</span>: <span class="number">30</span>
+        <span class="name">anchors</span>.horizontalCenter: <span class="name">page</span>.<span class="name">horizontalCenter</span>
+        <span class="name">font</span>.pointSize: <span class="number">24</span>; <span class="name">font</span>.bold: <span class="number">true</span>
+    }</pre></div>
+<p>We add a <a href="./qml-qtquick-text.htm" translate="no">Text</a> type as a child of the root Rectangle type that displays the text 'Hello world!'.</p>
+<p>The <code translate="no">y</code> property is used to position the text vertically at 30 pixels from the top of its parent.</p>
+<p>The <code translate="no">anchors.horizontalCenter</code> property refers to the horizontal center of an type. In this case, we specify that our text type should be horizontally centered in the <i>page</i> element (see <a href="./qtquick-positioning-anchors.htm" translate="no">Anchor-Based Layout</a>).</p>
+<p>The <code translate="no">font.pointSize</code> and <code translate="no">font.bold</code> properties are related to fonts and use the dot notation.</p>
+<a name="viewing-the-example"></a>
+<h3 id="viewing-the-example">Viewing the Example<a class="plink" href="#viewing-the-example" title="Direct link to this headline"></a></h3>
+<p>To view what you have created, run the <a href="./qtquick-qmlscene.htm" translate="no">qmlscene</a> tool (located in the <code translate="no">bin</code> directory) with your filename as the first argument. For example, to run the provided completed Tutorial 1 example from the install location, you would type:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">qmlscene tutorials<span class="operator">/</span>helloworld<span class="operator">/</span>tutorial1<span class="operator">.</span>qml</pre></div>
+</div>
+<!-- @@@qml-tutorial1.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./qml-tutorial.htm">QML Tutorial</a>
+<a class="nextPage" href="./qml-tutorial2.htm">QML Tutorial 2 - QML Components</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

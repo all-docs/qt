@@ -1,0 +1,166 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Custom Chart Example | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-customchart-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Custom Chart Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Custom Chart Example</h1>
+<span class="subtitle"></span>
+<!-- $$$customchart-brief -->
+<p>This example shows how to customize the appearance of the different elements on a chart.</p>
+<!-- @@@customchart -->
+<!-- $$$customchart-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/examples_customchart.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="customizing-charts"></a>
+<h4 id="customizing-charts">Customizing Charts<a class="plink" href="#customizing-charts" title="Direct link to this headline"></a></h4>
+<p>We begin by creating a simple line series and a chart object.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span> <span class="operator">*</span>series <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span>();
+    <span class="operator">*</span>series <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">6</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">9</span><span class="operator">,</span> <span class="number">4</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">15</span><span class="operator">,</span> <span class="number">20</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">25</span><span class="operator">,</span> <span class="number">12</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">29</span><span class="operator">,</span> <span class="number">26</span>);
+    <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span> <span class="operator">*</span>chart <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span>();
+    chart<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>hide();
+    chart<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);</pre></div>
+<p>First we customize the series and the chart's title and background.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// Customize series</span>
+    <span class="type"><a href="./qpen.htm" translate="no">QPen</a></span> pen(<span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0xfdb157</span>));
+    pen<span class="operator">.</span>setWidth(<span class="number">5</span>);
+    series<span class="operator">-</span><span class="operator">&gt;</span>setPen(pen);
+
+    <span class="comment">// Customize chart title</span>
+    <span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> font;
+    font<span class="operator">.</span>setPixelSize(<span class="number">18</span>);
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setTitleFont(font);
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setTitleBrush(<span class="type"><a href="./qbrush.htm" translate="no">QBrush</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>white));
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Customchart example"</span>);
+
+    <span class="comment">// Customize chart background</span>
+    <span class="type"><a href="./qlineargradient.htm" translate="no">QLinearGradient</a></span> backgroundGradient;
+    backgroundGradient<span class="operator">.</span>setStart(<span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span>));
+    backgroundGradient<span class="operator">.</span>setFinalStop(<span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">1</span>));
+    backgroundGradient<span class="operator">.</span>setColorAt(<span class="number">0.0</span><span class="operator">,</span> <span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0xd2d0d1</span>));
+    backgroundGradient<span class="operator">.</span>setColorAt(<span class="number">1.0</span><span class="operator">,</span> <span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0x4c4547</span>));
+    backgroundGradient<span class="operator">.</span>setCoordinateMode(<span class="type"><a href="./qgradient.htm" translate="no">QGradient</a></span><span class="operator">::</span>ObjectBoundingMode);
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setBackgroundBrush(backgroundGradient);
+
+    <span class="comment">// Customize plot area background</span>
+    <span class="type"><a href="./qlineargradient.htm" translate="no">QLinearGradient</a></span> plotAreaGradient;
+    plotAreaGradient<span class="operator">.</span>setStart(<span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">1</span>));
+    plotAreaGradient<span class="operator">.</span>setFinalStop(<span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">1</span><span class="operator">,</span> <span class="number">0</span>));
+    plotAreaGradient<span class="operator">.</span>setColorAt(<span class="number">0.0</span><span class="operator">,</span> <span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0x555555</span>));
+    plotAreaGradient<span class="operator">.</span>setColorAt(<span class="number">1.0</span><span class="operator">,</span> <span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0x55aa55</span>));
+    plotAreaGradient<span class="operator">.</span>setCoordinateMode(<span class="type"><a href="./qgradient.htm" translate="no">QGradient</a></span><span class="operator">::</span>ObjectBoundingMode);
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setPlotAreaBackgroundBrush(plotAreaGradient);
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setPlotAreaBackgroundVisible(<span class="keyword">true</span>);</pre></div>
+<p>Then we customize the axes.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qcategoryaxis.htm" translate="no">QCategoryAxis</a></span> <span class="operator">*</span>axisX <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcategoryaxis.htm" translate="no">QCategoryAxis</a></span>();
+    <span class="type"><a href="./qcategoryaxis.htm" translate="no">QCategoryAxis</a></span> <span class="operator">*</span>axisY <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcategoryaxis.htm" translate="no">QCategoryAxis</a></span>();
+
+    <span class="comment">// Customize axis label font</span>
+    <span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> labelsFont;
+    labelsFont<span class="operator">.</span>setPixelSize(<span class="number">12</span>);
+    axisX<span class="operator">-</span><span class="operator">&gt;</span>setLabelsFont(labelsFont);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setLabelsFont(labelsFont);
+
+    <span class="comment">// Customize axis colors</span>
+    <span class="type"><a href="./qpen.htm" translate="no">QPen</a></span> axisPen(<span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0xd18952</span>));
+    axisPen<span class="operator">.</span>setWidth(<span class="number">2</span>);
+    axisX<span class="operator">-</span><span class="operator">&gt;</span>setLinePen(axisPen);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setLinePen(axisPen);
+
+    <span class="comment">// Customize axis label colors</span>
+    <span class="type"><a href="./qbrush.htm" translate="no">QBrush</a></span> axisBrush(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>white);
+    axisX<span class="operator">-</span><span class="operator">&gt;</span>setLabelsBrush(axisBrush);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setLabelsBrush(axisBrush);
+
+    <span class="comment">// Customize grid lines and shades</span>
+    axisX<span class="operator">-</span><span class="operator">&gt;</span>setGridLineVisible(<span class="keyword">false</span>);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setGridLineVisible(<span class="keyword">false</span>);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setShadesPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>NoPen);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setShadesBrush(<span class="type"><a href="./qbrush.htm" translate="no">QBrush</a></span>(<span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span>(<span class="number">0x99</span><span class="operator">,</span> <span class="number">0xcc</span><span class="operator">,</span> <span class="number">0xcc</span><span class="operator">,</span> <span class="number">0x55</span>)));
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setShadesVisible(<span class="keyword">true</span>);</pre></div>
+<p>Then the axis label values and ranges. Once the axes are ready, we set them to be used by the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    axisX<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"low"</span><span class="operator">,</span> <span class="number">10</span>);
+    axisX<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"optimal"</span><span class="operator">,</span> <span class="number">20</span>);
+    axisX<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"high"</span><span class="operator">,</span> <span class="number">30</span>);
+    axisX<span class="operator">-</span><span class="operator">&gt;</span>setRange(<span class="number">0</span><span class="operator">,</span> <span class="number">30</span>);
+
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"slow"</span><span class="operator">,</span> <span class="number">10</span>);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"med"</span><span class="operator">,</span> <span class="number">20</span>);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"fast"</span><span class="operator">,</span> <span class="number">30</span>);
+    axisY<span class="operator">-</span><span class="operator">&gt;</span>setRange(<span class="number">0</span><span class="operator">,</span> <span class="number">30</span>);
+
+    chart<span class="operator">-</span><span class="operator">&gt;</span>addAxis(axisX<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignBottom);
+    chart<span class="operator">-</span><span class="operator">&gt;</span>addAxis(axisY<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignLeft);
+    series<span class="operator">-</span><span class="operator">&gt;</span>attachAxis(axisX);
+    series<span class="operator">-</span><span class="operator">&gt;</span>attachAxis(axisY);</pre></div>
+<p>Finally, we create a view containing the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span>(chart);
+    chartView<span class="operator">-</span><span class="operator">&gt;</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);</pre></div>
+<p>Now we are ready to show the chart on a main window.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span> window;
+    window<span class="operator">.</span>setCentralWidget(chartView);
+    window<span class="operator">.</span>resize(<span class="number">400</span><span class="operator">,</span> <span class="number">300</span>);
+    window<span class="operator">.</span>show();</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/customchart?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@customchart -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

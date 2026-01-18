@@ -1,0 +1,161 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>key_iterator | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qmap-key-iterator.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>key_iterator</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">key_iterator Class</h1>
+<span class="small-subtitle" translate="no">class <a href="./qmap.htm" translate="no">QMap</a>::key_iterator</span>
+<!-- $$$key_iterator-brief -->
+<p>The <a href="./qmap-key-iterator.htm" translate="no">QMap::key_iterator</a> class provides an STL-style const iterator for <a href="./qmap.htm" translate="no">QMap</a> and <a href="./qmultimap.htm" translate="no">QMultiMap</a> keys. <a href="#details">More...</a></p>
+<!-- @@@key_iterator -->
+<p>This class was introduced in Qt 5.6.</p>
+<ul>
+<li><a href="./qmap-key-iterator-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> const_iterator </td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#base" translate="no">base</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator-not-eq" translate="no">operator!=</a></b>(key_iterator <i>other</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> const Key &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator-2a" translate="no">operator*</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> key_iterator &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator-2b-2b" translate="no">operator++</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> key_iterator </td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator-2b-2b-1" translate="no">operator++</a></b>(<i>int</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> key_iterator &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator--" translate="no">operator--</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> key_iterator </td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator---1" translate="no">operator--</a></b>(<i>int</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> const Key *</td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator--gt" translate="no">operator-&gt;</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qmap-key-iterator.htm#operator-eq-eq" translate="no">operator==</a></b>(key_iterator <i>other</i>) const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$key_iterator-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p><a href="./qmap-key-iterator.htm" translate="no">QMap::key_iterator</a> is essentially the same as <a href="./qmap-const-iterator.htm" translate="no">QMap::const_iterator</a> with the difference that operator*() and operator-&gt;() return a key instead of a value.</p>
+<p>For most uses <a href="./qmap-iterator.htm" translate="no">QMap::iterator</a> and <a href="./qmap-const-iterator.htm" translate="no">QMap::const_iterator</a> should be used, you can easily access the key by calling <a href="./qmap-iterator.htm#key" translate="no">QMap::iterator::key</a>():</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">for</span> (<span class="type"><a href="./qmap.htm#QMap" translate="no">QMap</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">&gt;</span><span class="operator">::</span>const_iterator it <span class="operator">=</span> map<span class="operator">.</span>cbegin()<span class="operator">,</span> end <span class="operator">=</span> map<span class="operator">.</span>cend(); it <span class="operator">!</span><span class="operator">=</span> end; <span class="operator">+</span><span class="operator">+</span>it) {
+    cout <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"The key: "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> it<span class="operator">.</span>key() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type">Qt</span><span class="operator">::</span>endl
+    cout <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"The value: "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> it<span class="operator">.</span>value() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type">Qt</span><span class="operator">::</span>endl;
+    cout <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Also the value: "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> (<span class="operator">*</span>it) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type">Qt</span><span class="operator">::</span>endl;
+}</pre></div>
+<p>However, to have interoperability between <a href="./qmap.htm" translate="no">QMap</a>'s keys and STL-style algorithms we need an iterator that dereferences to a key instead of a value. With <a href="./qmap-key-iterator.htm" translate="no">QMap::key_iterator</a> we can apply an algorithm to a range of keys without having to call <a href="./qmap.htm#keys" translate="no">QMap::keys</a>(), which is inefficient as it costs one <a href="./qmap.htm" translate="no">QMap</a> iteration and memory allocation to create a temporary <a href="./qlist.htm" translate="no">QList</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// Inefficient, keys() is expensive</span>
+<span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span> keys <span class="operator">=</span> map<span class="operator">.</span>keys();
+<span class="type">int</span> numPrimes <span class="operator">=</span> std<span class="operator">::</span>count_if(map<span class="operator">.</span>cbegin()<span class="operator">,</span> map<span class="operator">.</span>cend()<span class="operator">,</span> isPrimeNumber);
+<a href="./qtalgorithms.htm#qDeleteAll" translate="no">qDeleteAll</a>(map2<span class="operator">.</span>keys());
+
+<span class="comment">// Efficient, no memory allocation needed</span>
+<span class="type">int</span> numPrimes <span class="operator">=</span> std<span class="operator">::</span>count_if(map<span class="operator">.</span>keyBegin()<span class="operator">,</span> map<span class="operator">.</span>keyEnd()<span class="operator">,</span> isPrimeNumber);
+<a href="./qtalgorithms.htm#qDeleteAll" translate="no">qDeleteAll</a>(map2<span class="operator">.</span>keyBegin()<span class="operator">,</span> map2<span class="operator">.</span>keyEnd());</pre></div>
+<p><a href="./qmap-key-iterator.htm" translate="no">QMap::key_iterator</a> is const, it's not possible to modify the key.</p>
+<p>The default <a href="./qmap-key-iterator.htm" translate="no">QMap::key_iterator</a> constructor creates an uninitialized iterator. You must initialize it using a <a href="./qmap.htm" translate="no">QMap</a> function like <a href="./qmap.htm#keyBegin" translate="no">QMap::keyBegin</a>() or <a href="./qmap.htm#keyEnd" translate="no">QMap::keyEnd</a>().</p>
+<div class="admonition warning">
+<p><b>Warning: </b>Iterators on implicitly shared containers do not work exactly like STL-iterators. You should avoid copying a container while iterators are active on that container. For more information, read <a href="./containers.htm#implicit-sharing-iterator-problem" translate="no">Implicit sharing iterator problem</a>.</p>
+</div>
+</div>
+<p><b>See also </b><a href="./qmap-const-iterator.htm" translate="no">QMap::const_iterator</a> and <a href="./qmap-iterator.htm" translate="no">QMap::iterator</a>.</p>
+<!-- @@@key_iterator -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$base[overload1]$$$base -->
+<h3 class="fn" id="base" translate="no"><a name="base"></a><span class="type"><a href="./qmap-const-iterator.htm" translate="no">const_iterator</a></span> key_iterator::<span class="name">base</span>() const<a class="plink" href="#base" title="Direct link to this headline"></a></h3>
+<p>Returns the underlying <a href="./qmap-const-iterator.htm" translate="no">const_iterator</a> this <a href="./qmap-key-iterator.htm" translate="no">key_iterator</a> is based on.</p>
+<!-- @@@base -->
+<!-- $$$operator!=[overload1]$$$operator!=key_iterator -->
+<h3 class="fn" id="operator-not-eq" translate="no"><a name="operator-not-eq"></a><span class="type">bool</span> key_iterator::<span class="name">operator!=</span>(<span class="type">key_iterator</span> <i>other</i>) const<a class="plink" href="#operator-not-eq" title="Direct link to this headline"></a></h3>
+<p>Returns <code translate="no">true</code> if <i translate="no">other</i> points to a different item than this iterator; otherwise returns <code translate="no">false</code>.</p>
+<p><b>See also </b><a href="./qmap-key-iterator.htm#operator-eq-eq" translate="no">operator==</a>().</p>
+<!-- @@@operator!= -->
+<!-- $$$operator*[overload1]$$$operator* -->
+<h3 class="fn" id="operator-2a" translate="no"><a name="operator-2a"></a>const <span class="type">Key</span> &amp;key_iterator::<span class="name">operator*</span>() const<a class="plink" href="#operator-2a" title="Direct link to this headline"></a></h3>
+<p>Returns the current item's key.</p>
+<!-- @@@operator* -->
+<!-- $$$operator++[overload1]$$$operator++ -->
+<h3 class="fn" id="operator-2b-2b" translate="no"><a name="operator-2b-2b"></a><span class="type">key_iterator</span> &amp;key_iterator::<span class="name">operator++</span>()<a class="plink" href="#operator-2b-2b" title="Direct link to this headline"></a></h3>
+<p>The prefix ++ operator (<code translate="no">++i</code>) advances the iterator to the next item in the hash and returns an iterator to the new current item.</p>
+<p>Calling this function on <a href="./qmap.htm#keyEnd" translate="no">QMap::keyEnd</a>() leads to undefined results.</p>
+<p><b>See also </b><a href="./qmap-key-iterator.htm#operator--" translate="no">operator--</a>().</p>
+<!-- @@@operator++ -->
+<!-- $$$operator++$$$operator++int -->
+<h3 class="fn" id="operator-2b-2b-1" translate="no"><a name="operator-2b-2b-1"></a><span class="type">key_iterator</span> key_iterator::<span class="name">operator++</span>(<i>int</i>)<a class="plink" href="#operator-2b-2b-1" title="Direct link to this headline"></a></h3>
+<p>This is an overloaded function.</p>
+<p>The postfix ++ operator (<code translate="no">i++</code>) advances the iterator to the next item in the hash and returns an iterator to the previous item.</p>
+<!-- @@@operator++ -->
+<!-- $$$operator--[overload1]$$$operator-- -->
+<h3 class="fn" id="operator--" translate="no"><a name="operator--"></a><span class="type">key_iterator</span> &amp;key_iterator::<span class="name">operator--</span>()<a class="plink" href="#operator--" title="Direct link to this headline"></a></h3>
+<p>The prefix -- operator (<code translate="no">--i</code>) makes the preceding item current and returns an iterator pointing to the new current item.</p>
+<p>Calling this function on <a href="./qmap.htm#keyBegin" translate="no">QMap::keyBegin</a>() leads to undefined results.</p>
+<p><b>See also </b><a href="./qmap-key-iterator.htm#operator-2b-2b" translate="no">operator++</a>().</p>
+<!-- @@@operator-- -->
+<!-- $$$operator--$$$operator--int -->
+<h3 class="fn" id="operator---1" translate="no"><a name="operator---1"></a><span class="type">key_iterator</span> key_iterator::<span class="name">operator--</span>(<i>int</i>)<a class="plink" href="#operator---1" title="Direct link to this headline"></a></h3>
+<p>This is an overloaded function.</p>
+<p>The postfix -- operator (<code translate="no">i--</code>) makes the preceding item current and returns an iterator pointing to the previous item.</p>
+<!-- @@@operator-- -->
+<!-- $$$operator->[overload1]$$$operator-> -->
+<h3 class="fn" id="operator--gt" translate="no"><a name="operator--gt"></a>const <span class="type">Key</span> *key_iterator::<span class="name">operator-&gt;</span>() const<a class="plink" href="#operator--gt" title="Direct link to this headline"></a></h3>
+<p>Returns a pointer to the current item's key.</p>
+<!-- @@@operator-> -->
+<!-- $$$operator==[overload1]$$$operator==key_iterator -->
+<h3 class="fn" id="operator-eq-eq" translate="no"><a name="operator-eq-eq"></a><span class="type">bool</span> key_iterator::<span class="name">operator==</span>(<span class="type">key_iterator</span> <i>other</i>) const<a class="plink" href="#operator-eq-eq" title="Direct link to this headline"></a></h3>
+<p>Returns <code translate="no">true</code> if <i translate="no">other</i> points to the same item as this iterator; otherwise returns <code translate="no">false</code>.</p>
+<p><b>See also </b><a href="./qmap-key-iterator.htm#operator-not-eq" translate="no">operator!=</a>().</p>
+<!-- @@@operator== -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

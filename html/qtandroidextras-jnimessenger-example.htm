@@ -1,0 +1,137 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt JNI Messenger | Qt Android Extras</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a></li>
+                            <li><a href="./examples-qtandroidextras.htm" translate="no">Qt Android Extras Examples</a></li>
+                            <li><a>Qt JNI Messenger</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt JNI Messenger</h1>
+<span class="subtitle"></span>
+<!-- $$$jnimessenger-brief -->
+<p>Demonstrates communication between Java code and QML or C++ using NJI calls.</p>
+<!-- @@@jnimessenger -->
+<!-- $$$jnimessenger-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/jnimessenger.png"></p><p>This example demonstrates how to add a custom Java class to an Android application, and how to both call it from C++ and call C++ functions from Java using the JNI convenience APIs in the Qt Android Extras module. The application UI is created by using Qt Quick.</p>
+<p>When clicking the send button, a message will be sent from QML to Java class though the C++ class and a log of that is shown in the screen view. Logs also can be seen from the Android logcat of the messages being exchanged, which would be similar to:</p>
+<div class="pre"><pre class="cpp plain" translate="no">I System.out: This is printed from JAVA, message is: QML sending to Java: Hello from QML
+D libjnimessenger_armeabi-v7a.so: qml: QML received a message: Hello from JAVA!</pre></div>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="calling-java-methods-from-c-code"></a>
+<h4 id="calling-java-methods-from-c-code">Calling Java Methods from C++ Code<a class="plink" href="#calling-java-methods-from-c-code" title="Direct link to this headline"></a></h4>
+<p>We define a custom Java class called <code translate="no">JniMessenger</code> in the JniMessenger.java file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">package org.qtproject.example.jnimessenger;
+
+public class JniMessenger
+{
+    private static native void callFromJava(String message);
+
+    public JniMessenger() {}
+
+    public static void printFromJava(String message)
+    {
+        System.out.println("This is printed from JAVA, message is: " + message);
+        callFromJava("Hello from JAVA!");
+    }
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>The custom Java class can extend other classes like QtActivity, Activity or any other Java class.</p>
+</div>
+<p>In the jnimessenger.cpp file, we call the function <code translate="no">printFromJava(String message)</code> by first creating a <code translate="no">QAndroidJniObject</code> for the Java String that we want to send and then invoking a JNI call with <code translate="no">callStaticMethod&lt;&gt;()</code> while providing the method signature:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> JniMessenger<span class="operator">::</span>printFromJava(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>message)
+{
+    <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span> javaMessage <span class="operator">=</span> <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span><span class="operator">::</span>fromString(message);
+    <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span><span class="operator">::</span>callStaticMethod<span class="operator">&lt;</span><span class="type">void</span><span class="operator">&gt;</span>(<span class="string">"org/qtproject/example/jnimessenger/JniMessenger"</span><span class="operator">,</span>
+                                       <span class="string">"printFromJava"</span><span class="operator">,</span>
+                                       <span class="string">"(Ljava/lang/String;)V"</span><span class="operator">,</span>
+                                        javaMessage<span class="operator">.</span>object<span class="operator">&lt;</span>jstring<span class="operator">&gt;</span>());
+}</pre></div>
+<p>That call will then execute the following from Java side, which would print the message to the <code translate="no">System.output</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    public static void printFromJava(String message)
+    {
+        System.out.println("This is printed from JAVA, message is: " + message);</pre></div>
+<a name="calling-qml-c-functions-from-java-code"></a>
+<h4 id="calling-qml-c-functions-from-java-code">Calling QML/C++ Functions from Java Code<a class="plink" href="#calling-qml-c-functions-from-java-code" title="Direct link to this headline"></a></h4>
+<p>Directly after that, our native function <code translate="no">callFromJava(String message)</code> will be called, which would be then handled from C++ side. Note, that this method has to be defined as <code translate="no">native</code> at the top of the Java class as:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">private</span> <span class="keyword">static</span> native <span class="type">void</span> callFromJava(String message);</pre></div>
+<p>To be able to call C++ functions from Java, in our C++ class JniMessenger.cpp, we need to define those functions using <code translate="no">RegisterNatives()</code> as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    JNINativeMethod methods<span class="operator">[</span><span class="operator">]</span> {{<span class="string">"callFromJava"</span><span class="operator">,</span> <span class="string">"(Ljava/lang/String;)V"</span><span class="operator">,</span> <span class="keyword">reinterpret_cast</span><span class="operator">&lt;</span><span class="type">void</span> <span class="operator">*</span><span class="operator">&gt;</span>(callFromJava)}};</pre></div>
+<p>(See <a href="./qandroidjniobject.htm#java-native-methods" translate="no">Java Native Methods</a> for more details).</p>
+<p>We would need to register the functions' signatures in <code translate="no">methods[]</code>, which have the name in Java class, then its parameters and return types, then the function pointer in the C++ code.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">JNINativeMethod methods<span class="operator">[</span><span class="operator">]</span> {{<span class="string">"callFromJava"</span><span class="operator">,</span> <span class="string">"(Ljava/lang/String;)V"</span><span class="operator">,</span> <span class="keyword">reinterpret_cast</span><span class="operator">&lt;</span><span class="type">void</span> <span class="operator">*</span><span class="operator">&gt;</span>(callFromJava)}};</pre></div>
+<p>This would insure that our C++ function is available from within the Java call. Now, that function could simply print the message it received from Java to the debug log, but we want to forward the received message to the QML components so that it gets displayed in our text view, so we get:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">static</span> <span class="type">void</span> callFromJava(JNIEnv <span class="operator">*</span>env<span class="operator">,</span> jobject <span class="comment">/*thiz*/</span><span class="operator">,</span> jstring value)
+{
+    <span class="keyword">emit</span> JniMessenger<span class="operator">::</span>instance()<span class="operator">-</span><span class="operator">&gt;</span>messageFromJava(env<span class="operator">-</span><span class="operator">&gt;</span>GetStringUTFChars(value<span class="operator">,</span> nullptr));
+}</pre></div>
+<p>Now, we need to implement the necessary <code translate="no">Connections</code> in the QML code to receive the message from C++, which we would print into the <code translate="no">Text</code> view with the id <code translate="no">messengerLog</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-connections.htm" translate="no">Connections</a></span> {
+        <span class="name">target</span>: <span class="name">JniMessenger</span>
+        <span class="keyword">function </span><span class="name">onMessageFromJava</span>(message) {
+            var output = <span class="name">qsTr</span>(<span class="string">"QML received a message: %1"</span>).<span class="name">arg</span>(<span class="name">message</span>)
+            <span class="name">print</span>(<span class="name">output</span>)
+            <span class="name">messengerLog</span>.<span class="name">text</span> <span class="operator">+=</span> <span class="string">"\n"</span> <span class="operator">+</span> <span class="name">output</span>
+        }
+    }</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtandroidextras.git/tree/examples/androidextras/jnimessenger?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<p><b>See also </b><a href="./android.htm" translate="no">Qt for Android</a> and <a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a>.</p>
+<!-- @@@jnimessenger -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

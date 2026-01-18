@@ -1,0 +1,186 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tunnel Client Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>Tunnel Client Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Tunnel Client Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Knx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include &lt;QtCore/QDebug&gt;</span>
+<span class="preprocessor">#include &lt;QtCore/QCommandLineParser&gt;</span>
+<span class="preprocessor">#include &lt;QtCore/QCoreApplication&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnxByteArray&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnxLinkLayerFrameBuilder&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnxNetIpTunnel&gt;</span>
+<span class="preprocessor">#include &lt;QtNetwork/QNetworkInterface&gt;</span>
+
+<span class="preprocessor">#ifdef Q_OS_WIN</span>
+<span class="preprocessor"># include &lt;QtCore/QWinEventNotifier&gt;</span>
+<span class="preprocessor"># include &lt;windows.h&gt;</span>
+<span class="preprocessor">#else</span>
+<span class="preprocessor"># include &lt;QtCore/QSocketNotifier&gt;</span>
+<span class="preprocessor"># include &lt;unistd.h&gt;</span>
+<span class="preprocessor">#endif</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span> app(argc<span class="operator">,</span> argv);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setApplicationVersion(<span class="string">"1.0"</span>);
+
+    <span class="type"><a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a></span> parser;
+    parser<span class="operator">.</span>addHelpOption();
+
+    parser<span class="operator">.</span>addOptions({
+        { { <span class="string">"t"</span><span class="operator">,</span> <span class="string">"timeout"</span> }<span class="operator">,</span> <span class="string">"The heartbeat timeout in seconds."</span><span class="operator">,</span> <span class="string">"timeout"</span><span class="operator">,</span> <span class="string">"60"</span> }<span class="operator">,</span>
+        { { <span class="string">"n"</span><span class="operator">,</span> <span class="string">"nat"</span> }<span class="operator">,</span> <span class="string">"Use Network Address Translation to traverse across network routers."</span> }<span class="operator">,</span>
+        { <span class="string">"localAddress"</span><span class="operator">,</span> <span class="string">"The local IP address used for the control endpoint."</span><span class="operator">,</span> <span class="string">"localAddress"</span><span class="operator">,</span>
+            <span class="string">"127.0.0.1"</span> }<span class="operator">,</span>
+        { <span class="string">"localPort"</span><span class="operator">,</span> <span class="string">"The local UDP port used for the control endpoint."</span><span class="operator">,</span> <span class="string">"localPort"</span><span class="operator">,</span> <span class="string">"0"</span> }<span class="operator">,</span>
+        { <span class="string">"remoteAddress"</span><span class="operator">,</span> <span class="string">"The remote IP address used by the server the control endpoint."</span><span class="operator">,</span>
+            <span class="string">"remoteAddress"</span> }<span class="operator">,</span>
+        { <span class="string">"remotePort"</span><span class="operator">,</span> <span class="string">"The remote UDP port used by the server the control endpoint."</span><span class="operator">,</span>
+            <span class="string">"remotePort"</span><span class="operator">,</span> <span class="string">"3671"</span> }
+    });
+    parser<span class="operator">.</span>process(app);
+
+    <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span> tunnel;
+    tunnel<span class="operator">.</span>setNatAware(parser<span class="operator">.</span>isSet(<span class="string">"nat"</span>));
+    tunnel<span class="operator">.</span>setLocalPort(parser<span class="operator">.</span>value(<span class="string">"localPort"</span>)<span class="operator">.</span>toUInt());
+    tunnel<span class="operator">.</span>setHeartbeatTimeout(parser<span class="operator">.</span>value(<span class="string">"timeout"</span>)<span class="operator">.</span>toInt() <span class="operator">*</span> <span class="number">1000</span>);
+    tunnel<span class="operator">.</span>setLocalAddress(<span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(parser<span class="operator">.</span>value(<span class="string">"localAddress"</span>)));
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>disconnected<span class="operator">,</span> <span class="operator">&amp;</span>app<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>quit);
+
+    tunnel<span class="operator">.</span>connectToHost(<span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(parser<span class="operator">.</span>value(<span class="string">"remoteAddress"</span>))<span class="operator">,</span>
+        parser<span class="operator">.</span>value(<span class="string">"remotePort"</span>)<span class="operator">.</span>toUInt());
+
+    <span class="type"><a href="./qtextstream.htm" translate="no">QTextStream</a></span> input(stdin<span class="operator">,</span> <span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>ReadOnly);
+<span class="preprocessor">#ifdef Q_OS_WIN</span>
+    <span class="type"><a href="./qwineventnotifier.htm" translate="no">QWinEventNotifier</a></span> notifier(GetStdHandle(STD_INPUT_HANDLE));
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>notifier<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qwineventnotifier.htm" translate="no">QWinEventNotifier</a></span><span class="operator">::</span>activated<span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(HANDLE) {
+<span class="preprocessor">#else</span>
+    <span class="type"><a href="./qsocketnotifier.htm" translate="no">QSocketNotifier</a></span> notifier(STDIN_FILENO<span class="operator">,</span> <span class="type"><a href="./qsocketnotifier.htm" translate="no">QSocketNotifier</a></span><span class="operator">::</span>Read);
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>notifier<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qsocketnotifier.htm" translate="no">QSocketNotifier</a></span><span class="operator">::</span>activated<span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type">int</span>) {
+<span class="preprocessor">#endif</span>
+        <span class="keyword">auto</span> tmp <span class="operator">=</span> input<span class="operator">.</span>readLine()<span class="operator">.</span>toLatin1();
+        <span class="keyword">if</span> (tmp <span class="operator">!</span><span class="operator">=</span> <span class="string">"quit"</span>) {
+            <span class="keyword">const</span> <span class="keyword">auto</span> bytes <span class="operator">=</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(tmp);
+            <span class="keyword">auto</span> frame <span class="operator">=</span> <span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>builder()
+                <span class="operator">.</span>setData(bytes)
+                <span class="operator">.</span>setMedium(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumType<span class="operator">::</span>NetIP)
+                <span class="operator">.</span>createFrame();
+            tunnel<span class="operator">.</span>sendFrame(frame);
+        } <span class="keyword">else</span> {
+            tunnel<span class="operator">.</span>disconnectFromHost();
+        }
+    });
+
+    <span class="keyword">if</span> (tunnel<span class="operator">.</span>error() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>Error<span class="operator">::</span>None) {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Type 'quit' to stop the application."</span>;
+        app<span class="operator">.</span>exec();
+    } <span class="keyword">else</span> {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> tunnel<span class="operator">.</span>error() <span class="operator">&lt;</span><span class="operator">&lt;</span> tunnel<span class="operator">.</span>errorString();
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

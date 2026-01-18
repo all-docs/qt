@@ -1,0 +1,127 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QAudioSystemPlugin | Qt Multimedia</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtmultimedia-index.htm" translate="no">Qt Multimedia</a></li>
+                            <li><a href="./qtmultimedia-modules.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QAudioSystemPlugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QAudioSystemPlugin Class</h1>
+<!-- $$$QAudioSystemPlugin-brief -->
+<p>The QAudioSystemPlugin class provides an abstract base for audio plugins. <a href="#details">More...</a></p>
+<!-- @@@QAudioSystemPlugin -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QAudioSystemPlugin&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += multimedia</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qobject.htm" translate="no">QObject</a> and QAudioSystemFactoryInterface</td></tr></tbody></table></div><ul>
+<li><a href="./qaudiosystemplugin-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qaudiosystemplugin.htm#QAudioSystemPlugin" translate="no">QAudioSystemPlugin</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qaudiosystemplugin.htm#dtor.QAudioSystemPlugin" translate="no">~QAudioSystemPlugin</a></b>()</td></tr>
+</tbody></table></div>
+<a name="reimplemented-public-functions"></a>
+<h2 id="reimplemented-public-functions">Reimplemented Public Functions<a class="plink" href="#reimplemented-public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> virtual QList&lt;QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="./qaudiosystemplugin.htm#availableDevices" translate="no">availableDevices</a></b>(QAudio::Mode <i>mode</i>) const override = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QAbstractAudioDeviceInfo *</td><td class="memItemRight bottomAlign"><b><a href="./qaudiosystemplugin.htm#createDeviceInfo" translate="no">createDeviceInfo</a></b>(const QByteArray &amp;<i>device</i>, QAudio::Mode <i>mode</i>) override = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QAbstractAudioInput *</td><td class="memItemRight bottomAlign"><b><a href="./qaudiosystemplugin.htm#createInput" translate="no">createInput</a></b>(const QByteArray &amp;<i>device</i>) override = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QAbstractAudioOutput *</td><td class="memItemRight bottomAlign"><b><a href="./qaudiosystemplugin.htm#createOutput" translate="no">createOutput</a></b>(const QByteArray &amp;<i>device</i>) override = 0</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QAudioSystemPlugin-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Writing a audio plugin is achieved by subclassing this base class, reimplementing the pure virtual functions <a href="./qaudiosystemplugin.htm#availableDevices" translate="no">availableDevices</a>(), <a href="./qaudiosystemplugin.htm#createInput" translate="no">createInput</a>(), <a href="./qaudiosystemplugin.htm#createOutput" translate="no">createOutput</a>() and <a href="./qaudiosystemplugin.htm#createDeviceInfo" translate="no">createDeviceInfo</a>() then exporting the class with the <a href="./qtplugin.htm#Q_PLUGIN_METADATA" translate="no">Q_PLUGIN_METADATA</a>() macro.</p>
+<p>The json file containing the meta data should contain a list of keys matching the plugin. Add "default" to your list of keys available to override the default audio device to be provided by your plugin.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{ <span class="string">"Keys"</span>: <span class="operator">[</span> <span class="string">"default"</span> <span class="operator">]</span> }</pre></div>
+<p>Unit tests are available to help in debugging new plugins.</p>
+<p>Qt comes with plugins for Windows (WinMM and WASAPI), Linux (ALSA and PulseAudio), macOS / iOS (CoreAudio), Android (OpenSL ES) and QNX.</p>
+<p>If no audio plugins are available, a fallback dummy backend will be used. This should print out warnings if this is the case when you try and use <a href="./qaudioinput.htm" translate="no">QAudioInput</a> or <a href="./qaudiooutput.htm" translate="no">QAudioOutput</a>. To fix this problem, make sure the dependencies for the Qt plugins are installed on the system and reconfigure Qt (e.g. alsa-devel package on Linux), or create your own plugin with a default key to always override the dummy fallback. The easiest way to determine if you have only a dummy backend is to get a list of available audio devices.</p>
+<p><a href="./qaudiodeviceinfo.htm#availableDevices" translate="no">QAudioDeviceInfo::availableDevices</a>(<a href="./qaudio.htm#Mode-enum" translate="no">QAudio::AudioOutput</a>).size() = 0 (dummy backend)</p>
+</div>
+<p><b>See also </b><a href="./qabstractaudiodeviceinfo.htm" translate="no">QAbstractAudioDeviceInfo</a>, <a href="./qabstractaudiooutput.htm" translate="no">QAbstractAudioOutput</a>, and <a href="./qabstractaudioinput.htm" translate="no">QAbstractAudioInput</a>.</p>
+<!-- @@@QAudioSystemPlugin -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QAudioSystemPlugin[overload1]$$$QAudioSystemPluginQObject* -->
+<h3 class="fn" id="QAudioSystemPlugin" translate="no"><a name="QAudioSystemPlugin"></a>QAudioSystemPlugin::<span class="name">QAudioSystemPlugin</span>(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#QAudioSystemPlugin" title="Direct link to this headline"></a></h3>
+<p>Constructs a new audio plugin with <i translate="no">parent</i>. This is invoked automatically by the <a href="./qtplugin.htm#Q_PLUGIN_METADATA" translate="no">Q_PLUGIN_METADATA</a>() macro.</p>
+<!-- @@@QAudioSystemPlugin -->
+<!-- $$$~QAudioSystemPlugin[overload1]$$$~QAudioSystemPlugin -->
+<h3 class="fn" id="dtor.QAudioSystemPlugin" translate="no"><a name="dtor.QAudioSystemPlugin"></a><code translate="no">[virtual] </code>QAudioSystemPlugin::<span class="name">~QAudioSystemPlugin</span>()<a class="plink" href="#dtor.QAudioSystemPlugin" title="Direct link to this headline"></a></h3>
+<p>Destroys the audio plugin. You never have to call this explicitly. Qt destroys a plugin automatically when it is no longer used.</p>
+<!-- @@@~QAudioSystemPlugin -->
+<!-- $$$availableDevices[overload1]$$$availableDevicesQAudio::Mode -->
+<h3 class="fn" id="availableDevices" translate="no"><a name="availableDevices"></a><code translate="no">[override pure virtual] </code><span class="type"><a href="./qlist.htm" translate="no">QList</a></span>&lt;<span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span>&gt; QAudioSystemPlugin::<span class="name">availableDevices</span>(<span class="type"><a href="./qaudio.htm#Mode-enum" translate="no">QAudio::Mode</a></span> <i>mode</i>) const<a class="plink" href="#availableDevices" title="Direct link to this headline"></a></h3>
+<p>Returns a list of available audio devices for <i translate="no">mode</i></p>
+<!-- @@@availableDevices -->
+<!-- $$$createDeviceInfo[overload1]$$$createDeviceInfoconstQByteArray&QAudio::Mode -->
+<h3 class="fn" id="createDeviceInfo" translate="no"><a name="createDeviceInfo"></a><code translate="no">[override pure virtual] </code><span class="type"><a href="./qabstractaudiodeviceinfo.htm" translate="no">QAbstractAudioDeviceInfo</a></span> *QAudioSystemPlugin::<span class="name">createDeviceInfo</span>(const <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> &amp;<i>device</i>, <span class="type"><a href="./qaudio.htm#Mode-enum" translate="no">QAudio::Mode</a></span> <i>mode</i>)<a class="plink" href="#createDeviceInfo" title="Direct link to this headline"></a></h3>
+<p>Returns a pointer to a <a href="./qabstractaudiodeviceinfo.htm" translate="no">QAbstractAudioDeviceInfo</a> created using <i translate="no">device</i> and <i translate="no">mode</i></p>
+<!-- @@@createDeviceInfo -->
+<!-- $$$createInput[overload1]$$$createInputconstQByteArray& -->
+<h3 class="fn" id="createInput" translate="no"><a name="createInput"></a><code translate="no">[override pure virtual] </code><span class="type"><a href="./qabstractaudioinput.htm" translate="no">QAbstractAudioInput</a></span> *QAudioSystemPlugin::<span class="name">createInput</span>(const <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> &amp;<i>device</i>)<a class="plink" href="#createInput" title="Direct link to this headline"></a></h3>
+<p>Returns a pointer to a <a href="./qabstractaudioinput.htm" translate="no">QAbstractAudioInput</a> created using <i translate="no">device</i> identifier</p>
+<!-- @@@createInput -->
+<!-- $$$createOutput[overload1]$$$createOutputconstQByteArray& -->
+<h3 class="fn" id="createOutput" translate="no"><a name="createOutput"></a><code translate="no">[override pure virtual] </code><span class="type"><a href="./qabstractaudiooutput.htm" translate="no">QAbstractAudioOutput</a></span> *QAudioSystemPlugin::<span class="name">createOutput</span>(const <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> &amp;<i>device</i>)<a class="plink" href="#createOutput" title="Direct link to this headline"></a></h3>
+<p>Returns a pointer to a <a href="./qabstractaudiooutput.htm" translate="no">QAbstractAudioOutput</a> created using <i translate="no">device</i> identifier</p>
+<!-- @@@createOutput -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

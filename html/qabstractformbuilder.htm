@@ -1,0 +1,160 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QAbstractFormBuilder | Qt Designer Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qabstractformbuilder.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdesigner-manual.htm" translate="no">Qt Designer Manual</a></li>
+                            <li><a href="./qtdesigner-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QAbstractFormBuilder</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QAbstractFormBuilder Class</h1>
+<!-- $$$QAbstractFormBuilder-brief -->
+<p>The QAbstractFormBuilder class provides a default implementation for classes that create user interfaces at run-time. <a href="#details">More...</a></p>
+<!-- @@@QAbstractFormBuilder -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QAbstractFormBuilder&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += designer</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherited By:</td><td class="memItemRight bottomAlign"> <p><a href="./qformbuilder.htm" translate="no">QFormBuilder</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qabstractformbuilder-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#QAbstractFormBuilder-1" translate="no">QAbstractFormBuilder</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#dtor.QAbstractFormBuilder" translate="no">~QAbstractFormBuilder</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#errorString" translate="no">errorString</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QWidget *</td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#load" translate="no">load</a></b>(QIODevice *<i>device</i>, QWidget *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#save" translate="no">save</a></b>(QIODevice *<i>device</i>, QWidget *<i>widget</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#setWorkingDirectory" translate="no">setWorkingDirectory</a></b>(const QDir &amp;<i>directory</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QDir </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#workingDirectory" translate="no">workingDirectory</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="protected-types"></a>
+<h2 id="protected-types">Protected Types<a class="plink" href="#protected-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> (alias) </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#DomPropertyHash-alias" translate="no">DomPropertyHash</a></b></td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> (alias) </td><td class="memItemRight bottomAlign"><b><a href="./qabstractformbuilder.htm#IconPaths-alias" translate="no">IconPaths</a></b></td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QAbstractFormBuilder-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QAbstractFormBuilder provides a standard interface and a default implementation for constructing forms from user interface files. It is not intended to be instantiated directly. Use the <a href="./qformbuilder.htm" translate="no">QFormBuilder</a> class to create user interfaces from UI files at run-time. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        MyForm<span class="operator">::</span>MyForm(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+            : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+        {
+            <span class="type"><a href="./qformbuilder.htm" translate="no">QFormBuilder</a></span> builder;
+            <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> file(<span class="string">":/forms/myWidget.ui"</span>);
+            file<span class="operator">.</span>open(<span class="type"><a href="./qfile.htm" translate="no">QFile</a></span><span class="operator">::</span>ReadOnly);
+            <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>myWidget <span class="operator">=</span> builder<span class="operator">.</span>load(<span class="operator">&amp;</span>file<span class="operator">,</span> <span class="keyword">this</span>);
+            file<span class="operator">.</span>close();
+
+            <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>layout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>;
+            layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(myWidget);
+            setLayout(layout);
+        }</pre></div>
+<p>To override certain aspects of the form builder's behavior, subclass QAbstractFormBuilder and reimplement the relevant virtual functions:</p>
+<ul>
+<li><a href="./qabstractformbuilder.htm#load" translate="no">load</a>() handles reading of UI format files from arbitrary QIODevices, and construction of widgets from the XML data that they contain.</li>
+<li><a href="./qabstractformbuilder.htm#save" translate="no">save</a>() handles saving of widget details in UI format to arbitrary QIODevices.</li>
+<li><a href="./qabstractformbuilder.htm#workingDirectory" translate="no">workingDirectory</a>() and <a href="./qabstractformbuilder.htm#setWorkingDirectory" translate="no">setWorkingDirectory</a>() control the directory in which forms are held. The form builder looks for other resources on paths relative to this directory.</li>
+</ul>
+<p>The <a href="./qformbuilder.htm" translate="no">QFormBuilder</a> class is typically used by custom components and applications that embed <i>Qt Designer</i>. Standalone applications that need to dynamically generate user interfaces at run-time use the <a href="./quiloader.htm" translate="no">QUiLoader</a>, found in the <a href="./qtuitools-index.htm" translate="no">Qt UI Tools</a> module.</p>
+</div>
+<p><b>See also </b><a href="./qtuitools-index.htm" translate="no">Qt UI Tools</a>.</p>
+<!-- @@@QAbstractFormBuilder -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QAbstractFormBuilder$$$QAbstractFormBuilder -->
+<h3 class="fn" id="QAbstractFormBuilder-1" translate="no"><a name="QAbstractFormBuilder-1"></a>QAbstractFormBuilder::<span class="name">QAbstractFormBuilder</span>()<a class="plink" href="#QAbstractFormBuilder-1" title="Direct link to this headline"></a></h3>
+<p>Constructs a new form builder.</p>
+<!-- @@@QAbstractFormBuilder -->
+<!-- $$$~QAbstractFormBuilder[overload1]$$$~QAbstractFormBuilder -->
+<h3 class="fn" id="dtor.QAbstractFormBuilder" translate="no"><a name="dtor.QAbstractFormBuilder"></a><code translate="no">[virtual] </code>QAbstractFormBuilder::<span class="name">~QAbstractFormBuilder</span>()<a class="plink" href="#dtor.QAbstractFormBuilder" title="Direct link to this headline"></a></h3>
+<p>Destroys the form builder.</p>
+<!-- @@@~QAbstractFormBuilder -->
+<!-- $$$errorString[overload1]$$$errorString -->
+<h3 class="fn" id="errorString" translate="no"><a name="errorString"></a><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> QAbstractFormBuilder::<span class="name">errorString</span>() const<a class="plink" href="#errorString" title="Direct link to this headline"></a></h3>
+<p>Returns a human-readable description of the last error occurred in <a href="./qabstractformbuilder.htm#load" translate="no">load</a>().</p>
+<p>This function was introduced in Qt 5.0.</p>
+<p><b>See also </b><a href="./qabstractformbuilder.htm#load" translate="no">load</a>().</p>
+<!-- @@@errorString -->
+<!-- $$$load[overload1]$$$loadQIODevice*QWidget* -->
+<h3 class="fn" id="load" translate="no"><a name="load"></a><code translate="no">[virtual] </code><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> *QAbstractFormBuilder::<span class="name">load</span>(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span> *<i>device</i>, <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#load" title="Direct link to this headline"></a></h3>
+<p>Loads an XML representation of a widget from the given <i translate="no">device</i>, and constructs a new widget with the specified <i translate="no">parent</i>.</p>
+<p><b>See also </b><a href="./qabstractformbuilder.htm#save" translate="no">save</a>() and <a href="./qabstractformbuilder.htm#errorString" translate="no">errorString</a>().</p>
+<!-- @@@load -->
+<!-- $$$save[overload1]$$$saveQIODevice*QWidget* -->
+<h3 class="fn" id="save" translate="no"><a name="save"></a><code translate="no">[virtual] </code><span class="type">void</span> QAbstractFormBuilder::<span class="name">save</span>(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span> *<i>device</i>, <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> *<i>widget</i>)<a class="plink" href="#save" title="Direct link to this headline"></a></h3>
+<p>Saves an XML representation of the given <i translate="no">widget</i> to the specified <i translate="no">device</i> in the standard UI file format.</p>
+<div class="admonition note">
+<p><b>Note: </b>Unlike when saving a form in Qt Designer, all property values are written. This is because, the state of whether a property value was modified or not isn't stored in the Qt property system. The widget that is being saved, could have been created dynamically, not loaded via <a href="./qabstractformbuilder.htm#load" translate="no">load</a>(), so in this case the form builder isn't aware of the list of changed properties. Also, there's no generic way to do this for widgets that were created dynamically.</p>
+</div>
+<p>Therefore, you should remove properties that are not required from your resulting XML files, before loading them. Alternatively, if you already know which properties you want to save when you call this method, you can overload <code translate="no">computeProperties()</code> and return a filtered list of required properties. Otherwise, unexpected behavior may occur as some of these properties may depend on each other.</p>
+<p><b>See also </b><a href="./qabstractformbuilder.htm#load" translate="no">load</a>().</p>
+<!-- @@@save -->
+<!-- $$$setWorkingDirectory[overload1]$$$setWorkingDirectoryconstQDir& -->
+<h3 class="fn" id="setWorkingDirectory" translate="no"><a name="setWorkingDirectory"></a><span class="type">void</span> QAbstractFormBuilder::<span class="name">setWorkingDirectory</span>(const <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span> &amp;<i>directory</i>)<a class="plink" href="#setWorkingDirectory" title="Direct link to this headline"></a></h3>
+<p>Sets the current working directory of the form builder to the specified <i translate="no">directory</i>.</p>
+<p><b>See also </b><a href="./qabstractformbuilder.htm#workingDirectory" translate="no">workingDirectory</a>().</p>
+<!-- @@@setWorkingDirectory -->
+<!-- $$$workingDirectory[overload1]$$$workingDirectory -->
+<h3 class="fn" id="workingDirectory" translate="no"><a name="workingDirectory"></a><span class="type"><a href="./qdir.htm" translate="no">QDir</a></span> QAbstractFormBuilder::<span class="name">workingDirectory</span>() const<a class="plink" href="#workingDirectory" title="Direct link to this headline"></a></h3>
+<p>Returns the current working directory of the form builder.</p>
+<p><b>See also </b><a href="./qabstractformbuilder.htm#setWorkingDirectory" translate="no">setWorkingDirectory</a>().</p>
+<!-- @@@workingDirectory -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

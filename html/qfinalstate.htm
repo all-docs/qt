@@ -1,0 +1,131 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QFinalState | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qfinalstate.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QFinalState</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QFinalState Class</h1>
+<!-- $$$QFinalState-brief -->
+<p>The QFinalState class provides a final state. <a href="#details">More...</a></p>
+<!-- @@@QFinalState -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QFinalState&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += core</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 4.6</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qabstractstate.htm" translate="no">QAbstractState</a></td></tr></tbody></table></div><p>This class was introduced in Qt 4.6.</p>
+<ul>
+<li><a href="./qfinalstate-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qfinalstate.htm#QFinalState" translate="no">QFinalState</a></b>(QState *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qfinalstate.htm#dtor.QFinalState" translate="no">~QFinalState</a></b>()</td></tr>
+</tbody></table></div>
+<a name="reimplemented-protected-functions"></a>
+<h2 id="reimplemented-protected-functions">Reimplemented Protected Functions<a class="plink" href="#reimplemented-protected-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> virtual bool </td><td class="memItemRight bottomAlign"><b><a href="./qfinalstate.htm#event" translate="no">event</a></b>(QEvent *<i>e</i>) override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="./qfinalstate.htm#onEntry" translate="no">onEntry</a></b>(QEvent *<i>event</i>) override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="./qfinalstate.htm#onExit" translate="no">onExit</a></b>(QEvent *<i>event</i>) override</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QFinalState-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A final state is used to communicate that (part of) a <a href="./qstatemachine.htm" translate="no">QStateMachine</a> has finished its work. When a final top-level state is entered, the state machine's <a href="./qstate.htm#finished" translate="no">finished</a>() signal is emitted. In general, when a final substate (a child of a <a href="./qstate.htm" translate="no">QState</a>) is entered, the parent state's <a href="./qstate.htm#finished" translate="no">finished</a>() signal is emitted. QFinalState is part of <a href="./statemachine-api.htm" translate="no">The State Machine Framework</a>.</p>
+<p>To use a final state, you create a QFinalState object and add a transition to it from another state. Example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> button;
+
+<span class="type"><a href="./qstatemachine.htm" translate="no">QStateMachine</a></span> machine;
+<span class="type"><a href="./qstate.htm" translate="no">QState</a></span> <span class="operator">*</span>s1 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstate.htm" translate="no">QState</a></span>();
+<span class="type"><a href="./qfinalstate.htm#QFinalState" translate="no">QFinalState</a></span> <span class="operator">*</span>s2 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qfinalstate.htm#QFinalState" translate="no">QFinalState</a></span>();
+s1<span class="operator">-</span><span class="operator">&gt;</span>addTransition(<span class="operator">&amp;</span>button<span class="operator">,</span> SIGNAL(clicked())<span class="operator">,</span> s2);
+machine<span class="operator">.</span>addState(s1);
+machine<span class="operator">.</span>addState(s2);
+
+<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>machine<span class="operator">,</span> SIGNAL(finished())<span class="operator">,</span> <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>instance()<span class="operator">,</span> SLOT(quit()));
+machine<span class="operator">.</span>setInitialState(s1);
+machine<span class="operator">.</span>start();</pre></div>
+</div>
+<p><b>See also </b><a href="./qstate.htm#finished" translate="no">QState::finished</a>().</p>
+<!-- @@@QFinalState -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QFinalState[overload1]$$$QFinalStateQState* -->
+<h3 class="fn" id="QFinalState" translate="no"><a name="QFinalState"></a>QFinalState::<span class="name">QFinalState</span>(<span class="type"><a href="./qstate.htm" translate="no">QState</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#QFinalState" title="Direct link to this headline"></a></h3>
+<p>Constructs a new QFinalState object with the given <i translate="no">parent</i> state.</p>
+<!-- @@@QFinalState -->
+<!-- $$$~QFinalState[overload1]$$$~QFinalState -->
+<h3 class="fn" id="dtor.QFinalState" translate="no"><a name="dtor.QFinalState"></a><code translate="no">[virtual] </code>QFinalState::<span class="name">~QFinalState</span>()<a class="plink" href="#dtor.QFinalState" title="Direct link to this headline"></a></h3>
+<p>Destroys this final state.</p>
+<!-- @@@~QFinalState -->
+<!-- $$$event[overload1]$$$eventQEvent* -->
+<h3 class="fn" id="event" translate="no"><a name="event"></a><code translate="no">[override virtual protected] </code><span class="type">bool</span> QFinalState::<span class="name">event</span>(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> *<i>e</i>)<a class="plink" href="#event" title="Direct link to this headline"></a></h3>
+<p>Reimplements: <a href="./qabstractstate.htm#event" translate="no">QAbstractState::event</a>(QEvent *e).</p>
+<!-- @@@event -->
+<!-- $$$onEntry[overload1]$$$onEntryQEvent* -->
+<h3 class="fn" id="onEntry" translate="no"><a name="onEntry"></a><code translate="no">[override virtual protected] </code><span class="type">void</span> QFinalState::<span class="name">onEntry</span>(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> *<i>event</i>)<a class="plink" href="#onEntry" title="Direct link to this headline"></a></h3>
+<p>Reimplements: <a href="./qabstractstate.htm#onEntry" translate="no">QAbstractState::onEntry</a>(QEvent *event).</p>
+<!-- @@@onEntry -->
+<!-- $$$onExit[overload1]$$$onExitQEvent* -->
+<h3 class="fn" id="onExit" translate="no"><a name="onExit"></a><code translate="no">[override virtual protected] </code><span class="type">void</span> QFinalState::<span class="name">onExit</span>(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> *<i>event</i>)<a class="plink" href="#onExit" title="Direct link to this headline"></a></h3>
+<p>Reimplements: <a href="./qabstractstate.htm#onExit" translate="no">QAbstractState::onExit</a>(QEvent *event).</p>
+<!-- @@@onExit -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

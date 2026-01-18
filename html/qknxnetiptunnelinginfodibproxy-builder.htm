@@ -1,0 +1,146 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Builder | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>Builder</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Builder Class</h1>
+<span class="small-subtitle" translate="no">class <a href="./qknxnetiptunnelinginfodibproxy.htm" translate="no">QKnxNetIpTunnelingInfoDibProxy</a>::Builder</span>
+<!-- $$$Builder-brief -->
+<p>The <a href="./qknxnetiptunnelinginfodibproxy-builder.htm" translate="no">QKnxNetIpTunnelingInfoDibProxy::Builder</a> class creates a KNXnet/IP tunneling info DIB structure. <a href="#details">More...</a></p>
+<!-- @@@Builder -->
+<p>This class was introduced in Qt 5.12.</p>
+<ul>
+<li><a href="./qknxnetiptunnelinginfodibproxy-builder-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder-1" translate="no">Builder</a></b>(const Builder &amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder" translate="no">Builder</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#operator-eq" translate="no">operator=</a></b>(const Builder &amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#dtor.Builder" translate="no">~Builder</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIpDib </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#create" translate="no">create</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#setMaximumInterfaceApduLength" translate="no">setMaximumInterfaceApduLength</a></b>(quint16 <i>length</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#setOptionalSlotInfos" translate="no">setOptionalSlotInfos</a></b>(const QVector&lt;QKnxNetIpTunnelingSlotInfo&gt; &amp;<i>infos</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#setTunnelingSlotInfo" translate="no">setTunnelingSlotInfo</a></b>(const QKnxNetIpTunnelingSlotInfo &amp;<i>info</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$Builder-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A KNXnet/IP tunneling info DIB structure contains the maximum application layer protocol data unit (APDU) length supported by a KNXnet/IP tunneling interface for bus access and one or more tunneling slot information objects.</p>
+<p>The common way to create such a DIB structure is:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> dib <span class="operator">=</span> <span class="type">QKnxNetIpTunnelingInfoDibProxy</span><span class="operator">::</span>builder()
+    <span class="operator">.</span>setMaximumInterfaceApduLength(<span class="number">0x1000</span>)
+    <span class="operator">.</span>setTunnelingSlotInfo({ { <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> <span class="number">1976</span> }<span class="operator">,</span>
+        <span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span><span class="operator">::</span>Available
+    })<span class="operator">.</span>setOptionalSlotInfos({
+        { { <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> <span class="number">2013</span> }<span class="operator">,</span>
+            <span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span><span class="operator">::</span>Usable
+                <span class="operator">|</span> <span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span><span class="operator">::</span>Authorized
+                <span class="operator">|</span> <span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span><span class="operator">::</span>Free }<span class="operator">,</span>
+        { { <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> <span class="number">1978</span> }<span class="operator">,</span> <span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span><span class="operator">::</span>NotAvailable }<span class="operator">,</span>
+        { <span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span>({ <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> <span class="number">2002</span> }) }
+    })<span class="operator">.</span>create();</pre></div>
+</div>
+<!-- @@@Builder -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$Builder$$$BuilderconstBuilder& -->
+<h3 class="fn" id="Builder-1" translate="no"><a name="Builder-1"></a>Builder::<span class="name">Builder</span>(const <span class="type"><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder" translate="no">Builder</a></span> &amp;<i>other</i>)<a class="plink" href="#Builder-1" title="Direct link to this headline"></a></h3>
+<p>Constructs a copy of <i translate="no">other</i>.</p>
+<!-- @@@Builder -->
+<!-- $$$Builder[overload1]$$$Builder -->
+<h3 class="fn" id="Builder" translate="no"><a name="Builder"></a>Builder::<span class="name">Builder</span>()<a class="plink" href="#Builder" title="Direct link to this headline"></a></h3>
+<p>Creates a new empty tunneling info DIB structure builder object.</p>
+<!-- @@@Builder -->
+<!-- $$$operator=[overload1]$$$operator=constBuilder& -->
+<h3 class="fn" id="operator-eq" translate="no"><a name="operator-eq"></a><span class="type"><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder" translate="no">Builder</a></span> &amp;Builder::<span class="name">operator=</span>(const <span class="type"><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder" translate="no">Builder</a></span> &amp;<i>other</i>)<a class="plink" href="#operator-eq" title="Direct link to this headline"></a></h3>
+<p>Assigns the specified <i translate="no">other</i> to this object.</p>
+<!-- @@@operator= -->
+<!-- $$$~Builder[overload1]$$$~Builder -->
+<h3 class="fn" id="dtor.Builder" translate="no"><a name="dtor.Builder"></a>Builder::<span class="name">~Builder</span>()<a class="plink" href="#dtor.Builder" title="Direct link to this headline"></a></h3>
+<p>Destroys the object and frees any allocated resources.</p>
+<!-- @@@~Builder -->
+<!-- $$$create[overload1]$$$create -->
+<h3 class="fn" id="create" translate="no"><a name="create"></a><span class="type"><a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a></span> Builder::<span class="name">create</span>() const<a class="plink" href="#create" title="Direct link to this headline"></a></h3>
+<p>Creates and returns a tunneling info <a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a>.</p>
+<div class="admonition note">
+<p><b>Note: </b>The returned structure may be invalid depending on the values used during setup.</p>
+</div>
+<div class="admonition note">
+<p><b>Note: </b>Invalid tunneling slot information objects are not taken into account when creating the tunneling information <a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a>.</p>
+</div>
+<p><b>See also </b><a href="./qknxnetiptunnelinginfodibproxy.htm#isValid" translate="no">isValid</a>().</p>
+<!-- @@@create -->
+<!-- $$$setMaximumInterfaceApduLength[overload1]$$$setMaximumInterfaceApduLengthquint16 -->
+<h3 class="fn" id="setMaximumInterfaceApduLength" translate="no"><a name="setMaximumInterfaceApduLength"></a><span class="type"><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder" translate="no">Builder</a></span> &amp;Builder::<span class="name">setMaximumInterfaceApduLength</span>(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span> <i>length</i>)<a class="plink" href="#setMaximumInterfaceApduLength" title="Direct link to this headline"></a></h3>
+<p>Sets the maximum APDU length of the KNXnet/IP DIB structure to <i translate="no">length</i> and returns a reference to the builder.</p>
+<!-- @@@setMaximumInterfaceApduLength -->
+<!-- $$$setOptionalSlotInfos[overload1]$$$setOptionalSlotInfosconstQVector<QKnxNetIpTunnelingSlotInfo>& -->
+<h3 class="fn" id="setOptionalSlotInfos" translate="no"><a name="setOptionalSlotInfos"></a><span class="type"><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder" translate="no">Builder</a></span> &amp;Builder::<span class="name">setOptionalSlotInfos</span>(const <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span>&lt;<span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span>&gt; &amp;<i>infos</i>)<a class="plink" href="#setOptionalSlotInfos" title="Direct link to this headline"></a></h3>
+<p>Sets the optional tunneling slot information of the KNXnet/IP DIB structure to <i translate="no">infos</i> and returns a reference to the builder.</p>
+<!-- @@@setOptionalSlotInfos -->
+<!-- $$$setTunnelingSlotInfo[overload1]$$$setTunnelingSlotInfoconstQKnxNetIpTunnelingSlotInfo& -->
+<h3 class="fn" id="setTunnelingSlotInfo" translate="no"><a name="setTunnelingSlotInfo"></a><span class="type"><a href="./qknxnetiptunnelinginfodibproxy-builder.htm#Builder" translate="no">Builder</a></span> &amp;Builder::<span class="name">setTunnelingSlotInfo</span>(const <span class="type"><a href="./qknxnetiptunnelingslotinfo.htm" translate="no">QKnxNetIpTunnelingSlotInfo</a></span> &amp;<i>info</i>)<a class="plink" href="#setTunnelingSlotInfo" title="Direct link to this headline"></a></h3>
+<p>Sets the mandatory tunneling slot information of the KNXnet/IP DIB structure to <i translate="no">info</i> and returns a reference to the builder.</p>
+<!-- @@@setTunnelingSlotInfo -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

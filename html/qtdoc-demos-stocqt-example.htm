@@ -1,0 +1,206 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Demo - StocQt</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtdoc-demos-stocqt-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Demo - StocQt</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Demo - StocQt</h1>
+<span class="subtitle"></span>
+<!-- $$$demos/stocqt-brief -->
+<p>A configurable stock chart for the NASDAQ-100.</p>
+<!-- @@@demos/stocqt -->
+<!-- $$$demos/stocqt-description -->
+<div class="descr"> <a name="details"></a>
+<div class="border"><p class="centerAlign"><img alt="" src="./images/qtquick-demo-stocqt.png"></p></div><p>The <i>StocQt</i> application presents a trend chart for the first stock in the list of NASDAQ-100 stocks. It allows the user to choose another stock from the list, and fetches the required data from the offline dataset using <code translate="no">XMLHttpRequest</code>.</p>
+<p>The application uses several custom types such as Button, <a href="./qml-qtquick-controls2-checkbox.htm" translate="no">CheckBox</a>, StockChart, StockInfo, StockView, and so on. These types are used to present the stock data in a readable form and also let the user customize the trend chart. For example, the user can choose to view the weekly, monthly, quarterly, or half yearly trends in the stock price.</p>
+<p>The application uses the <a href="./qml-qtqml-models-objectmodel.htm" translate="no">ObjectModel</a> type to access the two visual data models that it depends on.</p>
+<div class="pre"><pre class="cpp" translate="no">        <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+            <span class="name">id</span>: <span class="name">root</span>
+        ...
+            <span class="name">model</span>: <span class="name">ObjectModel</span> {
+                <span class="type">StockListView</span> {
+                    <span class="name">id</span>: <span class="name">listView</span>
+                    <span class="name">width</span>: <span class="name">root</span>.<span class="name">width</span>
+                    <span class="name">height</span>: <span class="name">root</span>.<span class="name">height</span>
+                }
+
+                <span class="type">StockView</span> {
+                    <span class="name">id</span>: <span class="name">stockView</span>
+                    <span class="name">width</span>: <span class="name">root</span>.<span class="name">width</span>
+                    <span class="name">height</span>: <span class="name">root</span>.<span class="name">height</span>
+                    <span class="name">stocklist</span>: <span class="name">listView</span>
+                    <span class="name">stock</span>: <span class="name">stock</span>
+                }
+            }
+        }</pre></div>
+<p>The StockListView model is a static data model listing the NASDAQ-100 stocks with basic information such as stockId, name, value, change, and so on. This data model is used by the application if the user wants to choose another stock from the list.</p>
+<p>StockView is a complex data model that presents a trend chart for the selected stock. It uses another custom type, StockChart, which presents the graphical trend of the stock price using a Canvas. This data model is used for most of the time during the lifetime of the application.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">chart</span>
+    ...
+        <span class="type"><a href="./qml-qtquick-canvas.htm" translate="no">Canvas</a></span> {
+            <span class="name">id</span>: <span class="name">canvas</span>
+        ...
+            <span class="name">onPaint</span>: {
+                <span class="name">numPoints</span> <span class="operator">=</span> <span class="name">stockModel</span>.<span class="name">indexOf</span>(<span class="name">chart</span>.<span class="name">startDate</span>);
+                <span class="keyword">if</span> (<span class="name">chart</span>.<span class="name">gridSize</span> <span class="operator">==</span> <span class="number">0</span>)
+                    <span class="name">chart</span>.<span class="name">gridSize</span> <span class="operator">=</span> <span class="name">numPoints</span>
+
+                var ctx = <span class="name">canvas</span>.<span class="name">getContext</span>(<span class="string">"2d"</span>);
+                <span class="name">ctx</span>.<span class="name">globalCompositeOperation</span> <span class="operator">=</span> <span class="string">"source-over"</span>;
+                <span class="name">ctx</span>.<span class="name">lineWidth</span> <span class="operator">=</span> <span class="number">1</span>;
+
+                <span class="name">drawBackground</span>(<span class="name">ctx</span>);
+
+                <span class="keyword">if</span> (!<span class="name">stockModel</span>.<span class="name">ready</span>) {
+                    <span class="name">drawError</span>(<span class="name">ctx</span>, <span class="string">"No data available."</span>);
+                    <span class="keyword">return</span>;
+                }
+
+                var highestPrice = <span class="number">0</span>;
+                var highestVolume = <span class="number">0</span>;
+                var lowestPrice = -<span class="number">1</span>;
+                var points = [];
+                <span class="keyword">for</span> (var i = numPoints, j = 0; <span class="name">i</span> <span class="operator">&gt;=</span> <span class="number">0</span> ; <span class="name">i</span> <span class="operator">-=</span> <span class="name">pixelSkip</span>, <span class="name">j</span> <span class="operator">+=</span> <span class="name">pixelSkip</span>) {
+                    var price = <span class="name">stockModel</span>.<span class="name">get</span>(<span class="name">i</span>);
+                    <span class="keyword">if</span> (<span class="name">parseFloat</span>(<span class="name">highestPrice</span>) <span class="operator">&lt;</span> <span class="name">parseFloat</span>(<span class="name">price</span>.<span class="name">high</span>))
+                        <span class="name">highestPrice</span> <span class="operator">=</span> <span class="name">price</span>.<span class="name">high</span>;
+                    <span class="keyword">if</span> (<span class="name">parseInt</span>(<span class="name">highestVolume</span>, <span class="number">10</span>) <span class="operator">&lt;</span> <span class="name">parseInt</span>(<span class="name">price</span>.<span class="name">volume</span>, <span class="number">10</span>))
+                        <span class="name">highestVolume</span> <span class="operator">=</span> <span class="name">price</span>.<span class="name">volume</span>;
+                    <span class="keyword">if</span> (<span class="name">lowestPrice</span> <span class="operator">&lt;</span> <span class="number">0</span> <span class="operator">||</span> <span class="name">parseFloat</span>(<span class="name">lowestPrice</span>) <span class="operator">&gt;</span> <span class="name">parseFloat</span>(<span class="name">price</span>.<span class="name">low</span>))
+                        <span class="name">lowestPrice</span> <span class="operator">=</span> <span class="name">price</span>.<span class="name">low</span>;
+                    <span class="name">points</span>.<span class="name">push</span>({
+                                    x: <span class="name">j</span> <span class="operator">*</span> <span class="name">xGridStep</span>,
+                                    open: <span class="name">price</span>.<span class="name">open</span>,
+                                    close: <span class="name">price</span>.<span class="name">close</span>,
+                                    high: <span class="name">price</span>.<span class="name">high</span>,
+                                    low: <span class="name">price</span>.<span class="name">low</span>,
+                                    volume: <span class="name">price</span>.<span class="name">volume</span>
+                                });
+                }
+
+                <span class="keyword">if</span> (<span class="name">settings</span>.<span class="name">drawHighPrice</span>)
+                    <span class="name">drawPrice</span>(<span class="name">ctx</span>, <span class="number">0</span>, <span class="name">numPoints</span>, <span class="name">settings</span>.<span class="name">highColor</span>, <span class="string">"high"</span>, <span class="name">points</span>, <span class="name">highestPrice</span>, <span class="name">lowestPrice</span>);
+                <span class="keyword">if</span> (<span class="name">settings</span>.<span class="name">drawLowPrice</span>)
+                    <span class="name">drawPrice</span>(<span class="name">ctx</span>, <span class="number">0</span>, <span class="name">numPoints</span>, <span class="name">settings</span>.<span class="name">lowColor</span>, <span class="string">"low"</span>, <span class="name">points</span>, <span class="name">highestPrice</span>, <span class="name">lowestPrice</span>);
+                <span class="keyword">if</span> (<span class="name">settings</span>.<span class="name">drawOpenPrice</span>)
+                    <span class="name">drawPrice</span>(<span class="name">ctx</span>, <span class="number">0</span>, <span class="name">numPoints</span>,<span class="name">settings</span>.<span class="name">openColor</span>, <span class="string">"open"</span>, <span class="name">points</span>, <span class="name">highestPrice</span>, <span class="name">lowestPrice</span>);
+                <span class="keyword">if</span> (<span class="name">settings</span>.<span class="name">drawClosePrice</span>)
+                    <span class="name">drawPrice</span>(<span class="name">ctx</span>, <span class="number">0</span>, <span class="name">numPoints</span>, <span class="name">settings</span>.<span class="name">closeColor</span>, <span class="string">"close"</span>, <span class="name">points</span>, <span class="name">highestPrice</span>, <span class="name">lowestPrice</span>);
+
+                <span class="name">drawVolume</span>(<span class="name">ctx</span>, <span class="number">0</span>, <span class="name">numPoints</span>, <span class="name">settings</span>.<span class="name">volumeColor</span>, <span class="string">"volume"</span>, <span class="name">points</span>, <span class="name">highestVolume</span>);
+                <span class="name">drawScales</span>(<span class="name">ctx</span>, <span class="name">highestPrice</span>, <span class="name">lowestPrice</span>, <span class="name">highestVolume</span>);
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">id</span>: <span class="name">fromDate</span>
+            <span class="name">color</span>: <span class="string">"#000000"</span>
+            <span class="name">font</span>.family: <span class="name">Settings</span>.<span class="name">fontFamily</span>
+            <span class="name">font</span>.pointSize: <span class="number">8</span>
+            <span class="name">Layout</span>.alignment: <span class="name">Qt</span>.<span class="name">AlignLeft</span>
+            <span class="name">text</span>: <span class="string">"| "</span> <span class="operator">+</span> <span class="name">startDate</span>.<span class="name">toDateString</span>()
+        }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">id</span>: <span class="name">toDate</span>
+            <span class="name">color</span>: <span class="string">"#000000"</span>
+            <span class="name">font</span>.family: <span class="name">Settings</span>.<span class="name">fontFamily</span>
+            <span class="name">font</span>.pointSize: <span class="number">8</span>
+            <span class="name">Layout</span>.alignment: <span class="name">Qt</span>.<span class="name">AlignRight</span>
+            <span class="name">Layout</span>.rightMargin: <span class="name">canvas</span>.<span class="name">tickMargin</span>
+            <span class="name">Layout</span>.columnSpan: <span class="number">5</span>
+            <span class="name">text</span>: <span class="name">endDate</span>.<span class="name">toDateString</span>() <span class="operator">+</span> <span class="string">" |"</span>
+        }
+    }
+}</pre></div>
+<p>To understand the application better, browse through its code using Qt Creator.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<p>Files:</p>
+<ul>
+<li><a href="./qtdoc-demos-stocqt-content-windows-settings-qml.htm" translate="no">demos/stocqt/content/+windows/Settings.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-banner-qml.htm" translate="no">demos/stocqt/content/Banner.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-button-qml.htm" translate="no">demos/stocqt/content/Button.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-checkbox-qml.htm" translate="no">demos/stocqt/content/CheckBox.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-settings-qml.htm" translate="no">demos/stocqt/content/Settings.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stockchart-qml.htm" translate="no">demos/stocqt/content/StockChart.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stockinfo-qml.htm" translate="no">demos/stocqt/content/StockInfo.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stocklistdelegate-qml.htm" translate="no">demos/stocqt/content/StockListDelegate.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stocklistmodel-qml.htm" translate="no">demos/stocqt/content/StockListModel.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stocklistview-qml.htm" translate="no">demos/stocqt/content/StockListView.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stockmodel-qml.htm" translate="no">demos/stocqt/content/StockModel.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stocksettingspanel-qml.htm" translate="no">demos/stocqt/content/StockSettingsPanel.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-stockview-qml.htm" translate="no">demos/stocqt/content/StockView.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-content-qmldir.htm" translate="no">demos/stocqt/content/qmldir</a></li>
+<li><a href="./qtdoc-demos-stocqt-main-cpp.htm" translate="no">demos/stocqt/main.cpp</a></li>
+<li><a href="./qtdoc-demos-stocqt-stocqt-pro.htm" translate="no">demos/stocqt/stocqt.pro</a></li>
+<li><a href="./qtdoc-demos-stocqt-stocqt-qml.htm" translate="no">demos/stocqt/stocqt.qml</a></li>
+<li><a href="./qtdoc-demos-stocqt-stocqt-qmlproject.htm" translate="no">demos/stocqt/stocqt.qmlproject</a></li>
+<li><a href="./qtdoc-demos-stocqt-stocqt-qrc.htm" translate="no">demos/stocqt/stocqt.qrc</a></li>
+</ul>
+<p>Images:</p>
+<ul>
+<li><a href="./images/used-in-examples/demos/stocqt/content/images/icon-left-arrow.png" translate="no">demos/stocqt/content/images/icon-left-arrow.png</a></li>
+<li><a href="./images/used-in-examples/demos/stocqt/content/images/wheel-touch.png" translate="no">demos/stocqt/content/images/wheel-touch.png</a></li>
+<li><a href="./images/used-in-examples/demos/stocqt/content/images/wheel.png" translate="no">demos/stocqt/content/images/wheel.png</a></li>
+</ul>
+</div>
+<p><b>See also </b><a href="./qmlapplications.htm" translate="no">QML Applications</a>.</p>
+<!-- @@@demos/stocqt -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

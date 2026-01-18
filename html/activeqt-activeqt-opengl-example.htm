@@ -1,0 +1,193 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGL Example (ActiveQt) | Active Qt</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./activeqt-index.htm" translate="no">Active Qt</a></li>
+                            <li><a>OpenGL Example (ActiveQt)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">OpenGL Example (ActiveQt)</h1>
+<span class="subtitle"></span>
+<!-- $$$activeqt/opengl-brief -->
+<p>The OpenGL example demonstrates the use of the default factory and <a href="./qaxfactory.htm#isServer" translate="no">QAxFactory::isServer</a>(), and the implementation of an additional COM interface using <a href="./qaxbindable.htm" translate="no">QAxBindable</a> and <a href="./qaxaggregated.htm" translate="no">QAxAggregated</a>. The server executable can run both as an ActiveX server and as a stand-alone application.</p>
+<!-- @@@activeqt/opengl -->
+<!-- $$$activeqt/opengl-description -->
+<div class="descr"> <a name="details"></a>
+<p>The ActiveX control in this example uses the QGlWidget class in Qt to render an OpenGL scene in an ActiveX. The control exposes a few methods to change the scene.</p>
+<p>The application uses <a href="./qaxfactory.htm" translate="no">QAxFactory</a> through the <code translate="no">QAXFACTORY_BEGIN()</code>, <code translate="no">QAXCLASS()</code> and <code translate="no">QAXFACTORY_END()</code> macros to expose the <code translate="no">GLBox</code> widget as an ActiveX control.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QAxFactory&gt;</span>
+
+QAXFACTORY_BEGIN(
+    <span class="string">"{2c3c183a-eeda-41a4-896e-3d9c12c3577d}"</span><span class="operator">,</span> <span class="comment">// type library ID</span>
+    <span class="string">"{83e16271-6480-45d5-aaf1-3f40b7661ae4}"</span>) <span class="comment">// application ID</span>
+    QAXCLASS(GLBox)
+QAXFACTORY_END()</pre></div>
+<p>The implementation of <code translate="no">main</code> initializes the <a href="./qapplication.htm" translate="no">QApplication</a> object, and uses <code translate="no">QAxFactory::isServer()</code> to determine whether or not it is appropriate to create and show the application interface.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">/*
+  The main program is here.
+*/</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AA_EnableHighDpiScaling);
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> a(argc<span class="operator">,</span>argv);
+
+    <span class="keyword">if</span> (<span class="type"><a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a></span><span class="operator">::</span>openGLModuleType() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a></span><span class="operator">::</span>LibGL) {
+        <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>(<span class="string">"This system does not support OpenGL. Exiting."</span>);
+        <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span>;
+    }
+
+    <span class="keyword">if</span> (<span class="operator">!</span><span class="type"><a href="./qaxfactory.htm" translate="no">QAxFactory</a></span><span class="operator">::</span>isServer()) {
+        GLObjectWindow w;
+        w<span class="operator">.</span>resize(<span class="number">400</span><span class="operator">,</span> <span class="number">350</span>);
+        w<span class="operator">.</span>show();
+        <span class="keyword">return</span> a<span class="operator">.</span>exec();
+    }
+    <span class="keyword">return</span> a<span class="operator">.</span>exec();
+}</pre></div>
+<p>The <code translate="no">GLBox</code> class inherits from both the <a href="./qopenglwidget.htm" translate="no">QOpenGLWidget</a> class to be able to render OpenGL, and from <a href="./qaxbindable.htm" translate="no">QAxBindable</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QAxBindable&gt;</span>
+
+<span class="keyword">class</span> GLBox : <span class="keyword">public</span> <span class="type"><a href="./qopenglwidget.htm" translate="no">QOpenGLWidget</a></span><span class="operator">,</span>
+              <span class="keyword">public</span> QOpenGLFunctions_1_1<span class="operator">,</span>
+              <span class="keyword">public</span> <span class="type"><a href="./qaxbindable.htm" translate="no">QAxBindable</a></span>
+{
+    Q_OBJECT
+    Q_CLASSINFO(<span class="string">"ClassID"</span><span class="operator">,</span>     <span class="string">"{5fd9c22e-ed45-43fa-ba13-1530bb6b03e0}"</span>)
+    Q_CLASSINFO(<span class="string">"InterfaceID"</span><span class="operator">,</span> <span class="string">"{33b051af-bb25-47cf-a390-5cfd2987d26a}"</span>)
+    Q_CLASSINFO(<span class="string">"EventsID"</span><span class="operator">,</span>    <span class="string">"{8c996c29-eafa-46ac-a6f9-901951e765b5}"</span>)</pre></div>
+<p>The class reimplements the <a href="./qaxbindable.htm#createAggregate" translate="no">QAxBindable::createAggregate</a>() function from <a href="./qaxbindable.htm" translate="no">QAxBindable</a> to return the pointer to a <a href="./qaxaggregated.htm" translate="no">QAxAggregated</a> object.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">public</span>:
+<span class="keyword">explicit</span> GLBox(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent<span class="operator">,</span> <span class="keyword">const</span> <span class="type">char</span> <span class="operator">*</span>name <span class="operator">=</span> nullptr);
+<span class="keyword">virtual</span> <span class="operator">~</span>GLBox();
+<span class="type"><a href="./qaxaggregated.htm" translate="no">QAxAggregated</a></span> <span class="operator">*</span>createAggregate() override;
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+<span class="type">void</span>                setXRotation(<span class="type">int</span> degrees);</pre></div>
+<p>The implementation file of the <code translate="no">GLBox</code> class includes the <code translate="no">objsafe.h</code> system header, in which the <code translate="no">IObjectSafety</code> COM interface is defined.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;objsafe.h&gt;</span></pre></div>
+<p>A class <code translate="no">ObjectSafetyImpl</code> is declared using multiple inheritance to subclass the <a href="./qaxaggregated.htm" translate="no">QAxAggregated</a> class, and to implement the IObjectSafety interface.</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="keyword">class</span> ObjectSafetyImpl : <span class="keyword">public</span> <span class="type"><a href="./qaxaggregated.htm" translate="no">QAxAggregated</a></span><span class="operator">,</span>
+                         <span class="keyword">public</span> IObjectSafety
+{
+<span class="keyword">public</span>:</pre></div>
+<p>The class declares a default constructor, and implements the queryInterface function to support the IObjectSafety interface.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">explicit</span> ObjectSafetyImpl() <span class="operator">=</span> <span class="keyword">default</span>;
+
+    <span class="type">long</span> queryInterface(<span class="keyword">const</span> <span class="type"><a href="./quuid.htm" translate="no">QUuid</a></span> <span class="operator">&amp;</span>iid<span class="operator">,</span> <span class="type">void</span> <span class="operator">*</span><span class="operator">*</span>iface) override
+    {
+        <span class="operator">*</span>iface <span class="operator">=</span> nullptr;
+        <span class="keyword">if</span> (iid <span class="operator">!</span><span class="operator">=</span> IID_IObjectSafety)
+            <span class="keyword">return</span> E_NOINTERFACE;
+
+        <span class="operator">*</span>iface <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>IObjectSafety<span class="operator">*</span><span class="operator">&gt;</span>(<span class="keyword">this</span>);
+        AddRef();
+        <span class="keyword">return</span> S_OK;
+    }</pre></div>
+<p>Since every COM interface inherits <code translate="no">IUnknown</code> the <code translate="no">QAXAGG_IUNKNOWN</code> macro is used to provide the default implementation of the <code translate="no">IUnknown</code> interface. The macro is defined to delegate all calls to <code translate="no">QueryInterface</code>, <code translate="no">AddRef</code> and <code translate="no">Release</code> to the interface returned by the controllingUnknown() function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    QAXAGG_IUNKNOWN;</pre></div>
+<p>The implementation of the <code translate="no">IObjectSafety</code> interface provides the caller with information about supported and enabled safety options, and returns <code translate="no">S_OK</code> for all calls to indicate that the ActiveX control is safe.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    HRESULT WINAPI GetInterfaceSafetyOptions(REFIID riid<span class="operator">,</span> DWORD <span class="operator">*</span>pdwSupportedOptions<span class="operator">,</span> DWORD <span class="operator">*</span>pdwEnabledOptions) override
+    {
+        Q_UNUSED(riid);
+        <span class="operator">*</span>pdwSupportedOptions <span class="operator">=</span> INTERFACESAFE_FOR_UNTRUSTED_DATA <span class="operator">|</span> INTERFACESAFE_FOR_UNTRUSTED_CALLER;
+        <span class="operator">*</span>pdwEnabledOptions <span class="operator">=</span> INTERFACESAFE_FOR_UNTRUSTED_DATA <span class="operator">|</span> INTERFACESAFE_FOR_UNTRUSTED_CALLER;
+        <span class="keyword">return</span> S_OK;
+    }
+
+    HRESULT WINAPI SetInterfaceSafetyOptions(REFIID riid<span class="operator">,</span> DWORD pdwSupportedOptions<span class="operator">,</span> DWORD pdwEnabledOptions) override
+    {
+        Q_UNUSED(riid);
+        Q_UNUSED(pdwSupportedOptions);
+        Q_UNUSED(pdwEnabledOptions);
+        <span class="keyword">return</span> S_OK;
+    }
+};</pre></div>
+<p>The implementation of the <code translate="no">createAggregate()</code> function just returns a new <code translate="no">ObjectSafetyImpl</code> object.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qaxaggregated.htm" translate="no">QAxAggregated</a></span> <span class="operator">*</span>GLBox<span class="operator">::</span>createAggregate()
+{
+    <span class="keyword">return</span> <span class="keyword">new</span> ObjectSafetyImpl();
+}</pre></div>
+<p>To build the example you must first build the <a href="./qaxserver-module.htm" translate="no">QAxServer</a> library. Then run <code translate="no">qmake</code> and your make tool in <code translate="no">examples/activeqt/wrapper</code>.</p>
+<p>The <a href="./qaxserver-demo-opengl.htm" translate="no">demonstration</a> requires your WebBrowser to support ActiveX controls, and scripting to be enabled.</p>
+<p>In contrast to the other <a href="./qaxserver-module.htm" translate="no">QAxServer</a> examples Internet Explorer will not open a dialog box to ask the user whether or not the scripting of the GLBox control should be allowed (the exact browser behaviour depends on the security settings in the Internet Options dialog).</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">&lt;</span>SCRIPT LANGUAGE<span class="operator">=</span><span class="string">"JavaScript"</span><span class="operator">&gt;</span>
+function setRot( form )
+{
+    GLBox<span class="operator">.</span>setXRotation( form<span class="operator">.</span>XEdit<span class="operator">.</span>value );
+    GLBox<span class="operator">.</span>setYRotation( form<span class="operator">.</span>YEdit<span class="operator">.</span>value );
+    GLBox<span class="operator">.</span>setZRotation( form<span class="operator">.</span>ZEdit<span class="operator">.</span>value );
+}
+<span class="operator">&lt;</span><span class="operator">/</span>SCRIPT<span class="operator">&gt;</span>
+
+<span class="operator">&lt;</span>p <span class="operator">/</span><span class="operator">&gt;</span>
+An OpenGL scene:<span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>object ID<span class="operator">=</span><span class="string">"GLBox"</span> CLASSID<span class="operator">=</span><span class="string">"CLSID:5fd9c22e-ed45-43fa-ba13-1530bb6b03e0"</span>
+CODEBASE<span class="operator">=</span><span class="string">"http://qt.nokia.com/demos/openglax.cab"</span><span class="operator">&gt;</span>
+<span class="operator">[</span>Object <span class="keyword">not</span> available<span class="operator">!</span> Did you forget to build and <span class="keyword">register</span> the server<span class="operator">?</span><span class="operator">]</span>
+<span class="operator">&lt;</span><span class="operator">/</span>object<span class="operator">&gt;</span><span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+
+<span class="operator">&lt;</span>form<span class="operator">&gt;</span>
+Rotate the scene:<span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+X:<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"edit"</span> ID<span class="operator">=</span><span class="string">"XEdit"</span> value<span class="operator">=</span><span class="string">"0"</span> <span class="operator">/</span><span class="operator">&gt;</span><span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+Y:<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"edit"</span> name<span class="operator">=</span><span class="string">"YEdit"</span> value<span class="operator">=</span><span class="string">"0"</span> <span class="operator">/</span><span class="operator">&gt;</span><span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+Z:<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"edit"</span> name<span class="operator">=</span><span class="string">"ZEdit"</span> value<span class="operator">=</span><span class="string">"0"</span> <span class="operator">/</span><span class="operator">&gt;</span><span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"button"</span> value<span class="operator">=</span><span class="string">"Set"</span> onClick<span class="operator">=</span><span class="string">"setRot(this.form)"</span> <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span><span class="operator">/</span>form<span class="operator">&gt;</span></pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtactiveqt.git/tree/examples/activeqt/opengl?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@activeqt/opengl -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

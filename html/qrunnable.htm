@@ -1,0 +1,121 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QRunnable | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qrunnable.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QRunnable</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QRunnable Class</h1>
+<!-- $$$QRunnable-brief -->
+<p>The QRunnable class is the base class for all runnable objects. <a href="#details">More...</a></p>
+<!-- @@@QRunnable -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QRunnable&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += core</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 4.4</td></tr></tbody></table></div><p>This class was introduced in Qt 4.4.</p>
+<ul>
+<li><a href="./qrunnable-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qrunnable.htm#QRunnable" translate="no">QRunnable</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qrunnable.htm#dtor.QRunnable" translate="no">~QRunnable</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qrunnable.htm#autoDelete" translate="no">autoDelete</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="./qrunnable.htm#run" translate="no">run</a></b>() = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qrunnable.htm#setAutoDelete" translate="no">setAutoDelete</a></b>(bool <i>autoDelete</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QRunnable-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The QRunnable class is an interface for representing a task or piece of code that needs to be executed, represented by your reimplementation of the <a href="./qrunnable.htm#run" translate="no">run</a>() function.</p>
+<p>You can use <a href="./qthreadpool.htm" translate="no">QThreadPool</a> to execute your code in a separate thread. <a href="./qthreadpool.htm" translate="no">QThreadPool</a> deletes the QRunnable automatically if <a href="./qrunnable.htm#autoDelete" translate="no">autoDelete</a>() returns <code translate="no">true</code> (the default). Use <a href="./qrunnable.htm#setAutoDelete" translate="no">setAutoDelete</a>() to change the auto-deletion flag.</p>
+<p><a href="./qthreadpool.htm" translate="no">QThreadPool</a> supports executing the same QRunnable more than once by calling QThreadPool::tryStart(this) from within the <a href="./qrunnable.htm#run" translate="no">run</a>() function. If <a href="./qrunnable.htm#autoDelete" translate="no">autoDelete</a> is enabled the QRunnable will be deleted when the last thread exits the run function. Calling <a href="./qthreadpool.htm#start" translate="no">QThreadPool::start</a>() multiple times with the same QRunnable when <a href="./qrunnable.htm#autoDelete" translate="no">autoDelete</a> is enabled creates a race condition and is not recommended.</p>
+</div>
+<p><b>See also </b><a href="./qthreadpool.htm" translate="no">QThreadPool</a>.</p>
+<!-- @@@QRunnable -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QRunnable[overload1]$$$QRunnable -->
+<h3 class="fn" id="QRunnable" translate="no"><a name="QRunnable"></a>QRunnable::<span class="name">QRunnable</span>()<a class="plink" href="#QRunnable" title="Direct link to this headline"></a></h3>
+<p>Constructs a QRunnable. Auto-deletion is enabled by default.</p>
+<p><b>See also </b><a href="./qrunnable.htm#autoDelete" translate="no">autoDelete</a>() and <a href="./qrunnable.htm#setAutoDelete" translate="no">setAutoDelete</a>().</p>
+<!-- @@@QRunnable -->
+<!-- $$$~QRunnable[overload1]$$$~QRunnable -->
+<h3 class="fn" id="dtor.QRunnable" translate="no"><a name="dtor.QRunnable"></a><code translate="no">[virtual] </code>QRunnable::<span class="name">~QRunnable</span>()<a class="plink" href="#dtor.QRunnable" title="Direct link to this headline"></a></h3>
+<p><a href="./qrunnable.htm" translate="no">QRunnable</a> virtual destructor.</p>
+<!-- @@@~QRunnable -->
+<!-- $$$autoDelete[overload1]$$$autoDelete -->
+<h3 class="fn" id="autoDelete" translate="no"><a name="autoDelete"></a><span class="type">bool</span> QRunnable::<span class="name">autoDelete</span>() const<a class="plink" href="#autoDelete" title="Direct link to this headline"></a></h3>
+<p>Returns <code translate="no">true</code> is auto-deletion is enabled; false otherwise.</p>
+<p>If auto-deletion is enabled, <a href="./qthreadpool.htm" translate="no">QThreadPool</a> will automatically delete this runnable after calling <a href="./qrunnable.htm#run" translate="no">run</a>(); otherwise, ownership remains with the application programmer.</p>
+<p><b>See also </b><a href="./qrunnable.htm#setAutoDelete" translate="no">setAutoDelete</a>() and <a href="./qthreadpool.htm" translate="no">QThreadPool</a>.</p>
+<!-- @@@autoDelete -->
+<!-- $$$run[overload1]$$$run -->
+<h3 class="fn" id="run" translate="no"><a name="run"></a><code translate="no">[pure virtual] </code><span class="type">void</span> QRunnable::<span class="name">run</span>()<a class="plink" href="#run" title="Direct link to this headline"></a></h3>
+<p>Implement this pure virtual function in your subclass.</p>
+<!-- @@@run -->
+<!-- $$$setAutoDelete[overload1]$$$setAutoDeletebool -->
+<h3 class="fn" id="setAutoDelete" translate="no"><a name="setAutoDelete"></a><span class="type">void</span> QRunnable::<span class="name">setAutoDelete</span>(<span class="type">bool</span> <i>autoDelete</i>)<a class="plink" href="#setAutoDelete" title="Direct link to this headline"></a></h3>
+<p>Enables auto-deletion if <i translate="no">autoDelete</i> is true; otherwise auto-deletion is disabled.</p>
+<p>If auto-deletion is enabled, <a href="./qthreadpool.htm" translate="no">QThreadPool</a> will automatically delete this runnable after calling <a href="./qrunnable.htm#run" translate="no">run</a>(); otherwise, ownership remains with the application programmer.</p>
+<p>Note that this flag must be set before calling <a href="./qthreadpool.htm#start" translate="no">QThreadPool::start</a>(). Calling this function after <a href="./qthreadpool.htm#start" translate="no">QThreadPool::start</a>() results in undefined behavior.</p>
+<p><b>See also </b><a href="./qrunnable.htm#autoDelete" translate="no">autoDelete</a>() and <a href="./qthreadpool.htm" translate="no">QThreadPool</a>.</p>
+<!-- @@@setAutoDelete -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,149 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QSGGeometryNode | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qsggeometrynode.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QSGGeometryNode</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QSGGeometryNode Class</h1>
+<!-- $$$QSGGeometryNode-brief -->
+<p>The QSGGeometryNode class is used for all rendered content in the scene graph. <a href="#details">More...</a></p>
+<!-- @@@QSGGeometryNode -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QSGGeometryNode&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += quick</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qsgbasicgeometrynode.htm" translate="no">QSGBasicGeometryNode</a></td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherited By:</td><td class="memItemRight bottomAlign"> <p><a href="./qsgimagenode.htm" translate="no">QSGImageNode</a>, <a href="./qsgrectanglenode.htm" translate="no">QSGRectangleNode</a>, <a class="obsolete" href="./qsgsimplerectnode.htm" translate="no">QSGSimpleRectNode</a>, and <a class="obsolete" href="./qsgsimpletexturenode.htm" translate="no">QSGSimpleTextureNode</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qsggeometrynode-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsggeometrynode.htm#QSGGeometryNode" translate="no">QSGGeometryNode</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qsggeometrynode.htm#dtor.QSGGeometryNode" translate="no">~QSGGeometryNode</a></b>() override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSGMaterial *</td><td class="memItemRight bottomAlign"><b><a href="./qsggeometrynode.htm#material" translate="no">material</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSGMaterial *</td><td class="memItemRight bottomAlign"><b><a href="./qsggeometrynode.htm#opaqueMaterial" translate="no">opaqueMaterial</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qsggeometrynode.htm#setMaterial" translate="no">setMaterial</a></b>(QSGMaterial *<i>material</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qsggeometrynode.htm#setOpaqueMaterial" translate="no">setOpaqueMaterial</a></b>(QSGMaterial *<i>material</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QSGGeometryNode-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The QSGGeometryNode consists of geometry and material. The geometry defines the mesh, the vertices and their structure, to be drawn. The Material defines how the shape is filled.</p>
+<p>The following is a code snippet illustrating how to create a red line using a QSGGeometryNode:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qsggeometry.htm" translate="no">QSGGeometry</a></span> <span class="operator">*</span>geometry <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsggeometry.htm" translate="no">QSGGeometry</a></span>(<span class="type"><a href="./qsggeometry.htm" translate="no">QSGGeometry</a></span><span class="operator">::</span>defaultAttributes_Point2D()<span class="operator">,</span> <span class="number">2</span>);
+geometry<span class="operator">-</span><span class="operator">&gt;</span>setDrawingMode(GL_LINES);
+geometry<span class="operator">-</span><span class="operator">&gt;</span>setLineWidth(<span class="number">3</span>);
+geometry<span class="operator">-</span><span class="operator">&gt;</span>vertexDataAsPoint2D()<span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">.</span>set(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+geometry<span class="operator">-</span><span class="operator">&gt;</span>vertexDataAsPoint2D()<span class="operator">[</span><span class="number">1</span><span class="operator">]</span><span class="operator">.</span>set(width()<span class="operator">,</span> height());
+
+<span class="type"><a href="./qsgflatcolormaterial.htm" translate="no">QSGFlatColorMaterial</a></span> <span class="operator">*</span>material <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsgflatcolormaterial.htm" translate="no">QSGFlatColorMaterial</a></span>;
+material<span class="operator">-</span><span class="operator">&gt;</span>setColor(<span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span>(<span class="number">255</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>));
+
+<span class="type"><a href="./qsggeometrynode.htm#QSGGeometryNode" translate="no">QSGGeometryNode</a></span> <span class="operator">*</span>node <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsggeometrynode.htm#QSGGeometryNode" translate="no">QSGGeometryNode</a></span>;
+node<span class="operator">-</span><span class="operator">&gt;</span>setGeometry(geometry);
+node<span class="operator">-</span><span class="operator">&gt;</span>setFlag(<span class="type"><a href="./qsgnode.htm#QSGNode" translate="no">QSGNode</a></span><span class="operator">::</span>OwnsGeometry);
+node<span class="operator">-</span><span class="operator">&gt;</span>setMaterial(material);
+node<span class="operator">-</span><span class="operator">&gt;</span>setFlag(<span class="type"><a href="./qsgnode.htm#QSGNode" translate="no">QSGNode</a></span><span class="operator">::</span>OwnsMaterial);</pre></div>
+<p>A geometry node must have both geometry and a normal material before it is added to the scene graph. When the geometry and materials are changed after the node has been added to the scene graph, the user should also mark them as dirty using <a href="./qsgnode.htm#markDirty" translate="no">QSGNode::markDirty</a>().</p>
+<p>The geometry node supports two types of materials, the <a href="./qsggeometrynode.htm#opaqueMaterial" translate="no">opaqueMaterial</a> and the normal material. The <a href="./qsggeometrynode.htm#opaqueMaterial" translate="no">opaqueMaterial</a> is used when the accumulated scene graph opacity at the time of rendering is 1. The primary use case is to special case opaque rendering to avoid an extra operation in the fragment shader can have significant performance impact on embedded graphics chips. The opaque material is optional.</p>
+<div class="admonition note">
+<p><b>Note: </b>All classes with QSG prefix should be used solely on the scene graph's rendering thread. See <a href="./qtquick-visualcanvas-scenegraph.htm#scene-graph-and-rendering" translate="no">Scene Graph and Rendering</a> for more information.</p>
+</div>
+</div>
+<p><b>See also </b><a href="./qsggeometry.htm" translate="no">QSGGeometry</a>, <a href="./qsgmaterial.htm" translate="no">QSGMaterial</a>, and <a href="./qsgsimplematerial.htm" translate="no">QSGSimpleMaterial</a>.</p>
+<!-- @@@QSGGeometryNode -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QSGGeometryNode[overload1]$$$QSGGeometryNode -->
+<h3 class="fn" id="QSGGeometryNode" translate="no"><a name="QSGGeometryNode"></a>QSGGeometryNode::<span class="name">QSGGeometryNode</span>()<a class="plink" href="#QSGGeometryNode" title="Direct link to this headline"></a></h3>
+<p>Creates a new geometry node without geometry and material.</p>
+<!-- @@@QSGGeometryNode -->
+<!-- $$$~QSGGeometryNode[overload1]$$$~QSGGeometryNode -->
+<h3 class="fn" id="dtor.QSGGeometryNode" translate="no"><a name="dtor.QSGGeometryNode"></a><code translate="no">[override virtual] </code>QSGGeometryNode::<span class="name">~QSGGeometryNode</span>()<a class="plink" href="#dtor.QSGGeometryNode" title="Direct link to this headline"></a></h3>
+<p>Deletes this geometry node.</p>
+<p>The flags <a href="./qsgnode.htm#Flag-enum" translate="no">QSGNode::OwnsMaterial</a>, <a href="./qsgnode.htm#Flag-enum" translate="no">QSGNode::OwnsOpaqueMaterial</a> and <a href="./qsgnode.htm#Flag-enum" translate="no">QSGNode::OwnsGeometry</a> decides whether the geometry node should also delete the materials and geometry. By default, these flags are disabled.</p>
+<!-- @@@~QSGGeometryNode -->
+<!-- $$$material[overload1]$$$material -->
+<h3 class="fn" id="material" translate="no"><a name="material"></a><span class="type"><a href="./qsgmaterial.htm" translate="no">QSGMaterial</a></span> *QSGGeometryNode::<span class="name">material</span>() const<a class="plink" href="#material" title="Direct link to this headline"></a></h3>
+<p>Returns the material of the <a href="./qsggeometrynode.htm" translate="no">QSGGeometryNode</a>.</p>
+<p><b>See also </b><a href="./qsggeometrynode.htm#setMaterial" translate="no">setMaterial</a>().</p>
+<!-- @@@material -->
+<!-- $$$opaqueMaterial[overload1]$$$opaqueMaterial -->
+<h3 class="fn" id="opaqueMaterial" translate="no"><a name="opaqueMaterial"></a><span class="type"><a href="./qsgmaterial.htm" translate="no">QSGMaterial</a></span> *QSGGeometryNode::<span class="name">opaqueMaterial</span>() const<a class="plink" href="#opaqueMaterial" title="Direct link to this headline"></a></h3>
+<p>Returns the opaque material of the <a href="./qsggeometrynode.htm" translate="no">QSGGeometryNode</a>.</p>
+<p><b>See also </b><a href="./qsggeometrynode.htm#setOpaqueMaterial" translate="no">setOpaqueMaterial</a>().</p>
+<!-- @@@opaqueMaterial -->
+<!-- $$$setMaterial[overload1]$$$setMaterialQSGMaterial* -->
+<h3 class="fn" id="setMaterial" translate="no"><a name="setMaterial"></a><span class="type">void</span> QSGGeometryNode::<span class="name">setMaterial</span>(<span class="type"><a href="./qsgmaterial.htm" translate="no">QSGMaterial</a></span> *<i>material</i>)<a class="plink" href="#setMaterial" title="Direct link to this headline"></a></h3>
+<p>Sets the material of this geometry node to <i translate="no">material</i>.</p>
+<p>Geometry nodes must have a material before they can be added to the scene graph.</p>
+<p>If the material is changed without calling setMaterial() again, the user must also mark the material as dirty using <a href="./qsgnode.htm#markDirty" translate="no">QSGNode::markDirty</a>().</p>
+<p><b>See also </b><a href="./qsggeometrynode.htm#material" translate="no">material</a>().</p>
+<!-- @@@setMaterial -->
+<!-- $$$setOpaqueMaterial[overload1]$$$setOpaqueMaterialQSGMaterial* -->
+<h3 class="fn" id="setOpaqueMaterial" translate="no"><a name="setOpaqueMaterial"></a><span class="type">void</span> QSGGeometryNode::<span class="name">setOpaqueMaterial</span>(<span class="type"><a href="./qsgmaterial.htm" translate="no">QSGMaterial</a></span> *<i>material</i>)<a class="plink" href="#setOpaqueMaterial" title="Direct link to this headline"></a></h3>
+<p>Sets the opaque material of this geometry to <i translate="no">material</i>.</p>
+<p>The opaque material will be preferred by the renderer over the default material, as returned by the <a href="./qsggeometrynode.htm#material" translate="no">material</a>() function, if it is not null and the geometry item has an inherited opacity of 1.</p>
+<p>The opaqueness refers to scene graph opacity, the material is still allowed to set <a href="./qsgmaterial.htm#Flag-enum" translate="no">QSGMaterial::Blending</a> to true and draw transparent pixels.</p>
+<p>If the material is changed without calling setOpaqueMaterial() again, the user must also mark the opaque material as dirty using <a href="./qsgnode.htm#markDirty" translate="no">QSGNode::markDirty</a>().</p>
+<p><b>See also </b><a href="./qsggeometrynode.htm#opaqueMaterial" translate="no">opaqueMaterial</a>().</p>
+<!-- @@@setOpaqueMaterial -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

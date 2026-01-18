@@ -1,0 +1,260 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MenuItemGroup QML Type | Qt Labs Platform</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qt-labs-platform-menuitemgroup.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlabsplatform-index.htm" translate="no">Qt Labs Platform</a></li>
+                            <li><a href="./qt-labs-platform-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>MenuItemGroup QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">MenuItemGroup QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$MenuItemGroup-brief -->
+<p>A group for managing native menu items. <a href="#details">More...</a></p>
+<!-- @@@MenuItemGroup -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import Qt.labs.platform 1.1</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.8</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qt-labs-platform-menuitemgroup-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#checkedItem-prop" translate="no">checkedItem</a></b></b> : MenuItem</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#enabled-prop" translate="no">enabled</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#exclusive-prop" translate="no">exclusive</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#items-prop" translate="no">items</a></b></b> : list&lt;MenuItem&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#visible-prop" translate="no">visible</a></b></b> : bool</li>
+</ul>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#hovered-signal" translate="no">hovered</a></b></b>(MenuItem <i>item</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#triggered-signal" translate="no">triggered</a></b></b>(MenuItem <i>item</i>)</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">void <b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#addItem-method" translate="no">addItem</a></b></b>(MenuItem <i>item</i>)</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#clear-method" translate="no">clear</a></b></b>()</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qt-labs-platform-menuitemgroup.htm#removeItem-method" translate="no">removeItem</a></b></b>(MenuItem <i>item</i>)</li>
+</ul>
+<!-- $$$MenuItemGroup-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The MenuItemGroup groups native menu items together.</p>
+<p>MenuItemGroup is exclusive by default. In an exclusive menu item group, only one item can be checked at any time; checking another item automatically unchecks the previously checked one. MenuItemGroup can be configured as non-exclusive, which is particularly useful for showing, hiding, enabling and disabling items together as a group.</p>
+<p>The most straight-forward way to use MenuItemGroup is to assign a list of items.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Menu {
+    id: verticalMenu
+    title: qsTr(<span class="string">"Vertical"</span>)
+
+    MenuItemGroup {
+        id: verticalGroup
+        items: verticalMenu<span class="operator">.</span>items
+    }
+
+    MenuItem { text: qsTr(<span class="string">"Top"</span>); checkable: <span class="keyword">true</span> }
+    MenuItem { text: qsTr(<span class="string">"Center"</span>); checked: <span class="keyword">true</span> }
+    MenuItem { text: qsTr(<span class="string">"Bottom"</span>); checkable: <span class="keyword">true</span> }
+}</pre></div>
+<p>The same menu may sometimes contain items that should not be included in the same exclusive group. Such cases are best handled using the <a href="./qml-qt-labs-platform-menuitem.htm#group-prop" translate="no">group</a> property.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Menu {
+    id: horizontalMenu
+    title: qsTr(<span class="string">"Horizontal"</span>)
+
+    MenuItemGroup {
+        id: horizontalGroup
+    }
+
+    MenuItem {
+        checked: <span class="keyword">true</span>
+        text: qsTr(<span class="string">"Left"</span>)
+        group: horizontalGroup
+    }
+    MenuItem {
+        checkable: <span class="keyword">true</span>
+        text: qsTr(<span class="string">"Center"</span>)
+        group: horizontalGroup
+    }
+    MenuItem {
+        text: qsTr(<span class="string">"Right"</span>)
+        checkable: <span class="keyword">true</span>
+        group: horizontalGroup
+    }
+
+    MenuItem { separator: <span class="keyword">true</span> }
+    MenuItem { text: qsTr(<span class="string">"Justify"</span>); checkable: <span class="keyword">true</span> }
+    MenuItem { text: qsTr(<span class="string">"Absolute"</span>); checkable: <span class="keyword">true</span> }
+}</pre></div>
+<p>More advanced use cases can be handled using the <a href="./qml-qt-labs-platform-menuitemgroup.htm#addItem-method" translate="no">addItem()</a> and <a href="./qml-qt-labs-platform-menuitemgroup.htm#removeItem-method" translate="no">removeItem()</a> methods.</p>
+<div class="admonition note">
+<p><b>Note: </b><i>Types in Qt.labs modules are not guaranteed to remain compatible in future versions.</i></p>
+</div>
+<p><b>See also </b><a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a>.</p>
+<!-- @@@MenuItemGroup -->
+<h2>Property Documentation</h2>
+<!-- $$$checkedItem -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="checkedItem-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="checkedItem-prop"></a><span class="name">checkedItem</span> : <span class="type"><a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a></span><a class="plink" href="#checkedItem-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the currently checked item in the group, or <code translate="no">null</code> if no item is checked.</p>
+</div></div><!-- @@@checkedItem -->
+<br>
+<!-- $$$enabled -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="enabled-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="enabled-prop"></a><span class="name">enabled</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#enabled-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the group is enabled. The default value is <code translate="no">true</code>.</p>
+<p>The enabled state of the group affects the enabled state of each item in the group, except that explicitly disabled items are not enabled even if the group is enabled.</p>
+</div></div><!-- @@@enabled -->
+<br>
+<!-- $$$exclusive -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="exclusive-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="exclusive-prop"></a><span class="name">exclusive</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#exclusive-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the group is exclusive. The default value is <code translate="no">true</code>.</p>
+<p>In an exclusive menu item group, only one item can be checked at any time; checking another item automatically unchecks the previously checked one.</p>
+</div></div><!-- @@@exclusive -->
+<br>
+<!-- $$$items -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="items-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="items-prop"></a><span class="name">items</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a></span>&gt;<a class="plink" href="#items-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the list of items in the group.</p>
+</div></div><!-- @@@items -->
+<br>
+<!-- $$$visible -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="visible-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="visible-prop"></a><span class="name">visible</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#visible-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the group is visible. The default value is <code translate="no">true</code>.</p>
+<p>The visibility of the group affects the visibility of each item in the group, except that explicitly hidden items are not visible even if the group is visible.</p>
+</div></div><!-- @@@visible -->
+<br>
+<h2>Signal Documentation</h2>
+<!-- $$$hovered[overload1]$$$hoveredMenuItem -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="hovered-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="hovered-signal"></a><span class="name">hovered</span>(<span class="type"><a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a></span> <i>item</i>)<a class="plink" href="#hovered-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when an <i translate="no">item</i> in the group is hovered by the user.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onHovered</code>.</p>
+<p><b>See also </b><a href="./qml-qt-labs-platform-menuitem.htm#hovered-signal" translate="no">MenuItem::hovered()</a>.</p>
+</div></div><!-- @@@hovered -->
+<br>
+<!-- $$$triggered[overload1]$$$triggeredMenuItem -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="triggered-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="triggered-signal"></a><span class="name">triggered</span>(<span class="type"><a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a></span> <i>item</i>)<a class="plink" href="#triggered-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when an <i translate="no">item</i> in the group is triggered by the user.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onTriggered</code>.</p>
+<p><b>See also </b><a href="./qml-qt-labs-platform-menuitem.htm#triggered-signal" translate="no">MenuItem::triggered()</a>.</p>
+</div></div><!-- @@@triggered -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$addItem[overload1]$$$addItemMenuItem -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="addItem-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="addItem-method"></a><span class="type">void</span> <span class="name">addItem</span>(<span class="type"><a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a></span> <i>item</i>)<a class="plink" href="#addItem-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Adds an <i translate="no">item</i> to the group.</p>
+</div></div><!-- @@@addItem -->
+<br>
+<!-- $$$clear[overload1]$$$clear -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="clear-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="clear-method"></a><span class="type">void</span> <span class="name">clear</span>()<a class="plink" href="#clear-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Removes all items from the group.</p>
+</div></div><!-- @@@clear -->
+<br>
+<!-- $$$removeItem[overload1]$$$removeItemMenuItem -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="removeItem-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="removeItem-method"></a><span class="type">void</span> <span class="name">removeItem</span>(<span class="type"><a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a></span> <i>item</i>)<a class="plink" href="#removeItem-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Removes an <i translate="no">item</i> from the group.</p>
+</div></div><!-- @@@removeItem -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

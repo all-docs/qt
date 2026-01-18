@@ -1,0 +1,290 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Examples - Animation | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-animation-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Qt Quick Examples - Animation</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Examples - Animation</h1>
+<span class="subtitle"></span>
+<!-- $$$animation-brief -->
+<p>This is a collection of QML Animation examples.</p>
+<!-- @@@animation -->
+<!-- $$$animation-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/qml-animations-example.png"></p><p><i>Animation</i> is a collection of small QML examples relating to animation. Each example is a small QML file emphasizing a particular type or feature.</p>
+<p>For more information about animations, visit <a href="./qtquick-statesanimations-topic.htm" translate="no">Important Concepts in Qt Quick - States, Transitions and Animations</a>.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="coloranimation"></a>
+<h4 id="coloranimation">ColorAnimation<a class="plink" href="#coloranimation" title="Direct link to this headline"></a></h4>
+<p><i>ColorAnimation</i> uses color animations to fade a sky from day to night.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">gradient</span>: <span class="name">Gradient</span> {
+    <span class="type"><a href="./qml-qtquick-gradientstop.htm" translate="no">GradientStop</a></span> {
+        <span class="name">position</span>: <span class="number">0.0</span>
+        SequentialAnimation on <span class="name">color</span> {
+            <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+            <span class="type"><a href="./qml-qtquick-coloranimation.htm" translate="no">ColorAnimation</a></span> { <span class="name">from</span>: <span class="string">"#14148c"</span>; <span class="name">to</span>: <span class="string">"#0E1533"</span>; <span class="name">duration</span>: <span class="number">5000</span> }
+            <span class="type"><a href="./qml-qtquick-coloranimation.htm" translate="no">ColorAnimation</a></span> { <span class="name">from</span>: <span class="string">"#0E1533"</span>; <span class="name">to</span>: <span class="string">"#14148c"</span>; <span class="name">duration</span>: <span class="number">5000</span> }
+        }
+    }
+    <span class="type"><a href="./qml-qtquick-gradientstop.htm" translate="no">GradientStop</a></span> {
+        <span class="name">position</span>: <span class="number">1.0</span>
+        SequentialAnimation on <span class="name">color</span> {
+            <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+            <span class="type"><a href="./qml-qtquick-coloranimation.htm" translate="no">ColorAnimation</a></span> { <span class="name">from</span>: <span class="string">"#14aaff"</span>; <span class="name">to</span>: <span class="string">"#437284"</span>; <span class="name">duration</span>: <span class="number">5000</span> }
+            <span class="type"><a href="./qml-qtquick-coloranimation.htm" translate="no">ColorAnimation</a></span> { <span class="name">from</span>: <span class="string">"#437284"</span>; <span class="name">to</span>: <span class="string">"#14aaff"</span>; <span class="name">duration</span>: <span class="number">5000</span> }
+        }
+    }
+}</pre></div>
+<a name="propertyanimation"></a>
+<h4 id="propertyanimation">PropertyAnimation<a class="plink" href="#propertyanimation" title="Direct link to this headline"></a></h4>
+<p><i>PropertyAnimation</i> uses number animations to bounce a circle up and down.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Animate the y property. Setting loops to Animation.Infinite makes the</span>
+<span class="comment">// animation repeat indefinitely, otherwise it would only run once.</span>
+SequentialAnimation on <span class="name">y</span> {
+    <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+
+    <span class="comment">// Move from minHeight to maxHeight in 300ms, using the OutExpo easing function</span>
+    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+        <span class="name">from</span>: <span class="name">smiley</span>.<span class="name">minHeight</span>; <span class="name">to</span>: <span class="name">smiley</span>.<span class="name">maxHeight</span>
+        <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutExpo</span>; <span class="name">duration</span>: <span class="number">300</span>
+    }
+
+    <span class="comment">// Then move back to minHeight in 1 second, using the OutBounce easing function</span>
+    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+        <span class="name">from</span>: <span class="name">smiley</span>.<span class="name">maxHeight</span>; <span class="name">to</span>: <span class="name">smiley</span>.<span class="name">minHeight</span>
+        <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutBounce</span>; <span class="name">duration</span>: <span class="number">1000</span>
+    }
+
+    <span class="comment">// Then pause for 500ms</span>
+    <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> { <span class="name">duration</span>: <span class="number">500</span> }
+}</pre></div>
+<a name="animators"></a>
+<h4 id="animators">Animators<a class="plink" href="#animators" title="Direct link to this headline"></a></h4>
+<p><i>Animators</i> uses animators to bounce an icon up and down.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a></span> {
+    <span class="type"><a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a></span> {
+        <span class="type"><a href="./qml-qtquick-parallelanimation.htm" translate="no">ParallelAnimation</a></span> {
+            <span class="type"><a href="./qml-qtquick-yanimator.htm" translate="no">YAnimator</a></span> {
+                <span class="name">target</span>: <span class="name">smiley</span>;
+                <span class="name">from</span>: <span class="name">smiley</span>.<span class="name">minHeight</span>;
+                <span class="name">to</span>: <span class="name">smiley</span>.<span class="name">maxHeight</span>
+                <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutExpo</span>;
+                <span class="name">duration</span>: <span class="number">300</span>
+            }
+            <span class="type"><a href="./qml-qtquick-scaleanimator.htm" translate="no">ScaleAnimator</a></span> {
+                <span class="name">target</span>: <span class="name">shadow</span>
+                <span class="name">from</span>: <span class="number">1</span>
+                <span class="name">to</span>: <span class="number">0.5</span>
+                <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutExpo</span>;
+                <span class="name">duration</span>: <span class="number">300</span>
+            }
+        }
+        <span class="type"><a href="./qml-qtquick-parallelanimation.htm" translate="no">ParallelAnimation</a></span> {
+            <span class="type"><a href="./qml-qtquick-yanimator.htm" translate="no">YAnimator</a></span> {
+                <span class="name">target</span>: <span class="name">smiley</span>;
+                <span class="name">from</span>: <span class="name">smiley</span>.<span class="name">maxHeight</span>;
+                <span class="name">to</span>: <span class="name">smiley</span>.<span class="name">minHeight</span>
+                <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutBounce</span>;
+                <span class="name">duration</span>: <span class="number">1000</span>
+            }
+            <span class="type"><a href="./qml-qtquick-scaleanimator.htm" translate="no">ScaleAnimator</a></span> {
+                <span class="name">target</span>: <span class="name">shadow</span>
+                <span class="name">from</span>: <span class="number">0.5</span>
+                <span class="name">to</span>: <span class="number">1</span>
+                <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutBounce</span>;
+                <span class="name">duration</span>: <span class="number">1000</span>
+            }
+        }
+    }
+    <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> { <span class="name">duration</span>: <span class="number">500</span> }
+    <span class="name">running</span>: <span class="number">true</span>
+    <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+}</pre></div>
+<a name="behaviors"></a>
+<h4 id="behaviors">Behaviors<a class="plink" href="#behaviors" title="Direct link to this headline"></a></h4>
+<p><i>Behaviors</i> uses behaviors to move a rectangle to where you click.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Set an 'elastic' behavior on the focusRect's y property.</span>
+Behavior on <span class="name">y</span> {
+    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+        <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutElastic</span>
+        <span class="name">easing</span>.amplitude: <span class="number">3.0</span>
+        <span class="name">easing</span>.period: <span class="number">2.0</span>
+        <span class="name">duration</span>: <span class="number">300</span>
+    }
+}</pre></div>
+<a name="wiggly-text"></a>
+<h4 id="wiggly-text">Wiggly Text<a class="plink" href="#wiggly-text" title="Direct link to this headline"></a></h4>
+<p><i>Wiggly Text</i> demonstrates using more complex behaviors to animate and wiggle some text around as you drag it. It does this by assigning a complex binding to each letter:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">            x: follow ? follow.x + follow.width : container.width / 6
+            y: follow ? follow.y : container.height / 2</pre></div>
+<p>Then, it uses behaviors to animate the movement of each letter:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">            Behavior on x { enabled: container.animated; SpringAnimation { spring: 3; damping: 0.3; mass: 1.0 } }
+            Behavior on y { enabled: container.animated; SpringAnimation { spring: 3; damping: 0.3; mass: 1.0 } }</pre></div>
+<a name="tv-tennis"></a>
+<h4 id="tv-tennis">Tv Tennis<a class="plink" href="#tv-tennis" title="Direct link to this headline"></a></h4>
+<p><i>Tv Tennis</i> uses complex behaviors to make the paddles follow a ball to simulate an infinite tennis game. Again, a binding which depends on other values is applied to the position and a behavior provided the animation.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">y</span>: <span class="name">ball</span>.<span class="name">direction</span> <span class="operator">==</span> <span class="string">'left'</span> ? <span class="name">ball</span>.<span class="name">y</span> <span class="operator">-</span> <span class="number">45</span> : <span class="name">page</span>.<span class="name">height</span><span class="operator">/</span><span class="number">2</span> <span class="operator">-</span><span class="number">45</span>;
+Behavior on <span class="name">y</span> { <span class="type"><a href="./qml-qtquick-springanimation.htm" translate="no">SpringAnimation</a></span>{ <span class="name">velocity</span>: <span class="number">300</span> } }</pre></div>
+<a name="easing-curves"></a>
+<h4 id="easing-curves">Easing Curves<a class="plink" href="#easing-curves" title="Direct link to this headline"></a></h4>
+<p><i>Easing Curves</i> shows off all the easing curves available in Qt Quick animations.</p>
+<a name="states"></a>
+<h4 id="states">States<a class="plink" href="#states" title="Direct link to this headline"></a></h4>
+<p><i>States</i> demonstrates how the properties of an item can vary between <a href="./qtquick-statesanimations-states.htm" translate="no">states</a>.</p>
+<p>It defines several states:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// In state 'middleRight', move the image to middleRightRect</span>
+<span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+    <span class="name">name</span>: <span class="string">"middleRight"</span>
+    <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">userIcon</span>; <span class="name">x</span>: <span class="name">middleRightRect</span>.<span class="name">x</span>; <span class="name">y</span>: <span class="name">middleRightRect</span>.<span class="name">y</span> }
+},
+
+<span class="comment">// In state 'bottomLeft', move the image to bottomLeftRect</span>
+<span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+    <span class="name">name</span>: <span class="string">"bottomLeft"</span>
+    <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">userIcon</span>; <span class="name">x</span>: <span class="name">bottomLeftRect</span>.<span class="name">x</span>; <span class="name">y</span>: <span class="name">bottomLeftRect</span>.<span class="name">y</span>  }
+}</pre></div>
+<a name="transitions"></a>
+<h4 id="transitions">Transitions<a class="plink" href="#transitions" title="Direct link to this headline"></a></h4>
+<p><i>Transitions</i> takes the States example and animates the property changes by setting transitions:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Transitions define how the properties change when the item moves between each state</span>
+<span class="name">transitions</span>: [
+
+    <span class="comment">// When transitioning to 'middleRight' move x,y over a duration of 1 second,</span>
+    <span class="comment">// with OutBounce easing function.</span>
+    <span class="type"><a href="./qml-qtquick-transition.htm" translate="no">Transition</a></span> {
+        <span class="name">from</span>: <span class="string">"*"</span>; <span class="name">to</span>: <span class="string">"middleRight"</span>
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">properties</span>: <span class="string">"x,y"</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutBounce</span>; <span class="name">duration</span>: <span class="number">1000</span> }
+    },
+
+    <span class="comment">// When transitioning to 'bottomLeft' move x,y over a duration of 2 seconds,</span>
+    <span class="comment">// with InOutQuad easing function.</span>
+    <span class="type"><a href="./qml-qtquick-transition.htm" translate="no">Transition</a></span> {
+        <span class="name">from</span>: <span class="string">"*"</span>; <span class="name">to</span>: <span class="string">"bottomLeft"</span>
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">properties</span>: <span class="string">"x,y"</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>; <span class="name">duration</span>: <span class="number">2000</span> }
+    },
+
+    <span class="comment">// For any other state changes move x,y linearly over duration of 200ms.</span>
+    <span class="type"><a href="./qml-qtquick-transition.htm" translate="no">Transition</a></span> {
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">properties</span>: <span class="string">"x,y"</span>; <span class="name">duration</span>: <span class="number">200</span> }
+    }</pre></div>
+<a name="pathanimation"></a>
+<h4 id="pathanimation">PathAnimation<a class="plink" href="#pathanimation" title="Direct link to this headline"></a></h4>
+<p><i>PathAnimation</i> animates an image along a bezier curve using a <a href="./qtquick-animation-example.htm#pathanimation" translate="no">PathAnimation</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-pathanimation.htm" translate="no">PathAnimation</a></span> {
+    <span class="name">id</span>: <span class="name">pathAnim</span>
+
+    <span class="name">duration</span>: <span class="number">2000</span>
+    <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InQuad</span>
+
+    <span class="name">target</span>: <span class="name">box</span>
+    <span class="name">orientation</span>: <span class="name">PathAnimation</span>.<span class="name">RightFirst</span>
+    <span class="name">anchorPoint</span>: <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">box</span>.<span class="name">width</span><span class="operator">/</span><span class="number">2</span>, <span class="name">box</span>.<span class="name">height</span><span class="operator">/</span><span class="number">2</span>)
+    <span class="name">path</span>: <span class="name">Path</span> {
+        <span class="name">startX</span>: <span class="number">50</span>; <span class="name">startY</span>: <span class="number">50</span>
+
+        <span class="type"><a href="./qml-qtquick-pathcubic.htm" translate="no">PathCubic</a></span> {
+            <span class="name">x</span>: <span class="name">window</span>.<span class="name">width</span> <span class="operator">-</span> <span class="number">50</span>
+            <span class="name">y</span>: <span class="name">window</span>.<span class="name">height</span> <span class="operator">-</span> <span class="number">50</span>
+
+            <span class="name">control1X</span>: <span class="name">x</span>; <span class="name">control1Y</span>: <span class="number">50</span>
+            <span class="name">control2X</span>: <span class="number">50</span>; <span class="name">control2Y</span>: <span class="name">y</span>
+        }
+
+        <span class="name">onChanged</span>: <span class="name">canvas</span>.<span class="name">requestPaint</span>()
+    }
+}</pre></div>
+<a name="pathinterpolator"></a>
+<h4 id="pathinterpolator">PathInterpolator<a class="plink" href="#pathinterpolator" title="Direct link to this headline"></a></h4>
+<p><i>PathInterpolator</i> animates an image along the same bezier curve, using a <a href="./qtquick-animation-example.htm#pathinterpolator" translate="no">PathInterpolator</a> instead.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-pathinterpolator.htm" translate="no">PathInterpolator</a></span> {
+    <span class="name">id</span>: <span class="name">motionPath</span>
+
+    <span class="name">path</span>: <span class="name">Path</span> {
+        <span class="name">startX</span>: <span class="number">50</span>; <span class="name">startY</span>: <span class="number">50</span>
+
+        <span class="type"><a href="./qml-qtquick-pathcubic.htm" translate="no">PathCubic</a></span> {
+            <span class="name">x</span>: <span class="name">window</span>.<span class="name">width</span> <span class="operator">-</span> <span class="number">50</span>
+            <span class="name">y</span>: <span class="name">window</span>.<span class="name">height</span> <span class="operator">-</span> <span class="number">50</span>
+
+            <span class="name">control1X</span>: <span class="name">x</span>; <span class="name">control1Y</span>: <span class="number">50</span>
+            <span class="name">control2X</span>: <span class="number">50</span>; <span class="name">control2Y</span>: <span class="name">y</span>
+        }
+
+        <span class="name">onChanged</span>: <span class="name">canvas</span>.<span class="name">requestPaint</span>()
+    }
+
+    SequentialAnimation on <span class="name">progress</span> {
+        <span class="name">running</span>: <span class="number">true</span>
+        <span class="name">loops</span>: -<span class="number">1</span>
+        <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> { <span class="name">duration</span>: <span class="number">1000</span> }
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">id</span>: <span class="name">progressAnim</span>
+            <span class="name">running</span>: <span class="number">false</span>
+            <span class="name">from</span>: <span class="number">0</span>; <span class="name">to</span>: <span class="number">1</span>
+            <span class="name">duration</span>: <span class="number">2000</span>
+            <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InQuad</span>
+        }
+    }
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdeclarative.git/tree/examples/quick/animation?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@animation -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

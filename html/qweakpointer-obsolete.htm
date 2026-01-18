@@ -1,0 +1,112 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsolete Members for QWeakPointer | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qweakpointer-obsolete.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QWeakPointer</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Obsolete Members for QWeakPointer</h1>
+<p><b>The following members of class <a href="./qweakpointer.htm" translate="no">QWeakPointer</a> are obsolete.</b> They are provided to keep old source code working. We strongly advise against using them in new code.</p>
+<h2>Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code></td><td class="memItemRight bottomAlign"><b><a href="./qweakpointer-obsolete.htm#QWeakPointer-3" translate="no">QWeakPointer</a></b>(const QObject *<i>other</i>)</td></tr>
+<tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>T *</td><td class="memItemRight bottomAlign"><b><a href="./qweakpointer-obsolete.htm#data" translate="no">data</a></b>() const</td></tr>
+<tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>QWeakPointer&lt;T&gt; &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qweakpointer-obsolete.htm#operator-eq-2" translate="no">operator=</a></b>(const QObject *<i>other</i>)</td></tr>
+</tbody></table></div>
+<h2>Member Function Documentation</h2>
+<!-- $$$QWeakPointer$$$QWeakPointerconstQObject* -->
+<h3 class="fn" id="QWeakPointer-3" translate="no"><a name="QWeakPointer-3"></a>QWeakPointer::<span class="name">QWeakPointer</span>(const <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> *<i>other</i>)<a class="plink" href="#QWeakPointer-3" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Creates a QWeakPointer that holds a weak reference directly to the <a href="./qobject.htm" translate="no">QObject</a> <i translate="no">other</i>. This constructor is only available if the template type <code translate="no">T</code> is <a href="./qobject.htm" translate="no">QObject</a> or derives from it (otherwise a compilation error will result).</p>
+<p>You can use this constructor with any <a href="./qobject.htm" translate="no">QObject</a>, even if they were not created with <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>.</p>
+<p>Note that QWeakPointers created this way on arbitrary QObjects usually cannot be promoted to <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>.</p>
+<p>This function was introduced in Qt 4.6.</p>
+<p><b>See also </b><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a> and <a href="./qpointer.htm" translate="no">QPointer</a>.</p>
+<!-- @@@QWeakPointer -->
+<!-- $$$data[overload1]$$$data -->
+<h3 class="fn" id="data" translate="no"><a name="data"></a><span class="type">T</span> *QWeakPointer::<span class="name">data</span>() const<a class="plink" href="#data" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Use <a href="./qweakpointer.htm#toStrongRef" translate="no">toStrongRef</a>() instead, and data() on the returned <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>.</p>
+<p>Returns the value of the pointer being tracked by this <a href="./qweakpointer.htm" translate="no">QWeakPointer</a>, <b>without</b> ensuring that it cannot get deleted. To have that guarantee, use <a href="./qweakpointer.htm#toStrongRef" translate="no">toStrongRef</a>(), which returns a <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a> object. If this function can determine that the pointer has already been deleted, it returns <code translate="no">nullptr</code>.</p>
+<p>It is ok to obtain the value of the pointer and using that value itself, like for example in debugging statements:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>(<span class="string">"Tracking %p"</span><span class="operator">,</span> weakref<span class="operator">.</span>data());</pre></div>
+<p>However, dereferencing the pointer is only allowed if you can guarantee by external means that the pointer does not get deleted. For example, if you can be certain that no other thread can delete it, nor the functions that you may call.</p>
+<p>If that is the case, then the following code is valid:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// this pointer cannot be used in another thread</span>
+    <span class="comment">// so other threads cannot delete it</span>
+    <span class="type"><a href="./qweakpointer.htm#QWeakPointer" translate="no">QWeakPointer</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span> weakref <span class="operator">=</span> obtainReference();
+
+    Object <span class="operator">*</span>obj <span class="operator">=</span> weakref<span class="operator">.</span>data();
+    <span class="keyword">if</span> (obj) {
+        <span class="comment">// if the pointer wasn't deleted yet, we know it can't get</span>
+        <span class="comment">// deleted by our own code here nor the functions we call</span>
+        otherFunction(obj);
+    }</pre></div>
+<p>Use this function with care.</p>
+<p>This function was introduced in Qt 4.6.</p>
+<p><b>See also </b><a href="./qweakpointer.htm#isNull" translate="no">isNull</a>() and <a href="./qweakpointer.htm#toStrongRef" translate="no">toStrongRef</a>().</p>
+<!-- @@@data -->
+<!-- $$$operator=$$$operator=constQObject* -->
+<h3 class="fn" id="operator-eq-2" translate="no"><a name="operator-eq-2"></a><span class="type"><a href="./qweakpointer.htm#QWeakPointer" translate="no">QWeakPointer</a></span>&lt;<span class="type">T</span>&gt; &amp;QWeakPointer::<span class="name">operator=</span>(const <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> *<i>other</i>)<a class="plink" href="#operator-eq-2" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Makes this <a href="./qweakpointer.htm" translate="no">QWeakPointer</a> hold a weak reference directly to the <a href="./qobject.htm" translate="no">QObject</a> <i translate="no">other</i>. This function is only available if the template type <code translate="no">T</code> is <a href="./qobject.htm" translate="no">QObject</a> or derives from it.</p>
+<p>This function was introduced in Qt 4.6.</p>
+<p><b>See also </b><a href="./qpointer.htm" translate="no">QPointer</a>.</p>
+<!-- @@@operator= -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

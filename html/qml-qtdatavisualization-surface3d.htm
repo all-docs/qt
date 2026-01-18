@@ -1,0 +1,228 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Surface3D QML Type | Qt Data Visualization</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtdatavisualization-surface3d.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li><a href="./qtdatavisualization-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li class="last"><a>Surface3D QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Surface3D QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Surface3D-brief -->
+<p>Describes the usage of the 3D surface graph. <a href="#details">More...</a></p>
+<!-- @@@Surface3D -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtDataVisualization 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtDataVisualization 1.0</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtdatavisualization-abstractgraph3d.htm" translate="no">AbstractGraph3D</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtdatavisualization-surface3d-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtdatavisualization-surface3d.htm#axisX-prop" translate="no">axisX</a></b></b> : ValueAxis3D</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtdatavisualization-surface3d.htm#axisY-prop" translate="no">axisY</a></b></b> : ValueAxis3D</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtdatavisualization-surface3d.htm#axisZ-prop" translate="no">axisZ</a></b></b> : ValueAxis3D</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtdatavisualization-surface3d.htm#flipHorizontalGrid-prop" translate="no">flipHorizontalGrid</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtdatavisualization-surface3d.htm#selectedSeries-prop" translate="no">selectedSeries</a></b></b> : Surface3DSeries</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtdatavisualization-surface3d.htm#seriesList-prop" translate="no">seriesList</a></b></b> : list&lt;Surface3DSeries&gt;</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtdatavisualization-surface3d.htm#addSeries-method" translate="no">addSeries</a></b></b>(Surface3DSeries <i>series</i>)</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtdatavisualization-surface3d.htm#removeSeries-method" translate="no">removeSeries</a></b></b>(Surface3DSeries <i>series</i>)</li>
+</ul>
+<!-- $$$Surface3D-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>This type enables developers to render surface plots in 3D with Qt Quick 2.</p>
+<p>You will need to import the data visualization module to use this type:</p>
+<div class="pre"><pre class="cpp" translate="no">import <span class="type">QtDataVisualization</span> <span class="number">1.2</span></pre></div>
+<p>After that you can use Surface3D in your qml files:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">import <span class="type">QtQuick</span> <span class="number">2.0</span>
+import <span class="type">QtDataVisualization</span> <span class="number">1.2</span>
+
+Item {
+    width: <span class="number">640</span>
+    height: <span class="number">480</span>
+
+    Surface3D {
+        width: parent<span class="operator">.</span>width
+        height: parent<span class="operator">.</span>height
+        Surface3DSeries {
+            itemLabelFormat: <span class="string">"Pop density at (@xLabel N, @zLabel E): @yLabel"</span>
+            ItemModelSurfaceDataProxy {
+                itemModel: dataModel
+                <span class="comment">// Mapping model roles to surface series rows, columns, and values.</span>
+                rowRole: <span class="string">"longitude"</span>
+                columnRole: <span class="string">"latitude"</span>
+                yPosRole: <span class="string">"pop_density"</span>
+            }
+        }
+    }
+    ListModel {
+        id: dataModel
+        ListElement{ longitude: <span class="string">"20"</span>; latitude: <span class="string">"10"</span>; pop_density: <span class="string">"4.75"</span>; }
+        ListElement{ longitude: <span class="string">"21"</span>; latitude: <span class="string">"10"</span>; pop_density: <span class="string">"3.00"</span>; }
+        ListElement{ longitude: <span class="string">"22"</span>; latitude: <span class="string">"10"</span>; pop_density: <span class="string">"1.24"</span>; }
+        ListElement{ longitude: <span class="string">"23"</span>; latitude: <span class="string">"10"</span>; pop_density: <span class="string">"2.53"</span>; }
+        ListElement{ longitude: <span class="string">"20"</span>; latitude: <span class="string">"11"</span>; pop_density: <span class="string">"2.55"</span>; }
+        ListElement{ longitude: <span class="string">"21"</span>; latitude: <span class="string">"11"</span>; pop_density: <span class="string">"2.03"</span>; }
+        ListElement{ longitude: <span class="string">"22"</span>; latitude: <span class="string">"11"</span>; pop_density: <span class="string">"3.46"</span>; }
+        ListElement{ longitude: <span class="string">"23"</span>; latitude: <span class="string">"11"</span>; pop_density: <span class="string">"5.12"</span>; }
+        ListElement{ longitude: <span class="string">"20"</span>; latitude: <span class="string">"12"</span>; pop_density: <span class="string">"1.37"</span>; }
+        ListElement{ longitude: <span class="string">"21"</span>; latitude: <span class="string">"12"</span>; pop_density: <span class="string">"2.98"</span>; }
+        ListElement{ longitude: <span class="string">"22"</span>; latitude: <span class="string">"12"</span>; pop_density: <span class="string">"3.33"</span>; }
+        ListElement{ longitude: <span class="string">"23"</span>; latitude: <span class="string">"12"</span>; pop_density: <span class="string">"3.23"</span>; }
+        ListElement{ longitude: <span class="string">"20"</span>; latitude: <span class="string">"13"</span>; pop_density: <span class="string">"4.34"</span>; }
+        ListElement{ longitude: <span class="string">"21"</span>; latitude: <span class="string">"13"</span>; pop_density: <span class="string">"3.54"</span>; }
+        ListElement{ longitude: <span class="string">"22"</span>; latitude: <span class="string">"13"</span>; pop_density: <span class="string">"1.65"</span>; }
+        ListElement{ longitude: <span class="string">"23"</span>; latitude: <span class="string">"13"</span>; pop_density: <span class="string">"2.67"</span>; }
+    }
+}</pre></div>
+<p>See <a href="./qtdatavisualization-qmlsurface-example.htm" translate="no">Qt Quick 2 Surface Example</a> for more thorough usage example.</p>
+<p><b>See also </b><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a>, <a href="./qml-qtdatavisualization-itemmodelsurfacedataproxy.htm" translate="no">ItemModelSurfaceDataProxy</a>, <a href="./qml-qtdatavisualization-bars3d.htm" translate="no">Bars3D</a>, <a href="./qml-qtdatavisualization-scatter3d.htm" translate="no">Scatter3D</a>, and <a href="./qtdatavisualization-module.htm" translate="no">Qt Data Visualization C++ Classes</a>.</p>
+<!-- @@@Surface3D -->
+<h2>Property Documentation</h2>
+<!-- $$$axisX -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="axisX-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="axisX-prop"></a><span class="name">axisX</span> : <span class="type"><a href="./qml-qtdatavisualization-valueaxis3d.htm" translate="no">ValueAxis3D</a></span><a class="plink" href="#axisX-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The active x-axis.</p>
+<p>If an axis is not given, a temporary default axis with no labels and an automatically adjusting range is created. This temporary axis is destroyed if another axis is explicitly set to the same orientation.</p>
+</div></div><!-- @@@axisX -->
+<br>
+<!-- $$$axisY -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="axisY-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="axisY-prop"></a><span class="name">axisY</span> : <span class="type"><a href="./qml-qtdatavisualization-valueaxis3d.htm" translate="no">ValueAxis3D</a></span><a class="plink" href="#axisY-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The active y-axis.</p>
+<p>If an axis is not given, a temporary default axis with no labels and an automatically adjusting range is created. This temporary axis is destroyed if another axis is explicitly set to the same orientation.</p>
+</div></div><!-- @@@axisY -->
+<br>
+<!-- $$$axisZ -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="axisZ-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="axisZ-prop"></a><span class="name">axisZ</span> : <span class="type"><a href="./qml-qtdatavisualization-valueaxis3d.htm" translate="no">ValueAxis3D</a></span><a class="plink" href="#axisZ-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The active z-axis.</p>
+<p>If an axis is not given, a temporary default axis with no labels and an automatically adjusting range is created. This temporary axis is destroyed if another axis is explicitly set to the same orientation.</p>
+</div></div><!-- @@@axisZ -->
+<br>
+<!-- $$$flipHorizontalGrid -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="flipHorizontalGrid-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="flipHorizontalGrid-prop"></a><span class="name">flipHorizontalGrid</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#flipHorizontalGrid-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>In some use cases the horizontal axis grid is mostly covered by the surface, so it can be more useful to display the horizontal axis grid on top of the graph rather than on the bottom. A typical use case for this is showing 2D spectrograms using orthoGraphic projection with a top-down viewpoint.</p>
+<p>If <code translate="no">false</code>, the horizontal axis grid and labels are drawn on the horizontal background of the graph. If <code translate="no">true</code>, the horizontal axis grid and labels are drawn on the opposite side of the graph from the horizontal background. Defaults to <code translate="no">false</code>.</p>
+<p>This property was introduced in QtDataVisualization 1.2.</p>
+</div></div><!-- @@@flipHorizontalGrid -->
+<br>
+<!-- $$$selectedSeries -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="selectedSeries-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="selectedSeries-prop"></a><span class="name">selectedSeries</span> : <span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span><a class="plink" href="#selectedSeries-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The selected series or null. If <a href="./qabstract3dgraph.htm#selectionMode-prop" translate="no">selectionMode</a> has the <code translate="no">SelectionMultiSeries</code> flag set, this property holds the series which owns the selected point.</p>
+</div></div><!-- @@@selectedSeries -->
+<br>
+<!-- $$$seriesList -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="seriesList-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="seriesList-prop"></a><span class="qmldefault">[default] </span><span class="name">seriesList</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span>&gt;<a class="plink" href="#seriesList-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the series of the graph. By default, this property contains an empty list. To set the series, either use the <a href="./qml-qtdatavisualization-surface3d.htm#addSeries-method" translate="no">addSeries()</a> function or define them as children of the graph.</p>
+</div></div><!-- @@@seriesList -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$addSeries[overload1]$$$addSeriesSurface3DSeries -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="addSeries-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="addSeries-method"></a><span class="type">void</span> <span class="name">addSeries</span>(<span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span> <i>series</i>)<a class="plink" href="#addSeries-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Adds the <i translate="no">series</i> to the graph.</p>
+</div></div><!-- @@@addSeries -->
+<br>
+<!-- $$$removeSeries[overload1]$$$removeSeriesSurface3DSeries -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="removeSeries-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="removeSeries-method"></a><span class="type">void</span> <span class="name">removeSeries</span>(<span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span> <i>series</i>)<a class="plink" href="#removeSeries-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Removes the <i translate="no">series</i> from the graph.</p>
+</div></div><!-- @@@removeSeries -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

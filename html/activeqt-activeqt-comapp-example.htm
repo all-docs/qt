@@ -1,0 +1,316 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COM App Example (ActiveQt) | Active Qt</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/activeqt-activeqt-comapp-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./activeqt-index.htm" translate="no">Active Qt</a></li>
+                            <li><a>COM App Example (ActiveQt)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">COM App Example (ActiveQt)</h1>
+<span class="subtitle"></span>
+<!-- $$$activeqt/comapp-brief -->
+<p>The COM App example shows how to use <a href="./activeqt-index.htm" translate="no">ActiveQt</a> to develop a Qt application that can be automated via COM. Different <a href="./qobject.htm" translate="no">QObject</a> based classes are exposed as COM objects that communicate with the GUI of the running Qt application. The APIs of those COM objects has been designed to resemble the APIs of standard COM applications; i.e. those from Microsoft Office.</p>
+<!-- @@@activeqt/comapp -->
+<!-- $$$activeqt/comapp-description -->
+<div class="descr"> <a name="details"></a>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Application : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+
+    Q_CLASSINFO(<span class="string">"ClassID"</span><span class="operator">,</span> <span class="string">"{b50a71db-c4a7-4551-8d14-49983566afee}"</span>)
+    Q_CLASSINFO(<span class="string">"InterfaceID"</span><span class="operator">,</span> <span class="string">"{4a427759-16ef-4ed8-be79-59ffe5789042}"</span>)
+    Q_CLASSINFO(<span class="string">"RegisterObject"</span><span class="operator">,</span> <span class="string">"yes"</span>)
+
+    Q_PROPERTY(DocumentList<span class="operator">*</span> documents READ documents)
+    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> id READ id)
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> Application(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    DocumentList <span class="operator">*</span>documents() <span class="keyword">const</span>;
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> id() <span class="keyword">const</span> { <span class="keyword">return</span> objectName(); }
+
+    <span class="type">void</span> setVisible(bool on);
+    bool isVisible() <span class="keyword">const</span>;
+
+    <span class="type"><a href="./qtabwidget.htm" translate="no">QTabWidget</a></span> <span class="operator">*</span>window() <span class="keyword">const</span> { <span class="keyword">return</span> m_ui<span class="operator">.</span>data(); }
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> quit();
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qscopedpointer.htm" translate="no">QScopedPointer</a></span> <span class="operator">&lt;</span>DocumentList<span class="operator">&gt;</span> m_docs;
+    <span class="type"><a href="./qscopedpointer.htm" translate="no">QScopedPointer</a></span> <span class="operator">&lt;</span><span class="type"><a href="./qtabwidget.htm" translate="no">QTabWidget</a></span><span class="operator">&gt;</span> m_ui;
+};</pre></div>
+<p>The first class <code translate="no">Application</code> represents the application object. It exposes read-only properties <code translate="no">documents</code> and <code translate="no">id</code> to get access to the list of documents, and an identifier. A read/write property <code translate="no">visible</code> controls whether the <a href="./qtabwidget.htm" translate="no">QTabWidget</a>-based user interface of the application should be visible, and a slot <code translate="no">quit()</code> terminates the application.</p>
+<p>The <i>RegisterObject</i> attribute is set to make sure that instances of this class are registered in COM's running object table (ROT) - this allows COM clients to connect to an already instantiated COM object.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> DocumentList : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+
+    Q_CLASSINFO(<span class="string">"ClassID"</span><span class="operator">,</span> <span class="string">"{496b761d-924b-4554-a18a-8f3704d2a9a6}"</span>)
+    Q_CLASSINFO(<span class="string">"InterfaceID"</span><span class="operator">,</span> <span class="string">"{6c9e30e8-3ff6-4e6a-9edc-d219d074a148}"</span>)
+
+    Q_PROPERTY(Application<span class="operator">*</span> application READ application)
+    Q_PROPERTY(<span class="type">int</span> count READ count)
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> DocumentList(Application <span class="operator">*</span>application);
+
+    <span class="type">int</span> count() <span class="keyword">const</span>;
+    Application <span class="operator">*</span>application() <span class="keyword">const</span>;
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    Document <span class="operator">*</span>addDocument();
+    Document <span class="operator">*</span>item(<span class="type">int</span> index) <span class="keyword">const</span>;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span>Document <span class="operator">*</span><span class="operator">&gt;</span> m_list;
+};</pre></div>
+<p>The <code translate="no">DocumentList</code> class stores a list of documents. It provides an API to read the number of documents, to access each document by index and to create a new document. The <code translate="no">application</code> property returns the root object.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Document : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+
+    Q_CLASSINFO(<span class="string">"ClassID"</span><span class="operator">,</span> <span class="string">"{2b5775cd-72c2-43da-bc3b-b0e8d1e1c4f7}"</span>)
+    Q_CLASSINFO(<span class="string">"InterfaceID"</span><span class="operator">,</span> <span class="string">"{2ce1761e-07a3-415c-bd11-0eab2c7283de}"</span>)
+
+    Q_PROPERTY(Application <span class="operator">*</span>application READ application)
+    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> title READ title WRITE setTitle)
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> Document(DocumentList <span class="operator">*</span>list);
+    <span class="keyword">virtual</span> <span class="operator">~</span>Document();
+
+    Application <span class="operator">*</span>application() <span class="keyword">const</span>;
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> title() <span class="keyword">const</span>;
+    <span class="type">void</span> setTitle(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>title);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qscopedpointer.htm" translate="no">QScopedPointer</a></span> <span class="operator">&lt;</span><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">&gt;</span> m_page;
+};</pre></div>
+<p>The <code translate="no">Document</code> class finally represents a document in the application. Each document is represented by a page in the application's tab widget, and has a title that is readable and writable through the document's API. The <code translate="no">application</code> property again returns the root object.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Document<span class="operator">::</span>Document(DocumentList <span class="operator">*</span>list)
+: <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>(list)
+{
+    <span class="type"><a href="./qtabwidget.htm" translate="no">QTabWidget</a></span> <span class="operator">*</span>tabs <span class="operator">=</span> list<span class="operator">-</span><span class="operator">&gt;</span>application()<span class="operator">-</span><span class="operator">&gt;</span>window();
+    m_page<span class="operator">.</span>reset(<span class="keyword">new</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(tabs));
+    m_page<span class="operator">-</span><span class="operator">&gt;</span>setWindowTitle(tr(<span class="string">"Unnamed"</span>));
+    tabs<span class="operator">-</span><span class="operator">&gt;</span>addTab(m_page<span class="operator">.</span>data()<span class="operator">,</span> m_page<span class="operator">-</span><span class="operator">&gt;</span>windowTitle());
+
+    m_page<span class="operator">-</span><span class="operator">&gt;</span>show();
+}
+
+Document<span class="operator">::</span><span class="operator">~</span>Document() <span class="operator">=</span> <span class="keyword">default</span>;
+
+Application <span class="operator">*</span>Document<span class="operator">::</span>application() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> qobject_cast<span class="operator">&lt;</span>DocumentList <span class="operator">*</span><span class="operator">&gt;</span>(parent())<span class="operator">-</span><span class="operator">&gt;</span>application();
+}
+
+<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> Document<span class="operator">::</span>title() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> m_page<span class="operator">-</span><span class="operator">&gt;</span>windowTitle();
+}
+
+<span class="type">void</span> Document<span class="operator">::</span>setTitle(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>t)
+{
+    m_page<span class="operator">-</span><span class="operator">&gt;</span>setWindowTitle(t);
+
+    <span class="type"><a href="./qtabwidget.htm" translate="no">QTabWidget</a></span> <span class="operator">*</span>tabs <span class="operator">=</span> application()<span class="operator">-</span><span class="operator">&gt;</span>window();
+    <span class="type">int</span> index <span class="operator">=</span> tabs<span class="operator">-</span><span class="operator">&gt;</span>indexOf(m_page<span class="operator">.</span>data());
+    tabs<span class="operator">-</span><span class="operator">&gt;</span>setTabText(index<span class="operator">,</span> m_page<span class="operator">-</span><span class="operator">&gt;</span>windowTitle());
+}</pre></div>
+<p>The implementation of the <code translate="no">Document</code> class creates a new page for the tab widget, and uses the title of that page for the title property. The page is deleted when the document is deleted.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">DocumentList<span class="operator">::</span>DocumentList(Application <span class="operator">*</span>application)
+: <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>(application)
+{
+}
+
+Application <span class="operator">*</span>DocumentList<span class="operator">::</span>application() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> qobject_cast<span class="operator">&lt;</span>Application <span class="operator">*</span><span class="operator">&gt;</span>(parent());
+}
+
+<span class="type">int</span> DocumentList<span class="operator">::</span>count() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> m_list<span class="operator">.</span>count();
+}
+
+Document <span class="operator">*</span>DocumentList<span class="operator">::</span>item(<span class="type">int</span> index) <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> m_list<span class="operator">.</span>value(index<span class="operator">,</span> nullptr);
+}
+
+Document <span class="operator">*</span>DocumentList<span class="operator">::</span>addDocument()
+{
+    Document <span class="operator">*</span>document <span class="operator">=</span> <span class="keyword">new</span> Document(<span class="keyword">this</span>);
+    m_list<span class="operator">.</span>append(document);
+
+    <span class="keyword">return</span> document;
+}</pre></div>
+<p>The <code translate="no">DocumentList</code> implementation is straightforward.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Application<span class="operator">::</span>Application(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent)
+: <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>(parent)<span class="operator">,</span>
+  m_ui(<span class="keyword">new</span> <span class="type"><a href="./qtabwidget.htm" translate="no">QTabWidget</a></span>)<span class="operator">,</span>
+  m_docs(<span class="keyword">new</span> DocumentList(<span class="keyword">this</span>))
+{
+    setObjectName(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"From QAxFactory"</span>));
+}
+
+DocumentList <span class="operator">*</span>Application<span class="operator">::</span>documents() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> m_docs<span class="operator">.</span>data();
+}
+
+<span class="type">void</span> Application<span class="operator">::</span>setVisible(bool on)
+{
+    m_ui<span class="operator">-</span><span class="operator">&gt;</span>setVisible(on);
+}
+
+bool Application<span class="operator">::</span>isVisible() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>isVisible();
+}
+
+<span class="type">void</span> Application<span class="operator">::</span>quit()
+{
+    m_docs<span class="operator">.</span>reset();
+    m_ui<span class="operator">.</span>reset();
+    <span class="type"><a href="./qtimer.htm" translate="no">QTimer</a></span><span class="operator">::</span>singleShot(<span class="number">0</span> <span class="comment">/*ms*/</span><span class="operator">,</span> <a href="./qapplication.htm#qApp" translate="no">qApp</a><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>quit);
+}
+
+<span class="preprocessor">#include "main.moc"</span></pre></div>
+<p>The <code translate="no">Application</code> class initializes the user interface in the constructor, and shows and hides it in the implementation of <code translate="no">setVisible()</code>. The object name (accessible through the <code translate="no">id</code> property) is set to <code translate="no">"From</code> <a href="./qaxfactory.htm" translate="no">QAxFactory</a>" to indicate that this COM object has been created by COM. Note that there is no destructor that would delete the <a href="./qtabwidget.htm" translate="no">QTabWidget</a> - this is instead done in the <code translate="no">quit()</code> slot, before calling <a href="./qcoreapplication.htm#quit" translate="no">quit()</a> through a single-shot-timer, which is necessary to ensure that the COM call to the slot is complete.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QAXFACTORY_BEGIN(<span class="string">"{edd3e836-f537-4c6f-be7d-6014c155cc7a}"</span><span class="operator">,</span> <span class="string">"{b7da3de8-83bb-4bbe-9ab7-99a05819e201}"</span>)
+   QAXCLASS(Application)
+   QAXTYPE(Document)
+   QAXTYPE(DocumentList)
+QAXFACTORY_END()</pre></div>
+<p>The classes are exported from the server using the <a href="./qaxfactory.htm" translate="no">QAxFactory</a> macros. Only <code translate="no">Application</code> objects can be instantiated from outside - the other APIs can only be used after accessing the respective objects throughout the <code translate="no">Application</code> API.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AA_EnableHighDpiScaling);
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    app<span class="operator">.</span>setQuitOnLastWindowClosed(<span class="keyword">false</span>);
+
+    <span class="comment">// started by COM - don't do anything</span>
+    <span class="keyword">if</span> (<span class="type"><a href="./qaxfactory.htm" translate="no">QAxFactory</a></span><span class="operator">::</span>isServer())
+        <span class="keyword">return</span> app<span class="operator">.</span>exec();
+
+    <span class="comment">// started by user</span>
+    Application appobject;
+    appobject<span class="operator">.</span>setObjectName(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"From Application"</span>));
+
+    <span class="type"><a href="./qaxfactory.htm" translate="no">QAxFactory</a></span><span class="operator">::</span>startServer();
+    <span class="type"><a href="./qaxfactory.htm" translate="no">QAxFactory</a></span><span class="operator">::</span>registerActiveObject(<span class="operator">&amp;</span>appobject);
+
+    appobject<span class="operator">.</span>window()<span class="operator">-</span><span class="operator">&gt;</span>setMinimumSize(<span class="number">300</span><span class="operator">,</span> <span class="number">100</span>);
+    appobject<span class="operator">.</span>setVisible(<span class="keyword">true</span>);
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>app<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>lastWindowClosed<span class="operator">,</span> <span class="operator">&amp;</span>appobject<span class="operator">,</span> <span class="operator">&amp;</span>Application<span class="operator">::</span>quit);
+
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>The main() entry point function creates a <a href="./qapplication.htm" translate="no">QApplication</a>, and just enters the event loop if the application has been started by COM. If the application has been started by the user, then the <code translate="no">Application</code> object is created and the object name is set to "From Application". Then the COM server is started, and the application object is registered with COM. It is now accessible to COM clients through the client-specific APIs.</p>
+<p>Application exiting is controlled explicitly - if COM started the application, then the client code has to call quit(); if the user started the application, then the application terminates when the last window has been closed.</p>
+<p>Finally, the user interface is made visible, and the event loop is started.</p>
+<p>A simple Visual Basic application could now access this Qt application. In VB, start a new "Standard Exe" project and add a project reference to the comappLib type library. Create a form with a listbox "DocumentList", a static label "DocumentsCount" and a command button "NewDocument". Finally, implement the code for the form like this:</p>
+<div class="pre"><pre class="cpp" translate="no">Private Application As comappLib<span class="operator">.</span>Application
+Private MyApp As Boolean
+
+Private Sub UpdateList()
+    DocumentList<span class="operator">.</span>Clear
+    DocumentsCount<span class="operator">.</span>Caption <span class="operator">=</span> Application<span class="operator">.</span>documents<span class="operator">.</span>Count
+    For Index <span class="operator">=</span> <span class="number">0</span> To Application<span class="operator">.</span>documents<span class="operator">.</span>Count <span class="operator">-</span> <span class="number">1</span>
+       DocumentList<span class="operator">.</span>AddItem (Application<span class="operator">.</span>documents<span class="operator">.</span>Item(Index)<span class="operator">.</span>Title)
+    Next
+End Sub
+
+Private Sub Form_Load()
+    On Error GoTo CreateNew
+    Set Application <span class="operator">=</span> GetObject(<span class="operator">,</span> <span class="string">"comapp.Application"</span>)
+    MyApp <span class="operator">=</span> False
+    GoTo Initialized
+CreateNew:
+    On Error GoTo InitializeFailed
+    Set Application <span class="operator">=</span> New Application
+    Application<span class="operator">.</span>Visible <span class="operator">=</span> True
+    MyApp <span class="operator">=</span> True
+Initialized:
+    Caption <span class="operator">=</span> Application<span class="operator">.</span>id
+    UpdateList
+InitializeFailed:
+End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+    If MyApp Then
+        Application<span class="operator">.</span>quit
+    End If
+End Sub
+
+Private Sub NewDocument_Click()
+    Application<span class="operator">.</span>documents<span class="operator">.</span>addDocument
+    UpdateList
+End Sub</pre></div>
+<p>To build the example you must first build the <a href="./qaxserver-module.htm" translate="no">QAxServer</a> library. Then run <code translate="no">qmake</code> and your make tool in <code translate="no">examples\activeqt\comapp</code>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtactiveqt.git/tree/examples/activeqt/comapp?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@activeqt/comapp -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

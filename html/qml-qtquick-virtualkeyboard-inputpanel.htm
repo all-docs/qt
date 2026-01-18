@@ -1,0 +1,233 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InputPanel QML Type | Qt Virtual Keyboard</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-virtualkeyboard-inputpanel.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtvirtualkeyboard-index.htm" translate="no">Qt Virtual Keyboard</a></li>
+                            <li><a href="./qtquick-virtualkeyboard-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li class="last"><a>InputPanel QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">InputPanel QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$InputPanel-brief -->
+<p>Provides the virtual keyboard UI. <a href="#details">More...</a></p>
+<!-- @@@InputPanel -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick.VirtualKeyboard 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick-item.htm" translate="no">Item</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-virtualkeyboard-inputpanel-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-virtualkeyboard-inputpanel.htm#active-prop" translate="no">active</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-virtualkeyboard-inputpanel.htm#externalLanguageSwitchEnabled-prop" translate="no">externalLanguageSwitchEnabled</a></b></b> : bool</li>
+</ul>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-virtualkeyboard-inputpanel.htm#externalLanguageSwitch-signal" translate="no">externalLanguageSwitch</a></b></b>(var <i>localeList</i>, int <i>currentIndex</i>)</li>
+</ul>
+<!-- $$$InputPanel-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The keyboard size is automatically calculated from the available width; that is, the keyboard maintains the aspect ratio specified by the current style. Therefore the application should only set the <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> and <a href="./qml-qtquick-item.htm#y-prop" translate="no">y</a> coordinates of the InputPanel, and not the <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a>.</p>
+<p>As with <a href="./qtquick-virtualkeyboard-qmlmodule.htm" translate="no">all other QML types</a> provided by the module, the <code translate="no">QT_IM_MODULE</code> environment variable must be set to <code translate="no">qtvirtualkeyboard</code> before using InputPanel. For more information, see <a href="./qtvirtualkeyboard-deployment-guide.htm#loading-the-plugin" translate="no">Loading the Plugin</a>.</p>
+<div class="admonition note">
+<p><b>Note: </b>You can have only one InputPanel instance in your application.</p>
+</div>
+<a name="inputpanel-and-modal-dialogs"></a>
+<h3 id="inputpanel-and-modal-dialogs">InputPanel and modal dialogs<a class="plink" href="#inputpanel-and-modal-dialogs" title="Direct link to this headline"></a></h3>
+<p>Qt prevents modal popups from blocking the keyboard UI, as this would make it impossible to use the keyboard to write into a text field within a modal popup. When an input field receives focus during a modal session, the InputPanel item is made a sibling of the Overlay, and given a z-value one above the Overlay's so that it stays on top of the user interface. When the modal session ends, the item is reparented back to the original parent, and the z-value is restored.</p>
+<!-- @@@InputPanel -->
+<h2>Property Documentation</h2>
+<!-- $$$active -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="active-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="active-prop"></a><span class="name">active</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#active-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property reflects the active status of the input panel. The keyboard should be made visible to the user when this property is <code translate="no">true</code>.</p>
+<p>This property was introduced in QtQuick.VirtualKeyboard 2.0.</p>
+</div></div><!-- @@@active -->
+<br>
+<!-- $$$externalLanguageSwitchEnabled -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="externalLanguageSwitchEnabled-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="externalLanguageSwitchEnabled-prop"></a><span class="name">externalLanguageSwitchEnabled</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#externalLanguageSwitchEnabled-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property enables the external language switch mechanism. When this property is <code translate="no">true</code>, the virtual keyboard will not show the built-in language popup, but will emit the <a href="./qml-qtquick-virtualkeyboard-inputpanel.htm#externalLanguageSwitch-signal" translate="no">externalLanguageSwitch</a> signal instead. The application can handle this signal and show a custom language selection dialog instead.</p>
+<p>This property was introduced in QtQuick.VirtualKeyboard 2.4.</p>
+</div></div><!-- @@@externalLanguageSwitchEnabled -->
+<br>
+<h2>Signal Documentation</h2>
+<!-- $$$externalLanguageSwitch[overload1]$$$externalLanguageSwitchvarint -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="externalLanguageSwitch-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="externalLanguageSwitch-signal"></a><span class="name">externalLanguageSwitch</span>(<span class="type"><a href="./qml-var.htm" translate="no">var</a></span> <i>localeList</i>, <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>currentIndex</i>)<a class="plink" href="#externalLanguageSwitch-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when <a href="./qml-qtquick-virtualkeyboard-inputpanel.htm#externalLanguageSwitchEnabled-prop" translate="no">externalLanguageSwitchEnabled</a> is <code translate="no">true</code> and the <a href="./qtvirtualkeyboard-user-guide.htm#user-guide-language" translate="no">language switch key</a> is pressed by the user.</p>
+<p>It serves as a hook to display a custom language dialog instead of the built-in language popup in the virtual keyboard.</p>
+<p>The <i>localeList</i> parameter contains a list of locale names to choose from. To get more information about a particular language, use the <a href="./qml-qtqml-qt.htm#locale-method" translate="no">Qt.locale()</a> function. The <i>currentIndex</i> is the index of current locale in the <i>localeList</i>. This item should be highlighted as the current item in the UI.</p>
+<p>To select a new language, use the <a href="./qml-qtquick-virtualkeyboard-settings-virtualkeyboardsettings.htm#locale-prop" translate="no">VirtualKeyboardSettings.locale</a> property.</p>
+<p>Below is an example that demonstrates a custom language dialog implementation:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">Dialog {
+    id: languageDialog
+    title: "Select Input Language"
+    modality: Qt.ApplicationModal
+
+    function show(localeList, currentIndex) {
+        languageListModel.clear()
+        for (var i = 0; i &lt; localeList.length; i++) {
+            languageListModel.append({localeName: localeList[i], displayName: Qt.locale(localeList[i]).nativeLanguageName})
+        }
+        languageListView.currentIndex = currentIndex
+        languageListView.positionViewAtIndex(currentIndex, ListView.Center)
+        languageDialog.visible = true
+    }
+
+    contentItem: ListView {
+        id: languageListView
+        model: ListModel {
+            id: languageListModel
+            function selectItem(index) {
+                VirtualKeyboardSettings.locale = languageListModel.get(index).localeName
+                languageDialog.visible = false
+            }
+        }
+        delegate: Item {
+            id: languageListItem
+            width: languageNameTextMetrics.width * 17
+            height: languageNameTextMetrics.height + languageListLabel.anchors.topMargin + languageListLabel.anchors.bottomMargin
+            Text {
+                id: languageListLabel
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: languageNameTextMetrics.height / 2
+                anchors.rightMargin: anchors.leftMargin
+                anchors.topMargin: languageNameTextMetrics.height / 3
+                anchors.bottomMargin: anchors.topMargin
+                text: languageNameFormatter.elidedText
+                color: "#5CAA15"
+                font {
+                    weight: Font.Normal
+                    pixelSize: 28
+                }
+            }
+            TextMetrics {
+                id: languageNameTextMetrics
+                font {
+                    weight: Font.Normal
+                    pixelSize: 28
+                }
+                text: "X"
+            }
+            TextMetrics {
+                id: languageNameFormatter
+                font {
+                    weight: Font.Normal
+                    pixelSize: 28
+                }
+                elide: Text.ElideRight
+                elideWidth: languageListItem.width - languageListLabel.anchors.leftMargin - languageListLabel.anchors.rightMargin
+                text: displayName
+            }
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+                    if (index === -1)
+                        return
+                    parent.ListView.view.currentIndex = index
+                    parent.ListView.view.model.selectItem(index)
+                }
+            }
+            states: State {
+                name: "current"
+                when: languageListItem.ListView.isCurrentItem
+                PropertyChanges {
+                    target: languageListLabel
+                    color: "black"
+                }
+            }
+        }
+    }
+}</pre></div>
+<p>The dialog would then be declared:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">LanguageDialog {
+    id: languageDialog
+    width: 400
+    height: 400
+}</pre></div>
+<p>In the application's <a href="./qml-qtquick-virtualkeyboard-inputpanel.htm" translate="no">InputPanel</a>, add the following code:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">InputPanel {
+    id: inputPanel
+    externalLanguageSwitchEnabled: true
+    onExternalLanguageSwitch: languageDialog.show(localeList, currentIndex)
+    // ...
+}</pre></div>
+<p>The custom dialog will now be shown when the language switch key is pressed.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onExternalLanguageSwitch</code>.</p>
+<p>This signal was introduced in QtQuick.VirtualKeyboard 2.4.</p>
+</div></div><!-- @@@externalLanguageSwitch -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

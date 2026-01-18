@@ -1,0 +1,166 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick 2 Custom Input Example | Qt Data Visualization</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li class="last"><a>Qt Quick 2 Custom Input Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick 2 Custom Input Example</h1>
+<span class="subtitle"></span>
+<!-- $$$qmlcustominput-brief -->
+<p>Customizing input in a QML application.</p>
+<!-- @@@qmlcustominput -->
+<!-- $$$qmlcustominput-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Qt Quick 2 Custom Input example shows how to customize the 3D graph controls from Qt Quick 2 using the <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> to capture and process mouse events in QML. Custom input handling code in this example shows how the camera is now controlled by using <a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a> to animate the camera and item selection is done on mouseover rather than clicking any mouse buttons. Also the code shows how to implement similar zoom with mouse wheel functionality as the default input handler implements.</p>
+<p class="centerAlign"><img alt="" src="./images/qmlcustominput-example.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="removing-default-input-handling"></a>
+<h4 id="removing-default-input-handling">Removing Default Input Handling<a class="plink" href="#removing-default-input-handling" title="Direct link to this headline"></a></h4>
+<p>The default input handling mechanism is disabled by setting the inputHandler property to null.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-scatter3d.htm" translate="no">Scatter3D</a></span> {
+...
+<span class="name">inputHandler</span>: <span class="number">null</span>
+...</pre></div>
+<a name="implementing-custom-selection-handling"></a>
+<h4 id="implementing-custom-selection-handling">Implementing Custom Selection Handling<a class="plink" href="#implementing-custom-selection-handling" title="Direct link to this headline"></a></h4>
+<p>The on mouseover selection handling is implemented using standard <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> to capture the mouse events. The mouse area is configured to capture hover events and has two custom properties for <code translate="no">mouseX</code> and <code translate="no">mouseY</code> to store the last known mouse coordinates.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+    <span class="name">id</span>: <span class="name">inputArea</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">hoverEnabled</span>: <span class="number">true</span>
+    <span class="name">acceptedButtons</span>: <span class="name">Qt</span>.<span class="name">LeftButton</span> <span class="operator">|</span> <span class="name">Qt</span>.<span class="name">RightButton</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">mouseX</span>: -<span class="number">1</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">mouseY</span>: -<span class="number">1</span></pre></div>
+<p>Whenever a pointer movement related signal is received the code updates the <code translate="no">mouseX</code> and <code translate="no">mouseY</code> properties.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">onPositionChanged</span>: {
+    <span class="name">mouseX</span> <span class="operator">=</span> <span class="name">mouse</span>.<span class="name">x</span>;
+    <span class="name">mouseY</span> <span class="operator">=</span> <span class="name">mouse</span>.<span class="name">y</span>;
+}</pre></div>
+<p>As the selection is one shot, and is cleared each time a 3D frame is rendered, a timer is setup to retrigger selection so that the selection moves to the item currently under the mouse cursor as the camera animates around the graph even when the mouse cursor is not moving.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtqml-timer.htm" translate="no">Timer</a></span> {
+    <span class="name">id</span>: <span class="name">reselectTimer</span>
+    <span class="name">interval</span>: <span class="number">10</span>
+    <span class="name">running</span>: <span class="number">true</span>
+    <span class="name">repeat</span>: <span class="number">true</span>
+    <span class="name">onTriggered</span>: {
+        <span class="name">scatterGraph</span>.<span class="name">scene</span>.<span class="name">selectionQueryPosition</span> <span class="operator">=</span> <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">inputArea</span>.<span class="name">mouseX</span>, <span class="name">inputArea</span>.<span class="name">mouseY</span>);
+    }
+}</pre></div>
+<a name="implementing-custom-zoom-handling"></a>
+<h4 id="implementing-custom-zoom-handling">Implementing Custom Zoom Handling<a class="plink" href="#implementing-custom-zoom-handling" title="Direct link to this headline"></a></h4>
+<p>The camera has a zoom factor that represents amount of zoom in percentages. In this example the zoom range is limited between 10% and 500%. This range is then divided to four subranges where angleDelta is scaled to different amount of zoom change based on the current subrange.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ...
+<span class="name">onWheel</span>: {
+    <span class="comment">// Adjust zoom level based on what zoom range we're in.</span>
+    var zoomLevel = <span class="name">scatterGraph</span>.<span class="name">scene</span>.<span class="name">activeCamera</span>.<span class="name">zoomLevel</span>;
+    <span class="keyword">if</span> (<span class="name">zoomLevel</span> <span class="operator">&gt;</span> <span class="number">100</span>)
+        <span class="name">zoomLevel</span> <span class="operator">+=</span> <span class="name">wheel</span>.<span class="name">angleDelta</span>.<span class="name">y</span> <span class="operator">/</span> <span class="number">12.0</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="name">zoomLevel</span> <span class="operator">&gt;</span> <span class="number">50</span>)
+        <span class="name">zoomLevel</span> <span class="operator">+=</span> <span class="name">wheel</span>.<span class="name">angleDelta</span>.<span class="name">y</span> <span class="operator">/</span> <span class="number">60.0</span>;
+    <span class="keyword">else</span>
+        <span class="name">zoomLevel</span> <span class="operator">+=</span> <span class="name">wheel</span>.<span class="name">angleDelta</span>.<span class="name">y</span> <span class="operator">/</span> <span class="number">120.0</span>;
+    <span class="keyword">if</span> (<span class="name">zoomLevel</span> <span class="operator">&gt;</span> <span class="number">500</span>)
+        <span class="name">zoomLevel</span> <span class="operator">=</span> <span class="number">500</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="name">zoomLevel</span> <span class="operator">&lt;</span> <span class="number">10</span>)
+        <span class="name">zoomLevel</span> <span class="operator">=</span> <span class="number">10</span>;
+
+    <span class="name">scatterGraph</span>.<span class="name">scene</span>.<span class="name">activeCamera</span>.<span class="name">zoomLevel</span> <span class="operator">=</span> <span class="name">zoomLevel</span>;
+}
+    ...</pre></div>
+<a name="implementing-custom-camera-handling"></a>
+<h4 id="implementing-custom-camera-handling">Implementing Custom Camera Handling<a class="plink" href="#implementing-custom-camera-handling" title="Direct link to this headline"></a></h4>
+<p>The camera is animated to constantly rotate around the graph with two animations. The rotation around the graph is done with a simple <a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a> that just increments during 20 seconds from 0 degrees to 360 degrees and sets the <a href="./q3dcamera.htm#xRotation-prop" translate="no">Q3DCamera::xRotation</a> property.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+    <span class="name">id</span>: <span class="name">cameraAnimationX</span>
+    <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+    <span class="name">running</span>: <span class="number">true</span>
+    <span class="name">target</span>: <span class="name">scatterGraph</span>.<span class="name">scene</span>.<span class="name">activeCamera</span>
+    <span class="name">property</span>:<span class="string">"xRotation"</span>
+    <span class="name">from</span>: <span class="number">0.0</span>
+    <span class="name">to</span>: <span class="number">360.0</span>
+    <span class="name">duration</span>: <span class="number">20000</span>
+}</pre></div>
+<p>The camera movement up and down is implemented with a <a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a> that varies the <a href="./q3dcamera.htm#yRotation-prop" translate="no">Q3DCamera::yRotation</a> property of the camera from 5 degrees to 45 degrees and back with in and out easing.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a></span> {
+    <span class="name">id</span>: <span class="name">cameraAnimationY</span>
+    <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+    <span class="name">running</span>: <span class="number">true</span>
+
+    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+        <span class="name">target</span>: <span class="name">scatterGraph</span>.<span class="name">scene</span>.<span class="name">activeCamera</span>
+        <span class="name">property</span>:<span class="string">"yRotation"</span>
+        <span class="name">from</span>: <span class="number">5.0</span>
+        <span class="name">to</span>: <span class="number">45.0</span>
+        <span class="name">duration</span>: <span class="number">9000</span>
+        <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutSine</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+        <span class="name">target</span>: <span class="name">scatterGraph</span>.<span class="name">scene</span>.<span class="name">activeCamera</span>
+        <span class="name">property</span>:<span class="string">"yRotation"</span>
+        <span class="name">from</span>: <span class="number">45.0</span>
+        <span class="name">to</span>: <span class="number">5.0</span>
+        <span class="name">duration</span>: <span class="number">9000</span>
+        <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutSine</span>
+    }
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization/qmlcustominput?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@qmlcustominput -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

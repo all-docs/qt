@@ -1,0 +1,101 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interfaces between C++ and QML Code in Qt Positioning | Qt Positioning</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/positioning-cpp-qml.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpositioning-index.htm" translate="no">Qt Positioning</a></li>
+                            <li><a>Interfaces between C++ and QML Code in Qt Positioning</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Interfaces between C++ and QML Code in Qt Positioning</h1>
+<span class="subtitle"></span>
+<!-- $$$positioning-cpp-qml.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview"></a>
+<h2 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h2>
+<p>Depending on the type of C++ class <a href="./qtpositioning-module.htm" translate="no">QtPositioning</a> utilizes two methods to simplify exchange of position data between C++ and QML code.</p>
+<a name="cpp-value-integration-positioning"></a><a name="direct-c-value-integration-in-qtpositioning"></a>
+<h2 id="direct-c-value-integration-in-qtpositioning">Direct C++ Value Integration in QtPositioning<a class="plink" href="#direct-c-value-integration-in-qtpositioning" title="Direct link to this headline"></a></h2>
+<p>Starting with Qt 5.5, it has become much easier to integrate non-<a href="./qobject.htm" translate="no">QObject</a> based data types into QML. This is achieved by adding <a href="./qobject.htm#Q_GADGET" translate="no">Q_GADGET</a> support to <a href="./qtqml-qmlmodule.htm" translate="no">QtQml</a>. The macro converts classes into a light-weight version of a <a href="./qobject.htm" translate="no">QObject</a> without the required <a href="./qobject.htm" translate="no">QObject</a> inheritance. At the same time it retains the reflection capabilities of <a href="./qmetaobject.htm" translate="no">QMetaObject</a>. As a result they can be directly exposed to QML and do not require any further wrapper classes.</p>
+<p>A significant number of Position and Location related data types were converted to Q_GADGETs. They retain their API and value type character but have become introspectable via <a href="./qmetaobject.htm" translate="no">QMetaObject</a>. This conversion was done to the following classes:</p>
+<ul>
+<li><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></li>
+<li><a href="./qgeocoordinate.htm" translate="no">QGeoCoordinate</a></li>
+<li><a href="./qgeorectangle.htm" translate="no">QGeoRectangle</a></li>
+<li><a href="./qgeoshape.htm" translate="no">QGeoShape</a></li>
+</ul>
+<p>Using <a href="./qgeocoordinate.htm" translate="no">QGeoCoordinate</a> as an example, the C++ types are directly exposed to the QML environment via its meta type:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><a href="./qmetatype.htm#qRegisterMetaType-1" translate="no">qRegisterMetaType</a><span class="operator">&lt;</span><span class="type"><a href="./qgeocoordinate.htm" translate="no">QGeoCoordinate</a></span><span class="operator">&gt;</span>();
+<span class="type"><a href="./qmetatype.htm" translate="no">QMetaType</a></span><span class="operator">::</span>registerEqualsComparator<span class="operator">&lt;</span><span class="type"><a href="./qgeocoordinate.htm" translate="no">QGeoCoordinate</a></span><span class="operator">&gt;</span>();</pre></div>
+<p>The above registration of <a href="./qgeocoordinate.htm" translate="no">QGeoCoordinate</a> is automatically done once by the <a href="./qtpositioning-module.htm" translate="no">QtPositioning</a> QML plugin. The <a href="./qtlocation-planespotter-example.htm" translate="no">Plane Spotter</a> example demonstrates this feature.</p>
+<a name="qvariant-based-integration"></a>
+<h2 id="qvariant-based-integration">QVariant Based integration<a class="plink" href="#qvariant-based-integration" title="Direct link to this headline"></a></h2>
+<p>This section provides information on how to integrate <a href="./qgeoaddress.htm" translate="no">QGeoAddress</a> and <a href="./qgeolocation.htm" translate="no">QGeoLocation</a>.</p>
+<a name="address-qgeoaddress"></a>
+<h3 id="address-qgeoaddress">Address - QGeoAddress<a class="plink" href="#address-qgeoaddress" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qml-qtpositioning-address.htm#address-prop" translate="no">Address.address</a> property is used to provide an interface between C++ and QML code. First a pointer to a Address object must be obtained from C++, then use the <a href="./qobject.htm#property" translate="no">property()</a> and <a href="./qobject.htm#setProperty" translate="no">setProperty()</a> functions to get and set the <code translate="no">address</code> property. The following gets the <a href="./qgeoaddress.htm" translate="no">QGeoAddress</a> representing this object from C++:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"> <span class="type"><a href="./qgeoaddress.htm" translate="no">QGeoAddress</a></span> geoAddress <span class="operator">=</span> qmlObject<span class="operator">-</span><span class="operator">&gt;</span>property(<span class="string">"address"</span>)<span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qgeoaddress.htm" translate="no">QGeoAddress</a></span><span class="operator">&gt;</span>();</pre></div>
+<p>The following sets the properties of this object based on a <a href="./qgeoaddress.htm" translate="no">QGeoAddress</a> object from C++:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">qmlObject<span class="operator">-</span><span class="operator">&gt;</span>setProperty(<span class="string">"address"</span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(geoAddress));</pre></div>
+<a name="location-qgeolocation"></a>
+<h3 id="location-qgeolocation">Location - QGeoLocation<a class="plink" href="#location-qgeolocation" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qml-qtpositioning-location.htm#location-prop" translate="no">Location.location</a> property is used to provide an interface between C++ and QML code. First a pointer to a Location object must be obtained from C++, then use the <a href="./qobject.htm#property" translate="no">property()</a> and <a href="./qobject.htm#setProperty" translate="no">setProperty()</a> functions to get and set the <code translate="no">location</code> property. The following gets the <a href="./qgeolocation.htm" translate="no">QGeoLocation</a> representing this object from C++:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qgeolocation.htm" translate="no">QGeoLocation</a></span> geoLocation <span class="operator">=</span> qmlObject<span class="operator">-</span><span class="operator">&gt;</span>property(<span class="string">"location"</span>)<span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qgeolocation.htm" translate="no">QGeoLocation</a></span><span class="operator">&gt;</span>();</pre></div>
+<p>The following sets the properties of this object based on a <a href="./qgeolocation.htm" translate="no">QGeoLocation</a> object from C++:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">qmlObject<span class="operator">-</span><span class="operator">&gt;</span>setProperty(<span class="string">"location"</span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(geoLocation));</pre></div>
+</div>
+<!-- @@@positioning-cpp-qml.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

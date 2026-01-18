@@ -1,0 +1,156 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple CoAP Client Example | Qt CoAP</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcoap-simplecoapclient-mainwindow-h.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcoap-index.htm" translate="no">Qt CoAP</a></li>
+                            <li><a href="./qtcoap-examples.htm" translate="no">Qt CoAP Examples</a></li>
+                            <li><a>Simple CoAP Client Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Simple CoAP Client Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2019 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the QtCoap module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#ifndef MAINWINDOW_H</span>
+<span class="preprocessor">#define MAINWINDOW_H</span>
+
+<span class="preprocessor">#include &lt;QCoapClient&gt;</span>
+<span class="preprocessor">#include &lt;QCoapOption&gt;</span>
+<span class="preprocessor">#include &lt;QCoapResource&gt;</span>
+<span class="preprocessor">#include &lt;QMainWindow&gt;</span>
+
+<span class="keyword">namespace</span> Ui {
+<span class="keyword">class</span> MainWindow;
+}
+<span class="keyword">class</span> <span class="type"><a href="./qcoapmessage.htm" translate="no">QCoapMessage</a></span>;
+
+<span class="keyword">class</span> MainWindow : <span class="keyword">public</span> <span class="type">QMainWindow</span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> MainWindow(<span class="type">QWidget</span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    <span class="operator">~</span>MainWindow();
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> fillHostSelector();
+    <span class="type">void</span> addMessage(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>message<span class="operator">,</span> bool isError <span class="operator">=</span> <span class="keyword">false</span>);
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> onFinished(<span class="type"><a href="./qcoapreply.htm" translate="no">QCoapReply</a></span> <span class="operator">*</span>reply);
+    <span class="type">void</span> onError(<span class="type"><a href="./qcoapreply.htm" translate="no">QCoapReply</a></span> <span class="operator">*</span>reply<span class="operator">,</span> <span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>Error error);
+    <span class="type">void</span> onDiscovered(<span class="type"><a href="./qcoapresourcediscoveryreply.htm" translate="no">QCoapResourceDiscoveryReply</a></span> <span class="operator">*</span>reply<span class="operator">,</span> <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qcoapresource.htm" translate="no">QCoapResource</a></span><span class="operator">&gt;</span> resources);
+    <span class="type">void</span> onNotified(<span class="type"><a href="./qcoapreply.htm" translate="no">QCoapReply</a></span> <span class="operator">*</span>reply<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qcoapmessage.htm" translate="no">QCoapMessage</a></span> <span class="operator">&amp;</span>message);
+
+    <span class="type">void</span> on_runButton_clicked();
+    <span class="type">void</span> on_discoverButton_clicked();
+    <span class="type">void</span> on_observeButton_clicked();
+    <span class="type">void</span> on_addOptionsButton_clicked();
+    <span class="type">void</span> on_contentButton_clicked();
+    <span class="type">void</span> on_resourceComboBox_editTextChanged(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text);
+    <span class="type">void</span> on_methodComboBox_currentIndexChanged(<span class="type">int</span> index);
+
+<span class="keyword">private</span>:
+    Ui<span class="operator">::</span>MainWindow <span class="operator">*</span>ui;
+    <span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span> <span class="operator">*</span>m_client;
+    <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qcoapoption.htm" translate="no">QCoapOption</a></span><span class="operator">&gt;</span> m_options;
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> m_currentData;
+};
+
+<span class="preprocessor">#endif // MAINWINDOW_H</span></pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,235 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cached Table Example | Qt SQL</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtsql-cachedtable-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsql-index.htm" translate="no">Qt SQL</a></li>
+                            <li><a>Cached Table Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Cached Table Example</h1>
+<span class="subtitle"></span>
+<!-- $$$cachedtable-brief -->
+<p>The Cached Table example shows how a table view can be used to access a database, caching any changes to the data until the user explicitly submits them using a push button.</p>
+<!-- @@@cachedtable -->
+<!-- $$$cachedtable-description -->
+<div class="descr"> <a name="details"></a>
+<div class="border"><p class="centerAlign"><img alt="" src="./images/cachedtable-example.png"></p></div><p>The example consists of a single class, <code translate="no">TableEditor</code>, which is a custom dialog widget that allows the user to modify data stored in a database. We will first review the class definiton and how to use the class, then we will take a look at the implementation.</p>
+<a name="tableeditor-class-definition"></a>
+<h4 id="tableeditor-class-definition">TableEditor Class Definition<a class="plink" href="#tableeditor-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">TableEditor</code> class inherits <a href="./qwidget.htm" translate="no">QWidget</a> making the table editor widget a top-level dialog window.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> TableEditor : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> TableEditor(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>tableName<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> submit();
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>submitButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>revertButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>quitButton;
+    <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span> <span class="operator">*</span>buttonBox;
+    <span class="type"><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a></span> <span class="operator">*</span>model;
+};</pre></div>
+<p>The <code translate="no">TableEditor</code> constructor takes two arguments: The first is a reference to the database table the <code translate="no">TableEditor</code> object will operate on. The other is a pointer to the parent widget and is passed on to the base class constructor.</p>
+<p>Note the <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> variable declaration: As we will see in this example, the <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> class can be used to provide data to view classes such as <a href="./qtableview.htm" translate="no">QTableView</a>. The <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> class provides an editable data model making it possible to read and write database records from a single table. It is build on top of the lower-level <a href="./qsqlquery.htm" translate="no">QSqlQuery</a> class which provides means of executing and manipulating SQL statements.</p>
+<p>We are also going to show how a table view can be used to cache any changes to the data until the user explicitly requests to submit them. For that reason we need to declare a <code translate="no">submit()</code> slot in additon to the model and the editor's buttons.</p>
+<div class="table"><table class="generic" width="100%">
+<thead><tr class="qt-style"><th>Connecting to a Database</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>Before we can use the <code translate="no">TableEditor</code> class, we must create a connection to the database containing the table we want to edit:<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    <span class="keyword">if</span> (<span class="operator">!</span>createConnection())
+        <span class="keyword">return</span> <span class="number">1</span>;
+
+    TableEditor editor(<span class="string">"person"</span>);
+    editor<span class="operator">.</span>show();
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>The <code translate="no">createConnection()</code> function is a helper function provided for convenience. It is defined in the <code translate="no">connection.h</code> file which is located in the <code translate="no">sql</code> example directory (all the examples in the <code translate="no">sql</code> directory use this function to connect to a database).</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">static</span> bool createConnection()
+{
+    <span class="type"><a href="./qsqldatabase.htm" translate="no">QSqlDatabase</a></span> db <span class="operator">=</span> <span class="type"><a href="./qsqldatabase.htm" translate="no">QSqlDatabase</a></span><span class="operator">::</span>addDatabase(<span class="string">"QSQLITE"</span>);
+    db<span class="operator">.</span>setDatabaseName(<span class="string">":memory:"</span>);
+    <span class="keyword">if</span> (<span class="operator">!</span>db<span class="operator">.</span>open()) {
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>critical(nullptr<span class="operator">,</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>tr(<span class="string">"Cannot open database"</span>)<span class="operator">,</span>
+            <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>tr(<span class="string">"Unable to establish a database connection.\n"</span>
+                        <span class="string">"This example needs SQLite support. Please read "</span>
+                        <span class="string">"the Qt SQL driver documentation for information how "</span>
+                        <span class="string">"to build it.\n\n"</span>
+                        <span class="string">"Click Cancel to exit."</span>)<span class="operator">,</span> <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>Cancel);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    <span class="type"><a href="./qsqlquery.htm" translate="no">QSqlQuery</a></span> query;
+    query<span class="operator">.</span>exec(<span class="string">"create table person (id int primary key, "</span>
+               <span class="string">"firstname varchar(20), lastname varchar(20))"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into person values(101, 'Danny', 'Young')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into person values(102, 'Christine', 'Holand')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into person values(103, 'Lars', 'Gordon')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into person values(104, 'Roberto', 'Robitaille')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into person values(105, 'Maria', 'Papadopoulos')"</span>);
+
+    query<span class="operator">.</span>exec(<span class="string">"create table items (id int primary key,"</span>
+                                             <span class="string">"imagefile int,"</span>
+                                             <span class="string">"itemtype varchar(20),"</span>
+                                             <span class="string">"description varchar(100))"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into items "</span>
+               <span class="string">"values(0, 0, 'Qt',"</span>
+               <span class="string">"'Qt is a full development framework with tools designed to "</span>
+               <span class="string">"streamline the creation of stunning applications and  "</span>
+               <span class="string">"amazing user interfaces for desktop, embedded and mobile "</span>
+               <span class="string">"platforms.')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into items "</span>
+               <span class="string">"values(1, 1, 'Qt Quick',"</span>
+               <span class="string">"'Qt Quick is a collection of techniques designed to help "</span>
+               <span class="string">"developers create intuitive, modern-looking, and fluid "</span>
+               <span class="string">"user interfaces using a CSS &amp; JavaScript like language.')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into items "</span>
+               <span class="string">"values(2, 2, 'Qt Creator',"</span>
+               <span class="string">"'Qt Creator is a powerful cross-platform integrated "</span>
+               <span class="string">"development environment (IDE), including UI design tools "</span>
+               <span class="string">"and on-device debugging.')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into items "</span>
+               <span class="string">"values(3, 3, 'Qt Project',"</span>
+               <span class="string">"'The Qt Project governs the open source development of Qt, "</span>
+               <span class="string">"allowing anyone wanting to contribute to join the effort "</span>
+               <span class="string">"through a meritocratic structure of approvers and "</span>
+               <span class="string">"maintainers.')"</span>);
+
+    query<span class="operator">.</span>exec(<span class="string">"create table images (itemid int, file varchar(20))"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into images values(0, 'images/qt-logo.png')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into images values(1, 'images/qt-quick.png')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into images values(2, 'images/qt-creator.png')"</span>);
+    query<span class="operator">.</span>exec(<span class="string">"insert into images values(3, 'images/qt-project.png')"</span>);
+
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}</pre></div>
+<p>The <code translate="no">createConnection</code> function opens a connection to an in-memory SQLITE database and creates a test table. If you want to use another database, simply modify this function's code.</p>
+</td></tr>
+</tbody></table></div>
+<a name="tableeditor-class-implementation"></a>
+<h4 id="tableeditor-class-implementation">TableEditor Class Implementation<a class="plink" href="#tableeditor-class-implementation" title="Direct link to this headline"></a></h4>
+<p>The class implementation consists of only two functions, the constructor and the <code translate="no">submit()</code> slot. In the constructor we create and customize the data model and the various window elements:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">TableEditor<span class="operator">::</span>TableEditor(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>tableName<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+{
+    model <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a></span>(<span class="keyword">this</span>);
+    model<span class="operator">-</span><span class="operator">&gt;</span>setTable(tableName);
+    model<span class="operator">-</span><span class="operator">&gt;</span>setEditStrategy(<span class="type"><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a></span><span class="operator">::</span>OnManualSubmit);
+    model<span class="operator">-</span><span class="operator">&gt;</span>select();
+
+    model<span class="operator">-</span><span class="operator">&gt;</span>setHeaderData(<span class="number">0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Horizontal<span class="operator">,</span> tr(<span class="string">"ID"</span>));
+    model<span class="operator">-</span><span class="operator">&gt;</span>setHeaderData(<span class="number">1</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Horizontal<span class="operator">,</span> tr(<span class="string">"First name"</span>));
+    model<span class="operator">-</span><span class="operator">&gt;</span>setHeaderData(<span class="number">2</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Horizontal<span class="operator">,</span> tr(<span class="string">"Last name"</span>));</pre></div>
+<p>First we create the data model and set the SQL database table we want the model to operate on. Note that the <a href="./qsqltablemodel.htm#setTable" translate="no">QSqlTableModel::setTable</a>() function does not select data from the table; it only fetches its field information. For that reason we call the <a href="./qsqltablemodel.htm#select" translate="no">QSqlTableModel::select</a>() function later on, populating the model with data from the table. The selection can be customized by specifying filters and sort conditions (see the <a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a> class documentation for more details).</p>
+<p>We also set the model's edit strategy. The edit strategy dictates when the changes done by the user in the view, are actually applied to the database. Since we want to cache the changes in the table view (i.e. in the model) until the user explicitly submits them, we choose the <a href="./qsqltablemodel.htm#EditStrategy-enum" translate="no">QSqlTableModel::OnManualSubmit</a> strategy. The alternatives are <a href="./qsqltablemodel.htm#EditStrategy-enum" translate="no">QSqlTableModel::OnFieldChange</a> and <a href="./qsqltablemodel.htm#EditStrategy-enum" translate="no">QSqlTableModel::OnRowChange</a>.</p>
+<p>Finally, we set up the labels displayed in the view header using the <a href="./qsqlquerymodel.htm#setHeaderData" translate="no">setHeaderData()</a> function that the model inherits from the <a href="./qsqlquerymodel.htm" translate="no">QSqlQueryModel</a> class.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qtableview.htm" translate="no">QTableView</a></span> <span class="operator">*</span>view <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtableview.htm" translate="no">QTableView</a></span>;
+    view<span class="operator">-</span><span class="operator">&gt;</span>setModel(model);
+    view<span class="operator">-</span><span class="operator">&gt;</span>resizeColumnsToContents();</pre></div>
+<p>Then we create a table view. The <a href="./qtableview.htm" translate="no">QTableView</a> class provides a default model/view implementation of a table view, i.e. it implements a table view that displays items from a model. It also allows the user to edit the items, storing the changes in the model. To create a read only view, set the proper flag using the <a href="./qabstractitemview.htm#editTriggers-prop" translate="no">editTriggers</a> property the view inherits from the <a href="./qabstractitemview.htm" translate="no">QAbstractItemView</a> class.</p>
+<p>To make the view present our data, we pass our model to the view using the <a href="./qabstractitemview.htm#setModel" translate="no">setModel()</a> function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    submitButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"Submit"</span>));
+    submitButton<span class="operator">-</span><span class="operator">&gt;</span>setDefault(<span class="keyword">true</span>);
+    revertButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Revert"</span>));
+    quitButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"Quit"</span>));
+
+    buttonBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Vertical);
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(submitButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>ActionRole);
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(revertButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>ActionRole);
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(quitButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>RejectRole);</pre></div>
+<p>The <code translate="no">TableEditor</code>'s buttons are regular <a href="./qpushbutton.htm" translate="no">QPushButton</a> objects. We add them to a button box to ensure that the buttons are presented in a layout that is appropriate to the current widget style. The rationale for this is that dialogs and message boxes typically present buttons in a layout that conforms to the interface guidelines for that platform. Invariably, different platforms have different layouts for their dialogs. <a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a> allows a developer to add buttons to it and will automatically use the appropriate layout for the user's desktop environment.</p>
+<p>Most buttons for a dialog follow certain roles. When adding a button to a button box using the <a href="./qdialogbuttonbox.htm" translate="no">addButton()</a> function, the button's role must be specified using the <a href="./qdialogbuttonbox.htm#ButtonRole-enum" translate="no">QDialogButtonBox::ButtonRole</a> enum. Alternatively, <a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a> provides several standard buttons (e.g. <b translate="no">OK</b>, <b translate="no">Cancel</b>, <b translate="no">Save</b>) that you can use. They exist as flags so you can OR them together in the constructor.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    connect(submitButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>TableEditor<span class="operator">::</span>submit);
+    connect(revertButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>  model<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qsqltablemodel.htm" translate="no">QSqlTableModel</a></span><span class="operator">::</span>revertAll);
+    connect(quitButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>TableEditor<span class="operator">::</span>close);</pre></div>
+<p>We connect the <b translate="no">Quit</b> button to the table editor's <a href="./qwidget.htm#close" translate="no">close()</a> slot, and the <b translate="no">Submit</b> button to our private <code translate="no">submit()</code> slot. The latter slot will take care of the data transactions. Finally, we connect the <b translate="no">Revert</b> button to our model's <a href="./qsqltablemodel.htm#revertAll" translate="no">revertAll()</a> slot, reverting all pending changes (i.e., restoring the original data).</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span> <span class="operator">*</span>mainLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span>;
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(view);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(buttonBox);
+    setLayout(mainLayout);
+
+    setWindowTitle(tr(<span class="string">"Cached Table"</span>));
+}</pre></div>
+<p>In the end we add the button box and the table view to a layout, install the layout on the table editor widget, and set the editor's window title.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TableEditor<span class="operator">::</span>submit()
+{
+    model<span class="operator">-</span><span class="operator">&gt;</span>database()<span class="operator">.</span>transaction();
+    <span class="keyword">if</span> (model<span class="operator">-</span><span class="operator">&gt;</span>submitAll()) {
+        model<span class="operator">-</span><span class="operator">&gt;</span>database()<span class="operator">.</span>commit();
+    } <span class="keyword">else</span> {
+        model<span class="operator">-</span><span class="operator">&gt;</span>database()<span class="operator">.</span>rollback();
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Cached Table"</span>)<span class="operator">,</span>
+                             tr(<span class="string">"The database reported an error: %1"</span>)
+                             <span class="operator">.</span>arg(model<span class="operator">-</span><span class="operator">&gt;</span>lastError()<span class="operator">.</span>text()));
+    }
+}</pre></div>
+<p>The <code translate="no">submit()</code> slot is called whenever the users hit the <b translate="no">Submit</b> button to save their changes.</p>
+<p>First, we begin a transaction on the database using the <a href="./qsqldatabase.htm#transaction" translate="no">QSqlDatabase::transaction</a>() function. A database transaction is a unit of interaction with a database management system or similar system that is treated in a coherent and reliable way independent of other transactions. A pointer to the used database can be obtained using the <a href="./qsqltablemodel.htm#database" translate="no">QSqlTableModel::database</a>() function.</p>
+<p>Then, we try to submit all the pending changes, i.e. the model's modified items. If no error occurs, we commit the transaction to the database using the <a href="./qsqldatabase.htm#commit" translate="no">QSqlDatabase::commit</a>() function (note that on some databases, this function will not work if there is an active <a href="./qsqlquery.htm" translate="no">QSqlQuery</a> on the database). Otherwise we perform a rollback of the transaction using the <a href="./qsqldatabase.htm#rollback" translate="no">QSqlDatabase::rollback</a>() function and post a warning to the user.</p>
+<div class="table"><table class="generic" width="100%">
+<tbody><tr class="odd" valign="top"><td><b>See also:</b><p>A complete list of Qt's SQL <a href="./database.htm" translate="no">Database Classes</a>, and the <a href="./model-view-programming.htm" translate="no">Model/View Programming</a> documentation.</p>
+</td></tr>
+</tbody></table></div>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/sql/cachedtable?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@cachedtable -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

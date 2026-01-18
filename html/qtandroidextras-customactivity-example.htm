@@ -1,0 +1,159 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Android Custom Activity | Qt Android Extras</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a></li>
+                            <li><a href="./examples-qtandroidextras.htm" translate="no">Qt Android Extras Examples</a></li>
+                            <li><a>Android Custom Activity</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Android Custom Activity</h1>
+<span class="subtitle"></span>
+<!-- $$$customactivity-brief -->
+<p>Demonstrates working with custom Android activities.</p>
+<!-- @@@customactivity -->
+<!-- $$$customactivity-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/customactivity.png"></p><p>This example demonstrates how to create an Android Activity and run it from your Qt application. The activity is composed of a Java class and an Android XML layout which is started from the main app. The activity can send back data after finishing which can be used in QML.</p>
+<p>When you click the <b translate="no">"Start custom Android activity"</b> button, the activity is started, and the activity has a text view and a button to exit. The activity can either use the button or the back gesture to go back.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="create-activity-class"></a>
+<h4 id="create-activity-class">Create Activity Class<a class="plink" href="#create-activity-class" title="Direct link to this headline"></a></h4>
+<p>Define an Android class called <code translate="no">CustomActivity</code> in the CustomActivity.java file as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">package org.qtproject.example.activityhandler;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+ public class CustomActivity extends Activity {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.second_activity);
+
+        Button backButton = (Button) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("message", "Back button clicked.");
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
+    }
+}</pre></div>
+<p>The Activity's layout is defined at <i>customactivity/android/res/layout/second_activity.xml</i>.</p>
+<p>To use this Activity, it must be defined in the <i>AndroidManifest.xml</i> file as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        &lt;activity android:process=":custom_activity" android:name=".CustomActivity" android:label="-- %%INSERT_APP_NAME%% --"&gt;
+            &lt;!-- android:process=":qt" is needed to force the service to run on a separate process than the Activity --&gt;
+          &lt;meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/&gt;
+        &lt;/activity&gt;</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>To use any native JNI calls, you must extend <code translate="no">QtActivity</code> instead of <code translate="no">Activity</code>.</p>
+</div>
+<a name="start-the-activity"></a>
+<h4 id="start-the-activity">Start the Activity<a class="plink" href="#start-the-activity" title="Direct link to this headline"></a></h4>
+<p>To start an Activity from Qt, you need to create an intent using <a href="./qandroidintent.htm" translate="no">QAndroidIntent</a>, then call <a href="./qtandroid.htm#startActivity" translate="no">QtAndroid::startActivity</a> providing the intent, a custom request code, and a callback function. The latter is called after the activity has finished. You can start the activity as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ActivityHandler<span class="operator">::</span>showSecondActivity()
+{
+    <span class="type"><a href="./qandroidintent.htm" translate="no">QAndroidIntent</a></span> activityIntent(<span class="type"><a href="./qtandroid.htm" translate="no">QtAndroid</a></span><span class="operator">::</span>androidActivity()<span class="operator">.</span>object()<span class="operator">,</span>
+                                  <span class="string">"org/qtproject/example/activityhandler/CustomActivity"</span>);
+
+    <span class="type"><a href="./qtandroid.htm" translate="no">QtAndroid</a></span><span class="operator">::</span>startActivity(
+            activityIntent<span class="operator">.</span>handle()<span class="operator">,</span> REQUEST_CODE<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>(<span class="type">int</span> requestCode<span class="operator">,</span> <span class="type">int</span> resultCode<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span> <span class="operator">&amp;</span>data) {
+                activityReceiver(requestCode<span class="operator">,</span> resultCode<span class="operator">,</span> data);
+            });
+}</pre></div>
+<p>Then, define the callback function that is called directly after the activity is done:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ActivityHandler<span class="operator">::</span>activityReceiver(<span class="type">int</span> requestCode<span class="operator">,</span> <span class="type">int</span> resultCode<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span> <span class="operator">&amp;</span>data)
+{
+    <span class="keyword">if</span> (requestCode <span class="operator">=</span><span class="operator">=</span> REQUEST_CODE) {
+        <span class="keyword">if</span> (resultCode <span class="operator">=</span><span class="operator">=</span> RESULT_OK) {
+            <span class="keyword">const</span> <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span> key <span class="operator">=</span> <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span><span class="operator">::</span>fromString(<span class="string">"message"</span>);
+            <span class="keyword">const</span> <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span> message <span class="operator">=</span> data<span class="operator">.</span>callObjectMethod(
+                    <span class="string">"getStringExtra"</span><span class="operator">,</span> <span class="string">"(Ljava/lang/String;)Ljava/lang/String;"</span><span class="operator">,</span> key<span class="operator">.</span>object());
+            <span class="keyword">if</span> (message<span class="operator">.</span>isValid())
+                <span class="keyword">emit</span> ActivityHandler<span class="operator">::</span>instance()<span class="operator">-</span><span class="operator">&gt;</span>receiveFromActivityResult(message<span class="operator">.</span>toString());
+        } <span class="keyword">else</span> {</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>You can first check that the <code translate="no">requestCode</code> and <code translate="no">resultCode</code> are correct.</p>
+</div>
+<p>To connect C++ with QML, add an instance of the C++ class that is handling the JNI logic as a QML property in the <i>main.cpp</i> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ActivityHandler <span class="operator">*</span>activityHandler <span class="operator">=</span> <span class="keyword">new</span> ActivityHandler(<span class="operator">&amp;</span>app);
+    engine<span class="operator">.</span>rootContext()<span class="operator">-</span><span class="operator">&gt;</span>setContextProperty(QLatin1String(<span class="string">"activityHandler"</span>)<span class="operator">,</span> activityHandler);</pre></div>
+<p>Then, add a <a href="./qml-qtqml-connections.htm" translate="no">Connections</a> element to watch for messages from C++ in the <i>main.qml</i> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-connections.htm" translate="no">Connections</a></span> {
+        <span class="name">target</span>: <span class="name">activityHandler</span>
+        <span class="keyword">function </span><span class="name">onReceiveFromActivityResult</span>(message) {
+            <span class="name">resultText</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">status</span> <span class="operator">+</span> <span class="name">message</span>
+        }
+    }</pre></div>
+<p>And set the <code translate="no">onClicked</code> for the <b translate="no">"Start custom Android activity"</b> button to:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="name">onClicked</span>: <span class="name">qtAndroidService</span>.<span class="name">sendToService</span>(<span class="name">pingText</span>.<span class="name">text</span>)</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtandroidextras.git/tree/examples/androidextras/customactivity?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<p><b>See also </b><a href="./android.htm" translate="no">Qt for Android</a> and <a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a>.</p>
+<!-- @@@customactivity -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,186 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AnimatedImage QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-animatedimage.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>AnimatedImage QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">AnimatedImage QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$AnimatedImage-brief -->
+<p>Plays animations stored as a series of images. <a href="#details">More...</a></p>
+<!-- @@@AnimatedImage -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick-image.htm" translate="no">Image</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-animatedimage-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-animatedimage.htm#currentFrame-prop" translate="no">currentFrame</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-animatedimage.htm#frameCount-prop" translate="no">frameCount</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-animatedimage.htm#paused-prop" translate="no">paused</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-animatedimage.htm#playing-prop" translate="no">playing</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-animatedimage.htm#source-prop" translate="no">source</a></b></b> : url</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-animatedimage.htm#speed-prop" translate="no">speed</a></b></b> : real</li>
+</ul>
+<!-- $$$AnimatedImage-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The AnimatedImage type extends the features of the <a href="./qml-qtquick-image.htm" translate="no">Image</a> type, providing a way to play animations stored as images containing a series of frames, such as those stored in GIF files.</p>
+<p>Information about the current frame and total length of the animation can be obtained using the <a href="./qml-qtquick-animatedimage.htm#currentFrame-prop" translate="no">currentFrame</a> and <a href="./qml-qtquick-animatedimage.htm#frameCount-prop" translate="no">frameCount</a> properties. You can start, pause and stop the animation by changing the values of the <a href="./qml-qtquick-animatedimage.htm#playing-prop" translate="no">playing</a> and <a href="./qml-qtquick-animatedimage.htm#paused-prop" translate="no">paused</a> properties.</p>
+<p>The full list of supported formats can be determined with <a href="./qmovie.htm#supportedFormats" translate="no">QMovie::supportedFormats()</a>.</p>
+<a name="example-usage"></a>
+<h2 id="example-usage">Example Usage<a class="plink" href="#example-usage" title="Direct link to this headline"></a></h2>
+<div style="float: left; margin-right: 2em"><p class="centerAlign"></p><div class="player" title="Click to play/pause the animation">
+<video class="animation" loop="" preload="metadata">
+<source src="videos/animatedimageitem.mp4" type="video/mp4">
+<source src="videos/animatedimageitem.webm" type="video/webm">
+<img alt="" src="./images/animatedimageitem.gif">
+</video>
+<div class="playcontrol"></div>
+</div></div><p>The following QML shows how to display an animated image and obtain information about its state, such as the current frame and total number of frames. The result is an animated image with a simple progress indicator underneath it.</p>
+<p><b>Note</b>: When animated images are cached, every frame of the animation will be cached.</p>
+<p>Set cache to false if you are playing a long or large animation and you want to conserve memory.</p>
+<p>If the image data comes from a sequential device (e.g. a socket), AnimatedImage can only loop if cache is set to true.</p>
+<br style="clear: both"><div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="name">animation</span>.<span class="name">width</span>; <span class="name">height</span>: <span class="name">animation</span>.<span class="name">height</span> <span class="operator">+</span> <span class="number">8</span>
+
+    <span class="type"><a href="./qml-qtquick-animatedimage.htm" translate="no">AnimatedImage</a></span> { <span class="name">id</span>: <span class="name">animation</span>; <span class="name">source</span>: <span class="string">"animation.gif"</span> }
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">frames</span>: <span class="name">animation</span>.<span class="name">frameCount</span>
+
+        <span class="name">width</span>: <span class="number">4</span>; <span class="name">height</span>: <span class="number">8</span>
+        <span class="name">x</span>: (<span class="name">animation</span>.<span class="name">width</span> <span class="operator">-</span> <span class="name">width</span>) <span class="operator">*</span> <span class="name">animation</span>.<span class="name">currentFrame</span> <span class="operator">/</span> <span class="name">frames</span>
+        <span class="name">y</span>: <span class="name">animation</span>.<span class="name">height</span>
+        <span class="name">color</span>: <span class="string">"red"</span>
+    }
+}</pre></div>
+<p><b>See also </b><a href="./qml-qtquick-borderimage.htm" translate="no">BorderImage</a> and <a href="./qml-qtquick-image.htm" translate="no">Image</a>.</p>
+<!-- @@@AnimatedImage -->
+<h2>Property Documentation</h2>
+<!-- $$$ -->
+<div class="qmlitem"><div class="fngroup">
+<div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="currentFrame-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="currentFrame-prop"></a><span class="name">currentFrame</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#currentFrame-prop" title="Direct link to this headline"></a></p></td></tr>
+<tr class="odd" id="frameCount-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="frameCount-prop"></a><span class="name">frameCount</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#frameCount-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+</div><div class="qmldoc"><p><a href="./qml-qtquick-animatedimage.htm#currentFrame-prop" translate="no">currentFrame</a> is the frame that is currently visible. By monitoring this property for changes, you can animate other items at the same time as the image.</p>
+<p><a href="./qml-qtquick-animatedimage.htm#frameCount-prop" translate="no">frameCount</a> is the number of frames in the animation. For some animation formats, <a href="./qml-qtquick-animatedimage.htm#frameCount-prop" translate="no">frameCount</a> is unknown and has a value of zero.</p>
+</div></div><!-- @@@ -->
+<br>
+<!-- $$$paused -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="paused-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="paused-prop"></a><span class="name">paused</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#paused-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the animated image is paused.</p>
+<p>By default, this property is false. Set it to true when you want to pause the animation.</p>
+</div></div><!-- @@@paused -->
+<br>
+<!-- $$$playing -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="playing-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="playing-prop"></a><span class="name">playing</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#playing-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the animated image is playing.</p>
+<p>By default, this property is true, meaning that the animation will start playing immediately.</p>
+<p><b>Note</b>: this property is affected by changes to the actual playing state of <a href="./qml-qtquick-animatedimage.htm" translate="no">AnimatedImage</a>. If non-animated images are used, <i translate="no">playing</i> will need to be manually set to <i translate="no">true</i> in order to animate following images.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-animatedimage.htm" translate="no">AnimatedImage</a></span> {
+    <span class="name">onStatusChanged</span>: <span class="name">playing</span> <span class="operator">=</span> (<span class="name">status</span> <span class="operator">==</span> <span class="name">AnimatedImage</span>.<span class="name">Ready</span>)
+}</pre></div>
+</div></div><!-- @@@playing -->
+<br>
+<!-- $$$source -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="source-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="source-prop"></a><span class="name">source</span> : <span class="type"><a href="./qml-url.htm" translate="no">url</a></span><a class="plink" href="#source-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the URL that refers to the source image.</p>
+<p><a href="./qml-qtquick-animatedimage.htm" translate="no">AnimatedImage</a> can handle any image format supported by Qt, loaded from any URL scheme supported by Qt. It is however not compatible with <a href="./qquickimageprovider.htm" translate="no">QQuickImageProvider</a>.</p>
+</div></div><!-- @@@source -->
+<br>
+<!-- $$$speed -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="speed-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="speed-prop"></a><span class="name">speed</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#speed-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the speed of the animation.</p>
+<p>The speed is measured in percentage of the original animated image speed. The default speed is 1.0 (original speed).</p>
+<p>This property was introduced in QtQuick 2.11.</p>
+</div></div><!-- @@@speed -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

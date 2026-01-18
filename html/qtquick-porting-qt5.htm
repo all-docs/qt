@@ -1,0 +1,174 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Porting QML Applications to Qt 5</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Porting QML Applications to Qt 5</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Porting QML Applications to Qt 5</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-porting-qt5.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>When porting QML-related code from Qt 4.8 to Qt 5, application developers should be aware that the QML infrastructure has undergone considerable changes in Qt 5. The sections below describe these changes and the impact they have on your existing code.</p>
+<a name="qml-language-changes"></a>
+<h2 id="qml-language-changes">QML Language Changes<a class="plink" href="#qml-language-changes" title="Direct link to this headline"></a></h2>
+<p>There are very few changes in the QML language that affect the porting of existing Qt 4.8 QML code to Qt 5. These are:</p>
+<ul>
+<li>Individual file imports no longer work (for example, import "MyType.qml"). Import the containing directory instead.</li>
+<li>Relative file paths in JavaScript files are now resolved relative to the location of the JavaScript file instead of the QML file that imported it.</li>
+<li>It's no longer possible to override signals from the base component.</li>
+</ul>
+<a name="qtquick-module"></a>
+<h2 id="qtquick-module">QtQuick Module<a class="plink" href="#qtquick-module" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qtquick-module.htm" translate="no">QtQuick</a> module has been updated to version 2. All QML applications should update their import statements to use the new version:</p>
+<div class="pre"><pre class="cpp" translate="no">import <span class="type"><a href="./qtquick-module.htm" translate="no">QtQuick</a></span> <span class="number">2.3</span></pre></div>
+<a name="property-and-method-changes"></a>
+<h3 id="property-and-method-changes">Property and Method Changes<a class="plink" href="#property-and-method-changes" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qml-qtquick-listview.htm" translate="no">ListView</a>'s <code translate="no">highlightMoveSpeed</code> and <code translate="no">highlightResizeSpeed</code> properties have been renamed to <a href="./qml-qtquick-listview.htm#highlightMoveVelocity-prop" translate="no">highlightMoveVelocity</a> and <a href="./qml-qtquick-listview.htm#highlightResizeVelocity-prop" translate="no">highlightResizeVelocity</a>, respectively.</li>
+<li><a href="./qml-qtquick-textinput.htm" translate="no">TextInput</a> and <a href="./qml-qtquick-textedit.htm" translate="no">TextEdit</a>'s <code translate="no">openSoftwareInputPanel()</code> and <code translate="no">closeSoftwareInputPanel()</code> methods have been removed. Use the new Qt.inputMethod property and call Qt.inputMethod.show() Qt.inputMethod.hide() to show and hide the virtual keyboard.</li>
+</ul>
+<a name="type-and-api-changes"></a>
+<h3 id="type-and-api-changes">Type and API Changes<a class="plink" href="#type-and-api-changes" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a> has moved into its own module, <a href="./qtquick-module.htm" translate="no">QtQuick</a>.<a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a>. Any code that uses the <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a> and <a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a> types must import <i><a href="./qtquick-module.htm" translate="no">QtQuick</a>.<a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a></i> instead.</li>
+<li>The local storage API that enables SQL support has been moved from the <a href="./qtqml-javascript-hostenvironment.htm#qml-global-object" translate="no">QML Global Object</a> into a <code translate="no">QtQuick.LocalStorage</code> singleton type. Any code that requires the local storage API must import <i><a href="./qtquick-module.htm" translate="no">QtQuick</a>.LocalStorage</i> instead. See the <a href="./qtquick-localstorage-qmlmodule.htm" translate="no">Qt Quick Local Storage</a> documentation for examples.</li>
+<li>The <code translate="no">LayoutItem</code> type has been removed from the <code translate="no">QtQuick</code> module as it was specific to the Graphics View framework backend used in <a href="./qtquick-porting-qt5.htm" translate="no">Qt Quick 1</a>.</li>
+</ul>
+<a name="behavioral-changes"></a>
+<h3 id="behavioral-changes">Behavioral Changes<a class="plink" href="#behavioral-changes" title="Direct link to this headline"></a></h3>
+<p><a href="./qtquick-module.htm" translate="no">QtQuick</a> 2 includes a number of behavioral changes and you should thoroughly test your applications after porting. These changes will not necessarily lead to run-time errors, but may break certain assumptions in your code. Below are the prominent changes to be aware of when porting your applications.</p>
+<p>Item opacity and visibility:</p>
+<ul>
+<li>The input handling details of <a href="./qml-qtquick-item.htm#opacity-prop" translate="no">opacity</a> and <a href="./qml-qtquick-item.htm#visible-prop" translate="no">visible</a> have changed. An opacity of zero no longer affects input handling, where previously it stopped mouse input. A visibility of false no longer affects keyboard input, but still stops mouse input. The new <a href="./qml-qtquick-item.htm#enabled-prop" translate="no">enabled</a> property stops mouse and keyboard input, but does not affect how or whether the item is rendered. A workaround for applying the old behavior in most cases is to bind enabled to <code translate="no">(visible &amp;&amp; opacity &gt; 0.0)</code>.</li>
+<li>Previously, if an item was in a positioner (i.e. a <a href="./10-qdoc-commands-tablesandlists.htm#row" translate="no">Row</a>, <a href="./qml-qtquick-column.htm" translate="no">Column</a>, <a href="./qml-qtquick-grid.htm" translate="no">Grid</a> and <a href="./qml-qtquick-flow.htm" translate="no">Flow</a>) and the item's <code translate="no">opacity</code> changed to 0, or its <code translate="no">visible</code> value became <code translate="no">false</code>, the positioner would remove the item from its layout and collapse the space for that item. In <a href="./qtquick-module.htm" translate="no">QtQuick</a> 2, this now only happens when an item's <code translate="no">visible</code> is <code translate="no">false</code>; the item opacity no longer affects whether the item is laid out. (This is consistent with the existing behavior of <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> and <a href="./qml-qtquick-gridview.htm" translate="no">GridView</a>).</li>
+</ul>
+<p>Text:</p>
+<ul>
+<li>The <a href="./qml-qtquick-textedit.htm#textFormat-prop" translate="no">TextEdit::textFormat</a> property now defaults to <code translate="no">PlainText</code> instead of <code translate="no">AutoText</code>.</li>
+<li>When <a href="./qml-qtquick-text.htm#textFormat-prop" translate="no">Text::textFormat</a> is set to <code translate="no">Text.AutoText</code> format, the text object will automatically switch to <code translate="no">Text.StyledText</code> instead of <code translate="no">Text.RichText</code>.</li>
+</ul>
+<p>Other:</p>
+<ul>
+<li>Modifying the <a href="./qml-qtquick-image.htm#sourceSize-prop" translate="no">Image::sourceSize</a> now fits the image to the size, maintaining aspect ratio.</li>
+<li>For <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> and <a href="./qml-qtquick-gridview.htm" translate="no">GridView</a>, the <code translate="no">cacheBuffer</code> property now has a non-zero default and delegates in the cache buffer are created asynchronously. Also, using a <code translate="no">RightToLeft</code> layout now also reverses the <code translate="no">preferredHighlightBegin</code> and <code translate="no">preferredHighlightEnd</code>.</li>
+<li>For <a href="./qml-qtquick-loader.htm" translate="no">Loader</a>, the <code translate="no">sourceChanged</code> and <code translate="no">sourceComponentChanged</code> signals are now only emitted when their respective properties change value. (Previously <a href="./qml-qtquick-loader.htm" translate="no">Loader</a> emitted both of these signals when either of the relevant properties had changed.)</li>
+</ul>
+<a name="changes-to-experimental-qt-labs-modules"></a>
+<h3 id="changes-to-experimental-qt-labs-modules">Changes to experimental Qt.labs modules<a class="plink" href="#changes-to-experimental-qt-labs-modules" title="Direct link to this headline"></a></h3>
+<ul>
+<li>The <code translate="no">Qt.labs.particles</code> module has been removed. It is replaced by the fully-fledged <a href="./qtquick-particles-qmlmodule.htm" translate="no">QtQuick.Particles</a> module which is an enormous improvement on its predecessor.</li>
+<li>The <code translate="no">Qt.labs.shaders</code> module has been removed as the <code translate="no">ShaderEffectItem</code> and <a href="./qml-qtquick-shadereffectsource.htm" translate="no">ShaderEffectSource</a> types from this module have been moved into the <code translate="no">QtQuick</code> module. Note the <code translate="no">ShaderEffectItem</code> type has been renamed to <a href="./qml-qtquick-shadereffect.htm" translate="no">ShaderEffect</a>.</li>
+</ul>
+<a name="c-code"></a>
+<h2 id="c-code">C++ code<a class="plink" href="#c-code" title="Direct link to this headline"></a></h2>
+<p>In Qt 5, all QML applications are rendered with an OpenGL scenegraph architecture rather than the Graphics View framework used in Qt 4. Due to the scale of this architectural change, the C++ API has been extensively restructured and the <code translate="no">QtDeclarative</code> module has been deprecated in favor of two new modules: <a href="./qtqml-index.htm" translate="no">Qt QML</a>, which implements the QML engine and language infrastructure, and <a href="./qtquick-index.htm" translate="no">Qt Quick</a>, which implements the visual canvas and scenegraph backend.</p>
+<p>All classes that were previously in the <code translate="no">QtDeclarative</code> module have been moved into the <a href="./qtqml-index.htm" translate="no">Qt QML</a> and <a href="./qtquick-index.htm" translate="no">Qt Quick</a> modules, and their class names have been changed to reflect their new module locations. The class name changes are as follows:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Qt QML</th><th>Qt Quick</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><ul>
+<li>QDeclarativeComponent -&gt; <a href="./qqmlcomponent.htm" translate="no">QQmlComponent</a></li>
+<li>QDeclarativeContext -&gt; <a href="./qqmlcontext.htm" translate="no">QQmlContext</a></li>
+<li>QDeclarativeEngine -&gt; <a href="./qqmlengine.htm" translate="no">QQmlEngine</a></li>
+<li>QDeclarativeError -&gt; <a href="./qqmlerror.htm" translate="no">QQmlError</a></li>
+<li>QDeclarativeExpression -&gt; <a href="./qqmlexpression.htm" translate="no">QQmlExpression</a></li>
+<li>QDeclarativeExtensionPlugin -&gt; QQmlExtensionPlugin</li>
+<li>QDeclarativeInfo -&gt; QQmlInfo</li>
+<li>QDeclarativeListReference -&gt; <a href="./qqmllistreference.htm" translate="no">QQmlListReference</a></li>
+<li>QDeclarativeNetworkAccessManagerFactory -&gt; <a href="./qqmlnetworkaccessmanagerfactory.htm" translate="no">QQmlNetworkAccessManagerFactory</a></li>
+<li>QDeclarativeParserStatus -&gt; <a href="./qqmlparserstatus.htm" translate="no">QQmlParserStatus</a></li>
+<li>QDeclarativeProperty -&gt; <a href="./qqmlproperty.htm" translate="no">QQmlProperty</a></li>
+<li>QDeclarativePropertyMap -&gt; <a href="./qqmlpropertymap.htm" translate="no">QQmlPropertyMap</a></li>
+<li>QDeclarativePropertyValueSource -&gt; <a href="./qqmlpropertyvaluesource.htm" translate="no">QQmlPropertyValueSource</a></li>
+<li>QDeclarativeScriptString -&gt; <a href="./qqmlscriptstring.htm" translate="no">QQmlScriptString</a></li>
+</ul>
+</td><td><ul>
+<li>QDeclarativeItem -&gt; <a href="./qquickitem.htm" translate="no">QQuickItem</a></li>
+<li>QDeclarativeView -&gt; <a href="./qquickview.htm" translate="no">QQuickView</a></li>
+<li>QDeclarativeImageProvider -&gt; <a href="./qquickimageprovider.htm" translate="no">QQuickImageProvider</a></li>
+</ul>
+</td></tr>
+</tbody></table></div>
+<p>To use the new <code translate="no">QQml*</code> and <code translate="no">QQuick*</code> classes in Qt 5, link against the approprate module from your qmake <code translate="no">.pro</code> file. For example the following will link against both the <a href="./qtqml-index.htm" translate="no">Qt QML</a> and <a href="./qtquick-index.htm" translate="no">Qt Quick</a> modules:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QT <span class="operator">+</span><span class="operator">=</span> qml quick</pre></div>
+<p>Required header files can then be included:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtQml/QQmlEngine&gt;</span>
+<span class="preprocessor">#include &lt;QtQuick/QQuickView&gt;</span></pre></div>
+<p>(The <code translate="no">QtDeclarative</code> module is still available to developers as the <code translate="no">Qt Quick 1</code> module, as discussed <a href="./qtquick-porting-qt5.htm" translate="no">below</a>. However, it should not be used for new applications.)</p>
+<a name="qdeclarativeitem-and-qdeclarativeview"></a>
+<h4 id="qdeclarativeitem-and-qdeclarativeview">QDeclarativeItem and QDeclarativeView<a class="plink" href="#qdeclarativeitem-and-qdeclarativeview" title="Direct link to this headline"></a></h4>
+<p>When porting to <a href="./qquickitem.htm" translate="no">QQuickItem</a>, note that QDeclarativeItem inherited from <a href="./qgraphicsitem.htm" translate="no">QGraphicsItem</a>; in contrast, <a href="./qquickitem.htm" translate="no">QQuickItem</a> inherits directly from <a href="./qobject.htm" translate="no">QObject</a>, and any <a href="./qgraphicsitem.htm" translate="no">QGraphicsItem</a>-specific functionality is no longer available. In particular, <a href="./qquickitem.htm" translate="no">QQuickItem</a> does not have a <code translate="no">paint()</code> method for performing custom rendering through the <a href="./qpainter.htm" translate="no">QPainter</a> API. Instead, in Qt 5, custom rendering should be performed through the new <code translate="no">QSG*</code> classes to take full advantage of the scene graph. See the <a href="./topics-graphics.htm#qt-quick-scene-graph" translate="no">Qt Quick Scene Graph</a> documentation details on using these classes.</p>
+<p>Alternatively, the <a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a> provides a <code translate="no">paint()</code> method and can be used as a convenient way to port QDeclarativeItem-based classes that use the <a href="./qpainter.htm" translate="no">QPainter</a> API. Note this method is less performant than using the <code translate="no">QSG*</code> classes.</p>
+<p>When porting from QDeclarativeView to <a href="./qquickview.htm" translate="no">QQuickView</a>, note that QDeclarativeView inherited from <a href="./qgraphicsview.htm" translate="no">QGraphicsView</a>. In contrast, <a href="./qquickview.htm" translate="no">QQuickView</a> inherits from <a href="./qquickwindow.htm" translate="no">QQuickWindow</a> and uses the <a href="./qwindow.htm" translate="no">QWindow</a> infrastructure introduced in Qt 5; any <a href="./qgraphicsview.htm" translate="no">QGraphicsView</a>-specific functionality is no longer available.</p>
+<a name="utilities-qmlscene-and-qml"></a>
+<h4 id="utilities-qmlscene-and-qml">Utilities: qmlscene and qml<a class="plink" href="#utilities-qmlscene-and-qml" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">qmlviewer</code> tool provided for prototyping and testing QML applications in Qt 4.x has been replaced with the <code translate="no">qmlscene</code> tool which integrates with the new scenegraph features in Qt 5. In Qt 5.2, the <a href="./qtquick-qml-runtime.htm" translate="no">qml</a> tool was added, intended as the eventual replacement for <code translate="no">qmlscene</code>.</p>
+<a name="qml-plugins"></a>
+<h3 id="qml-plugins">QML plugins<a class="plink" href="#qml-plugins" title="Direct link to this headline"></a></h3>
+<p>All QML plugins should extend QQmlExtensionPlugin in Qt 5.</p>
+<p>Additionally, plugins should use the new Qt plugin infrastructure introduced in Qt 5. QML plugins no longer require the Q_EXPORT_PLUGIN2() macro. Instead, they should use the <a href="./qtplugin.htm#Q_PLUGIN_METADATA" translate="no">Q_PLUGIN_METADATA</a>() macro within the plugin class declaration.</p>
+<p>See the updated <a href="./qtqml-modules-cppplugins.htm" translate="no">Creating C++ Plugins For QML</a> documentation for an overview of creating QML plugins in Qt 5.</p>
+<a name="qtdeclarative-module-in-qt-5"></a>
+<h3 id="qtdeclarative-module-in-qt-5">QtDeclarative module in Qt 5<a class="plink" href="#qtdeclarative-module-in-qt-5" title="Direct link to this headline"></a></h3>
+<p>For the purposes of porting older applications, the <code translate="no">QtDeclarative</code> module has been available until Qt 5.6 but has been renamed to <code translate="no">Qt Quick 1</code>. Applications that required Qt Quick 1 specific API (e.g. QDeclarativeView or QDeclarativeItem and the Graphics View integration) can use this module. Note that new applications should use the new <a href="./qtqml-index.htm" translate="no">Qt QML</a> and <a href="./qtquick-index.htm" translate="no">Qt Quick</a> modules instead.</p>
+<p>To use the <code translate="no">Qt Quick 1</code> module, add "declarative" to your qmake <code translate="no">.pro</code> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QT <span class="operator">+</span><span class="operator">=</span> declarative</pre></div>
+<p>Required header files can be included as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtDeclarative/QDeclarativeView&gt;</span>
+<span class="preprocessor">#include &lt;QtDeclarative/QDeclarativeItem&gt;</span></pre></div>
+</div>
+<!-- @@@qtquick-porting-qt5.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

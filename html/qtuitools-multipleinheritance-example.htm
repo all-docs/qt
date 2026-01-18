@@ -1,0 +1,127 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multiple Inheritance Example | Qt UI Tools</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtuitools-index.htm" translate="no">Qt UI Tools</a></li>
+                            <li><a href="./examples-qtuitools.htm" translate="no">Qt UI Tools Examples</a></li>
+                            <li><a>Multiple Inheritance Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Multiple Inheritance Example</h1>
+<span class="subtitle"></span>
+<!-- $$$multipleinheritance-brief -->
+<p>Using a form created with Qt Designer in an application.</p>
+<!-- @@@multipleinheritance -->
+<!-- $$$multipleinheritance-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Multiple Inheritance Example shows how to use a form created with <a href="./qtdesigner-manual.htm" translate="no">Qt Designer</a> in an application by subclassing both <a href="./qwidget.htm" translate="no">QWidget</a> and the user interface class, which is <code translate="no">Ui::CalculatorForm</code>.</p>
+<p class="centerAlign"><img alt="" src="./images/multipleinheritance-example.png"></p><p>To subclass the <code translate="no">calculatorform.ui</code> file and ensure that <code translate="no">qmake</code> processes it with the <code translate="no">uic</code>, we have to include <code translate="no">calculatorform.ui</code> in the <code translate="no">.pro</code> file, as shown below:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QT += widgets
+
+HEADERS = calculatorform.h
+SOURCES = calculatorform.cpp main.cpp
+FORMS = calculatorform.ui</pre></div>
+<p>When the project is compiled, the <code translate="no">uic</code> will generate a corresponding <code translate="no">ui_calculatorform.h</code>.</p>
+<a name="calculatorform-definition"></a>
+<h4 id="calculatorform-definition">CalculatorForm Definition<a class="plink" href="#calculatorform-definition" title="Direct link to this headline"></a></h4>
+<p>In the <code translate="no">CalculatorForm</code> definition, we include the <code translate="no">ui_calculatorform.h</code> that was generated earlier.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "ui_calculatorform.h"</span></pre></div>
+<p>As mentioned earlier, the class is a subclass of both <a href="./qwidget.htm" translate="no">QWidget</a> and <code translate="no">Ui::CalculatorForm</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> CalculatorForm : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">,</span> <span class="keyword">private</span> Ui<span class="operator">::</span>CalculatorForm
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> CalculatorForm(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> on_inputSpinBox1_valueChanged(<span class="type">int</span> value);
+    <span class="type">void</span> on_inputSpinBox2_valueChanged(<span class="type">int</span> value);
+};</pre></div>
+<p>Two slots are defined according to the <a href="./designer-using-a-ui-file.htm#automatic-connections" translate="no">automatic connection</a> naming convention required by <code translate="no">uic</code>. This is to ensure that <a href="./qmetaobject.htm" translate="no">QMetaObject</a>'s auto-connection facilities connect all the signals and slots involved automatically.</p>
+<a name="calculatorform-implementation"></a>
+<h4 id="calculatorform-implementation">CalculatorForm Implementation<a class="plink" href="#calculatorform-implementation" title="Direct link to this headline"></a></h4>
+<p>In the constructor, we call <code translate="no">setupUi()</code> to load the user interface file. Note that setupUi is a method of <code translate="no">Ui::CalculatorForm</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">CalculatorForm<span class="operator">::</span>CalculatorForm(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+{
+    setupUi(<span class="keyword">this</span>);
+}</pre></div>
+<p>We include two slots, <code translate="no">on_inputSpinBox1_valueChanged()</code> and <code translate="no">on_inputSpinBox2_valueChanged()</code>. These slots respond to the <a href="./qspinbox.htm#valueChanged" translate="no">valueChanged()</a> signal that both spin boxes emit. Whenever there is a change in one spin box's value, we take that value and add it to whatever value the other spin box has.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> CalculatorForm<span class="operator">::</span>on_inputSpinBox1_valueChanged(<span class="type">int</span> value)
+{
+    outputWidget<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(value <span class="operator">+</span> inputSpinBox2<span class="operator">-</span><span class="operator">&gt;</span>value()));
+}
+
+<span class="type">void</span> CalculatorForm<span class="operator">::</span>on_inputSpinBox2_valueChanged(<span class="type">int</span> value)
+{
+    outputWidget<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(value <span class="operator">+</span> inputSpinBox1<span class="operator">-</span><span class="operator">&gt;</span>value()));
+}</pre></div>
+<a name="main-function"></a>
+<h4 id="main-function"><code translate="no">main()</code> Function<a class="plink" href="#main-function" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">main()</code> function instantiates <a href="./qapplication.htm" translate="no">QApplication</a> and <code translate="no">CalculatorForm</code>. The <code translate="no">calculator</code> object is displayed by invoking the <a href="./qwidget.htm#show" translate="no">show()</a> function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    CalculatorForm calculator;
+    calculator<span class="operator">.</span>show();
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>There are various approaches to include forms into applications. The Multiple Inheritance approach is just one of them. See Using a Designer UI File in Your Application for more information on the other approaches available.</p>
+<p><a href="https://code.qt.io/cgit/qt/qttools.git/tree/examples/uitools/multipleinheritance?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@multipleinheritance -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

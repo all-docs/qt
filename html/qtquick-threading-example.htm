@@ -1,0 +1,133 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Examples - Threading | Qt Quick</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Qt Quick Examples - Threading</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Examples - Threading</h1>
+<span class="subtitle"></span>
+<!-- $$$threading-brief -->
+<p>This is a collection of QML multithreading examples.</p>
+<!-- @@@threading -->
+<!-- $$$threading-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/qml-threading-example.png"></p><p><i>Threading</i> is a collection of QML multithreading examples.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="threaded-listmodel"></a>
+<h4 id="threaded-listmodel">Threaded ListModel<a class="plink" href="#threaded-listmodel" title="Direct link to this headline"></a></h4>
+<p><i>Threaded <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></i> contains a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> and a <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a>. The <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> object is updated asynchronously in another thread, and the results propagate back to the main thread. A timer requests updates from the worker thread periodically:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">        <span class="type"><a href="./qml-qtqml-timer.htm" translate="no">Timer</a></span> {
+            <span class="name">id</span>: <span class="name">timer</span>
+            <span class="name">interval</span>: <span class="number">2000</span>; <span class="name">repeat</span>: <span class="number">true</span>
+            <span class="name">running</span>: <span class="number">true</span>
+            <span class="name">triggeredOnStart</span>: <span class="number">true</span>
+
+            <span class="name">onTriggered</span>: {
+                var msg = {'action': <span class="string">'appendCurrentTime'</span>, 'model': <span class="name">listModel</span>};
+                <span class="name">worker</span>.<span class="name">sendMessage</span>(<span class="name">msg</span>);
+            }
+        }</pre></div>
+<p>Inside the worker thread, the <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> is synchronized once the data is finished loading:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">WorkerScript.onMessage = function(msg) {
+    if (msg.action == 'appendCurrentTime') {
+        var data = {'time': new Date().toTimeString()};
+        msg.model.append(data);
+        msg.model.sync();   // updates the changes to the list
+    }
+}</pre></div>
+<a name="workerscript"></a>
+<h4 id="workerscript">WorkerScript<a class="plink" href="#workerscript" title="Direct link to this headline"></a></h4>
+<p><i>WorkerScript</i> contains an example of using a <a href="./qtquick-threading-example.htm#workerscript" translate="no">WorkerScript</a> to offload expensive calculations into another thread. This keeps the UI from being blocked. This example calculates numbers in Pascal's Triangle, and not in a very optimal way, so it will often take several seconds to complete the calculation. By doing this in a <a href="./qtquick-threading-example.htm#workerscript" translate="no">WorkerScript</a> in another thread, the UI is not blocked during this time.</p>
+<p>When the UI needs another value, a request is sent to the <a href="./qtquick-threading-example.htm#workerscript" translate="no">WorkerScript</a>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">        Spinner {
+            id: rowSpinner
+            label: "Row"
+            onValueChanged: {
+                resultText.text = "Loading...";
+                myWorker.sendMessage( { row: rowSpinner.value, column: columnSpinner.value } );
+            }
+        }</pre></div>
+<p>The workerscript then is free to take a really long time to calculate it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">WorkerScript.onMessage = function(message) {
+    //Calculate result (may take a while, using a naive algorithm)
+    var calculatedResult = triangle(message.row, message.column);
+    //Send result back to main thread
+    WorkerScript.sendMessage( { row: message.row,
+                                column: message.column,
+                                result: calculatedResult} );
+}</pre></div>
+<p>When it's done, the result returns to the main scene via the <a href="./qtquick-threading-example.htm#workerscript" translate="no">WorkerScript</a> type:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type">WorkerScript</span> {
+        <span class="name">id</span>: <span class="name">myWorker</span>
+        <span class="name">source</span>: <span class="string">"workerscript.mjs"</span>
+
+        <span class="name">onMessage</span>: (<span class="keyword">messageObject</span>) =&gt; {
+            if (messageObject.row == rowSpinner.value &amp;&amp; messageObject.column == columnSpinner.value){ <span class="comment">//Not an old result</span>
+                if (messageObject.result == -1)
+                    resultText.text = "Column must be &lt;= Row";
+                else
+                    resultText.text = messageObject.result;
+            }
+        }
+    }</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdeclarative.git/tree/examples/quick/threading?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@threading -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

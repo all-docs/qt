@@ -1,0 +1,224 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Custom Proxy Example | Qt Data Visualization</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li class="last"><a>Custom Proxy Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Custom Proxy Example</h1>
+<span class="subtitle"></span>
+<!-- $$$customproxy-brief -->
+<p>Using <a href="./q3dbars.htm" translate="no">Q3DBars</a> with a custom proxy.</p>
+<!-- @@@customproxy -->
+<!-- $$$customproxy-description -->
+<div class="descr"> <a name="details"></a>
+<p>The custom proxy example shows how to create a custom proxy to use with <a href="./q3dbars.htm" translate="no">Q3DBars</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/customproxy-example.png"></p><p>The interesting thing about custom proxy example is the custom dataset and the corresponding proxy usage, so we concentrate on that and skip explaining the basic <a href="./q3dbars.htm" translate="no">Q3DBars</a> functionality - for that see <a href="./qtdatavisualization-bars-example.htm" translate="no">Bars Example</a>.</p>
+<p>This example defines a simple flexible data set <code translate="no">VariantDataSet</code> where each data item is a a variant list. Each item can have multiple different values, identified by their index in the list. In this example, the data set is storing monthly rainfall data, where the value in index zero is the year, the value in index one is the month, and the value in index two is the amount of rainfall in that month.</p>
+<p>The custom proxy we provide here is similar to item model based proxies provided by Qt Data Visualization in that it requires a mapping to interpret the data.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="variantdataset"></a>
+<h4 id="variantdataset">VariantDataSet<a class="plink" href="#variantdataset" title="Direct link to this headline"></a></h4>
+<p><code translate="no">VariantDataSet</code> class provides a simple API:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">typedef</span> <span class="type"><a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a></span> VariantDataItem;
+<span class="keyword">typedef</span> <span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span>VariantDataItem <span class="operator">*</span><span class="operator">&gt;</span> VariantDataItemList;
+...
+
+<span class="type">void</span> clear();
+
+<span class="type">int</span> addItem(VariantDataItem <span class="operator">*</span>item);
+<span class="type">int</span> addItems(VariantDataItemList <span class="operator">*</span>itemList);
+
+<span class="keyword">const</span> VariantDataItemList <span class="operator">&amp;</span>itemList() <span class="keyword">const</span>;
+
+Q_SIGNALS:
+<span class="type">void</span> itemsAdded(<span class="type">int</span> index<span class="operator">,</span> <span class="type">int</span> count);
+<span class="type">void</span> dataCleared();</pre></div>
+<p>As you can see, the data items are simply <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> objects, and the data can be added either singly or in lists. The only additional functionality provided is clearing the data set and querying for a reference to the data contained in the set. Signals are emitted when data is added or the set is cleared.</p>
+<a name="variantbardataproxy"></a>
+<h4 id="variantbardataproxy">VariantBarDataProxy<a class="plink" href="#variantbardataproxy" title="Direct link to this headline"></a></h4>
+<p><code translate="no">VariantBarDataProxy</code> is a subclass of <a href="./qbardataproxy.htm" translate="no">QBarDataProxy</a> and provides a simple API of just getters and setters for the data set and the mapping:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> VariantBarDataProxy : <span class="keyword">public</span> <span class="type"><a href="./qbardataproxy.htm" translate="no">QBarDataProxy</a></span>
+...
+
+<span class="comment">// Doesn't gain ownership of the dataset, but does connect to it to listen for data changes.</span>
+<span class="type">void</span> setDataSet(VariantDataSet <span class="operator">*</span>newSet);
+VariantDataSet <span class="operator">*</span>dataSet();
+
+<span class="comment">// Map key (row, column, value) to value index in data item (VariantItem).</span>
+<span class="comment">// Doesn't gain ownership of mapping, but does connect to it to listen for mapping changes.</span>
+<span class="comment">// Modifying mapping that is set to proxy will trigger dataset re-resolving.</span>
+<span class="type">void</span> setMapping(VariantBarDataMapping <span class="operator">*</span>mapping);
+VariantBarDataMapping <span class="operator">*</span>mapping();</pre></div>
+<p>On the implementation side, the proxy listens for the changes in the data set and the mapping, and resolves the data set if any changes are detected. It is not particularly efficient implementation in that any change will cause re-resolving of the entire data set, but that is not an issue for this example. The interesting part is the <code translate="no">resolveDataSet()</code> method:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> VariantBarDataProxy<span class="operator">::</span>resolveDataSet()
+{
+    <span class="comment">// If we have no data or mapping, or the categories are not defined, simply clear the array</span>
+    <span class="keyword">if</span> (m_dataSet<span class="operator">.</span>isNull() <span class="operator">|</span><span class="operator">|</span> m_mapping<span class="operator">.</span>isNull() <span class="operator">|</span><span class="operator">|</span> <span class="operator">!</span>m_mapping<span class="operator">-</span><span class="operator">&gt;</span>rowCategories()<span class="operator">.</span>size()
+            <span class="operator">|</span><span class="operator">|</span> <span class="operator">!</span>m_mapping<span class="operator">-</span><span class="operator">&gt;</span>columnCategories()<span class="operator">.</span>size()) {
+        resetArray(<span class="number">0</span>);
+        <span class="keyword">return</span>;
+    }
+    <span class="keyword">const</span> VariantDataItemList <span class="operator">&amp;</span>itemList <span class="operator">=</span> m_dataSet<span class="operator">-</span><span class="operator">&gt;</span>itemList();
+
+    <span class="type">int</span> rowIndex <span class="operator">=</span> m_mapping<span class="operator">-</span><span class="operator">&gt;</span>rowIndex();
+    <span class="type">int</span> columnIndex <span class="operator">=</span> m_mapping<span class="operator">-</span><span class="operator">&gt;</span>columnIndex();
+    <span class="type">int</span> valueIndex <span class="operator">=</span> m_mapping<span class="operator">-</span><span class="operator">&gt;</span>valueIndex();
+    <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>rowList <span class="operator">=</span> m_mapping<span class="operator">-</span><span class="operator">&gt;</span>rowCategories();
+    <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>columnList <span class="operator">=</span> m_mapping<span class="operator">-</span><span class="operator">&gt;</span>columnCategories();
+
+    <span class="comment">// Sort values into rows and columns</span>
+    <span class="keyword">typedef</span> <span class="type"><a href="./qhash.htm" translate="no">QHash</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> <span class="type">float</span><span class="operator">&gt;</span> ColumnValueMap;
+    <span class="type"><a href="./qhash.htm" translate="no">QHash</a></span> <span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> ColumnValueMap<span class="operator">&gt;</span> itemValueMap;
+    foreach (<span class="keyword">const</span> VariantDataItem <span class="operator">*</span>item<span class="operator">,</span> itemList) {
+        itemValueMap<span class="operator">[</span>item<span class="operator">-</span><span class="operator">&gt;</span>at(rowIndex)<span class="operator">.</span>toString()<span class="operator">]</span><span class="operator">[</span>item<span class="operator">-</span><span class="operator">&gt;</span>at(columnIndex)<span class="operator">.</span>toString()<span class="operator">]</span>
+                <span class="operator">=</span> item<span class="operator">-</span><span class="operator">&gt;</span>at(valueIndex)<span class="operator">.</span>toReal();
+    }
+
+    <span class="comment">// Create a new data array in format the parent class understands</span>
+    <span class="type"><a href="./qbardataproxy.htm#QBarDataArray-typedef" translate="no">QBarDataArray</a></span> <span class="operator">*</span>newProxyArray <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qbardataproxy.htm#QBarDataArray-typedef" translate="no">QBarDataArray</a></span>;
+    foreach (<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> rowKey<span class="operator">,</span> rowList) {
+        <span class="type"><a href="./qbardataproxy.htm#QBarDataRow-typedef" translate="no">QBarDataRow</a></span> <span class="operator">*</span>newProxyRow <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qbardataproxy.htm#QBarDataRow-typedef" translate="no">QBarDataRow</a></span>(columnList<span class="operator">.</span>size());
+        <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> columnList<span class="operator">.</span>size(); i<span class="operator">+</span><span class="operator">+</span>)
+            (<span class="operator">*</span>newProxyRow)<span class="operator">[</span>i<span class="operator">]</span><span class="operator">.</span>setValue(itemValueMap<span class="operator">[</span>rowKey<span class="operator">]</span><span class="operator">[</span>columnList<span class="operator">.</span>at(i)<span class="operator">]</span>);
+        newProxyArray<span class="operator">-</span><span class="operator">&gt;</span>append(newProxyRow);
+    }
+
+    <span class="comment">// Finally, reset the data array in the parent class</span>
+    resetArray(newProxyArray);
+}</pre></div>
+<p>In <code translate="no">resolveDataSet()</code> method we sort the variant data values into rows and columns based on the mapping. This is very similar to how <a href="./qitemmodelbardataproxy.htm" translate="no">QItemModelBarDataProxy</a> handles mapping, except we use list indexes instead of item model roles here. Once the values are sorted, we generate <code translate="no">QBarDataArray</code> out of them, and call <code translate="no">resetArray()</code> method on the parent class.</p>
+<a name="variantbardatamapping"></a>
+<h4 id="variantbardatamapping">VariantBarDataMapping<a class="plink" href="#variantbardatamapping" title="Direct link to this headline"></a></h4>
+<p><code translate="no">VariantBarDataMapping</code> stores the mapping information between <code translate="no">VariantDataSet</code> data item indexes and rows, columns, and values of <code translate="no">QBarDataArray</code>. It also contains the lists of rows and columns to be included in the resolved data:</p>
+<div class="pre"><pre class="cpp" translate="no">Q_PROPERTY(<span class="type">int</span> rowIndex READ rowIndex WRITE setRowIndex)
+Q_PROPERTY(<span class="type">int</span> columnIndex READ columnIndex WRITE setColumnIndex)
+Q_PROPERTY(<span class="type">int</span> valueIndex READ valueIndex WRITE setValueIndex)
+Q_PROPERTY(<span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> rowCategories READ rowCategories WRITE setRowCategories)
+Q_PROPERTY(<span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> columnCategories READ columnCategories WRITE setColumnCategories)
+...
+
+VariantBarDataMapping(<span class="type">int</span> rowIndex<span class="operator">,</span> <span class="type">int</span> columnIndex<span class="operator">,</span> <span class="type">int</span> valueIndex<span class="operator">,</span>
+                       <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>rowCategories<span class="operator">,</span>
+                       <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>columnCategories);
+...
+
+<span class="type">void</span> remap(<span class="type">int</span> rowIndex<span class="operator">,</span> <span class="type">int</span> columnIndex<span class="operator">,</span> <span class="type">int</span> valueIndex<span class="operator">,</span>
+           <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>rowCategories<span class="operator">,</span>
+           <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>columnCategories);
+...
+
+<span class="type">void</span> mappingChanged();</pre></div>
+<p>The primary way to use a <code translate="no">VariantBarDataMapping</code> object is to give the mappings already at the constructor, though they can be set later individually or all together with the <code translate="no">remap()</code> method. A signal is emitted if mapping changes. It is basically a simplified version of the mapping functionality of <a href="./qitemmodelbardataproxy.htm" translate="no">QItemModelBarDataProxy</a> adapted to work with variant lists instead of item models.</p>
+<a name="rainfallgraph"></a>
+<h4 id="rainfallgraph">RainfallGraph<a class="plink" href="#rainfallgraph" title="Direct link to this headline"></a></h4>
+<p><code translate="no">RainfallGraph</code> class handles the setup of the graph. The interesting part is the <code translate="no">addDataSet()</code> method:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> RainfallGraph<span class="operator">::</span>addDataSet()
+{
+    <span class="comment">// Create a new variant data set and data item list</span>
+    m_dataSet <span class="operator">=</span>  <span class="keyword">new</span> VariantDataSet;
+    VariantDataItemList <span class="operator">*</span>itemList <span class="operator">=</span> <span class="keyword">new</span> VariantDataItemList;
+
+    <span class="comment">// Read data from a data file into the data item list</span>
+    <span class="type"><a href="./qtextstream.htm" translate="no">QTextStream</a></span> stream;
+    <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> dataFile(<span class="string">":/data/raindata.txt"</span>);
+    <span class="keyword">if</span> (dataFile<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>ReadOnly <span class="operator">|</span> <span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>Text)) {
+        stream<span class="operator">.</span>setDevice(<span class="operator">&amp;</span>dataFile);
+        <span class="keyword">while</span> (<span class="operator">!</span>stream<span class="operator">.</span>atEnd()) {
+            <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> line <span class="operator">=</span> stream<span class="operator">.</span>readLine();
+            <span class="keyword">if</span> (line<span class="operator">.</span>startsWith(<span class="string">"#"</span>)) <span class="comment">// Ignore comments</span>
+                <span class="keyword">continue</span>;
+            <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> strList <span class="operator">=</span> line<span class="operator">.</span>split(<span class="string">","</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>SkipEmptyParts);
+            <span class="comment">// Each line has three data items: Year, month, and rainfall value</span>
+            <span class="keyword">if</span> (strList<span class="operator">.</span>size() <span class="operator">&lt;</span> <span class="number">3</span>) {
+                <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Invalid row read from data:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> line;
+                <span class="keyword">continue</span>;
+            }
+            <span class="comment">// Store year and month as strings, and rainfall value as double</span>
+            <span class="comment">// into a variant data item and add the item to the item list.</span>
+            VariantDataItem <span class="operator">*</span>newItem <span class="operator">=</span> <span class="keyword">new</span> VariantDataItem;
+            <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> <span class="number">2</span>; i<span class="operator">+</span><span class="operator">+</span>)
+                newItem<span class="operator">-</span><span class="operator">&gt;</span>append(strList<span class="operator">.</span>at(i)<span class="operator">.</span>trimmed());
+            newItem<span class="operator">-</span><span class="operator">&gt;</span>append(strList<span class="operator">.</span>at(<span class="number">2</span>)<span class="operator">.</span>trimmed()<span class="operator">.</span>toDouble());
+            itemList<span class="operator">-</span><span class="operator">&gt;</span>append(newItem);
+        }
+    } <span class="keyword">else</span> {
+        <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Unable to open data file:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> dataFile<span class="operator">.</span>fileName();
+    }
+
+    <span class="comment">// Add items to the data set and set it to the proxy</span>
+    m_dataSet<span class="operator">-</span><span class="operator">&gt;</span>addItems(itemList);
+    m_proxy<span class="operator">-</span><span class="operator">&gt;</span>setDataSet(m_dataSet);
+
+    <span class="comment">// Create new mapping for the data and set it to the proxy</span>
+    m_mapping <span class="operator">=</span>  <span class="keyword">new</span> VariantBarDataMapping(<span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> m_years<span class="operator">,</span> m_numericMonths);
+    m_proxy<span class="operator">-</span><span class="operator">&gt;</span>setMapping(m_mapping);
+}</pre></div>
+<p>The bulk of that method is used for populating the variant data set. Once the set is populated, visualizing the data is trivial with the help of our custom proxy:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// Add items to the data set and set it to the proxy</span>
+m_dataSet<span class="operator">-</span><span class="operator">&gt;</span>addItems(itemList);
+m_proxy<span class="operator">-</span><span class="operator">&gt;</span>setDataSet(m_dataSet);
+
+<span class="comment">// Create new mapping for the data and set it to the proxy</span>
+m_mapping <span class="operator">=</span>  <span class="keyword">new</span> VariantBarDataMapping(<span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> m_years<span class="operator">,</span> m_numericMonths);
+m_proxy<span class="operator">-</span><span class="operator">&gt;</span>setMapping(m_mapping);</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization/customproxy?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@customproxy -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,108 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Using TinyCAN Plugin | Qt Serial Bus</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtserialbus-tinycan-overview.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtserialbus-index.htm" translate="no">Qt Serial Bus</a></li>
+                            <li><a>Using TinyCAN Plugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Using TinyCAN Plugin</h1>
+<span class="subtitle"></span>
+<!-- $$$qtserialbus-tinycan-overview.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>The TinyCAN plugin encapsulates the low-level API to work with the <a href="http://www.mhs-elektronik.de/" translate="no">MHS Elektronik</a> CAN adapters.</p>
+<div class="admonition note">
+<p><b>Note: </b>The TinyCAN adapters use virtual serial ports. To communicate with TinyCAN adapters in Linux, the user must have appropriate access rights. Usually these rights are given to all users in the group "dialout".</p>
+</div>
+<a name="creating-can-bus-devices"></a>
+<h2 id="creating-can-bus-devices">Creating CAN Bus Devices<a class="plink" href="#creating-can-bus-devices" title="Direct link to this headline"></a></h2>
+<p>At first it is necessary to check that <a href="./qcanbus.htm" translate="no">QCanBus</a> provides the desired plugin:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">if</span> (<span class="type"><a href="./qcanbus.htm" translate="no">QCanBus</a></span><span class="operator">::</span>instance()<span class="operator">-</span><span class="operator">&gt;</span>plugins()<span class="operator">.</span>contains(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"tinycan"</span>))) {
+    <span class="comment">// plugin available</span>
+}</pre></div>
+<p>Where <i>tinycan</i> is the plugin name.</p>
+<p>Next, a connection to a specific interface can be established:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcanbusdevice.htm" translate="no">QCanBusDevice</a></span> <span class="operator">*</span>device <span class="operator">=</span> <span class="type"><a href="./qcanbus.htm" translate="no">QCanBus</a></span><span class="operator">::</span>instance()<span class="operator">-</span><span class="operator">&gt;</span>createDevice(
+    <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"tinycan"</span>)<span class="operator">,</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"can0.0"</span>));
+device<span class="operator">-</span><span class="operator">&gt;</span>connectDevice();</pre></div>
+<p>Where <i>can0.0</i> is the active CAN interface name. TinyCAN currently only provides the interface <i>can0.0</i>, which maps to INDEX_CAN_KANAL_A in the TinyCAN plugin.</p>
+<div class="admonition note">
+<p><b>Note: </b>The function availableDevices() currently always returns one device "can0.0" as there is no way to detect the available CAN adapters for now.</p>
+</div>
+<div class="admonition note">
+<p><b>Note: </b>Only the USB adapters are currently supported by this plugin.</p>
+</div>
+<p>The device is now open for writing and reading CAN frames:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcanbusframe.htm" translate="no">QCanBusFrame</a></span> frame;
+frame<span class="operator">.</span>setFrameId(<span class="number">8</span>);
+<span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> payload(<span class="string">"A36E"</span>);
+frame<span class="operator">.</span>setPayload(payload);
+device<span class="operator">-</span><span class="operator">&gt;</span>writeFrame(frame);</pre></div>
+<p>The reading can be done using the readFrame() method. The <a href="./qcanbusdevice.htm#framesReceived" translate="no">framesReceived()</a> signal is emitted when at least one new frame is available for reading:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcanbusframe.htm" translate="no">QCanBusFrame</a></span> frame <span class="operator">=</span> device<span class="operator">-</span><span class="operator">&gt;</span>readFrame();</pre></div>
+<p>TinyCAN supports the following configurations that can be controlled through setConfigurationParameter():</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Configuration parameter key</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><a href="./qcanbusdevice.htm#ConfigurationKey-enum" translate="no">QCanBusDevice::BitRateKey</a></td><td>Determines the bit rate of the CAN bus connection. The following bit rates are supported: 10000, 20000, 50000, 100000, 125000, 250000, 500000, 800000, 1000000.</td></tr>
+</tbody></table></div>
+<p>TinyCAN supports the following additional functions:</p>
+<ul>
+<li>QCanBusDevice::resetController()</li>
+</ul>
+</div>
+<!-- @@@qtserialbus-tinycan-overview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

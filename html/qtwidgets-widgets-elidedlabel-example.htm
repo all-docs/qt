@@ -1,0 +1,283 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elided Label Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Elided Label Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Elided Label Example</h1>
+<span class="subtitle"></span>
+<!-- $$$widgets/elidedlabel-brief -->
+<p>This example creates a widget similar to <a href="./qlabel.htm" translate="no">QLabel</a>, that elides the last visible line, if the text is too long to fit the widget's geometry.</p>
+<!-- @@@widgets/elidedlabel -->
+<!-- $$$widgets/elidedlabel-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="Elided Label example on XPressMusic 5800" src="./images/elidedlabel-example.png"></p><p>When text of varying length has to be displayed in a uniformly sized area, for instance within a list or grid view where all list items have the same size, it can be useful to give the user a visual clue when not all text is visible. <a href="./qlabel.htm" translate="no">QLabel</a> can elide text that doesn't fit within it, but only in one line. The <code translate="no">ElidedLabel</code> widget shown in this example word wraps its text by its width, and elides the last visible line if some text is left out. <code translate="no">TestWidget</code> gives control to the features of <code translate="no">ElidedWidget</code> and forms the example application.</p>
+<a name="elidedlabel-class-definition"></a>
+<h4 id="elidedlabel-class-definition">ElidedLabel Class Definition<a class="plink" href="#elidedlabel-class-definition" title="Direct link to this headline"></a></h4>
+<p>Like <a href="./qlabel.htm" translate="no">QLabel</a>, <code translate="no">ElidedLabel</code> inherits from <a href="./qframe.htm" translate="no">QFrame</a>. Here's the definition of the <code translate="no">ElidedLabel</code> class:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> ElidedLabel : <span class="keyword">public</span> <span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span>
+{
+    Q_OBJECT
+    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> text READ text WRITE setText)
+    Q_PROPERTY(bool isElided READ isElided)
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> ElidedLabel(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+    <span class="type">void</span> setText(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text);
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span> text() <span class="keyword">const</span> { <span class="keyword">return</span> content; }
+    bool isElided() <span class="keyword">const</span> { <span class="keyword">return</span> elided; }
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">signals</span>:
+    <span class="type">void</span> elisionChanged(bool elided);
+
+<span class="keyword">private</span>:
+    bool elided;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> content;
+};</pre></div>
+<p>The <code translate="no">isElided</code> property depends the font, text content and geometry of the widget. Whenever any of these change, the <code translate="no">elisionChanged()</code> signal might trigger. We cache the current elision value in <code translate="no">elided</code>, so that it doesn't have to be recomputed every time it's asked for.</p>
+<a name="elidedlabel-class-implementation"></a>
+<h4 id="elidedlabel-class-implementation">ElidedLabel Class Implementation<a class="plink" href="#elidedlabel-class-implementation" title="Direct link to this headline"></a></h4>
+<p>Except for initializing the member variables, the constructor sets the size policy to be horizontally expanding, since it's meant to fill the width of its container and grow vertically.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ElidedLabel<span class="operator">::</span>ElidedLabel(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text<span class="operator">,</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span>(parent)
+    <span class="operator">,</span> elided(<span class="keyword">false</span>)
+    <span class="operator">,</span> content(text)
+{
+    setSizePolicy(<span class="type"><a href="./qsizepolicy.htm" translate="no">QSizePolicy</a></span><span class="operator">::</span>Expanding<span class="operator">,</span> <span class="type"><a href="./qsizepolicy.htm" translate="no">QSizePolicy</a></span><span class="operator">::</span>Preferred);
+}</pre></div>
+<p>Changing the <code translate="no">content</code> require a repaint of the widget.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ElidedLabel<span class="operator">::</span>setText(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>newText)
+{
+    content <span class="operator">=</span> newText;
+    update();
+}</pre></div>
+<p><a href="./qtextlayout.htm" translate="no">QTextLayout</a> is used in the <code translate="no">paintEvent()</code> to divide the <code translate="no">content</code> into lines, that wrap on word boundaries. Each line, except the last visible one, is drawn <code translate="no">lineSpacing</code> pixels below the previous one. The <code translate="no">draw()</code> method of <a href="./qtextline.htm" translate="no">QTextLine</a> will draw the line using the coordinate point as the top left corner.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ElidedLabel<span class="operator">::</span>paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span><span class="operator">::</span>paintEvent(event);
+
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter(<span class="keyword">this</span>);
+    <span class="type"><a href="./qfontmetrics.htm" translate="no">QFontMetrics</a></span> fontMetrics <span class="operator">=</span> painter<span class="operator">.</span>fontMetrics();
+
+    bool didElide <span class="operator">=</span> <span class="keyword">false</span>;
+    <span class="type">int</span> lineSpacing <span class="operator">=</span> fontMetrics<span class="operator">.</span>lineSpacing();
+    <span class="type">int</span> y <span class="operator">=</span> <span class="number">0</span>;
+
+    <span class="type"><a href="./qtextlayout.htm" translate="no">QTextLayout</a></span> textLayout(content<span class="operator">,</span> painter<span class="operator">.</span>font());
+    textLayout<span class="operator">.</span>beginLayout();
+    forever {
+        <span class="type"><a href="./qtextline.htm" translate="no">QTextLine</a></span> line <span class="operator">=</span> textLayout<span class="operator">.</span>createLine();
+
+        <span class="keyword">if</span> (<span class="operator">!</span>line<span class="operator">.</span>isValid())
+            <span class="keyword">break</span>;
+
+        line<span class="operator">.</span>setLineWidth(width());
+        <span class="type">int</span> nextLineY <span class="operator">=</span> y <span class="operator">+</span> lineSpacing;
+
+        <span class="keyword">if</span> (height() <span class="operator">&gt;</span><span class="operator">=</span> nextLineY <span class="operator">+</span> lineSpacing) {
+            line<span class="operator">.</span>draw(<span class="operator">&amp;</span>painter<span class="operator">,</span> <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="number">0</span><span class="operator">,</span> y));
+            y <span class="operator">=</span> nextLineY;</pre></div>
+<p>Unfortunately, <a href="./qtextlayout.htm" translate="no">QTextLayout</a> does not elide text, so the last visible line has to be treated differently. This last line is elided if it is too wide. The <code translate="no">drawText()</code> method of <a href="./qpainter.htm" translate="no">QPainter</a> draws the text starting from the base line, which is <code translate="no">ascecnt()</code> pixels below the last drawn line.</p>
+<p>Finally, one more line is created to see if everything fit on this line.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">} <span class="keyword">else</span> {
+<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> lastLine <span class="operator">=</span> content<span class="operator">.</span>mid(line<span class="operator">.</span>textStart());
+<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> elidedLastLine <span class="operator">=</span> fontMetrics<span class="operator">.</span>elidedText(lastLine<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>ElideRight<span class="operator">,</span> width());
+painter<span class="operator">.</span>drawText(<span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="number">0</span><span class="operator">,</span> y <span class="operator">+</span> fontMetrics<span class="operator">.</span>ascent())<span class="operator">,</span> elidedLastLine);
+line <span class="operator">=</span> textLayout<span class="operator">.</span>createLine();
+didElide <span class="operator">=</span> line<span class="operator">.</span>isValid();
+<span class="keyword">break</span>;
+}
+}
+textLayout<span class="operator">.</span>endLayout();</pre></div>
+<p>If the text was elided and wasn't before or vice versa, cache it in <code translate="no">elided</code> and emit the change.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">if</span> (didElide <span class="operator">!</span><span class="operator">=</span> elided) {
+    elided <span class="operator">=</span> didElide;
+    <span class="keyword">emit</span> elisionChanged(didElide);
+}
+}</pre></div>
+<a name="testwidget-class-definition"></a>
+<h4 id="testwidget-class-definition">TestWidget Class Definition<a class="plink" href="#testwidget-class-definition" title="Direct link to this headline"></a></h4>
+<p><code translate="no">TestWidget</code> is a <a href="./qwidget.htm" translate="no">QWidget</a> and is the main window of the example. It contains an <code translate="no">ElidedLabel</code> which can be resized with two <a href="./qslider.htm" translate="no">QSlider</a> widgets.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> TestWidget : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    TestWidget(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> resizeEvent(<span class="type"><a href="./qresizeevent.htm" translate="no">QResizeEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> switchText();
+    <span class="type">void</span> onWidthChanged(<span class="type">int</span> width);
+    <span class="type">void</span> onHeightChanged(<span class="type">int</span> height);
+
+<span class="keyword">private</span>:
+    <span class="type">int</span> sampleIndex;
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> textSamples;
+    ElidedLabel <span class="operator">*</span>elidedText;
+    <span class="type"><a href="./qslider.htm" translate="no">QSlider</a></span> <span class="operator">*</span>heightSlider;
+    <span class="type"><a href="./qslider.htm" translate="no">QSlider</a></span> <span class="operator">*</span>widthSlider;
+};</pre></div>
+<a name="testwidget-class-implementation"></a>
+<h4 id="testwidget-class-implementation">TestWidget Class Implementation<a class="plink" href="#testwidget-class-implementation" title="Direct link to this headline"></a></h4>
+<p>The constructor initializes the whole widget. Strings of different length are stored in <code translate="no">textSamples</code>. The user is able to switch between these.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">TestWidget<span class="operator">::</span>TestWidget(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+{
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> romeo <span class="operator">=</span> tr(
+        <span class="string">"But soft, what light through yonder window breaks? / "</span>
+        <span class="string">"It is the east, and Juliet is the sun. / "</span>
+        <span class="string">"Arise, fair sun, and kill the envious moon, / "</span>
+        <span class="string">"Who is already sick and pale with grief / "</span>
+        <span class="string">"That thou, her maid, art far more fair than she."</span>
+    );
+
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> macbeth <span class="operator">=</span> tr(
+        <span class="string">"To-morrow, and to-morrow, and to-morrow, / "</span>
+        <span class="string">"Creeps in this petty pace from day to day, / "</span>
+        <span class="string">"To the last syllable of recorded time; / "</span>
+        <span class="string">"And all our yesterdays have lighted fools / "</span>
+        <span class="string">"The way to dusty death. Out, out, brief candle! / "</span>
+        <span class="string">"Life's but a walking shadow, a poor player, / "</span>
+        <span class="string">"That struts and frets his hour upon the stage, / "</span>
+        <span class="string">"And then is heard no more. It is a tale / "</span>
+        <span class="string">"Told by an idiot, full of sound and fury, / "</span>
+        <span class="string">"Signifying nothing."</span>
+    );
+
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> harry <span class="operator">=</span> tr(<span class="string">"Feeling lucky, punk?"</span>);
+
+    textSamples <span class="operator">&lt;</span><span class="operator">&lt;</span> romeo <span class="operator">&lt;</span><span class="operator">&lt;</span> macbeth <span class="operator">&lt;</span><span class="operator">&lt;</span> harry;</pre></div>
+<p>An <code translate="no">ElidedLabel</code> is created to contain the first of the sample strings. The frame is made visible to make it easier to see the actual size of the widget.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">sampleIndex <span class="operator">=</span> <span class="number">0</span>;
+elidedText <span class="operator">=</span> <span class="keyword">new</span> ElidedLabel(textSamples<span class="operator">[</span>sampleIndex<span class="operator">]</span><span class="operator">,</span> <span class="keyword">this</span>);
+elidedText<span class="operator">-</span><span class="operator">&gt;</span>setFrameStyle(<span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span><span class="operator">::</span>Box);</pre></div>
+<p>The buttons and the elision label are created. By connecting the <code translate="no">elisionChanged()</code> signal to the <code translate="no">setVisible()</code> slot of the <code translate="no">label</code>, it will act as an indicator to when the text is elided or not. This signal could, for instance, be used to make a "More" button visible, or similar.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>switchButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"Switch text"</span>));
+connect(switchButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>TestWidget<span class="operator">::</span>switchText);
+
+<span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>exitButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"Exit"</span>));
+connect(exitButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>TestWidget<span class="operator">::</span>close);
+
+<span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>label <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Elided"</span>));
+label<span class="operator">-</span><span class="operator">&gt;</span>setVisible(elidedText<span class="operator">-</span><span class="operator">&gt;</span>isElided());
+connect(elidedText<span class="operator">,</span> <span class="operator">&amp;</span>ElidedLabel<span class="operator">::</span>elisionChanged<span class="operator">,</span> label<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span><span class="operator">::</span>setVisible);</pre></div>
+<p>The <code translate="no">widthSlider</code> and <code translate="no">heightSlider</code> specify the size of the <code translate="no">elidedText</code>. Since the y-axis is inverted, the <code translate="no">heightSlider</code> has to be inverted to act appropriately.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">widthSlider <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qslider.htm" translate="no">QSlider</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Horizontal);
+widthSlider<span class="operator">-</span><span class="operator">&gt;</span>setMinimum(<span class="number">0</span>);
+connect(widthSlider<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qslider.htm" translate="no">QSlider</a></span><span class="operator">::</span>valueChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>TestWidget<span class="operator">::</span>onWidthChanged);
+
+heightSlider <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qslider.htm" translate="no">QSlider</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Vertical);
+heightSlider<span class="operator">-</span><span class="operator">&gt;</span>setInvertedAppearance(<span class="keyword">true</span>);
+heightSlider<span class="operator">-</span><span class="operator">&gt;</span>setMinimum(<span class="number">0</span>);
+connect(heightSlider<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qslider.htm" translate="no">QSlider</a></span><span class="operator">::</span>valueChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>TestWidget<span class="operator">::</span>onHeightChanged);</pre></div>
+<p>The components are all stored in a <a href="./qgridlayout.htm" translate="no">QGridLayout</a>, which is made the layout of the <code translate="no">TestWidget</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>layout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(label<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignCenter);
+layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(switchButton<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">2</span>);
+layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(exitButton<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">3</span>);
+layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(widthSlider<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">3</span>);
+layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(heightSlider<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">0</span>);
+layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(elidedText<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop <span class="operator">|</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignLeft);
+
+setLayout(layout);</pre></div>
+<p>The <code translate="no">widthSlider</code> and <code translate="no">heightSlider</code> have the exact same length as the dimensions of the <code translate="no">elidedText</code>. The maximum value for both of them is thus their lengths, and each tick indicates one pixel.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TestWidget<span class="operator">::</span>resizeEvent(<span class="type"><a href="./qresizeevent.htm" translate="no">QResizeEvent</a></span> <span class="operator">*</span>event)
+{
+    Q_UNUSED(event)
+
+    <span class="type">int</span> maxWidth <span class="operator">=</span> widthSlider<span class="operator">-</span><span class="operator">&gt;</span>width();
+    widthSlider<span class="operator">-</span><span class="operator">&gt;</span>setMaximum(maxWidth);
+    widthSlider<span class="operator">-</span><span class="operator">&gt;</span>setValue(maxWidth <span class="operator">/</span> <span class="number">2</span>);
+
+    <span class="type">int</span> maxHeight <span class="operator">=</span> heightSlider<span class="operator">-</span><span class="operator">&gt;</span>height();
+    heightSlider<span class="operator">-</span><span class="operator">&gt;</span>setMaximum(maxHeight);
+    heightSlider<span class="operator">-</span><span class="operator">&gt;</span>setValue(maxHeight <span class="operator">/</span> <span class="number">2</span>);
+
+    elidedText<span class="operator">-</span><span class="operator">&gt;</span>setFixedSize(widthSlider<span class="operator">-</span><span class="operator">&gt;</span>value()<span class="operator">,</span> heightSlider<span class="operator">-</span><span class="operator">&gt;</span>value());
+}</pre></div>
+<p>The <code translate="no">switchText()</code> slot simply cycles through all the available sample texts.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TestWidget<span class="operator">::</span>switchText()
+{
+    sampleIndex <span class="operator">=</span> (sampleIndex <span class="operator">+</span> <span class="number">1</span>) <span class="operator">%</span> textSamples<span class="operator">.</span>size();
+    elidedText<span class="operator">-</span><span class="operator">&gt;</span>setText(textSamples<span class="operator">.</span>at(sampleIndex));
+}</pre></div>
+<p>These slots set the width and height of the <code translate="no">elided</code> text, in response to changes in the sliders.</p>
+<a name="the-main-function"></a>
+<h4 id="the-main-function">The <code translate="no">main()</code> Function<a class="plink" href="#the-main-function" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">main()</code> function creates an instance of <code translate="no">TestWidget</code> fullscreen and enters the message loop.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main( <span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span> )
+{
+<span class="preprocessor">#ifdef Q_OS_ANDROID</span>
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AA_EnableHighDpiScaling);
+<span class="preprocessor">#endif</span>
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> application( argc<span class="operator">,</span> argv );
+    TestWidget w;
+    w<span class="operator">.</span>showFullScreen();
+    <span class="keyword">return</span> application<span class="operator">.</span>exec();
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/elidedlabel?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@widgets/elidedlabel -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,106 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deploying Plugins</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/deployment-plugins.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Deploying Plugins</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Deploying Plugins</h1>
+<span class="subtitle"></span>
+<!-- $$$deployment-plugins.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>This topic explains how to deploy plugin libraries for Qt or your application to load at runtime. If you use <a href="./plugins-howto.htm#static-plugins" translate="no">static plugins</a>, then the plugin code is already part of your application executable and no separate deployment steps are required.</p>
+<a name="the-plugin-directory"></a>
+<h2 id="the-plugin-directory">The Plugin Directory<a class="plink" href="#the-plugin-directory" title="Direct link to this headline"></a></h2>
+<p>In Qt, when an application starts, the application's executable directory is the base directory where Qt searches for plugins.</p>
+<p>For example, on Windows, if the application is in <code translate="no">C:\Program Files\MyApp</code> and it has a style plugin, Qt looks in <code translate="no">C:\Program Files\MyApp\styles</code>.</p>
+<p>To find out where your application's executable is located, see <a href="./qcoreapplication.htm#applicationDirPath" translate="no">QCoreApplication::applicationDirPath</a>().</p>
+<p>Qt also looks in the directory specified by <a href="./qlibraryinfo.htm#location" translate="no">QLibraryInfo::location</a>(<a href="./qlibraryinfo.htm#LibraryLocation-enum" translate="no">QLibraryInfo::PluginsPath</a>), which typically is located in <code translate="no">QTDIR/plugins</code>; <code translate="no">QTDIR</code> is the directory where Qt is installed. If you want Qt to look in additional places you can add as many paths as you need with calls to <a href="./qcoreapplication.htm#addLibraryPath" translate="no">QCoreApplication::addLibraryPath</a>(). If you want to set your own path(s), you can use <a href="./qcoreapplication.htm#setLibraryPaths" translate="no">QCoreApplication::setLibraryPaths</a>().</p>
+<p>Alternatively, you can use a <code translate="no">qt.conf</code> file to override the hard-coded paths that are compiled into the Qt library. For more information, see <a href="./qt-conf.htm" translate="no">Using qt.conf</a>.</p>
+<p>Another possibility is to set the <code translate="no">QT_PLUGIN_PATH</code> environment variable before you run the application; multiple paths can be separated with a system path separator. When set, Qt looks for plugins in the paths specified in this variable.</p>
+<div class="admonition note">
+<p><b>Note: </b>Do not export <code translate="no">QT_PLUGIN_PATH</code> as a system-wide environment variable because it can interfere with other Qt installations.</p>
+</div>
+<a name="loading-and-verifying-plugins-dynamically"></a>
+<h2 id="loading-and-verifying-plugins-dynamically">Loading and Verifying Plugins Dynamically<a class="plink" href="#loading-and-verifying-plugins-dynamically" title="Direct link to this headline"></a></h2>
+<p>When loading plugins, the Qt library does some sanity checking to determine whether the plugin can be loaded and used. This sanity check enables you to have multiple Qt versions and configurations installed side by side.</p>
+<p>The following rules apply:</p>
+<ul>
+<li>Plugins linked with a Qt library that has a higher version number will not be loaded by a library with a lower version number.<p><br>
+<b>Example:</b> Qt 5.0.0 will <i>not</i> load a plugin built with Qt 5.0.1.</p>
+</li>
+<li>Plugins linked with a Qt library that has a lower major version number will not be loaded by a library with a higher major version number.<p><br>
+<b>Example:</b> Qt 5.0.1 will <i>not</i> load a plugin built with Qt 4.8.2. <br>
+<b>Example:</b> Qt 5.1.1 will load plugins built with Qt 5.1.0 and Qt 5.0.3.</p>
+</li>
+</ul>
+<p>When building plugins to extend an application, it's important to ensure that the plugin is configured in the same way as the application. This means that if the application was built in release mode, plugins should be built in release mode, too. Except for Unix operating systems, where the plugin system will not load plugins built in a different mode from the application.</p>
+<p>If you configure Qt to be built in both debug and release modes, but only build your applications in release mode, you need to ensure that your plugins are also built in release mode. By default, if a debug build of Qt is available, plugins will <i>only</i> be built in debug mode. To force the plugins to be built in release mode, add the following line to the plugin's project (<code translate="no">.pro</code>) file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">CONFIG <span class="operator">+</span><span class="operator">=</span> release</pre></div>
+<p>This ensures that the plugin is compatible with the version of the library used in the application.</p>
+<a name="debugging-plugins"></a>
+<h2 id="debugging-plugins">Debugging Plugins<a class="plink" href="#debugging-plugins" title="Direct link to this headline"></a></h2>
+<p>There are a number of issues that may prevent correctly-written plugins from working with the applications that are designed to use them. Many of these are related to differences in the way that plugins and applications have been built, often arising from separate build systems and processes.</p>
+<p>To obtain diagnostic information from Qt, about each plugin it tries to load, use the <code translate="no">QT_DEBUG_PLUGINS</code> environment variable. Set this variable to a non-zero value in the environment where your application is launched.</p>
+<p>The following table describes the common causes of problems developers experience when creating plugins and possible solutions.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Problem</th><th>Cause</th><th>Solution</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>Plugins sliently fail to load even when opened directly by the application. <i>Qt Designer</i> shows the plugin libraries in its <b translate="no">Help|About Plugins</b> dialog, but no plugins are listed under each of them.</td><td>The application and its plugins are built in different modes.</td><td>Either share the same build information or build the plugins in both debug and release modes by appending the <code translate="no">debug_and_release</code> to the <a href="./qmake-variable-reference.htm#config" translate="no">CONFIG</a> variable in each of their project files.</td></tr>
+</tbody></table></div>
+</div>
+<!-- @@@deployment-plugins.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,180 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebSockets MQTT Subscription Example | Qt MQTT</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtmqtt-websocketsubscription-clientsubscription-cpp.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtmqtt-index.htm" translate="no">Qt MQTT</a></li>
+                            <li><a href="./qtmqtt-examples.htm" translate="no">Qt MQTT Examples</a></li>
+                            <li><a>WebSockets MQTT Subscription Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">WebSockets MQTT Subscription Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "clientsubscription.h"</span>
+
+<span class="preprocessor">#include &lt;QtCore/QCoreApplication&gt;</span>
+<span class="preprocessor">#include &lt;QtCore/QLoggingCategory&gt;</span>
+
+Q_LOGGING_CATEGORY(lcWebSocketMqtt<span class="operator">,</span> <span class="string">"qtdemo.websocket.mqtt"</span>)
+
+ClientSubscription<span class="operator">::</span>ClientSubscription(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent) : <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>(parent)
+{
+    connect(<span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>ClientSubscription<span class="operator">::</span>errorOccured<span class="operator">,</span> qApp<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>quit);
+}
+
+<span class="type">void</span> ClientSubscription<span class="operator">::</span>setUrl(<span class="keyword">const</span> <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> <span class="operator">&amp;</span>url)
+{
+    m_url <span class="operator">=</span> url;
+}
+
+<span class="type">void</span> ClientSubscription<span class="operator">::</span>setTopic(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>topic)
+{
+    m_topic <span class="operator">=</span> topic;
+}
+
+<span class="type">void</span> ClientSubscription<span class="operator">::</span>setVersion(<span class="type">int</span> v)
+{
+    m_version <span class="operator">=</span> v;
+}
+
+<span class="type">void</span> ClientSubscription<span class="operator">::</span>connectAndSubscribe()
+{
+    qCDebug(lcWebSocketMqtt) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Connecting to broker at "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> m_url;
+
+    m_device<span class="operator">.</span>setUrl(m_url);
+    m_device<span class="operator">.</span>setProtocol(m_version <span class="operator">=</span><span class="operator">=</span> <span class="number">3</span> <span class="operator">?</span> <span class="string">"mqttv3.1"</span> : <span class="string">"mqtt"</span>);
+
+    connect(<span class="operator">&amp;</span>m_device<span class="operator">,</span> <span class="operator">&amp;</span>WebSocketIODevice<span class="operator">::</span>socketConnected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>() {
+        qCDebug(lcWebSocketMqtt) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"WebSocket connected, initializing MQTT connection."</span>;
+
+        m_client<span class="operator">.</span>setProtocolVersion(m_version <span class="operator">=</span><span class="operator">=</span> <span class="number">3</span> <span class="operator">?</span> <span class="type"><a href="./qmqttclient.htm" translate="no">QMqttClient</a></span><span class="operator">::</span>MQTT_3_1 : <span class="type"><a href="./qmqttclient.htm" translate="no">QMqttClient</a></span><span class="operator">::</span>MQTT_3_1_1);
+        m_client<span class="operator">.</span>setTransport(<span class="operator">&amp;</span>m_device<span class="operator">,</span> <span class="type"><a href="./qmqttclient.htm" translate="no">QMqttClient</a></span><span class="operator">::</span>IODevice);
+
+        connect(<span class="operator">&amp;</span>m_client<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qmqttclient.htm" translate="no">QMqttClient</a></span><span class="operator">::</span>connected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>() {
+            qCDebug(lcWebSocketMqtt) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"MQTT connection established"</span>;
+
+            m_subscription <span class="operator">=</span> m_client<span class="operator">.</span>subscribe(m_topic);
+            <span class="keyword">if</span> (<span class="operator">!</span>m_subscription) {
+                <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Failed to subscribe to "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> m_topic;
+                <span class="keyword">emit</span> errorOccured();
+            }
+
+            connect(m_subscription<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span><span class="operator">::</span>stateChanged<span class="operator">,</span>
+                    <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span><span class="operator">::</span>SubscriptionState s) {
+                qCDebug(lcWebSocketMqtt) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Subscription state changed:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> s;
+            });
+
+            connect(m_subscription<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span><span class="operator">::</span>messageReceived<span class="operator">,</span>
+                    <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>(<span class="type"><a href="./qmqttmessage.htm" translate="no">QMqttMessage</a></span> msg) {
+                handleMessage(msg<span class="operator">.</span>payload());
+            });
+        });
+
+        m_client<span class="operator">.</span>connectToHost();
+    });
+    <span class="keyword">if</span> (<span class="operator">!</span>m_device<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>ReadWrite))
+        <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Could not open socket device"</span>;
+}
+
+<span class="type">void</span> ClientSubscription<span class="operator">::</span>handleMessage(<span class="keyword">const</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> <span class="operator">&amp;</span>msgContent)
+{
+    <span class="comment">// Should happen when the internal device has ready read?</span>
+    <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"New message:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> msgContent;
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,499 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Models and Views in Qt Quick | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-modelviewsdata-modelview.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Models and Views in Qt Quick</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Models and Views in Qt Quick</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-modelviewsdata-modelview.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Simply put, applications need to form data and display the data. Qt Quick has the notion of <i>models</i>, <i>views</i>, and <i>delegates</i> to display data. They modularize the visualization of data in order to give the developer or designer control over the different aspects of the data. A developer can swap a list view with a grid view with little changes to the data. Similarly, encapsulating an instance of the data in a delegate allows the developer to dictate how to present or handle the data.</p>
+<p class="centerAlign"><img alt="" src="./images/modelview-overview.png"></p><ul>
+<li><b>Model</b> - contains the data and its structure. There are several QML types for creating models.</li>
+<li><b>View</b> - a container that displays the data. The view might display the data in a list or a grid.</li>
+<li><b>Delegate</b> - dictates how the data should appear in the view. The delegate takes each data in the model and encapsulates it. The data is accessible through the delegate. The delegate can also write data back into editable models (e.g. in a <a href="./qml-qtquick-controls2-textfield.htm" translate="no">TextField</a>'s onAccepted Handler).</li>
+</ul>
+<p>To visualize data, bind the view's <code translate="no">model</code> property to a model and the <code translate="no">delegate</code> property to a component or another compatible type.</p>
+<a name="displaying-data-with-views"></a>
+<h2 id="displaying-data-with-views">Displaying Data with Views<a class="plink" href="#displaying-data-with-views" title="Direct link to this headline"></a></h2>
+<p>Views are containers for collections of items. They are feature-rich and can be customizable to meet style or behavior requirements.</p>
+<a name="qtquick-views"></a><p>A set of standard views are provided in the basic set of Qt Quick graphical types:</p>
+<ul>
+<li><a href="./qml-qtquick-listview.htm" translate="no">ListView</a> - arranges items in a horizontal or vertical list</li>
+<li><a href="./qml-qtquick-gridview.htm" translate="no">GridView</a> - arranges items in a grid within the available space</li>
+<li><a href="./qml-qtquick-pathview.htm" translate="no">PathView</a> - arranges items on a path</li>
+</ul>
+<p>These types have properties and behaviors exclusive to each type. Visit their respective documentation for more information.</p>
+<a name="decorating-views"></a>
+<h3 id="decorating-views">Decorating Views<a class="plink" href="#decorating-views" title="Direct link to this headline"></a></h3>
+<p>Views allow visual customization through <i>decoration</i> properties such as the <code translate="no">header</code>, <code translate="no">footer</code>, and <code translate="no">section</code> properties. By binding an object, usually another visual object, to these properties, the views are decoratable. A footer may include a <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> type showcasing borders or a header that displays a logo on top of the list.</p>
+<p>Suppose that a specific club wants to decorate its members list with its brand colors. A member list is in a <code translate="no">model</code> and the <code translate="no">delegate</code> will display the model's content.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+    <span class="name">id</span>: <span class="name">nameModel</span>
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Alice"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Bob"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Jane"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Harry"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Wendy"</span> }
+}
+<span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+    <span class="name">id</span>: <span class="name">nameDelegate</span>
+    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">text</span>: <span class="name">name</span>;
+        <span class="name">font</span>.pixelSize: <span class="number">24</span>
+    }
+}</pre></div>
+<p>The club may decorate the members list by binding visual objects to the <code translate="no">header</code> and <code translate="no">footer</code> properties. The visual object may be defined inline, in another file, or in a <a href="./qml-qtqml-component.htm" translate="no">Component</a> type.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">clip</span>: <span class="number">true</span>
+    <span class="name">model</span>: <span class="name">nameModel</span>
+    <span class="name">delegate</span>: <span class="name">nameDelegate</span>
+    <span class="name">header</span>: <span class="name">bannercomponent</span>
+    <span class="name">footer</span>: <span class="name">Rectangle</span> {
+        <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>; <span class="name">height</span>: <span class="number">30</span>;
+        <span class="name">gradient</span>: <span class="name">clubcolors</span>
+    }
+    <span class="name">highlight</span>: <span class="name">Rectangle</span> {
+        <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+        <span class="name">color</span>: <span class="string">"lightgray"</span>
+    }
+}
+
+<span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {     <span class="comment">//instantiated when header is processed</span>
+    <span class="name">id</span>: <span class="name">bannercomponent</span>
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">banner</span>
+        <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>; <span class="name">height</span>: <span class="number">50</span>
+        <span class="name">gradient</span>: <span class="name">clubcolors</span>
+        <span class="type">border</span> {<span class="name">color</span>: <span class="string">"#9EDDF2"</span>; <span class="name">width</span>: <span class="number">2</span>}
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">text</span>: <span class="string">"Club Members"</span>
+            <span class="name">font</span>.pixelSize: <span class="number">32</span>
+        }
+    }
+}
+<span class="type"><a href="./qml-qtquick-gradient.htm" translate="no">Gradient</a></span> {
+    <span class="name">id</span>: <span class="name">clubcolors</span>
+    <span class="type"><a href="./qml-qtquick-gradientstop.htm" translate="no">GradientStop</a></span> { <span class="name">position</span>: <span class="number">0.0</span>; <span class="name">color</span>: <span class="string">"#8EE2FE"</span>}
+    <span class="type"><a href="./qml-qtquick-gradientstop.htm" translate="no">GradientStop</a></span> { <span class="name">position</span>: <span class="number">0.66</span>; <span class="name">color</span>: <span class="string">"#7ED2EE"</span>}
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/listview-decorations.png"></p><a name="mouse-and-touch-handling"></a>
+<h3 id="mouse-and-touch-handling">Mouse and Touch Handling<a class="plink" href="#mouse-and-touch-handling" title="Direct link to this headline"></a></h3>
+<p>The views handle dragging and flicking of their content, however they do not handle touch interaction with the individual delegates. In order for the delegates to react to touch input, e.g. to set the <code translate="no">currentIndex</code>, a <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> with the appropriate touch handling logic must be provided by the delegate.</p>
+<p>Note that if <code translate="no">highlightRangeMode</code> is set to <code translate="no">StrictlyEnforceRange</code> the currentIndex will be affected by dragging/flicking the view, since the view will always ensure that the <code translate="no">currentIndex</code> is within the highlight range specified.</p>
+<a name="listview-sections"></a>
+<h3 id="listview-sections">ListView Sections<a class="plink" href="#listview-sections" title="Direct link to this headline"></a></h3>
+<p><a href="./qml-qtquick-listview.htm" translate="no">ListView</a> contents may be grouped into <i>sections</i>, where related list items are labeled according to their sections. Further, the sections may be decorated with <a href="./qtquick-modelviewsdata-modelview.htm#qml-view-delegate" translate="no">delegates</a>.</p>
+<p>A list may contain a list indicating people's names and the team on which team the person belongs.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+    <span class="name">id</span>: <span class="name">nameModel</span>
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Alice"</span>; <span class="name">team</span>: <span class="string">"Crypto"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Bob"</span>; <span class="name">team</span>: <span class="string">"Crypto"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Jane"</span>; <span class="name">team</span>: <span class="string">"QA"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Victor"</span>; <span class="name">team</span>: <span class="string">"QA"</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">name</span>: <span class="string">"Wendy"</span>; <span class="name">team</span>: <span class="string">"Graphics"</span> }
+}
+<span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+    <span class="name">id</span>: <span class="name">nameDelegate</span>
+    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">text</span>: <span class="name">name</span>;
+        <span class="name">font</span>.pixelSize: <span class="number">24</span>
+        <span class="name">anchors</span>.left: <span class="name">parent</span>.<span class="name">left</span>
+        <span class="name">anchors</span>.leftMargin: <span class="number">2</span>
+    }
+}</pre></div>
+<p>The <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> type has the <code translate="no">section</code> <a href="./qtqml-syntax-objectattributes.htm" translate="no">attached property</a> that can combine adjacent and related types into a section. The <code translate="no">section.property</code> determines which list type property to use as sections. The <code translate="no">section.criteria</code> can dictate how the section names are displayed and the <code translate="no">section.delegate</code> is similar to the views' <a href="./qtquick-modelviewsdata-modelview.htm#qml-view-delegate" translate="no">delegate</a> property.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">model</span>: <span class="name">nameModel</span>
+    <span class="name">delegate</span>: <span class="name">nameDelegate</span>
+    <span class="name">focus</span>: <span class="number">true</span>
+    <span class="name">highlight</span>: <span class="name">Rectangle</span> {
+        <span class="name">color</span>: <span class="string">"lightblue"</span>
+        <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+    }
+    <span class="type">section</span> {
+        <span class="name">property</span>: <span class="string">"team"</span>
+        <span class="name">criteria</span>: <span class="name">ViewSection</span>.<span class="name">FullString</span>
+        <span class="name">delegate</span>: <span class="name">Rectangle</span> {
+            <span class="name">color</span>: <span class="string">"#b0dfb0"</span>
+            <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+            <span class="name">height</span>: <span class="name">childrenRect</span>.<span class="name">height</span> <span class="operator">+</span> <span class="number">4</span>
+            <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">anchors</span>.horizontalCenter: <span class="name">parent</span>.<span class="name">horizontalCenter</span>
+                <span class="name">font</span>.pixelSize: <span class="number">16</span>
+                <span class="name">font</span>.bold: <span class="number">true</span>
+                <span class="name">text</span>: <span class="name">section</span>
+            }
+        }
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/listview-section.png"></p><a name="qml-view-delegate"></a><a name="view-delegates"></a>
+<h2 id="view-delegates">View Delegates<a class="plink" href="#view-delegates" title="Direct link to this headline"></a></h2>
+<p>Views need a <i>delegate</i> to visually represent an item in a list. A view will visualize each item list according to the template defined by the delegate. Items in a model are accessible through the <code translate="no">index</code> property as well as the item's properties.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+    <span class="name">id</span>: <span class="name">petdelegate</span>
+    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">id</span>: <span class="name">label</span>
+        <span class="name">font</span>.pixelSize: <span class="number">24</span>
+        <span class="name">text</span>: <span class="name">index</span> <span class="operator">===</span> <span class="number">0</span> ? <span class="name">type</span> <span class="operator">+</span> <span class="string">" (default)"</span> : <span class="name">type</span>
+
+        required property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">index</span>
+        required property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">type</span>
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/listview-setup.png"></p><a name="accessing-views-and-models-from-delegates"></a>
+<h3 id="accessing-views-and-models-from-delegates">Accessing Views and Models from Delegates<a class="plink" href="#accessing-views-and-models-from-delegates" title="Direct link to this headline"></a></h3>
+<p>The list view to which the delegate is bound is accessible from the delegate through the <code translate="no">ListView.view</code> property. Likewise, the <a href="./qml-qtquick-gridview.htm" translate="no">GridView</a> <code translate="no">GridView.view</code> is available to delegates. The corresponding model and its properties, therefore, are available through <code translate="no">ListView.view.model</code>. In addition, any defined signals or methods in the model are also accessible.</p>
+<p>This mechanism is useful when you want to use the same delegate for a number of views, for example, but you want decorations or other features to be different for each view, and you would like these different settings to be properties of each of the views. Similarly, it might be of interest to access or show some properties of the model.</p>
+<p>In the following example, the delegate shows the property <i>language</i> of the model, and the color of one of the fields depends on the property <i>fruit_color</i> of the view.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+     <span class="name">width</span>: <span class="number">200</span>; <span class="name">height</span>: <span class="number">200</span>
+
+    <span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+        <span class="name">id</span>: <span class="name">fruitModel</span>
+        property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">language</span>: <span class="string">"en"</span>
+        <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+            <span class="name">name</span>: <span class="string">"Apple"</span>
+            <span class="name">cost</span>: <span class="number">2.45</span>
+        }
+        <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+            <span class="name">name</span>: <span class="string">"Orange"</span>
+            <span class="name">cost</span>: <span class="number">3.25</span>
+        }
+        <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+            <span class="name">name</span>: <span class="string">"Banana"</span>
+            <span class="name">cost</span>: <span class="number">1.95</span>
+        }
+    }
+
+    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">fruitDelegate</span>
+        <span class="type"><a href="./qml-qtquick-row.htm" translate="no">Row</a></span> {
+                <span class="name">id</span>: <span class="name">fruit</span>
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">" Fruit: "</span> <span class="operator">+</span> <span class="name">name</span>; <span class="name">color</span>: <span class="name">fruit</span>.<span class="name">ListView</span>.<span class="name">view</span>.<span class="name">fruit_color</span> }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">" Cost: $"</span> <span class="operator">+</span> <span class="name">cost</span> }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">" Language: "</span> <span class="operator">+</span> <span class="name">fruit</span>.<span class="name">ListView</span>.<span class="name">view</span>.<span class="name">model</span>.<span class="name">language</span> }
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        property <span class="type"><a href="./qml-color.htm" translate="no">color</a></span> <span class="name">fruit_color</span>: <span class="string">"green"</span>
+        <span class="name">model</span>: <span class="name">fruitModel</span>
+        <span class="name">delegate</span>: <span class="name">fruitDelegate</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    }
+}</pre></div>
+<a name="qml-data-models"></a><a name="models"></a>
+<h2 id="models">Models<a class="plink" href="#models" title="Direct link to this headline"></a></h2>
+<p>Data is provided to the delegate via named data roles which the delegate may bind to. Here is a <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> with two roles, <i>type</i> and <i>age</i>, and a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> with a delegate that binds to these roles to display their values:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">200</span>; <span class="name">height</span>: <span class="number">250</span>
+
+    <span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+        <span class="name">id</span>: <span class="name">myModel</span>
+        <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">type</span>: <span class="string">"Dog"</span>; <span class="name">age</span>: <span class="number">8</span> }
+        <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">type</span>: <span class="string">"Cat"</span>; <span class="name">age</span>: <span class="number">5</span> }
+    }
+
+    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">myDelegate</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">type</span> <span class="operator">+</span> <span class="string">", "</span> <span class="operator">+</span> <span class="name">age</span> }
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">model</span>: <span class="name">myModel</span>
+        <span class="name">delegate</span>: <span class="name">myDelegate</span>
+    }
+}</pre></div>
+<p>To get finer control over which roles are accessible, and to make delegates more self-contained and usable outside of views,</p>
+<p>{Required Properties}{required properties} can be used. If a delegate contains required properties, the named roles are not provided. Instead, the QML engine will check if the name of a required property matches that of a model role. If so, that property will be bound to the corresponding value from the model.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">200</span>
+    <span class="name">height</span>: <span class="number">250</span>
+
+    <span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+        <span class="name">id</span>: <span class="name">myModel</span>
+        <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">type</span>: <span class="string">"Dog"</span>; <span class="name">age</span>: <span class="number">8</span>; <span class="name">noise</span>: <span class="string">"meow"</span> }
+        <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">type</span>: <span class="string">"Cat"</span>; <span class="name">age</span>: <span class="number">5</span>; <span class="name">noise</span>: <span class="string">"woof"</span> }
+    }
+
+    component MyDelegate : <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        required property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">type</span>
+        required property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">age</span>
+        <span class="name">text</span>: <span class="name">type</span> <span class="operator">+</span> <span class="string">", "</span> <span class="operator">+</span> <span class="name">age</span>
+        <span class="comment">// WRONG: Component.onCompleted: () =&gt; console.log(noise)</span>
+        <span class="comment">// The above line would cause a ReferenceError</span>
+        <span class="comment">// as there is no required property noise,</span>
+        <span class="comment">// and the presence of the required properties prevents</span>
+        <span class="comment">// noise from being injected into the scope</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">model</span>: <span class="name">myModel</span>
+        <span class="name">delegate</span>: <span class="name">MyDelegate</span> {}
+    }
+}</pre></div>
+<p>If there is a naming clash between the model's properties and the delegate's properties, the roles can be accessed with the qualified <i>model</i> name instead. For example, if a <a href="./qml-qtquick-text.htm" translate="no">Text</a> type had <i>type</i> or <i>age</i> properties, the text in the above example would display those property values instead of the <i>type</i> and <i>age</i> values from the model item. In this case, the properties could have been referenced as <code translate="no">model.type</code> and <code translate="no">model.age</code> instead to ensure the delegate displays the property values from the model item.</p>
+<p>A special <i>index</i> role containing the index of the item in the model is also available to the delegate. Note this index is set to -1 if the item is removed from the model. If you bind to the index role, be sure that the logic accounts for the possibility of index being -1, i.e. that the item is no longer valid. (Usually the item will shortly be destroyed, but it is possible to delay delegate destruction in some views via a <code translate="no">delayRemove</code> attached property.)</p>
+<p>Models that do not have named roles (such as the <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> shown below) will have the data provided via the <i>modelData</i> role. The <i>modelData</i> role is also provided for models that have only one role. In this case the <i>modelData</i> role contains the same data as the named role.</p>
+<div class="admonition note">
+<p><b>Note: </b><i>model</i>, <i>index</i>, and <i>modelData</i> roles are not accessible if the delegate contains required properties, unless it has also required properties with matching names.</p>
+</div>
+<p>QML provides several types of data models among the built-in set of QML types. In addition, models can be created with Qt C++ and then made available to <a href="./qqmlengine.htm" translate="no">QQmlEngine</a> for use by QML components. For information about creating these models, visit the <a href="./qtquick-modelviewsdata-cppmodels.htm" translate="no">Using C++ Models with Qt Quick Views</a> and <a href="./qtqml-typesystem-topic.htm" translate="no">creating QML types</a> articles.</p>
+<p>Positioning of items from a model can be achieved using a <a href="./qml-qtquick-repeater.htm" translate="no">Repeater</a>.</p>
+<a name="list-model"></a>
+<h3 id="list-model">List Model<a class="plink" href="#list-model" title="Direct link to this headline"></a></h3>
+<p><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> is a simple hierarchy of types specified in QML. The available roles are specified by the <a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a> properties.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+    <span class="name">id</span>: <span class="name">fruitModel</span>
+
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+        <span class="name">name</span>: <span class="string">"Apple"</span>
+        <span class="name">cost</span>: <span class="number">2.45</span>
+    }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+        <span class="name">name</span>: <span class="string">"Orange"</span>
+        <span class="name">cost</span>: <span class="number">3.25</span>
+    }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+        <span class="name">name</span>: <span class="string">"Banana"</span>
+        <span class="name">cost</span>: <span class="number">1.95</span>
+    }
+}</pre></div>
+<p>The above model has two roles, <i>name</i> and <i>cost</i>. These can be bound to by a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> delegate, for example:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">model</span>: <span class="name">fruitModel</span>
+    <span class="name">delegate</span>: <span class="name">Row</span> {
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"Fruit: "</span> <span class="operator">+</span> <span class="name">name</span> }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"Cost: $"</span> <span class="operator">+</span> <span class="name">cost</span> }
+    }
+}</pre></div>
+<p><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> provides methods to manipulate the <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> directly via JavaScript. In this case, the first item inserted determines the roles available to any views that are using the model. For example, if an empty <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> is created and populated via JavaScript, the roles provided by the first insertion are the only roles that will be shown in the view:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> { <span class="name">id</span>: <span class="name">fruitModel</span> }
+    ...
+<span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">onClicked</span>: <span class="name">fruitModel</span>.<span class="name">append</span>({"cost": <span class="number">5.95</span>, "name":<span class="string">"Pizza"</span>})
+}</pre></div>
+<p>When the <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> is clicked, <code translate="no">fruitModel</code> will have two roles, <i>cost</i> and <i>name</i>. Even if subsequent roles are added, only the first two will be handled by views using the model. To reset the roles available in the model, call <a href="./qml-qtqml-models-listmodel.htm#clear-method" translate="no">ListModel::clear</a>().</p>
+<a name="xml-model"></a>
+<h3 id="xml-model">XML Model<a class="plink" href="#xml-model" title="Direct link to this headline"></a></h3>
+<p><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a> allows construction of a model from an XML data source. The roles are specified via the <a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a> type. The type needs to be imported.</p>
+<div class="pre"><pre class="cpp" translate="no">import <span class="type"><a href="./qtquick-module.htm" translate="no">QtQuick</a></span><span class="operator">.</span>XmlListModel <span class="number">2.0</span></pre></div>
+<p>The following model has three roles, <i>title</i>, <i>link</i> and <i>description</i>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a></span> {
+     <span class="name">id</span>: <span class="name">feedModel</span>
+     <span class="name">source</span>: <span class="string">"http://rss.news.yahoo.com/rss/oceania"</span>
+     <span class="name">query</span>: <span class="string">"/rss/channel/item"</span>
+     <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"title"</span>; <span class="name">query</span>: <span class="string">"title/string()"</span> }
+     <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"link"</span>; <span class="name">query</span>: <span class="string">"link/string()"</span> }
+     <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"description"</span>; <span class="name">query</span>: <span class="string">"description/string()"</span> }
+}</pre></div>
+<p>The <code translate="no">query</code> property specifies that the <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a> generates a model item for each <code translate="no">&lt;item&gt;</code> in the XML document.</p>
+<p>The <a href="./qtdoc-demos-rssnews-example.htm" translate="no">RSS News demo</a> shows how <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a> can be used to display an RSS feed.</p>
+<a name="object-model"></a>
+<h3 id="object-model">Object Model<a class="plink" href="#object-model" title="Direct link to this headline"></a></h3>
+<p><a href="./qml-qtqml-models-objectmodel.htm" translate="no">ObjectModel</a> contains the visual items to be used in a view. When an <a href="./qml-qtqml-models-objectmodel.htm" translate="no">ObjectModel</a> is used in a view, the view does not require a delegate because the <a href="./qml-qtqml-models-objectmodel.htm" translate="no">ObjectModel</a> already contains the visual delegate (items).</p>
+<p>The example below places three colored rectangles in a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">import <span class="type"><a href="./qtquick-module.htm" translate="no">QtQuick</a></span> <span class="number">2.0</span>
+import <span class="type"><a href="./qtqml-qmlmodule.htm" translate="no">QtQml</a></span><span class="operator">.</span>Models <span class="number">2.1</span>
+
+Rectangle {
+    ObjectModel {
+        id: itemModel
+        Rectangle { height: <span class="number">30</span>; width: <span class="number">80</span>; color: <span class="string">"red"</span> }
+        Rectangle { height: <span class="number">30</span>; width: <span class="number">80</span>; color: <span class="string">"green"</span> }
+        Rectangle { height: <span class="number">30</span>; width: <span class="number">80</span>; color: <span class="string">"blue"</span> }
+    }
+
+    ListView {
+        anchors<span class="operator">.</span>fill: parent
+        model: itemModel
+    }
+}</pre></div>
+<a name="integers-as-models"></a>
+<h3 id="integers-as-models">Integers as Models<a class="plink" href="#integers-as-models" title="Direct link to this headline"></a></h3>
+<p>An integer can be used as a model that contains a certain number of types. In this case, the model does not have any data roles.</p>
+<p>The following example creates a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> with five elements:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">200</span>; <span class="name">height</span>: <span class="number">250</span>
+
+    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">itemDelegate</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"I am item number: "</span> <span class="operator">+</span> <span class="name">index</span> }
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">model</span>: <span class="number">5</span>
+        <span class="name">delegate</span>: <span class="name">itemDelegate</span>
+    }
+
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>The limit on the number of items in an integer model is 100,000,000.</p>
+</div>
+<a name="object-instances-as-models"></a>
+<h3 id="object-instances-as-models">Object Instances as Models<a class="plink" href="#object-instances-as-models" title="Direct link to this headline"></a></h3>
+<p>An object instance can be used to specify a model with a single object type. The properties of the object are provided as roles.</p>
+<p>The example below creates a list with one item, showing the color of the <i>myText</i> text. Note the use of the fully qualified <i>model.color</i> property to avoid clashing with <i>color</i> property of the Text type in the delegate.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">200</span>; <span class="name">height</span>: <span class="number">250</span>
+
+    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">id</span>: <span class="name">myText</span>
+        <span class="name">text</span>: <span class="string">"Hello"</span>
+        <span class="name">color</span>: <span class="string">"#dd44ee"</span>
+    }
+
+    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">myDelegate</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">model</span>.<span class="name">color</span> }
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">anchors</span>.topMargin: <span class="number">30</span>
+        <span class="name">model</span>: <span class="name">myText</span>
+        <span class="name">delegate</span>: <span class="name">myDelegate</span>
+    }
+}</pre></div>
+<a name="qml-c-models"></a><a name="c-data-models"></a>
+<h3 id="c-data-models">C++ Data Models<a class="plink" href="#c-data-models" title="Direct link to this headline"></a></h3>
+<p>Models can be defined in C++ and then made available to QML. This mechanism is useful for exposing existing C++ data models or otherwise complex datasets to QML.</p>
+<p>For information, visit the <a href="./qtquick-modelviewsdata-cppmodels.htm" translate="no">Using C++ Models with Qt Quick Views</a> article.</p>
+<a name="repeaters"></a>
+<h2 id="repeaters">Repeaters<a class="plink" href="#repeaters" title="Direct link to this headline"></a></h2>
+<div class="float-right"><p><img alt="" src="./images/repeater-index.png"></p>
+</div><p>Repeaters create items from a template for use with positioners, using data from a model. Combining repeaters and positioners is an easy way to lay out lots of items. A <a href="./qml-qtquick-repeater.htm" translate="no">Repeater</a> item is placed inside a positioner, and generates items that the enclosing positioner arranges.</p>
+<p>Each Repeater creates a number of items by combining each element of data from a model, specified using the <a href="./qml-qtquick-repeater.htm#model-prop" translate="no">model</a> property, with the template item, defined as a child item within the Repeater. The total number of items is determined by the amount of data in the model.</p>
+<p>The following example shows a repeater used with a Grid item to arrange a set of Rectangle items. The Repeater item creates a series of 24 rectangles for the Grid item to position in a 5 by 5 arrangement.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">400</span>; <span class="name">height</span>: <span class="number">400</span>; <span class="name">color</span>: <span class="string">"black"</span>
+
+    <span class="type"><a href="./qml-qtquick-grid.htm" translate="no">Grid</a></span> {
+        <span class="name">x</span>: <span class="number">5</span>; <span class="name">y</span>: <span class="number">5</span>
+        <span class="name">rows</span>: <span class="number">5</span>; <span class="name">columns</span>: <span class="number">5</span>; <span class="name">spacing</span>: <span class="number">10</span>
+
+        <span class="type"><a href="./qml-qtquick-repeater.htm" translate="no">Repeater</a></span> { <span class="name">model</span>: <span class="number">24</span>
+                   <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">width</span>: <span class="number">70</span>; <span class="name">height</span>: <span class="number">70</span>
+                               <span class="name">color</span>: <span class="string">"lightgreen"</span>
+
+                               <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">index</span>
+                                      <span class="name">font</span>.pointSize: <span class="number">30</span>
+                                      <span class="name">anchors</span>.centerIn: <span class="name">parent</span> } }
+        }
+    }
+}</pre></div>
+<p>The number of items created by a Repeater is held by its <a href="./qml-qtquick-repeater.htm#count-prop" translate="no">count</a> property. It is not possible to set this property to determine the number of items to be created. Instead, as in the above example, we use an integer as the model.</p>
+<p>For more details, see the <a href="./qtquick-modelviewsdata-modelview.htm#integers-as-models" translate="no">QML Data Models</a> document.</p>
+<p>If the model is a string list, the delegate is also exposed to a read-only <code translate="no">modelData</code> property that holds the string. For example:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+    <span class="type"><a href="./qml-qtquick-repeater.htm" translate="no">Repeater</a></span> {
+        <span class="name">model</span>: [<span class="string">"apples"</span>, <span class="string">"oranges"</span>, <span class="string">"pears"</span>]
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"Data: "</span> <span class="operator">+</span> <span class="name">modelData</span> }
+    }
+}</pre></div>
+</td><td><p class="centerAlign"><img alt="" src="./images/repeater-modeldata.png"></p></td></tr>
+</tbody></table></div>
+<p>It is also possible to use a delegate as the template for the items created by a Repeater. This is specified using the <a href="./qml-qtquick-repeater.htm#delegate-prop" translate="no">delegate</a> property.</p>
+<a name="changing-model-data"></a>
+<h2 id="changing-model-data">Changing Model Data<a class="plink" href="#changing-model-data" title="Direct link to this headline"></a></h2>
+<p>To change model data, you can assign updated values to the <code translate="no">model</code> properties. The QML <a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a> is editable by default whereas C++ models must implement setData() to become editable. Integer and JavaScript array models are read-only.</p>
+<p>Supposed a <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a> based C++ model that implements the <a href="./qabstractitemmodel.htm#setData" translate="no">setData</a> method is registered as a QML type named <code translate="no">EditableModel</code>. Data could then be written to the model like this:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">model</span>: <span class="name">EditableModel</span> {}
+    <span class="name">delegate</span>: <span class="name">TextEdit</span> {
+        <span class="name">width</span>: <span class="name">ListView</span>.<span class="name">view</span>.<span class="name">width</span>
+        <span class="name">height</span>: <span class="number">30</span>
+        <span class="name">text</span>: <span class="name">model</span>.<span class="name">edit</span>
+        <span class="name">Keys</span>.onReturnPressed: <span class="name">model</span>.<span class="name">edit</span> <span class="operator">=</span> <span class="name">text</span>
+    }
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>The <code translate="no">edit</code> role is equal to <a href="./qt.htm#ItemDataRole-enum" translate="no">Qt::EditRole</a>. See <a href="./qabstractitemmodel.htm#roleNames" translate="no">roleNames</a>() for the built-in role names. However, real life models would usually register custom roles.</p>
+</div>
+<p><b class="redFont"><code translate="no">\node</code></b>If a model role is bound to a</p>
+<p>{Required Property}{required property}, assigning to that property will not modify the model. It will instead break the binding to the model (just like assigning to any other property breaks existing bindings). If you want to use required properties and change the model data, make model also a required property and assign to <i>model.propertyName</i>.</p>
+<p>For more information, visit the <a href="./qtquick-modelviewsdata-cppmodels.htm#changing-model-data" translate="no">Using C++ Models with Qt Quick Views</a> article.</p>
+<a name="using-transitions"></a>
+<h2 id="using-transitions">Using Transitions<a class="plink" href="#using-transitions" title="Direct link to this headline"></a></h2>
+<p>Transitions can be used to animate items that are added to, moved within, or removed from a positioner.</p>
+<p>Transitions for adding items apply to items that are created as part of a positioner, as well as those that are reparented to become children of a positioner.</p>
+<p>Transitions for removing items apply to items within a positioner that are deleted, as well as those that are removed from a positioner and given new parents in a document.</p>
+<div class="admonition note">
+<p><b>Note: </b>Changing the opacity of items to zero will not cause them to disappear from the positioner. They can be removed and re-added by changing the visible property.</p>
+</div>
+</div>
+<!-- @@@qtquick-modelviewsdata-modelview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

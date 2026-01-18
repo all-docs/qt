@@ -1,0 +1,181 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Location Mapbox GL Plugin | Qt Location</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a>Qt Location Mapbox GL Plugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Location Mapbox GL Plugin</h1>
+<span class="subtitle"></span>
+<!-- $$$location-plugin-mapboxgl.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview"></a>
+<h2 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h2>
+<p>This geo services plugin allows applications to access <a href="http://mapbox.com" translate="no">Mapbox</a> mapping services using the Qt Location API. The use of these services is governed by the <a href="https://www.mapbox.com/tos" translate="no">Mapbox terms of service</a>.</p>
+<p>This plugin differs from the <a href="http://doc.qt.io/qt-5/location-plugin-mapbox.html" translate="no">Mapbox</a> plugin because it uses the <a href="https://github.com/mapbox/mapbox-gl-native/" translate="no">Mapbox GL map engine</a> for rendering both raster tiles and <a href="https://www.mapbox.com/vector-tiles" translate="no">vector tiles</a> in real-time. The benefits are: text staying upright, font antialiasing, labels flowing between zoom levels, smooth pan, tilt, rotation and continuous zoom.</p>
+<p>The appearance and behavior of vector maps can be customized by creating custom map styles. This can be done with tools like <a href="https://www.mapbox.com/studio" translate="no">Mapbox Studio</a>.</p>
+<p>The Mapbox GL geo services plugin can be loaded by using the plugin key "mapboxgl".</p>
+<p>Both Mapbox geo services plugins require an access token to access map styles and tiles hosted by Mapbox. To create a Mapbox account visit <a href="https://www.mapbox.com/pricing" translate="no">https://www.mapbox.com/pricing</a>.</p>
+<p><b>Note:</b> the API for this plugin is introduced in Qt 5.9 as <i>technology preview</i>.</p>
+<a name="platform-support"></a>
+<h2 id="platform-support">Platform Support<a class="plink" href="#platform-support" title="Direct link to this headline"></a></h2>
+<p>Qt Location Mapbox GL Plugin has the following support for platforms:</p>
+<ul>
+<li>Microsoft Windows (win32) - Supported, requires <a href="https://mingw-w64.org/" translate="no">MinGW</a> 5.0+</li>
+<li>Linux X11 - Supported, requires GCC 4.9+</li>
+<li>macOS - Supported</li>
+<li>Android - Supported</li>
+<li>Embedded Linux - Supported, requires GCC 4.9+</li>
+<li>iOS - Supported</li>
+<li>WinRT - Not supported</li>
+</ul>
+<a name="parameters"></a>
+<h2 id="parameters">Parameters<a class="plink" href="#parameters" title="Direct link to this headline"></a></h2>
+<a name="optional-plugin-parameters"></a>
+<h3 id="optional-plugin-parameters">Optional plugin parameters<a class="plink" href="#optional-plugin-parameters" title="Direct link to this headline"></a></h3>
+<p>The following table lists optional parameters that can be passed to the Mapbox plugin.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Parameter</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>mapboxgl.access_token</td><td><a href="https://www.mapbox.com/help/define-access-token" translate="no">Access token</a> provided by Mapbox. The token can also be specified using the environment variable <code translate="no">MAPBOX_ACCESS_TOKEN</code>, but if also set using a plugin parameter, then this last one will have the precedence over the environment variable. When not set, a development token will be used by default. The development token is subject to the Mapbox <a href="https://www.mapbox.com/tos" translate="no">Terms of Services</a> and must not be used in production. This property has no effect on styles hosted outside the Mapbox servers.</td></tr>
+<tr class="even" valign="top"><td>mapboxgl.api_base_url</td><td>Set a custom API base URL. When not set, the URL defaults to <a href="https://api.mapbox.com" translate="no">https://api.mapbox.com</a>. This parameter is ignored if the the <b>mapboxgl.china</b> property is set.</td></tr>
+<tr class="odd" valign="top"><td>mapboxgl.china</td><td>Use Mapbox China API base URLs and styles. Please notice that Mapbox China requires a specific access token. Contact <a href="https://www.mapbox.com/contact/sales/" translate="no">Mapbox sales</a> for more information.</td></tr>
+<tr class="even" valign="top"><td>mapboxgl.mapping.additional_style_urls</td><td>Additional, comma separated, Mapbox <a href="https://www.mapbox.com/help/define-style-url" translate="no">style URLs</a> to be added to the available style URLs. Additional styles will be prepended to the <a href="./qml-qtlocation-map.htm#supportedMapTypes-prop" translate="no">supportedMapTypes</a> property of the <a href="./qml-qtlocation-map.htm" translate="no">Map</a> item.</td></tr>
+<tr class="odd" valign="top"><td>mapboxgl.mapping.cache.directory</td><td>Absolute path to map tile cache directory used as network disk cache.<p>The default place for the cache is the <code translate="no">QtLocation/mapboxgl</code> subdirectory in the location returned by <a href="./qstandardpaths.htm#writableLocation" translate="no">QStandardPaths::writableLocation</a>(), called with <a href="./qstandardpaths.htm#StandardLocation-enum" translate="no">QStandardPaths::GenericCacheLocation</a> as a parameter. On systems that have no concept of a shared cache, the application-specific <a href="./qstandardpaths.htm#StandardLocation-enum" translate="no">QStandardPaths::CacheLocation</a> is used instead.</p>
+<p>This is an <a href="https://www.mapbox.com/help/mobile-offline/#ambient-caching" translate="no">ambient cache</a>, meaning it will get populated on the fly until it reaches the size limit, and when that happens, it will evict the least used tiles.</p>
+<p>This cache can also be used for storing <a href="https://www.mapbox.com/help/mobile-offline" translate="no">offline tiles</a>, but the offline database must be populated using the <a href="https://github.com/mapbox/mapbox-gl-native/blob/master/bin/offline.cpp" translate="no">offline tool</a>. The offline database will work alongside with the ambient cache in the same file. Make sure to comply with Mapbox Terms of Service before creating an offline database.</p>
+<p><b>Note:</b> The map tile cache file name must be "mapboxgl.db". When using the offline tool, the default output is "offline.db". For using the generated output from the offline tool, you must move that to the proper directory, and rename it as "mapboxgl.db". The offline tool also provides the "--output" parameter for specifying the name of the generated output.</p>
+</td></tr>
+<tr class="even" valign="top"><td>mapboxgl.mapping.cache.memory</td><td>Whether or not the cache should be in-memory only. Valid values are <b>true</b> and <b>false</b>. The default value is <b>false</b>. When set to <b>true</b>, the disk cache is never created. The ambient cache will work in-memory, but the offline database cannot be used with this option enabled.</td></tr>
+<tr class="odd" valign="top"><td>mapboxgl.mapping.cache.size</td><td>Cache size for map resources in bytes. The default size of this cache is 50 MiB. Make sure to comply with Mapbox Terms of Service before increasing this value.</td></tr>
+<tr class="even" valign="top"><td>mapboxgl.mapping.use_fbo</td><td>Sets whether to use a framebuffer object to render Mapbox GL Native. Valid values are <b>true</b> and <b>false</b>. The default value is <b>true</b>. When set to <b>false</b>, the map is rendered issuing OpenGL commands directly, through a <a href="./qsgrendernode.htm" translate="no">QSGRenderNode</a>, to improve the rendering performance. This mode is experimental, and it does not support <a href="./qquickitem.htm" translate="no">QQuickItem</a> transformations nor stencil clipping. It might be also produce rendering artifacts e.g. when adding it inside a <a href="./qml-qtquick-flipable.htm" translate="no">Flipable</a> item.</td></tr>
+<tr class="odd" valign="top"><td>mapboxgl.mapping.items.insert_before</td><td>Some map items such as <a href="./qml-qtlocation-mappolyline.htm" translate="no">MapPolyline</a>, <a href="./qml-qtlocation-mappolygon.htm" translate="no">MapPolygon</a> and <a href="./qml-qtlocation-maprectangle.htm" translate="no">MapRectangle</a> will be rendered after the topmost <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layers" translate="no">layer</a> of the style. With this parameter set, the map items will be rendered <b>before</b> the layer ID specified, unless the layer is not present on the current style, which will fallback to the default behavior. This parameter can be used to display route lines under labels.</td></tr>
+</tbody></table></div>
+<a name="optional-map-parameters"></a>
+<h3 id="optional-map-parameters">Optional map parameters<a class="plink" href="#optional-map-parameters" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qml-qtlocation-map.htm" translate="no">Map</a> item using this plugin, can also be customized using <a href="./qml-qtlocation-mapparameter.htm" translate="no">MapParameters</a>, allowing runtime changes to the map style and data.</p>
+<p>Examples of what can be currently controlled using <a href="./qml-qtlocation-mapparameter.htm" translate="no">MapParameter</a> are:</p>
+<ul>
+<li>Hide and show parts of the map, like roads and buildings.</li>
+<li>Change paint properties like color and opacity of various parts of the map.</li>
+<li>Change layout properties like thickness and line joints.</li>
+<li>Add data to the map.</li>
+<li>Add sprites to the map.</li>
+</ul>
+<p>With the exception of extrusion and data driven style properties, every property described at the <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/" translate="no">Mapbox Style Specification</a> can be changed at runtime.</p>
+<p>The <a href="./qml-qtlocation-mapparameter.htm" translate="no">MapParameters</a>, used to control the style of the map at runtime, always have a <b>type</b> property, followed by user defined properties that try to match the <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/" translate="no">Mapbox Style Specification</a> naming as much as possible, replacing the dash with camel case for technical reasons (i.e. <b>line-cap</b> will be translated to <b>lineCap</b>).</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Parameter type</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>source</td><td>A style data <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sources" translate="no">source</a>. When using a source of <b>sourceType</b> <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#sources-geojson" translate="no">geojson</a>, the <b>data</b> property can be both inlined or sourced from qrc. Supported source types are: <b>vector</b>, <b>raster</b>, <b>raster-dem</b>, <b>image</b> and <b>geojson</b>. 'geojson'.</td></tr>
+<tr class="even" valign="top"><td>layer</td><td>Adds a new <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layers" translate="no">style layer</a> to the map. On a Mapbox GL map, layers are used in styles for adding styling rules to specific subsets of data. A layer will contain a reference to the data for which they are defining a style. Use the <b>before</b> attribute to insert a layer before an existing layer.</td></tr>
+<tr class="odd" valign="top"><td>paint</td><td>Defines how a layer will be painted. <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layer-paint" translate="no">Paint</a> properties can be used for changing the color and opacity of roads in the map or the land color, among other things.</td></tr>
+<tr class="even" valign="top"><td>layout</td><td>Defines how a layer will be layouted. <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#layer-layout" translate="no">Layout</a> properties can be used for setting a layer's visibility, and for defining the spacing between dashes in a dashed line, among other things.</td></tr>
+<tr class="odd" valign="top"><td>image</td><td>Adds a <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#root-sprite" translate="no">sprite</a> to the map to be used by a style layer. This property is required if any style layer uses the properties such as <b>backgroundPattern</b>, <b>fillPattern</b>, <b>linePattern</b>, or <b>iconImage</b>.</td></tr>
+<tr class="even" valign="top"><td>filter</td><td>A <a href="https://www.mapbox.com/mapbox-gl-js/style-spec/#types-filter" translate="no">filter</a> selects specific features from a layer. This can be used for adding a layer from a GeoJSON source based on specific parts of the data source, like by using only the points in the GeoJSON.</td></tr>
+</tbody></table></div>
+<a name="example-usage"></a>
+<h2 id="example-usage">Example usage<a class="plink" href="#example-usage" title="Direct link to this headline"></a></h2>
+<p>This example adds inline GeoJSON data to the map. Simply adding a <b>source</b> is not enough to get the data visible. It is also necessary to create a <b>layer</b> based on this source. After the layer is added, we also need to style its <b>paint</b> and <b>layout</b> properties. In this case we are changing the line color to blue, and the line width to 8 pixels, as well as also setting round line joints and caps.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Map {
+    plugin: Plugin { name: <span class="string">"mapboxgl"</span> }
+
+    center: <span class="type"><a href="./qml-qtpositioning-qtpositioning.htm" translate="no">QtPositioning</a></span><span class="operator">.</span>coordinate(<span class="number">60.170448</span><span class="operator">,</span> <span class="number">24.942046</span>) <span class="comment">// Helsinki</span>
+    zoomLevel: <span class="number">12</span>
+
+    MapParameter {
+        type: <span class="string">"source"</span>
+
+        property var name: <span class="string">"routeSource"</span>
+        property var sourceType: <span class="string">"geojson"</span>
+        property var data: <span class="char">'{ "type": "FeatureCollection", "features": \
+            [{ "type": "Feature", "properties": {}, "geometry": { \
+            "type": "LineString", "coordinates": [[ 24.934938848018646, \
+            60.16830257086771 ], [ 24.943315386772156, 60.16227776476442 ]]}}]}'</span>
+    }
+
+    MapParameter {
+        type: <span class="string">"layer"</span>
+
+        property var name: <span class="string">"route"</span>
+        property var layerType: <span class="string">"line"</span>
+        property var source: <span class="string">"routeSource"</span>
+
+        <span class="comment">// Draw under the first road label layer</span>
+        <span class="comment">// of the mapbox-streets style.</span>
+        property var before: <span class="string">"road-label-small"</span>
+    }
+
+    MapParameter {
+        type: <span class="string">"paint"</span>
+
+        property var layer: <span class="string">"route"</span>
+        property var lineColor: <span class="string">"blue"</span>
+        property var lineWidth: <span class="number">8.0</span>
+    }
+
+    MapParameter {
+        type: <span class="string">"layout"</span>
+
+        property var layer: <span class="string">"route"</span>
+        property var lineJoin: <span class="string">"round"</span>
+        property var lineCap: <span class="string">"round"</span>
+    }
+}</pre></div>
+<p>Note that the order we add the parameters is important, because there is dependency between the parameters. Adding a layer before adding a source will create an invalid layer, same goes for adding a paint property for a layer that doesn't exist.</p>
+<p>Paint and layout properties can also be used for styling existing layers of the current style, and not only layers created at runtime. <a href="https://www.mapbox.com/studio/" translate="no">Mapbox Studio</a> can be used for inspecting layers of a given style.</p>
+</div>
+<!-- @@@location-plugin-mapboxgl.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

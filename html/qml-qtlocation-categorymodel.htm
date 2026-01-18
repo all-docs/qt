@@ -1,0 +1,177 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CategoryModel QML Type | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtlocation-categorymodel.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>CategoryModel QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">CategoryModel QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$CategoryModel-brief -->
+<p>The CategoryModel type provides a model of the categories supported by a <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a>. <a href="#details">More...</a></p>
+<!-- @@@CategoryModel -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtLocation 5.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtLocation 5.5</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtlocation-categorymodel-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-categorymodel.htm#hierarchical-prop" translate="no">hierarchical</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-categorymodel.htm#plugin-prop" translate="no">plugin</a></b></b> : Plugin</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-categorymodel.htm#status-prop" translate="no">status</a></b></b> : enumeration</li>
+</ul>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-categorymodel.htm#dataChanged-signal" translate="no">dataChanged</a></b></b>()</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">string <b><b><a href="./qml-qtlocation-categorymodel.htm#errorString-method" translate="no">errorString</a></b></b>()</li>
+</ul>
+<!-- $$$CategoryModel-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The CategoryModel type provides a model of the categories that are available from the current <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a>. The model supports both a flat list of categories and a hierarchical tree representing category groupings. This can be controlled by the <a href="./qml-qtlocation-categorymodel.htm#hierarchical-prop" translate="no">hierarchical</a> property.</p>
+<p>The model supports the following roles:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Role</th><th>Type</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>category</td><td><a href="./qml-qtlocation-category.htm" translate="no">Category</a></td><td>Category object for the current item.</td></tr>
+<tr class="even" valign="top"><td>parentCategory</td><td><a href="./qml-qtlocation-category.htm" translate="no">Category</a></td><td>Parent category object for the current item. If there is no parent, null is returned.</td></tr>
+</tbody></table></div>
+<p>The following example displays a flat list of all available categories:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+import QtPositioning 5.5
+import QtLocation 5.6
+
+<span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">model</span>: <span class="name">CategoryModel</span> {
+        <span class="name">plugin</span>: <span class="name">myPlugin</span>
+        <span class="name">hierarchical</span>: <span class="number">false</span>
+    }
+    <span class="name">delegate</span>: <span class="name">Text</span> { <span class="name">text</span>: <span class="name">category</span>.<span class="name">name</span> }
+}</pre></div>
+<p>To access the hierarchical category model it is necessary to use a DelegateModel to access the child items.</p>
+<!-- @@@CategoryModel -->
+<h2>Property Documentation</h2>
+<!-- $$$hierarchical -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="hierarchical-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="hierarchical-prop"></a><span class="name">hierarchical</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#hierarchical-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the model provides a hierarchical tree of categories or a flat list. The default is true.</p>
+</div></div><!-- @@@hierarchical -->
+<br>
+<!-- $$$plugin -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="plugin-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="plugin-prop"></a><span class="name">plugin</span> : <span class="type"><a href="./qml-qtlocation-plugin.htm" translate="no">Plugin</a></span><a class="plink" href="#plugin-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the provider <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> used by this model.</p>
+</div></div><!-- @@@plugin -->
+<br>
+<!-- $$$status -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="status-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="status-prop"></a><span class="name">status</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#status-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the status of the model. It can be one of:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./qml-qtlocation-categorymodel.htm" translate="no">CategoryModel</a>.Null</td><td>No category fetch query has been executed. The model is empty.</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtlocation-categorymodel.htm" translate="no">CategoryModel</a>.Ready</td><td>No error occurred during the last operation, further operations may be performed on the model.</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtlocation-categorymodel.htm" translate="no">CategoryModel</a>.Loading</td><td>The model is being updated, no other operations may be performed until complete.</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtlocation-categorymodel.htm" translate="no">CategoryModel</a>.Error</td><td>An error occurred during the last operation, further operations can still be performed on the model.</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@status -->
+<br>
+<h2>Signal Documentation</h2>
+<!-- $$$dataChanged[overload1]$$$dataChanged -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="dataChanged-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="dataChanged-signal"></a><span class="name">dataChanged</span>()<a class="plink" href="#dataChanged-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when significant changes have been made to the underlying datastore.</p>
+<p>Applications should act on this signal at their own discretion. The data provided by the model could be out of date and so the model should be reupdated sometime, however an immediate reupdate may be disconcerting to users if the categories change without any action on their part.</p>
+<p>The corresponding handler is <code translate="no">onDataChanged</code>.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onDataChanged</code>.</p>
+</div></div><!-- @@@dataChanged -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$errorString[overload1]$$$errorString -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="errorString-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="errorString-method"></a><span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">errorString</span>()<a class="plink" href="#errorString-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This read-only property holds the textual presentation of the latest category model error. If no error has occurred, an empty string is returned.</p>
+<p>An empty string may also be returned if an error occurred which has no associated textual representation.</p>
+</div></div><!-- @@@errorString -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

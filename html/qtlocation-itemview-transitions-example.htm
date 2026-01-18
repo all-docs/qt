@@ -1,0 +1,190 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MapItemView Transitions (QML) | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtlocation-itemview-transitions-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-examples.htm" translate="no">Qt Location Examples</a></li>
+                            <li><a>MapItemView Transitions (QML)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">MapItemView Transitions (QML)</h1>
+<span class="subtitle"></span>
+<!-- $$$itemview_transitions-brief -->
+<p>How to use transitions together with <a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a>.</p>
+<!-- @@@itemview_transitions -->
+<!-- $$$itemview_transitions-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/itemview_transitions.jpg"></p><p><i><a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a> Transitions</i> demonstrates how to use the <a href="./qml-qtlocation-map.htm" translate="no">Map</a> item to render a map. It shows the minimum amount of code needed to display the map, and can be used as a basis for further experimentation.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="qml-code"></a>
+<h4 id="qml-code">QML Code<a class="plink" href="#qml-code" title="Direct link to this headline"></a></h4>
+<p>In <code translate="no">main.qml</code>, two <i><a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a></i> elements are used, to add to the map the administrative districts for the Oslo region, and to add a marker upon long-press.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a></span> {
+    <span class="name">id</span>: <span class="name">mivMarker</span>
+
+    <span class="name">add</span>: <span class="name">Transition</span> {
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">property</span>: <span class="string">"slideIn"</span>
+            <span class="name">from</span>: <span class="number">50</span>
+            <span class="name">to</span>: <span class="number">0</span>
+            <span class="name">duration</span>: <span class="number">500</span>
+            <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutBounce</span>
+            <span class="name">easing</span>.amplitude: <span class="number">3.0</span>
+        }
+    }
+
+    <span class="name">remove</span>: <span class="name">Transition</span> {
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">property</span>: <span class="string">"opacity"</span>
+            <span class="name">to</span>: <span class="number">0.1</span>
+            <span class="name">duration</span>: <span class="number">50</span>
+        }
+    }
+
+    <span class="name">model</span>: <span class="name">ListModel</span> {
+        <span class="name">id</span>: <span class="name">markerModel</span>
+    }
+    <span class="name">delegate</span>: <span class="name">Component</span> {
+        <span class="type"><a href="./qml-qtlocation-mapquickitem.htm" translate="no">MapQuickItem</a></span> {
+            <span class="name">coordinate</span>: <span class="name">QtPositioning</span>.<span class="name">coordinate</span>(<span class="name">latitude</span>, <span class="name">longitude</span>)
+            <span class="name">anchorPoint</span>: <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">e1</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">0.5</span>, <span class="name">e1</span>.<span class="name">height</span> <span class="operator">+</span> <span class="name">slideIn</span>)
+            property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">slideIn</span> : <span class="number">0</span>
+            <span class="name">sourceItem</span>: <span class="name">Shape</span> {
+                <span class="name">id</span>: <span class="name">e1</span>
+                <span class="name">vendorExtensionsEnabled</span>: <span class="number">false</span>
+                <span class="name">width</span>: <span class="number">32</span>
+                <span class="name">height</span>: <span class="number">32</span>
+                <span class="name">visible</span>: <span class="number">true</span>
+
+                <span class="name">transform</span>: <span class="name">Scale</span> {
+                    <span class="name">origin</span>.y: <span class="name">e1</span>.<span class="name">height</span> <span class="operator">*</span> <span class="number">0.5</span>
+                    <span class="name">yScale</span>: -<span class="number">1</span>
+                }
+
+                <span class="type"><a href="./qml-qtquick-shapes-shapepath.htm" translate="no">ShapePath</a></span> {
+                    <span class="name">id</span>: <span class="name">c_sp1</span>
+                    <span class="name">strokeWidth</span>: -<span class="number">1</span>
+                    <span class="name">fillColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1.0</span>)
+
+                    property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">half</span>: <span class="name">e1</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">0.5</span>
+                    property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">quarter</span>: <span class="name">e1</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">0.25</span>
+                    property <span class="type"><a href="./qml-point.htm" translate="no">point</a></span> <span class="name">center</span>: <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">e1</span>.<span class="name">x</span> <span class="operator">+</span> <span class="name">e1</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">0.5</span> , <span class="name">e1</span>.<span class="name">y</span> <span class="operator">+</span> <span class="name">e1</span>.<span class="name">height</span> <span class="operator">*</span> <span class="number">0.5</span>)
+
+                    property <span class="type"><a href="./qml-point.htm" translate="no">point</a></span> <span class="name">top</span>: <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">center</span>.<span class="name">x</span>, <span class="name">center</span>.<span class="name">y</span> <span class="operator">-</span> <span class="name">half</span> )
+                    property <span class="type"><a href="./qml-point.htm" translate="no">point</a></span> <span class="name">bottomLeft</span>: <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">center</span>.<span class="name">x</span> <span class="operator">-</span> <span class="name">half</span>, <span class="name">center</span>.<span class="name">y</span> <span class="operator">+</span> <span class="name">half</span> )
+                    property <span class="type"><a href="./qml-point.htm" translate="no">point</a></span> <span class="name">bottomRight</span>: <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">center</span>.<span class="name">x</span> <span class="operator">+</span> <span class="name">half</span>, <span class="name">center</span>.<span class="name">y</span> <span class="operator">+</span> <span class="name">half</span> )
+
+                    <span class="name">startX</span>: <span class="name">center</span>.<span class="name">x</span>;
+                    <span class="name">startY</span>: <span class="name">center</span>.<span class="name">y</span> <span class="operator">+</span> <span class="name">half</span>
+
+                    <span class="type"><a href="./qml-qtquick-pathline.htm" translate="no">PathLine</a></span> { <span class="name">x</span>: <span class="name">c_sp1</span>.<span class="name">bottomLeft</span>.<span class="name">x</span>; <span class="name">y</span>: <span class="name">c_sp1</span>.<span class="name">bottomLeft</span>.<span class="name">y</span> }
+                    <span class="type"><a href="./qml-qtquick-pathline.htm" translate="no">PathLine</a></span> { <span class="name">x</span>: <span class="name">c_sp1</span>.<span class="name">top</span>.<span class="name">x</span>; <span class="name">y</span>: <span class="name">c_sp1</span>.<span class="name">top</span>.<span class="name">y</span> }
+                    <span class="type"><a href="./qml-qtquick-pathline.htm" translate="no">PathLine</a></span> { <span class="name">x</span>: <span class="name">c_sp1</span>.<span class="name">bottomRight</span>.<span class="name">x</span>; <span class="name">y</span>: <span class="name">c_sp1</span>.<span class="name">bottomRight</span>.<span class="name">y</span> }
+                    <span class="type"><a href="./qml-qtquick-pathline.htm" translate="no">PathLine</a></span> { <span class="name">x</span>: <span class="name">c_sp1</span>.<span class="name">center</span>.<span class="name">x</span>; <span class="name">y</span>: <span class="name">c_sp1</span>.<span class="name">center</span>.<span class="name">y</span> <span class="operator">+</span> <span class="name">c_sp1</span>.<span class="name">half</span> }
+                }
+            }
+        }
+    }
+}</pre></div>
+<p>The marker view specifies both the add and the remove transition, to create a bouncing marker effect.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a></span> {
+    <span class="name">id</span>: <span class="name">miv</span>
+    <span class="name">model</span>: <span class="name">OsloListModel</span> {
+        <span class="name">id</span>: <span class="name">osloListModel</span>
+    }
+    <span class="name">add</span>: <span class="name">Transition</span> {
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">property</span>: <span class="string">"animationScale"</span>
+            <span class="name">from</span>: <span class="number">0.2</span>
+            <span class="name">to</span>: <span class="number">1</span>
+            <span class="name">duration</span>: <span class="number">800</span>
+            <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutCubic</span>
+        }
+    }
+    <span class="name">delegate</span>: <span class="name">Component</span> {
+        <span class="type"><a href="./qml-qtlocation-mappolygon.htm" translate="no">MapPolygon</a></span> {
+            <span class="keyword">function </span><span class="name">fromMercator</span>(l, centroid) {
+                var res = []
+                <span class="keyword">for</span> (var i  = 0; <span class="name">i</span> <span class="operator">&lt;</span> <span class="name">l</span>.<span class="name">length</span>; i++) {
+                    var vtx = <span class="name">l</span>[<span class="name">i</span>]
+                    var offset = <span class="name">Qt</span>.<span class="name">point</span>((<span class="name">vtx</span>.<span class="name">x</span> <span class="operator">-</span> <span class="name">centroid</span>.<span class="name">x</span>) <span class="operator">*</span> <span class="name">animationScale</span>,
+                                          (<span class="name">vtx</span>.<span class="name">y</span> <span class="operator">-</span> <span class="name">centroid</span>.<span class="name">y</span>) <span class="operator">*</span> <span class="name">animationScale</span>)
+                    var pt = <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">centroid</span>.<span class="name">x</span> <span class="operator">+</span> <span class="name">offset</span>.<span class="name">x</span>, <span class="name">centroid</span>.<span class="name">y</span> <span class="operator">+</span> <span class="name">offset</span>.<span class="name">y</span>)
+                    <span class="name">res</span>.<span class="name">push</span>( <span class="name">QtPositioning</span>.<span class="name">mercatorToCoord</span>(<span class="name">pt</span>) )
+                }
+                <span class="keyword">return</span> <span class="name">res</span>;
+            }
+
+            <span class="name">path</span>: <span class="name">fromMercator</span>(<span class="name">osloListModel</span>.<span class="name">geometries</span>[<span class="name">name</span><span class="operator">+</span><span class="string">"_"</span><span class="operator">+</span><span class="name">adminLevel</span>]
+                               , <span class="name">osloListModel</span>.<span class="name">centroids</span>[<span class="name">name</span><span class="operator">+</span><span class="string">"_"</span><span class="operator">+</span><span class="name">adminLevel</span>] )
+            <span class="name">color</span>: ((<span class="name">adminLevel</span> <span class="operator">&gt;</span> <span class="number">4</span>) ? <span class="string">"lightsteelblue"</span> : <span class="string">'firebrick'</span>)
+            property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">animationScale</span> : <span class="number">1</span>
+            <span class="name">opacity</span>: ((<span class="name">adminLevel</span> <span class="operator">&lt;</span> <span class="number">9</span>) ? <span class="number">0.1</span> : <span class="number">0.8</span>)
+            <span class="name">visible</span>: <span class="number">true</span>
+        }
+    }
+}</pre></div>
+<p>The administrative districts view specifies only the add transition, to create a district growing effect.</p>
+<a name="requirements"></a>
+<h4 id="requirements">Requirements<a class="plink" href="#requirements" title="Direct link to this headline"></a></h4>
+<p>The example requires a working internet connection to download <code translate="no">OpenStreetMap</code> map tiles. An optional system proxy should be picked up automatically.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtlocation.git/tree/examples/location/itemview_transitions?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@itemview_transitions -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

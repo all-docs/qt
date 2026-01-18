@@ -1,0 +1,101 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creating Qt Script Extensions | Qt Script</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtscript-index.htm" translate="no">Qt Script</a></li>
+                            <li><a>Creating Qt Script Extensions</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Creating Qt Script Extensions</h1>
+<span class="subtitle"></span>
+<!-- $$$qtscriptextensions.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt Script extensions can make additional functionality available to scripts evaluated by a <a href="./qscriptengine.htm" translate="no">QScriptEngine</a>. Extensions are imported by calling the <a href="./qscriptengine.htm#importExtension" translate="no">QScriptEngine::importExtension</a>() function.</p>
+<p>There are three ways to create an extension:</p>
+<ul>
+<li>Subclass <a href="./qscriptextensionplugin.htm" translate="no">QScriptExtensionPlugin</a> and implement the desired functionality.</li>
+<li>Implement the functionality in a script file.</li>
+<li>Use a hybrid approach, where part of the functionality is implemented in a <a href="./qscriptextensionplugin.htm" translate="no">QScriptExtensionPlugin</a>, and part is implemented in a script file.</li>
+</ul>
+<p>The (dot-qualified) extension name is used to determine the path (relative to the application's plugin path) where <a href="./qscriptengine.htm" translate="no">QScriptEngine</a> will look for the script file that will initialize the extension; if a file called <code translate="no">__init__.js</code> (usually located in <code translate="no">[application plugin path]/script/foo/</code>) is found in the corresponding folder, its contents will be evaluated by the engine when the extension is imported. As an example, if the extension is called <code translate="no">"foo.bar.baz"</code>, the engine will look for <code translate="no">__init__.js</code> in <code translate="no">foo/bar/baz</code>. Additionally, before importing <code translate="no">"foo.bar.baz"</code>, the engine will ensure that the extensions <code translate="no">"foo"</code> and <code translate="no">"foo.bar"</code> are imported, locating and evaluating the corresponding <code translate="no">__init__.js</code> in the same manner (in folders <code translate="no">foo</code> and <code translate="no">foo/bar</code>, respectively).</p>
+<p>The contents of <code translate="no">__init__.js</code> are evaluated in a new <a href="./qscriptcontext.htm" translate="no">QScriptContext</a>, as if it were the body of a function. The engine's Global Object acts as the <code translate="no">this</code> object. The following local variables are initially available to the script:</p>
+<ul>
+<li><b>__extension__</b>: The name of the extension (e.g. <code translate="no">"foo.bar.baz"</code>).</li>
+<li><b>__setupPackage__</b>: A convenience function for setting up a "namespace" in the script environment. A typical application is to call <code translate="no">__setupPackage__()</code> with <code translate="no">__extension__</code> as argument; e.g. <code translate="no">__setupPackage__("foo.bar.baz")</code> would ensure that the object chain represented by the expression <code translate="no">foo.bar.baz</code> exists in the script environment. (This function is semantically equivalent to <a href="./qscriptextensionplugin.htm#setupPackage" translate="no">QScriptExtensionPlugin::setupPackage</a>().)</li>
+<li><b>__postInit__</b>: By default, this variable is undefined. If you assign a function to it, that function will be called <b>after</b> the C++ plugin's initialize() function has been called. You can use this to perform further initialization that depends on e.g. native functions that the C++ plugin registers.</li>
+</ul>
+<p>An example of a simple <code translate="no">__init__.js</code>:</p>
+<div class="pre"><pre class="js prettyprint"><span class="name">print</span>(<span class="string">"importing "</span> <span class="operator">+</span> <span class="name">__extension__</span>);
+<span class="name">__setupPackage__</span>(<span class="string">"cool.stuff"</span>);
+
+<span class="name">cool</span>.<span class="name">stuff</span>.<span class="name">add</span> <span class="operator">=</span> <span class="keyword">function</span>(a, b) { <span class="keyword">return</span> <span class="name">a</span> <span class="operator">+</span> <span class="name">b</span>; }
+<span class="name">cool</span>.<span class="name">stuff</span>.<span class="name">subtract</span> <span class="operator">=</span> <span class="keyword">function</span>(a, b) { <span class="keyword">return</span> <span class="name">a</span> <span class="operator">-</span> <span class="name">b</span>; }</pre></div>
+<p><a href="./qscriptengine.htm" translate="no">QScriptEngine</a> will look for a <a href="./qscriptextensionplugin.htm" translate="no">QScriptExtensionPlugin</a> that provides the relevant extension by querying each plugin for its keys() until a match is found. The plugin's initialize() function will be called <b>after</b> the relevant <code translate="no">__init__.js</code> (if any) has been evaluated.</p>
+<p>Continuining with the example of our imaginary extension <code translate="no">"foo.bar.baz"</code>, the following steps will be performed by <a href="./qscriptengine.htm#importExtension" translate="no">QScriptEngine::importExtension</a>():</p>
+<ul>
+<li>If it exists, <code translate="no">foo/__init__.js</code> is evaluated.</li>
+<li>If a plugin with <code translate="no">"foo"</code> in its list of keys is found, its initialize() function is called with <code translate="no">"foo"</code> as key.</li>
+<li>If it exists, <code translate="no">foo/bar/__init__.js</code> is evaluated.</li>
+<li>If a plugin with <code translate="no">"foo.bar"</code> in its list of keys is found, its initialize() function is called with <code translate="no">"foo.bar"</code> as key.</li>
+<li>If it exists, <code translate="no">foo/bar/baz/__init__.js</code> is evaluated.</li>
+<li>If a plugin with "foo.bar.baz" in its list of keys is found, its initialize() function is called with <code translate="no">"foo.bar.baz"</code> as key.</li>
+</ul>
+<a name="static-extensions"></a>
+<h2 id="static-extensions">Static Extensions<a class="plink" href="#static-extensions" title="Direct link to this headline"></a></h2>
+<p>When an extension is compiled and linked into your application as a static plugin, Qt Script will look for the optional <code translate="no">__init__.js</code> script in a resource, prefixed by <code translate="no">:/qtscriptextension</code>. For example, if the extension key is "foo.bar", Qt Script will evaluate the contents of the file <code translate="no">:/qtscriptextension/foo/bar/__init__.js</code>, if it exists. Note that if the resource is built into the plugin, you may need to use the <a href="./qdir.htm#Q_INIT_RESOURCE" translate="no">Q_INIT_RESOURCE</a>() macro to initialize the resource before importing the extension.</p>
+</div>
+<!-- @@@qtscriptextensions.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,166 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Builder | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>Builder</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Builder Class</h1>
+<span class="small-subtitle" translate="no">class <a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a>::Builder</span>
+<!-- $$$Builder-brief -->
+<p>The <a href="./qknxlinklayerframe-builder.htm" translate="no">QKnxLinkLayerFrame::Builder</a> class provides the means to create a KNX link layer frame. <a href="#details">More...</a></p>
+<!-- @@@Builder -->
+<ul>
+<li><a href="./qknxlinklayerframe-builder-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QKnxLinkLayerFrame </td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#createFrame" translate="no">createFrame</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setAdditionalInfos" translate="no">setAdditionalInfos</a></b>(const QVector&lt;QKnxAdditionalInfo&gt; &amp;<i>infos</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setControlField" translate="no">setControlField</a></b>(const QKnxControlField &amp;<i>ctrl</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setData" translate="no">setData</a></b>(const QKnxByteArray &amp;<i>data</i>, quint16 <i>offset</i> = 0)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setDestinationAddress" translate="no">setDestinationAddress</a></b>(const QKnxAddress &amp;<i>dest</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setExtendedControlField" translate="no">setExtendedControlField</a></b>(const QKnxExtendedControlField &amp;<i>extCtrl</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setMedium" translate="no">setMedium</a></b>(QKnx::MediumType <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setMessageCode" translate="no">setMessageCode</a></b>(MessageCode <i>code</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setSourceAddress" translate="no">setSourceAddress</a></b>(const QKnxAddress &amp;<i>source</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxlinklayerframe-builder.htm#setTpdu" translate="no">setTpdu</a></b>(const QKnxTpdu &amp;<i>tpdu</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$Builder-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A KNX link layer frame contains several fields: message code, additional information, control field, maybe an extended control field, a TPDU, as well as a source address and destination address. The fields must be valid for the builder to be able to create a frame.</p>
+<p>The builder is set up with default values to create a common external message interface (cEMI) group value read frame, except for the destination address, which needs to be specified during the creation of the frame.</p>
+<p>The following code sample illustrates how to establish a KNXnet/IP tunnel connection, to create group value read and write frames, and to send the frames over the connection:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span> tunnel(<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>);
+tunnel<span class="operator">.</span>connectToHost(<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>);
+
+<span class="keyword">auto</span> frame <span class="operator">=</span> <span class="type"><a href="./qknxlinklayerframe.htm#QKnxLinkLayerFrame" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>builder()
+    <span class="operator">.</span>setDestinationAddress({ <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Group<span class="operator">,</span> QLatin1String(<span class="string">"2/1/4"</span>) })
+    <span class="operator">.</span>create();
+
+tunnel<span class="operator">.</span>sendFrame(frame);
+
+frame <span class="operator">=</span> <span class="type"><a href="./qknxlinklayerframe.htm#QKnxLinkLayerFrame" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>builder()
+    <span class="operator">.</span>setDestinationAddress({ <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Group<span class="operator">,</span> QLatin1String(<span class="string">"2/1/4"</span>) })
+    <span class="operator">.</span>setTpdu({
+        <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>TransportControlField<span class="operator">::</span>DataGroup<span class="operator">,</span>
+        <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>ApplicationControlField<span class="operator">::</span>GroupValueWrite<span class="operator">,</span>
+        <span class="type">QKnxSwitch</span>(<span class="type">QKnxSwitch</span><span class="operator">::</span>State<span class="operator">::</span>On)<span class="operator">.</span>bytes()
+    })<span class="operator">.</span>create();
+
+tunnel<span class="operator">.</span>sendFrame(frame);</pre></div>
+</div>
+<p><b>See also </b><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a> and <a href="./qtknx-tunneling.htm" translate="no">Qt KNX Tunneling Classes</a>.</p>
+<!-- @@@Builder -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$createFrame[overload1]$$$createFrame -->
+<h3 class="fn" id="createFrame" translate="no"><a name="createFrame"></a><span class="type"><a href="./qknxlinklayerframe.htm#QKnxLinkLayerFrame" translate="no">QKnxLinkLayerFrame</a></span> Builder::<span class="name">createFrame</span>() const<a class="plink" href="#createFrame" title="Direct link to this headline"></a></h3>
+<p>Creates a frame from the values set for the link layer frame message code, additional information, control field, extended control field, TPDU, source address, and destination address. Alternatively, uses a byte array with all the fields already encoded into it.</p>
+<p><b>See also </b><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a>, <a href="./qknxlinklayerframe.htm#MessageCode-enum" translate="no">QKnxLinkLayerFrame::MessageCode</a>, <a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a>, <a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a>, <a href="./qknxextendedcontrolfield.htm" translate="no">QKnxExtendedControlField</a>, <a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a>, <a href="./qknxaddress.htm" translate="no">QKnxAddress</a>, and <a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a>.</p>
+<!-- @@@createFrame -->
+<!-- $$$setAdditionalInfos[overload1]$$$setAdditionalInfosconstQVector<QKnxAdditionalInfo>& -->
+<h3 class="fn" id="setAdditionalInfos" translate="no"><a name="setAdditionalInfos"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setAdditionalInfos</span>(const <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span>&lt;<span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span>&gt; &amp;<i>infos</i>)<a class="plink" href="#setAdditionalInfos" title="Direct link to this headline"></a></h3>
+<p>Sets the additional information to be used by the builder to <i translate="no">infos</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a>.</p>
+<!-- @@@setAdditionalInfos -->
+<!-- $$$setControlField[overload1]$$$setControlFieldconstQKnxControlField& -->
+<h3 class="fn" id="setControlField" translate="no"><a name="setControlField"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setControlField</span>(const <span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span> &amp;<i>ctrl</i>)<a class="plink" href="#setControlField" title="Direct link to this headline"></a></h3>
+<p>Sets the control field to be used by the builder to <i translate="no">ctrl</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a>.</p>
+<!-- @@@setControlField -->
+<!-- $$$setData[overload1]$$$setDataconstQKnxByteArray&quint16 -->
+<h3 class="fn" id="setData" translate="no"><a name="setData"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setData</span>(const <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> &amp;<i>data</i>, <span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span> <i>offset</i> = 0)<a class="plink" href="#setData" title="Direct link to this headline"></a></h3>
+<p>Sets an array of bytes specified by <i translate="no">data</i> with all the fields encoded into a byte array starting from the position <i translate="no">offset</i> to avoid having to use each of the field setters separately.</p>
+<p><b>See also </b><a href="./qknxlinklayerframe-builder.htm#createFrame" translate="no">createFrame</a>() and <a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a>.</p>
+<!-- @@@setData -->
+<!-- $$$setDestinationAddress[overload1]$$$setDestinationAddressconstQKnxAddress& -->
+<h3 class="fn" id="setDestinationAddress" translate="no"><a name="setDestinationAddress"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setDestinationAddress</span>(const <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span> &amp;<i>dest</i>)<a class="plink" href="#setDestinationAddress" title="Direct link to this headline"></a></h3>
+<p>Sets the destination address to be used by the builder to <i translate="no">dest</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknxaddress.htm" translate="no">QKnxAddress</a>.</p>
+<!-- @@@setDestinationAddress -->
+<!-- $$$setExtendedControlField[overload1]$$$setExtendedControlFieldconstQKnxExtendedControlField& -->
+<h3 class="fn" id="setExtendedControlField" translate="no"><a name="setExtendedControlField"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setExtendedControlField</span>(const <span class="type"><a href="./qknxextendedcontrolfield.htm" translate="no">QKnxExtendedControlField</a></span> &amp;<i>extCtrl</i>)<a class="plink" href="#setExtendedControlField" title="Direct link to this headline"></a></h3>
+<p>Sets the extended control field to be used by the builder to <i translate="no">extCtrl</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknxextendedcontrolfield.htm" translate="no">QKnxExtendedControlField</a>.</p>
+<!-- @@@setExtendedControlField -->
+<!-- $$$setMedium[overload1]$$$setMediumQKnx::MediumType -->
+<h3 class="fn" id="setMedium" translate="no"><a name="setMedium"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setMedium</span>(<span class="type"><a href="./qknx.htm#MediumType-enum" translate="no">QKnx::MediumType</a></span> <i>type</i>)<a class="plink" href="#setMedium" title="Direct link to this headline"></a></h3>
+<p>Sets the medium that will determine the format and order of fields to <i translate="no">type</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknx.htm#MediumType-enum" translate="no">QKnx::MediumType</a>.</p>
+<!-- @@@setMedium -->
+<!-- $$$setMessageCode[overload1]$$$setMessageCodeMessageCode -->
+<h3 class="fn" id="setMessageCode" translate="no"><a name="setMessageCode"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setMessageCode</span>(<span class="type"><a href="./qknxlinklayerframe.htm#MessageCode-enum" translate="no">MessageCode</a></span> <i>code</i>)<a class="plink" href="#setMessageCode" title="Direct link to this headline"></a></h3>
+<p>Sets the link layer frame message code to be used by the builder to <i translate="no">code</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknxlinklayerframe.htm#MessageCode-enum" translate="no">QKnxLinkLayerFrame::MessageCode</a>.</p>
+<!-- @@@setMessageCode -->
+<!-- $$$setSourceAddress[overload1]$$$setSourceAddressconstQKnxAddress& -->
+<h3 class="fn" id="setSourceAddress" translate="no"><a name="setSourceAddress"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setSourceAddress</span>(const <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span> &amp;<i>source</i>)<a class="plink" href="#setSourceAddress" title="Direct link to this headline"></a></h3>
+<p>Sets the source address to be used by the builder to <i translate="no">source</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknxaddress.htm" translate="no">QKnxAddress</a>.</p>
+<!-- @@@setSourceAddress -->
+<!-- $$$setTpdu[overload1]$$$setTpduconstQKnxTpdu& -->
+<h3 class="fn" id="setTpdu" translate="no"><a name="setTpdu"></a><span class="type">Builder</span> &amp;Builder::<span class="name">setTpdu</span>(const <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span> &amp;<i>tpdu</i>)<a class="plink" href="#setTpdu" title="Direct link to this headline"></a></h3>
+<p>Sets the TPDU to be used by the builder to <i translate="no">tpdu</i> and returns a reference to the builder.</p>
+<p><b>See also </b><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a>.</p>
+<!-- @@@setTpdu -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

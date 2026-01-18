@@ -1,0 +1,160 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creating Custom Qt Types | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/custom-types.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a>Creating Custom Qt Types</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Creating Custom Qt Types</h1>
+<span class="subtitle"></span>
+<!-- $$$custom-types.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview"></a>
+<h2 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h2>
+<p>When creating user interfaces with Qt, particularly those with specialized controls and features, developers sometimes need to create new data types that can be used alongside or in place of Qt's existing set of value types.</p>
+<p>Standard types such as <a href="./qsize.htm" translate="no">QSize</a>, <a href="./qcolor.htm" translate="no">QColor</a> and <a href="./qstring.htm" translate="no">QString</a> can all be stored in <a href="./qvariant.htm" translate="no">QVariant</a> objects, used as the types of properties in <a href="./qobject.htm" translate="no">QObject</a>-based classes, and emitted in signal-slot communication.</p>
+<p>In this document, we take a custom type and describe how to integrate it into Qt's object model so that it can be stored in the same way as standard Qt types. We then show how to register the custom type to allow it to be used in signals and slots connections.</p>
+<a name="creating-a-custom-type"></a>
+<h2 id="creating-a-custom-type">Creating a Custom Type<a class="plink" href="#creating-a-custom-type" title="Direct link to this headline"></a></h2>
+<p>Before we begin, we need to ensure that the custom type we are creating meets all the requirements imposed by <a href="./qmetatype.htm" translate="no">QMetaType</a>. In other words, it must provide:</p>
+<ul>
+<li>a public default constructor,</li>
+<li>a public copy constructor, and</li>
+<li>a public destructor.</li>
+</ul>
+<p>The following <code translate="no">Message</code> class definition includes these members:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Message
+{
+<span class="keyword">public</span>:
+    Message() <span class="operator">=</span> <span class="keyword">default</span>;
+    <span class="operator">~</span>Message() <span class="operator">=</span> <span class="keyword">default</span>;
+    Message(<span class="keyword">const</span> Message <span class="operator">&amp;</span>) <span class="operator">=</span> <span class="keyword">default</span>;
+    Message <span class="operator">&amp;</span><span class="keyword">operator</span><span class="operator">=</span>(<span class="keyword">const</span> Message <span class="operator">&amp;</span>) <span class="operator">=</span> <span class="keyword">default</span>;
+
+    Message(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>body<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>headers);
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> body() <span class="keyword">const</span>;
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> headers() <span class="keyword">const</span>;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> m_body;
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> m_headers;
+};</pre></div>
+<p>The class also provides a constructor for normal use and two public member functions that are used to obtain the private data.</p>
+<a name="declaring-the-type-with-qmetatype"></a>
+<h2 id="declaring-the-type-with-qmetatype">Declaring the Type with QMetaType<a class="plink" href="#declaring-the-type-with-qmetatype" title="Direct link to this headline"></a></h2>
+<p>The <code translate="no">Message</code> class only needs a suitable implementation in order to be usable. However, Qt's type system will not be able to understand how to store, retrieve and serialize instances of this class without some assistance. For example, we will be unable to store <code translate="no">Message</code> values in <a href="./qvariant.htm" translate="no">QVariant</a>.</p>
+<p>The class in Qt responsible for custom types is <a href="./qmetatype.htm" translate="no">QMetaType</a>. To make the type known to this class, we invoke the <a href="./qmetatype.htm#Q_DECLARE_METATYPE" translate="no">Q_DECLARE_METATYPE</a>() macro on the class in the header file where it is defined:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Q_DECLARE_METATYPE(Message);</pre></div>
+<p>This now makes it possible for <code translate="no">Message</code> values to be stored in <a href="./qvariant.htm" translate="no">QVariant</a> objects and retrieved later. See the <a href="./qtcore-tools-customtype-example.htm" translate="no">Custom Type Example</a> for code that demonstrates this.</p>
+<p>The <a href="./qmetatype.htm#Q_DECLARE_METATYPE" translate="no">Q_DECLARE_METATYPE</a>() macro also makes it possible for these values to be used as arguments to signals, but <i>only in direct signal-slot connections</i>. To make the custom type generally usable with the signals and slots mechanism, we need to perform some extra work.</p>
+<a name="creating-and-destroying-custom-objects"></a>
+<h2 id="creating-and-destroying-custom-objects">Creating and Destroying Custom Objects<a class="plink" href="#creating-and-destroying-custom-objects" title="Direct link to this headline"></a></h2>
+<p>Although the declaration in the previous section makes the type available for use in direct signal-slot connections, it cannot be used for queued signal-slot connections, such as those that are made between objects in different threads. This is because the meta-object system does not know how to handle creation and destruction of objects of the custom type at run-time.</p>
+<p>To enable creation of objects at run-time, call the <a href="./qmetatype.htm#qRegisterMetaType-1" translate="no">qRegisterMetaType</a>() template function to register it with the meta-object system. This also makes the type available for queued signal-slot communication as long as you call it before you make the first connection that uses the type.</p>
+<p>The <a href="./qtcore-threads-queuedcustomtype-example.htm" translate="no">Queued Custom Type Example</a> declares a <code translate="no">Block</code> class which is registered in the <code translate="no">main.cpp</code> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    ...
+    <a href="./qmetatype.htm#qRegisterMetaType-1" translate="no">qRegisterMetaType</a><span class="operator">&lt;</span>Block<span class="operator">&gt;</span>();
+    ...
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>This type is later used in a signal-slot connection in the <code translate="no">window.cpp</code> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Window<span class="operator">::</span>Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)<span class="operator">,</span> thread(<span class="keyword">new</span> RenderThread(<span class="keyword">this</span>))
+{
+    ...
+    connect(thread<span class="operator">,</span> <span class="operator">&amp;</span>RenderThread<span class="operator">::</span>sendBlock<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>addBlock);
+    ...
+    setWindowTitle(tr(<span class="string">"Queued Custom Type"</span>));
+}</pre></div>
+<p>If a type is used in a queued connection without being registered, a warning will be printed at the console; for example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect: Cannot queue arguments of type <span class="char">'Block'</span>
+(Make sure <span class="char">'Block'</span> is registered <span class="keyword">using</span> <a href="./qmetatype.htm#qRegisterMetaType-1" translate="no">qRegisterMetaType</a>()<span class="operator">.</span>)</pre></div>
+<a name="making-the-type-printable"></a>
+<h2 id="making-the-type-printable">Making the Type Printable<a class="plink" href="#making-the-type-printable" title="Direct link to this headline"></a></h2>
+<p>It is often quite useful to make a custom type printable for debugging purposes, as in the following code:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    Message message(body<span class="operator">,</span> headers);
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Original:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> message;</pre></div>
+<p>This is achieved by creating a streaming operator for the type, which is often defined in the header file for that type:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qdebug.htm" translate="no">QDebug</a></span> <span class="keyword">operator</span><span class="operator">&lt;</span><span class="operator">&lt;</span>(<span class="type"><a href="./qdebug.htm" translate="no">QDebug</a></span> dbg<span class="operator">,</span> <span class="keyword">const</span> Message <span class="operator">&amp;</span>message);</pre></div>
+<p>The implementation for the <code translate="no">Message</code> type in the <a href="./qtcore-tools-customtype-example.htm" translate="no">Custom Type Example</a> goes to some effort to make the printable representation as readable as possible:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qdebug.htm" translate="no">QDebug</a></span> <span class="keyword">operator</span><span class="operator">&lt;</span><span class="operator">&lt;</span>(<span class="type"><a href="./qdebug.htm" translate="no">QDebug</a></span> dbg<span class="operator">,</span> <span class="keyword">const</span> Message <span class="operator">&amp;</span>message)
+{
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> body <span class="operator">=</span> message<span class="operator">.</span>body();
+    <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstringref.htm" translate="no">QStringRef</a></span><span class="operator">&gt;</span> pieces <span class="operator">=</span> body<span class="operator">.</span>splitRef(QLatin1String(<span class="string">"\r\n"</span>)<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>SkipEmptyParts);
+    <span class="keyword">if</span> (pieces<span class="operator">.</span>isEmpty())
+        dbg<span class="operator">.</span>nospace() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Message()"</span>;
+    <span class="keyword">else</span> <span class="keyword">if</span> (pieces<span class="operator">.</span>size() <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>)
+        dbg<span class="operator">.</span>nospace() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Message("</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> pieces<span class="operator">.</span>first() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">")"</span>;
+    <span class="keyword">else</span>
+        dbg<span class="operator">.</span>nospace() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Message("</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> pieces<span class="operator">.</span>first() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">" ...)"</span>;
+    <span class="keyword">return</span> dbg<span class="operator">.</span>maybeSpace();
+}</pre></div>
+<p>The output sent to the debug stream can, of course, be made as simple or as complicated as you like. Note that the value returned by this function is the <a href="./qdebug.htm" translate="no">QDebug</a> object itself, though this is often obtained by calling the <a href="./qdebug.htm#maybeSpace" translate="no">maybeSpace()</a> member function of <a href="./qdebug.htm" translate="no">QDebug</a> that pads out the stream with space characters to make it more readable.</p>
+<a name="further-reading"></a>
+<h2 id="further-reading">Further Reading<a class="plink" href="#further-reading" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qmetatype.htm#Q_DECLARE_METATYPE" translate="no">Q_DECLARE_METATYPE</a>() macro and <a href="./qmetatype.htm#qRegisterMetaType-1" translate="no">qRegisterMetaType</a>() function documentation contain more detailed information about their uses and limitations.</p>
+<p>The <a href="./qtcore-tools-customtype-example.htm" translate="no">Custom Type</a> and <a href="./qtcore-threads-queuedcustomtype-example.htm" translate="no">Queued Custom Type</a> examples show how to implement a custom type with the features outlined in this document.</p>
+<p>The <a href="./testing-and-debugging.htm#debugging-techniques" translate="no">Debugging Techniques</a> document provides an overview of the debugging mechanisms discussed above.</p>
+</div>
+<!-- @@@custom-types.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

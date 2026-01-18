@@ -1,0 +1,117 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Sensors - Explorer QML Example | Qt Sensors</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsensors-index.htm" translate="no">Qt Sensors</a></li>
+                            <li><a href="./qtsensors-examples.htm" translate="no">Qt Sensors Examples</a></li>
+                            <li><a>Qt Sensors - Explorer QML Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Sensors - Explorer QML Example</h1>
+<span class="subtitle"></span>
+<!-- $$$sensor_explorer-brief -->
+<p>Demonstrates how to read the meta-data of available sensors.</p>
+<!-- @@@sensor_explorer -->
+<!-- $$$sensor_explorer-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/qtsensors-examples-explorer.png"></p><p>This example is divided into two parts:</p>
+<ul>
+<li>A <a href="./qtsensors-sensor-explorer-example.htm#sensor-explorer-qml-import" translate="no">C++ plugin</a> that provides QML alternatives for <code translate="no">QSensorExplorer</code>, <code translate="no">QPropertyInfo</code> and <code translate="no">QSensorItem</code> C++ classes.</li>
+<li>A <a href="./qtsensors-sensor-explorer-example.htm#sensor-explorer-qml-application" translate="no">QML Application</a> that uses the QML types to read the sensor meta-data and present it.</li>
+</ul>
+<p>This example is built as an executable with C++ code that runs the QML, but it can also be launched directly using the <code translate="no">qmlscene</code> tool. You should build the top-level <i>sensor_explorer</i> project before trying to run this example or it will not be able to find its dependencies.</p>
+<div class="pre"><pre class="cpp" translate="no"> qmlscene <span class="operator">-</span>I <span class="operator">.</span> sensor_explorer<span class="operator">.</span>qml
+</pre></div>
+<p>Above, the -I . parameter adds the current directory as a module import path to locate the Explorer QML module.</p>
+<a name="sensor-explorer-qml-import"></a>
+<h4 id="sensor-explorer-qml-import">Sensor Explorer QML Import<a class="plink" href="#sensor-explorer-qml-import" title="Direct link to this headline"></a></h4>
+<p>The Sensor Explorer QML import defines the <i>Explorer</i> QML module, exporting <code translate="no">QSensorExplorer</code>, <code translate="no">QPropertyInfo</code> and <code translate="no">QSensorItem</code> C++ classes as QML types. The source code is available in the <code translate="no">sensor_explorer/import</code> subdirectory.</p>
+<a name="sensor-explorer-qml-application"></a>
+<h4 id="sensor-explorer-qml-application">Sensor Explorer QML Application<a class="plink" href="#sensor-explorer-qml-application" title="Direct link to this headline"></a></h4>
+<p>To write a QML application that will use the QML types exposed by the Explorer module, following steps are needed:</p>
+<p>Import the Explorer 1.0 declarative plugin:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"> import Explorer 1.0
+</pre></div>
+<p>Create a SensorExplorer QML item:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"> <span class="type">SensorExplorer</span> {
+     <span class="name">id</span>: <span class="name">explorer</span>
+ }
+</pre></div>
+<p>You can retrieve a list of all available sensors using <code translate="no">SensorExplorer.availableSensors</code>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"> <span class="name">model</span>: <span class="name">explorer</span>.<span class="name">availableSensors</span>
+</pre></div>
+<p>The example uses the returned list as a model to populate a view of available sensors.</p>
+<p>To retrieve the properties of a sensor, use <code translate="no">SensorItem.properties</code>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"> <span class="name">propertyList</span>.<span class="name">model</span> <span class="operator">=</span> <span class="name">explorer</span>.<span class="name">selectedSensorItem</span>.<span class="name">properties</span>
+</pre></div>
+<p>The property list is used as a model for another view that displays the property names and values.</p>
+<p>It is possible to edit the values of certain sensor properties. Selecting a writable property value will open an editor. <code translate="no">SensorExplorer</code> QML type allows you to pass a new value for a sensor property value as follows:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"> <span class="name">explorer</span>.<span class="name">selectedSensorItem</span>.<span class="name">changePropertyValue</span>(<span class="name">propertyList</span>.<span class="name">selectedItem</span>, <span class="name">loaderEditor</span>.<span class="name">item</span>.<span class="name">text</span>);
+</pre></div>
+<p>Starting and stopping a sensor can be done by setting the <code translate="no">SensorItem.start</code> property:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"> <span class="keyword">if</span> (<span class="name">text</span> <span class="operator">===</span> <span class="string">"Start"</span>) {
+     <span class="name">explorer</span>.<span class="name">selectedSensorItem</span>.<span class="name">start</span> <span class="operator">=</span> <span class="number">true</span>;
+     <span class="name">text</span> <span class="operator">=</span> <span class="string">"Stop"</span>;
+ }
+ <span class="keyword">else</span> {
+     <span class="name">explorer</span>.<span class="name">selectedSensorItem</span>.<span class="name">start</span> <span class="operator">=</span> <span class="number">false</span>;
+     <span class="name">text</span> <span class="operator">=</span> <span class="string">"Start"</span>;
+ }
+</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtsensors.git/tree/examples/sensors/sensor_explorer?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@sensor_explorer -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,116 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSON Support in Qt | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/json.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a>JSON Support in Qt</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">JSON Support in Qt</h1>
+<span class="subtitle"></span>
+<!-- $$$json-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt provides support for dealing with JSON data. JSON is a format to encode object data derived from Javascript, but now widely used as a data exchange format on the internet.</p>
+<p>The JSON support in Qt provides an easy to use C++ API to parse, modify and save JSON data. It also contains support for saving this data in a binary format that is directly "mmap"-able and very fast to access.</p>
+<p>More details about the JSON data format can be found at <a href="http://json.org" translate="no">json.org</a> and in <a href="http://tools.ietf.org/html/rfc4627" translate="no">RFC-4627</a>.</p>
+<a name="overview"></a>
+<h4 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h4>
+<p>JSON is a format to store structured data. It has 6 basic data types:</p>
+<ul>
+<li>bool</li>
+<li>double</li>
+<li>string</li>
+<li>array</li>
+<li>object</li>
+<li>null</li>
+</ul>
+<p>A value can have any of the above types. A boolean value is represented by the strings true or false in JSON. JSON doesn't explicitly specify the valid range for numbers, but the support in Qt is limited to the validity range and precision of doubles. A string can be any valid unicode string. An array is a list of values, and an object is a collection of key/value pairs. All keys in an object are strings, and an object cannot contain any duplicate keys.</p>
+<p>The text representation of JSON encloses arrays in square brackets ([ ... ]) and objects in curly brackets ({ ... }). Entries in arrays and objects are separated by commas. The separator between keys and values in an object is a colon (:).</p>
+<p>A simple JSON document encoding a person, his/her age, address and phone numbers could look like:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"FirstName"</span>: <span class="string">"John"</span><span class="operator">,</span>
+    <span class="string">"LastName"</span>: <span class="string">"Doe"</span><span class="operator">,</span>
+    <span class="string">"Age"</span>: <span class="number">43</span><span class="operator">,</span>
+    <span class="string">"Address"</span>: {
+        <span class="string">"Street"</span>: <span class="string">"Downing Street 10"</span><span class="operator">,</span>
+        <span class="string">"City"</span>: <span class="string">"London"</span><span class="operator">,</span>
+        <span class="string">"Country"</span>: <span class="string">"Great Britain"</span>
+    }<span class="operator">,</span>
+    <span class="string">"Phone numbers"</span>: <span class="operator">[</span>
+        <span class="string">"+44 1234567"</span><span class="operator">,</span>
+        <span class="string">"+44 2345678"</span>
+    <span class="operator">]</span>
+}</pre></div>
+<p>The above example consists of an object with 5 key/value pairs. Two of the values are strings, one is a number, one is another object and the last one an array.</p>
+<p>A valid JSON document is either an array or an object, so a document always starts with a square or curly bracket.</p>
+<a name="the-json-classes"></a>
+<h4 id="the-json-classes">The JSON Classes<a class="plink" href="#the-json-classes" title="Direct link to this headline"></a></h4>
+<p>All JSON classes are value based, <a href="./implicit-sharing.htm" translate="no">implicitly shared classes</a>.</p>
+<p>JSON support in Qt consists of these classes:</p>
+</div>
+<p><b>See also </b><a href="./qtcore-serialization-savegame-example.htm" translate="no">JSON Save Game Example</a>.</p>
+<!-- @@@json -->
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qjsonarray.htm">QJsonArray</a></p></td><td class="tblDescr"><p>Encapsulates a JSON array</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qjsondocument.htm">QJsonDocument</a></p></td><td class="tblDescr"><p>Way to read and write JSON documents</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qjsonobject.htm">QJsonObject</a></p></td><td class="tblDescr"><p>Encapsulates a JSON object</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qjsonobject-const-iterator.htm">QJsonObject::const_iterator</a></p></td><td class="tblDescr"><p>QJsonObject::const_iterator class provides an STL-style const iterator for QJsonObject</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qjsonobject-iterator.htm">QJsonObject::iterator</a></p></td><td class="tblDescr"><p>QJsonObject::iterator class provides an STL-style non-const iterator for QJsonObject</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qjsonparseerror.htm">QJsonParseError</a></p></td><td class="tblDescr"><p>Used to report errors during JSON parsing</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qjsonvalue.htm">QJsonValue</a></p></td><td class="tblDescr"><p>Encapsulates a value in JSON</p></td></tr>
+</tbody></table></div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

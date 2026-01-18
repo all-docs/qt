@@ -1,0 +1,349 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Secure CoAP Client Example | Qt CoAP</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcoap-quicksecureclient-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcoap-index.htm" translate="no">Qt CoAP</a></li>
+                            <li><a href="./qtcoap-examples.htm" translate="no">Qt CoAP Examples</a></li>
+                            <li><a>Quick Secure CoAP Client Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Quick Secure CoAP Client Example</h1>
+<span class="subtitle"></span>
+<!-- $$$quicksecureclient-brief -->
+<p>Securing the CoAP client and using it with a Qt Quick user interface.</p>
+<!-- @@@quicksecureclient -->
+<!-- $$$quicksecureclient-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/quicksecureclient.png"></p><p><i>Quick Secure CoAP Client</i> demonstrates how to create a secure CoAP client and use it in a Qt Quick application.</p>
+<div class="admonition note">
+<p><b>Note: </b>Qt CoAP does not provide a QML API in its current version. However, you can make the C++ classes of the module available to QML as it is shown in the example.</p>
+</div>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example application, you first need to set up a secure CoAP server. You can run the example with any secure CoAP server supporting one of the <i>pre-shared key (PSK)</i> or <i>certificate</i> authentication modes. For more information about setting up a secure CoAP server, see <a href="./qtcoap-quicksecureclient-example.htm#setting-up-a-secure-coap-server" translate="no">Setting Up a Secure CoAP Server</a>.</p>
+<a name="creating-a-client-and-linking-it-with-qml"></a>
+<h4 id="creating-a-client-and-linking-it-with-qml">Creating a Client and Linking It with QML<a class="plink" href="#creating-a-client-and-linking-it-with-qml" title="Direct link to this headline"></a></h4>
+<p><code translate="no">QmlCoapSecureClient</code> wraps the functionality of <a href="./qcoapclient.htm" translate="no">QCoapClient</a> to make it available to QML. It also holds the selected security mode and security configuration parameters.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> QmlCoapSecureClient : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    QmlCoapSecureClient(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    <span class="operator">~</span>QmlCoapSecureClient() override;
+
+    Q_INVOKABLE <span class="type">void</span> setSecurityMode(<span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>SecurityMode mode);
+    Q_INVOKABLE <span class="type">void</span> sendGetRequest(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>host<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>path<span class="operator">,</span> <span class="type">int</span> port);
+    Q_INVOKABLE <span class="type">void</span> setSecurityConfiguration(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>preSharedKey<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>identity);
+    Q_INVOKABLE <span class="type">void</span> setSecurityConfiguration(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>localCertificatePath<span class="operator">,</span>
+                                              <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>caCertificatePath<span class="operator">,</span>
+                                              <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>privateKeyPath);
+    Q_INVOKABLE <span class="type">void</span> disconnect();
+
+Q_SIGNALS:
+    <span class="type">void</span> finished(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>result);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span> <span class="operator">*</span>m_coapClient;
+    <span class="type"><a href="./qcoapsecurityconfiguration.htm" translate="no">QCoapSecurityConfiguration</a></span> m_configuration;
+    <span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>SecurityMode m_securityMode;
+};</pre></div>
+<p>In the main.cpp file, we register the <code translate="no">QmlCoapSecureClient</code> class as a QML type:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    qmlRegisterType<span class="operator">&lt;</span>QmlCoapSecureClient<span class="operator">&gt;</span>(<span class="string">"CoapSecureClient"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="string">"CoapSecureClient"</span>);</pre></div>
+<p>We also register the <a href="./qtcoap-module.htm" translate="no">QtCoap</a> namespace, to be able to use it in QML code:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    qmlRegisterUncreatableMetaObject(<span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>staticMetaObject<span class="operator">,</span> <span class="string">"qtcoap.example.namespace"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span>
+                                     <span class="string">"QtCoap"</span><span class="operator">,</span> <span class="string">"Access to enums is read-only"</span>);</pre></div>
+<p>The instance of <a href="./qcoapclient.htm" translate="no">QCoapClient</a> is created when the user selects or changes the security mode in the UI. The <code translate="no">QmlCoapSecureClient::setSecurityMode()</code> method is invoked from the QML code, when one of the security modes is selected:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type">ButtonGroup</span> {
+            <span class="name">id</span>: <span class="name">securityModeGroup</span>
+            <span class="name">onClicked</span>: {
+                <span class="keyword">if</span> (<span class="name">securityModeGroup</span>.<span class="name">checkedButton</span> <span class="operator">===</span> <span class="name">preSharedMode</span>)
+                    <span class="name">client</span>.<span class="name">setSecurityMode</span>(<span class="name">QtCoap</span>.<span class="name">SecurityMode</span>.<span class="name">PreSharedKey</span>);
+                <span class="keyword">else</span>
+                    <span class="name">client</span>.<span class="name">setSecurityMode</span>(<span class="name">QtCoap</span>.<span class="name">SecurityMode</span>.<span class="name">Certificate</span>);
+            }
+        }</pre></div>
+<p>And in the <code translate="no">.cpp</code> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> QmlCoapSecureClient<span class="operator">::</span>setSecurityMode(<span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>SecurityMode mode)
+{
+    <span class="comment">// Create a new client, if the security mode has changed</span>
+    <span class="keyword">if</span> (m_coapClient <span class="operator">&amp;</span><span class="operator">&amp;</span> mode <span class="operator">!</span><span class="operator">=</span> m_securityMode) {
+        <span class="keyword">delete</span> m_coapClient;
+        m_coapClient <span class="operator">=</span> nullptr;
+    }
+
+    <span class="keyword">if</span> (<span class="operator">!</span>m_coapClient) {
+        m_coapClient <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span>(mode);
+        m_securityMode <span class="operator">=</span> mode;
+    ...</pre></div>
+<p>Then we connect the signals of the client, to get notified when a CoAP reply is received or a request has failed:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ...
+        connect(m_coapClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span><span class="operator">::</span>finished<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+                <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>(<span class="type"><a href="./qcoapreply.htm" translate="no">QCoapReply</a></span> <span class="operator">*</span>reply) {
+                    <span class="keyword">if</span> (<span class="operator">!</span>reply)
+                        <span class="keyword">emit</span> finished(<span class="string">"Something went wrong, received a null reply"</span>);
+                    <span class="keyword">else</span> <span class="keyword">if</span> (reply<span class="operator">-</span><span class="operator">&gt;</span>errorReceived() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>Error<span class="operator">::</span>Ok)
+                        <span class="keyword">emit</span> finished(errorMessage(reply<span class="operator">-</span><span class="operator">&gt;</span>errorReceived()));
+                    <span class="keyword">else</span>
+                        <span class="keyword">emit</span> finished(reply<span class="operator">-</span><span class="operator">&gt;</span>message()<span class="operator">.</span>payload());
+                });
+
+        connect(m_coapClient<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span><span class="operator">::</span>error<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+                <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>(<span class="type"><a href="./qcoapreply.htm" translate="no">QCoapReply</a></span> <span class="operator">*</span><span class="operator">,</span> <span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>Error errorCode) {
+                    <span class="keyword">emit</span> finished(errorMessage(errorCode));
+                });
+    ...</pre></div>
+<p>The <code translate="no">QmlCoapSecureClient::finished()</code> signal triggers the <code translate="no">onFinished</code> signal handler of <code translate="no">CoapSecureClient</code>, which handles the output:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">CoapSecureClient</span> {
+        <span class="name">id</span>: <span class="name">client</span>
+        <span class="name">onFinished</span>: {
+            <span class="name">outputView</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">result</span>;
+            <span class="name">statusLabel</span>.<span class="name">text</span> <span class="operator">=</span> <span class="string">""</span>;
+            <span class="name">disconnectButton</span>.<span class="name">enabled</span> <span class="operator">=</span> <span class="number">true</span>;
+        }
+    }
+    ...</pre></div>
+<a name="sending-a-request"></a>
+<h4 id="sending-a-request">Sending a Request<a class="plink" href="#sending-a-request" title="Direct link to this headline"></a></h4>
+<p>When the user clicks on the <b translate="no">Send Request</b> button, we set the security configuration based on the selected security mode and send a <code translate="no">GET</code> request:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ...
+        <span class="type">Button</span> {
+            <span class="name">id</span>: <span class="name">requestButton</span>
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Send Request"</span>)
+            <span class="name">enabled</span>: <span class="name">securityModeGroup</span>.<span class="name">checkState</span> <span class="operator">!==</span> <span class="name">Qt</span>.<span class="name">Unchecked</span>
+
+            <span class="name">onClicked</span>: {
+                <span class="name">outputView</span>.<span class="name">text</span> <span class="operator">=</span> <span class="string">""</span>;
+                <span class="keyword">if</span> (<span class="name">securityModeGroup</span>.<span class="name">checkedButton</span> <span class="operator">===</span> <span class="name">preSharedMode</span>)
+                    <span class="name">client</span>.<span class="name">setSecurityConfiguration</span>(<span class="name">pskField</span>.<span class="name">text</span>, <span class="name">identityField</span>.<span class="name">text</span>);
+                <span class="keyword">else</span>
+                    <span class="name">client</span>.<span class="name">setSecurityConfiguration</span>(<span class="name">localCertificatePicker</span>.<span class="name">selectedFile</span>,
+                                                    <span class="name">caCertificatePicker</span>.<span class="name">selectedFile</span>,
+                                                    <span class="name">privateKeyPicker</span>.<span class="name">selectedFile</span>);
+
+                <span class="name">client</span>.<span class="name">sendGetRequest</span>(<span class="name">hostComboBox</span>.<span class="name">editText</span>, <span class="name">resourceField</span>.<span class="name">text</span>,
+    ...</pre></div>
+<p>There are two overloads for the <code translate="no">setSecurityConfiguration</code> method. For the PSK mode we simply set the client identity and the pre-shared key:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QmlCoapSecureClient<span class="operator">::</span>setSecurityConfiguration(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>preSharedKey<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>identity)
+{
+    <span class="type"><a href="./qcoapsecurityconfiguration.htm" translate="no">QCoapSecurityConfiguration</a></span> configuration;
+    configuration<span class="operator">.</span>setPreSharedKey(preSharedKey<span class="operator">.</span>toUtf8());
+    configuration<span class="operator">.</span>setPreSharedKeyIdentity(identity<span class="operator">.</span>toUtf8());
+    m_configuration <span class="operator">=</span> configuration;
+}</pre></div>
+<p>And for X.509 certificates, we read the certificate files and the private key, and set the security configuration:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> QmlCoapSecureClient<span class="operator">::</span>setSecurityConfiguration(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>localCertificatePath<span class="operator">,</span>
+                                                   <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>caCertificatePath<span class="operator">,</span>
+                                                   <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>privateKeyPath)
+{
+    <span class="type"><a href="./qcoapsecurityconfiguration.htm" translate="no">QCoapSecurityConfiguration</a></span> configuration;
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> localCerts <span class="operator">=</span>
+            <span class="type"><a href="./qsslcertificate.htm" translate="no">QSslCertificate</a></span><span class="operator">::</span>fromPath(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(localCertificatePath)<span class="operator">.</span>toLocalFile()<span class="operator">,</span> <span class="type"><a href="./qssl.htm" translate="no">QSsl</a></span><span class="operator">::</span>Pem<span class="operator">,</span>
+                                      <span class="type"><a href="./qsslcertificate.htm" translate="no">QSslCertificate</a></span><span class="operator">::</span>PatternSyntax<span class="operator">::</span>FixedString);
+    <span class="keyword">if</span> (localCerts<span class="operator">.</span>isEmpty())
+        qCWarning(lcCoapClient<span class="operator">,</span> <span class="string">"The specified local certificate file is not valid."</span>);
+    <span class="keyword">else</span>
+        configuration<span class="operator">.</span>setLocalCertificateChain(localCerts<span class="operator">.</span>toVector());
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> caCerts <span class="operator">=</span> <span class="type"><a href="./qsslcertificate.htm" translate="no">QSslCertificate</a></span><span class="operator">::</span>fromPath(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(caCertificatePath)<span class="operator">.</span>toLocalFile()<span class="operator">,</span> <span class="type"><a href="./qssl.htm" translate="no">QSsl</a></span><span class="operator">::</span>Pem<span class="operator">,</span>
+                                                   <span class="type"><a href="./qsslcertificate.htm" translate="no">QSslCertificate</a></span><span class="operator">::</span>PatternSyntax<span class="operator">::</span>FixedString);
+    <span class="keyword">if</span> (caCerts<span class="operator">.</span>isEmpty())
+        qCWarning(lcCoapClient<span class="operator">,</span> <span class="string">"The specified CA certificate file is not valid."</span>);
+    <span class="keyword">else</span>
+        configuration<span class="operator">.</span>setCaCertificates(caCerts<span class="operator">.</span>toVector());
+
+    <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> privateKey(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(privateKeyPath)<span class="operator">.</span>toLocalFile());
+    <span class="keyword">if</span> (privateKey<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>ReadOnly)) {
+        <span class="type"><a href="./qcoapprivatekey.htm" translate="no">QCoapPrivateKey</a></span> key(privateKey<span class="operator">.</span>readAll()<span class="operator">,</span> <span class="type"><a href="./qssl.htm" translate="no">QSsl</a></span><span class="operator">::</span>Ec);
+        configuration<span class="operator">.</span>setPrivateKey(key);
+    } <span class="keyword">else</span> {
+        qCWarning(lcCoapClient) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Unable to read the specified private key file"</span>
+                                <span class="operator">&lt;</span><span class="operator">&lt;</span> privateKeyPath;
+    }
+    m_configuration <span class="operator">=</span> configuration;
+}</pre></div>
+<p>After setting the security configuration, the <code translate="no">sendGetRequest</code> method sets the request URL and sends a <code translate="no">GET</code> request:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> QmlCoapSecureClient<span class="operator">::</span>sendGetRequest(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>host<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>path<span class="operator">,</span> <span class="type">int</span> port)
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>m_coapClient)
+        <span class="keyword">return</span>;
+
+    m_coapClient<span class="operator">-</span><span class="operator">&gt;</span>setSecurityConfiguration(m_configuration);
+
+    <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> url;
+    url<span class="operator">.</span>setHost(host);
+    url<span class="operator">.</span>setPath(path);
+    url<span class="operator">.</span>setPort(port);
+    m_coapClient<span class="operator">-</span><span class="operator">&gt;</span>get(url);
+}</pre></div>
+<p>When sending the first request, a handshake with the CoAP server is performed. After the handshake is successfully done, all the subsequent messages are encrypted, and changing the security configuration after a successful handshake won't have any effect. If you want to change it, or change the host, you need to disconnect first.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> QmlCoapSecureClient<span class="operator">::</span>disconnect()
+{
+    <span class="keyword">if</span> (m_coapClient)
+        m_coapClient<span class="operator">-</span><span class="operator">&gt;</span>disconnect();
+}</pre></div>
+<p>This will abort the handshake and close the open sockets.</p>
+<p>For the authentication using X.509 certificates, we need to specify the certificate files. The <code translate="no">FilePicker</code> component is used for this purpose. It combines a text field and a button for opening a file dialog when the button is pressed:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">Item</span> {
+    <span class="name">id</span>: <span class="name">filePicker</span>
+
+    property <span class="type">string</span> <span class="name">dialogText</span>
+    property <span class="type">alias</span> <span class="name">selectedFile</span>: <span class="name">filePathField</span>.<span class="name">text</span>
+
+    <span class="name">height</span>: <span class="name">addFileButton</span>.<span class="name">height</span>
+
+    <span class="type">FileDialog</span> {
+        <span class="name">id</span>: <span class="name">fileDialog</span>
+        <span class="name">title</span>: <span class="name">qsTr</span>(<span class="string">"Please Choose %1"</span>).<span class="name">arg</span>(<span class="name">dialogText</span>)
+        <span class="name">folder</span>: <span class="name">StandardPaths</span>.<span class="name">writableLocation</span>(<span class="name">StandardPaths</span>.<span class="name">HomeLocation</span>)
+        <span class="name">fileMode</span>: <span class="name">FileDialog</span>.<span class="name">OpenFile</span>
+        <span class="name">onAccepted</span>: <span class="name">filePathField</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">fileDialog</span>.<span class="name">file</span>
+    }
+
+    <span class="type">RowLayout</span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="type">TextField</span> {
+            <span class="name">id</span>: <span class="name">filePathField</span>
+            <span class="name">placeholderText</span>: <span class="name">qsTr</span>(<span class="string">"&lt;%1&gt;"</span>).<span class="name">arg</span>(<span class="name">dialogText</span>)
+            <span class="name">inputMethodHints</span>: <span class="name">Qt</span>.<span class="name">ImhUrlCharactersOnly</span>
+            <span class="name">selectByMouse</span>: <span class="number">true</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        }
+
+        <span class="type">Button</span> {
+            <span class="name">id</span>: <span class="name">addFileButton</span>
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Add %1"</span>).<span class="name">arg</span>(<span class="name">dialogText</span>)
+            <span class="name">onClicked</span>: <span class="name">fileDialog</span>.<span class="name">open</span>()
+        }
+    }
+}</pre></div>
+<p>In the <code translate="no">main.qml</code> file <code translate="no">FilePicker</code> is instantiated several times for creating input fields for certificates and the private key:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ...
+        <span class="type">FilePicker</span> {
+            <span class="name">id</span>: <span class="name">localCertificatePicker</span>
+            <span class="name">dialogText</span>: <span class="string">"Local Certificate"</span>
+            <span class="name">enabled</span>: <span class="name">securityModeGroup</span>.<span class="name">checkedButton</span> <span class="operator">===</span> <span class="name">certificateMode</span>
+            <span class="name">Layout</span>.columnSpan: <span class="number">2</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        }
+
+        <span class="type">FilePicker</span> {
+            <span class="name">id</span>: <span class="name">caCertificatePicker</span>
+            <span class="name">dialogText</span>: <span class="string">"CA Certificate"</span>
+            <span class="name">enabled</span>: <span class="name">securityModeGroup</span>.<span class="name">checkedButton</span> <span class="operator">===</span> <span class="name">certificateMode</span>
+            <span class="name">Layout</span>.columnSpan: <span class="number">2</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        }
+
+        <span class="type">FilePicker</span> {
+            <span class="name">id</span>: <span class="name">privateKeyPicker</span>
+            <span class="name">dialogText</span>: <span class="string">"Private Key"</span>
+            <span class="name">enabled</span>: <span class="name">securityModeGroup</span>.<span class="name">checkedButton</span> <span class="operator">===</span> <span class="name">certificateMode</span>
+            <span class="name">Layout</span>.columnSpan: <span class="number">2</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        }
+    ...</pre></div>
+<a name="setting-up-a-secure-coap-server"></a>
+<h4 id="setting-up-a-secure-coap-server">Setting Up a Secure CoAP Server<a class="plink" href="#setting-up-a-secure-coap-server" title="Direct link to this headline"></a></h4>
+<p>To run this example, you need to have a secure CoAP server supporting either PSK or Certificate modes (or both). You have the following options:</p>
+<ul>
+<li>Manually build and run a secure CoAP server using, for example, <a href="https://github.com/obgm/libcoap" translate="no">libcoap</a>, <a href="https://github.com/eclipse/californium" translate="no">Californium</a>, <a href="https://github.com/keith-cullen/FreeCoAP" translate="no">FreeCoAP</a>, or any other CoAP library which supports DTLS.</li>
+<li>Use the ready Docker images available at Docker Hub, which build and run the secure CoAP servers suitable for our example. The steps required for using the docker-based CoAP servers are described below.</li>
+</ul>
+<a name="setting-up-a-server-for-psk-mode"></a>
+<h5 id="setting-up-a-server-for-psk-mode">Setting Up a Server For PSK Mode<a class="plink" href="#setting-up-a-server-for-psk-mode" title="Direct link to this headline"></a></h5>
+<p>The following command pulls the docker container for a secure CoAP server based on <a href="https://github.com/eclipse/californium/tree/master/demo-apps/cf-plugtest-server" translate="no">Californium plugtest</a> (which is not secure by default) from the Docker Hub and starts it:</p>
+<div class="pre"><pre class="cpp plain" translate="no">docker run --name coap-test-server -d --rm -p 5683:5683/udp -p 5684:5684/udp sokurazy/coap-secure-test-server:californium.1.1.0</pre></div>
+<p>The CoAP test server will be reachable on ports <i>5683</i> (non-secure) and <i>5684</i> (secure). For instructions on retrieving the IP address see <a href="./qtcoap-quicksecureclient-example.htm#getting-the-ip-address" translate="no">Getting The IP Address</a>.</p>
+<p>To run the example with this server, you need to set the pre-shared key to <code translate="no">secretPSK</code> and the identity to <code translate="no">Client_identity</code>.</p>
+<a name="setting-up-a-server-for-certificate-mode"></a>
+<h5 id="setting-up-a-server-for-certificate-mode">Setting Up a Server For Certificate Mode<a class="plink" href="#setting-up-a-server-for-certificate-mode" title="Direct link to this headline"></a></h5>
+<p>The docker image of the secure server using authentication with X.509 certificates is based on the <a href="https://github.com/keith-cullen/FreeCoAP/tree/master/sample/time_server" translate="no">time server</a> example from the FreeCoAP library. The following command pulls the container from Docker Hub and starts it:</p>
+<div class="pre"><pre class="cpp plain" translate="no">docker run --name coap-time-server -d --rm -p 5684:5684/udp sokurazy/coap-secure-time-sever:freecoap</pre></div>
+<p>For instructions on retrieving the IP address see <a href="./qtcoap-quicksecureclient-example.htm#getting-the-ip-address" translate="no">Getting The IP Address</a>. The CoAP test server will be reachable by the retrieved IP address on port <i>5684</i> and resource path <code translate="no">/time</code>.</p>
+<p>To run the example with this server, you need to specify the certificate files required by the server. They are located in the docker container, under <code translate="no">/root/certs</code> directory. To copy them to a local directory, use the following command:</p>
+<div class="pre"><pre class="cpp plain" translate="no">docker cp &lt;container_id&gt;:/root/certs &lt;local_directory_path&gt;</pre></div>
+<p>For example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">$ docker cp 5e46502df88f:/root/certs ~/</pre></div>
+<p>The instructions for getting the container ID are described below.</p>
+<a name="getting-the-ip-address"></a>
+<h5 id="getting-the-ip-address">Getting The IP Address<a class="plink" href="#getting-the-ip-address" title="Direct link to this headline"></a></h5>
+<p>To find out the IP address of a docker container, first retrieve the container ID by running the <code translate="no">docker ps</code> command, which will output something like:</p>
+<div class="pre"><pre class="cpp plain" translate="no">$ docker ps
+CONTAINER ID        IMAGE
+5e46502df88f        sokurazy/coap-secure-test-server:californium.1.1.0</pre></div>
+<p>Then you can obtain the IP address with the following command:</p>
+<div class="pre"><pre class="cpp plain" translate="no">docker inspect &lt;container_id&gt; | grep IPAddress</pre></div>
+<p>For example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">$ docker inspect 5e46502df88f | grep IPAddress
+...
+"IPAddress": "172.17.0.2",
+...</pre></div>
+<p>Files:</p>
+<ul>
+<li><a href="./qtcoap-quicksecureclient-filepicker-qml.htm" translate="no">quicksecureclient/FilePicker.qml</a></li>
+<li><a href="./qtcoap-quicksecureclient-main-cpp.htm" translate="no">quicksecureclient/main.cpp</a></li>
+<li><a href="./qtcoap-quicksecureclient-main-qml.htm" translate="no">quicksecureclient/main.qml</a></li>
+<li><a href="./qtcoap-quicksecureclient-qml-qrc.htm" translate="no">quicksecureclient/qml.qrc</a></li>
+<li><a href="./qtcoap-quicksecureclient-qmlcoapsecureclient-cpp.htm" translate="no">quicksecureclient/qmlcoapsecureclient.cpp</a></li>
+<li><a href="./qtcoap-quicksecureclient-qmlcoapsecureclient-h.htm" translate="no">quicksecureclient/qmlcoapsecureclient.h</a></li>
+<li><a href="./qtcoap-quicksecureclient-quicksecureclient-pro.htm" translate="no">quicksecureclient/quicksecureclient.pro</a></li>
+</ul>
+</div>
+<!-- @@@quicksecureclient -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

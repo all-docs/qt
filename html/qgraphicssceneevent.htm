@@ -1,0 +1,101 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QGraphicsSceneEvent | Qt Widgets</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qgraphicssceneevent.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./qtwidgets-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QGraphicsSceneEvent</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QGraphicsSceneEvent Class</h1>
+<!-- $$$QGraphicsSceneEvent-brief -->
+<p>The QGraphicsSceneEvent class provides a base class for all graphics view related events. <a href="#details">More...</a></p>
+<!-- @@@QGraphicsSceneEvent -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QGraphicsSceneEvent&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += widgets</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 4.2</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qevent.htm" translate="no">QEvent</a></td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherited By:</td><td class="memItemRight bottomAlign"> <p><a href="./qgraphicsscenecontextmenuevent.htm" translate="no">QGraphicsSceneContextMenuEvent</a>, <a href="./qgraphicsscenedragdropevent.htm" translate="no">QGraphicsSceneDragDropEvent</a>, <a href="./qgraphicsscenehelpevent.htm" translate="no">QGraphicsSceneHelpEvent</a>, <a href="./qgraphicsscenehoverevent.htm" translate="no">QGraphicsSceneHoverEvent</a>, <a href="./qgraphicsscenemouseevent.htm" translate="no">QGraphicsSceneMouseEvent</a>, <a href="./qgraphicsscenemoveevent.htm" translate="no">QGraphicsSceneMoveEvent</a>, <a href="./qgraphicssceneresizeevent.htm" translate="no">QGraphicsSceneResizeEvent</a>, and <a href="./qgraphicsscenewheelevent.htm" translate="no">QGraphicsSceneWheelEvent</a></p>
+</td></tr></tbody></table></div><p>This class was introduced in Qt 4.2.</p>
+<ul>
+<li><a href="./qgraphicssceneevent-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qgraphicssceneevent.htm#dtor.QGraphicsSceneEvent" translate="no">~QGraphicsSceneEvent</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QWidget *</td><td class="memItemRight bottomAlign"><b><a href="./qgraphicssceneevent.htm#widget" translate="no">widget</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QGraphicsSceneEvent-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>When a <a href="./qgraphicsview.htm" translate="no">QGraphicsView</a> receives Qt mouse, keyboard, and drag and drop events (<a href="./qmouseevent.htm" translate="no">QMouseEvent</a>, <a href="./qkeyevent.htm" translate="no">QKeyEvent</a>, QDragEvent, etc.), it translates them into instances of QGraphicsSceneEvent subclasses and forwards them to the <a href="./qgraphicsscene.htm" translate="no">QGraphicsScene</a> it displays. The scene then forwards the events to the relevant items.</p>
+<p>For example, when a <a href="./qgraphicsview.htm" translate="no">QGraphicsView</a> receives a <a href="./qmouseevent.htm" translate="no">QMouseEvent</a> of type MousePress as a response to a user click, the view sends a <a href="./qgraphicsscenemouseevent.htm" translate="no">QGraphicsSceneMouseEvent</a> of type <a href="./qevent.htm#Type-enum" translate="no">GraphicsSceneMousePress</a> to the underlying <a href="./qgraphicsscene.htm" translate="no">QGraphicsScene</a> through its <a href="./qgraphicsscene.htm#mousePressEvent" translate="no">mousePressEvent()</a> function. The default <a href="./qgraphicsscene.htm#mousePressEvent" translate="no">QGraphicsScene::mousePressEvent</a>() implementation determines which item was clicked and forwards the event to <a href="./qgraphicsitem.htm#mousePressEvent" translate="no">QGraphicsItem::mousePressEvent</a>().</p>
+<p>Subclasses such as <a href="./qgraphicsscenemouseevent.htm" translate="no">QGraphicsSceneMouseEvent</a> and <a href="./qgraphicsscenecontextmenuevent.htm" translate="no">QGraphicsSceneContextMenuEvent</a> provide the coordinates from the original <a href="./qevent.htm" translate="no">QEvent</a> in screen, scene, and item coordinates (see <a href="./qgraphicsscenemouseevent.htm#screenPos" translate="no">screenPos()</a>, <a href="./qgraphicsscenemouseevent.htm#scenePos" translate="no">scenePos()</a>, and <a href="./qgraphicsscenemouseevent.htm#pos" translate="no">pos()</a>). The item coordinates are set by the <a href="./qgraphicsscene.htm" translate="no">QGraphicsScene</a> before it forwards the event to the event to a <a href="./qgraphicsitem.htm" translate="no">QGraphicsItem</a>. The mouse events also add the possibility to retrieve the coordinates from the last event received by the view (see <a href="./qgraphicsscenemouseevent.htm#lastScreenPos" translate="no">lastScreenPos()</a>, <a href="./qgraphicsscenemouseevent.htm#lastScenePos" translate="no">lastScenePos()</a>, and <a href="./qgraphicsscenemouseevent.htm#lastPos" translate="no">lastPos()</a>).</p>
+</div>
+<p><b>See also </b><a href="./qevent.htm" translate="no">QEvent</a>.</p>
+<!-- @@@QGraphicsSceneEvent -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$~QGraphicsSceneEvent[overload1]$$$~QGraphicsSceneEvent -->
+<h3 class="fn" id="dtor.QGraphicsSceneEvent" translate="no"><a name="dtor.QGraphicsSceneEvent"></a><code translate="no">[virtual] </code>QGraphicsSceneEvent::<span class="name">~QGraphicsSceneEvent</span>()<a class="plink" href="#dtor.QGraphicsSceneEvent" title="Direct link to this headline"></a></h3>
+<p>Destroys the event.</p>
+<!-- @@@~QGraphicsSceneEvent -->
+<!-- $$$widget[overload1]$$$widget -->
+<h3 class="fn" id="widget" translate="no"><a name="widget"></a><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> *QGraphicsSceneEvent::<span class="name">widget</span>() const<a class="plink" href="#widget" title="Direct link to this headline"></a></h3>
+<p>Returns the widget where the event originated, or <code translate="no">nullptr</code> if the event originates from another application.</p>
+<!-- @@@widget -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

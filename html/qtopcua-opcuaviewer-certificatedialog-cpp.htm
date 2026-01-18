@@ -1,0 +1,149 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt OPC UA Viewer Example | Qt OPC UA</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtopcua-opcuaviewer-certificatedialog-cpp.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtopcua-index.htm" translate="no">Qt OPC UA</a></li>
+                            <li><a href="./qtopcua-examples.htm" translate="no">Qt OPC UA Examples</a></li>
+                            <li><a>Qt OPC UA Viewer Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt OPC UA Viewer Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2018 Unified Automation GmbH
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the QtOpcUa module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:LGPL3$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see http://www.qt.io/terms-conditions. For further
+** information use the contact form at http://www.qt.io/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or later as published by the Free
+** Software Foundation and appearing in the file LICENSE.GPL included in
+** the packaging of this file. Please review the following information to
+** ensure the GNU General Public License version 2.0 requirements will be
+** met: http://www.gnu.org/licenses/gpl-2.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "certificatedialog.h"</span>
+<span class="preprocessor">#include "ui_certificatedialog.h"</span>
+<span class="preprocessor">#include &lt;QPushButton&gt;</span>
+
+CertificateDialog<span class="operator">::</span>CertificateDialog(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent) :
+    <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span>(parent)<span class="operator">,</span>
+    ui(<span class="keyword">new</span> Ui<span class="operator">::</span>CertificateDialog)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>btnTrust<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>CertificateDialog<span class="operator">::</span>saveCertificate);
+}
+
+CertificateDialog<span class="operator">::</span><span class="operator">~</span>CertificateDialog()
+{
+    <span class="keyword">delete</span> ui;
+}
+
+<span class="comment">/** Returns 0 if the connect should be aborted, 1 if it should be resumed. */</span>
+<span class="type">int</span> CertificateDialog<span class="operator">::</span>showCertificate(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>message<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> <span class="operator">&amp;</span>der<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>trustListDirectory)
+{
+    <span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type">QSslCertificate</span><span class="operator">&gt;</span> certs <span class="operator">=</span> <span class="type">QSslCertificate</span><span class="operator">::</span>fromData(der<span class="operator">,</span> <span class="type">QSsl</span><span class="operator">::</span>Der);
+
+    m_trustListDirectory <span class="operator">=</span> trustListDirectory;
+
+    <span class="comment">// if it is a unstrusted self-signed certificate we can allow to trust it</span>
+    <span class="keyword">if</span> (certs<span class="operator">.</span>count() <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span> <span class="operator">&amp;</span><span class="operator">&amp;</span> certs<span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">.</span>isSelfSigned()) {
+        m_cert <span class="operator">=</span> certs<span class="operator">[</span><span class="number">0</span><span class="operator">]</span>;
+        ui<span class="operator">-</span><span class="operator">&gt;</span>btnTrust<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+    } <span class="keyword">else</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>btnTrust<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    }
+
+    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="type">QSslCertificate</span> <span class="operator">&amp;</span>cert : qAsConst(certs))
+        ui<span class="operator">-</span><span class="operator">&gt;</span>certificate<span class="operator">-</span><span class="operator">&gt;</span>appendPlainText(cert<span class="operator">.</span>toText());
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>message<span class="operator">-</span><span class="operator">&gt;</span>setText(message);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>certificate<span class="operator">-</span><span class="operator">&gt;</span>moveCursor(<span class="type">QTextCursor</span><span class="operator">::</span>Start);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>certificate<span class="operator">-</span><span class="operator">&gt;</span>ensureCursorVisible();
+
+    <span class="keyword">return</span> exec();
+}
+
+<span class="type">void</span> CertificateDialog<span class="operator">::</span>saveCertificate()
+{
+   <span class="keyword">const</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> digest <span class="operator">=</span> m_cert<span class="operator">.</span>digest();
+   <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> path <span class="operator">=</span> m_trustListDirectory <span class="operator">+</span> QLatin1Char(<span class="char">'/'</span>)
+       <span class="operator">+</span> QLatin1String(digest<span class="operator">.</span>toHex()) <span class="operator">+</span> QLatin1String(<span class="string">".der"</span>);
+
+   <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> file(path);
+   <span class="keyword">if</span> (file<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>WriteOnly)) {
+       file<span class="operator">.</span>write(m_cert<span class="operator">.</span>toDer());
+       file<span class="operator">.</span>close();
+   }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

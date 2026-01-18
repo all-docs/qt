@@ -1,0 +1,278 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick 2 Surface Multiseries Example | Qt Data Visualization</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li class="last"><a>Qt Quick 2 Surface Multiseries Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick 2 Surface Multiseries Example</h1>
+<span class="subtitle"></span>
+<!-- $$$qmlsurfacelayers-brief -->
+<p>Using multiple series with <a href="./qml-qtdatavisualization-surface3d.htm" translate="no">Surface3D</a> in a QML application.</p>
+<!-- @@@qmlsurfacelayers -->
+<!-- $$$qmlsurfacelayers-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Qt Quick 2 surface example shows how to make a 3D surface plot displaying 3 layers using <a href="./qml-qtdatavisualization-surface3d.htm" translate="no">Surface3D</a> with Qt Quick 2.</p>
+<p class="centerAlign"><img alt="" src="./images/qmlsurfacelayers-example.png"></p><p>The focus in this example is on generating a multiseries surface plot from 3 different height map images, so in this section we skip explaining the application creation. For a more detailed QML example documentation, see <a href="./qtdatavisualization-qmlscatter-example.htm" translate="no">Qt Quick 2 Scatter Example</a>.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="adding-data-to-the-graph"></a>
+<h4 id="adding-data-to-the-graph">Adding Data to the Graph<a class="plink" href="#adding-data-to-the-graph" title="Direct link to this headline"></a></h4>
+<p>This example shows how to add several surface series to one graph using using HeightMapSurfaceDataProxies and how to control their visibilities individually.</p>
+<p>Let's start by creating a specific gradient for each layer:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-colorgradient.htm" translate="no">ColorGradient</a></span> {
+    <span class="name">id</span>: <span class="name">layerOneGradient</span>
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.0</span>; <span class="name">color</span>: <span class="string">"black"</span> }
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.31</span>; <span class="name">color</span>: <span class="string">"tan"</span> }
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.32</span>; <span class="name">color</span>: <span class="string">"green"</span> }
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.40</span>; <span class="name">color</span>: <span class="string">"darkslategray"</span> }
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">1.0</span>; <span class="name">color</span>: <span class="string">"white"</span> }
+}
+
+<span class="type"><a href="./qml-qtdatavisualization-colorgradient.htm" translate="no">ColorGradient</a></span> {
+    <span class="name">id</span>: <span class="name">layerTwoGradient</span>
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.315</span>; <span class="name">color</span>: <span class="string">"blue"</span> }
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.33</span>; <span class="name">color</span>: <span class="string">"white"</span> }
+}
+
+<span class="type"><a href="./qml-qtdatavisualization-colorgradient.htm" translate="no">ColorGradient</a></span> {
+    <span class="name">id</span>: <span class="name">layerThreeGradient</span>
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.0</span>; <span class="name">color</span>: <span class="string">"red"</span> }
+    <span class="type"><a href="./qml-qtdatavisualization-colorgradientstop.htm" translate="no">ColorGradientStop</a></span> { <span class="name">position</span>: <span class="number">0.15</span>; <span class="name">color</span>: <span class="string">"black"</span> }
+}</pre></div>
+<p>Then we'll create the series themselves. It happens simply by adding 3 separate <a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a> to the <a href="./qml-qtdatavisualization-surface3d.htm" translate="no">Surface3D</a> graph as children:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">...
+<span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span> {
+    <span class="name">id</span>: <span class="name">layerOneSeries</span>
+    <span class="name">baseGradient</span>: <span class="name">layerOneGradient</span>
+    <span class="type"><a href="./qml-qtdatavisualization-heightmapsurfacedataproxy.htm" translate="no">HeightMapSurfaceDataProxy</a></span> {
+        <span class="name">heightMapFile</span>: <span class="string">":/heightmaps/layer_1.png"</span>
+    }
+    <span class="name">flatShadingEnabled</span>: <span class="number">false</span>
+    <span class="name">drawMode</span>: <span class="name">Surface3DSeries</span>.<span class="name">DrawSurface</span>
+    <span class="name">visible</span>: <span class="name">layerOneToggle</span>.<span class="name">checked</span> <span class="comment">// bind to checkbox state</span>
+}
+
+<span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span> {
+    <span class="name">id</span>: <span class="name">layerTwoSeries</span>
+    <span class="name">baseGradient</span>: <span class="name">layerTwoGradient</span>
+    <span class="type"><a href="./qml-qtdatavisualization-heightmapsurfacedataproxy.htm" translate="no">HeightMapSurfaceDataProxy</a></span> {
+        <span class="name">heightMapFile</span>: <span class="string">":/heightmaps/layer_2.png"</span>
+    }
+    <span class="name">flatShadingEnabled</span>: <span class="number">false</span>
+    <span class="name">drawMode</span>: <span class="name">Surface3DSeries</span>.<span class="name">DrawSurface</span>
+    <span class="name">visible</span>: <span class="name">layerTwoToggle</span>.<span class="name">checked</span> <span class="comment">// bind to checkbox state</span>
+}
+
+<span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span> {
+    <span class="name">id</span>: <span class="name">layerThreeSeries</span>
+    <span class="name">baseGradient</span>: <span class="name">layerThreeGradient</span>
+    <span class="type"><a href="./qml-qtdatavisualization-heightmapsurfacedataproxy.htm" translate="no">HeightMapSurfaceDataProxy</a></span> {
+        <span class="name">heightMapFile</span>: <span class="string">":/heightmaps/layer_3.png"</span>
+    }
+    <span class="name">flatShadingEnabled</span>: <span class="number">false</span>
+    <span class="name">drawMode</span>: <span class="name">Surface3DSeries</span>.<span class="name">DrawSurface</span>
+    <span class="name">visible</span>: <span class="name">layerThreeToggle</span>.<span class="name">checked</span> <span class="comment">// bind to checkbox state</span>
+}
+...</pre></div>
+<p>You'll notice we added the created gradients to the <code translate="no">baseGradient</code> properties of the series. We could have added them to the <code translate="no">baseGradients</code> property of the <a href="./qml-qtdatavisualization-theme3d.htm" translate="no">Theme3D</a> in <a href="./qml-qtdatavisualization-surface3d.htm" translate="no">Surface3D</a> instead, but doing it this way ensures each gradient is applied to a correct series:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-surface3dseries.htm" translate="no">Surface3DSeries</a></span> {
+    <span class="name">id</span>: <span class="name">layerOneSeries</span>
+    <span class="name">baseGradient</span>: <span class="name">layerOneGradient</span>
+    ...</pre></div>
+<a name="controlling-the-graph"></a>
+<h4 id="controlling-the-graph">Controlling the Graph<a class="plink" href="#controlling-the-graph" title="Direct link to this headline"></a></h4>
+<p>Let's add some checkboxes to control the visibility of layers:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">GroupBox</span> {
+    <span class="name">flat</span>: <span class="number">true</span>
+    <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+    <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+        <span class="name">spacing</span>: <span class="number">10</span>
+
+        <span class="type">Label</span> {
+            <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+            <span class="name">font</span>.bold: <span class="number">true</span>
+            <span class="name">text</span>: <span class="string">"Layer Selection"</span>
+        }
+
+        <span class="type">CheckBox</span> {
+            <span class="name">id</span>: <span class="name">layerOneToggle</span>
+            <span class="name">checked</span>: <span class="number">true</span>
+            <span class="name">style</span>: <span class="name">CheckBoxStyle</span> {
+                <span class="name">label</span>: <span class="name">Label</span> {
+                    <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+                    <span class="name">text</span>: <span class="string">"Show Ground Layer"</span>
+                }
+            }
+        }
+
+        <span class="type">CheckBox</span> {
+            <span class="name">id</span>: <span class="name">layerTwoToggle</span>
+            <span class="name">checked</span>: <span class="number">true</span>
+            <span class="name">style</span>: <span class="name">CheckBoxStyle</span> {
+                <span class="name">label</span>: <span class="name">Label</span> {
+                    <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+                    <span class="name">text</span>: <span class="string">"Show Sea Layer"</span>
+                }
+            }
+        }
+
+        <span class="type">CheckBox</span> {
+            <span class="name">id</span>: <span class="name">layerThreeToggle</span>
+            <span class="name">checked</span>: <span class="number">true</span>
+            <span class="name">style</span>: <span class="name">CheckBoxStyle</span> {
+                <span class="name">label</span>: <span class="name">Label</span> {
+                    <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+                    <span class="name">text</span>: <span class="string">"Show Tectonic Layer"</span>
+                }
+            }
+        }
+    }
+}</pre></div>
+<p>We don't need to do anything on the <code translate="no">onCheckedChanged</code> as we bound the <code translate="no">checked</code> state to the <code translate="no">visible</code> property of the series directly:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">...
+<span class="name">visible</span>: <span class="name">layerOneToggle</span>.<span class="name">checked</span> <span class="comment">// bind to checkbox state</span>
+...</pre></div>
+<p>Let's add some more checkboxes to control how the layers are displayed, when visible:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">GroupBox</span> {
+    <span class="name">flat</span>: <span class="number">true</span>
+    <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+    <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+        <span class="name">spacing</span>: <span class="number">10</span>
+
+        <span class="type">Label</span> {
+            <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+            <span class="name">font</span>.bold: <span class="number">true</span>
+            <span class="name">text</span>: <span class="string">"Layer Style"</span>
+        }
+
+        <span class="type">CheckBox</span> {
+            <span class="name">id</span>: <span class="name">layerOneGrid</span>
+            <span class="name">style</span>: <span class="name">CheckBoxStyle</span> {
+                <span class="name">label</span>: <span class="name">Label</span> {
+                    <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+                    <span class="name">text</span>: <span class="string">"Show Ground as Grid"</span>
+                }
+            }
+            <span class="name">onCheckedChanged</span>: {
+                <span class="keyword">if</span> (<span class="name">checked</span>)
+                    <span class="name">layerOneSeries</span>.<span class="name">drawMode</span> <span class="operator">=</span> <span class="name">Surface3DSeries</span>.<span class="name">DrawWireframe</span>
+                <span class="keyword">else</span>
+                    <span class="name">layerOneSeries</span>.<span class="name">drawMode</span> <span class="operator">=</span> <span class="name">Surface3DSeries</span>.<span class="name">DrawSurface</span>
+            }
+        }
+
+        <span class="type">CheckBox</span> {
+            <span class="name">id</span>: <span class="name">layerTwoGrid</span>
+            <span class="name">style</span>: <span class="name">CheckBoxStyle</span> {
+                <span class="name">label</span>: <span class="name">Label</span> {
+                    <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+                    <span class="name">text</span>: <span class="string">"Show Sea as Grid"</span>
+                }
+            }
+            <span class="name">onCheckedChanged</span>: {
+                <span class="keyword">if</span> (<span class="name">checked</span>)
+                    <span class="name">layerTwoSeries</span>.<span class="name">drawMode</span> <span class="operator">=</span> <span class="name">Surface3DSeries</span>.<span class="name">DrawWireframe</span>
+                <span class="keyword">else</span>
+                    <span class="name">layerTwoSeries</span>.<span class="name">drawMode</span> <span class="operator">=</span> <span class="name">Surface3DSeries</span>.<span class="name">DrawSurface</span>
+            }
+        }
+
+        <span class="type">CheckBox</span> {
+            <span class="name">id</span>: <span class="name">layerThreeGrid</span>
+            <span class="name">style</span>: <span class="name">CheckBoxStyle</span> {
+                <span class="name">label</span>: <span class="name">Label</span> {
+                    <span class="name">font</span>.pointSize: <span class="name">fontSize</span>
+                    <span class="name">text</span>: <span class="string">"Show Tectonic as Grid"</span>
+                }
+            }
+            <span class="name">onCheckedChanged</span>: {
+                <span class="keyword">if</span> (<span class="name">checked</span>)
+                    <span class="name">layerThreeSeries</span>.<span class="name">drawMode</span> <span class="operator">=</span> <span class="name">Surface3DSeries</span>.<span class="name">DrawWireframe</span>
+                <span class="keyword">else</span>
+                    <span class="name">layerThreeSeries</span>.<span class="name">drawMode</span> <span class="operator">=</span> <span class="name">Surface3DSeries</span>.<span class="name">DrawSurface</span>
+            }
+        }
+    }
+}</pre></div>
+<p>In addition to these we have three buttons, one of which is of special interest to us. It is used to control whether we want to slice into only one layer, or all of them:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">NewButton</span> {
+    <span class="name">id</span>: <span class="name">sliceButton</span>
+    <span class="name">text</span>: <span class="string">"Slice All Layers"</span>
+    <span class="name">fontSize</span>: <span class="name">fontSize</span>
+    <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+    <span class="name">Layout</span>.minimumHeight: <span class="number">40</span>
+    <span class="name">onClicked</span>: {
+        <span class="keyword">if</span> (<span class="name">surfaceLayers</span>.<span class="name">selectionMode</span> <span class="operator">&amp;</span> <span class="name">AbstractGraph3D</span>.<span class="name">SelectionMultiSeries</span>) {
+            <span class="name">surfaceLayers</span>.<span class="name">selectionMode</span> <span class="operator">=</span> <span class="name">AbstractGraph3D</span>.<span class="name">SelectionRow</span>
+                    <span class="operator">|</span> <span class="name">AbstractGraph3D</span>.<span class="name">SelectionSlice</span>
+            <span class="name">text</span> <span class="operator">=</span> <span class="string">"Slice All Layers"</span>
+        } <span class="keyword">else</span> {
+            <span class="name">surfaceLayers</span>.<span class="name">selectionMode</span> <span class="operator">=</span> <span class="name">AbstractGraph3D</span>.<span class="name">SelectionRow</span>
+                    <span class="operator">|</span> <span class="name">AbstractGraph3D</span>.<span class="name">SelectionSlice</span>
+                    <span class="operator">|</span> <span class="name">AbstractGraph3D</span>.<span class="name">SelectionMultiSeries</span>
+            <span class="name">text</span> <span class="operator">=</span> <span class="string">"Slice One Layer"</span>
+        }
+    }
+}</pre></div>
+<a name="example-contents"></a>
+<h4 id="example-contents">Example Contents<a class="plink" href="#example-contents" title="Direct link to this headline"></a></h4>
+<p><a href="https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization/qmlsurfacelayers?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@qmlsurfacelayers -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

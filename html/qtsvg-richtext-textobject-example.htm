@@ -1,0 +1,191 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text Object Example | Qt SVG</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsvg-index.htm" translate="no">Qt SVG</a></li>
+                            <li><a>Text Object Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Text Object Example</h1>
+<span class="subtitle"></span>
+<!-- $$$richtext/textobject-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Text Object example shows how to insert an SVG file into a <a href="./qtextdocument.htm" translate="no">QTextDocument</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/textobject-example.png"></p><p>A <a href="./qtextdocument.htm" translate="no">QTextDocument</a> consists of a hierarchy of elements, such as text blocks and frames. A text object describes the structure or format of one or more of these elements. For instance, images imported from HTML are implemented using text objects. Text objects are used by the document's <a href="./qabstracttextdocumentlayout.htm" translate="no">layout</a> to lay out and render (paint) the document. Each object knows how to paint the elements they govern, and calculates their size.</p>
+<p>To be able to insert an SVG image into a text document, we create a text object, and implement painting for that object. This object can then be <a href="./qtextformat.htm#setObjectType" translate="no">set</a> on a <a href="./qtextcharformat.htm" translate="no">QTextCharFormat</a>. We also register the text object with the layout of the document, enabling it to draw <a href="./qtextcharformat.htm" translate="no">QTextCharFormat</a>s governed by our text object. We can summarize the procedure with the following steps:</p>
+<ul>
+<li>Implement the text object.</li>
+<li>Register the text object with the layout of the text document.</li>
+<li>Set the text object on a <a href="./qtextcharformat.htm" translate="no">QTextCharFormat</a>.</li>
+<li>Insert a <a href="./qchar.htm#SpecialCharacter-enum" translate="no">QChar::ObjectReplacementCharacter</a> with that text char format into the document.</li>
+</ul>
+<p>The example consists of the following classes:</p>
+<ul>
+<li><code translate="no">SvgTextObject</code> implements the text object.</li>
+<li><code translate="no">Window</code> shows a <a href="./qtextedit.htm" translate="no">QTextEdit</a> into which SVG images can be inserted.</li>
+</ul>
+<a name="svgtextobject-class-definition"></a>
+<h4 id="svgtextobject-class-definition">SvgTextObject Class Definition<a class="plink" href="#svgtextobject-class-definition" title="Direct link to this headline"></a></h4>
+<p>Let's take a look at the header file of <code translate="no">SvgTextObject</code>:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="keyword">class</span> SvgTextObject : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">,</span> <span class="keyword">public</span> <span class="type"><a href="./qtextobjectinterface.htm" translate="no">QTextObjectInterface</a></span>
+{
+    Q_OBJECT
+    Q_INTERFACES(<span class="type"><a href="./qtextobjectinterface.htm" translate="no">QTextObjectInterface</a></span>)
+
+<span class="keyword">public</span>:
+    <span class="type"><a href="./qsizef.htm" translate="no">QSizeF</a></span> intrinsicSize(<span class="type"><a href="./qtextdocument.htm" translate="no">QTextDocument</a></span> <span class="operator">*</span>doc<span class="operator">,</span> <span class="type">int</span> posInDocument<span class="operator">,</span>
+                         <span class="keyword">const</span> <span class="type"><a href="./qtextformat.htm" translate="no">QTextFormat</a></span> <span class="operator">&amp;</span>format) override;
+    <span class="type">void</span> drawObject(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">*</span>painter<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qrectf.htm" translate="no">QRectF</a></span> <span class="operator">&amp;</span>rect<span class="operator">,</span> <span class="type"><a href="./qtextdocument.htm" translate="no">QTextDocument</a></span> <span class="operator">*</span>doc<span class="operator">,</span>
+                    <span class="type">int</span> posInDocument<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qtextformat.htm" translate="no">QTextFormat</a></span> <span class="operator">&amp;</span>format) override;
+};</pre></div>
+<p>A text object is a <a href="./qobject.htm" translate="no">QObject</a> that implements <a href="./qtextobjectinterface.htm" translate="no">QTextObjectInterface</a>. Note that the first class inherited must be <a href="./qobject.htm" translate="no">QObject</a>, and that you must use <a href="./qobject.htm#Q_INTERFACES" translate="no">Q_INTERFACES</a> to let Qt know that your class implements <a href="./qtextobjectinterface.htm" translate="no">QTextObjectInterface</a>.</p>
+<p>The document layout keeps a collection of text objects stored as <a href="./qobject.htm" translate="no">QObject</a>s, each of which has an associated object type. The layout casts the <a href="./qobject.htm" translate="no">QObject</a> for the associated object type into the <a href="./qtextobjectinterface.htm" translate="no">QTextObjectInterface</a>.</p>
+<p>The <a href="./qtextobjectinterface.htm#intrinsicSize" translate="no">intrinsicSize()</a> and <a href="./qtextobjectinterface.htm#drawObject" translate="no">drawObject()</a> functions are then used to calculate the size of the text object and draw it.</p>
+<a name="svgtextobject-class-implementation"></a>
+<h4 id="svgtextobject-class-implementation">SvgTextObject Class Implementation<a class="plink" href="#svgtextobject-class-implementation" title="Direct link to this headline"></a></h4>
+<p>We start of by taking a look at the <a href="./qtextobjectinterface.htm#intrinsicSize" translate="no">intrinsicSize()</a> function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qsizef.htm" translate="no">QSizeF</a></span> SvgTextObject<span class="operator">::</span>intrinsicSize(<span class="type"><a href="./qtextdocument.htm" translate="no">QTextDocument</a></span> <span class="operator">*</span> <span class="comment">/*doc*/</span><span class="operator">,</span> <span class="type">int</span> <span class="comment">/*posInDocument*/</span><span class="operator">,</span>
+                                    <span class="keyword">const</span> <span class="type"><a href="./qtextformat.htm" translate="no">QTextFormat</a></span> <span class="operator">&amp;</span>format)
+{
+    <span class="type"><a href="./qimage.htm" translate="no">QImage</a></span> bufferedImage <span class="operator">=</span> qvariant_cast<span class="operator">&lt;</span><span class="type"><a href="./qimage.htm" translate="no">QImage</a></span><span class="operator">&gt;</span>(format<span class="operator">.</span>property(Window<span class="operator">::</span>SvgData));
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> size <span class="operator">=</span> bufferedImage<span class="operator">.</span>size();
+
+    <span class="keyword">if</span> (size<span class="operator">.</span>height() <span class="operator">&gt;</span> <span class="number">25</span>)
+        size <span class="operator">*</span><span class="operator">=</span> <span class="number">25.0</span> <span class="operator">/</span> (<span class="type">double</span>) size<span class="operator">.</span>height();
+
+    <span class="keyword">return</span> <span class="type"><a href="./qsizef.htm" translate="no">QSizeF</a></span>(size);
+}</pre></div>
+<p><code translate="no">intrinsicSize()</code> is called by the layout to calculate the size of the text object. Notice that we have drawn the SVG image on a <a href="./qimage.htm" translate="no">QImage</a>. This is because SVG rendering is quite expensive. The example would lag seriously for large images if we drew them with a <a href="./qsvgrenderer.htm" translate="no">QSvgRenderer</a> each time.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> SvgTextObject<span class="operator">::</span>drawObject(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">*</span>painter<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qrectf.htm" translate="no">QRectF</a></span> <span class="operator">&amp;</span>rect<span class="operator">,</span>
+                               <span class="type"><a href="./qtextdocument.htm" translate="no">QTextDocument</a></span> <span class="operator">*</span> <span class="comment">/*doc*/</span><span class="operator">,</span> <span class="type">int</span> <span class="comment">/*posInDocument*/</span><span class="operator">,</span>
+                               <span class="keyword">const</span> <span class="type"><a href="./qtextformat.htm" translate="no">QTextFormat</a></span> <span class="operator">&amp;</span>format)
+{
+    <span class="type"><a href="./qimage.htm" translate="no">QImage</a></span> bufferedImage <span class="operator">=</span> qvariant_cast<span class="operator">&lt;</span><span class="type"><a href="./qimage.htm" translate="no">QImage</a></span><span class="operator">&gt;</span>(format<span class="operator">.</span>property(Window<span class="operator">::</span>SvgData));
+
+    painter<span class="operator">-</span><span class="operator">&gt;</span>drawImage(rect<span class="operator">,</span> bufferedImage);
+}</pre></div>
+<p>In <code translate="no">drawObject()</code>, we paint the SVG image using the <a href="./qpainter.htm" translate="no">QPainter</a> provided by the layout.</p>
+<a name="window-class-definition"></a>
+<h4 id="window-class-definition">Window Class Definition<a class="plink" href="#window-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">Window</code> class is a self-contained window that has a <a href="./qtextedit.htm" translate="no">QTextEdit</a> in which SVG images can be inserted.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Window : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">enum</span> { SvgTextFormat <span class="operator">=</span> <span class="type"><a href="./qtextformat.htm" translate="no">QTextFormat</a></span><span class="operator">::</span>UserObject <span class="operator">+</span> <span class="number">1</span> };
+    <span class="keyword">enum</span> SvgProperties { SvgData <span class="operator">=</span> <span class="number">1</span> };
+
+    Window();
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> insertTextObject();
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> setupTextObject();
+    <span class="type">void</span> setupGui();
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qtextedit.htm" translate="no">QTextEdit</a></span> <span class="operator">*</span>textEdit;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>fileNameLabel;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>fileNameLineEdit;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>insertTextObjectButton;
+};</pre></div>
+<p>The <code translate="no">insertTextObject()</code> slot inserts an SVG image at the current cursor position, while <code translate="no">setupTextObject()</code> creates and registers the SvgTextObject with the layout of the text edit's document.</p>
+<p>The constructor simply calls <code translate="no">setupTextObject()</code> and <code translate="no">setupGui()</code>, which creates and lays out the widgets of the <code translate="no">Window</code>.</p>
+<a name="window-class-implementation"></a>
+<h4 id="window-class-implementation">Window Class Implementation<a class="plink" href="#window-class-implementation" title="Direct link to this headline"></a></h4>
+<p>We will now take a closer look at the functions that are relevant to our text object, starting with the <code translate="no">setupTextObject()</code> function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>setupTextObject()
+{
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>svgInterface <span class="operator">=</span> <span class="keyword">new</span> SvgTextObject;
+    svgInterface<span class="operator">-</span><span class="operator">&gt;</span>setParent(<span class="keyword">this</span>);
+    textEdit<span class="operator">-</span><span class="operator">&gt;</span>document()<span class="operator">-</span><span class="operator">&gt;</span>documentLayout()<span class="operator">-</span><span class="operator">&gt;</span>registerHandler(SvgTextFormat<span class="operator">,</span> svgInterface);
+}</pre></div>
+<p><code translate="no">SvgTextFormat</code>'s value is the number of our object type. It is used to identify object types by the document layout.</p>
+<p>Note that we only create one SvgTextObject instance; it will be used for all <a href="./qtextcharformat.htm" translate="no">QTextCharFormat</a>'s with the <code translate="no">SvgTextFormat</code> object type.</p>
+<p>Let's move on to the <code translate="no">insertTextObject()</code> function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>insertTextObject()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> fileName <span class="operator">=</span> fileNameLineEdit<span class="operator">-</span><span class="operator">&gt;</span>text();
+    <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> file(fileName);
+    <span class="keyword">if</span> (<span class="operator">!</span>file<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>ReadOnly)) {
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Error Opening File"</span>)<span class="operator">,</span>
+                             tr(<span class="string">"Could not open '%1'"</span>)<span class="operator">.</span>arg(fileName));
+    }
+
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> svgData <span class="operator">=</span> file<span class="operator">.</span>readAll();</pre></div>
+<p>First, the <code translate="no">.svg</code> file is opened and its contents are read into the <code translate="no">svgData</code> array.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qtextcharformat.htm" translate="no">QTextCharFormat</a></span> svgCharFormat;
+    svgCharFormat<span class="operator">.</span>setObjectType(SvgTextFormat);
+    <span class="type"><a href="./qsvgrenderer.htm" translate="no">QSvgRenderer</a></span> renderer(svgData);
+
+    <span class="type"><a href="./qimage.htm" translate="no">QImage</a></span> svgBufferImage(renderer<span class="operator">.</span>defaultSize()<span class="operator">,</span> <span class="type"><a href="./qimage.htm" translate="no">QImage</a></span><span class="operator">::</span>Format_ARGB32);
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter(<span class="operator">&amp;</span>svgBufferImage);
+    renderer<span class="operator">.</span>render(<span class="operator">&amp;</span>painter<span class="operator">,</span> svgBufferImage<span class="operator">.</span>rect());
+
+    svgCharFormat<span class="operator">.</span>setProperty(SvgData<span class="operator">,</span> svgBufferImage);
+
+    <span class="type"><a href="./qtextcursor.htm" translate="no">QTextCursor</a></span> cursor <span class="operator">=</span> textEdit<span class="operator">-</span><span class="operator">&gt;</span>textCursor();
+    cursor<span class="operator">.</span>insertText(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="type"><a href="./qchar.htm" translate="no">QChar</a></span><span class="operator">::</span>ObjectReplacementCharacter)<span class="operator">,</span> svgCharFormat);
+    textEdit<span class="operator">-</span><span class="operator">&gt;</span>setTextCursor(cursor);
+}</pre></div>
+<p>To speed things up, we buffer the SVG image in a <a href="./qimage.htm" translate="no">QImage</a>. We use <a href="./qtextformat.htm#setProperty" translate="no">setProperty()</a> to store the <a href="./qimage.htm" translate="no">QImage</a> in the in the <a href="./qtextcharformat.htm" translate="no">QTextCharFormat</a>. We can retrieve it later with <a href="./qtextformat.htm#property" translate="no">property()</a>.</p>
+<p>We insert the char format in the standard way - using a <a href="./qtextcursor.htm" translate="no">QTextCursor</a>. Notice that we use the special <a href="./qchar.htm" translate="no">QChar</a> <a href="./qchar.htm#SpecialCharacter-enum" translate="no">ObjectReplacementCharacter</a>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtsvg.git/tree/examples/svg/richtext/textobject?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@richtext/textobject -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,169 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebEngine Widgets PrintMe Example | Qt WebEngine</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtwebengine-webenginewidgets-printme-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a></li>
+                            <li><a href="./webengine-widgetexamples.htm" translate="no">Qt WebEngine Widgets Examples</a></li>
+                            <li><a>WebEngine Widgets PrintMe Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">WebEngine Widgets PrintMe Example</h1>
+<span class="subtitle"></span>
+<!-- $$$webenginewidgets/printme-brief -->
+<p>Demonstrates how to print web pages using Qt <a href="./qml-qtwebengine-webengine.htm" translate="no">WebEngine</a> Widgets.</p>
+<!-- @@@webenginewidgets/printme -->
+<!-- $$$webenginewidgets/printme-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/printme-example.png"></p><p><i>PrintMe</i> demonstrates how to use the <a href="./qwebenginepage.htm" translate="no">QWebEnginePage</a> and <a href="./qprintdialog.htm" translate="no">QPrintDialog</a> classes to print a web page. Further, it shows how to implement print preview by using the <a href="./qprintpreviewdialog.htm" translate="no">QPrintPreviewDialog</a> class. For completeness, it also illustrates how to trigger a printing request within JavaScript.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="simple-html-page"></a>
+<h4 id="simple-html-page">Simple HTML Page<a class="plink" href="#simple-html-page" title="Direct link to this headline"></a></h4>
+<p>In this example, we create an internal HTML page that is added as a resource collection file (.qrc). The page shows only a small HTML message box that explains how to trigger printing by using keyboard shortcuts or clicking a button. The button has the JavaScript <code translate="no">onclick</code> event attribute that calls the JavaScript <code translate="no">window.print()</code> function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;html lang="en"&gt;
+   &lt;head&gt;
+      &lt;meta charset="utf-8"&gt;
+      &lt;title&gt;PrintMe&lt;/title&gt;
+      &lt;link rel="stylesheet" type="text/css" href="style.css"&gt;
+      &lt;script&gt;
+      function printNow() {
+         window.print();
+      }
+      &lt;/script&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+      &lt;form class="form"&gt;
+         &lt;img class="logo" src="icon.svg" alt="qtwebengine"&gt;
+         &lt;div class="header"&gt;
+            &lt;h1&gt;Hello Paper World!&lt;/h1&gt;
+            &lt;h2&gt;Press Ctrl+p to print with print preview&lt;/h2&gt;
+            &lt;h2&gt;Press Ctrl+Shift+p to print without print preview&lt;/h2&gt;
+            &lt;h2&gt;Click the button to print using JavaScript&lt;/h2&gt;
+            &lt;p class="button" onclick="printNow()"&gt;Print Now&lt;/p&gt;
+      &lt;/form&gt;
+   &lt;/body&gt;
+&lt;/html&gt;</pre></div>
+<a name="main-function"></a>
+<h4 id="main-function">Main Function<a class="plink" href="#main-function" title="Direct link to this headline"></a></h4>
+<p>In the <code translate="no">main</code> function, we first instantiate a <a href="./qwebengineview.htm" translate="no">QWebEngineView</a> and set the URL to our internal HTML page. Next, we create a <code translate="no">PrintHandler</code> instance and pass the requested page. For convenience, we also create keyboard shortcuts that can be used to call a print dialog or print preview dialog.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qwebengineview.htm" translate="no">QWebEngineView</a></span> view;
+    view<span class="operator">.</span>setUrl(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"qrc:/index.html"</span>)));
+    view<span class="operator">.</span>resize(<span class="number">1024</span><span class="operator">,</span> <span class="number">750</span>);
+    view<span class="operator">.</span>show();
+
+    PrintHandler handler;
+    handler<span class="operator">.</span>setPage(view<span class="operator">.</span>page());
+
+    <span class="keyword">auto</span> printPreviewShortCut <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qshortcut.htm" translate="no">QShortcut</a></span>(<span class="type"><a href="./qkeysequence.htm" translate="no">QKeySequence</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CTRL <span class="operator">+</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_P)<span class="operator">,</span> <span class="operator">&amp;</span>view);
+    <span class="keyword">auto</span> printShortCut <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qshortcut.htm" translate="no">QShortcut</a></span>(<span class="type"><a href="./qkeysequence.htm" translate="no">QKeySequence</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CTRL <span class="operator">+</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>SHIFT <span class="operator">+</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_P)<span class="operator">,</span> <span class="operator">&amp;</span>view);
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(printPreviewShortCut<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qshortcut.htm" translate="no">QShortcut</a></span><span class="operator">::</span>activated<span class="operator">,</span> <span class="operator">&amp;</span>handler<span class="operator">,</span> <span class="operator">&amp;</span>PrintHandler<span class="operator">::</span>printPreview);
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(printShortCut<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qshortcut.htm" translate="no">QShortcut</a></span><span class="operator">::</span>activated<span class="operator">,</span> <span class="operator">&amp;</span>handler<span class="operator">,</span> <span class="operator">&amp;</span>PrintHandler<span class="operator">::</span>print);</pre></div>
+<a name="print-handler"></a>
+<h4 id="print-handler">Print Handler<a class="plink" href="#print-handler" title="Direct link to this headline"></a></h4>
+<p>In the <code translate="no">PrintHandler</code> function, we first implement <code translate="no">printPreview()</code>, where we instantiate <a href="./qprinter.htm" translate="no">QPrinter</a> together with <a href="./qprintpreviewdialog.htm" translate="no">QPrintPreviewDialog</a>. We need the <a href="./qprintpreviewdialog.htm#paintRequested" translate="no">QPrintPreviewDialog::paintRequested</a> handle to generate a set of preview pages.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> PrintHandler<span class="operator">::</span>printPreview()
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>m_page)
+        <span class="keyword">return</span>;
+    <span class="keyword">if</span> (m_inPrintPreview)
+        <span class="keyword">return</span>;
+    m_inPrintPreview <span class="operator">=</span> <span class="keyword">true</span>;
+    <span class="type"><a href="./qprinter.htm" translate="no">QPrinter</a></span> printer;
+    printer<span class="operator">.</span>setResolution(<span class="number">300</span>);
+    <span class="type"><a href="./qprintpreviewdialog.htm" translate="no">QPrintPreviewDialog</a></span> preview(<span class="operator">&amp;</span>printer<span class="operator">,</span> m_page<span class="operator">-</span><span class="operator">&gt;</span>view());
+    connect(<span class="operator">&amp;</span>preview<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qprintpreviewdialog.htm" translate="no">QPrintPreviewDialog</a></span><span class="operator">::</span>paintRequested<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>PrintHandler<span class="operator">::</span>printDocument);
+    preview<span class="operator">.</span>exec();
+    m_inPrintPreview <span class="operator">=</span> <span class="keyword">false</span>;
+}</pre></div>
+<p>Now we can implement the <code translate="no">PrintHandler::printDocument()</code> slot, which is called in response to the <a href="./qprintpreviewdialog.htm#paintRequested" translate="no">QPrintPreviewDialog::paintRequested</a> signal.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> PrintHandler<span class="operator">::</span>printDocument(<span class="type"><a href="./qprinter.htm" translate="no">QPrinter</a></span> <span class="operator">*</span>printer)
+{
+    <span class="type"><a href="./qeventloop.htm" translate="no">QEventLoop</a></span> loop;
+    bool result;
+    <span class="keyword">auto</span> printPreview <span class="operator">=</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(bool success) { result <span class="operator">=</span> success; loop<span class="operator">.</span>quit(); };
+    m_page<span class="operator">-</span><span class="operator">&gt;</span>print(printer<span class="operator">,</span> std<span class="operator">::</span>move(printPreview));
+    loop<span class="operator">.</span>exec();
+    <span class="keyword">if</span> (<span class="operator">!</span>result) {
+        <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter;
+        <span class="keyword">if</span> (painter<span class="operator">.</span>begin(printer)) {
+            <span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> font <span class="operator">=</span> painter<span class="operator">.</span>font();
+            font<span class="operator">.</span>setPixelSize(<span class="number">20</span>);
+            painter<span class="operator">.</span>setFont(font);
+            painter<span class="operator">.</span>drawText(<span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">10</span><span class="operator">,</span><span class="number">25</span>)<span class="operator">,</span>
+                             <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Could not generate print preview."</span>));
+
+            painter<span class="operator">.</span>end();
+        }
+    }
+}</pre></div>
+<p>To do actual painting on a printer, we call the <a href="./qwebenginepage.htm#print" translate="no">QWebEnginePage::print</a>() function. Because this call blocks the main event loop, we need to create a local one. We begin the local event loop by calling <a href="./qeventloop.htm#exec" translate="no">QEventLoop::exec</a>(). When the local event loop terminates, we check for <code translate="no">result</code> and report any errors that occurred.</p>
+<p>The last function we implement, <code translate="no">PrintHandler::print()</code>, is trivial, because it simply opens <a href="./qprintdialog.htm" translate="no">QPrintDialog</a> and calls the previously implemented <code translate="no">PrintHandler::printDocument()</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> PrintHandler<span class="operator">::</span>print()
+{
+    <span class="type"><a href="./qprinter.htm" translate="no">QPrinter</a></span> printer(<span class="type"><a href="./qprinter.htm" translate="no">QPrinter</a></span><span class="operator">::</span>HighResolution);
+    <span class="type"><a href="./qprintdialog.htm" translate="no">QPrintDialog</a></span> dialog(<span class="operator">&amp;</span>printer<span class="operator">,</span> m_page<span class="operator">-</span><span class="operator">&gt;</span>view());
+    <span class="keyword">if</span> (dialog<span class="operator">.</span>exec() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span><span class="operator">::</span>Accepted)
+        <span class="keyword">return</span>;
+    printDocument(<span class="operator">&amp;</span>printer);
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/examples/webenginewidgets/printme?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@webenginewidgets/printme -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,188 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PropertyChanges QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-propertychanges.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>PropertyChanges QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">PropertyChanges QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$PropertyChanges-brief -->
+<p>Describes new property bindings or values for a state. <a href="#details">More...</a></p>
+<!-- @@@PropertyChanges -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-propertychanges-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-propertychanges.htm#explicit-prop" translate="no">explicit</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-propertychanges.htm#restoreEntryValues-prop" translate="no">restoreEntryValues</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-propertychanges.htm#target-prop" translate="no">target</a></b></b> : Object</li>
+</ul>
+<!-- $$$PropertyChanges-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>PropertyChanges is used to define the property values or bindings in a <a href="./qml-qtquick-state.htm" translate="no">State</a>. This enables an item's property values to be changed when it <a href="./qtquick-statesanimations-states.htm" translate="no">changes between states</a>.</p>
+<p>To create a PropertyChanges object, specify the <a href="./qml-qtquick-propertychanges.htm#target-prop" translate="no">target</a> item whose properties are to be modified, and define the new property values or bindings. For example:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">id</span>: <span class="name">container</span>
+    <span class="name">width</span>: <span class="number">300</span>; <span class="name">height</span>: <span class="number">300</span>
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">rect</span>
+        <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>
+        <span class="name">color</span>: <span class="string">"red"</span>
+
+        <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+           <span class="name">id</span>: <span class="name">mouseArea</span>
+           <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        }
+
+        <span class="name">states</span>: <span class="name">State</span> {
+           <span class="name">name</span>: <span class="string">"resized"</span>; <span class="name">when</span>: <span class="name">mouseArea</span>.<span class="name">pressed</span>
+           <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">rect</span>; <span class="name">color</span>: <span class="string">"blue"</span>; <span class="name">height</span>: <span class="name">container</span>.<span class="name">height</span> }
+        }
+    }
+}</pre></div>
+<p>When the mouse is pressed, the <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> changes to the <i>resized</i> state. In this state, the PropertyChanges object sets the rectangle's color to blue and the <code translate="no">height</code> value to that of <code translate="no">container.height</code>.</p>
+<p>Note this automatically binds <code translate="no">rect.height</code> to <code translate="no">container.height</code> in the <i>resized</i> state. If a property binding should not be established, and the height should just be set to the value of <code translate="no">container.height</code> at the time of the state change, set the <a href="./qml-qtquick-propertychanges.htm#explicit-prop" translate="no">explicit</a> property to <code translate="no">true</code>.</p>
+<p>A PropertyChanges object can also override the default signal handler for an object to implement a signal handler specific to the new state:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+    <span class="name">target</span>: <span class="name">myMouseArea</span>
+    <span class="name">onClicked</span>: <span class="name">doSomethingDifferent</span>()
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>PropertyChanges can be used to change anchor margins, but not other anchor values; use <a href="./qml-qtquick-anchorchanges.htm" translate="no">AnchorChanges</a> for this instead. Similarly, to change an <a href="./qml-qtquick-item.htm" translate="no">Item</a>'s <a href="./qml-qtquick-item.htm#parent-prop" translate="no">parent</a> value, use <a href="./qml-qtquick-parentchange.htm" translate="no">ParentChange</a> instead.</p>
+</div>
+<a name="resetting-property-values"></a>
+<h3 id="resetting-property-values">Resetting Property Values<a class="plink" href="#resetting-property-values" title="Direct link to this headline"></a></h3>
+<p>The <code translate="no">undefined</code> value can be used to reset the property value for a state. In the following example, when <code translate="no">myText</code> changes to the <i>widerText</i> state, its <code translate="no">width</code> property is reset, giving the text its natural width and displaying the whole string on a single line.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">300</span>; <span class="name">height</span>: <span class="number">200</span>
+
+    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">id</span>: <span class="name">myText</span>
+        <span class="name">width</span>: <span class="number">50</span>
+        <span class="name">wrapMode</span>: <span class="name">Text</span>.<span class="name">WordWrap</span>
+        <span class="name">text</span>: <span class="string">"a text string that is longer than 50 pixels"</span>
+
+        <span class="name">states</span>: <span class="name">State</span> {
+            <span class="name">name</span>: <span class="string">"widerText"</span>
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">myText</span>; <span class="name">width</span>: <span class="name">undefined</span> }
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">onClicked</span>: <span class="name">myText</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">"widerText"</span>
+    }
+}</pre></div>
+<a name="immediate-property-changes-in-transitions"></a>
+<h3 id="immediate-property-changes-in-transitions">Immediate Property Changes in Transitions<a class="plink" href="#immediate-property-changes-in-transitions" title="Direct link to this headline"></a></h3>
+<p>When <a href="./qtquick-statesanimations-animations.htm" translate="no">Transitions</a> are used to animate state changes, they animate properties from their values in the current state to those defined in the new state (as defined by PropertyChanges objects). However, it is sometimes desirable to set a property value <i>immediately</i> during a <a href="./qmlexampletoggleswitch.htm#transition" translate="no">Transition</a>, without animation; in these cases, the <a href="./qml-qtquick-propertyaction.htm" translate="no">PropertyAction</a> type can be used to force an immediate property change.</p>
+<p>See the <a href="./qml-qtquick-propertyaction.htm" translate="no">PropertyAction</a> documentation for more details.</p>
+<div class="admonition note">
+<p><b>Note: </b>The <a href="./qml-qtquick-item.htm#visible-prop" translate="no">visible</a> and <a href="./qml-qtquick-item.htm#enabled-prop" translate="no">enabled</a> properties of <a href="./qml-qtquick-item.htm" translate="no">Item</a> do not behave exactly the same as other properties in PropertyChanges. Since these properties can be changed implicitly through their parent's state, they should be set explicitly in all PropertyChanges. An item will still not be enabled/visible if one of its parents is not enabled or visible.</p>
+</div>
+<p><b>See also </b><a href="./qtquick-animation-example.htm#states" translate="no">States example</a>, <a href="./qtquick-statesanimations-states.htm" translate="no">Qt Quick States</a>, and <a href="./qtqml-index.htm" translate="no">Qt QML</a>.</p>
+<!-- @@@PropertyChanges -->
+<h2>Property Documentation</h2>
+<!-- $$$explicit -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="explicit-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="explicit-prop"></a><span class="name">explicit</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#explicit-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>If explicit is set to true, any potential bindings will be interpreted as once-off assignments that occur when the state is entered.</p>
+<p>In the following example, the addition of explicit prevents <code translate="no">myItem.width</code> from being bound to <code translate="no">parent.width</code>. Instead, it is assigned the value of <code translate="no">parent.width</code> at the time of the state change.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+    <span class="name">target</span>: <span class="name">myItem</span>
+    <span class="name">explicit</span>: <span class="number">true</span>
+    <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+}</pre></div>
+<p>By default, explicit is false.</p>
+</div></div><!-- @@@explicit -->
+<br>
+<!-- $$$restoreEntryValues -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="restoreEntryValues-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="restoreEntryValues-prop"></a><span class="name">restoreEntryValues</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#restoreEntryValues-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether the previous values should be restored when leaving the state.</p>
+<p>The default value is <code translate="no">true</code>. Setting this value to <code translate="no">false</code> creates a temporary state that has permanent effects on property values.</p>
+</div></div><!-- @@@restoreEntryValues -->
+<br>
+<!-- $$$target -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="target-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="target-prop"></a><span class="name">target</span> : <span class="type">Object</span><a class="plink" href="#target-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the object which contains the properties to be changed.</p>
+</div></div><!-- @@@target -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

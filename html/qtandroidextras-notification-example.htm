@@ -1,0 +1,160 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Notifier | Qt Android Extras</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a></li>
+                            <li><a href="./examples-qtandroidextras.htm" translate="no">Qt Android Extras Examples</a></li>
+                            <li><a>Qt Notifier</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Notifier</h1>
+<span class="subtitle"></span>
+<!-- $$$notification-brief -->
+<p>Demonstrates calling Java code from an Android application.</p>
+<!-- @@@notification -->
+<!-- $$$notification-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/notification.png"></p><p>This example demonstrates how to add a custom Java class to an Android application, and how to call into this using the JNI convenience APIs in the Qt Android Extras module. The application UI is created by using Qt Quick.</p>
+<p>Click on either of the smiley faces to put a notification in the status area of the Android device.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="calling-java-methods-from-c-code"></a>
+<h4 id="calling-java-methods-from-c-code">Calling Java Methods from C++ Code<a class="plink" href="#calling-java-methods-from-c-code" title="Direct link to this headline"></a></h4>
+<p>We define a custom Java class called <code translate="no">NotificationClient</code> in the NotificationClient.java file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">package org.qtproject.example.notification;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.app.PendingIntent;
+import android.graphics.Color;
+import android.graphics.BitmapFactory;
+import android.app.NotificationChannel;
+
+public class NotificationClient
+{
+    private static NotificationManager m_notificationManager;
+    private static Notification.Builder m_builder;
+
+    public NotificationClient() {}
+
+    public static void notify(Context context, String message) {
+        try {
+            m_notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            if (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.O) {
+                int importance = NotificationManager.IMPORTANCE_DEFAULT;
+                NotificationChannel notificationChannel = new NotificationChannel("Qt", "Qt Notifier", importance);
+                m_notificationManager.createNotificationChannel(notificationChannel);
+                m_builder = new Notification.Builder(context, notificationChannel.getId());
+            } else {
+                m_builder = new Notification.Builder(context);
+            }
+
+            m_builder.setSmallIcon(R.drawable.icon)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
+                    .setContentTitle("A message from Qt!")
+                    .setContentText(message)
+                    .setDefaults(Notification.DEFAULT_SOUND)
+                    .setColor(Color.GREEN)
+                    .setAutoCancel(true);
+
+            m_notificationManager.notify(0, m_builder.build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</pre></div>
+<p>In the NotificationClient C++ class header file, notificationclient.h, we declare a simple C++ API to display notifications on an Android device. It consists of a single string property, <code translate="no">notification</code>, and a slot, <code translate="no">updateAndroidNotification()</code>, that calls the Java code:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> notification READ notification WRITE setNotification NOTIFY notificationChanged)
+    ...
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> updateAndroidNotification();</pre></div>
+<p>A NotificationClient object is exposed to the QML in the main source file, main.cpp:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qquickview.htm" translate="no">QQuickView</a></span> view;
+
+    NotificationClient <span class="operator">*</span>notificationClient <span class="operator">=</span> <span class="keyword">new</span> NotificationClient(<span class="operator">&amp;</span>view);
+    view<span class="operator">.</span>engine()<span class="operator">-</span><span class="operator">&gt;</span>rootContext()<span class="operator">-</span><span class="operator">&gt;</span>setContextProperty(QLatin1String(<span class="string">"notificationClient"</span>)<span class="operator">,</span>
+                                                     notificationClient);</pre></div>
+<p>In the NotificationClient C++ class source file, notificationclient.cpp, we import the <a href="./qtandroid.htm" translate="no">QtAndroid</a> class:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtAndroid&gt;</span></pre></div>
+<p>This will allow us to use <code translate="no">QAndroidJniObject</code> for JNI calls, and also allow us to pass our application's context to the Java methods as in:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qtandroid.htm" translate="no">QtAndroid</a></span><span class="operator">::</span>androidContext()<span class="operator">.</span>object()</pre></div>
+<p>We connect the <code translate="no">notificationChanged()</code> signal to the <code translate="no">updateAndroidNotification()</code> slot to update the notification text when the <code translate="no">notification</code> property changes:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">NotificationClient<span class="operator">::</span>NotificationClient(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>(parent)
+{
+    connect(<span class="keyword">this</span><span class="operator">,</span> SIGNAL(notificationChanged())<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> SLOT(updateAndroidNotification()));
+}</pre></div>
+<p>The <code translate="no">NotificationClient::updateAndroidNotification()</code> function calls the Java method. We construct a Java string from the <code translate="no">notification</code> string property:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> NotificationClient<span class="operator">::</span>updateAndroidNotification()
+{
+    <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span> javaNotification <span class="operator">=</span> <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span><span class="operator">::</span>fromString(m_notification);</pre></div>
+<p>And pass the string object as a parameter to the Java <code translate="no">notify()</code> method. Note that we must supply the signature ourselves:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qandroidjniobject.htm" translate="no">QAndroidJniObject</a></span><span class="operator">::</span>callStaticMethod<span class="operator">&lt;</span><span class="type">void</span><span class="operator">&gt;</span>(
+        <span class="string">"org/qtproject/example/notification/NotificationClient"</span><span class="operator">,</span>
+        <span class="string">"notify"</span><span class="operator">,</span>
+        <span class="string">"(Landroid/content/Context;Ljava/lang/String;)V"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtandroid.htm" translate="no">QtAndroid</a></span><span class="operator">::</span>androidContext()<span class="operator">.</span>object()<span class="operator">,</span>
+        javaNotification<span class="operator">.</span>object<span class="operator">&lt;</span>jstring<span class="operator">&gt;</span>());
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtandroidextras.git/tree/examples/androidextras/notification?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<p><b>See also </b><a href="./android.htm" translate="no">Qt for Android</a> and <a href="./qtandroidextras-index.htm" translate="no">Qt Android Extras</a>.</p>
+<!-- @@@notification -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,184 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wiggly Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-widgets.htm" translate="no">Qt Widgets Examples</a></li>
+                            <li><a>Wiggly Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Wiggly Example</h1>
+<span class="subtitle"></span>
+<!-- $$$widgets/wiggly-brief -->
+<p>The Wiggly example shows how to animate a widget using <a href="./qbasictimer.htm" translate="no">QBasicTimer</a> and <a href="./qobject.htm#timerEvent" translate="no">timerEvent()</a>. In addition, the example demonstrates how to use <a href="./qfontmetrics.htm" translate="no">QFontMetrics</a> to determine the size of text on screen.</p>
+<!-- @@@widgets/wiggly -->
+<!-- $$$widgets/wiggly-description -->
+<div class="descr"> <a name="details"></a>
+<div class="border"><p class="centerAlign"><img alt="" src="./images/wiggly-example.png"></p></div><p class="figCaption">Screenshot of the Wiggly example</p>
+<p><a href="./qbasictimer.htm" translate="no">QBasicTimer</a> is a low-level class for timers. Unlike <a href="./qtimer.htm" translate="no">QTimer</a>, <a href="./qbasictimer.htm" translate="no">QBasicTimer</a> doesn't inherit from <a href="./qobject.htm" translate="no">QObject</a>; instead of emitting a <a href="./qtimer.htm#timeout" translate="no">timeout()</a> signal when a certain amount of time has passed, it sends a <a href="./qtimerevent.htm" translate="no">QTimerEvent</a> to a <a href="./qobject.htm" translate="no">QObject</a> of our choice. This makes <a href="./qbasictimer.htm" translate="no">QBasicTimer</a> a more lightweight alternative to <a href="./qtimer.htm" translate="no">QTimer</a>. Qt's built-in widgets use it internally, and it is provided in Qt's API for highly-optimized applications (such as embedded applications).</p>
+<p>The example consists of two classes:</p>
+<ul>
+<li><code translate="no">WigglyWidget</code> is the custom widget displaying the text in a wiggly line.</li>
+<li><code translate="no">Dialog</code> is the dialog widget allowing the user to enter a text. It combines a <code translate="no">WigglyWidget</code> and a <code translate="no">QLineEdit</code>.</li>
+</ul>
+<p>We will first take a quick look at the <code translate="no">Dialog</code> class, then we will review the <code translate="no">WigglyWidget</code> class.</p>
+<a name="dialog-class-definition"></a>
+<h4 id="dialog-class-definition">Dialog Class Definition<a class="plink" href="#dialog-class-definition" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Dialog : <span class="keyword">public</span> <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> Dialog(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+};</pre></div>
+<p>The <code translate="no">Dialog</code> class provides a dialog widget that allows the user to enter a text. The text is then rendered by <code translate="no">WigglyWidget</code>.</p>
+<a name="dialog-class-implementation"></a>
+<h4 id="dialog-class-implementation">Dialog Class Implementation<a class="plink" href="#dialog-class-implementation" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Dialog<span class="operator">::</span>Dialog(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span>(parent)
+{
+    WigglyWidget <span class="operator">*</span>wigglyWidget <span class="operator">=</span> <span class="keyword">new</span> WigglyWidget;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>lineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+
+    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>layout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>(<span class="keyword">this</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(wigglyWidget);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(lineEdit);
+
+    connect(lineEdit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>textChanged<span class="operator">,</span> wigglyWidget<span class="operator">,</span> <span class="operator">&amp;</span>WigglyWidget<span class="operator">::</span>setText);
+    lineEdit<span class="operator">-</span><span class="operator">&gt;</span>setText(tr(<span class="string">"Hello world!"</span>));
+
+    setWindowTitle(tr(<span class="string">"Wiggly"</span>));
+    resize(<span class="number">360</span><span class="operator">,</span> <span class="number">145</span>);
+}</pre></div>
+<p>In the constructor we create a wiggly widget along with a <a href="./qlineedit.htm" translate="no">line edit</a>, and we put the two widgets in a vertical layout. We connect the line edit's <a href="./qlineedit.htm#textChanged" translate="no">textChanged()</a> signal to the wiggly widget's <code translate="no">setText()</code> slot to obtain the real time interaction with the wiggly widget. The widget's default text is "Hello world!".</p>
+<a name="wigglywidget-class-definition"></a>
+<h4 id="wigglywidget-class-definition">WigglyWidget Class Definition<a class="plink" href="#wigglywidget-class-definition" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> WigglyWidget : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    WigglyWidget(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> setText(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>newText) { text <span class="operator">=</span> newText; }
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>event) override;
+    <span class="type">void</span> timerEvent(<span class="type"><a href="./qtimerevent.htm" translate="no">QTimerEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qbasictimer.htm" translate="no">QBasicTimer</a></span> timer;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> text;
+    <span class="type">int</span> step;
+};</pre></div>
+<p>The <code translate="no">WigglyWidget</code> class provides the wiggly line displaying the text. We subclass <a href="./qwidget.htm" translate="no">QWidget</a> and reimplement the standard <a href="./qwidget.htm#paintEvent" translate="no">paintEvent()</a> and <a href="./qobject.htm#timerEvent" translate="no">timerEvent()</a> functions to draw and update the widget. In addition we implement a public <code translate="no">setText()</code> slot that sets the widget's text.</p>
+<p>The <code translate="no">timer</code> variable, of type <a href="./qbasictimer.htm" translate="no">QBasicTimer</a>, is used to update the widget at regular intervals, making the widget move. The <code translate="no">text</code> variable is used to store the currently displayed text, and <code translate="no">step</code> to calculate position and color for each character on the wiggly line.</p>
+<a name="wigglywidget-class-implementation"></a>
+<h4 id="wigglywidget-class-implementation">WigglyWidget Class Implementation<a class="plink" href="#wigglywidget-class-implementation" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="cpp prettyprint" translate="no">WigglyWidget<span class="operator">::</span>WigglyWidget(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)<span class="operator">,</span> step(<span class="number">0</span>)
+{
+    setBackgroundRole(<span class="type"><a href="./qpalette.htm" translate="no">QPalette</a></span><span class="operator">::</span>Midlight);
+    setAutoFillBackground(<span class="keyword">true</span>);
+
+    <span class="type"><a href="./qfont.htm" translate="no">QFont</a></span> newFont <span class="operator">=</span> font();
+    newFont<span class="operator">.</span>setPointSize(newFont<span class="operator">.</span>pointSize() <span class="operator">+</span> <span class="number">20</span>);
+    setFont(newFont);
+
+    timer<span class="operator">.</span>start(<span class="number">60</span><span class="operator">,</span> <span class="keyword">this</span>);
+}</pre></div>
+<p>In the constructor, we make the widget's background slightly lighter than the usual background using the <a href="./qpalette.htm#ColorRole-enum" translate="no">QPalette::Midlight</a> color role. The background role defines the brush from the widget's palette that Qt uses to paint the background. Then we enlarge the widget's font with 20 points.</p>
+<p>Finally we start the timer; the call to <a href="./qbasictimer.htm#start" translate="no">QBasicTimer::start</a>() makes sure that <i>this</i> particular wiggly widget will receive the timer events generated when the timer times out (every 60 milliseconds).</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> WigglyWidget<span class="operator">::</span>paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span> <span class="comment">/* event */</span>)
+{
+    <span class="keyword">static</span> constexpr <span class="type">int</span> sineTable<span class="operator">[</span><span class="number">16</span><span class="operator">]</span> <span class="operator">=</span> {
+        <span class="number">0</span><span class="operator">,</span> <span class="number">38</span><span class="operator">,</span> <span class="number">71</span><span class="operator">,</span> <span class="number">92</span><span class="operator">,</span> <span class="number">100</span><span class="operator">,</span> <span class="number">92</span><span class="operator">,</span> <span class="number">71</span><span class="operator">,</span> <span class="number">38</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="operator">-</span><span class="number">38</span><span class="operator">,</span> <span class="operator">-</span><span class="number">71</span><span class="operator">,</span> <span class="operator">-</span><span class="number">92</span><span class="operator">,</span> <span class="operator">-</span><span class="number">100</span><span class="operator">,</span> <span class="operator">-</span><span class="number">92</span><span class="operator">,</span> <span class="operator">-</span><span class="number">71</span><span class="operator">,</span> <span class="operator">-</span><span class="number">38</span>
+    };
+
+    <span class="type"><a href="./qfontmetrics.htm" translate="no">QFontMetrics</a></span> metrics(font());
+    <span class="type">int</span> x <span class="operator">=</span> (width() <span class="operator">-</span> metrics<span class="operator">.</span>horizontalAdvance(text)) <span class="operator">/</span> <span class="number">2</span>;
+    <span class="type">int</span> y <span class="operator">=</span> (height() <span class="operator">+</span> metrics<span class="operator">.</span>ascent() <span class="operator">-</span> metrics<span class="operator">.</span>descent()) <span class="operator">/</span> <span class="number">2</span>;
+    <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> color;</pre></div>
+<p>The <code translate="no">paintEvent()</code> function is called whenever a <a href="./qpaintevent.htm" translate="no">QPaintEvent</a> is sent to the widget. Paint events are sent to widgets that need to update themselves, for instance when part of a widget is exposed because a covering widget was moved. For the wiggly widget, a paint event will also be generated every 60 milliseconds from the <code translate="no">timerEvent()</code> slot.</p>
+<p>The <code translate="no">sineTable</code> represents y-values of the sine curve, multiplied by 100. It is used to make the wiggly widget move along the sine curve.</p>
+<p>The <a href="./qfontmetrics.htm" translate="no">QFontMetrics</a> object provides information about the widget's font. The <code translate="no">x</code> variable is the horizontal position where we start drawing the text. The <code translate="no">y</code> variable is the vertical position of the text's base line. Both variables are computed so that the text is horizontally and vertically centered. To compute the base line, we take into account the font's ascent (the height of the font above the base line) and font's descent (the height of the font below the base line). If the descent equals the ascent, they cancel out each other and the base line is at <code translate="no">height()</code> / 2.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter(<span class="keyword">this</span>);
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> text<span class="operator">.</span>size(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="type">int</span> index <span class="operator">=</span> (step <span class="operator">+</span> i) <span class="operator">%</span> <span class="number">16</span>;
+        color<span class="operator">.</span>setHsv((<span class="number">15</span> <span class="operator">-</span> index) <span class="operator">*</span> <span class="number">16</span><span class="operator">,</span> <span class="number">255</span><span class="operator">,</span> <span class="number">191</span>);
+        painter<span class="operator">.</span>setPen(color);
+        painter<span class="operator">.</span>drawText(x<span class="operator">,</span> y <span class="operator">-</span> ((sineTable<span class="operator">[</span>index<span class="operator">]</span> <span class="operator">*</span> metrics<span class="operator">.</span>height()) <span class="operator">/</span> <span class="number">400</span>)<span class="operator">,</span>
+                         <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(text<span class="operator">[</span>i<span class="operator">]</span>));
+        x <span class="operator">+</span><span class="operator">=</span> metrics<span class="operator">.</span>horizontalAdvance(text<span class="operator">[</span>i<span class="operator">]</span>);
+    }
+}</pre></div>
+<p>Each time the <code translate="no">paintEvent()</code> function is called, we create a <a href="./qpainter.htm" translate="no">QPainter</a> object <code translate="no">painter</code> to draw the contents of the widget. For each character in <code translate="no">text</code>, we determine the color and the position on the wiggly line based on <code translate="no">step</code>. In addition, <code translate="no">x</code> is incremented by the character's width.</p>
+<p>For simplicity, we assume that <a href="./qfontmetrics.htm#horizontalAdvance" translate="no">QFontMetrics::horizontalAdvance</a>(<code translate="no">text</code>) returns the sum of the individual character advances (<a href="./qfontmetrics.htm#horizontalAdvance" translate="no">QFontMetrics::horizontalAdvance</a>(<code translate="no">text[i]</code>)). In practice, this is not always the case because <a href="./qfontmetrics.htm#horizontalAdvance" translate="no">QFontMetrics::horizontalAdvance</a>(<code translate="no">text</code>) also takes into account the kerning between certain letters (e.g., 'A' and 'V'). The result is that the text isn't perfectly centered. You can verify this by typing "AVAVAVAVAVAV" in the line edit.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> WigglyWidget<span class="operator">::</span>timerEvent(<span class="type"><a href="./qtimerevent.htm" translate="no">QTimerEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>timerId() <span class="operator">=</span><span class="operator">=</span> timer<span class="operator">.</span>timerId()) {
+        <span class="operator">+</span><span class="operator">+</span>step;
+        update();
+    } <span class="keyword">else</span> {
+        <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">::</span>timerEvent(event);
+    }</pre></div>
+<p>The <code translate="no">timerEvent()</code> function receives all the timer events that are generated for this widget. If a timer event is sent from the widget's <a href="./qbasictimer.htm" translate="no">QBasicTimer</a>, we increment <code translate="no">step</code> to make the text move, and call <a href="./qwidget.htm#update" translate="no">QWidget::update</a>() to refresh the display. Any other timer event is passed on to the base class's implementation of the <a href="./qobject.htm#timerEvent" translate="no">timerEvent()</a> function.</p>
+<p>The <a href="./qwidget.htm#update" translate="no">QWidget::update</a>() slot does not cause an immediate repaint; instead the slot schedules a paint event for processing when Qt returns to the main event loop. The paint events are then handled by <code translate="no">WigglyWidget</code>'s <code translate="no">paintEvent()</code> function.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/wiggly?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@widgets/wiggly -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

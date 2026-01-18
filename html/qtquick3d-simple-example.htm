@@ -1,0 +1,138 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick 3D - Simple Example | Qt Quick 3D</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick3d-index.htm" translate="no">Qt Quick 3D</a></li>
+                            <li><a href="./quick3d-examples.htm" translate="no">Qt Quick 3D Examples and Tutorials</a></li>
+                            <li class="last"><a>Qt Quick 3D - Simple Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick 3D - Simple Example</h1>
+<span class="subtitle"></span>
+<!-- $$$simple-brief -->
+<p>Demonstrates how to render a simple scene in Qt Quick 3D.</p>
+<!-- @@@simple -->
+<!-- $$$simple-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/simple.png"></p><p><i>Simple</i> demonstrates how to render a scene in Qt Quick 3D.</p>
+<a name="setting-up-the-scene"></a>
+<h4 id="setting-up-the-scene">Setting Up the Scene<a class="plink" href="#setting-up-the-scene" title="Direct link to this headline"></a></h4>
+<p>We set up the entire scene in the <i>main.qml</i> file.</p>
+<p>To be able to use the types in the <a href="./qtquick3d-qmlmodule.htm" translate="no">QtQuick3D</a> module, we must import it:</p>
+<div class="pre"><pre class="cpp" translate="no">import QtQuick3D 1.15</pre></div>
+<p>First of all, we define the environment of our simple scene. We just clear the background color with 'skyblue' in this example.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">environment</span>: <span class="name">SceneEnvironment</span> {
+    <span class="name">clearColor</span>: <span class="string">"skyblue"</span>
+    <span class="name">backgroundMode</span>: <span class="name">SceneEnvironment</span>.<span class="name">Color</span>
+}</pre></div>
+<p>And then, we define a camera which represents the viewport of the rendered scene. In this example, we use <a href="./qml-qtquick3d-perspectivecamera.htm" translate="no">PerspectiveCamera</a> which shows perspective viewport in a general 3D scene. Because we want to define some objects around origin, we move this camera to the rear position and rotate slightly.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick3d-perspectivecamera.htm" translate="no">PerspectiveCamera</a></span> {
+    <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, <span class="number">200</span>, <span class="number">300</span>)
+    <span class="name">eulerRotation</span>.x: -<span class="number">30</span>
+}</pre></div>
+<p>For the objects in the scene to be rendered correctly we need to add a light source, in this example we'll be using a <a href="./qml-qtquick3d-directionallight.htm" translate="no">DirectionalLight</a></p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick3d-directionallight.htm" translate="no">DirectionalLight</a></span> {
+    <span class="name">eulerRotation</span>.x: -<span class="number">30</span>
+    <span class="name">eulerRotation</span>.y: -<span class="number">70</span>
+}</pre></div>
+<a name="draw-simple-objects"></a>
+<h4 id="draw-simple-objects">Draw Simple Objects<a class="plink" href="#draw-simple-objects" title="Direct link to this headline"></a></h4>
+<p>Now, we draw some built-in objects. In this example, we draw a red cylinder and a blue sphere using <a href="./qml-qtquick3d-model.htm" translate="no">Model</a>. However, just drawing objects is too simple, so we make a round plate with the red cylinder and add bouncing animation for the sphere.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+    <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, -<span class="number">200</span>, <span class="number">0</span>)
+    <span class="name">source</span>: <span class="string">"#Cylinder"</span>
+    <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">2</span>, <span class="number">0.2</span>, <span class="number">1</span>)
+    <span class="name">materials</span>: [ <span class="type"><a href="./qml-qtquick3d-defaultmaterial.htm" translate="no">DefaultMaterial</a></span> {
+            <span class="name">diffuseColor</span>: <span class="string">"red"</span>
+        }
+    ]
+}
+
+<span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+    <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, <span class="number">150</span>, <span class="number">0</span>)
+    <span class="name">source</span>: <span class="string">"#Sphere"</span>
+
+    <span class="name">materials</span>: [ <span class="type"><a href="./qml-qtquick3d-defaultmaterial.htm" translate="no">DefaultMaterial</a></span> {
+            <span class="name">diffuseColor</span>: <span class="string">"blue"</span>
+        }
+    ]
+
+    SequentialAnimation on <span class="name">y</span> {
+        <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">duration</span>: <span class="number">3000</span>
+            <span class="name">to</span>: -<span class="number">150</span>
+            <span class="name">from</span>: <span class="number">150</span>
+            <span class="name">easing</span>.type:<span class="name">Easing</span>.<span class="name">InQuad</span>
+        }
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">duration</span>: <span class="number">3000</span>
+            <span class="name">to</span>: <span class="number">150</span>
+            <span class="name">from</span>: -<span class="number">150</span>
+            <span class="name">easing</span>.type:<span class="name">Easing</span>.<span class="name">OutQuad</span>
+        }
+    }
+}</pre></div>
+<p>Files:</p>
+<ul>
+<li><a href="./qtquick3d-simple-main-cpp.htm" translate="no">simple/main.cpp</a></li>
+<li><a href="./qtquick3d-simple-main-qml.htm" translate="no">simple/main.qml</a></li>
+<li><a href="./qtquick3d-simple-qml-qrc.htm" translate="no">simple/qml.qrc</a></li>
+<li><a href="./qtquick3d-simple-simple-pro.htm" translate="no">simple/simple.pro</a></li>
+</ul>
+</div>
+<!-- @@@simple -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

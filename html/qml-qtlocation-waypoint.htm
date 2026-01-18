@@ -1,0 +1,188 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Waypoint QML Type | Qt Location</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>Waypoint QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Waypoint QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Waypoint-brief -->
+<p>The Waypoint type provides a mean to specify a waypoint in a <a href="./qml-qtlocation-routequery.htm" translate="no">RouteQuery</a> in a more detailed way than by using a simple <a href="./qml-qtlocation-waypoint.htm#coordinate-prop" translate="no">coordinate</a>. <a href="#details">More...</a></p>
+<!-- @@@Waypoint -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtLocation 5.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtLocation 5.11</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtlocation-waypoint-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-waypoint.htm#altitude-prop" translate="no">altitude</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-waypoint.htm#bearing-prop" translate="no">bearing</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-waypoint.htm#coordinate-prop" translate="no">coordinate</a></b></b> : coordinate</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-waypoint.htm#latitude-prop" translate="no">latitude</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-waypoint.htm#longitude-prop" translate="no">longitude</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-waypoint.htm#metadata-prop" translate="no">metadata</a></b></b> : VariantMap</li>
+</ul>
+<!-- $$$Waypoint-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A Waypoint is a type that allows to specify properties of a waypoint in a <a href="./qml-qtlocation-routequery.htm" translate="no">RouteQuery</a>, such as the waypoint coordinate, or the angle of approach to the waypoint.</p>
+<p>Additional information that are backend-specific can be specified by nesting <a href="./qml-qtlocation-mapparameter.htm" translate="no">MapParameter</a> elements.</p>
+<p>Changing properties of the waypoint or of its nested MapParameteters will cause the containing <a href="./qml-qtlocation-routequery.htm" translate="no">RouteQuery</a> to emit the queryDetailsChanged signal.</p>
+<a name="example-usage"></a>
+<h3 id="example-usage">Example Usage<a class="plink" href="#example-usage" title="Direct link to this headline"></a></h3>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Plugin {
+    id: aPlugin
+    name: <span class="string">"osm"</span>
+}
+
+Waypoint {
+    id: waypointStart
+    coordinate: <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+    bearing: <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+}
+Waypoint {
+    id: waypointFinish
+    coordinate: <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+    bearing: <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+}
+
+RouteQuery {
+    id: aQuery
+    Component<span class="operator">.</span>onCompleted: {
+        travelModes <span class="operator">=</span> RouteQuery<span class="operator">.</span>CarTravel
+        addWaypoint(waypointStart)
+        var aWaypoint <span class="operator">=</span> <span class="type"><a href="./qml-qtqml-qt.htm" translate="no">Qt</a></span><span class="operator">.</span>createQmlObject (<span class="char">'import QtLocation 5.11; Waypoint { ... }'</span><span class="operator">,</span> <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>)
+        addWaypoint(aWaypoint)
+        addWaypoint(waypointFinish)
+    }
+}
+
+RouteModel {
+    id: routeModel
+    plugin: aPlugin
+    query: aQuery
+    autoUpdate: <span class="keyword">true</span>
+}</pre></div>
+<p><b>See also </b><a href="./qml-qtlocation-routequery.htm" translate="no">RouteQuery</a>.</p>
+<!-- @@@Waypoint -->
+<h2>Property Documentation</h2>
+<!-- $$$altitude -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="altitude-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="altitude-prop"></a><span class="name">altitude</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#altitude-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The altitude of the waypoint's coordinate. The default value is NaN. Changing this property will affect the <a href="./qml-qtlocation-waypoint.htm#coordinate-prop" translate="no">Waypoint::coordinate</a> property as well.</p>
+</div></div><!-- @@@altitude -->
+<br>
+<!-- $$$bearing -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="bearing-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="bearing-prop"></a><span class="name">bearing</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#bearing-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The bearing specifying the angle of approach of the waypoint, that is the bearing with which the waypoint is to be approached. This information may be used by the provider to filter the road segment the waypoint will be placed on, and, depending on the provider and the <a href="./qgeorouterequest.htm#TravelMode-enum" translate="no">travel mode</a> used, to restrict the maneuvers allowed at the waypoint, potentially making the provider calculating and returning a different route.</p>
+<p>If set to NaN, this value will not be considered.</p>
+<p>The default value is NaN.</p>
+</div></div><!-- @@@bearing -->
+<br>
+<!-- $$$coordinate -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="coordinate-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="coordinate-prop"></a><span class="name">coordinate</span> : <span class="type"><a href="./qml-coordinate.htm" translate="no">coordinate</a></span><a class="plink" href="#coordinate-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The waypoint's coordinate. The default value is undefined.</p>
+</div></div><!-- @@@coordinate -->
+<br>
+<!-- $$$latitude -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="latitude-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="latitude-prop"></a><span class="name">latitude</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#latitude-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The latitude of the waypoint's coordinate. The default value is NaN. Changing this property will affect the <a href="./qml-qtlocation-waypoint.htm#coordinate-prop" translate="no">Waypoint::coordinate</a> property as well.</p>
+</div></div><!-- @@@latitude -->
+<br>
+<!-- $$$longitude -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="longitude-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="longitude-prop"></a><span class="name">longitude</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#longitude-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The longitude of the waypoint's coordinate. The default value is NaN. Changing this property will affect the <a href="./qml-qtlocation-waypoint.htm#coordinate-prop" translate="no">Waypoint::coordinate</a> property as well.</p>
+</div></div><!-- @@@longitude -->
+<br>
+<!-- $$$metadata -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="metadata-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="metadata-prop"></a><span class="qmlreadonly">[read-only] </span><span class="name">metadata</span> : <span class="type">VariantMap</span><a class="plink" href="#metadata-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The waypoint metadata. This property is read only. If the waypoint is defined by the user, these can be set by using MapParameters. If the waypoint comes from the engine via signals, or as part of a read-only route query, the waypoint is intended to be read-only.</p>
+</div></div><!-- @@@metadata -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

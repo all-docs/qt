@@ -1,0 +1,206 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Location QML Types | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtlocation-qmlmodule.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a>Qt Location QML Types</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Qt Location QML Types</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$QtLocation-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview"></a>
+<h2 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h2>
+<p>Provided that a position has been obtained, the Qt Location module can add a <a href="./qml-qtlocation-map.htm" translate="no">Map</a> with Places of Interest (POI) and <a href="./qml-qtlocation-place.htm" translate="no">Places</a>. The user can be made aware of nearby features and related information, displayed on the map. These features can be places of business, entertainment, and so on. They may include paths, roads, or forms of transport, enabling navigation optimization and assistance.</p>
+<p>To perform navigation we need <a href="./qml-qtlocation-route.htm" translate="no">Route</a>s from start to destination. These routes are made up of segments, where each <a href="./qml-qtlocation-routesegment.htm" translate="no">RouteSegment</a> can be considered a navigation subtask; for example, "drive 100 meters", or "turn left". The beginning and end of each segment is a <i>waypoint</i>, that is, one part of the journey.</p>
+<p>A typical use case for the API is a user looking for a particular type of place, such as a restaurant; the user enters a search string into the map application and is presented with a list of results for restaurants "near" the device. The application can then be used to navigate to the chosen destination using a route that is optimized according to features in the environment that may help or hinder the journey. The navigation then proceeds with the user's progress monitored by means of the current location.</p>
+<p>In short, the main QML types and their roles are as follows:</p>
+<ul>
+<li>The <a href="./qml-qtlocation-place.htm" translate="no">Place</a> instances hold information about the destination and surrounding objects, including displayable representations.</li>
+<li>The <a href="./qml-qtlocation-map.htm" translate="no">Map</a> enables the information contained in <a href="./qml-qtlocation-place.htm" translate="no">Place</a> objects to be displayed, panned, zoomed, and so on.</li>
+<li>The <a href="./qml-qtlocation-route.htm" translate="no">Route</a> is be determined by a <i>plugin</i>, with each <a href="./qml-qtlocation-routesegment.htm" translate="no">RouteSegment</a> holding the navigation instructions, guided by the continuously updated current <a href="./qml-qtpositioning-location.htm" translate="no">Location</a>.</li>
+</ul>
+<a name="plugins"></a>
+<h3 id="plugins">Plugins<a class="plink" href="#plugins" title="Direct link to this headline"></a></h3>
+<p><a href="./location-places-qml.htm#plugin" translate="no">Plugin</a>s supply the data required to calculate routes and navigation instructions, and they are typically tied to a specific location-based service. For example, a plugin may allow connecting to a service that provides geocoding and routing information, which can be consumed by the application.</p>
+<p>There may be various GeoServices plugins for various tasks, with some plugins providing more than one service. One QML <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> instance must be created for each GeoService plugin. Plugins are required for routing and geocoding, maps, and places, however the default plugin handles all four of these services. A plugin may require online access or it may support on-board maps and data.</p>
+<div class="admonition note">
+<p><b>Note: </b>Plugins may not provide features such as paging or relevance hints.</p>
+</div>
+<a name="related-information"></a>
+<h3 id="related-information">Related Information<a class="plink" href="#related-information" title="Direct link to this headline"></a></h3>
+<p>The following links provide more information about maps and places:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./location-maps-qml.htm" translate="no">Maps and Navigation</a></td><td>Displaying maps and finding routes</td></tr>
+<tr class="even" valign="top"><td><a href="./location-places-qml.htm" translate="no">Places</a></td><td>Searching for and managing points of interest</td></tr>
+</tbody></table></div>
+<a name="common-qml-types"></a>
+<h2 id="common-qml-types">Common QML Types<a class="plink" href="#common-qml-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-plugin.htm">Plugin</a></p></td><td class="tblDescr"><p>Type describes a Location based services plugin</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-pluginparameter.htm">PluginParameter</a></p></td><td class="tblDescr"><p>Type describes a parameter for a plugin, either geo service Plugin, or position Plugin</p></td></tr>
+</tbody></table></div>
+<a name="maps-qml-types"></a>
+<h2 id="maps-qml-types">Maps QML Types<a class="plink" href="#maps-qml-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-cameracapabilities.htm">CameraCapabilities</a></p></td><td class="tblDescr"><p>Type holds information about the camera capabilities for a specific map type</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-dynamicparameter.htm">DynamicParameter</a></p></td><td class="tblDescr"><p>(previously MapParameter ) type represents a parameter for a Map element, or other elements used in a Map (such as map items, etc.). This type provides a mean to specify plugin-dependent optional dynamic parameters that allow a plugin to extend the runtime API of the module</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-map.htm">Map</a></p></td><td class="tblDescr"><p>Type displays a map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapcircle.htm">MapCircle</a></p></td><td class="tblDescr"><p>Type displays a geographic circle on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mapcircleobject.htm">MapCircleObject</a></p></td><td class="tblDescr"><p>Displays a circle on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapcopyrightnotice.htm">MapCopyrightNotice</a></p></td><td class="tblDescr"><p>Item displays the current valid copyright notice for a Map element</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapgesturearea.htm">MapGestureArea</a></p></td><td class="tblDescr"><p>Type provides Map gesture interaction</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mapiconobject.htm">MapIconObject</a></p></td><td class="tblDescr"><p>Displays an icon on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapitemgroup.htm">MapItemGroup</a></p></td><td class="tblDescr"><p>Type is a container for map items</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapitemview.htm">MapItemView</a></p></td><td class="tblDescr"><p>Used to populate Map from a model</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mapobjectview.htm">MapObjectView</a></p></td><td class="tblDescr"><p>Used to populate Map with map objects from a model</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappinchevent.htm">MapPinchEvent</a></p></td><td class="tblDescr"><p>Type provides basic information about pinch event</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappolygon.htm">MapPolygon</a></p></td><td class="tblDescr"><p>Type displays a polygon on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mappolygonobject.htm">MapPolygonObject</a></p></td><td class="tblDescr"><p>Displays a polygon on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappolyline.htm">MapPolyline</a></p></td><td class="tblDescr"><p>Type displays a polyline on a map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mappolylineobject.htm">MapPolylineObject</a></p></td><td class="tblDescr"><p>Displays a polyline on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapquickitem.htm">MapQuickItem</a></p></td><td class="tblDescr"><p>Type displays an arbitrary Qt Quick object on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maprectangle.htm">MapRectangle</a></p></td><td class="tblDescr"><p>Type displays a rectangle on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maproute.htm">MapRoute</a></p></td><td class="tblDescr"><p>Type displays a Route on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-maprouteobject.htm">MapRouteObject</a></p></td><td class="tblDescr"><p>Displays a geographical route on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maptype.htm">MapType</a></p></td><td class="tblDescr"><p>Type holds information about a map type</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-navigator.htm">Navigator</a></p></td><td class="tblDescr"><p>Type offers functionalities to perform turn-by-turn navigation</p></td></tr>
+</tbody></table></div>
+<a name="navigation-and-routing-qml-types"></a>
+<h2 id="navigation-and-routing-qml-types">Navigation and Routing QML Types<a class="plink" href="#navigation-and-routing-qml-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-route.htm">Route</a></p></td><td class="tblDescr"><p>Type represents one geographical route</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routeleg.htm">RouteLeg</a></p></td><td class="tblDescr"><p>Type represents a leg of a Route, that is the portion of a route between one waypoint and the next</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routemaneuver.htm">RouteManeuver</a></p></td><td class="tblDescr"><p>Type represents the information relevant to the point at which two RouteSegments meet</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routemodel.htm">RouteModel</a></p></td><td class="tblDescr"><p>Type provides access to routes</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routequery.htm">RouteQuery</a></p></td><td class="tblDescr"><p>Type is used to provide query parameters to a RouteModel</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routesegment.htm">RouteSegment</a></p></td><td class="tblDescr"><p>Type represents a segment of a Route</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-waypoint.htm">Waypoint</a></p></td><td class="tblDescr"><p>Type provides a mean to specify a waypoint in a RouteQuery in a more detailed way than by using a simple coordinate</p></td></tr>
+</tbody></table></div>
+<a name="geocoding-qml-types"></a>
+<h2 id="geocoding-qml-types">Geocoding QML Types<a class="plink" href="#geocoding-qml-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-geocodemodel.htm">GeocodeModel</a></p></td><td class="tblDescr"><p>Type provides support for searching operations related to geographic information</p></td></tr>
+</tbody></table></div>
+<a name="places-qml-types"></a>
+<h2 id="places-qml-types">Places QML Types<a class="plink" href="#places-qml-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-category.htm">Category</a></p></td><td class="tblDescr"><p>Type represents a category that a Place can be associated with</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-categorymodel.htm">CategoryModel</a></p></td><td class="tblDescr"><p>Type provides a model of the categories supported by a Plugin</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-contactdetail.htm">ContactDetail</a></p></td><td class="tblDescr"><p>Type holds a contact detail such as a phone number or a website address</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-contactdetails.htm">ContactDetails</a></p></td><td class="tblDescr"><p>Type holds contact details for a Place</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-editorialmodel.htm">EditorialModel</a></p></td><td class="tblDescr"><p>Type provides a model of place editorials</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-extendedattributes.htm">ExtendedAttributes</a></p></td><td class="tblDescr"><p>Type holds additional data about a Place</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-icon.htm">Icon</a></p></td><td class="tblDescr"><p>Type represents an icon image source which can have multiple sizes</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-imagemodel.htm">ImageModel</a></p></td><td class="tblDescr"><p>Type provides a model of place images</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-place.htm">Place</a></p></td><td class="tblDescr"><p>Type represents a location that is a position of interest</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placeattribute.htm">PlaceAttribute</a></p></td><td class="tblDescr"><p>Type holds generic place attribute information</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placesearchmodel.htm">PlaceSearchModel</a></p></td><td class="tblDescr"><p>Provides access to place search results</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placesearchsuggestionmodel.htm">PlaceSearchSuggestionModel</a></p></td><td class="tblDescr"><p>Provides access to search term suggestions</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-ratings.htm">Ratings</a></p></td><td class="tblDescr"><p>Type holds place rating information</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-reviewmodel.htm">ReviewModel</a></p></td><td class="tblDescr"><p>Provides access to reviews of a Place</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-supplier.htm">Supplier</a></p></td><td class="tblDescr"><p>Holds data regarding the supplier of a place, a place's image, review, or editorial</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-user.htm">User</a></p></td><td class="tblDescr"><p>Type identifies a user who contributed a particular Place content item</p></td></tr>
+</tbody></table></div>
+<a name="alphabetical-listing-of-all-qml-types"></a>
+<h2 id="alphabetical-listing-of-all-qml-types">Alphabetical Listing of All QML Types<a class="plink" href="#alphabetical-listing-of-all-qml-types" title="Direct link to this headline"></a></h2>
+</div>
+<!-- @@@QtLocation -->
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-cameracapabilities.htm">CameraCapabilities</a></p></td><td class="tblDescr"><p>Type holds information about the camera capabilities for a specific map type</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-category.htm">Category</a></p></td><td class="tblDescr"><p>Type represents a category that a Place can be associated with</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-categorymodel.htm">CategoryModel</a></p></td><td class="tblDescr"><p>Type provides a model of the categories supported by a Plugin</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-contactdetail.htm">ContactDetail</a></p></td><td class="tblDescr"><p>Type holds a contact detail such as a phone number or a website address</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-contactdetails.htm">ContactDetails</a></p></td><td class="tblDescr"><p>Type holds contact details for a Place</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-dynamicparameter.htm">DynamicParameter</a></p></td><td class="tblDescr"><p>(previously MapParameter ) type represents a parameter for a Map element, or other elements used in a Map (such as map items, etc.). This type provides a mean to specify plugin-dependent optional dynamic parameters that allow a plugin to extend the runtime API of the module</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-editorialmodel.htm">EditorialModel</a></p></td><td class="tblDescr"><p>Type provides a model of place editorials</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-extendedattributes.htm">ExtendedAttributes</a></p></td><td class="tblDescr"><p>Type holds additional data about a Place</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-geocodemodel.htm">GeocodeModel</a></p></td><td class="tblDescr"><p>Type provides support for searching operations related to geographic information</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-icon.htm">Icon</a></p></td><td class="tblDescr"><p>Type represents an icon image source which can have multiple sizes</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-imagemodel.htm">ImageModel</a></p></td><td class="tblDescr"><p>Type provides a model of place images</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-map.htm">Map</a></p></td><td class="tblDescr"><p>Type displays a map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapcircle.htm">MapCircle</a></p></td><td class="tblDescr"><p>Type displays a geographic circle on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapcopyrightnotice.htm">MapCopyrightNotice</a></p></td><td class="tblDescr"><p>Item displays the current valid copyright notice for a Map element</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapgesturearea.htm">MapGestureArea</a></p></td><td class="tblDescr"><p>Type provides Map gesture interaction</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapitemgroup.htm">MapItemGroup</a></p></td><td class="tblDescr"><p>Type is a container for map items</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapitemview.htm">MapItemView</a></p></td><td class="tblDescr"><p>Used to populate Map from a model</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappinchevent.htm">MapPinchEvent</a></p></td><td class="tblDescr"><p>Type provides basic information about pinch event</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappolygon.htm">MapPolygon</a></p></td><td class="tblDescr"><p>Type displays a polygon on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappolyline.htm">MapPolyline</a></p></td><td class="tblDescr"><p>Type displays a polyline on a map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapquickitem.htm">MapQuickItem</a></p></td><td class="tblDescr"><p>Type displays an arbitrary Qt Quick object on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maprectangle.htm">MapRectangle</a></p></td><td class="tblDescr"><p>Type displays a rectangle on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maproute.htm">MapRoute</a></p></td><td class="tblDescr"><p>Type displays a Route on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maptype.htm">MapType</a></p></td><td class="tblDescr"><p>Type holds information about a map type</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-place.htm">Place</a></p></td><td class="tblDescr"><p>Type represents a location that is a position of interest</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placeattribute.htm">PlaceAttribute</a></p></td><td class="tblDescr"><p>Type holds generic place attribute information</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placesearchmodel.htm">PlaceSearchModel</a></p></td><td class="tblDescr"><p>Provides access to place search results</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placesearchsuggestionmodel.htm">PlaceSearchSuggestionModel</a></p></td><td class="tblDescr"><p>Provides access to search term suggestions</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-plugin.htm">Plugin</a></p></td><td class="tblDescr"><p>Type describes a Location based services plugin</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-pluginparameter.htm">PluginParameter</a></p></td><td class="tblDescr"><p>Type describes a parameter for a plugin, either geo service Plugin, or position Plugin</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-ratings.htm">Ratings</a></p></td><td class="tblDescr"><p>Type holds place rating information</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-reviewmodel.htm">ReviewModel</a></p></td><td class="tblDescr"><p>Provides access to reviews of a Place</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-route.htm">Route</a></p></td><td class="tblDescr"><p>Type represents one geographical route</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routeleg.htm">RouteLeg</a></p></td><td class="tblDescr"><p>Type represents a leg of a Route, that is the portion of a route between one waypoint and the next</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routemaneuver.htm">RouteManeuver</a></p></td><td class="tblDescr"><p>Type represents the information relevant to the point at which two RouteSegments meet</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routemodel.htm">RouteModel</a></p></td><td class="tblDescr"><p>Type provides access to routes</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routequery.htm">RouteQuery</a></p></td><td class="tblDescr"><p>Type is used to provide query parameters to a RouteModel</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routesegment.htm">RouteSegment</a></p></td><td class="tblDescr"><p>Type represents a segment of a Route</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-supplier.htm">Supplier</a></p></td><td class="tblDescr"><p>Holds data regarding the supplier of a place, a place's image, review, or editorial</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-user.htm">User</a></p></td><td class="tblDescr"><p>Type identifies a user who contributed a particular Place content item</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-waypoint.htm">Waypoint</a></p></td><td class="tblDescr"><p>Type provides a mean to specify a waypoint in a RouteQuery in a more detailed way than by using a simple coordinate</p></td></tr>
+</tbody></table></div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

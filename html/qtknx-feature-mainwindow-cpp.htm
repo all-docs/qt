@@ -1,0 +1,465 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Tunneling Features Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Tunneling Features Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Tunneling Features Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2019 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtKnx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+******************************************************************************/</span></div>
+
+<span class="preprocessor">#include "mainwindow.h"</span>
+<span class="preprocessor">#include "ui_mainwindow.h"</span>
+
+<span class="preprocessor">#include "deviceitem.h"</span>
+
+MainWindow<span class="operator">::</span>MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>(parent)
+    <span class="operator">,</span> ui(<span class="keyword">new</span> Ui<span class="operator">::</span>MainWindow)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">-</span><span class="operator">&gt;</span>columnCount(); <span class="operator">+</span><span class="operator">+</span>i)
+        ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">-</span><span class="operator">&gt;</span>resizeColumnToContents(i);
+
+    setupInterfaces();
+    populateServiceTypesComboBox();
+    populateInterfaceFeaturesComboBox();
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionExit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>quit);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionClear<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span><span class="operator">::</span>clear);
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>connected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onConnected);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>disconnected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onDisconnected);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>tunnelingFeatureInfoReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFeatureInfoReceived);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>tunnelingFeatureResponseReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFeatureResponseReceived);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>errorOccurred<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onErrorOccurred);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span><span class="operator">::</span>currentItemChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>current<span class="operator">,</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span> <span class="comment">/* previuos */</span>) {
+            m_current <span class="operator">=</span> current;
+    });
+
+    m_discoveryAgent<span class="operator">.</span>setTimeout(<span class="operator">-</span><span class="number">1</span>);
+    m_discoveryAgent<span class="operator">.</span>setSearchFrequency(<span class="number">6</span>);
+    connect(<span class="operator">&amp;</span>m_discoveryAgent<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>deviceDiscovered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onDeviceDiscovered);
+    m_discoveryAgent<span class="operator">.</span>setDiscoveryMode(<span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV2);
+
+    m_discoveryAgent<span class="operator">.</span>start();
+}
+
+MainWindow<span class="operator">::</span><span class="operator">~</span>MainWindow()
+{
+    m_discoveryAgent<span class="operator">.</span>stop();
+
+    <span class="keyword">delete</span> ui;
+    ui <span class="operator">=</span> nullptr;
+    <span class="keyword">delete</span> m_device;
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>onConnected()
+{
+    toggleUi(<span class="keyword">true</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>connection<span class="operator">-</span><span class="operator">&gt;</span>setText(tr(<span class="string">"Disconnect"</span>));
+
+    m_last <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> m_last);
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">0</span><span class="operator">,</span> tr(<span class="string">"Successfully connected to: %1 (%2 : %3)"</span>)
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>deviceName())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort()));
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setFirstColumnSpanned(<span class="keyword">true</span>);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>onDisconnected()
+{
+    toggleUi(<span class="keyword">false</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>connection<span class="operator">-</span><span class="operator">&gt;</span>setText(tr(<span class="string">"Connect"</span>));
+
+    m_last <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> m_last);
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">0</span><span class="operator">,</span> tr(<span class="string">"Successfully disconnected from: %1 (%2 : %3)"</span>)
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>deviceName())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort()));
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setFirstColumnSpanned(<span class="keyword">true</span>);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>onDeviceDiscovered(<span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> info)
+{
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>findText(info<span class="operator">.</span>deviceName()) <span class="operator">=</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>)
+        qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span><span class="operator">*</span><span class="operator">&gt;</span>(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>model())<span class="operator">-</span><span class="operator">&gt;</span>appendRow(<span class="keyword">new</span> DeviceItem(info));
+
+    <span class="keyword">if</span> (m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>State<span class="operator">::</span>Disconnected)
+        ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(bool(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>count()));
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>onErrorOccurred(<span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>Error error<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorString)
+{
+    m_last <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> m_last);
+    <span class="keyword">const</span> <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>Error<span class="operator">&gt;</span>();
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">0</span><span class="operator">,</span> tr(<span class="string">"Error occurred: %1 (%2)."</span>)<span class="operator">.</span>arg(errorString)
+        <span class="operator">.</span>arg(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(error))));
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setFirstColumnSpanned(<span class="keyword">true</span>);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_actionImport_triggered()
+{
+    <span class="keyword">const</span> <span class="keyword">auto</span> fileName <span class="operator">=</span> <span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span><span class="operator">::</span>getOpenFileName(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Import keyring file"</span>)<span class="operator">,</span>
+        <span class="type"><a href="./qstandardpaths.htm" translate="no">QStandardPaths</a></span><span class="operator">::</span>standardLocations(<span class="type"><a href="./qstandardpaths.htm" translate="no">QStandardPaths</a></span><span class="operator">::</span>DesktopLocation)<span class="operator">.</span>value(<span class="number">0</span>)<span class="operator">,</span>
+        tr(<span class="string">"KNX keyring file (*.knxkeys)"</span>));
+
+    <span class="keyword">if</span> (fileName<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span>;
+
+    bool ok;
+    <span class="keyword">const</span> <span class="keyword">auto</span> password <span class="operator">=</span> <span class="type"><a href="./qinputdialog.htm" translate="no">QInputDialog</a></span><span class="operator">::</span>getText(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Import keyring file"</span>)<span class="operator">,</span>
+        tr(<span class="string">"Keyring file password:"</span>)<span class="operator">,</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>Normal<span class="operator">,</span> {}<span class="operator">,</span> <span class="operator">&amp;</span>ok);
+    <span class="keyword">if</span> (<span class="operator">!</span>ok <span class="operator">|</span><span class="operator">|</span> password<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span>;
+
+    m_secureConfigs <span class="operator">=</span> <span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">::</span>fromKeyring(<span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span>
+        <span class="operator">::</span>Type<span class="operator">::</span>DeviceManagement<span class="operator">,</span> fileName<span class="operator">,</span> password<span class="operator">.</span>toUtf8()<span class="operator">,</span> <span class="keyword">true</span>);
+    <span class="keyword">for</span> (<span class="keyword">auto</span> <span class="operator">&amp;</span>config : m_secureConfigs)
+        config<span class="operator">.</span>setIndividualAddress({});
+
+    m_secureConfigs <span class="operator">+</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">::</span>fromKeyring(<span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span>
+        <span class="operator">::</span>Type<span class="operator">::</span>Tunneling<span class="operator">,</span> fileName<span class="operator">,</span> password<span class="operator">.</span>toUtf8()<span class="operator">,</span> <span class="keyword">true</span>);
+
+    on_devices_currentIndexChanged(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_devices_currentIndexChanged(<span class="type">int</span> index)
+{
+    <span class="keyword">delete</span> m_device;
+    m_device <span class="operator">=</span> nullptr;
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureConfigs<span class="operator">-</span><span class="operator">&gt;</span>clear();
+
+    <span class="keyword">if</span> (index <span class="operator">&gt;</span><span class="operator">=</span> <span class="number">0</span>) {
+        <span class="keyword">const</span> <span class="keyword">auto</span> model <span class="operator">=</span> qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span><span class="operator">*</span><span class="operator">&gt;</span>(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>model());
+        m_device <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>DeviceItem <span class="operator">*</span><span class="operator">&gt;</span> (model<span class="operator">-</span><span class="operator">&gt;</span>item(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()))<span class="operator">-</span><span class="operator">&gt;</span>clone();
+    }
+
+    <span class="keyword">if</span> (m_device) {
+        <span class="keyword">const</span> <span class="keyword">auto</span> deviceInfo <span class="operator">=</span> m_device<span class="operator">-</span><span class="operator">&gt;</span>info();
+        <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> m_secureConfigs<span class="operator">.</span>size(); <span class="operator">+</span><span class="operator">+</span>i) {
+            <span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>config <span class="operator">=</span> m_secureConfigs<span class="operator">[</span>i<span class="operator">]</span>;
+            <span class="keyword">if</span> (deviceInfo<span class="operator">.</span>individualAddress() <span class="operator">!</span><span class="operator">=</span> config<span class="operator">.</span>host())
+                <span class="keyword">continue</span>;
+
+            <span class="keyword">const</span> <span class="keyword">auto</span> ia <span class="operator">=</span> config<span class="operator">.</span>individualAddress();
+            ui<span class="operator">-</span><span class="operator">&gt;</span>secureConfigs<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"User ID: %1 (Individual Address: %2)"</span>)
+                <span class="operator">.</span>arg(config<span class="operator">.</span>userId())
+                <span class="operator">.</span>arg(ia<span class="operator">.</span>isValid() <span class="operator">?</span> ia<span class="operator">.</span>toString() : tr(<span class="string">"No specific address"</span>))<span class="operator">,</span> i);
+        }
+    } <span class="keyword">else</span> {
+        m_device <span class="operator">=</span> <span class="keyword">new</span> DeviceItem({});
+    }
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureConfigs<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(bool(ui<span class="operator">-</span><span class="operator">&gt;</span>secureConfigs<span class="operator">-</span><span class="operator">&gt;</span>count())
+        <span class="operator">&amp;</span><span class="operator">&amp;</span> ui<span class="operator">-</span><span class="operator">&gt;</span>secureSession<span class="operator">-</span><span class="operator">&gt;</span>isChecked());
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSession<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(bool(ui<span class="operator">-</span><span class="operator">&gt;</span>secureConfigs<span class="operator">-</span><span class="operator">&gt;</span>count()));
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_serviceTypes_currentIndexChanged(<span class="type">int</span> index)
+{
+    bool enable <span class="operator">=</span> m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>State<span class="operator">::</span>Connected;
+    <span class="keyword">const</span> <span class="keyword">auto</span> type <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>serviceTypes<span class="operator">-</span><span class="operator">&gt;</span>itemData(index)<span class="operator">.</span>value<span class="operator">&lt;</span><span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">&gt;</span>();
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>sendRead<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(enable <span class="operator">&amp;</span><span class="operator">&amp;</span> type <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureGet);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>sendWrite<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(enable <span class="operator">&amp;</span><span class="operator">&amp;</span> type <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureSet);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(enable <span class="operator">&amp;</span><span class="operator">&amp;</span> type <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureSet);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_sendRead_clicked()
+{
+    <span class="keyword">const</span> <span class="keyword">auto</span> feature <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>interfaceFeatures<span class="operator">-</span><span class="operator">&gt;</span>itemData(ui<span class="operator">-</span><span class="operator">&gt;</span>interfaceFeatures<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())
+        <span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">&gt;</span>();
+
+    m_tunnel<span class="operator">.</span>sendTunnelingFeatureGet(feature);
+    populateFrame(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureGet<span class="operator">,</span> feature<span class="operator">,</span> {});
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_sendWrite_clicked()
+{
+    <span class="keyword">const</span> <span class="keyword">auto</span> feature <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>interfaceFeatures<span class="operator">-</span><span class="operator">&gt;</span>itemData(ui<span class="operator">-</span><span class="operator">&gt;</span>interfaceFeatures<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())
+        <span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">&gt;</span>();
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> data <span class="operator">=</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toLatin1());
+    m_tunnel<span class="operator">.</span>sendTunnelingFeatureSet(feature<span class="operator">,</span> data);
+    populateFrame(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureSet<span class="operator">,</span> feature<span class="operator">,</span> data);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_connection_clicked()
+{
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">&lt;</span><span class="operator">=</span> <span class="number">0</span>)
+        <span class="keyword">return</span>;
+
+    <span class="keyword">if</span> (m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>State<span class="operator">::</span>Connected)
+        <span class="keyword">return</span> m_tunnel<span class="operator">.</span>disconnectFromHost();
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> list <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>currentData()<span class="operator">.</span>toStringList();
+    m_tunnel<span class="operator">.</span>setLocalAddress(<span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(list<span class="operator">.</span>first()));
+    m_tunnel<span class="operator">.</span>setSerialNumber(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(list<span class="operator">.</span>last()<span class="operator">.</span>toLatin1()));
+
+    m_last <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> m_last);
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">0</span><span class="operator">,</span> tr(<span class="string">"Establish connection to: %1 (%2 : %3)"</span>)
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>deviceName())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort()));
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setFirstColumnSpanned(<span class="keyword">true</span>);
+
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>secureSession<span class="operator">-</span><span class="operator">&gt;</span>isChecked()) {
+        <span class="keyword">auto</span> secureConfiguration <span class="operator">=</span> m_secureConfigs<span class="operator">.</span>value(ui<span class="operator">-</span><span class="operator">&gt;</span>secureConfigs<span class="operator">-</span><span class="operator">&gt;</span>currentData()<span class="operator">.</span>toInt());
+        secureConfiguration<span class="operator">.</span>setKeepSecureSessionAlive(<span class="keyword">true</span>);
+        m_tunnel<span class="operator">.</span>setSecureConfiguration(secureConfiguration);
+        m_tunnel<span class="operator">.</span>connectToHostEncrypted(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+            m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort());
+    } <span class="keyword">else</span> {
+        m_tunnel<span class="operator">.</span>connectToHost(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+            m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort()<span class="operator">,</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>UDP_IPv4);
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>setupInterfaces()
+{
+    <span class="keyword">auto</span> firstItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstandarditem.htm" translate="no">QStandardItem</a></span>(tr(<span class="string">"Interface: --Select One--"</span>));
+    qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span><span class="operator">*</span><span class="operator">&gt;</span>(ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>model())<span class="operator">-</span><span class="operator">&gt;</span>appendRow(firstItem);
+    firstItem<span class="operator">-</span><span class="operator">&gt;</span>setSelectable(<span class="keyword">false</span>);
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> interfaces <span class="operator">=</span> <span class="type"><a href="./qnetworkinterface.htm" translate="no">QNetworkInterface</a></span><span class="operator">::</span>allInterfaces();
+    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>iface : interfaces) {
+        <span class="keyword">const</span> <span class="keyword">auto</span> addressEntries <span class="operator">=</span> iface<span class="operator">.</span>addressEntries();
+        <span class="keyword">for</span> (<span class="type">int</span> j <span class="operator">=</span> <span class="number">0</span>; j <span class="operator">&lt;</span> addressEntries<span class="operator">.</span>size(); j<span class="operator">+</span><span class="operator">+</span>) {
+            <span class="keyword">const</span> <span class="keyword">auto</span> ip <span class="operator">=</span> addressEntries<span class="operator">[</span>j<span class="operator">]</span><span class="operator">.</span>ip();
+            <span class="keyword">if</span> (ip<span class="operator">.</span>isLoopback() <span class="operator">|</span><span class="operator">|</span> ip<span class="operator">.</span>toIPv4Address() <span class="operator">=</span><span class="operator">=</span> <span class="number">0</span>)
+                <span class="keyword">continue</span>;
+            ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>addItem(iface<span class="operator">.</span>name() <span class="operator">+</span> <span class="string">": "</span> <span class="operator">+</span> ip<span class="operator">.</span>toString()<span class="operator">,</span>
+                <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> { ip<span class="operator">.</span>toString()<span class="operator">,</span> iface<span class="operator">.</span>hardwareAddress()<span class="operator">.</span>remove(QLatin1String(<span class="string">":"</span>)) });
+        }
+    }
+    ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(bool(ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>count()));
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentIndexChanged)<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type">int</span> i) {
+        <span class="keyword">if</span> (i <span class="operator">&lt;</span> <span class="number">0</span>)
+            <span class="keyword">return</span>;
+        m_discoveryAgent<span class="operator">.</span>stop();
+        ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        m_discoveryAgent<span class="operator">.</span>setLocalAddress(<span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>currentData()
+            <span class="operator">.</span>toStringList()<span class="operator">.</span>first()));
+        m_discoveryAgent<span class="operator">.</span>start();
+    });
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>toggleUi(bool value)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>serviceTypes<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(value);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>interfaceFeatures<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(value);
+    <span class="keyword">const</span> <span class="keyword">auto</span> type <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>serviceTypes<span class="operator">-</span><span class="operator">&gt;</span>itemData(ui<span class="operator">-</span><span class="operator">&gt;</span>serviceTypes<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())
+        <span class="operator">.</span>value<span class="operator">&lt;</span><span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">&gt;</span>();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>sendRead<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(value <span class="operator">&amp;</span><span class="operator">&amp;</span> type <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureGet);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>sendWrite<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(value <span class="operator">&amp;</span><span class="operator">&amp;</span> type <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureSet);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(value <span class="operator">&amp;</span><span class="operator">&amp;</span> type <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureSet);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(value);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(value <span class="operator">&amp;</span><span class="operator">&amp;</span> bool(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>count()));
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>populateServiceTypesComboBox()
+{
+    <span class="keyword">const</span> <span class="keyword">auto</span> typeEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">&gt;</span>();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>serviceTypes<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Tunneling Feature Get"</span>)<span class="operator">,</span> typeEnum<span class="operator">.</span>keyToValue(<span class="string">"TunnelingFeatureGet"</span>));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>serviceTypes<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Tunneling Feature Set"</span>)<span class="operator">,</span> typeEnum<span class="operator">.</span>keyToValue(<span class="string">"TunnelingFeatureSet"</span>));
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>populateInterfaceFeaturesComboBox()
+{
+    <span class="keyword">const</span> <span class="keyword">auto</span> typeEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">&gt;</span>();
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> typeEnum<span class="operator">.</span>keyCount(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="keyword">if</span> (<span class="operator">!</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>isInterfaceFeature(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature(typeEnum<span class="operator">.</span>value(i))))
+            <span class="keyword">continue</span>;
+        ui<span class="operator">-</span><span class="operator">&gt;</span>interfaceFeatures<span class="operator">-</span><span class="operator">&gt;</span>addItem(typeEnum<span class="operator">.</span>key(i)<span class="operator">,</span> typeEnum<span class="operator">.</span>value(i));
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>setText(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>data)
+{
+    <span class="keyword">const</span> <span class="keyword">auto</span> hex <span class="operator">=</span> data<span class="operator">.</span>toByteArray()<span class="operator">.</span>toHex();
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">5</span><span class="operator">,</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"0x"</span>) <span class="operator">+</span> QLatin1String(hex<span class="operator">,</span> hex<span class="operator">.</span>size()));
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> value;
+    <span class="keyword">switch</span> (feature) {
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>ActiveEmiType:
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>SupportedEmiType: {
+        <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> types;
+        <span class="keyword">const</span> <span class="keyword">auto</span> emi <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiTypes(hex<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>));
+        <span class="keyword">const</span> <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">&gt;</span>();
+        <span class="keyword">if</span> (emi<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI1))
+            types <span class="operator">+</span><span class="operator">=</span> QLatin1String(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI1)));
+        <span class="keyword">if</span> (emi<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI2))
+            types <span class="operator">+</span><span class="operator">=</span> QLatin1String(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI2)));
+        <span class="keyword">if</span> (emi<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>cEMI))
+            types <span class="operator">+</span><span class="operator">=</span> QLatin1String(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>cEMI)));
+        value <span class="operator">=</span> types<span class="operator">.</span>join(QLatin1Char(<span class="char">'|'</span>));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>HostDeviceDescriptorType0:
+        value <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(hex<span class="operator">.</span>toUInt(nullptr<span class="operator">,</span> <span class="number">16</span>));
+    <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>BusConnectionStatus: {
+        <span class="keyword">const</span> <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxState</span><span class="operator">::</span>State<span class="operator">&gt;</span>();
+        value <span class="operator">=</span> metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type">QKnxState</span><span class="operator">::</span>State(data<span class="operator">.</span>value(<span class="number">0</span>))));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>MaximumApduLength:
+        value <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(hex<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>));
+    <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>KnxManufacturerCode: {
+        <span class="keyword">const</span> <span class="keyword">auto</span> id <span class="operator">=</span> hex<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>);
+        value <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>Ets<span class="operator">::</span>Manufacturers<span class="operator">::</span>fromId(id<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(id));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>IndividualAddress:
+        value <span class="operator">=</span> <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span>(<span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> data)<span class="operator">.</span>toString();
+    <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>InterfaceFeatureInfoServiceEnable: {
+        <span class="keyword">const</span> <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxEnable</span><span class="operator">::</span>State<span class="operator">&gt;</span>();
+        value <span class="operator">=</span> metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type">QKnxEnable</span><span class="operator">::</span>State(data<span class="operator">.</span>value(<span class="number">0</span>))));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">default</span>:
+        <span class="keyword">break</span>;
+    }
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">3</span><span class="operator">,</span> value);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>populateFrame(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType type<span class="operator">,</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span>
+    <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value<span class="operator">,</span> <span class="type">int</span> returnCode)
+{
+    m_last <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> m_last);
+
+    <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">&gt;</span>();
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">1</span><span class="operator">,</span> metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(type)));
+
+    metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">&gt;</span>();
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">2</span><span class="operator">,</span> metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature)));
+
+    <span class="keyword">if</span> (type <span class="operator">!</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureGet)
+        setText(feature<span class="operator">,</span> value);
+
+    metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>ReturnCode<span class="operator">&gt;</span>();
+    <span class="keyword">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> code <span class="operator">=</span> metaEnum<span class="operator">.</span>valueToKey(returnCode))
+        m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">4</span><span class="operator">,</span> code);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>onFeatureResponseReceived(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>ReturnCode code<span class="operator">,</span>
+    <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value)
+{
+    populateFrame(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureResponse<span class="operator">,</span> feature<span class="operator">,</span> value<span class="operator">,</span> <span class="type">int</span>(code));
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>onFeatureInfoReceived(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value)
+{
+    populateFrame(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType<span class="operator">::</span>TunnelingFeatureInfo<span class="operator">,</span> feature<span class="operator">,</span> value);
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

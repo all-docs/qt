@@ -1,0 +1,267 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GaugeStyle QML Type | Qt Quick Controls 1</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquickcontrols1-index.htm" translate="no">Qt Quick Controls 1</a></li>
+                            <li><a href="./qtquick-controls-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>GaugeStyle QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">GaugeStyle QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$GaugeStyle-brief -->
+<p>Provides custom styling for Gauge. <a href="#details">More...</a></p>
+<!-- @@@GaugeStyle -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick.Controls.Styles 1.4</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.5</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-controls-styles-gaugestyle-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#background-prop" translate="no">background</a></b></b> : Component</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#control-prop" translate="no">control</a></b></b> : Gauge</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#foreground-prop" translate="no">foreground</a></b></b> : Component</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#minorTickmark-prop" translate="no">minorTickmark</a></b></b> : Component</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#tickmark-prop" translate="no">tickmark</a></b></b> : Component</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#tickmarkLabel-prop" translate="no">tickmarkLabel</a></b></b> : Component</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#valueBar-prop" translate="no">valueBar</a></b></b> : Component</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#valuePosition-prop" translate="no">valuePosition</a></b></b> : real</li>
+</ul>
+<!-- $$$GaugeStyle-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>You can create a custom gauge by replacing the following delegates:</p>
+<ul>
+<li><a href="./qml-qtquick-controls-styles-gaugestyle.htm#background-prop" translate="no">background</a></li>
+<li><a href="./qml-qtquick-controls-styles-gaugestyle.htm#valueBar-prop" translate="no">valueBar</a></li>
+<li><a href="./qml-qtquick-controls-styles-gaugestyle.htm#tickmarkLabel-prop" translate="no">tickmarkLabel</a></li>
+</ul>
+<p>Below, you'll find an example of how to create a temperature gauge that changes color as its value increases:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">import <span class="type">QtQuick</span> <span class="number">2.2</span>
+import <span class="type">QtQuick</span><span class="operator">.</span>Controls <span class="number">1.4</span>
+import <span class="type">QtQuick</span><span class="operator">.</span>Controls<span class="operator">.</span>Styles <span class="number">1.4</span>
+import <span class="type">QtQuick</span><span class="operator">.</span>Extras <span class="number">1.4</span>
+
+Rectangle {
+    width: <span class="number">80</span>
+    height: <span class="number">200</span>
+
+    Timer {
+        running: <span class="keyword">true</span>
+        repeat: <span class="keyword">true</span>
+        interval: <span class="number">2000</span>
+        onTriggered: gauge<span class="operator">.</span>value <span class="operator">=</span> gauge<span class="operator">.</span>value <span class="operator">=</span><span class="operator">=</span> gauge<span class="operator">.</span>maximumValue <span class="operator">?</span> <span class="number">5</span> : gauge<span class="operator">.</span>maximumValue
+    }
+
+    Gauge {
+        id: gauge
+        anchors<span class="operator">.</span>fill: parent
+        anchors<span class="operator">.</span>margins: <span class="number">10</span>
+
+        value: <span class="number">5</span>
+        Behavior on value {
+            NumberAnimation {
+                duration: <span class="number">1000</span>
+            }
+        }
+
+        style: GaugeStyle {
+            valueBar: Rectangle {
+                implicitWidth: <span class="number">16</span>
+                color: <span class="type"><a href="./qml-qtqml-qt.htm" translate="no">Qt</a></span><span class="operator">.</span>rgba(gauge<span class="operator">.</span>value <span class="operator">/</span> gauge<span class="operator">.</span>maximumValue<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span> <span class="operator">-</span> gauge<span class="operator">.</span>value <span class="operator">/</span> gauge<span class="operator">.</span>maximumValue<span class="operator">,</span> <span class="number">1</span>)
+            }
+        }
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/gauge-temperature.png"></p><p>The gauge displaying values at various points during the animation.</p>
+<p><b>See also </b><a href="./styling-gauge.htm" translate="no">Styling Gauge</a>.</p>
+<!-- @@@GaugeStyle -->
+<h2>Property Documentation</h2>
+<!-- $$$background -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="background-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="background-prop"></a><span class="name">background</span> : <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span><a class="plink" href="#background-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The background of the gauge, displayed behind the <a href="./qml-qtquick-controls-styles-gaugestyle.htm#valueBar-prop" translate="no">valueBar</a>.</p>
+<p>By default, no background is defined.</p>
+</div></div><!-- @@@background -->
+<br>
+<!-- $$$control -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="control-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="control-prop"></a><span class="qmlreadonly">[read-only] </span><span class="name">control</span> : <span class="type"><a href="./qml-qtquick-extras-gauge.htm" translate="no">Gauge</a></span><a class="plink" href="#control-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The <a href="./qml-qtquick-extras-gauge.htm" translate="no">Gauge</a> that this style is attached to.</p>
+</div></div><!-- @@@control -->
+<br>
+<!-- $$$foreground -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="foreground-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="foreground-prop"></a><span class="name">foreground</span> : <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span><a class="plink" href="#foreground-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The bar that represents the foreground of the gauge.</p>
+<p>This component is drawn above every other component.</p>
+</div></div><!-- @@@foreground -->
+<br>
+<!-- $$$minorTickmark -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="minorTickmark-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="minorTickmark-prop"></a><span class="name">minorTickmark</span> : <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span><a class="plink" href="#minorTickmark-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Each minor tickmark displayed by the gauge.</p>
+<p>To set the size of the minor tickmarks, specify an <a href="./qml-qtquick-item.htm#implicitWidth-prop" translate="no">implicitWidth</a> and <a href="./qml-qtquick-item.htm#implicitHeight-prop" translate="no">implicitHeight</a>.</p>
+<p>For layouting reasons, each minor tickmark should have the same <code translate="no">implicitHeight</code>. If different heights are needed for individual tickmarks, specify those heights in a child item of the component.</p>
+<p>In the example below, we decrease the width of the minor tickmarks:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">minorTickmark: Item {
+    implicitWidth: <span class="number">8</span>
+    implicitHeight: <span class="number">1</span>
+
+    Rectangle {
+        color: <span class="string">"#cccccc"</span>
+        anchors<span class="operator">.</span>fill: parent
+        anchors<span class="operator">.</span>leftMargin: <span class="number">2</span>
+        anchors<span class="operator">.</span>rightMargin: <span class="number">4</span>
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="Gauge minorTickmark example" src="./images/gauge-minorTickmark-example.png"></p><p>Each instance of this component has access to the following property:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><code translate="no">readonly property int</code> <b>styleData.index</b></td><td>The index of this minor tickmark.</td></tr>
+<tr class="even" valign="top"><td><code translate="no">readonly property real</code> <b>styleData.value</b></td><td>The value that this minor tickmark represents.</td></tr>
+<tr class="odd" valign="top"><td><code translate="no">readonly property real</code> <b>styleData.valuePosition</b></td><td>The value that this minor tickmark represents as a position in pixels, with 0 being at the bottom of the gauge.</td></tr>
+</tbody></table></div>
+<p><b>See also </b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#tickmark-prop" translate="no">tickmark</a>.</p>
+</div></div><!-- @@@minorTickmark -->
+<br>
+<!-- $$$tickmark -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="tickmark-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="tickmark-prop"></a><span class="name">tickmark</span> : <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span><a class="plink" href="#tickmark-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Each tickmark displayed by the gauge.</p>
+<p>To set the size of the tickmarks, specify an <a href="./qml-qtquick-item.htm#implicitWidth-prop" translate="no">implicitWidth</a> and <a href="./qml-qtquick-item.htm#implicitHeight-prop" translate="no">implicitHeight</a>.</p>
+<p>The widest tickmark will determine the space set aside for all tickmarks. For this reason, the <code translate="no">implicitWidth</code> of each tickmark should be greater than or equal to that of each minor tickmark. If you need minor tickmarks to have greater widths than the major tickmarks, set the larger width in a child item of the <a href="./qml-qtquick-controls-styles-gaugestyle.htm#minorTickmark-prop" translate="no">minorTickmark</a> component.</p>
+<p>For layouting reasons, each tickmark should have the same <code translate="no">implicitHeight</code>. If different heights are needed for individual tickmarks, specify those heights in a child item of the component.</p>
+<p>In the example below, we decrease the height of the tickmarks:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">tickmark: Item {
+    implicitWidth: <span class="number">18</span>
+    implicitHeight: <span class="number">1</span>
+
+    Rectangle {
+        color: <span class="string">"#c8c8c8"</span>
+        anchors<span class="operator">.</span>fill: parent
+        anchors<span class="operator">.</span>leftMargin: <span class="number">3</span>
+        anchors<span class="operator">.</span>rightMargin: <span class="number">3</span>
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="Gauge tickmark example" src="./images/gauge-tickmark-example.png"></p><p>Each instance of this component has access to the following properties:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><code translate="no">readonly property int</code> <b>styleData.index</b></td><td>The index of this tickmark.</td></tr>
+<tr class="even" valign="top"><td><code translate="no">readonly property real</code> <b>styleData.value</b></td><td>The value that this tickmark represents.</td></tr>
+<tr class="odd" valign="top"><td><code translate="no">readonly property real</code> <b>styleData.valuePosition</b></td><td>The value that this tickmark represents as a position in pixels, with 0 being at the bottom of the gauge.</td></tr>
+</tbody></table></div>
+<p><b>See also </b><a href="./qml-qtquick-controls-styles-gaugestyle.htm#minorTickmark-prop" translate="no">minorTickmark</a>.</p>
+</div></div><!-- @@@tickmark -->
+<br>
+<!-- $$$tickmarkLabel -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="tickmarkLabel-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="tickmarkLabel-prop"></a><span class="name">tickmarkLabel</span> : <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span><a class="plink" href="#tickmarkLabel-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This defines the text of each tickmark label on the gauge.</p>
+<p>Each instance of this component has access to the following properties:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><code translate="no">readonly property int</code> <b>styleData.index</b></td><td>The index of this label.</td></tr>
+<tr class="even" valign="top"><td><code translate="no">readonly property real</code> <b>styleData.value</b></td><td>The value that this label represents.</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@tickmarkLabel -->
+<br>
+<!-- $$$valueBar -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="valueBar-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="valueBar-prop"></a><span class="name">valueBar</span> : <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span><a class="plink" href="#valueBar-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The bar that represents the value of the gauge.</p>
+<p>To height of the value bar is automatically resized according to <a href="./qml-qtquick-extras-gauge.htm#value-prop" translate="no">value</a>, and does not need to be specified.</p>
+<p>When a custom valueBar is defined, its <a href="./qml-qtquick-item.htm#implicitWidth-prop" translate="no">implicitWidth</a> property must be set.</p>
+</div></div><!-- @@@valueBar -->
+<br>
+<!-- $$$valuePosition -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="valuePosition-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="valuePosition-prop"></a><span class="qmlreadonly">[read-only] </span><span class="name">valuePosition</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#valuePosition-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the value displayed by the gauge as a position in pixels.</p>
+<p>It is useful for custom styling.</p>
+</div></div><!-- @@@valuePosition -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

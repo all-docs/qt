@@ -1,0 +1,202 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HCandlestickModelMapper QML Type | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtcharts-hcandlestickmodelmapper.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li class="last"><a>HCandlestickModelMapper QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">HCandlestickModelMapper QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$HCandlestickModelMapper-brief -->
+<p>Horizontal model mapper for a candlestick series. <a href="#details">More...</a></p>
+<!-- @@@HCandlestickModelMapper -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtCharts 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtCharts 2.2</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Instantiates:</td><td class="memItemRight bottomAlign"> <a href="./qml-qtcharts-hcandlestickmodelmapper.htm" translate="no"></a><a href="./qhcandlestickmodelmapper.htm" translate="no">QHCandlestickModelMapper</a></td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtcharts-hcandlestickmodelmapper-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#closeColumn-prop" translate="no">closeColumn</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#firstSetRow-prop" translate="no">firstSetRow</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#highColumn-prop" translate="no">highColumn</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#lastSetRow-prop" translate="no">lastSetRow</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#lowColumn-prop" translate="no">lowColumn</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#model-prop" translate="no">model</a></b></b> : QAbstractItemModel</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#openColumn-prop" translate="no">openColumn</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#series-prop" translate="no">series</a></b></b> : CandlestickSeries</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtcharts-hcandlestickmodelmapper.htm#timestampColumn-prop" translate="no">timestampColumn</a></b></b> : int</li>
+</ul>
+<!-- $$$HCandlestickModelMapper-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Model mappers enable using a data model derived from the <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a> class as a data source for a chart. A horizontal model mapper is used to create a connection between a data model and <a href="./qml-qtcharts-candlestickseries.htm" translate="no">CandlestickSeries</a>, so that each row in the data model defines a candlestick item and each column maps to the open, high, low, close, and timestamp values of the candlestick item.</p>
+<p>Both model and candlestick series properties can be used to manipulate the data. The model mapper keeps the candlestick series and the data model in sync.</p>
+<p>The model mapper ensures that all the candlestick items in the candlestick series have equal sizes. Therefore, adding or removing a value from a candlestick item causes the same change to be made in all the candlestick items in the candlestick series.</p>
+<p>The following QML example creates a candlestick series with three candlestick items (assuming the model has at least four rows). Each candlestick item contains data defined by the timestamp, open, high, low, and close columns. The name of an item is defined by the vertical header of the row.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtcharts-candlestickseries.htm" translate="no">CandlestickSeries</a></span> {
+    <span class="type"><a href="./qml-qtcharts-hcandlestickmodelmapper.htm" translate="no">HCandlestickModelMapper</a></span> {
+        <span class="name">model</span>: <span class="name">myCustomModel</span> <span class="comment">// QAbstractItemModel derived implementation</span>
+        <span class="name">timestampColumn</span>: <span class="number">1</span>
+        <span class="name">openColumn</span>: <span class="number">2</span>
+        <span class="name">highColumn</span>: <span class="number">3</span>
+        <span class="name">lowColumn</span>: <span class="number">4</span>
+        <span class="name">closeColumn</span>: <span class="number">5</span>
+        <span class="name">firstSetRow</span>: <span class="number">1</span>
+        <span class="name">lastSetRow</span>: <span class="number">3</span>
+    }
+}</pre></div>
+<p><b>See also </b><a href="./qml-qtcharts-candlestickseries.htm" translate="no">CandlestickSeries</a>, <a href="./qml-qtcharts-candlestickset.htm" translate="no">CandlestickSet</a>, and <a href="./qml-qtcharts-vcandlestickmodelmapper.htm" translate="no">VCandlestickModelMapper</a>.</p>
+<!-- @@@HCandlestickModelMapper -->
+<h2>Property Documentation</h2>
+<!-- $$$closeColumn -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="closeColumn-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="closeColumn-prop"></a><span class="name">closeColumn</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#closeColumn-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The column of the model that contains the close values of the candlestick items in the series. The default value is -1 (invalid mapping).</p>
+</div></div><!-- @@@closeColumn -->
+<br>
+<!-- $$$firstSetRow -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="firstSetRow-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="firstSetRow-prop"></a><span class="name">firstSetRow</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#firstSetRow-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The row of the model that is used as the data source for the first item. The default value is -1 (invalid mapping).</p>
+</div></div><!-- @@@firstSetRow -->
+<br>
+<!-- $$$highColumn -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="highColumn-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="highColumn-prop"></a><span class="name">highColumn</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#highColumn-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The column of the model that contains the high values of the candlestick items in the series. The default value is -1 (invalid mapping).</p>
+</div></div><!-- @@@highColumn -->
+<br>
+<!-- $$$lastSetRow -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="lastSetRow-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="lastSetRow-prop"></a><span class="name">lastSetRow</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#lastSetRow-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The row of the model that is used as the data source for the last item. The default value is -1 (invalid mapping).</p>
+</div></div><!-- @@@lastSetRow -->
+<br>
+<!-- $$$lowColumn -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="lowColumn-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="lowColumn-prop"></a><span class="name">lowColumn</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#lowColumn-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The column of the model that contains the low values of the candlestick items in the series. The default value is -1 (invalid mapping).</p>
+</div></div><!-- @@@lowColumn -->
+<br>
+<!-- $$$model -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="model-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="model-prop"></a><span class="name">model</span> : <span class="type">QAbstractItemModel</span><a class="plink" href="#model-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a>-based model that is used by the mapper. The model must be implemented and exposed to QML.</p>
+<div class="admonition note">
+<p><b>Note: </b>The model used must support adding and removing rows or columns and modifying the data of the cells.</p>
+</div>
+</div></div><!-- @@@model -->
+<br>
+<!-- $$$openColumn -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="openColumn-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="openColumn-prop"></a><span class="name">openColumn</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#openColumn-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The column of the model that contains the open values of the candlestick items in the series. The default value is -1 (invalid mapping).</p>
+</div></div><!-- @@@openColumn -->
+<br>
+<!-- $$$series -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="series-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="series-prop"></a><span class="name">series</span> : <span class="type"><a href="./qml-qtcharts-candlestickseries.htm" translate="no">CandlestickSeries</a></span><a class="plink" href="#series-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The <a href="./qml-qtcharts-candlestickseries.htm" translate="no">CandlestickSeries</a> based object that is used by the mapper.</p>
+<p>All the data in the series is discarded when it is set to the mapper. When a new series is specified, the old series is disconnected (preserving its data).</p>
+</div></div><!-- @@@series -->
+<br>
+<!-- $$$timestampColumn -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="timestampColumn-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="timestampColumn-prop"></a><span class="name">timestampColumn</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#timestampColumn-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The column of the model that contains the timestamp values of the candlestick items in the series. The default value is -1 (invalid mapping).</p>
+</div></div><!-- @@@timestampColumn -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

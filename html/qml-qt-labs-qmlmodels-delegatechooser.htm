@@ -1,0 +1,137 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DelegateChooser QML Type</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtqml-models-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>DelegateChooser QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">DelegateChooser QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$DelegateChooser-brief -->
+<p>Allows a view to use different delegates for different types of items in the model. <a href="#details">More...</a></p>
+<!-- @@@DelegateChooser -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import Qt.labs.qmlmodels 1.0</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qt-labs-qmlmodels-delegatechooser-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-delegatechooser.htm#choices-prop" translate="no">choices</a></b></b> : list&lt;DelegateChoice&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-delegatechooser.htm#role-prop" translate="no">role</a></b></b> : string</li>
+</ul>
+<!-- $$$DelegateChooser-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The DelegateChooser is a special <a href="./qml-qtqml-component.htm" translate="no">Component</a> type intended for those scenarios where a Component is required by a view and used as a delegate. DelegateChooser encapsulates a set of <a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a>s. These choices are used to determine the delegate that will be instantiated for each item in the model. The selection of the choice is performed based on the value that a model item has for <a href="./qml-qt-labs-qmlmodels-delegatechooser.htm#role-prop" translate="no">role</a>, and also based on index.</p>
+<p>DelegateChooser is commonly used when a view needs to display a set of delegates that are significantly different from each other. For example, a typical phone settings view might include toggle switches, sliders, radio buttons, and other visualizations based on the type of each setting. In this case, DelegateChooser could provide an easy way to associate a different type of delegate with each setting:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.15
+import QtQuick.Controls 2.15
+import Qt.labs.qmlmodels 1.0
+
+ListView {
+    width: 200; height: 400
+
+    ListModel {
+        id: listModel
+        ListElement { type: "info"; ... }
+        ListElement { type: "switch"; ... }
+        ListElement { type: "swipe"; ... }
+        ListElement { type: "switch"; ... }
+    }
+
+    DelegateChooser {
+        id: chooser
+        role: "type"
+        DelegateChoice { roleValue: "info"; ItemDelegate { ... } }
+        DelegateChoice { roleValue: "switch"; SwitchDelegate { ... } }
+        DelegateChoice { roleValue: "swipe"; SwipeDelegate { ... } }
+    }
+
+    model: listModel
+    delegate: chooser
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>This type is intended to transparently work only with <a href="./qml-qtquick-tableview.htm" translate="no">TableView</a> and any <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a>-based view. Views (including user-defined views) that aren't internally based on a <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a> need to explicitly support this type of component to make it function as described.</p>
+</div>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a>.</p>
+<!-- @@@DelegateChooser -->
+<h2>Property Documentation</h2>
+<!-- $$$choices -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="choices-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="choices-prop"></a><span class="qmldefault">[default] </span><span class="name">choices</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a></span>&gt;<a class="plink" href="#choices-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The list of DelegateChoices for the chooser.</p>
+<p>The list is treated as an ordered list, where the first <a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a> to match will be used be a view.</p>
+<p>It should not generally be necessary to refer to the <code translate="no">choices</code> property, as it is the default property for <a href="./qml-qt-labs-qmlmodels-delegatechooser.htm" translate="no">DelegateChooser</a> and thus all child items are automatically assigned to this property.</p>
+</div></div><!-- @@@choices -->
+<br>
+<!-- $$$role -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="role-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="role-prop"></a><span class="name">role</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#role-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the role or the property name used to determine the delegate for a given model item.</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a>.</p>
+</div></div><!-- @@@role -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

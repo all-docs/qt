@@ -1,0 +1,419 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple CoAP Client Example | Qt CoAP</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcoap-simplecoapclient-mainwindow-ui.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcoap-index.htm" translate="no">Qt CoAP</a></li>
+                            <li><a href="./qtcoap-examples.htm" translate="no">Qt CoAP Examples</a></li>
+                            <li><a>Simple CoAP Client Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Simple CoAP Client Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;ui version="4.0"&gt;
+ &lt;class&gt;MainWindow&lt;/class&gt;
+ &lt;widget class="QMainWindow" name="MainWindow"&gt;
+  &lt;property name="geometry"&gt;
+   &lt;rect&gt;
+    &lt;x&gt;0&lt;/x&gt;
+    &lt;y&gt;0&lt;/y&gt;
+    &lt;width&gt;731&lt;/width&gt;
+    &lt;height&gt;530&lt;/height&gt;
+   &lt;/rect&gt;
+  &lt;/property&gt;
+  &lt;property name="windowTitle"&gt;
+   &lt;string&gt;CoAP Client&lt;/string&gt;
+  &lt;/property&gt;
+  &lt;widget class="QWidget" name="centralWidget"&gt;
+   &lt;layout class="QGridLayout" name="gridLayout_3"&gt;
+    &lt;item row="0" column="0"&gt;
+     &lt;layout class="QGridLayout" name="gridLayout"&gt;
+      &lt;item row="0" column="0"&gt;
+       &lt;widget class="QLabel" name="label"&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Host&lt;/string&gt;
+        &lt;/property&gt;
+        &lt;property name="alignment"&gt;
+         &lt;set&gt;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter&lt;/set&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="4" column="0"&gt;
+       &lt;widget class="QLabel" name="label_4"&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Request Method&lt;/string&gt;
+        &lt;/property&gt;
+        &lt;property name="alignment"&gt;
+         &lt;set&gt;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter&lt;/set&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="3" column="1"&gt;
+       &lt;layout class="QHBoxLayout" name="horizontalLayout_2"&gt;
+        &lt;item&gt;
+         &lt;widget class="QComboBox" name="resourceComboBox"&gt;
+          &lt;property name="sizePolicy"&gt;
+           &lt;sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed"&gt;
+            &lt;horstretch&gt;0&lt;/horstretch&gt;
+            &lt;verstretch&gt;0&lt;/verstretch&gt;
+           &lt;/sizepolicy&gt;
+          &lt;/property&gt;
+          &lt;property name="editable"&gt;
+           &lt;bool&gt;true&lt;/bool&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;widget class="QPushButton" name="observeButton"&gt;
+          &lt;property name="enabled"&gt;
+           &lt;bool&gt;false&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;Observe&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;spacer name="horizontalSpacer_3"&gt;
+          &lt;property name="orientation"&gt;
+           &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="sizeHint" stdset="0"&gt;
+           &lt;size&gt;
+            &lt;width&gt;40&lt;/width&gt;
+            &lt;height&gt;20&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+         &lt;/spacer&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/item&gt;
+      &lt;item row="0" column="1"&gt;
+       &lt;layout class="QHBoxLayout" name="horizontalLayout_5"&gt;
+        &lt;item&gt;
+         &lt;widget class="QComboBox" name="hostComboBox"&gt;
+          &lt;property name="sizePolicy"&gt;
+           &lt;sizepolicy hsizetype="Fixed" vsizetype="Fixed"&gt;
+            &lt;horstretch&gt;0&lt;/horstretch&gt;
+            &lt;verstretch&gt;0&lt;/verstretch&gt;
+           &lt;/sizepolicy&gt;
+          &lt;/property&gt;
+          &lt;property name="minimumSize"&gt;
+           &lt;size&gt;
+            &lt;width&gt;250&lt;/width&gt;
+            &lt;height&gt;0&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+          &lt;property name="editable"&gt;
+           &lt;bool&gt;true&lt;/bool&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;spacer name="horizontalSpacer"&gt;
+          &lt;property name="orientation"&gt;
+           &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="sizeType"&gt;
+           &lt;enum&gt;QSizePolicy::Expanding&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="sizeHint" stdset="0"&gt;
+           &lt;size&gt;
+            &lt;width&gt;40&lt;/width&gt;
+            &lt;height&gt;20&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+         &lt;/spacer&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/item&gt;
+      &lt;item row="4" column="1"&gt;
+       &lt;layout class="QHBoxLayout" name="horizontalLayout_3"&gt;
+        &lt;item&gt;
+         &lt;widget class="QComboBox" name="methodComboBox"&gt;
+          &lt;property name="sizePolicy"&gt;
+           &lt;sizepolicy hsizetype="Fixed" vsizetype="Fixed"&gt;
+            &lt;horstretch&gt;0&lt;/horstretch&gt;
+            &lt;verstretch&gt;0&lt;/verstretch&gt;
+           &lt;/sizepolicy&gt;
+          &lt;/property&gt;
+          &lt;property name="minimumSize"&gt;
+           &lt;size&gt;
+            &lt;width&gt;150&lt;/width&gt;
+            &lt;height&gt;0&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;widget class="QCheckBox" name="msgTypeCheckBox"&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;Confirmable&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;widget class="QPushButton" name="addOptionsButton"&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;Add Options&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;widget class="QPushButton" name="contentButton"&gt;
+          &lt;property name="enabled"&gt;
+           &lt;bool&gt;false&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;Add Content&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;spacer name="horizontalSpacer_4"&gt;
+          &lt;property name="orientation"&gt;
+           &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="sizeHint" stdset="0"&gt;
+           &lt;size&gt;
+            &lt;width&gt;40&lt;/width&gt;
+            &lt;height&gt;20&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+         &lt;/spacer&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/item&gt;
+      &lt;item row="2" column="0"&gt;
+       &lt;widget class="QLabel" name="label_8"&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Disscovery Path:&lt;/string&gt;
+        &lt;/property&gt;
+        &lt;property name="alignment"&gt;
+         &lt;set&gt;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter&lt;/set&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="6" column="0" colspan="2"&gt;
+       &lt;widget class="QGroupBox" name="groupBox"&gt;
+        &lt;property name="title"&gt;
+         &lt;string&gt;Output&lt;/string&gt;
+        &lt;/property&gt;
+        &lt;layout class="QGridLayout" name="gridLayout_2"&gt;
+         &lt;item row="0" column="0"&gt;
+          &lt;widget class="QTextEdit" name="textEdit"&gt;
+           &lt;property name="readOnly"&gt;
+            &lt;bool&gt;true&lt;/bool&gt;
+           &lt;/property&gt;
+          &lt;/widget&gt;
+         &lt;/item&gt;
+        &lt;/layout&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="1" column="0"&gt;
+       &lt;widget class="QLabel" name="label_2"&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Port&lt;/string&gt;
+        &lt;/property&gt;
+        &lt;property name="alignment"&gt;
+         &lt;set&gt;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter&lt;/set&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="5" column="1"&gt;
+       &lt;layout class="QHBoxLayout" name="horizontalLayout_12"&gt;
+        &lt;item&gt;
+         &lt;widget class="QPushButton" name="runButton"&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;Run&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;widget class="QPushButton" name="cancelObserveButton"&gt;
+          &lt;property name="enabled"&gt;
+           &lt;bool&gt;false&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;Cancel Observe&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;spacer name="horizontalSpacer_6"&gt;
+          &lt;property name="orientation"&gt;
+           &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="sizeHint" stdset="0"&gt;
+           &lt;size&gt;
+            &lt;width&gt;40&lt;/width&gt;
+            &lt;height&gt;20&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+         &lt;/spacer&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/item&gt;
+      &lt;item row="3" column="0"&gt;
+       &lt;widget class="QLabel" name="label_3"&gt;
+        &lt;property name="text"&gt;
+         &lt;string&gt;Resource&lt;/string&gt;
+        &lt;/property&gt;
+        &lt;property name="alignment"&gt;
+         &lt;set&gt;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter&lt;/set&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+      &lt;item row="2" column="1"&gt;
+       &lt;layout class="QHBoxLayout" name="horizontalLayout_13"&gt;
+        &lt;item&gt;
+         &lt;widget class="QLineEdit" name="discoveryPathEdit"&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;/.well-known/core&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;widget class="QPushButton" name="discoverButton"&gt;
+          &lt;property name="text"&gt;
+           &lt;string&gt;Discover&lt;/string&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;spacer name="horizontalSpacer_7"&gt;
+          &lt;property name="orientation"&gt;
+           &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="sizeHint" stdset="0"&gt;
+           &lt;size&gt;
+            &lt;width&gt;40&lt;/width&gt;
+            &lt;height&gt;20&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+         &lt;/spacer&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/item&gt;
+      &lt;item row="1" column="1"&gt;
+       &lt;layout class="QHBoxLayout" name="horizontalLayout_6"&gt;
+        &lt;item&gt;
+         &lt;widget class="QSpinBox" name="portSpinBox"&gt;
+          &lt;property name="sizePolicy"&gt;
+           &lt;sizepolicy hsizetype="Minimum" vsizetype="Fixed"&gt;
+            &lt;horstretch&gt;0&lt;/horstretch&gt;
+            &lt;verstretch&gt;0&lt;/verstretch&gt;
+           &lt;/sizepolicy&gt;
+          &lt;/property&gt;
+          &lt;property name="minimumSize"&gt;
+           &lt;size&gt;
+            &lt;width&gt;100&lt;/width&gt;
+            &lt;height&gt;0&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+          &lt;property name="maximum"&gt;
+           &lt;number&gt;65535&lt;/number&gt;
+          &lt;/property&gt;
+          &lt;property name="value"&gt;
+           &lt;number&gt;5683&lt;/number&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;spacer name="horizontalSpacer_2"&gt;
+          &lt;property name="orientation"&gt;
+           &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="sizeHint" stdset="0"&gt;
+           &lt;size&gt;
+            &lt;width&gt;40&lt;/width&gt;
+            &lt;height&gt;20&lt;/height&gt;
+           &lt;/size&gt;
+          &lt;/property&gt;
+         &lt;/spacer&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/item&gt;
+      &lt;item row="5" column="0"&gt;
+       &lt;widget class="QLabel" name="label_7"&gt;
+        &lt;property name="text"&gt;
+         &lt;string/&gt;
+        &lt;/property&gt;
+       &lt;/widget&gt;
+      &lt;/item&gt;
+     &lt;/layout&gt;
+    &lt;/item&gt;
+   &lt;/layout&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QMenuBar" name="menuBar"&gt;
+   &lt;property name="geometry"&gt;
+    &lt;rect&gt;
+     &lt;x&gt;0&lt;/x&gt;
+     &lt;y&gt;0&lt;/y&gt;
+     &lt;width&gt;731&lt;/width&gt;
+     &lt;height&gt;22&lt;/height&gt;
+    &lt;/rect&gt;
+   &lt;/property&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QToolBar" name="mainToolBar"&gt;
+   &lt;attribute name="toolBarArea"&gt;
+    &lt;enum&gt;TopToolBarArea&lt;/enum&gt;
+   &lt;/attribute&gt;
+   &lt;attribute name="toolBarBreak"&gt;
+    &lt;bool&gt;false&lt;/bool&gt;
+   &lt;/attribute&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QStatusBar" name="statusBar"/&gt;
+ &lt;/widget&gt;
+ &lt;layoutdefault spacing="6" margin="11"/&gt;
+ &lt;resources/&gt;
+ &lt;connections/&gt;
+&lt;/ui&gt;</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

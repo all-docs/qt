@@ -1,0 +1,213 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Demo - Photo Viewer</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Demo - Photo Viewer</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Quick Demo - Photo Viewer</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+import QtQuick 2.0
+import QtQuick.XmlListModel 2.0
+import QtQml.Models 2.1
+
+<span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+    <span class="name">id</span>: <span class="name">albumDelegate</span>
+    <span class="type"><a href="./qml-qtqml-models-package.htm" translate="no">Package</a></span> {
+
+        <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+            <span class="name">Package</span>.name: <span class="string">'browser'</span>
+            <span class="type"><a href="./qml-qtquick-gridview.htm" translate="no">GridView</a></span> {
+                <span class="name">id</span>: <span class="name">photosGridView</span>; <span class="name">model</span>: <span class="name">visualModel</span>.<span class="name">parts</span>.<span class="name">grid</span>; <span class="name">width</span>: <span class="name">mainWindow</span>.<span class="name">width</span>; <span class="name">height</span>: <span class="name">mainWindow</span>.<span class="name">height</span> <span class="operator">-</span> <span class="number">21</span>
+                <span class="name">x</span>: <span class="number">0</span>; <span class="name">y</span>: <span class="number">21</span>; <span class="name">cellWidth</span>: <span class="number">160</span>; <span class="name">cellHeight</span>: <span class="number">153</span>; <span class="name">interactive</span>: <span class="number">false</span>
+                <span class="name">onCurrentIndexChanged</span>: <span class="name">photosListView</span>.<span class="name">positionViewAtIndex</span>(<span class="name">currentIndex</span>, <span class="name">ListView</span>.<span class="name">Contain</span>)
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+            <span class="name">Package</span>.name: <span class="string">'fullscreen'</span>
+            <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+                <span class="name">id</span>: <span class="name">photosListView</span>; <span class="name">model</span>: <span class="name">visualModel</span>.<span class="name">parts</span>.<span class="name">list</span>; <span class="name">orientation</span>: <span class="name">Qt</span>.<span class="name">Horizontal</span>
+                <span class="name">width</span>: <span class="name">mainWindow</span>.<span class="name">width</span>; <span class="name">height</span>: <span class="name">mainWindow</span>.<span class="name">height</span>; <span class="name">interactive</span>: <span class="number">false</span>
+                <span class="name">onCurrentIndexChanged</span>: <span class="name">photosGridView</span>.<span class="name">positionViewAtIndex</span>(<span class="name">currentIndex</span>, <span class="name">GridView</span>.<span class="name">Contain</span>)
+                <span class="name">highlightRangeMode</span>: <span class="name">ListView</span>.<span class="name">StrictlyEnforceRange</span>; <span class="name">snapMode</span>: <span class="name">ListView</span>.<span class="name">SnapOneItem</span>
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+            <span class="name">Package</span>.name: <span class="string">'album'</span>
+            <span class="name">id</span>: <span class="name">albumWrapper</span>; <span class="name">width</span>: <span class="number">210</span>; <span class="name">height</span>: <span class="number">220</span>
+
+            <span class="type"><a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a></span> {
+                <span class="name">id</span>: <span class="name">visualModel</span>; <span class="name">delegate</span>: <span class="name">PhotoDelegate</span> { }
+                <span class="name">model</span>: <span class="name">RssModel</span> { <span class="name">id</span>: <span class="name">rssModel</span>; <span class="name">tags</span>: <span class="name">tag</span> }
+            }
+
+            <span class="type"><a href="./qml-qtquick-controls2-busyindicator.htm" translate="no">BusyIndicator</a></span> {
+                <span class="name">id</span>: <span class="name">busyIndicator</span>
+                <span class="type">anchors</span> { <span class="name">centerIn</span>: <span class="name">parent</span>; <span class="name">verticalCenterOffset</span>: -<span class="number">20</span> }
+                <span class="name">on</span>: <span class="name">rssModel</span>.<span class="name">status</span> <span class="operator">!=</span> <span class="name">XmlListModel</span>.<span class="name">Ready</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-pathview.htm" translate="no">PathView</a></span> {
+                <span class="name">id</span>: <span class="name">photosPathView</span>; <span class="name">model</span>: <span class="name">visualModel</span>.<span class="name">parts</span>.<span class="name">stack</span>; <span class="name">pathItemCount</span>: <span class="number">5</span>
+                <span class="name">visible</span>: !<span class="name">busyIndicator</span>.<span class="name">visible</span>
+                <span class="name">anchors</span>.centerIn: <span class="name">parent</span>; <span class="name">anchors</span>.verticalCenterOffset: -<span class="number">30</span>
+                <span class="name">path</span>: <span class="name">Path</span> {
+                    <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">'z'</span>; <span class="name">value</span>: <span class="number">9999.0</span> }
+                    <span class="type"><a href="./qml-qtquick-pathline.htm" translate="no">PathLine</a></span> { <span class="name">x</span>: <span class="number">1</span>; <span class="name">y</span>: <span class="number">1</span> }
+                    <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">'z'</span>; <span class="name">value</span>: <span class="number">0.0</span> }
+                }
+            }
+
+            <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="name">onClicked</span>: <span class="name">mainWindow</span>.<span class="name">editMode</span> ? <span class="name">photosModel</span>.<span class="name">remove</span>(<span class="name">index</span>) : <span class="name">albumWrapper</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">'inGrid'</span>
+            }
+
+            <span class="type">Tag</span> {
+                <span class="type">anchors</span> { <span class="name">horizontalCenter</span>: <span class="name">parent</span>.<span class="name">horizontalCenter</span>; <span class="name">bottom</span>: <span class="name">parent</span>.<span class="name">bottom</span>; <span class="name">bottomMargin</span>: <span class="number">10</span> }
+                <span class="name">frontLabel</span>: <span class="name">tag</span>; <span class="name">backLabel</span>: <span class="name">qsTr</span>(<span class="string">"Remove"</span>); <span class="name">flipped</span>: <span class="name">mainWindow</span>.<span class="name">editMode</span>
+                <span class="name">onTagChanged</span>: <span class="name">rssModel</span>.<span class="name">tags</span> <span class="operator">=</span> <span class="name">tag</span>
+                <span class="name">onBackClicked</span>: <span class="keyword">if</span> (<span class="name">mainWindow</span>.<span class="name">editMode</span>) <span class="name">photosModel</span>.<span class="name">remove</span>(<span class="name">index</span>);
+            }
+
+            <span class="name">states</span>: [
+            <span class="type"><a href="./qml-qtqml-statemachine-state.htm" translate="no">State</a></span> {
+                <span class="name">name</span>: <span class="string">'inGrid'</span>
+                <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">photosGridView</span>; <span class="name">interactive</span>: <span class="number">true</span> }
+                <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">albumsShade</span>; <span class="name">opacity</span>: <span class="number">1</span> }
+                <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">backButton</span>; <span class="name">onClicked</span>: <span class="name">albumWrapper</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">''</span>; <span class="name">y</span>: <span class="number">6</span> }
+            },
+            <span class="type"><a href="./qml-qtqml-statemachine-state.htm" translate="no">State</a></span> {
+                <span class="name">name</span>: <span class="string">'fullscreen'</span>; <span class="name">extend</span>: <span class="string">'inGrid'</span>
+                <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">photosGridView</span>; <span class="name">interactive</span>: <span class="number">false</span> }
+                <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">photosListView</span>; <span class="name">interactive</span>: <span class="number">true</span> }
+                <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">photosShade</span>; <span class="name">opacity</span>: <span class="number">1</span> }
+                <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">backButton</span>; <span class="name">y</span>: -<span class="name">backButton</span>.<span class="name">height</span> <span class="operator">-</span> <span class="number">8</span> }
+            }
+            ]
+
+            <span class="name">GridView</span>.onAdd: <span class="name">NumberAnimation</span> {
+                <span class="name">target</span>: <span class="name">albumWrapper</span>; <span class="name">properties</span>: <span class="string">"scale"</span>; <span class="name">from</span>: <span class="number">0.0</span>; <span class="name">to</span>: <span class="number">1.0</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutQuad</span>
+            }
+            <span class="name">GridView</span>.onRemove: <span class="name">SequentialAnimation</span> {
+                <span class="type"><a href="./qml-qtquick-propertyaction.htm" translate="no">PropertyAction</a></span> { <span class="name">target</span>: <span class="name">albumWrapper</span>; <span class="name">property</span>: <span class="string">"GridView.delayRemove"</span>; <span class="name">value</span>: <span class="number">true</span> }
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">target</span>: <span class="name">albumWrapper</span>; <span class="name">property</span>: <span class="string">"scale"</span>; <span class="name">from</span>: <span class="number">1.0</span>; <span class="name">to</span>: <span class="number">0.0</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutQuad</span> }
+                <span class="type"><a href="./qml-qtquick-propertyaction.htm" translate="no">PropertyAction</a></span> { <span class="name">target</span>: <span class="name">albumWrapper</span>; <span class="name">property</span>: <span class="string">"GridView.delayRemove"</span>; <span class="name">value</span>: <span class="number">false</span> }
+            }
+
+            <span class="name">transitions</span>: [
+            <span class="type"><a href="./qml-qtquick-transition.htm" translate="no">Transition</a></span> {
+                <span class="name">from</span>: <span class="string">'*'</span>; <span class="name">to</span>: <span class="string">'inGrid'</span>
+                <span class="type"><a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a></span> {
+                    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">properties</span>: <span class="string">'opacity'</span>; <span class="name">duration</span>: <span class="number">250</span> }
+                    <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> { <span class="name">duration</span>: <span class="number">350</span> }
+                    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">target</span>: <span class="name">backButton</span>; <span class="name">properties</span>: <span class="string">"y"</span>; <span class="name">duration</span>: <span class="number">200</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutQuad</span> }
+                }
+            },
+            <span class="type"><a href="./qml-qtquick-transition.htm" translate="no">Transition</a></span> {
+                <span class="name">from</span>: <span class="string">'inGrid'</span>; <span class="name">to</span>: <span class="string">'*'</span>
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">properties</span>: <span class="string">"y,opacity"</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutQuad</span>; <span class="name">duration</span>: <span class="number">300</span> }
+            }
+            ]
+        }
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

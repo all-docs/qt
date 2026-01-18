@@ -1,0 +1,153 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QFileOpenEvent | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qfileopenevent.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a href="./qtgui-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QFileOpenEvent</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QFileOpenEvent Class</h1>
+<!-- $$$QFileOpenEvent-brief -->
+<p>The QFileOpenEvent class provides an event that will be sent when there is a request to open a file or a URL. <a href="#details">More...</a></p>
+<!-- @@@QFileOpenEvent -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QFileOpenEvent&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += gui</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qevent.htm" translate="no">QEvent</a></td></tr></tbody></table></div><ul>
+<li><a href="./qfileopenevent-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="./qfileopenevent.htm#file" translate="no">file</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qfileopenevent.htm#openFile" translate="no">openFile</a></b>(QFile &amp;<i>file</i>, QIODevice::OpenMode <i>flags</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QUrl </td><td class="memItemRight bottomAlign"><b><a href="./qfileopenevent.htm#url" translate="no">url</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QFileOpenEvent-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>File open events will be sent to the <a href="./qcoreapplication.htm#instance" translate="no">QApplication::instance</a>() when the operating system requests that a file or URL should be opened. This is a high-level event that can be caused by different user actions depending on the user's desktop environment; for example, double clicking on an file icon in the Finder on macOS.</p>
+<p>This event is only used to notify the application of a request. It may be safely ignored.</p>
+<div class="admonition note">
+<p><b>Note: </b>This class is currently supported for macOS only.</p>
+</div>
+<a name="macos-example"></a>
+<h3 id="macos-example">macOS Example<a class="plink" href="#macos-example" title="Direct link to this headline"></a></h3>
+<p>In order to trigger the event on macOS, the application must be configured to let the OS know what kind of file(s) it should react on.</p>
+<p>For example, the following <code translate="no">Info.plist</code> file declares that the application can act as a viewer for files with a PNG extension:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+    &lt;key&gt;CFBundleDocumentTypes&lt;/key&gt;
+    &lt;array&gt;
+        &lt;dict&gt;
+            &lt;key&gt;CFBundleTypeExtensions&lt;/key&gt;
+            &lt;array&gt;
+                &lt;string&gt;png&lt;/string&gt;
+            &lt;/array&gt;
+            &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+            &lt;string&gt;Viewer&lt;/string&gt;
+        &lt;/dict&gt;
+    &lt;/array&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;</pre></div>
+<p>The following implementation of a <a href="./qapplication.htm" translate="no">QApplication</a> subclass prints the path to the file that was, for example, dropped on the Dock icon of the application.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QApplication&gt;</span>
+<span class="preprocessor">#include &lt;QFileOpenEvent&gt;</span>
+<span class="preprocessor">#include &lt;QtDebug&gt;</span>
+
+<span class="keyword">class</span> MyApplication : <span class="keyword">public</span> <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span>
+{
+<span class="keyword">public</span>:
+    MyApplication(<span class="type">int</span> <span class="operator">&amp;</span>argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span><span class="operator">*</span>argv)
+        : <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span>(argc<span class="operator">,</span> argv)
+    {
+    }
+
+    bool event(<span class="type"><a href="./qevent.htm#QEvent" translate="no">QEvent</a></span> <span class="operator">*</span>event) override
+    {
+        <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>type() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qevent.htm#QEvent" translate="no">QEvent</a></span><span class="operator">::</span>FileOpen) {
+            <span class="type">QFileOpenEvent</span> <span class="operator">*</span>openEvent <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type">QFileOpenEvent</span> <span class="operator">*</span><span class="operator">&gt;</span>(event);
+            <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Open file"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> openEvent<span class="operator">-</span><span class="operator">&gt;</span>file();
+        }
+
+        <span class="keyword">return</span> <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>event(event);
+    }
+};</pre></div>
+</div>
+<!-- @@@QFileOpenEvent -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$file[overload1]$$$file -->
+<h3 class="fn" id="file" translate="no"><a name="file"></a><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> QFileOpenEvent::<span class="name">file</span>() const<a class="plink" href="#file" title="Direct link to this headline"></a></h3>
+<p>Returns the file that is being opened.</p>
+<!-- @@@file -->
+<!-- $$$openFile[overload1]$$$openFileQFile&QIODevice::OpenMode -->
+<h3 class="fn" id="openFile" translate="no"><a name="openFile"></a><span class="type">bool</span> QFileOpenEvent::<span class="name">openFile</span>(<span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> &amp;<i>file</i>, <span class="type"><a href="./qiodevice.htm#OpenModeFlag-enum" translate="no">QIODevice::OpenMode</a></span> <i>flags</i>) const<a class="plink" href="#openFile" title="Direct link to this headline"></a></h3>
+<p>Opens a <a href="./qfile.htm" translate="no">QFile</a> on the <i translate="no">file</i> referenced by this event in the mode specified by <i translate="no">flags</i>. Returns <code translate="no">true</code> if successful; otherwise returns <code translate="no">false</code>.</p>
+<p>This is necessary as some files cannot be opened by name, but require specific information stored in this event.</p>
+<p>This function was introduced in Qt 4.8.</p>
+<!-- @@@openFile -->
+<!-- $$$url[overload1]$$$url -->
+<h3 class="fn" id="url" translate="no"><a name="url"></a><span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> QFileOpenEvent::<span class="name">url</span>() const<a class="plink" href="#url" title="Direct link to this headline"></a></h3>
+<p>Returns the url that is being opened.</p>
+<p>This function was introduced in Qt 4.6.</p>
+<!-- @@@url -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

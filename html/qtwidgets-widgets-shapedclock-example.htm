@@ -1,0 +1,218 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shaped Clock Example | Qt Widgets</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtwidgets-widgets-shapedclock-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-widgets.htm" translate="no">Qt Widgets Examples</a></li>
+                            <li><a>Shaped Clock Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Shaped Clock Example</h1>
+<span class="subtitle"></span>
+<!-- $$$widgets/shapedclock-brief -->
+<p>The Shaped Clock example shows how to apply a translucent background and a widget mask to a top-level widget to produce a shaped window.</p>
+<!-- @@@widgets/shapedclock -->
+<!-- $$$widgets/shapedclock-description -->
+<div class="descr"> <a name="details"></a>
+<div class="border"><p class="centerAlign"><img alt="" src="./images/shapedclock-example.png"></p></div><p>Widget masks are used to customize the shapes of top-level widgets by restricting the area available for painting and mouse input. Using a translucent background facilitates partially transparent windows and smooth edges. On most window systems, setting certain window flags will cause the window decoration (title bar, window frame, buttons) to be disabled, allowing specially-shaped windows to be created. In this example, we use this feature to create a circular window containing an analog clock.</p>
+<p>Since this example's window does not provide a <b translate="no">File</b> menu or a close button, we provide a context menu with an <b translate="no">Exit</b> entry so that the example can be closed. Click the right mouse button over the window to open this menu.</p>
+<a name="shapedclock-class-definition"></a>
+<h4 id="shapedclock-class-definition">ShapedClock Class Definition<a class="plink" href="#shapedclock-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">ShapedClock</code> class is based on the <code translate="no">AnalogClock</code> class defined in the <a href="./qtwidgets-widgets-analogclock-example.htm" translate="no">Analog Clock</a> example. The whole class definition is presented below:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> ShapedClock : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    ShapedClock(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> sizeHint() <span class="keyword">const</span> override;
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> mouseMoveEvent(<span class="type"><a href="./qmouseevent.htm" translate="no">QMouseEvent</a></span> <span class="operator">*</span>event) override;
+    <span class="type">void</span> mousePressEvent(<span class="type"><a href="./qmouseevent.htm" translate="no">QMouseEvent</a></span> <span class="operator">*</span>event) override;
+    <span class="type">void</span> paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>event) override;
+    <span class="type">void</span> resizeEvent(<span class="type"><a href="./qresizeevent.htm" translate="no">QResizeEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> dragPosition;
+};</pre></div>
+<p>The <a href="./qwidget.htm#paintEvent" translate="no">paintEvent()</a> implementation is the same as that found in the <code translate="no">AnalogClock</code> class, with one important exception: we now must also draw background (the clock face) ourselves, since the widget background is just transparent. We implement <a href="./qwidget.htm#sizeHint-prop" translate="no">sizeHint()</a> so that we don't have to resize the widget explicitly. We also provide an event handler for resize events. This allows us to update the mask if the clock is resized.</p>
+<p>Since the window containing the clock widget will have no title bar, we provide implementations for <a href="./qwidget.htm#mouseMoveEvent" translate="no">mouseMoveEvent()</a> and <a href="./qwidget.htm#mousePressEvent" translate="no">mousePressEvent()</a> to allow the clock to be dragged around the screen. The <code translate="no">dragPosition</code> variable lets us keep track of where the user last clicked on the widget.</p>
+<a name="shapedclock-class-implementation"></a>
+<h4 id="shapedclock-class-implementation">ShapedClock Class Implementation<a class="plink" href="#shapedclock-class-implementation" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">ShapedClock</code> constructor performs many of the same tasks as the <code translate="no">AnalogClock</code> constructor. We set up a timer and connect it to the widget's update() slot:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ShapedClock<span class="operator">::</span>ShapedClock(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>FramelessWindowHint <span class="operator">|</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>WindowSystemMenuHint)
+{
+    setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>WA_TranslucentBackground);
+    <span class="type"><a href="./qtimer.htm" translate="no">QTimer</a></span> <span class="operator">*</span>timer <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtimer.htm" translate="no">QTimer</a></span>(<span class="keyword">this</span>);
+    connect(timer<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtimer.htm" translate="no">QTimer</a></span><span class="operator">::</span>timeout<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span>ShapedClock<span class="operator">::</span>update));
+    timer<span class="operator">-</span><span class="operator">&gt;</span>start(<span class="number">1000</span>);
+
+    <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span> <span class="operator">*</span>quitAction <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span>(tr(<span class="string">"E&amp;xit"</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    quitAction<span class="operator">-</span><span class="operator">&gt;</span>setShortcut(tr(<span class="string">"Ctrl+Q"</span>));
+    connect(quitAction<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <a href="./qapplication.htm#qApp" translate="no">qApp</a><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>quit);
+    addAction(quitAction);
+
+    setContextMenuPolicy(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>ActionsContextMenu);
+    setToolTip(tr(<span class="string">"Drag the clock with the left mouse button.\n"</span>
+                  <span class="string">"Use the right mouse button to open a context menu."</span>));
+    setWindowTitle(tr(<span class="string">"Shaped Analog Clock"</span>));
+}</pre></div>
+<p>We request a transparent window by setting the <a href="./qt.htm#WidgetAttribute-enum" translate="no">Qt::WA_TranslucentBackground</a> widget attribute. We inform the window manager that the widget is not to be decorated with a window frame by setting the <a href="./qt.htm#WindowType-enum" translate="no">Qt::FramelessWindowHint</a> flag on the widget. As a result, we need to provide a way for the user to move the clock around the screen.</p>
+<p>Mouse button events are delivered to the <code translate="no">mousePressEvent()</code> handler:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ShapedClock<span class="operator">::</span>mousePressEvent(<span class="type"><a href="./qmouseevent.htm" translate="no">QMouseEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>button() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>LeftButton) {
+        dragPosition <span class="operator">=</span> event<span class="operator">-</span><span class="operator">&gt;</span>globalPos() <span class="operator">-</span> frameGeometry()<span class="operator">.</span>topLeft();
+        event<span class="operator">-</span><span class="operator">&gt;</span>accept();
+    }
+}</pre></div>
+<p>If the left mouse button is pressed over the widget, we record the displacement in global (screen) coordinates between the top-left position of the widget's frame (even when hidden) and the point where the mouse click occurred. This displacement will be used if the user moves the mouse while holding down the left button. Since we acted on the event, we accept it by calling its <a href="./qevent.htm#accept" translate="no">accept()</a> function.</p>
+<p class="centerAlign"><img alt="" src="./images/shapedclock-dragging.png"></p><p>The <code translate="no">mouseMoveEvent()</code> handler is called if the mouse is moved over the widget.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ShapedClock<span class="operator">::</span>mouseMoveEvent(<span class="type"><a href="./qmouseevent.htm" translate="no">QMouseEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>buttons() <span class="operator">&amp;</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>LeftButton) {
+        move(event<span class="operator">-</span><span class="operator">&gt;</span>globalPos() <span class="operator">-</span> dragPosition);
+        event<span class="operator">-</span><span class="operator">&gt;</span>accept();
+    }
+}</pre></div>
+<p>If the left button is held down while the mouse is moved, the top-left corner of the widget is moved to the point given by subtracting the <code translate="no">dragPosition</code> from the current cursor position in global coordinates. If we drag the widget, we also accept the event.</p>
+<p>The <code translate="no">paintEvent()</code> function is mainly the same as described in the <a href="./qtwidgets-widgets-analogclock-example.htm" translate="no">Analog Clock</a> example. The one addition is that we use <a href="./qpainter.htm#drawEllipse" translate="no">QPainter::drawEllipse</a>() to draw a round clock face with the current palette's default background color. We make the clock face a bit smaller than the widget mask, so that the anti-aliased, semi-transparent pixels on the edge are not clipped away by the widget mask. This gives the shaped window smooth edges on the screen.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ShapedClock<span class="operator">::</span>paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>)
+{
+    <span class="keyword">static</span> <span class="keyword">const</span> <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> hourHand<span class="operator">[</span><span class="number">3</span><span class="operator">]</span> <span class="operator">=</span> {
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="number">7</span><span class="operator">,</span> <span class="number">8</span>)<span class="operator">,</span>
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="operator">-</span><span class="number">7</span><span class="operator">,</span> <span class="number">8</span>)<span class="operator">,</span>
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="operator">-</span><span class="number">40</span>)
+    };
+    <span class="keyword">static</span> <span class="keyword">const</span> <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> minuteHand<span class="operator">[</span><span class="number">3</span><span class="operator">]</span> <span class="operator">=</span> {
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="number">7</span><span class="operator">,</span> <span class="number">8</span>)<span class="operator">,</span>
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="operator">-</span><span class="number">7</span><span class="operator">,</span> <span class="number">8</span>)<span class="operator">,</span>
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="operator">-</span><span class="number">70</span>)
+    };
+
+    <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> hourColor(<span class="number">127</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">127</span>);
+    <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> minuteColor(<span class="number">0</span><span class="operator">,</span> <span class="number">127</span><span class="operator">,</span> <span class="number">127</span><span class="operator">,</span> <span class="number">191</span>);
+
+    <span class="type">int</span> side <span class="operator">=</span> <a href="./qtglobal.htm#qMin" translate="no">qMin</a>(width()<span class="operator">,</span> height());
+    <span class="type"><a href="./qtime.htm" translate="no">QTime</a></span> time <span class="operator">=</span> <span class="type"><a href="./qtime.htm" translate="no">QTime</a></span><span class="operator">::</span>currentTime();
+
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter(<span class="keyword">this</span>);
+    painter<span class="operator">.</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);
+    painter<span class="operator">.</span>translate(width() <span class="operator">/</span> <span class="number">2</span><span class="operator">,</span> height() <span class="operator">/</span> <span class="number">2</span>);
+    painter<span class="operator">.</span>scale(side <span class="operator">/</span> <span class="number">200.0</span><span class="operator">,</span> side <span class="operator">/</span> <span class="number">200.0</span>);
+
+    painter<span class="operator">.</span>setPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>NoPen);
+    painter<span class="operator">.</span>setBrush(palette()<span class="operator">.</span>window());
+    painter<span class="operator">.</span>drawEllipse(<span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span>)<span class="operator">,</span> <span class="number">98</span><span class="operator">,</span> <span class="number">98</span>);
+
+    painter<span class="operator">.</span>setPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>NoPen);
+    painter<span class="operator">.</span>setBrush(hourColor);
+
+    painter<span class="operator">.</span>save();
+    painter<span class="operator">.</span>rotate(<span class="number">30.0</span> <span class="operator">*</span> ((time<span class="operator">.</span>hour() <span class="operator">+</span> time<span class="operator">.</span>minute() <span class="operator">/</span> <span class="number">60.0</span>)));
+    painter<span class="operator">.</span>drawConvexPolygon(hourHand<span class="operator">,</span> <span class="number">3</span>);
+    painter<span class="operator">.</span>restore();
+
+    painter<span class="operator">.</span>setPen(hourColor);
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> <span class="number">12</span>; <span class="operator">+</span><span class="operator">+</span>i) {
+        painter<span class="operator">.</span>drawLine(<span class="number">88</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">96</span><span class="operator">,</span> <span class="number">0</span>);
+        painter<span class="operator">.</span>rotate(<span class="number">30.0</span>);
+    }
+
+    painter<span class="operator">.</span>setPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>NoPen);
+    painter<span class="operator">.</span>setBrush(minuteColor);
+
+    painter<span class="operator">.</span>save();
+    painter<span class="operator">.</span>rotate(<span class="number">6.0</span> <span class="operator">*</span> (time<span class="operator">.</span>minute() <span class="operator">+</span> time<span class="operator">.</span>second() <span class="operator">/</span> <span class="number">60.0</span>));
+    painter<span class="operator">.</span>drawConvexPolygon(minuteHand<span class="operator">,</span> <span class="number">3</span>);
+    painter<span class="operator">.</span>restore();
+
+    painter<span class="operator">.</span>setPen(minuteColor);
+
+    <span class="keyword">for</span> (<span class="type">int</span> j <span class="operator">=</span> <span class="number">0</span>; j <span class="operator">&lt;</span> <span class="number">60</span>; <span class="operator">+</span><span class="operator">+</span>j) {
+        <span class="keyword">if</span> ((j <span class="operator">%</span> <span class="number">5</span>) <span class="operator">!</span><span class="operator">=</span> <span class="number">0</span>)
+            painter<span class="operator">.</span>drawLine(<span class="number">92</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">96</span><span class="operator">,</span> <span class="number">0</span>);
+        painter<span class="operator">.</span>rotate(<span class="number">6.0</span>);
+    }
+}</pre></div>
+<p>In the <code translate="no">resizeEvent()</code> handler, we re-use some of the code from the <code translate="no">paintEvent()</code> to determine the region of the widget that is visible to the user. This tells the system the area where mouse clicks should go to us, and not to whatever window is behind us:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ShapedClock<span class="operator">::</span>resizeEvent(<span class="type"><a href="./qresizeevent.htm" translate="no">QResizeEvent</a></span> <span class="operator">*</span> <span class="comment">/* event */</span>)
+{
+    <span class="type">int</span> side <span class="operator">=</span> <a href="./qtglobal.htm#qMin" translate="no">qMin</a>(width()<span class="operator">,</span> height());
+    <span class="type"><a href="./qregion.htm" translate="no">QRegion</a></span> maskedRegion(width() <span class="operator">/</span> <span class="number">2</span> <span class="operator">-</span> side <span class="operator">/</span> <span class="number">2</span><span class="operator">,</span> height() <span class="operator">/</span> <span class="number">2</span> <span class="operator">-</span> side <span class="operator">/</span> <span class="number">2</span><span class="operator">,</span> side<span class="operator">,</span>
+                         side<span class="operator">,</span> <span class="type"><a href="./qregion.htm" translate="no">QRegion</a></span><span class="operator">::</span>Ellipse);
+    setMask(maskedRegion);
+}</pre></div>
+<p>Since the clock face is a circle drawn in the center of the widget, this is the region we use as the mask.</p>
+<p>Although the lack of a window frame may make it difficult for the user to resize the widget on some platforms, it will not necessarily be impossible. The <code translate="no">resizeEvent()</code> function ensures that the widget mask will always be updated if the widget's dimensions change, and additionally ensures that it will be set up correctly when the widget is first displayed.</p>
+<p>Finally, we implement the <code translate="no">sizeHint()</code> for the widget so that it is given a reasonable default size when it is first shown:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> ShapedClock<span class="operator">::</span>sizeHint() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span>(<span class="number">200</span><span class="operator">,</span> <span class="number">200</span>);
+}</pre></div>
+<a name="notes-on-widget-masks"></a>
+<h4 id="notes-on-widget-masks">Notes on Widget Masks<a class="plink" href="#notes-on-widget-masks" title="Direct link to this headline"></a></h4>
+<p>Widget masks are used to hint to the window system that the application does not want mouse events for areas outside the mask. On most systems, they also result in coarse visual clipping. To get smooth window edges, one should use translucent background and anti-aliased painting, as shown in this example.</p>
+<p>Since <a href="./qregion.htm" translate="no">QRegion</a> allows arbitrarily complex regions to be created, widget masks can be made to suit the most unconventionally-shaped windows, and even allow widgets to be displayed with holes in them.</p>
+<p>Widget masks can also be constructed by using the contents of pixmap to define the opaque part of the widget. For a pixmap with an alpha channel, a suitable mask can be obtained with <a href="./qpixmap.htm#mask" translate="no">QPixmap::mask</a>().</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/shapedclock?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@widgets/shapedclock -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

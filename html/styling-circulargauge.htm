@@ -1,0 +1,237 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Styling CircularGauge | Qt Quick Controls 1</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquickcontrols1-index.htm" translate="no">Qt Quick Controls 1</a></li>
+                            <li><a href="./stylingtutorials.htm" translate="no">Styling Tutorials</a></li>
+                            <li><a>Styling CircularGauge</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Styling CircularGauge</h1>
+<span class="subtitle"></span>
+<!-- $$$styling-circulargauge.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="styling-circulargauge-needle"></a><a name="the-needle-component"></a>
+<h3 id="the-needle-component">The Needle Component<a class="plink" href="#the-needle-component" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qml-qtquick-controls-styles-circulargaugestyle.htm#needle-prop" translate="no">needle</a> component is rotated around the gauge to represent the current value.</p>
+<p>Starting from the default style, we'll add a very basic white needle:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">needle</span>: <span class="name">Rectangle</span> {
+    <span class="name">y</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.15</span>
+    <span class="name">implicitWidth</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.03</span>
+    <span class="name">implicitHeight</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.9</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+    <span class="name">color</span>: <span class="string">"#e5e5e5"</span>
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/styling-circulargauge-needle-example.png"></p><p>As mentioned in the documentation for <a href="./qml-qtquick-controls-styles-circulargaugestyle.htm" translate="no">CircularGaugeStyle</a>, <code translate="no">implicitWidth</code> and <code translate="no">implicitHeight</code> properties need to be set. This is so that the needle can be positioned properly. We always scale items by the <a href="./qml-qtquick-controls-styles-circulargaugestyle.htm#outerRadius-prop" translate="no">outerRadius</a> property of the style, ensuring the control resizes gracefully.</p>
+<p>We offset the needle vertically so that its back sits beyond the knob.</p>
+<a name="styling-circulargauge-foreground"></a><a name="the-foreground-component"></a>
+<h3 id="the-foreground-component">The Foreground Component<a class="plink" href="#the-foreground-component" title="Direct link to this headline"></a></h3>
+<p>We've now changed the needle, but the default knob is still there; let's replace it. The <a href="./qml-qtquick-controls-styles-circulargaugestyle.htm#foreground-prop" translate="no">foreground</a> component defines the default knob, so we can specify our own by overriding it (note that we could also set it to <code translate="no">null</code> if we didn't want a foreground):</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">foreground</span>: <span class="name">Item</span> {
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">width</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.2</span>
+        <span class="name">height</span>: <span class="name">width</span>
+        <span class="name">radius</span>: <span class="name">width</span> <span class="operator">/</span> <span class="number">2</span>
+        <span class="name">color</span>: <span class="string">"#e5e5e5"</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/styling-circulargauge-knob-example.png"></p><p>Firstly, we create a circle from the Rectangle item by setting the radius to be half the width (either width or height will work here; they are always equal in this case). We make it a child of the Item, because the foreground fills the gauge. We then center it within the Item.</p>
+<p>We set the color of the knob to the same white that we used before.</p>
+<a name="styling-circulargauge-tickmarklabel"></a><a name="the-tickmark-label-component"></a>
+<h3 id="the-tickmark-label-component">The Tickmark Label Component<a class="plink" href="#the-tickmark-label-component" title="Direct link to this headline"></a></h3>
+<p>Suppose we want to caution the user if the value displayed by the gauge goes above or below a certain range. We could present this range to the user in several ways:</p>
+<ol class="A" type="A"><li>Change the color of the tickmarks depending on <code translate="no">styleData.value</code></li>
+<li>Add an image to the background</li>
+<li>Draw it with <a href="./qml-qtquick-canvas.htm" translate="no">Canvas</a></li>
+</ol>
+<p>We'll choose options 1 and 3, as they are more flexible than using an image.</p>
+<p>Firstly, let's change the color of the three highest tickmark labels:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">tickmarkLabel</span>:  <span class="name">Text</span> {
+    <span class="name">font</span>.pixelSize: <span class="name">Math</span>.<span class="name">max</span>(<span class="number">6</span>, <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.1</span>)
+    <span class="name">text</span>: <span class="name">styleData</span>.<span class="name">value</span>
+    <span class="name">color</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&gt;=</span> <span class="number">80</span> ? <span class="string">"#e34c22"</span> : <span class="string">"#e5e5e5"</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+}</pre></div>
+<p class="centerAlign"><img alt="tickmarkLabel" src="./images/styling-circulargauge-tickmarkLabel-example.png"></p><p>We also change the color of the rest of the labels to the same white that we used for the needle and knob.</p>
+<a name="styling-circulargauge-tickmark"></a><a name="the-tickmark-component"></a>
+<h3 id="the-tickmark-component">The Tickmark Component<a class="plink" href="#the-tickmark-component" title="Direct link to this headline"></a></h3>
+<p>Now let's do the same for the three highest tickmarks:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">tickmark</span>: <span class="name">Rectangle</span> {
+    <span class="name">visible</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&lt;</span> <span class="number">80</span> <span class="operator">||</span> <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">%</span> <span class="number">10</span> <span class="operator">==</span> <span class="number">0</span>
+    <span class="name">implicitWidth</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.02</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+    <span class="name">implicitHeight</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.06</span>
+    <span class="name">color</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&gt;=</span> <span class="number">80</span> ? <span class="string">"#e34c22"</span> : <span class="string">"#e5e5e5"</span>
+}</pre></div>
+<p class="centerAlign"><img alt="tickmark" src="./images/styling-circulargauge-tickmark-example.png"></p><a name="styling-circulargauge-minortickmark"></a><a name="the-minor-tickmark-component"></a>
+<h3 id="the-minor-tickmark-component">The Minor Tickmark Component<a class="plink" href="#the-minor-tickmark-component" title="Direct link to this headline"></a></h3>
+<p>For the minor tickmarks, we'll only show those which are not higher than <code translate="no">80</code>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">minorTickmark</span>: <span class="name">Rectangle</span> {
+    <span class="name">visible</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&lt;</span> <span class="number">80</span>
+    <span class="name">implicitWidth</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.01</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+    <span class="name">implicitHeight</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.03</span>
+    <span class="name">color</span>: <span class="string">"#e5e5e5"</span>
+}</pre></div>
+<p class="centerAlign"><img alt="minorTickmark" src="./images/styling-circulargauge-minorTickmark-example.png"></p><p>This is because we'll draw something between that range in the next section.</p>
+<a name="styling-circulargauge-background"></a><a name="the-background-component"></a>
+<h3 id="the-background-component">The Background Component<a class="plink" href="#the-background-component" title="Direct link to this headline"></a></h3>
+<p>We'll display the range that indicates caution with an orange arc:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="keyword">function </span><span class="name">degreesToRadians</span>(degrees) {
+    <span class="keyword">return</span> <span class="name">degrees</span> <span class="operator">*</span> (<span class="name">Math</span>.<span class="name">PI</span> <span class="operator">/</span> <span class="number">180</span>);
+}
+
+<span class="name">background</span>: <span class="name">Canvas</span> {
+    <span class="name">onPaint</span>: {
+        var ctx = <span class="name">getContext</span>(<span class="string">"2d"</span>);
+        <span class="name">ctx</span>.<span class="name">reset</span>();
+
+        <span class="name">ctx</span>.<span class="name">beginPath</span>();
+        <span class="name">ctx</span>.<span class="name">strokeStyle</span> <span class="operator">=</span> <span class="string">"#e34c22"</span>;
+        <span class="name">ctx</span>.<span class="name">lineWidth</span> <span class="operator">=</span> <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.02</span>;
+
+        <span class="name">ctx</span>.<span class="name">arc</span>(<span class="name">outerRadius</span>, <span class="name">outerRadius</span>, <span class="name">outerRadius</span> <span class="operator">-</span> <span class="name">ctx</span>.<span class="name">lineWidth</span> <span class="operator">/</span> <span class="number">2</span>,
+            <span class="name">degreesToRadians</span>(<span class="name">valueToAngle</span>(<span class="number">80</span>) <span class="operator">-</span> <span class="number">90</span>), <span class="name">degreesToRadians</span>(<span class="name">valueToAngle</span>(<span class="number">100</span>) <span class="operator">-</span> <span class="number">90</span>));
+        <span class="name">ctx</span>.<span class="name">stroke</span>();
+    }
+}</pre></div>
+<p>We define a function to convert degrees to radians, which are the units used by <a href="./qml-qtquick-canvas.htm" translate="no">Canvas</a>.</p>
+<p>Next, we do the drawing of the range using Canvas. We draw an arc between <code translate="no">80</code> and <code translate="no">100</code>, using the <a href="./qml-qtquick-controls-styles-circulargaugestyle.htm#valueToAngle-method" translate="no">valueToAngle()</a> function provided by <a href="./qml-qtquick-controls-styles-circulargaugestyle.htm" translate="no">CircularGaugeStyle</a>. Note that we subtract <code translate="no">90</code> degrees before converting to radians, as our origin is north and Canvas' is east.</p>
+<p>The finished product:</p>
+<p class="centerAlign"><img alt="background" src="./images/styling-circulargauge-background-example.png"></p><p>The complete code for this example is as follows:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Extras 1.4
+import QtQuick.Extras.Private 1.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">300</span>
+    <span class="name">height</span>: <span class="number">300</span>
+    <span class="name">color</span>: <span class="string">"#494d53"</span>
+
+    <span class="type"><a href="./qml-qtquick-extras-circulargauge.htm" translate="no">CircularGauge</a></span> {
+        <span class="name">id</span>: <span class="name">gauge</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">style</span>: <span class="name">CircularGaugeStyle</span> {
+            <span class="name">id</span>: <span class="name">style</span>
+
+            <span class="keyword">function </span><span class="name">degreesToRadians</span>(degrees) {
+                <span class="keyword">return</span> <span class="name">degrees</span> <span class="operator">*</span> (<span class="name">Math</span>.<span class="name">PI</span> <span class="operator">/</span> <span class="number">180</span>);
+            }
+
+            <span class="name">background</span>: <span class="name">Canvas</span> {
+                <span class="name">onPaint</span>: {
+                    var ctx = <span class="name">getContext</span>(<span class="string">"2d"</span>);
+                    <span class="name">ctx</span>.<span class="name">reset</span>();
+
+                    <span class="name">ctx</span>.<span class="name">beginPath</span>();
+                    <span class="name">ctx</span>.<span class="name">strokeStyle</span> <span class="operator">=</span> <span class="string">"#e34c22"</span>;
+                    <span class="name">ctx</span>.<span class="name">lineWidth</span> <span class="operator">=</span> <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.02</span>;
+
+                    <span class="name">ctx</span>.<span class="name">arc</span>(<span class="name">outerRadius</span>, <span class="name">outerRadius</span>, <span class="name">outerRadius</span> <span class="operator">-</span> <span class="name">ctx</span>.<span class="name">lineWidth</span> <span class="operator">/</span> <span class="number">2</span>,
+                        <span class="name">degreesToRadians</span>(<span class="name">valueToAngle</span>(<span class="number">80</span>) <span class="operator">-</span> <span class="number">90</span>), <span class="name">degreesToRadians</span>(<span class="name">valueToAngle</span>(<span class="number">100</span>) <span class="operator">-</span> <span class="number">90</span>));
+                    <span class="name">ctx</span>.<span class="name">stroke</span>();
+                }
+            }
+
+            <span class="name">tickmark</span>: <span class="name">Rectangle</span> {
+                <span class="name">visible</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&lt;</span> <span class="number">80</span> <span class="operator">||</span> <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">%</span> <span class="number">10</span> <span class="operator">==</span> <span class="number">0</span>
+                <span class="name">implicitWidth</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.02</span>
+                <span class="name">antialiasing</span>: <span class="number">true</span>
+                <span class="name">implicitHeight</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.06</span>
+                <span class="name">color</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&gt;=</span> <span class="number">80</span> ? <span class="string">"#e34c22"</span> : <span class="string">"#e5e5e5"</span>
+            }
+
+            <span class="name">minorTickmark</span>: <span class="name">Rectangle</span> {
+                <span class="name">visible</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&lt;</span> <span class="number">80</span>
+                <span class="name">implicitWidth</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.01</span>
+                <span class="name">antialiasing</span>: <span class="number">true</span>
+                <span class="name">implicitHeight</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.03</span>
+                <span class="name">color</span>: <span class="string">"#e5e5e5"</span>
+            }
+
+            <span class="name">tickmarkLabel</span>:  <span class="name">Text</span> {
+                <span class="name">font</span>.pixelSize: <span class="name">Math</span>.<span class="name">max</span>(<span class="number">6</span>, <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.1</span>)
+                <span class="name">text</span>: <span class="name">styleData</span>.<span class="name">value</span>
+                <span class="name">color</span>: <span class="name">styleData</span>.<span class="name">value</span> <span class="operator">&gt;=</span> <span class="number">80</span> ? <span class="string">"#e34c22"</span> : <span class="string">"#e5e5e5"</span>
+                <span class="name">antialiasing</span>: <span class="number">true</span>
+            }
+
+            <span class="name">needle</span>: <span class="name">Rectangle</span> {
+                <span class="name">y</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.15</span>
+                <span class="name">implicitWidth</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.03</span>
+                <span class="name">implicitHeight</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.9</span>
+                <span class="name">antialiasing</span>: <span class="number">true</span>
+                <span class="name">color</span>: <span class="string">"#e5e5e5"</span>
+            }
+
+            <span class="name">foreground</span>: <span class="name">Item</span> {
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">width</span>: <span class="name">outerRadius</span> <span class="operator">*</span> <span class="number">0.2</span>
+                    <span class="name">height</span>: <span class="name">width</span>
+                    <span class="name">radius</span>: <span class="name">width</span> <span class="operator">/</span> <span class="number">2</span>
+                    <span class="name">color</span>: <span class="string">"#e5e5e5"</span>
+                    <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                }
+            }
+        }
+    }
+}</pre></div>
+</div>
+<!-- @@@styling-circulargauge.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

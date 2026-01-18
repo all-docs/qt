@@ -1,0 +1,201 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Sensors C++ Overview | Qt Sensors</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtsensors-cpp.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsensors-index.htm" translate="no">Qt Sensors</a></li>
+                            <li><a>Qt Sensors C++ Overview</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Sensors C++ Overview</h1>
+<span class="subtitle"></span>
+<!-- $$$qtsensors-cpp.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="sensor-types"></a>
+<h2 id="sensor-types">Sensor Types<a class="plink" href="#sensor-types" title="Direct link to this headline"></a></h2>
+<p>On a device there can be many types of sensors. Not all of the types that the Qt Sensors API supports may be available. There may also be types available that are not defined in the Qt Sensors API. The types of sensors available on a device is found using the <a href="./qsensor.htm#sensorTypes" translate="no">QSensor::sensorTypes</a>() function.</p>
+<p>For a list of built-in sensor types, see the <a href="./qtsensors-cpp.htm#sensor-classes" translate="no">Sensor Classes</a> section below.</p>
+<a name="common-conventions"></a>
+<h2 id="common-conventions">Common Conventions<a class="plink" href="#common-conventions" title="Direct link to this headline"></a></h2>
+<p>Unless specified otherwise, Qt Sensors uses the <a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system" translate="no">Right Hand Cartesian coordinate system</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/sensors-coordinates.jpg"></p><p>To allow for measurements in all 6 directions, negative values are used.</p>
+<p class="centerAlign"><img alt="" src="./images/sensors-coordinates2.jpg"></p><p>Where rotation around an axis is used, the rotation shall be expressed as a Right Hand rotation.</p>
+<p class="centerAlign"><img alt="" src="./images/sensors-coordinates3.jpg"></p><p>In general, sensor data is oriented relative to <a href="./qscreen.htm#nativeOrientation-prop" translate="no">QScreen::nativeOrientation</a>, that is to the top of the device when the device is held in its natural orientation (normally when the device logo appears the right side up). If values are to be displayed on the screen, the values may need to be transformed so that they match the user interface orientation. A sensor may define its data as being oriented to the UI. This will be noted in the documentation for the sensor.</p>
+<p class="centerAlign"><img alt="" src="./images/sensors-sides2.jpg"></p><a name="using-a-sensor"></a>
+<h2 id="using-a-sensor">Using a Sensor<a class="plink" href="#using-a-sensor" title="Direct link to this headline"></a></h2>
+<p>The life cycle of a <a href="./qsensor.htm" translate="no">QSensor</a> is typically:</p>
+<ul>
+<li>Create an instance of <a href="./qsensor.htm" translate="no">QSensor</a> or one of its sub-classes on the stack or heap.</li>
+<li>Setup as required by the application.</li>
+<li>Start receiving values.</li>
+<li>Sensor data is used by the application.</li>
+<li>Stop receiving values.</li>
+</ul>
+<p>Here is an example of creating a sensor on the heap and on the stack.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"> <span class="comment">// On the heap (deleted when this object is deleted)</span>
+ <span class="type"><a href="./qaccelerometer.htm" translate="no">QAccelerometer</a></span> <span class="operator">*</span>sensor <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaccelerometer.htm" translate="no">QAccelerometer</a></span>(<span class="keyword">this</span>);
+
+ <span class="comment">// On the stack (deleted when the current scope ends)</span>
+ <span class="type"><a href="./qorientationsensor.htm" translate="no">QOrientationSensor</a></span> orient_sensor;
+</pre></div>
+<a name="accessing-sensor-data-in-a-generic-fashion"></a>
+<h2 id="accessing-sensor-data-in-a-generic-fashion">Accessing Sensor Data in a Generic Fashion<a class="plink" href="#accessing-sensor-data-in-a-generic-fashion" title="Direct link to this headline"></a></h2>
+<p>The preferred way to deal with sensor data is via the <a href="./qtsensors-cpp.htm#reading-classes" translate="no">Reading Classes</a>. However, sometimes this may not be possible. For example, you may be deploying an application to a device that has a new sensor type but no C++ header describing the reading class is available.</p>
+<p>Thanks to Qt's property system you can still access the sensor data. You need to know 3 pieces of information in order to do this:</p>
+<ul>
+<li>The sensor type.</li>
+<li>The property name or index.</li>
+<li>The property type or a comparable type.</li>
+</ul>
+<p>For example, here is an example of how you can access a property of the accelerometer. This code does not require any compile-time links to <a href="./qaccelerometer.htm" translate="no">QAccelerometer</a> or <a href="./qaccelerometerreading.htm" translate="no">QAccelerometerReading</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"> <span class="comment">// start the sensor</span>
+ <span class="type"><a href="./qsensor.htm" translate="no">QSensor</a></span> sensor(<span class="string">"QAccelerometer"</span>);
+ sensor<span class="operator">.</span>start();
+
+ <span class="comment">// later</span>
+ <span class="type"><a href="./qsensorreading.htm" translate="no">QSensorReading</a></span> <span class="operator">*</span>reading <span class="operator">=</span> sensor<span class="operator">.</span>reading();
+ <span class="type"><a href="./qtglobal.htm#qreal-typedef" translate="no">qreal</a></span> x <span class="operator">=</span> reading<span class="operator">-</span><span class="operator">&gt;</span>property(<span class="string">"x"</span>)<span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qtglobal.htm#qreal-typedef" translate="no">qreal</a></span><span class="operator">&gt;</span>();
+ <span class="type"><a href="./qtglobal.htm#qreal-typedef" translate="no">qreal</a></span> y <span class="operator">=</span> reading<span class="operator">-</span><span class="operator">&gt;</span>value(<span class="number">1</span>)<span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qtglobal.htm#qreal-typedef" translate="no">qreal</a></span><span class="operator">&gt;</span>();
+</pre></div>
+<p>You can discover all of this information at runtime too. The <a href="./qtsensors-sensor-explorer-example.htm" translate="no">sensor_explorer</a> example shows you information about available sensors.</p>
+<a name="front-end-back-end"></a>
+<h2 id="front-end-back-end">Front End, Back End<a class="plink" href="#front-end-back-end" title="Direct link to this headline"></a></h2>
+<p>The Qt Sensors API has a front end, for application developers to use and a back end, where device implementors write code to access their hardware. As an application developer you do not need to access the back end though it may be useful to understand how it works.</p>
+<p>Commands from the application are delivered through <a href="./qsensor.htm" translate="no">QSensor</a> and then down to the device plugin. Data comes back through the <a href="./qsensorreading.htm" translate="no">QSensorReading</a> class.</p>
+<p class="centerAlign"><img alt="" src="./images/sensors-overview.png"></p><p>More information about the back end can be found in <a href="./sensors-backend-topics.htm" translate="no">Qt Sensors Backend</a>.</p>
+<a name="main-classes"></a>
+<h2 id="main-classes">Main Classes<a class="plink" href="#main-classes" title="Direct link to this headline"></a></h2>
+<p>The primary classes that make up the Qt Sensors API.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qsensor.htm">QSensor</a></p></td><td class="tblDescr"><p>Represents a single hardware sensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qsensorfilter.htm">QSensorFilter</a></p></td><td class="tblDescr"><p>Efficient callback facility for asynchronous notifications of sensor changes</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qsensorreading.htm">QSensorReading</a></p></td><td class="tblDescr"><p>Holds the readings from the sensor</p></td></tr>
+</tbody></table></div>
+<a name="reading-classes"></a>
+<h2 id="reading-classes">Reading Classes<a class="plink" href="#reading-classes" title="Direct link to this headline"></a></h2>
+<p>The best way to access sensor data is via one of these classes.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qaccelerometerreading.htm">QAccelerometerReading</a></p></td><td class="tblDescr"><p>Reports on linear acceleration along the X, Y and Z axes</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qaltimeterreading.htm">QAltimeterReading</a></p></td><td class="tblDescr"><p>Holds readings from the altimeter sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qambientlightreading.htm">QAmbientLightReading</a></p></td><td class="tblDescr"><p>Represents one reading from the ambient light sensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qambienttemperaturereading.htm">QAmbientTemperatureReading</a></p></td><td class="tblDescr"><p>Holds readings of the ambient temperature</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qcompassreading.htm">QCompassReading</a></p></td><td class="tblDescr"><p>Represents one reading from a compass</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qdistancereading.htm">QDistanceReading</a></p></td><td class="tblDescr"><p>Holds distance reading in cm from the proximity sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qgyroscopereading.htm">QGyroscopeReading</a></p></td><td class="tblDescr"><p>Represents one reading from the gyroscope sensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qholsterreading.htm">QHolsterReading</a></p></td><td class="tblDescr"><p>Holds readings from the holster sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qhumidityreading.htm">QHumidityReading</a></p></td><td class="tblDescr"><p>Holds readings from the humidity sensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qirproximityreading.htm">QIRProximityReading</a></p></td><td class="tblDescr"><p>Holds readings from the IR proximity sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qlidreading.htm">QLidReading</a></p></td><td class="tblDescr"><p>Holds readings from the Lid sensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qlightreading.htm">QLightReading</a></p></td><td class="tblDescr"><p>Represents one reading from the light sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qmagnetometerreading.htm">QMagnetometerReading</a></p></td><td class="tblDescr"><p>Represents one reading from the magnetometer</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qorientationreading.htm">QOrientationReading</a></p></td><td class="tblDescr"><p>Represents one reading from the orientation sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpressurereading.htm">QPressureReading</a></p></td><td class="tblDescr"><p>Holds readings from the pressure sensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qproximityreading.htm">QProximityReading</a></p></td><td class="tblDescr"><p>Represents one reading from the proximity sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qrotationreading.htm">QRotationReading</a></p></td><td class="tblDescr"><p>Represents one reading from the rotation sensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qtapreading.htm">QTapReading</a></p></td><td class="tblDescr"><p>Represents one reading from the tap sensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qtiltreading.htm">QTiltReading</a></p></td><td class="tblDescr"><p>Holds readings from the tilt sensor</p></td></tr>
+</tbody></table></div>
+<a name="sensor-classes"></a>
+<h2 id="sensor-classes">Sensor Classes<a class="plink" href="#sensor-classes" title="Direct link to this headline"></a></h2>
+<p>These classes provide convenience wrappers that reduce the need for casting. Each of these classes represents a sensor type that the Qt Sensors API knows about. Note that additional types may be made available at run-time. See <a href="./qtsensors-cpp.htm#sensor-types" translate="no">Sensor Types</a> for more information.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qaccelerometer.htm">QAccelerometer</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qaltimeter.htm">QAltimeter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qambientlightsensor.htm">QAmbientLightSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qambienttemperaturesensor.htm">QAmbientTemperatureSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qcompass.htm">QCompass</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qdistancesensor.htm">QDistanceSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qgyroscope.htm">QGyroscope</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qholstersensor.htm">QHolsterSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qhumiditysensor.htm">QHumiditySensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qirproximitysensor.htm">QIRProximitySensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qlidsensor.htm">QLidSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qlightsensor.htm">QLightSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qmagnetometer.htm">QMagnetometer</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qorientationsensor.htm">QOrientationSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpressuresensor.htm">QPressureSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qproximitysensor.htm">QProximitySensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qrotationsensor.htm">QRotationSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qtapsensor.htm">QTapSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qtiltsensor.htm">QTiltSensor</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensor</p></td></tr>
+</tbody></table></div>
+<a name="filter-classes"></a>
+<h2 id="filter-classes">Filter Classes<a class="plink" href="#filter-classes" title="Direct link to this headline"></a></h2>
+<p>As with the sensor classes, these provide convenience wrappers that reduce the need for casting.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qaccelerometerfilter.htm">QAccelerometerFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qaltimeterfilter.htm">QAltimeterFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qambientlightfilter.htm">QAmbientLightFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qambienttemperaturefilter.htm">QAmbientTemperatureFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qcompassfilter.htm">QCompassFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qdistancefilter.htm">QDistanceFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qgyroscopefilter.htm">QGyroscopeFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qholsterfilter.htm">QHolsterFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qhumidityfilter.htm">QHumidityFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qirproximityfilter.htm">QIRProximityFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qlidfilter.htm">QLidFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qlightfilter.htm">QLightFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qmagnetometerfilter.htm">QMagnetometerFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qorientationfilter.htm">QOrientationFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpressurefilter.htm">QPressureFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qproximityfilter.htm">QProximityFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qrotationfilter.htm">QRotationFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qtapfilter.htm">QTapFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qtiltfilter.htm">QTiltFilter</a></p></td><td class="tblDescr"><p>Convenience wrapper around QSensorFilter</p></td></tr>
+</tbody></table></div>
+</div>
+<!-- @@@qtsensors-cpp.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

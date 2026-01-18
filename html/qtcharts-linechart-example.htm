@@ -1,0 +1,102 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LineChart Example | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-linechart-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>LineChart Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">LineChart Example</h1>
+<span class="subtitle"></span>
+<!-- $$$linechart-brief -->
+<p>The example shows how to create a simple line chart.</p>
+<!-- @@@linechart -->
+<!-- $$$linechart-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/examples_linechart.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-line-charts"></a>
+<h4 id="creating-line-charts">Creating Line Charts<a class="plink" href="#creating-line-charts" title="Direct link to this headline"></a></h4>
+<p>To create a line chart, a <a href="./qlineseries.htm" translate="no">QLineSeries</a> instance is needed. Let's create one.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span> <span class="operator">*</span>series <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span>();</pre></div>
+<p>Then we add data to the series. We can use the append() member function or use the stream operator.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    series<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">0</span><span class="operator">,</span> <span class="number">6</span>);
+    series<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">2</span><span class="operator">,</span> <span class="number">4</span>);
+    series<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">3</span><span class="operator">,</span> <span class="number">8</span>);
+    series<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">7</span><span class="operator">,</span> <span class="number">4</span>);
+    series<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">10</span><span class="operator">,</span> <span class="number">5</span>);
+    <span class="operator">*</span>series <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">11</span><span class="operator">,</span> <span class="number">1</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">13</span><span class="operator">,</span> <span class="number">3</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">17</span><span class="operator">,</span> <span class="number">6</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">18</span><span class="operator">,</span> <span class="number">3</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">20</span><span class="operator">,</span> <span class="number">2</span>);</pre></div>
+<p>To present the data on the chart we need a <a href="./qchart.htm" translate="no">QChart</a> instance. We add the series to it, create the default axes, and set the title of the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span> <span class="operator">*</span>chart <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span>();
+    chart<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>hide();
+    chart<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);
+    chart<span class="operator">-</span><span class="operator">&gt;</span>createDefaultAxes();
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Simple line chart example"</span>);</pre></div>
+<p>Then we create a <a href="./qchartview.htm" translate="no">QChartView</a> object with <a href="./qchart.htm" translate="no">QChart</a> as a parameter. This way we don't need to create a <a href="./qgraphicsview.htm" translate="no">QGraphicsView</a> scene ourselves. We also set the Antialiasing on to have the rendered lines look nicer.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span>(chart);
+    chartView<span class="operator">-</span><span class="operator">&gt;</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);</pre></div>
+<p>The chart is ready to be shown.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span> window;
+    window<span class="operator">.</span>setCentralWidget(chartView);
+    window<span class="operator">.</span>resize(<span class="number">400</span><span class="operator">,</span> <span class="number">300</span>);
+    window<span class="operator">.</span>show();</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/linechart?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@linechart -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

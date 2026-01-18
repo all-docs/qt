@@ -1,0 +1,134 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Model Data Example | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-modeldata-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Model Data Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Model Data Example</h1>
+<span class="subtitle"></span>
+<!-- $$$modeldata-brief -->
+<p>This example shows how to use the <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a> derived model as the data for the series.</p>
+<!-- @@@modeldata -->
+<!-- $$$modeldata-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/examples_modeldata.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="using-model-data"></a>
+<h4 id="using-model-data">Using Model Data<a class="plink" href="#using-model-data" title="Direct link to this headline"></a></h4>
+<p>Let's start by creating an instance of the CustomTableModel class. The CustomTableModel class is derived from <a href="./qabstracttablemodel.htm" translate="no">QAbstractTableModel</a> and it was created for the purpose of this example. The constructor of this class populates the internal data store of the model with the data that is suitable for our chart example.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">CustomTableModel <span class="operator">*</span>model <span class="operator">=</span> <span class="keyword">new</span> CustomTableModel;</pre></div>
+<p>We now have a model with data that we would like to display both on the chart and in a <a href="./qtableview.htm" translate="no">QTableView</a>. First, we create <a href="./qtableview.htm" translate="no">QTableView</a> and tell it to use the model as a data source. To make the data cells fill the table view we also change headers resize mode.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// create table view and add model to it</span>
+<span class="type"><a href="./qtableview.htm" translate="no">QTableView</a></span> <span class="operator">*</span>tableView <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtableview.htm" translate="no">QTableView</a></span>;
+tableView<span class="operator">-</span><span class="operator">&gt;</span>setModel(model);
+tableView<span class="operator">-</span><span class="operator">&gt;</span>horizontalHeader()<span class="operator">-</span><span class="operator">&gt;</span>setSectionResizeMode(<span class="type"><a href="./qheaderview.htm" translate="no">QHeaderView</a></span><span class="operator">::</span>Stretch);
+tableView<span class="operator">-</span><span class="operator">&gt;</span>verticalHeader()<span class="operator">-</span><span class="operator">&gt;</span>setSectionResizeMode(<span class="type"><a href="./qheaderview.htm" translate="no">QHeaderView</a></span><span class="operator">::</span>Stretch);</pre></div>
+<p>Now we need the <a href="./qchart.htm" translate="no">QChart</a> instance to display the same data on the chart. We also enable animations. It makes it easier to see how modifying the model's data affect the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qchart.htm" translate="no">QChart</a></span> <span class="operator">*</span>chart <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span>;
+chart<span class="operator">-</span><span class="operator">&gt;</span>setAnimationOptions(<span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>AllAnimations);</pre></div>
+<p>The code below creates new line series and gives it a name. The following line creates an instance of <a href="./qvxymodelmapper.htm" translate="no">QVXYModelMapper</a> class. The next two lines specify that X-coordinates are taken from the model's column(<a href="./qt.htm#Orientation-enum" translate="no">Qt::Vertical</a>) with index 0. The Y-coordinates are taken from the model's column with index 1. To create a connection between the series and the model we set both of those objects to <a href="./qvxymodelmapper.htm" translate="no">QVXYModelMapper</a>.</p>
+<p>Finally, the series is added to the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span> <span class="operator">*</span>series <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span>;
+series<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"Line 1"</span>);
+<span class="type"><a href="./qvxymodelmapper.htm" translate="no">QVXYModelMapper</a></span> <span class="operator">*</span>mapper <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvxymodelmapper.htm" translate="no">QVXYModelMapper</a></span>(<span class="keyword">this</span>);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setXColumn(<span class="number">0</span>);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setYColumn(<span class="number">1</span>);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setSeries(series);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setModel(model);
+chart<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);</pre></div>
+<p>To show in <a href="./qtableview.htm" translate="no">QTableView</a> which data corresponds with which series this example uses table coloring. When a series is added to the chart it is assigned a color based on the currently selected theme. The code below extracts that color from the series and uses it to create a colored <a href="./qtableview.htm" translate="no">QTableView</a>. The coloring of the view is not a part of the <a href="./qchart.htm" translate="no">QChart</a> functionality.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// for storing color hex from the series</span>
+<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> seriesColorHex <span class="operator">=</span> <span class="string">"#000000"</span>;
+
+<span class="comment">// get the color of the series and use it for showing the mapped area</span>
+seriesColorHex <span class="operator">=</span> <span class="string">"#"</span> <span class="operator">+</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(series<span class="operator">-</span><span class="operator">&gt;</span>pen()<span class="operator">.</span>color()<span class="operator">.</span>rgb()<span class="operator">,</span> <span class="number">16</span>)<span class="operator">.</span>right(<span class="number">6</span>)<span class="operator">.</span>toUpper();
+model<span class="operator">-</span><span class="operator">&gt;</span>addMapping(seriesColorHex<span class="operator">,</span> <span class="type"><a href="./qrect.htm" translate="no">QRect</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> model<span class="operator">-</span><span class="operator">&gt;</span>rowCount()));</pre></div>
+<p>The same operations are done with a second series. Notice that for this series different columns of the same model are mapped.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">series <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span>;
+series<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"Line 2"</span>);
+
+mapper <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvxymodelmapper.htm" translate="no">QVXYModelMapper</a></span>(<span class="keyword">this</span>);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setXColumn(<span class="number">2</span>);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setYColumn(<span class="number">3</span>);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setSeries(series);
+mapper<span class="operator">-</span><span class="operator">&gt;</span>setModel(model);
+chart<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);
+<span class="comment">// get the color of the series and use it for showing the mapped area</span>
+seriesColorHex <span class="operator">=</span> <span class="string">"#"</span> <span class="operator">+</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(series<span class="operator">-</span><span class="operator">&gt;</span>pen()<span class="operator">.</span>color()<span class="operator">.</span>rgb()<span class="operator">,</span> <span class="number">16</span>)<span class="operator">.</span>right(<span class="number">6</span>)<span class="operator">.</span>toUpper();
+model<span class="operator">-</span><span class="operator">&gt;</span>addMapping(seriesColorHex<span class="operator">,</span> <span class="type"><a href="./qrect.htm" translate="no">QRect</a></span>(<span class="number">2</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> model<span class="operator">-</span><span class="operator">&gt;</span>rowCount()));</pre></div>
+<p>To avoid setting up the <a href="./qgraphicsscene.htm" translate="no">QGraphicsScene</a> we use the <a href="./qchartview.htm" translate="no">QChartView</a> class that does it for us. <a href="./qchart.htm" translate="no">QChart</a> object pointer is used as a parameter of the <a href="./qchartview.htm" translate="no">QChartView</a> constructor. To make the chart look nicer, Antialiasing is turned on and the minimum size of the chartView widget is set.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">chart<span class="operator">-</span><span class="operator">&gt;</span>createDefaultAxes();
+<span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span>(chart);
+chartView<span class="operator">-</span><span class="operator">&gt;</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);
+chartView<span class="operator">-</span><span class="operator">&gt;</span>setMinimumSize(<span class="number">640</span><span class="operator">,</span> <span class="number">480</span>);</pre></div>
+<p>Finally we place both widgets in a layout and use the layout as the application layout.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// create main layout</span>
+<span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>mainLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(tableView<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span>);
+mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(chartView<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+mainLayout<span class="operator">-</span><span class="operator">&gt;</span>setColumnStretch(<span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+mainLayout<span class="operator">-</span><span class="operator">&gt;</span>setColumnStretch(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+setLayout(mainLayout);</pre></div>
+<p>The application is ready. Try modifying the data in the table view and see how it affects the chart.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/modeldata?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@modeldata -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

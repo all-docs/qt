@@ -1,0 +1,304 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick 3D - Antialiasing Example | Qt Quick 3D</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick3d-index.htm" translate="no">Qt Quick 3D</a></li>
+                            <li><a href="./quick3d-examples.htm" translate="no">Qt Quick 3D Examples and Tutorials</a></li>
+                            <li class="last"><a>Qt Quick 3D - Antialiasing Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Quick 3D - Antialiasing Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2020 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+import QtQuick 2.14
+import QtQuick.Window 2.14
+import QtQuick3D 1.15
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
+
+<span class="type"><a href="./qml-qtquick-window-window.htm" translate="no">Window</a></span> {
+    <span class="name">visible</span>: <span class="number">true</span>
+    <span class="name">width</span>: <span class="number">800</span>
+    <span class="name">height</span>: <span class="number">600</span>
+    <span class="name">title</span>: <span class="name">qsTr</span>(<span class="string">"Quick3D Antialiasing Example"</span>)
+    <span class="name">color</span>: <span class="string">"black"</span>
+
+    <span class="type"><a href="./qml-qtquick3d-view3d.htm" translate="no">View3D</a></span> {
+        <span class="name">id</span>: <span class="name">view3D</span>
+        property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">animationValue</span>: <span class="number">0.0</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+
+        SequentialAnimation on <span class="name">animationValue</span> {
+            <span class="name">id</span>: <span class="name">modelAnimation</span>
+            <span class="name">running</span>: <span class="number">false</span>
+            <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                <span class="name">from</span>: <span class="number">0.0</span>
+                <span class="name">to</span>: <span class="number">1.0</span>
+                <span class="name">duration</span>: <span class="number">1000</span>
+                <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+            }
+            <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                <span class="name">from</span>: <span class="number">1.0</span>
+                <span class="name">to</span>: <span class="number">0.0</span>
+                <span class="name">duration</span>: <span class="number">1000</span>
+                <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-perspectivecamera.htm" translate="no">PerspectiveCamera</a></span> {
+            <span class="name">z</span>: <span class="number">500</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-directionallight.htm" translate="no">DirectionalLight</a></span> {
+            <span class="name">eulerRotation</span>.x: -<span class="number">30</span>
+        }
+        <span class="name">environment</span>: <span class="name">SceneEnvironment</span> {
+            <span class="name">id</span>: <span class="name">sceneEnvironment</span>
+            <span class="name">clearColor</span>: <span class="string">"#f0f0f0"</span>
+            <span class="name">backgroundMode</span>: <span class="name">SceneEnvironment</span>.<span class="name">Color</span>
+
+            <span class="name">antialiasingMode</span>: <span class="name">modeButton1</span>.<span class="name">checked</span> ? <span class="name">SceneEnvironment</span>.<span class="name">NoAA</span> : <span class="name">modeButton2</span>.<span class="name">checked</span>
+                                                    ? <span class="name">SceneEnvironment</span>.<span class="name">SSAA</span> : <span class="name">modeButton3</span>.<span class="name">checked</span>
+                                                      ? <span class="name">SceneEnvironment</span>.<span class="name">MSAA</span> : <span class="name">SceneEnvironment</span>.<span class="name">ProgressiveAA</span>
+
+            <span class="name">antialiasingQuality</span>: <span class="name">qualityButton1</span>.<span class="name">checked</span> ? <span class="name">SceneEnvironment</span>.<span class="name">Medium</span> : <span class="name">qualityButton2</span>.<span class="name">checked</span>
+                                                          ? <span class="name">SceneEnvironment</span>.<span class="name">High</span> : <span class="name">SceneEnvironment</span>.<span class="name">VeryHigh</span>
+            <span class="name">temporalAAEnabled</span>: <span class="name">temporalModeButton</span>.<span class="name">checked</span>
+            <span class="name">temporalAAStrength</span>: <span class="name">temporalStrengthSlider</span>.<span class="name">value</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-node.htm" translate="no">Node</a></span> {
+            <span class="name">id</span>: <span class="name">scene</span>
+
+            <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+                <span class="name">source</span>: <span class="string">"#Cube"</span>
+                <span class="name">eulerRotation</span>.y: <span class="number">45</span>
+                <span class="name">eulerRotation</span>.x: <span class="number">30</span> <span class="operator">+</span> <span class="name">view3D</span>.<span class="name">animationValue</span> <span class="operator">*</span> <span class="number">100</span>
+                <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>)
+                <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                    <span class="name">diffuseColor</span>: <span class="string">"#4aee45"</span>
+                }
+            }
+
+            <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+                <span class="name">source</span>: <span class="string">"#Cube"</span>
+                <span class="name">x</span>: <span class="number">200</span>
+                <span class="name">y</span>: <span class="number">150</span> <span class="operator">+</span> <span class="name">view3D</span>.<span class="name">animationValue</span> <span class="operator">*</span> <span class="number">10</span>
+                <span class="name">eulerRotation</span>.y: <span class="number">5</span>
+                <span class="name">eulerRotation</span>.x: <span class="number">5</span>
+                <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)
+                <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                    <span class="name">diffuseColor</span>: <span class="string">"#faee45"</span>
+                }
+            }
+
+            <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+                <span class="name">source</span>: <span class="string">"#Sphere"</span>
+                <span class="name">x</span>: <span class="number">120</span>
+                <span class="name">y</span>: -<span class="number">40</span>
+                <span class="name">z</span>: <span class="number">160</span> <span class="operator">+</span> <span class="name">view3D</span>.<span class="name">animationValue</span> <span class="operator">*</span> <span class="number">40</span>
+                <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">1.5</span>, <span class="number">1.5</span>, <span class="number">1.5</span>)
+                <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                    <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">1.0</span>)
+                }
+            }
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">settingsArea</span>
+        <span class="name">anchors</span>.margins: -<span class="number">10</span>
+        <span class="name">color</span>: <span class="string">"#c0c0c0"</span>
+        <span class="name">border</span>.color: <span class="string">"#202020"</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-layouts-columnlayout.htm" translate="no">ColumnLayout</a></span> {
+        <span class="name">id</span>: <span class="name">settingsArea</span>
+        <span class="name">anchors</span>.top: <span class="name">parent</span>.<span class="name">top</span>
+        <span class="name">anchors</span>.left: <span class="name">parent</span>.<span class="name">left</span>
+        <span class="name">anchors</span>.margins: <span class="number">20</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">Layout</span>.alignment: <span class="name">Qt</span>.<span class="name">AlignHCenter</span>
+            <span class="name">font</span>.bold: <span class="number">true</span>
+            <span class="name">text</span>: <span class="string">"antialiasingMode"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a></span> {
+            <span class="name">id</span>: <span class="name">modeButton1</span>
+            <span class="name">checked</span>: <span class="number">true</span>
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"NoAA"</span>)
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a></span> {
+            <span class="name">id</span>: <span class="name">modeButton2</span>
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"SSAA"</span>)
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a></span> {
+            <span class="name">id</span>: <span class="name">modeButton3</span>
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"MSAA"</span>)
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a></span> {
+            <span class="name">id</span>: <span class="name">modeButton4</span>
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"ProgressiveAA"</span>)
+        }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">height</span>: <span class="number">1</span>
+            <span class="name">color</span>: <span class="string">"#909090"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">Layout</span>.alignment: <span class="name">Qt</span>.<span class="name">AlignHCenter</span>
+            <span class="name">font</span>.bold: <span class="number">true</span>
+            <span class="name">text</span>: <span class="string">"antialiasingQuality"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-buttongroup.htm" translate="no">ButtonGroup</a></span> {
+            <span class="name">buttons</span>: <span class="name">antialiasingQualityColumn</span>.<span class="name">children</span>
+        }
+        <span class="type"><a href="./qml-qtquick-layouts-columnlayout.htm" translate="no">ColumnLayout</a></span> {
+            <span class="name">id</span>: <span class="name">antialiasingQualityColumn</span>
+            <span class="type"><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a></span> {
+                <span class="name">id</span>: <span class="name">qualityButton1</span>
+                <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Normal"</span>)
+            }
+            <span class="type"><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a></span> {
+                <span class="name">id</span>: <span class="name">qualityButton2</span>
+                <span class="name">checked</span>: <span class="number">true</span>
+                <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"High"</span>)
+            }
+            <span class="type"><a href="./qml-qtquick-controls2-radiobutton.htm" translate="no">RadioButton</a></span> {
+                <span class="name">id</span>: <span class="name">qualityButton3</span>
+                <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"VeryHigh"</span>)
+            }
+        }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">height</span>: <span class="number">1</span>
+            <span class="name">color</span>: <span class="string">"#909090"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-checkbox.htm" translate="no">CheckBox</a></span> {
+            <span class="name">id</span>: <span class="name">temporalModeButton</span>
+            <span class="name">text</span>: <span class="string">"temporalAAEnabled"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> { <span class="name">width</span>: <span class="number">1</span>; <span class="name">height</span>: <span class="number">10</span> }
+        <span class="type"><a href="./qml-qtquick-controls2-slider.htm" translate="no">Slider</a></span> {
+            <span class="name">id</span>: <span class="name">temporalStrengthSlider</span>
+            <span class="name">from</span>: <span class="number">0.0</span>
+            <span class="name">to</span>: <span class="number">2.0</span>
+            <span class="name">value</span>: <span class="number">0.3</span>
+            <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                <span class="name">anchors</span>.horizontalCenter: <span class="name">parent</span>.<span class="name">horizontalCenter</span>
+                <span class="name">anchors</span>.bottom: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+                <span class="name">anchors</span>.bottomMargin: <span class="number">16</span>
+                <span class="name">text</span>: <span class="string">"temporalAAStrength: "</span> <span class="operator">+</span> <span class="name">temporalStrengthSlider</span>.<span class="name">value</span>.<span class="name">toFixed</span>(<span class="number">2</span>);
+                <span class="name">z</span>: <span class="number">10</span>
+            }
+        }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">height</span>: <span class="number">1</span>
+            <span class="name">color</span>: <span class="string">"#909090"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-button.htm" translate="no">Button</a></span> {
+            <span class="name">id</span>: <span class="name">animationButton</span>
+            <span class="name">Layout</span>.alignment: <span class="name">Qt</span>.<span class="name">AlignHCenter</span>
+            <span class="name">text</span>: <span class="string">"Animate!"</span>
+            <span class="name">onClicked</span>: {
+                <span class="name">modelAnimation</span>.<span class="name">restart</span>();
+            }
+        }
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

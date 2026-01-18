@@ -1,0 +1,84 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reading and Writing Image Files | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/paintsystem-images.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a>Reading and Writing Image Files</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="coordsys.html" rel="prev">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./coordsys.htm">Coordinate System</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Reading and Writing Image Files</h1>
+<span class="subtitle"></span>
+<!-- $$$paintsystem-images.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>The most common way to read images is through <a href="./qimage.htm" translate="no">QImage</a> and <a href="./qpixmap.htm" translate="no">QPixmap</a>'s constructors, or by calling the <a href="./qimage.htm#load" translate="no">QImage::load</a>() and <a href="./qpixmap.htm#load" translate="no">QPixmap::load</a>() functions. In addition, Qt provides the <a href="./qimagereader.htm" translate="no">QImageReader</a> class which gives more control over the process. Depending on the underlying support in the image format, the functions provided by the class can save memory and speed up loading of images.</p>
+<p>Likewise, Qt provides the <a href="./qimagewriter.htm" translate="no">QImageWriter</a> class which supports setting format specific options, such as the gamma level, compression level and quality, prior to storing the image. If you do not need such options, you can use <a href="./qimage.htm#save" translate="no">QImage::save</a>() or <a href="./qpixmap.htm#save" translate="no">QPixmap::save</a>() instead.</p>
+<div class="table"><table class="generic" width="100%">
+<tbody><tr class="odd" valign="top"><td><b>QMovie</b><p><a href="./qmovie.htm" translate="no">QMovie</a> is a convenience class for displaying animations, using the <a href="./qimagereader.htm" translate="no">QImageReader</a> class internally. Once created, the <a href="./qmovie.htm" translate="no">QMovie</a> class provides various functions for both running and controlling the given animation.</p>
+</td><td><p class="centerAlign"><img alt="" src="./images/paintsystem-movie.png"></p></td></tr>
+</tbody></table></div>
+<p>The <a href="./qimagereader.htm" translate="no">QImageReader</a> and <a href="./qimagewriter.htm" translate="no">QImageWriter</a> classes rely on the <a href="./qimageiohandler.htm" translate="no">QImageIOHandler</a> class which is the common image I/O interface for all image formats in Qt. <a href="./qimageiohandler.htm" translate="no">QImageIOHandler</a> objects are used internally by <a href="./qimagereader.htm" translate="no">QImageReader</a> and <a href="./qimagewriter.htm" translate="no">QImageWriter</a> to add support for different image formats to Qt.</p>
+<p>A list of the supported file formats are available through the <a href="./qimagereader.htm#supportedImageFormats" translate="no">QImageReader::supportedImageFormats</a>() and <a href="./qimagewriter.htm#supportedImageFormats" translate="no">QImageWriter::supportedImageFormats</a>() functions. Qt supports several file formats by default, and in addition new formats can be added as plugins. The currently supported formats are listed in the <a href="./qimagereader.htm" translate="no">QImageReader</a> and <a href="./qimagewriter.htm" translate="no">QImageWriter</a> class documentation.</p>
+<p>Qt's plugin mechanism can also be used to write a custom image format handler. This is done by deriving from the <a href="./qimageiohandler.htm" translate="no">QImageIOHandler</a> class, and creating a <a href="./qimageioplugin.htm" translate="no">QImageIOPlugin</a> object which is a factory for creating <a href="./qimageiohandler.htm" translate="no">QImageIOHandler</a> objects. When the plugin is installed, <a href="./qimagereader.htm" translate="no">QImageReader</a> and <a href="./qimagewriter.htm" translate="no">QImageWriter</a> will automatically load the plugin and start using it.</p>
+</div>
+<!-- @@@paintsystem-images.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./coordsys.htm">Coordinate System</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

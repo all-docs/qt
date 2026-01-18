@@ -1,0 +1,93 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCXML Compliance | Qt SCXML</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtscxml-scxml-compliance.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtscxml-index.htm" translate="no">Qt SCXML</a></li>
+                            <li><a>SCXML Compliance</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">SCXML Compliance</h1>
+<span class="subtitle"></span>
+<!-- $$$qtscxml-scxml-compliance.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="supported-data-models"></a>
+<h2 id="supported-data-models">Supported Data Models<a class="plink" href="#supported-data-models" title="Direct link to this headline"></a></h2>
+<p>Qt SCXML supports the following data models:</p>
+<ul>
+<li>null data model, as described in <a href="https://www.w3.org/TR/scxml/#minimal-profile" translate="no">SCXML Specification - B.1 The Null Data Model</a></li>
+<li>ECMAScript data model, as described in <a href="https://www.w3.org/TR/scxml/#ecma-profile" translate="no">SCXML Specification - B.2 The ECMAScript Data Model</a></li>
+<li>C++ data model, as described in the <a href="./qscxmlcppdatamodel.htm" translate="no">QScxmlCppDataModel</a> documentation</li>
+</ul>
+<a name="supported-elements-and-attributes"></a>
+<h2 id="supported-elements-and-attributes">Supported Elements and Attributes<a class="plink" href="#supported-elements-and-attributes" title="Direct link to this headline"></a></h2>
+<p>The Qt SCXML implementation is SCXML compliant, with a few exceptions:</p>
+<ul>
+<li>Event data (<code translate="no">_event.data</code>) is implemented as a <a href="./qvariant.htm" translate="no">QVariant</a>. If parameters are passed to <code translate="no">&lt;send&gt;</code>, the <a href="./qvariant.htm" translate="no">QVariant</a> holds a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a>, so multiple parameters with the same name are not supported.</li>
+<li>There is no "raw" representation of an event.</li>
+<li>The (optional) basic http event I/O processor is not supported.</li>
+<li>The contents of a <code translate="no">&lt;script&gt;</code> tag and a <code translate="no">&lt;data&gt;</code> tag must be valid for the chosen data model. So, as an example: XML content inside &lt;data&gt; is not supported. However, the ECMAScript data model does support data in JSON format.</li>
+<li>The only service that can be instantiated with <code translate="no">&lt;invoke&gt;</code> is another SCXML state machine.</li>
+<li>To keep the behavior of dynamically created state machines and compiled state machines the same, the <i>typeexpr</i> and <i>srcexpr</i> attributes are not supported. Moreover, if a <code translate="no">&lt;content&gt;</code> tag is used inside an <code translate="no">&lt;invoke&gt;</code> tag, that content must be XML. Specifically, dynamically creating SCXML, for example by concatenating strings with the ECMAScript data model, is not supported.</li>
+</ul>
+<a name="qt-scxml-extensions"></a>
+<h2 id="qt-scxml-extensions">Qt SCXML Extensions<a class="plink" href="#qt-scxml-extensions" title="Direct link to this headline"></a></h2>
+<p>The Qt SCXML implementation extends SCXML in the following ways:</p>
+<ul>
+<li>If the event is an error event, <code translate="no">_event.errorMessage</code> will contain a more detailed description of the error.</li>
+</ul>
+</div>
+<!-- @@@qtscxml-scxml-compliance.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

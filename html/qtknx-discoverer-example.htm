@@ -1,0 +1,270 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discoverer Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>Discoverer Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Discoverer Example</h1>
+<span class="subtitle"></span>
+<!-- $$$discoverer-brief -->
+<p>A CLI client for discovering KNX/netIP servers on the network.</p>
+<!-- @@@discoverer -->
+<!-- $$$discoverer-description -->
+<div class="descr"> <a name="details"></a>
+<p><i>Discoverer</i> shows how to implement and start a discovery agent that discovers KNX/netIP servers on the network.</p>
+<a name="usage"></a>
+<h4 id="usage">Usage<a class="plink" href="#usage" title="Direct link to this headline"></a></h4>
+<p>Below are the parameters that the client allows.</p>
+<div class="pre"><pre class="cpp" translate="no">Usage: <span class="operator">.</span><span class="operator">/</span>discoverer <span class="operator">[</span>options<span class="operator">]</span>
+
+Options:
+  <span class="operator">-</span>h<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>help                         Displays <span class="keyword">this</span> help<span class="operator">.</span>
+  <span class="operator">-</span>t<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>timeout <span class="operator">&lt;</span>timeout<span class="operator">&gt;</span>            Discovery response timeout in seconds<span class="operator">.</span>
+  <span class="operator">-</span>n<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>nat                          Use Network Address Translation to
+                                     traverse across network routers<span class="operator">.</span>
+  <span class="operator">-</span>u<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>unicast                      Force unicast response<span class="operator">.</span> (defaults to
+                                     multicast response)
+  <span class="operator">-</span>a<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>localAddress <span class="operator">&lt;</span>localAddress<span class="operator">&gt;</span>  The local IP address a response shall be
+                                     sent to<span class="operator">.</span> Implies <span class="operator">&lt;</span>unicast<span class="operator">&gt;</span>
+  <span class="operator">-</span>p<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>localPort <span class="operator">&lt;</span>localPort<span class="operator">&gt;</span>        The local UDP port a response shall be
+                                     sent to (defaults to system assigned)<span class="operator">.</span>
+                                     Implies <span class="operator">&lt;</span>unicast<span class="operator">&gt;</span><span class="operator">.</span>
+  <span class="operator">-</span>m<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>searchMode <span class="operator">&lt;</span>searchMode<span class="operator">&gt;</span>      Specifies the mode used to send search
+                                     request<span class="operator">.</span> Possible values: (<span class="keyword">default</span><span class="operator">,</span>
+                                     extended<span class="operator">,</span> both)<span class="operator">.</span>
+  <span class="operator">-</span><span class="operator">-</span>filterProg                       Limit search responses to devices in
+                                     programming mode<span class="operator">.</span> Implies search mode
+                                     extended <span class="keyword">or</span> both<span class="operator">.</span>
+  <span class="operator">-</span><span class="operator">-</span>filterMAC <span class="operator">&lt;</span>MAC<span class="operator">&gt;</span>                  Limit search responses to the given MAC
+                                     address<span class="operator">.</span> Implies search mode extended <span class="keyword">or</span>
+                                     both<span class="operator">.</span>
+  <span class="operator">-</span><span class="operator">-</span>filterService <span class="operator">&lt;</span>Service<span class="operator">&gt;</span>          Limit search responses to devices
+                                     supporting the given KNXnet<span class="operator">/</span>IP service
+                                     family in at least the given version (e<span class="operator">.</span>g<span class="operator">.</span>
+                                     <span class="number">0202</span>)<span class="operator">.</span> Implies search mode extended <span class="keyword">or</span>
+                                     both<span class="operator">.</span>
+  <span class="operator">-</span><span class="operator">-</span>descriptionType <span class="operator">&lt;</span>Type<span class="operator">&gt;</span>           Force returning DIBs inside the search
+                                     responses to to at least of the given set
+                                     of IDs (e<span class="operator">.</span>g<span class="operator">.</span> <span class="number">010208</span>)<span class="operator">.</span> Implies search mode
+                                     extended <span class="keyword">or</span> both<span class="operator">.</span></pre></div>
+<p>By default the client uses the default network interface determined by the Operating System if no local IP address given. However, if an IP is given, the client will use the interface attached to that IP.</p>
+<p>The following lines show a few examples of how to use the client:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">.</span><span class="operator">/</span>discoverer <span class="operator">-</span>m extended <span class="operator">-</span>a <span class="number">127.0.0.1</span> <span class="operator">-</span>p <span class="number">5543</span>
+
+Device used to send the search request:
+  Network interface: lo<span class="operator">,</span> address: <span class="number">127.0.0.1</span><span class="operator">,</span> port: <span class="number">5543</span>
+No server(s) found on the network<span class="operator">.</span></pre></div>
+<p>The command above uses the loopback interface. No KNX servers are available on this interface and therefore none are showed.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">.</span><span class="operator">/</span>discoverer <span class="operator">-</span>m extended
+Device used to send the search request:
+  Network interface: Unknown<span class="operator">,</span> address: <span class="number">0.0.0.0</span><span class="operator">,</span> port: <span class="number">0</span>
+
+<span class="number">1</span> server(s) found on the network<span class="operator">.</span>
+  Server: IPR<span class="operator">/</span>S3<span class="operator">.</span><span class="number">5.1</span> IP Router<span class="operator">,</span>MDRC
+      Individual address: <span class="number">1.1.0</span>
+      Server control endpoint: <span class="number">10.9.78.33</span>:<span class="number">3671</span>
+    Supported services:
+      KNXnet<span class="operator">/</span>IP Core<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Device Management<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Tunnel<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Routing<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Remote Configuration<span class="operator">,</span> Version: <span class="number">1</span>
+      KNXnet<span class="operator">/</span>IP Security<span class="operator">,</span> Version: <span class="number">1</span>
+    Extended hardware information:
+      Mask version: <span class="number">091a</span>
+      Max<span class="operator">.</span> local APDU length: <span class="number">254</span>
+      Medium status: Communication possible</pre></div>
+<p>Unlike the previous command example, this one uses the default network interface determined by the OS and shows that there is one KNX server on the network with 10.9.78.33 and listening on port 3671. The <code translate="no">searchMode</code> parameter refers to the KNXnet/IP Core version used. The <code translate="no">extended</code> mode indicates version 2 and can make use of extended search parameters.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="operator">.</span><span class="operator">/</span>discoverer <span class="operator">-</span>m extended <span class="operator">-</span><span class="operator">-</span>filterService <span class="number">0202</span>
+
+Device used to send the search request:
+  Network interface: Unknown<span class="operator">,</span> address: <span class="number">0.0.0.0</span><span class="operator">,</span> port: <span class="number">0</span>
+
+<span class="number">1</span> server(s) found on the network<span class="operator">.</span>
+  Server: IPR<span class="operator">/</span>S3<span class="operator">.</span><span class="number">5.1</span> IP Router<span class="operator">,</span>MDRC
+      Individual address: <span class="number">1.1.0</span>
+      Server control endpoint: <span class="number">10.9.78.33</span>:<span class="number">3671</span>
+    Supported services:
+      KNXnet<span class="operator">/</span>IP Core<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Device Management<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Tunnel<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Routing<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Remote Configuration<span class="operator">,</span> Version: <span class="number">1</span>
+      KNXnet<span class="operator">/</span>IP Security<span class="operator">,</span> Version: <span class="number">1</span>
+    Extended hardware information:
+      Mask version: <span class="number">091a</span>
+      Max<span class="operator">.</span> local APDU length: <span class="number">254</span>
+      Medium status: Communication possible</pre></div>
+<p>The above command makes use of the extended search parameters available only in KNXnet/IP Core version 2. It limits the search responses to devices supporting the given KNXnet/IP service family 02 and in at least the given version 02.</p>
+<p>In a network with two KNX routers, one of them only supporting KNXnet/IP Core Version 1, the output showed by the client with the default <code translate="no">searchMode</code> parameter set would be as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">.</span><span class="operator">/</span>discoverer <span class="operator">-</span>m <span class="keyword">default</span>
+
+Device used to send the search request:
+  Network interface: Unknown<span class="operator">,</span> address: <span class="number">0.0.0.0</span><span class="operator">,</span> port: <span class="number">0</span>
+
+<span class="number">2</span> server(s) found on the network<span class="operator">.</span>
+  Server: IPR<span class="operator">/</span>S3<span class="operator">.</span><span class="number">5.1</span> IP Router<span class="operator">,</span>MDRC
+      Individual address: <span class="number">1.1.0</span>
+      Server control endpoint: <span class="number">10.9.78.33</span>:<span class="number">3671</span>
+    Supported services:
+      KNXnet<span class="operator">/</span>IP Core<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Device Management<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Tunnel<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Routing<span class="operator">,</span> Version: <span class="number">2</span>
+      KNXnet<span class="operator">/</span>IP Remote Configuration<span class="operator">,</span> Version: <span class="number">1</span>
+
+  Server: IPS<span class="operator">/</span>S3<span class="operator">.</span><span class="number">1.1</span> IP<span class="operator">-</span>Schnittstelle<span class="operator">,</span>RE
+      Individual address: <span class="number">1.1.250</span>
+      Server control endpoint: <span class="number">10.9.78.81</span>:<span class="number">3671</span>
+    Supported services:
+      KNXnet<span class="operator">/</span>IP Core<span class="operator">,</span> Version: <span class="number">1</span>
+      KNXnet<span class="operator">/</span>IP Device Management<span class="operator">,</span> Version: <span class="number">1</span>
+      KNXnet<span class="operator">/</span>IP Tunnel<span class="operator">,</span> Version: <span class="number">1</span>
+      KNXnet<span class="operator">/</span>IP Remote Configuration<span class="operator">,</span> Version: <span class="number">1</span></pre></div>
+<a name="implementation"></a>
+<h4 id="implementation">Implementation<a class="plink" href="#implementation" title="Direct link to this headline"></a></h4>
+<p>The client delegates all the implementation of the KNX discovery to a <a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a> instance.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    ...
+    <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span> agent;</pre></div>
+<p>The discovery agent is started here:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    ...
+    <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span> agent;
+    ...
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>agent<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>finished<span class="operator">,</span> <span class="operator">&amp;</span>discoverer<span class="operator">,</span>
+        <span class="operator">&amp;</span><span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>quit);
+
+    <span class="keyword">if</span> (<span class="operator">!</span>parser<span class="operator">.</span>isSet(<span class="string">"localAddress"</span>)) {
+        agent<span class="operator">.</span>start(<span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>InterfaceType<span class="operator">::</span>Ethernet
+            <span class="operator">|</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>InterfaceType<span class="operator">::</span>Wifi);
+    } <span class="keyword">else</span> {
+        agent<span class="operator">.</span>start(<span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span><span class="operator">&gt;</span> { agent<span class="operator">.</span>localAddress() });
+    }
+
+    <span class="keyword">if</span> (agent<span class="operator">.</span>error() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>Error<span class="operator">::</span>None
+        <span class="operator">&amp;</span><span class="operator">&amp;</span> agent<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>State<span class="operator">::</span>Running) {
+            discoverer<span class="operator">.</span>exec();
+    ...
+}</pre></div>
+<p>When the agent finishes discovering the servers, the main function of the client is resumed. The above code snippet shows how the <a href="./qknxnetipserverdiscoveryagent.htm#finished" translate="no">QKnxNetIpServerDiscoveryAgent::finished</a>() signal triggers a call to <a href="./qcoreapplication.htm#quit" translate="no">QCoreApplication::quit</a>(). The client execution then keeps going after the <a href="./qcoreapplication.htm#exec" translate="no">QCoreApplication::exec</a>().</p>
+<p>Finally, we recover a list of servers and output the information found:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    ...
+    <span class="keyword">if</span> (agent<span class="operator">.</span>error() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>Error<span class="operator">::</span>None
+        <span class="operator">&amp;</span><span class="operator">&amp;</span> agent<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>State<span class="operator">::</span>Running) {
+            discoverer<span class="operator">.</span>exec();
+    }
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> servers <span class="operator">=</span> agent<span class="operator">.</span>discoveredServers();
+    <span class="keyword">if</span> (servers<span class="operator">.</span>size() <span class="operator">&gt;</span> <span class="number">0</span>) {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>endl <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"%1 server(s) found on the network."</span>)
+            <span class="operator">.</span>arg(servers<span class="operator">.</span>size());
+        <span class="keyword">for</span> (<span class="keyword">auto</span> server : servers) {
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"  Network interface: %1, address: %2"</span>)
+                <span class="operator">.</span>arg(server<span class="operator">.</span>networkInterface()<span class="operator">.</span>humanReadableName()<span class="operator">,</span> server<span class="operator">.</span>hostAddress()<span class="operator">.</span>toString());
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"  Server: %1"</span>)<span class="operator">.</span>arg(server<span class="operator">.</span>deviceName());
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Individual address: %1"</span>)<span class="operator">.</span>arg(server
+                <span class="operator">.</span>individualAddress()<span class="operator">.</span>toString());
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Server control endpoint: %1:%2"</span>)
+                <span class="operator">.</span>arg(server<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(server<span class="operator">.</span>controlEndpointPort());
+
+            <span class="keyword">const</span> <span class="keyword">auto</span> services <span class="operator">=</span> server<span class="operator">.</span>supportedServices();
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"    Supported services:"</span>);
+            <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> service : services) {
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      KNXnet/IP %1, Version: %2"</span>)
+                    <span class="operator">.</span>arg(familyToString(service<span class="operator">.</span>ServiceFamily))<span class="operator">.</span>arg(service<span class="operator">.</span>ServiceFamilyVersion);
+            }
+
+            <span class="keyword">const</span> <span class="keyword">auto</span> dib <span class="operator">=</span> server<span class="operator">.</span>extendedHardware();
+            <span class="type"><a href="./qknxnetipextendeddevicedibproxy.htm" translate="no">QKnxNetIpExtendedDeviceDibProxy</a></span> hardware(dib);
+            <span class="keyword">if</span> (hardware<span class="operator">.</span>isValid()) {
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"    Extended hardware information:"</span>;
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Mask version: %1"</span>)<span class="operator">.</span>arg(hardware
+                    <span class="operator">.</span>deviceDescriptorType0()<span class="operator">,</span> <span class="number">4</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>));
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Max. local APDU length: %1"</span>)
+                    <span class="operator">.</span>arg(hardware<span class="operator">.</span>maximumLocalApduLength());
+
+                <span class="keyword">auto</span> status <span class="operator">=</span> server<span class="operator">.</span>mediumStatus();
+                <span class="keyword">if</span> (status <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumStatus<span class="operator">::</span>CommunicationPossible)
+                    <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"      Medium status: Communication possible"</span>;
+                <span class="keyword">else</span> <span class="keyword">if</span> (status <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumStatus<span class="operator">::</span>CommunicationImpossible)
+                    <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"      Medium status: Communication impossible"</span>;
+                <span class="keyword">else</span>
+                    <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"      Medium status: Unknown"</span>;
+            }
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">""</span>;
+        }
+    } <span class="keyword">else</span> {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"No server(s) found on the network."</span>;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+<p>Files:</p>
+<ul>
+<li><a href="./qtknx-discoverer-discoverer-pro.htm" translate="no">discoverer/discoverer.pro</a></li>
+<li><a href="./qtknx-discoverer-main-cpp.htm" translate="no">discoverer/main.cpp</a></li>
+</ul>
+</div>
+<!-- @@@discoverer -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

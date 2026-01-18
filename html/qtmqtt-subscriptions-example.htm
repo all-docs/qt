@@ -1,0 +1,131 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MQTT Subscriptions Example | Qt MQTT</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtmqtt-subscriptions-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtmqtt-index.htm" translate="no">Qt MQTT</a></li>
+                            <li><a href="./qtmqtt-examples.htm" translate="no">Qt MQTT Examples</a></li>
+                            <li><a>MQTT Subscriptions Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">MQTT Subscriptions Example</h1>
+<span class="subtitle"></span>
+<!-- $$$subscriptions-brief -->
+<p>Creating a application that communicates with an MQTT broker.</p>
+<!-- @@@subscriptions -->
+<!-- $$$subscriptions-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/subscriptions.png"></p><p><i>MQTT Subscriptions</i> shows how to create an application that communicates with an MQTT broker. A new dialog opens for each subscription, where you can see the messages on the subscribed topics.</p>
+<a name="creating-a-client"></a>
+<h4 id="creating-a-client">Creating a Client<a class="plink" href="#creating-a-client" title="Direct link to this headline"></a></h4>
+<p>We use the <a href="./qmqttclient.htm" translate="no">QMqttClient</a> class to create an MQTT client and to set the broker host name and port to use for the connection:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    m_client <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qmqttclient.htm" translate="no">QMqttClient</a></span>(<span class="keyword">this</span>);
+    m_client<span class="operator">-</span><span class="operator">&gt;</span>setHostname(ui<span class="operator">-</span><span class="operator">&gt;</span>lineEditHost<span class="operator">-</span><span class="operator">&gt;</span>text());
+    m_client<span class="operator">-</span><span class="operator">&gt;</span>setPort(ui<span class="operator">-</span><span class="operator">&gt;</span>spinBoxPort<span class="operator">-</span><span class="operator">&gt;</span>value());</pre></div>
+<a name="subscribing-to-topics"></a>
+<h4 id="subscribing-to-topics">Subscribing to Topics<a class="plink" href="#subscribing-to-topics" title="Direct link to this headline"></a></h4>
+<p>When users subscribe to topics in the client, a new subscription object is created:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>on_buttonSubscribe_clicked()
+{
+    <span class="keyword">auto</span> subscription <span class="operator">=</span> m_client<span class="operator">-</span><span class="operator">&gt;</span>subscribe(ui<span class="operator">-</span><span class="operator">&gt;</span>lineEditTopic<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>spinQoS<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toUInt());
+    <span class="keyword">if</span> (<span class="operator">!</span>subscription) {
+        <span class="type">QMessageBox</span><span class="operator">::</span>critical(<span class="keyword">this</span><span class="operator">,</span> QLatin1String(<span class="string">"Error"</span>)<span class="operator">,</span> QLatin1String(<span class="string">"Could not subscribe. Is there a valid connection?"</span>));
+        <span class="keyword">return</span>;
+    }
+    <span class="keyword">auto</span> subWindow <span class="operator">=</span> <span class="keyword">new</span> SubscriptionWindow(subscription);
+    subWindow<span class="operator">-</span><span class="operator">&gt;</span>setWindowTitle(subscription<span class="operator">-</span><span class="operator">&gt;</span>topic()<span class="operator">.</span>filter());
+    subWindow<span class="operator">-</span><span class="operator">&gt;</span>show();
+}</pre></div>
+<p>We use the <a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a> class to store the topic, state, and QoS level of a subscription:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">SubscriptionWindow<span class="operator">::</span>SubscriptionWindow(<span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span> <span class="operator">*</span>sub<span class="operator">,</span> <span class="type">QWidget</span> <span class="operator">*</span>parent) :
+    <span class="type">QWidget</span>(parent)<span class="operator">,</span>
+    ui(<span class="keyword">new</span> Ui<span class="operator">::</span>SubscriptionWindow)<span class="operator">,</span>
+    m_sub(sub)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>labelSub<span class="operator">-</span><span class="operator">&gt;</span>setText(m_sub<span class="operator">-</span><span class="operator">&gt;</span>topic()<span class="operator">.</span>filter());
+    ui<span class="operator">-</span><span class="operator">&gt;</span>labelQoS<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(m_sub<span class="operator">-</span><span class="operator">&gt;</span>qos()));
+    updateStatus(m_sub<span class="operator">-</span><span class="operator">&gt;</span>state());
+    connect(m_sub<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span><span class="operator">::</span>messageReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>SubscriptionWindow<span class="operator">::</span>updateMessage);
+    connect(m_sub<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span><span class="operator">::</span>stateChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>SubscriptionWindow<span class="operator">::</span>updateStatus);
+    connect(m_sub<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span><span class="operator">::</span>qosChanged<span class="operator">,</span> <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>(<span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> qos) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>labelQoS<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(qos));
+    });
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>pushButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type">QAbstractButton</span><span class="operator">::</span>clicked<span class="operator">,</span> m_sub<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qmqttsubscription.htm" translate="no">QMqttSubscription</a></span><span class="operator">::</span>unsubscribe);
+}</pre></div>
+<p>The QoS level can be set separately for a message and for a subscription. The QoS level set for a subscription determines the minimum QoS level. If a message is sent with a higher QoS level, the broker increases the QoS of that message to the higher level. For example, if client A subscribed to <i>topic</i> with QoS 1, and client B publishes a message on the topic, with QoS 0, the broker will automatically increase the QoS of the message to 1. If client B publishes a message on the topic with the QoS 2, the broker will send it with QoS 2.</p>
+<a name="receiving-messages"></a>
+<h5 id="receiving-messages">Receiving Messages<a class="plink" href="#receiving-messages" title="Direct link to this headline"></a></h5>
+<p>When the client receives a message, the <a href="./qmqttmessage.htm" translate="no">QMqttMessage</a> class is used to store the actual message payload:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> SubscriptionWindow<span class="operator">::</span>updateMessage(<span class="keyword">const</span> <span class="type"><a href="./qmqttmessage.htm" translate="no">QMqttMessage</a></span> <span class="operator">&amp;</span>msg)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>listWidget<span class="operator">-</span><span class="operator">&gt;</span>addItem(msg<span class="operator">.</span>payload());
+}</pre></div>
+<p>Files:</p>
+<ul>
+<li><a href="./qtmqtt-subscriptions-main-cpp.htm" translate="no">subscriptions/main.cpp</a></li>
+<li><a href="./qtmqtt-subscriptions-mainwindow-cpp.htm" translate="no">subscriptions/mainwindow.cpp</a></li>
+<li><a href="./qtmqtt-subscriptions-mainwindow-h.htm" translate="no">subscriptions/mainwindow.h</a></li>
+<li><a href="./qtmqtt-subscriptions-mainwindow-ui.htm" translate="no">subscriptions/mainwindow.ui</a></li>
+<li><a href="./qtmqtt-subscriptions-subscriptions-pro.htm" translate="no">subscriptions/subscriptions.pro</a></li>
+<li><a href="./qtmqtt-subscriptions-subscriptionwindow-cpp.htm" translate="no">subscriptions/subscriptionwindow.cpp</a></li>
+<li><a href="./qtmqtt-subscriptions-subscriptionwindow-h.htm" translate="no">subscriptions/subscriptionwindow.h</a></li>
+<li><a href="./qtmqtt-subscriptions-subscriptionwindow-ui.htm" translate="no">subscriptions/subscriptionwindow.ui</a></li>
+</ul>
+</div>
+<!-- @@@subscriptions -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

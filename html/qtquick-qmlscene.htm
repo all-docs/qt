@@ -1,0 +1,122 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prototyping with qmlscene</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Prototyping with qmlscene</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Prototyping with qmlscene</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-qmlscene.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt 5 includes <code translate="no">qmlscene</code>, a utility that loads and displays QML documents even before the application is complete. This utility also provides the following additional features that are useful while developing QML applications:</p>
+<ul>
+<li>View the QML document in a maximized window.</li>
+<li>View the QML document in full-screen mode.</li>
+<li>Make the window transparent.</li>
+<li>Disable multi-sampling (anti-aliasing).</li>
+<li>Do not detect the version of the .qml file.</li>
+<li>Run all animations in slow motion.</li>
+<li>Resize the window to the size of the root item.</li>
+<li>Add the list of import paths.</li>
+<li>Add a named bundle.</li>
+<li>Use a translation file to set the language.</li>
+</ul>
+<p>The <code translate="no">qmlscene</code> utility is meant to be used for testing your QML applications, and not as a launcher in a production environment. To launch a QML application in a production environment, develop a custom C++ application or bundle the QML file in a module. See <a href="./qtquick-deployment.htm" translate="no">Deploying QML applications</a> for more information. When given a bare <a href="./qml-qtquick-item.htm" translate="no">Item</a> as root element, <code translate="no">qmlscene</code> will automatically create a window to show the scene. Notably, <a href="./qqmlcomponent.htm#create" translate="no">QQmlComponent::create</a>() will not do such a thing. Therefore, when moving from a prototype developed with <code translate="no">qmlscene</code> to a C++ application, you need to either make sure the root element is a <a href="./qt3dextras-module.htm#window" translate="no">Window</a> or manually create a window using <a href="./qtquick-module.htm" translate="no">QtQuick</a>'s C++ API. On the flip side, the ability to automatically create a window gives you the option to load parts of your prototype separately with <code translate="no">qmlscene</code>.</p>
+<div class="admonition note">
+<p><b>Note: </b>The <a href="./qtquick-qml-runtime.htm" translate="no">qml tool</a> is also included since Qt 5.2, and has certain advantages over <code translate="no">qmlscene</code>.</p>
+</div>
+<p>To load a .qml file, run the tool and select the file to be opened, or provide the file path on the command prompt:</p>
+<div class="pre"><pre class="cpp" translate="no">qmlscene myqmlfile<span class="operator">.</span>qml</pre></div>
+<p>To see the configuration options, run <code translate="no">qmlscene</code> with the <code translate="no">-help</code> argument.</p>
+<a name="adding-module-import-paths"></a>
+<h2 id="adding-module-import-paths">Adding Module Import Paths<a class="plink" href="#adding-module-import-paths" title="Direct link to this headline"></a></h2>
+<p>Additional module import paths can be provided using the <code translate="no">-I</code> flag. For example, the <a href="./qtqml-qmlextensionplugins-example.htm" translate="no">QML plugin example</a> creates a C++ plugin identified with the namespace, <code translate="no">TimeExample</code>. To load the plugin, you must run <code translate="no">qmlscene</code> with the <code translate="no">-I</code> flag from the example's base directory:</p>
+<div class="pre"><pre class="cpp" translate="no">qmlscene <span class="operator">-</span>I imports plugins<span class="operator">.</span>qml</pre></div>
+<p>This adds the current directory to the import path so that <code translate="no">qmlscene</code> will find the plugin in the <code translate="no">imports</code> directory.</p>
+<div class="admonition note">
+<p><b>Note: </b>By default, the current directory is included in the import search path, but modules in a namespace such as <code translate="no">TimeExample</code> are not found unless the path is explicitly added.</p>
+</div>
+<a name="loading-test-data"></a>
+<h2 id="loading-test-data">Loading Test Data<a class="plink" href="#loading-test-data" title="Direct link to this headline"></a></h2>
+<p>Often, QML applications are prototyped with test data that is later replaced by real data sources from C++ plugins. The <code translate="no">qmlscene</code> utility assists in this aspect by loading test data into the application context. It looks for a directory named <code translate="no">dummydata</code> in the same directory as the target QML file, and loads the .qml files in that directory as QML objects and bind them to the root context as properties named after the files.</p>
+<p>For example, the following QML document refers to a <code translate="no">lottoNumbers</code> property which does not exist within the document:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.3
+
+<span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">width</span>: <span class="number">200</span>; <span class="name">height</span>: <span class="number">300</span>
+    <span class="name">model</span>: <span class="name">lottoNumbers</span>
+    <span class="name">delegate</span>: <span class="name">Text</span> { <span class="name">text</span>: <span class="name">number</span> }
+}</pre></div>
+<p>If, within the document's directory, there is a <code translate="no">dummydata</code> directory which contains a <code translate="no">lottoNumbers.qml</code> file like this:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.3
+
+<span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">number</span>: <span class="number">23</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">number</span>: <span class="number">44</span> }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> { <span class="name">number</span>: <span class="number">78</span> }
+}</pre></div>
+<p>Then this model would be automatically loaded into the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> in the previous document.</p>
+<p>Child properties are included when loaded from <code translate="no">dummydata</code>. The following document refers to a <code translate="no">clock.time</code> property:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.3
+<span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">clock</span>.<span class="name">time</span> }</pre></div>
+<p>The text value could be filled by a <code translate="no">dummydata/clock.qml</code> file with a <code translate="no">time</code> property in the root context:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.3
+<span class="type"><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></span> { property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">time</span>: <span class="number">54321</span> }</pre></div>
+<p>To replace this with real data, bind the real data object to the root context in C++ using <a href="./qqmlcontext.htm#setContextProperty" translate="no">QQmlContext::setContextProperty</a>(). This is detailed in <a href="./qtqml-cppintegration-topic.htm" translate="no">Integrating QML and C++</a>.</p>
+</div>
+<!-- @@@qtquick-qmlscene.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

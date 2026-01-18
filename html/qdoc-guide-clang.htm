@@ -1,0 +1,96 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Installing Clang for QDoc | QDoc Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qdoc-guide-clang.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qdoc-index.htm" translate="no">QDoc Manual</a></li>
+                            <li><a>Installing Clang for QDoc</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qdoc-guide.html" rel="prev">
+<link href="qdoc-guide-conf.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qdoc-guide.htm">Getting Started with QDoc</a>
+<a class="" href="./qdoc-guide-conf.htm">Creating QDoc Configuration Files</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Installing Clang for QDoc</h1>
+<span class="subtitle"></span>
+<!-- $$$qdoc-guide-clang.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>QDoc uses Clang when parsing C++ files as well as function signatures in <a href="./13-qdoc-commands-topics.htm#fn-command" translate="no">\fn</a> commands. Clang is part of <a href="https://llvm.org/" translate="no">the LLVM Compiler Infrastructure Project</a>. Therefore, if you are going to build QDoc from source, you need to install <a href="http://clang.llvm.org" translate="no">LLVM 6.0</a> or greater first. You can find the required pre-built binaries <a href="http://releases.llvm.org/download.html" translate="no">here</a>.</p>
+<p>To build QDoc on Debian-based Linux distributions, it is sufficient to install the <code translate="no">libclang-dev</code> package and its dependencies. For running QDoc, the <code translate="no">libclang</code> package is required.</p>
+<div class="admonition note">
+<p><b>Note: </b>On Windows, after installing the pre-built LLVM you must restart your build shell to ensure that LLVM's binary directory is added to the PATH variable. This is needed to be able to run qdoc.</p>
+</div>
+<a name="set-clang-location-automatically"></a>
+<h2 id="set-clang-location-automatically">Set Clang location automatically<a class="plink" href="#set-clang-location-automatically" title="Direct link to this headline"></a></h2>
+<p>The Qt build system uses the tool <code translate="no">llvm-config</code> to discover the location of LLVM on your system, and relies on the path to llvm-config being in the <code translate="no">PATH</code> environment variable to do so. <code translate="no">llvm-config</code> is commonly installed with LLVM and Clang on Linux systems, and also on macOS if LLVM is installed using Brew.</p>
+<p>On Windows, the installation binaries provided by LLVM do not include <code translate="no">llvm-config</code>. You may still have it on your system, if you have built LLVM yourself from source. If that is the case, and you want to let the build system find Clang automatically, add the path to <code translate="no">llvm-config</code> to your <code translate="no">PATH</code> environment variable. For example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">C:\&gt; set PATH=%PATH%;C:\[build directory]\bin\Release"</pre></div>
+<p>Make sure to set the path to your LLVM build directory. The <code translate="no">llvm-config</code> executable is located in <code translate="no">bin\Release</code> or <code translate="no">bin\Debug</code>, reflecting the build version.</p>
+<a name="specify-clang-location-manually"></a>
+<h2 id="specify-clang-location-manually">Specify Clang location manually<a class="plink" href="#specify-clang-location-manually" title="Direct link to this headline"></a></h2>
+<p>If <code translate="no">llvm-config</code> is not in your <code translate="no">PATH</code> environment variable, or not installed on your system, you can still build QDoc, by manually setting the environment variable <code translate="no">LLVM_INSTALL_DIR</code> to point to the directory where the Clang libraries are installed. This directory should be the top level directory. For example, on a Linux or macOS system with LLVM installed to <code translate="no">/usr/llvm</code>:</p>
+<div class="pre"><pre class="cpp plain" translate="no">$ export LLVM_INSTALL_DIR=/usr/llvm</pre></div>
+<p>Debian-based Linux distributions usually offer multiple versions of the <code translate="no">libclang</code> packages, such as <code translate="no">libclang-&lt;VERSION&gt;</code>. In this case, <code translate="no">LLVM_INSTALL_DIR</code> should contain <code translate="no">/usr/lib/clang/&lt;VERSION&gt;</code> .</p>
+<p>On a Windows system with LLVM installed to <code translate="no">C:\Program Files\LLVM</code>:</p>
+<div class="pre"><pre class="cpp plain" translate="no">C:\&gt; set LLVM_INSTALL_DIR=C:\Program Files\LLVM</pre></div>
+</div>
+<!-- @@@qdoc-guide-clang.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./qdoc-guide.htm">Getting Started with QDoc</a>
+<a class="nextPage" href="./qdoc-guide-conf.htm">Creating QDoc Configuration Files</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

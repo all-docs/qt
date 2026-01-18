@@ -1,0 +1,339 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF Viewer Example | Qt PDF</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpdf-index.htm" translate="no">Qt PDF</a></li>
+                            <li><a href="./qtpdf-examples.htm" translate="no">Qt PDF Examples</a></li>
+                            <li><a>PDF Viewer Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">PDF Viewer Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;ui version="4.0"&gt;
+ &lt;class&gt;MainWindow&lt;/class&gt;
+ &lt;widget class="QMainWindow" name="MainWindow"&gt;
+  &lt;property name="geometry"&gt;
+   &lt;rect&gt;
+    &lt;x&gt;0&lt;/x&gt;
+    &lt;y&gt;0&lt;/y&gt;
+    &lt;width&gt;700&lt;/width&gt;
+    &lt;height&gt;600&lt;/height&gt;
+   &lt;/rect&gt;
+  &lt;/property&gt;
+  &lt;property name="windowTitle"&gt;
+   &lt;string&gt;PDF Viewer&lt;/string&gt;
+  &lt;/property&gt;
+  &lt;property name="unifiedTitleAndToolBarOnMac"&gt;
+   &lt;bool&gt;true&lt;/bool&gt;
+  &lt;/property&gt;
+  &lt;widget class="QWidget" name="centralWidget"&gt;
+   &lt;layout class="QVBoxLayout" name="verticalLayout"&gt;
+    &lt;property name="spacing"&gt;
+     &lt;number&gt;0&lt;/number&gt;
+    &lt;/property&gt;
+    &lt;property name="leftMargin"&gt;
+     &lt;number&gt;0&lt;/number&gt;
+    &lt;/property&gt;
+    &lt;property name="topMargin"&gt;
+     &lt;number&gt;0&lt;/number&gt;
+    &lt;/property&gt;
+    &lt;property name="rightMargin"&gt;
+     &lt;number&gt;0&lt;/number&gt;
+    &lt;/property&gt;
+    &lt;property name="bottomMargin"&gt;
+     &lt;number&gt;0&lt;/number&gt;
+    &lt;/property&gt;
+    &lt;item&gt;
+     &lt;widget class="QWidget" name="widget" native="true"&gt;
+      &lt;layout class="QVBoxLayout" name="verticalLayout_2"&gt;
+       &lt;property name="spacing"&gt;
+        &lt;number&gt;0&lt;/number&gt;
+       &lt;/property&gt;
+       &lt;property name="leftMargin"&gt;
+        &lt;number&gt;0&lt;/number&gt;
+       &lt;/property&gt;
+       &lt;property name="topMargin"&gt;
+        &lt;number&gt;0&lt;/number&gt;
+       &lt;/property&gt;
+       &lt;property name="rightMargin"&gt;
+        &lt;number&gt;0&lt;/number&gt;
+       &lt;/property&gt;
+       &lt;property name="bottomMargin"&gt;
+        &lt;number&gt;0&lt;/number&gt;
+       &lt;/property&gt;
+       &lt;item&gt;
+        &lt;widget class="QSplitter" name="splitter"&gt;
+         &lt;property name="orientation"&gt;
+          &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+         &lt;/property&gt;
+         &lt;widget class="QTabWidget" name="tabWidget"&gt;
+          &lt;property name="sizePolicy"&gt;
+           &lt;sizepolicy hsizetype="Preferred" vsizetype="Expanding"&gt;
+            &lt;horstretch&gt;0&lt;/horstretch&gt;
+            &lt;verstretch&gt;0&lt;/verstretch&gt;
+           &lt;/sizepolicy&gt;
+          &lt;/property&gt;
+          &lt;property name="tabPosition"&gt;
+           &lt;enum&gt;QTabWidget::West&lt;/enum&gt;
+          &lt;/property&gt;
+          &lt;property name="currentIndex"&gt;
+           &lt;number&gt;0&lt;/number&gt;
+          &lt;/property&gt;
+          &lt;property name="documentMode"&gt;
+           &lt;bool&gt;false&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;widget class="QWidget" name="bookmarkTab"&gt;
+           &lt;attribute name="title"&gt;
+            &lt;string&gt;Bookmarks&lt;/string&gt;
+           &lt;/attribute&gt;
+           &lt;layout class="QVBoxLayout" name="verticalLayout_3"&gt;
+            &lt;property name="spacing"&gt;
+             &lt;number&gt;0&lt;/number&gt;
+            &lt;/property&gt;
+            &lt;property name="leftMargin"&gt;
+             &lt;number&gt;2&lt;/number&gt;
+            &lt;/property&gt;
+            &lt;property name="topMargin"&gt;
+             &lt;number&gt;2&lt;/number&gt;
+            &lt;/property&gt;
+            &lt;property name="rightMargin"&gt;
+             &lt;number&gt;2&lt;/number&gt;
+            &lt;/property&gt;
+            &lt;property name="bottomMargin"&gt;
+             &lt;number&gt;2&lt;/number&gt;
+            &lt;/property&gt;
+            &lt;item&gt;
+             &lt;widget class="QTreeView" name="bookmarkView"&gt;
+              &lt;property name="sizePolicy"&gt;
+               &lt;sizepolicy hsizetype="Preferred" vsizetype="Expanding"&gt;
+                &lt;horstretch&gt;0&lt;/horstretch&gt;
+                &lt;verstretch&gt;0&lt;/verstretch&gt;
+               &lt;/sizepolicy&gt;
+              &lt;/property&gt;
+              &lt;property name="headerHidden"&gt;
+               &lt;bool&gt;true&lt;/bool&gt;
+              &lt;/property&gt;
+             &lt;/widget&gt;
+            &lt;/item&gt;
+           &lt;/layout&gt;
+          &lt;/widget&gt;
+          &lt;widget class="QWidget" name="pagesTab"&gt;
+           &lt;attribute name="title"&gt;
+            &lt;string&gt;Pages&lt;/string&gt;
+           &lt;/attribute&gt;
+          &lt;/widget&gt;
+         &lt;/widget&gt;
+         &lt;widget class="QPdfView" name="pdfView" native="true"&gt;
+          &lt;property name="sizePolicy"&gt;
+           &lt;sizepolicy hsizetype="Expanding" vsizetype="Expanding"&gt;
+            &lt;horstretch&gt;10&lt;/horstretch&gt;
+            &lt;verstretch&gt;0&lt;/verstretch&gt;
+           &lt;/sizepolicy&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/widget&gt;
+       &lt;/item&gt;
+      &lt;/layout&gt;
+     &lt;/widget&gt;
+    &lt;/item&gt;
+   &lt;/layout&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QMenuBar" name="menuBar"&gt;
+   &lt;property name="geometry"&gt;
+    &lt;rect&gt;
+     &lt;x&gt;0&lt;/x&gt;
+     &lt;y&gt;0&lt;/y&gt;
+     &lt;width&gt;700&lt;/width&gt;
+     &lt;height&gt;22&lt;/height&gt;
+    &lt;/rect&gt;
+   &lt;/property&gt;
+   &lt;widget class="QMenu" name="menuFile"&gt;
+    &lt;property name="title"&gt;
+     &lt;string&gt;File&lt;/string&gt;
+    &lt;/property&gt;
+    &lt;addaction name="actionOpen"/&gt;
+    &lt;addaction name="actionQuit"/&gt;
+   &lt;/widget&gt;
+   &lt;widget class="QMenu" name="menuHelp"&gt;
+    &lt;property name="title"&gt;
+     &lt;string&gt;Help&lt;/string&gt;
+    &lt;/property&gt;
+    &lt;addaction name="actionAbout"/&gt;
+    &lt;addaction name="actionAbout_Qt"/&gt;
+   &lt;/widget&gt;
+   &lt;widget class="QMenu" name="menuView"&gt;
+    &lt;property name="title"&gt;
+     &lt;string&gt;View&lt;/string&gt;
+    &lt;/property&gt;
+    &lt;addaction name="actionZoom_In"/&gt;
+    &lt;addaction name="actionZoom_Out"/&gt;
+    &lt;addaction name="actionPrevious_Page"/&gt;
+    &lt;addaction name="actionNext_Page"/&gt;
+    &lt;addaction name="separator"/&gt;
+    &lt;addaction name="actionContinuous"/&gt;
+   &lt;/widget&gt;
+   &lt;addaction name="menuFile"/&gt;
+   &lt;addaction name="menuView"/&gt;
+   &lt;addaction name="menuHelp"/&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QToolBar" name="mainToolBar"&gt;
+   &lt;property name="movable"&gt;
+    &lt;bool&gt;false&lt;/bool&gt;
+   &lt;/property&gt;
+   &lt;property name="floatable"&gt;
+    &lt;bool&gt;false&lt;/bool&gt;
+   &lt;/property&gt;
+   &lt;attribute name="toolBarArea"&gt;
+    &lt;enum&gt;TopToolBarArea&lt;/enum&gt;
+   &lt;/attribute&gt;
+   &lt;attribute name="toolBarBreak"&gt;
+    &lt;bool&gt;false&lt;/bool&gt;
+   &lt;/attribute&gt;
+   &lt;addaction name="actionOpen"/&gt;
+   &lt;addaction name="separator"/&gt;
+   &lt;addaction name="actionZoom_Out"/&gt;
+   &lt;addaction name="actionZoom_In"/&gt;
+   &lt;addaction name="separator"/&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QStatusBar" name="statusBar"/&gt;
+  &lt;action name="actionOpen"&gt;
+   &lt;property name="icon"&gt;
+    &lt;iconset resource="resources.qrc"&gt;
+     &lt;normaloff&gt;:/icons/images/fileopen.png&lt;/normaloff&gt;:/icons/images/fileopen.png&lt;/iconset&gt;
+   &lt;/property&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Open...&lt;/string&gt;
+   &lt;/property&gt;
+   &lt;property name="shortcut"&gt;
+    &lt;string&gt;Ctrl+O&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionQuit"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Quit&lt;/string&gt;
+   &lt;/property&gt;
+   &lt;property name="shortcut"&gt;
+    &lt;string&gt;Ctrl+Q&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionAbout"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;About&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionAbout_Qt"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;About Qt&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionZoom_In"&gt;
+   &lt;property name="icon"&gt;
+    &lt;iconset resource="resources.qrc"&gt;
+     &lt;normaloff&gt;:/icons/images/zoom-in-24.png&lt;/normaloff&gt;:/icons/images/zoom-in-24.png&lt;/iconset&gt;
+   &lt;/property&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Zoom In&lt;/string&gt;
+   &lt;/property&gt;
+   &lt;property name="shortcut"&gt;
+    &lt;string&gt;Ctrl+=&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionZoom_Out"&gt;
+   &lt;property name="icon"&gt;
+    &lt;iconset resource="resources.qrc"&gt;
+     &lt;normaloff&gt;:/icons/images/zoom-out-24.png&lt;/normaloff&gt;:/icons/images/zoom-out-24.png&lt;/iconset&gt;
+   &lt;/property&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Zoom Out&lt;/string&gt;
+   &lt;/property&gt;
+   &lt;property name="shortcut"&gt;
+    &lt;string&gt;Ctrl+-&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionPrevious_Page"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Previous Page&lt;/string&gt;
+   &lt;/property&gt;
+   &lt;property name="shortcut"&gt;
+    &lt;string&gt;PgUp&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionNext_Page"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Next Page&lt;/string&gt;
+   &lt;/property&gt;
+   &lt;property name="shortcut"&gt;
+    &lt;string&gt;PgDown&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionContinuous"&gt;
+   &lt;property name="checkable"&gt;
+    &lt;bool&gt;true&lt;/bool&gt;
+   &lt;/property&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Continuous&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+ &lt;/widget&gt;
+ &lt;layoutdefault spacing="6" margin="11"/&gt;
+ &lt;customwidgets&gt;
+  &lt;customwidget&gt;
+   &lt;class&gt;QPdfView&lt;/class&gt;
+   &lt;extends&gt;QWidget&lt;/extends&gt;
+   &lt;header location="global"&gt;qpdfview.h&lt;/header&gt;
+   &lt;container&gt;1&lt;/container&gt;
+  &lt;/customwidget&gt;
+ &lt;/customwidgets&gt;
+ &lt;resources&gt;
+  &lt;include location="resources.qrc"/&gt;
+ &lt;/resources&gt;
+ &lt;connections/&gt;
+&lt;/ui&gt;</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

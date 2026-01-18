@@ -1,0 +1,220 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Surface Example | Qt Data Visualization</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li class="last"><a>Surface Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Surface Example</h1>
+<span class="subtitle"></span>
+<!-- $$$surface-brief -->
+<p>Using <a href="./q3dsurface.htm" translate="no">Q3DSurface</a> in a widget application.</p>
+<!-- @@@surface -->
+<!-- $$$surface-description -->
+<div class="descr"> <a name="details"></a>
+<p>The surface example shows how to make a simple 3D surface graph using <a href="./q3dsurface.htm" translate="no">Q3DSurface</a> and combining the use of widgets for adjusting several adjustable qualities. This example demonstrates the following features:</p>
+<ul>
+<li>How to set up a basic <a href="./qsurfacedataproxy.htm" translate="no">QSurfaceDataProxy</a> and set data for it.</li>
+<li>How to use <a href="./qheightmapsurfacedataproxy.htm" translate="no">QHeightMapSurfaceDataProxy</a> for showing 3D height maps.</li>
+<li>Three different selection modes for studying the graph.</li>
+<li>Axis range usage for displaying selected portions of the graph.</li>
+<li>Changing theme.</li>
+<li>How to set a custom surface gradient.</li>
+</ul>
+<p>For instructions about how to interact with the graph, see <a href="./qtdatavisualization-interacting-with-data.htm" translate="no">this page</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/surface-example.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-the-application"></a>
+<h4 id="creating-the-application">Creating the Application<a class="plink" href="#creating-the-application" title="Direct link to this headline"></a></h4>
+<p>First, in <code translate="no">main.cpp</code>, we create a <a href="./qapplication.htm" translate="no">QApplication</a>, instantiate <a href="./q3dsurface.htm" translate="no">Q3DSurface</a>, and a window container for it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+<span class="type"><a href="./q3dsurface.htm" translate="no">Q3DSurface</a></span> <span class="operator">*</span>graph <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./q3dsurface.htm" translate="no">Q3DSurface</a></span>();
+<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>container <span class="operator">=</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">::</span>createWindowContainer(graph);</pre></div>
+<p>The call to <a href="./qwidget.htm#createWindowContainer" translate="no">QWidget::createWindowContainer</a> is required, as all data visualization graph classes (<a href="./q3dbars.htm" translate="no">Q3DBars</a>, <a href="./q3dscatter.htm" translate="no">Q3DScatter</a>, and <a href="./q3dsurface.htm" translate="no">Q3DSurface</a>) inherit <a href="./qwindow.htm" translate="no">QWindow</a>. Any class inheriting <a href="./qwindow.htm" translate="no">QWindow</a> cannot be used as a widget any other way.</p>
+<p>Then we'll create horizontal and vertical layouts. We'll add the graph with the container and the vertical layout into the horizontal one:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>widget <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>;
+<span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span> <span class="operator">*</span>hLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span>(widget);
+<span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>vLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>();
+hLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(container<span class="operator">,</span> <span class="number">1</span>);
+hLayout<span class="operator">-</span><span class="operator">&gt;</span>addLayout(vLayout);
+vLayout<span class="operator">-</span><span class="operator">&gt;</span>setAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);</pre></div>
+<p>The rest of the code in <code translate="no">main.cpp</code> is creating control widgets for features in <a href="./q3dsurface.htm" translate="no">Q3DSurface</a>. We have separated code for changing these features into <code translate="no">surfacegraph.cpp</code> and only connect signals from widgets into methods in <code translate="no">surfacegraph.cpp</code>. Next chapter explains more about using <a href="./q3dsurface.htm" translate="no">Q3DSurface</a>.</p>
+<a name="setting-up-proxies-and-data"></a>
+<h4 id="setting-up-proxies-and-data">Setting up Proxies and Data<a class="plink" href="#setting-up-proxies-and-data" title="Direct link to this headline"></a></h4>
+<p>First we instantiate a new <a href="./qsurfacedataproxy.htm" translate="no">QSurfaceDataProxy</a> and attach it to a new <a href="./qsurface3dseries.htm" translate="no">QSurface3DSeries</a>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">m_sqrtSinProxy <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsurfacedataproxy.htm" translate="no">QSurfaceDataProxy</a></span>();
+m_sqrtSinSeries <span class="operator">=</span> <span class="keyword">new</span> QSurface3DSeries(m_sqrtSinProxy);</pre></div>
+<p>Then we fill the proxy with a simple square root and sine wave data. This is done by creating a new <code translate="no">QSurfaceDataArray</code> instance and adding <code translate="no">QSurfaceDataRow</code> elements to it. The created <code translate="no">QSurfaceDataArray</code> is set to be the data array for the <a href="./qsurfacedataproxy.htm" translate="no">QSurfaceDataProxy</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> SurfaceGraph<span class="operator">::</span>fillSqrtSinProxy()
+{
+    <span class="type">float</span> stepX <span class="operator">=</span> (sampleMax <span class="operator">-</span> sampleMin) <span class="operator">/</span> <span class="type">float</span>(sampleCountX <span class="operator">-</span> <span class="number">1</span>);
+    <span class="type">float</span> stepZ <span class="operator">=</span> (sampleMax <span class="operator">-</span> sampleMin) <span class="operator">/</span> <span class="type">float</span>(sampleCountZ <span class="operator">-</span> <span class="number">1</span>);
+
+    <span class="type"><a href="./qsurfacedataproxy.htm#QSurfaceDataArray-typedef" translate="no">QSurfaceDataArray</a></span> <span class="operator">*</span>dataArray <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsurfacedataproxy.htm#QSurfaceDataArray-typedef" translate="no">QSurfaceDataArray</a></span>;
+    dataArray<span class="operator">-</span><span class="operator">&gt;</span>reserve(sampleCountZ);
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span> ; i <span class="operator">&lt;</span> sampleCountZ ; i<span class="operator">+</span><span class="operator">+</span>) {
+        <span class="type"><a href="./qsurfacedataproxy.htm#QSurfaceDataRow-typedef" translate="no">QSurfaceDataRow</a></span> <span class="operator">*</span>newRow <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsurfacedataproxy.htm#QSurfaceDataRow-typedef" translate="no">QSurfaceDataRow</a></span>(sampleCountX);
+        <span class="comment">// Keep values within range bounds, since just adding step can cause minor drift due</span>
+        <span class="comment">// to the rounding errors.</span>
+        <span class="type">float</span> z <span class="operator">=</span> <a href="./qtglobal.htm#qMin" translate="no">qMin</a>(sampleMax<span class="operator">,</span> (i <span class="operator">*</span> stepZ <span class="operator">+</span> sampleMin));
+        <span class="type">int</span> index <span class="operator">=</span> <span class="number">0</span>;
+        <span class="keyword">for</span> (<span class="type">int</span> j <span class="operator">=</span> <span class="number">0</span>; j <span class="operator">&lt;</span> sampleCountX; j<span class="operator">+</span><span class="operator">+</span>) {
+            <span class="type">float</span> x <span class="operator">=</span> <a href="./qtglobal.htm#qMin" translate="no">qMin</a>(sampleMax<span class="operator">,</span> (j <span class="operator">*</span> stepX <span class="operator">+</span> sampleMin));
+            <span class="type">float</span> R <span class="operator">=</span> <a href="./qtmath.htm#qSqrt" translate="no">qSqrt</a>(z <span class="operator">*</span> z <span class="operator">+</span> x <span class="operator">*</span> x) <span class="operator">+</span> <span class="number">0.01f</span>;
+            <span class="type">float</span> y <span class="operator">=</span> (<a href="./qtmath.htm#qSin" translate="no">qSin</a>(R) <span class="operator">/</span> R <span class="operator">+</span> <span class="number">0.24f</span>) <span class="operator">*</span> <span class="number">1.61f</span>;
+            (<span class="operator">*</span>newRow)<span class="operator">[</span>index<span class="operator">+</span><span class="operator">+</span><span class="operator">]</span><span class="operator">.</span>setPosition(QVector3D(x<span class="operator">,</span> y<span class="operator">,</span> z));
+        }
+        <span class="operator">*</span>dataArray <span class="operator">&lt;</span><span class="operator">&lt;</span> newRow;
+    }
+
+    m_sqrtSinProxy<span class="operator">-</span><span class="operator">&gt;</span>resetArray(dataArray);
+}</pre></div>
+<p>The height map is created by instantiating a <a href="./qheightmapsurfacedataproxy.htm" translate="no">QHeightMapSurfaceDataProxy</a> with a <a href="./qimage.htm" translate="no">QImage</a> containing the height data. The method <a href="./qheightmapsurfacedataproxy.htm#setValueRanges" translate="no">QHeightMapSurfaceDataProxy::setValueRanges</a>() is used to define the value range of the map. In our example the map is from imaginary position of 34.0° N - 40.0° N and 18.0° E - 24.0° E. These values are used to show and position the map to the axis.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qimage.htm" translate="no">QImage</a></span> heightMapImage(<span class="string">":/maps/mountain"</span>);
+m_heightMapProxy <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qheightmapsurfacedataproxy.htm" translate="no">QHeightMapSurfaceDataProxy</a></span>(heightMapImage);
+m_heightMapSeries <span class="operator">=</span> <span class="keyword">new</span> QSurface3DSeries(m_heightMapProxy);
+m_heightMapSeries<span class="operator">-</span><span class="operator">&gt;</span>setItemLabelFormat(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"(@xLabel, @zLabel): @yLabel"</span>));
+m_heightMapProxy<span class="operator">-</span><span class="operator">&gt;</span>setValueRanges(<span class="number">34.0f</span><span class="operator">,</span> <span class="number">40.0f</span><span class="operator">,</span> <span class="number">18.0f</span><span class="operator">,</span> <span class="number">24.0f</span>);</pre></div>
+<p>For demonstrating different proxies this example has two radio buttons which the user can use to switch between the series. When the user selects the <code translate="no">Sqrt &amp; Sin</code> radio button, the selected series is activated with the following code. First we set the decorative issues like enable the grid for the surface and select the flat shading mode. Next lines define the axis label format and value ranges. Automatic label rotation is set to improve label readability at low camera angles. Finally we make sure the correct series is added to the graph:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">m_sqrtSinSeries<span class="operator">-</span><span class="operator">&gt;</span>setDrawMode(QSurface3DSeries<span class="operator">::</span>DrawSurfaceAndWireframe);
+m_sqrtSinSeries<span class="operator">-</span><span class="operator">&gt;</span>setFlatShadingEnabled(<span class="keyword">true</span>);
+
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setLabelFormat(<span class="string">"%.2f"</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setLabelFormat(<span class="string">"%.2f"</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setRange(sampleMin<span class="operator">,</span> sampleMax);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisY()<span class="operator">-</span><span class="operator">&gt;</span>setRange(<span class="number">0.0f</span><span class="operator">,</span> <span class="number">2.0f</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setRange(sampleMin<span class="operator">,</span> sampleMax);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setLabelAutoRotation(<span class="number">30</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisY()<span class="operator">-</span><span class="operator">&gt;</span>setLabelAutoRotation(<span class="number">90</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setLabelAutoRotation(<span class="number">30</span>);
+
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>removeSeries(m_heightMapSeries);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>addSeries(m_sqrtSinSeries);</pre></div>
+<p>When the <code translate="no">Height Map</code> radio button is activated, the following code sets the correct series active. The axis label format is set to show N and E letters and ranges are set to the imaginary coordinates. Auto adjusting Y-axis range is fine for our height map surface, so we ensure it is set.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">m_heightMapSeries<span class="operator">-</span><span class="operator">&gt;</span>setDrawMode(QSurface3DSeries<span class="operator">::</span>DrawSurface);
+m_heightMapSeries<span class="operator">-</span><span class="operator">&gt;</span>setFlatShadingEnabled(<span class="keyword">false</span>);
+
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setLabelFormat(<span class="string">"%.1f N"</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setLabelFormat(<span class="string">"%.1f E"</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setRange(<span class="number">34.0f</span><span class="operator">,</span> <span class="number">40.0f</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisY()<span class="operator">-</span><span class="operator">&gt;</span>setAutoAdjustRange(<span class="keyword">true</span>);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setRange(<span class="number">18.0f</span><span class="operator">,</span> <span class="number">24.0f</span>);
+
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Latitude"</span>));
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisY()<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Height"</span>));
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Longitude"</span>));
+
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>removeSeries(m_sqrtSinSeries);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>addSeries(m_heightMapSeries);</pre></div>
+<a name="selection-modes"></a>
+<h4 id="selection-modes">Selection Modes<a class="plink" href="#selection-modes" title="Direct link to this headline"></a></h4>
+<p>Q3Dsurface supports three different selection modes. These are demonstrated in the example with radio buttons, which the user can use to activate a suitable selection mode. The following inline methods are connected to radio buttons to activate the selected mode.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> toggleModeNone() { m_graph<span class="operator">-</span><span class="operator">&gt;</span>setSelectionMode(QAbstract3DGraph<span class="operator">::</span>SelectionNone); }
+<span class="type">void</span> toggleModeItem() { m_graph<span class="operator">-</span><span class="operator">&gt;</span>setSelectionMode(QAbstract3DGraph<span class="operator">::</span>SelectionItem); }
+<span class="type">void</span> toggleModeSliceRow() { m_graph<span class="operator">-</span><span class="operator">&gt;</span>setSelectionMode(QAbstract3DGraph<span class="operator">::</span>SelectionItemAndRow
+                                                      <span class="operator">|</span> QAbstract3DGraph<span class="operator">::</span>SelectionSlice); }
+<span class="type">void</span> toggleModeSliceColumn() { m_graph<span class="operator">-</span><span class="operator">&gt;</span>setSelectionMode(QAbstract3DGraph<span class="operator">::</span>SelectionItemAndColumn
+                                                         <span class="operator">|</span> QAbstract3DGraph<span class="operator">::</span>SelectionSlice); }</pre></div>
+<a name="axis-ranges-for-studying-the-graph"></a>
+<h4 id="axis-ranges-for-studying-the-graph">Axis Ranges for Studying the Graph<a class="plink" href="#axis-ranges-for-studying-the-graph" title="Direct link to this headline"></a></h4>
+<p>The example has four slider controls for adjusting the min and max values for X and Z axis. When selecting the proxy these sliders are adjusted so that one step on the slider moves the range by one segment step:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// Reset range sliders for Sqrt&amp;Sin</span>
+m_rangeMinX <span class="operator">=</span> sampleMin;
+m_rangeMinZ <span class="operator">=</span> sampleMin;
+m_stepX <span class="operator">=</span> (sampleMax <span class="operator">-</span> sampleMin) <span class="operator">/</span> <span class="type">float</span>(sampleCountX <span class="operator">-</span> <span class="number">1</span>);
+m_stepZ <span class="operator">=</span> (sampleMax <span class="operator">-</span> sampleMin) <span class="operator">/</span> <span class="type">float</span>(sampleCountZ <span class="operator">-</span> <span class="number">1</span>);
+m_axisMinSliderX<span class="operator">-</span><span class="operator">&gt;</span>setMaximum(sampleCountX <span class="operator">-</span> <span class="number">2</span>);
+m_axisMinSliderX<span class="operator">-</span><span class="operator">&gt;</span>setValue(<span class="number">0</span>);
+m_axisMaxSliderX<span class="operator">-</span><span class="operator">&gt;</span>setMaximum(sampleCountX <span class="operator">-</span> <span class="number">1</span>);
+m_axisMaxSliderX<span class="operator">-</span><span class="operator">&gt;</span>setValue(sampleCountX <span class="operator">-</span> <span class="number">1</span>);
+m_axisMinSliderZ<span class="operator">-</span><span class="operator">&gt;</span>setMaximum(sampleCountZ <span class="operator">-</span> <span class="number">2</span>);
+m_axisMinSliderZ<span class="operator">-</span><span class="operator">&gt;</span>setValue(<span class="number">0</span>);
+m_axisMaxSliderZ<span class="operator">-</span><span class="operator">&gt;</span>setMaximum(sampleCountZ <span class="operator">-</span> <span class="number">1</span>);
+m_axisMaxSliderZ<span class="operator">-</span><span class="operator">&gt;</span>setValue(sampleCountZ <span class="operator">-</span> <span class="number">1</span>);</pre></div>
+<p>The ranges are set for the axes like this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> SurfaceGraph<span class="operator">::</span>setAxisXRange(<span class="type">float</span> min<span class="operator">,</span> <span class="type">float</span> max)
+{
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisX()<span class="operator">-</span><span class="operator">&gt;</span>setRange(min<span class="operator">,</span> max);
+}
+
+<span class="type">void</span> SurfaceGraph<span class="operator">::</span>setAxisZRange(<span class="type">float</span> min<span class="operator">,</span> <span class="type">float</span> max)
+{
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>axisZ()<span class="operator">-</span><span class="operator">&gt;</span>setRange(min<span class="operator">,</span> max);
+}</pre></div>
+<a name="themes"></a>
+<h4 id="themes">Themes<a class="plink" href="#themes" title="Direct link to this headline"></a></h4>
+<p><a href="./q3dsurface.htm" translate="no">Q3DSurface</a> supports all the themes Qt Data Visualization has. The example has a pull down menu for selecting the theme. The following method is connected to the menu to activate the selected theme. The theme type is changed to another predefined theme, which overwrites all theme properties to predefined values:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> SurfaceGraph<span class="operator">::</span>changeTheme(<span class="type">int</span> theme)
+{
+    m_graph<span class="operator">-</span><span class="operator">&gt;</span>activeTheme()<span class="operator">-</span><span class="operator">&gt;</span>setType(<span class="type"><a href="./q3dtheme.htm" translate="no">Q3DTheme</a></span><span class="operator">::</span>Theme(theme));
+}</pre></div>
+<a name="custom-surface-gradients"></a>
+<h4 id="custom-surface-gradients">Custom Surface Gradients<a class="plink" href="#custom-surface-gradients" title="Direct link to this headline"></a></h4>
+<p>The example demonstrates the custom surface gradients with two push buttons. The gradient can be defined with <a href="./qlineargradient.htm" translate="no">QLinearGradient</a> where the desired colors are set to positions. The following code shows how to create an example gradient and set it to the series. Note that you also need to change the color style to <a href="./q3dtheme.htm#ColorStyle-enum" translate="no">Q3DTheme::ColorStyleRangeGradient</a> to actually use the gradient.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qlineargradient.htm" translate="no">QLinearGradient</a></span> gr;
+gr<span class="operator">.</span>setColorAt(<span class="number">0.0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>black);
+gr<span class="operator">.</span>setColorAt(<span class="number">0.33</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>blue);
+gr<span class="operator">.</span>setColorAt(<span class="number">0.67</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>red);
+gr<span class="operator">.</span>setColorAt(<span class="number">1.0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>yellow);
+
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>seriesList()<span class="operator">.</span>at(<span class="number">0</span>)<span class="operator">-</span><span class="operator">&gt;</span>setBaseGradient(gr);
+m_graph<span class="operator">-</span><span class="operator">&gt;</span>seriesList()<span class="operator">.</span>at(<span class="number">0</span>)<span class="operator">-</span><span class="operator">&gt;</span>setColorStyle(<span class="type"><a href="./q3dtheme.htm" translate="no">Q3DTheme</a></span><span class="operator">::</span>ColorStyleRangeGradient);</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization/surface?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@surface -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

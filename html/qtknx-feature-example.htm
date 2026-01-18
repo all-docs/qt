@@ -1,0 +1,280 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Tunneling Features Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Tunneling Features Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">KNX Tunneling Features Example</h1>
+<span class="subtitle"></span>
+<!-- $$$feature-brief -->
+<p>A KNX client for handling KNXnet/IP tunneling features.</p>
+<!-- @@@feature -->
+<!-- $$$feature-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="&quot;KNX tunneling features example&quot;" src="./images/features.png"></p><p>The <i>KNX Tunneling Features</i> user interface contains various Qt Widgets, most prominently a <a href="./qtreewidget.htm" translate="no">QTreeWidget</a> to display detailed information about sent and received KNX tunneling feature messages.</p>
+<p>To get started, users select one of the network interfaces on their machine in the <b translate="no">Interface</b> field. Once that is done, the application automatically performs a continuous search for available KNXnet/IP devices and displays the results in the <b translate="no">Device</b> field.</p>
+<p>To connect to a KKXnet/IP device, either the one preselected in the <b translate="no">Device</b> can be used or a different one must be chosen from the list of discovered devices.</p>
+<p>The application also supports KNXnet/IP secure devices, but to be able to connect to such a device, a KNX ETS keyring file needs to be imported via the <b translate="no">File</b> menu.</p>
+<p>Once a connection is successfully established, the user has the possibility to send tunneling feature get or set commands and to monitor incoming tunnel feature info messages.</p>
+<p>The application consists of two classes:</p>
+<ul>
+<li><code translate="no">MainWindow</code> is a <a href="./qmainwindow.htm" translate="no">QMainWindow</a> that renders the general layout of the application.</li>
+<li><code translate="no">DeviceItem</code> is a <a href="./qstandarditem.htm" translate="no">QStandardItem</a> that is used to display and store information about discovered KNXnet/IP devices.</li>
+</ul>
+<a name="main-window-class-definition-and-implementation"></a>
+<h4 id="main-window-class-definition-and-implementation">Main Window Class Definition and Implementation<a class="plink" href="#main-window-class-definition-and-implementation" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MainWindow : <span class="keyword">public</span> <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> <span class="number">0</span>);
+    <span class="operator">~</span>MainWindow();
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> onConnected();
+    <span class="type">void</span> onDisconnected();
+    <span class="type">void</span> onDeviceDiscovered(<span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> info);
+    <span class="type">void</span> onErrorOccurred(<span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>Error error<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorString);
+
+    <span class="type">void</span> on_actionImport_triggered();
+    <span class="type">void</span> on_devices_currentIndexChanged(<span class="type">int</span> index);
+    <span class="type">void</span> on_serviceTypes_currentIndexChanged(<span class="type">int</span> index);
+
+    <span class="type">void</span> on_sendRead_clicked();
+    <span class="type">void</span> on_sendWrite_clicked();
+    <span class="type">void</span> on_connection_clicked();
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> setupInterfaces();
+    <span class="type">void</span> toggleUi(bool enable);
+    <span class="type">void</span> populateServiceTypesComboBox();
+    <span class="type">void</span> populateInterfaceFeaturesComboBox();
+
+    <span class="type">void</span> setText(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value);
+    <span class="type">void</span> populateFrame(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType type<span class="operator">,</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span>
+        <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value<span class="operator">,</span> <span class="type">int</span> returnCode <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+    <span class="type">void</span> onFeatureResponseReceived(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>ReturnCode code<span class="operator">,</span>
+        <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value);
+    <span class="type">void</span> onFeatureInfoReceived(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value);
+
+<span class="keyword">private</span>:
+    Ui<span class="operator">::</span>MainWindow <span class="operator">*</span>ui { nullptr };
+
+    DeviceItem <span class="operator">*</span>m_device { nullptr };
+    <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>m_last { nullptr };
+    <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>m_current { nullptr };
+
+    <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span> m_tunnel;
+    <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span> m_discoveryAgent;
+    <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">&gt;</span> m_secureConfigs;
+};</pre></div>
+<p>The <code translate="no">MainWindow</code> class uses a <a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a> instance that allows discovering KNXnet/IP servers by sending continuous search requests to the network that the client is connected to. It also saves an instance of the <a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a> used to establish the connection to the KNX network and a list of imported KNX <a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a> secure configurations.</p>
+<p>There are signal handlers installed for every signal emitted by the <a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a>. Here is an example of the setup capturing the signals emitted when an event occurs targeting the KNXnet/IP connection. In this specific example, we will also see how to set up the KNXnet/IP tunnel and connect to the KNXnet/IP device:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MainWindow<span class="operator">::</span>MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>(parent)
+    <span class="operator">,</span> ui(<span class="keyword">new</span> Ui<span class="operator">::</span>MainWindow)
+{
+    ...
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>connected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onConnected);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>disconnected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onDisconnected);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>tunnelingFeatureInfoReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFeatureInfoReceived);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>tunnelingFeatureResponseReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFeatureResponseReceived);
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>errorOccurred<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onErrorOccurred);
+    ...
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_connection_clicked()
+{
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">&lt;</span><span class="operator">=</span> <span class="number">0</span>)
+        <span class="keyword">return</span>;
+
+    <span class="keyword">if</span> (m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>State<span class="operator">::</span>Connected)
+        <span class="keyword">return</span> m_tunnel<span class="operator">.</span>disconnectFromHost();
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> list <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>interfaces<span class="operator">-</span><span class="operator">&gt;</span>currentData()<span class="operator">.</span>toStringList();
+    m_tunnel<span class="operator">.</span>setLocalAddress(<span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(list<span class="operator">.</span>first()));
+    m_tunnel<span class="operator">.</span>setSerialNumber(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(list<span class="operator">.</span>last()<span class="operator">.</span>toLatin1()));
+
+    m_last <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>communication<span class="operator">,</span> m_last);
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">0</span><span class="operator">,</span> tr(<span class="string">"Establish connection to: %1 (%2 : %3)"</span>)
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>deviceName())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())
+        <span class="operator">.</span>arg(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort()));
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setFirstColumnSpanned(<span class="keyword">true</span>);
+
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>secureSession<span class="operator">-</span><span class="operator">&gt;</span>isChecked()) {
+        <span class="keyword">auto</span> secureConfiguration <span class="operator">=</span> m_secureConfigs<span class="operator">.</span>value(ui<span class="operator">-</span><span class="operator">&gt;</span>secureConfigs<span class="operator">-</span><span class="operator">&gt;</span>currentData()<span class="operator">.</span>toInt());
+        secureConfiguration<span class="operator">.</span>setKeepSecureSessionAlive(<span class="keyword">true</span>);
+        m_tunnel<span class="operator">.</span>setSecureConfiguration(secureConfiguration);
+        m_tunnel<span class="operator">.</span>connectToHostEncrypted(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+            m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort());
+    } <span class="keyword">else</span> {
+        m_tunnel<span class="operator">.</span>connectToHost(m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+            m_device<span class="operator">-</span><span class="operator">&gt;</span>info()<span class="operator">.</span>controlEndpointPort()<span class="operator">,</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>UDP_IPv4);
+    }
+}</pre></div>
+<p>The <code translate="no">QKnxNetIpServerDiscoveryAgent</code> is initialized and started after the user interface has been set up and the necessary tunnel connections have been made. Here is the code snippet doing it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MainWindow<span class="operator">::</span>MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>(parent)
+    <span class="operator">,</span> ui(<span class="keyword">new</span> Ui<span class="operator">::</span>MainWindow)
+{
+    ...
+    m_discoveryAgent<span class="operator">.</span>setTimeout(<span class="operator">-</span><span class="number">1</span>);
+    m_discoveryAgent<span class="operator">.</span>setSearchFrequency(<span class="number">6</span>);
+    connect(<span class="operator">&amp;</span>m_discoveryAgent<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>deviceDiscovered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onDeviceDiscovered);
+    m_discoveryAgent<span class="operator">.</span>setDiscoveryMode(<span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV2);
+
+    m_discoveryAgent<span class="operator">.</span>start();
+}</pre></div>
+<p>There is a signal handler installed for the device discovered signal emitted by the discovery agent. When the signal <a href="./qknxnetipserverdiscoveryagent.htm#deviceDiscovered" translate="no">QKnxNetIpServerDiscoveryAgent::deviceDiscovered</a> is triggered, the function <code translate="no">MainWindow::onDeviceDiscovered()</code> is called. It adds a new device item to the <b translate="no">Device</b> if it is not already there.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>onDeviceDiscovered(<span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> info)
+{
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>findText(info<span class="operator">.</span>deviceName()) <span class="operator">=</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>)
+        qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span><span class="operator">*</span><span class="operator">&gt;</span>(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>model())<span class="operator">-</span><span class="operator">&gt;</span>appendRow(<span class="keyword">new</span> DeviceItem(info));
+
+    <span class="keyword">if</span> (m_management<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>State<span class="operator">::</span>Disconnected)
+        ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(bool(ui<span class="operator">-</span><span class="operator">&gt;</span>devices<span class="operator">-</span><span class="operator">&gt;</span>count()));
+}</pre></div>
+<p>At this point, users can select one of the available devices to establish a connection, create and send the different types of frames or monitor the KNX tunneling feature info messages. The <code translate="no">MainWindow::on_devices_currentIndexChanged</code> method saves the selected KNXnet/IP device in the the <code translate="no">MainWindow</code> instance.</p>
+<p>In this last example, after the user has triggered the <b translate="no">Read</b> button and a valid tunneling feature response was received, the function <code translate="no">MainWindow::setText()</code> is called and the frame content gets extracted and visually processed:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>setText(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>data)
+{
+    <span class="keyword">const</span> <span class="keyword">auto</span> hex <span class="operator">=</span> data<span class="operator">.</span>toByteArray()<span class="operator">.</span>toHex();
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">5</span><span class="operator">,</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"0x"</span>) <span class="operator">+</span> QLatin1String(hex<span class="operator">,</span> hex<span class="operator">.</span>size()));
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> value;
+    <span class="keyword">switch</span> (feature) {
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>ActiveEmiType:
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>SupportedEmiType: {
+        <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> types;
+        <span class="keyword">const</span> <span class="keyword">auto</span> emi <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiTypes(hex<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>));
+        <span class="keyword">const</span> <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">&gt;</span>();
+        <span class="keyword">if</span> (emi<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI1))
+            types <span class="operator">+</span><span class="operator">=</span> QLatin1String(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI1)));
+        <span class="keyword">if</span> (emi<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI2))
+            types <span class="operator">+</span><span class="operator">=</span> QLatin1String(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI2)));
+        <span class="keyword">if</span> (emi<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>cEMI))
+            types <span class="operator">+</span><span class="operator">=</span> QLatin1String(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>cEMI)));
+        value <span class="operator">=</span> types<span class="operator">.</span>join(QLatin1Char(<span class="char">'|'</span>));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>HostDeviceDescriptorType0:
+        value <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(hex<span class="operator">.</span>toUInt(nullptr<span class="operator">,</span> <span class="number">16</span>));
+    <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>BusConnectionStatus: {
+        <span class="keyword">const</span> <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxState</span><span class="operator">::</span>State<span class="operator">&gt;</span>();
+        value <span class="operator">=</span> metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type">QKnxState</span><span class="operator">::</span>State(data<span class="operator">.</span>value(<span class="number">0</span>))));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>MaximumApduLength:
+        value <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(hex<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>));
+    <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>KnxManufacturerCode: {
+        <span class="keyword">const</span> <span class="keyword">auto</span> id <span class="operator">=</span> hex<span class="operator">.</span>toUShort(nullptr<span class="operator">,</span> <span class="number">16</span>);
+        value <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>Ets<span class="operator">::</span>Manufacturers<span class="operator">::</span>fromId(id<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(id));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>IndividualAddress:
+        value <span class="operator">=</span> <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span>(<span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> data)<span class="operator">.</span>toString();
+    <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>InterfaceFeatureInfoServiceEnable: {
+        <span class="keyword">const</span> <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxEnable</span><span class="operator">::</span>State<span class="operator">&gt;</span>();
+        value <span class="operator">=</span> metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type">QKnxEnable</span><span class="operator">::</span>State(data<span class="operator">.</span>value(<span class="number">0</span>))));
+    } <span class="keyword">break</span>;
+
+    <span class="keyword">default</span>:
+        <span class="keyword">break</span>;
+    }
+    m_last<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="number">3</span><span class="operator">,</span> value);
+}</pre></div>
+<a name="the-main-function"></a>
+<h4 id="the-main-function">The Main Function<a class="plink" href="#the-main-function" title="Direct link to this headline"></a></h4>
+<p>The KNX tunneling feature example <code translate="no">main()</code> function does not have any special handling. It looks like the main function for any Qt application:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "mainwindow.h"</span>
+
+<span class="preprocessor">#include &lt;QApplication&gt;</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> a(argc<span class="operator">,</span> argv);
+    MainWindow w;
+    w<span class="operator">.</span>show();
+
+    <span class="keyword">return</span> a<span class="operator">.</span>exec();
+}</pre></div>
+<p>Files:</p>
+<ul>
+<li><a href="./qtknx-feature-deviceitem-cpp.htm" translate="no">feature/deviceitem.cpp</a></li>
+<li><a href="./qtknx-feature-deviceitem-h.htm" translate="no">feature/deviceitem.h</a></li>
+<li><a href="./qtknx-feature-feature-pro.htm" translate="no">feature/feature.pro</a></li>
+<li><a href="./qtknx-feature-main-cpp.htm" translate="no">feature/main.cpp</a></li>
+<li><a href="./qtknx-feature-mainwindow-cpp.htm" translate="no">feature/mainwindow.cpp</a></li>
+<li><a href="./qtknx-feature-mainwindow-h.htm" translate="no">feature/mainwindow.h</a></li>
+<li><a href="./qtknx-feature-mainwindow-ui.htm" translate="no">feature/mainwindow.ui</a></li>
+</ul>
+</div>
+<!-- @@@feature -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

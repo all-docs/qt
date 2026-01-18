@@ -1,0 +1,405 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Editor Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Editor Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;ui version="4.0"&gt;
+ &lt;class&gt;MainWindow&lt;/class&gt;
+ &lt;widget class="QMainWindow" name="MainWindow"&gt;
+  &lt;property name="geometry"&gt;
+   &lt;rect&gt;
+    &lt;x&gt;0&lt;/x&gt;
+    &lt;y&gt;0&lt;/y&gt;
+    &lt;width&gt;899&lt;/width&gt;
+    &lt;height&gt;619&lt;/height&gt;
+   &lt;/rect&gt;
+  &lt;/property&gt;
+  &lt;property name="windowTitle"&gt;
+   &lt;string&gt;MainWindow&lt;/string&gt;
+  &lt;/property&gt;
+  &lt;widget class="QWidget" name="controlWidget"&gt;
+   &lt;layout class="QGridLayout" name="gridLayout"&gt;
+    &lt;item row="0" column="0"&gt;
+     &lt;widget class="QSplitter" name="splitter"&gt;
+      &lt;property name="orientation"&gt;
+       &lt;enum&gt;Qt::Vertical&lt;/enum&gt;
+      &lt;/property&gt;
+      &lt;widget class="QWidget" name="layoutWidget"&gt;
+       &lt;layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0"&gt;
+        &lt;property name="leftMargin"&gt;
+         &lt;number&gt;5&lt;/number&gt;
+        &lt;/property&gt;
+        &lt;property name="rightMargin"&gt;
+         &lt;number&gt;5&lt;/number&gt;
+        &lt;/property&gt;
+        &lt;item&gt;
+         &lt;widget class="QGroupBox" name="communicationBox"&gt;
+          &lt;property name="title"&gt;
+           &lt;string&gt;Communication&lt;/string&gt;
+          &lt;/property&gt;
+          &lt;layout class="QVBoxLayout" name="verticalLayout_2"&gt;
+           &lt;property name="sizeConstraint"&gt;
+            &lt;enum&gt;QLayout::SetMaximumSize&lt;/enum&gt;
+           &lt;/property&gt;
+           &lt;item&gt;
+            &lt;layout class="QVBoxLayout" name="verticalLayout"&gt;
+             &lt;property name="leftMargin"&gt;
+              &lt;number&gt;5&lt;/number&gt;
+             &lt;/property&gt;
+             &lt;property name="rightMargin"&gt;
+              &lt;number&gt;5&lt;/number&gt;
+             &lt;/property&gt;
+             &lt;item&gt;
+              &lt;widget class="QLabel" name="label"&gt;
+               &lt;property name="text"&gt;
+                &lt;string&gt;Local IP Address&lt;/string&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;widget class="QComboBox" name="localIpBox"&gt;
+               &lt;property name="editable"&gt;
+                &lt;bool&gt;false&lt;/bool&gt;
+               &lt;/property&gt;
+               &lt;property name="currentText"&gt;
+                &lt;string/&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;widget class="QLabel" name="ServerLabel"&gt;
+               &lt;property name="text"&gt;
+                &lt;string&gt; Discovered Server&lt;/string&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;widget class="QComboBox" name="serverBox"/&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;widget class="QLabel" name="serverDescription"&gt;
+               &lt;property name="text"&gt;
+                &lt;string/&gt;
+               &lt;/property&gt;
+               &lt;property name="wordWrap"&gt;
+                &lt;bool&gt;true&lt;/bool&gt;
+               &lt;/property&gt;
+               &lt;property name="textInteractionFlags"&gt;
+                &lt;set&gt;Qt::NoTextInteraction&lt;/set&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;spacer name="verticalSpacer"&gt;
+               &lt;property name="orientation"&gt;
+                &lt;enum&gt;Qt::Vertical&lt;/enum&gt;
+               &lt;/property&gt;
+               &lt;property name="sizeHint" stdset="0"&gt;
+                &lt;size&gt;
+                 &lt;width&gt;20&lt;/width&gt;
+                 &lt;height&gt;40&lt;/height&gt;
+                &lt;/size&gt;
+               &lt;/property&gt;
+              &lt;/spacer&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;widget class="QRadioButton" name="radioButtonUDP"&gt;
+               &lt;property name="text"&gt;
+                &lt;string&gt;Use UDP as transport layer protocol&lt;/string&gt;
+               &lt;/property&gt;
+               &lt;property name="checked"&gt;
+                &lt;bool&gt;true&lt;/bool&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;widget class="QRadioButton" name="radioButtonTCP"&gt;
+               &lt;property name="enabled"&gt;
+                &lt;bool&gt;false&lt;/bool&gt;
+               &lt;/property&gt;
+               &lt;property name="text"&gt;
+                &lt;string&gt;Use TCP as transport layer protocol&lt;/string&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+             &lt;item&gt;
+              &lt;widget class="QCheckBox" name="checkboxNat"&gt;
+               &lt;property name="text"&gt;
+                &lt;string&gt;Use NAT for KNXnet/IP communication&lt;/string&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+            &lt;/layout&gt;
+           &lt;/item&gt;
+           &lt;item&gt;
+            &lt;layout class="QHBoxLayout" name="horizontalLayout"&gt;
+             &lt;property name="leftMargin"&gt;
+              &lt;number&gt;5&lt;/number&gt;
+             &lt;/property&gt;
+             &lt;property name="topMargin"&gt;
+              &lt;number&gt;5&lt;/number&gt;
+             &lt;/property&gt;
+             &lt;property name="rightMargin"&gt;
+              &lt;number&gt;5&lt;/number&gt;
+             &lt;/property&gt;
+             &lt;property name="bottomMargin"&gt;
+              &lt;number&gt;5&lt;/number&gt;
+             &lt;/property&gt;
+             &lt;item&gt;
+              &lt;widget class="QPushButton" name="scanButton"&gt;
+               &lt;property name="enabled"&gt;
+                &lt;bool&gt;false&lt;/bool&gt;
+               &lt;/property&gt;
+               &lt;property name="text"&gt;
+                &lt;string&gt;Scan&lt;/string&gt;
+               &lt;/property&gt;
+              &lt;/widget&gt;
+             &lt;/item&gt;
+            &lt;/layout&gt;
+           &lt;/item&gt;
+          &lt;/layout&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+        &lt;item&gt;
+         &lt;widget class="QTabWidget" name="tabWidget"&gt;
+          &lt;property name="enabled"&gt;
+           &lt;bool&gt;true&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;property name="sizePolicy"&gt;
+           &lt;sizepolicy hsizetype="Expanding" vsizetype="Expanding"&gt;
+            &lt;horstretch&gt;0&lt;/horstretch&gt;
+            &lt;verstretch&gt;0&lt;/verstretch&gt;
+           &lt;/sizepolicy&gt;
+          &lt;/property&gt;
+          &lt;property name="currentIndex"&gt;
+           &lt;number&gt;0&lt;/number&gt;
+          &lt;/property&gt;
+          &lt;property name="tabsClosable"&gt;
+           &lt;bool&gt;false&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;widget class="LocalDeviceManagement" name="deviceManagement"&gt;
+           &lt;property name="enabled"&gt;
+            &lt;bool&gt;true&lt;/bool&gt;
+           &lt;/property&gt;
+           &lt;attribute name="title"&gt;
+            &lt;string&gt;Local device management&lt;/string&gt;
+           &lt;/attribute&gt;
+          &lt;/widget&gt;
+          &lt;widget class="Tunneling" name="tunneling"&gt;
+           &lt;property name="enabled"&gt;
+            &lt;bool&gt;true&lt;/bool&gt;
+           &lt;/property&gt;
+           &lt;attribute name="title"&gt;
+            &lt;string&gt;Tunneling&lt;/string&gt;
+           &lt;/attribute&gt;
+          &lt;/widget&gt;
+          &lt;widget class="TunnelingFeatures" name="tunnelingFeatures"&gt;
+           &lt;attribute name="title"&gt;
+            &lt;string&gt;TunnelingFeatures&lt;/string&gt;
+           &lt;/attribute&gt;
+          &lt;/widget&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/widget&gt;
+      &lt;widget class="QGroupBox" name="outputBox"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Preferred" vsizetype="Maximum"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="maximumSize"&gt;
+        &lt;size&gt;
+         &lt;width&gt;16777215&lt;/width&gt;
+         &lt;height&gt;16777215&lt;/height&gt;
+        &lt;/size&gt;
+       &lt;/property&gt;
+       &lt;property name="title"&gt;
+        &lt;string&gt;Output&lt;/string&gt;
+       &lt;/property&gt;
+       &lt;layout class="QVBoxLayout" name="verticalLayout_3"&gt;
+        &lt;item&gt;
+         &lt;widget class="QTextEdit" name="outputEdit"&gt;
+          &lt;property name="acceptDrops"&gt;
+           &lt;bool&gt;false&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;property name="undoRedoEnabled"&gt;
+           &lt;bool&gt;false&lt;/bool&gt;
+          &lt;/property&gt;
+          &lt;property name="readOnly"&gt;
+           &lt;bool&gt;true&lt;/bool&gt;
+          &lt;/property&gt;
+         &lt;/widget&gt;
+        &lt;/item&gt;
+       &lt;/layout&gt;
+      &lt;/widget&gt;
+     &lt;/widget&gt;
+    &lt;/item&gt;
+   &lt;/layout&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QMenuBar" name="menubar"&gt;
+   &lt;property name="geometry"&gt;
+    &lt;rect&gt;
+     &lt;x&gt;0&lt;/x&gt;
+     &lt;y&gt;0&lt;/y&gt;
+     &lt;width&gt;899&lt;/width&gt;
+     &lt;height&gt;21&lt;/height&gt;
+    &lt;/rect&gt;
+   &lt;/property&gt;
+   &lt;widget class="QMenu" name="menuFile"&gt;
+    &lt;property name="title"&gt;
+     &lt;string&gt;File&lt;/string&gt;
+    &lt;/property&gt;
+    &lt;widget class="QMenu" name="menuImport"&gt;
+     &lt;property name="title"&gt;
+      &lt;string&gt;Import&lt;/string&gt;
+     &lt;/property&gt;
+     &lt;addaction name="actionEtsKeyringImport"/&gt;
+    &lt;/widget&gt;
+    &lt;addaction name="menuImport"/&gt;
+    &lt;addaction name="separator"/&gt;
+    &lt;addaction name="actionExit"/&gt;
+   &lt;/widget&gt;
+   &lt;widget class="QMenu" name="menuEdit"&gt;
+    &lt;property name="title"&gt;
+     &lt;string&gt;Edit&lt;/string&gt;
+    &lt;/property&gt;
+    &lt;widget class="QMenu" name="menuClear"&gt;
+     &lt;property name="title"&gt;
+      &lt;string&gt;Clear&lt;/string&gt;
+     &lt;/property&gt;
+     &lt;addaction name="actionClear_Output"/&gt;
+     &lt;addaction name="actionClear_All"/&gt;
+    &lt;/widget&gt;
+    &lt;addaction name="menuClear"/&gt;
+    &lt;addaction name="separator"/&gt;
+    &lt;addaction name="separator"/&gt;
+   &lt;/widget&gt;
+   &lt;addaction name="menuFile"/&gt;
+   &lt;addaction name="menuEdit"/&gt;
+  &lt;/widget&gt;
+  &lt;widget class="QStatusBar" name="statusbar"/&gt;
+  &lt;action name="actionConnect"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Connect&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionDisconnect"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Disconnect&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionExit"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Exit&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionCopy"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Copy&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionSelect_All"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Select All&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionClear_Output"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Clear Output&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionClear_Communication"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Clear Communication&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionClear_All"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;Clear All&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+  &lt;action name="actionEtsKeyringImport"&gt;
+   &lt;property name="text"&gt;
+    &lt;string&gt;KNX keyring file...&lt;/string&gt;
+   &lt;/property&gt;
+  &lt;/action&gt;
+ &lt;/widget&gt;
+ &lt;customwidgets&gt;
+  &lt;customwidget&gt;
+   &lt;class&gt;LocalDeviceManagement&lt;/class&gt;
+   &lt;extends&gt;QWidget&lt;/extends&gt;
+   &lt;header&gt;localdevicemanagement.h&lt;/header&gt;
+   &lt;container&gt;1&lt;/container&gt;
+  &lt;/customwidget&gt;
+  &lt;customwidget&gt;
+   &lt;class&gt;Tunneling&lt;/class&gt;
+   &lt;extends&gt;QWidget&lt;/extends&gt;
+   &lt;header&gt;tunneling.h&lt;/header&gt;
+   &lt;container&gt;1&lt;/container&gt;
+  &lt;/customwidget&gt;
+  &lt;customwidget&gt;
+   &lt;class&gt;TunnelingFeatures&lt;/class&gt;
+   &lt;extends&gt;QWidget&lt;/extends&gt;
+   &lt;header&gt;tunnelingfeatures.h&lt;/header&gt;
+   &lt;container&gt;1&lt;/container&gt;
+  &lt;/customwidget&gt;
+ &lt;/customwidgets&gt;
+ &lt;resources/&gt;
+ &lt;connections/&gt;
+&lt;/ui&gt;</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

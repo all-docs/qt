@@ -1,0 +1,565 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Controls 1 - Touch Gallery | Qt Quick Controls 1</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquickcontrols1-index.htm" translate="no">Qt Quick Controls 1</a></li>
+                            <li><a href="./qtquickcontrols-examples.htm" translate="no">Qt Quick Controls 1 Examples</a></li>
+                            <li><a>Qt Quick Controls 1 - Touch Gallery</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Controls 1 - Touch Gallery</h1>
+<span class="subtitle"></span>
+<!-- $$$touch-brief -->
+<p>Demonstrates UI controls for a touch interface.</p>
+<!-- @@@touch -->
+<!-- $$$touch-description -->
+<div class="descr"> <a name="details"></a>
+<div class="admonition warning">
+<p><b>Warning: </b>The Qt Quick Controls 1 module is deprecated since Qt 5.12. Use the latest Qt Quick Controls module instead.</p>
+</div>
+<p class="centerAlign"><img alt="" src="./images/qtquickcontrols-example-touch.png"></p><p><i>Touch Gallery</i> demonstrates how to implement a UI suitable for touch input using the following <a href="./qtquickcontrols1-index.htm" translate="no">Qt Quick Controls 1</a>:</p>
+<ul>
+<li><a href="./qml-qtquick-controls-applicationwindow.htm" translate="no">ApplicationWindow</a></li>
+<li><a href="./qml-qtquick-controls-button.htm" translate="no">Button</a></li>
+<li><a href="./qml-qtquick-controls-progressbar.htm" translate="no">ProgressBar</a></li>
+<li><a href="./qml-qtquick-controls-scrollview.htm" translate="no">ScrollView</a></li>
+<li><a href="./qml-qtquick-controls-slider.htm" translate="no">Slider</a></li>
+<li><a href="./qml-qtquick-controls-stackview.htm" translate="no">StackView</a></li>
+<li><a href="./qml-qtquick-controls-switch.htm" translate="no">Switch</a></li>
+<li><a href="./qml-qtquick-controls-tab.htm" translate="no">Tab</a></li>
+<li><a href="./qml-qtquick-controls-tabview.htm" translate="no">TabView</a></li>
+<li><a href="./qml-qtquick-controls-textfield.htm" translate="no">TextField</a></li>
+</ul>
+<p>The appearance of the controls is customized by using <a href="./qtquickcontrolsstyles-index.htm" translate="no">Qt Quick Controls 1 Styles</a>.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-the-main-page"></a>
+<h4 id="creating-the-main-page">Creating the Main Page<a class="plink" href="#creating-the-main-page" title="Direct link to this headline"></a></h4>
+<p>In the main.qml file, we use a <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> type within the <a href="./qml-qtquick-controls-applicationwindow.htm" translate="no">ApplicationWindow</a> type to create the main page of the application:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-controls-applicationwindow.htm" translate="no">ApplicationWindow</a></span> {
+    <span class="name">visible</span>: <span class="number">true</span>
+    <span class="name">width</span>: <span class="number">800</span>
+    <span class="name">height</span>: <span class="number">1280</span>
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">color</span>: <span class="string">"#212126"</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    }</pre></div>
+<p>To use the Qt Quick Controls, we must import them:</p>
+<div class="pre"><pre class="cpp" translate="no">import <span class="type"><a href="./qtquick-module.htm" translate="no">QtQuick</a></span><span class="operator">.</span>Controls <span class="number">1.2</span></pre></div>
+<p>The <code translate="no">toolBar</code> property of the application window holds a <a href="./qml-qtquick-borderimage.htm" translate="no">BorderImage</a> type that we use to create a separator between the application name and a list of additional pages:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="name">toolBar</span>: <span class="name">BorderImage</span> {
+        <span class="name">border</span>.bottom: <span class="number">8</span>
+        <span class="name">source</span>: <span class="string">"images/toolbar.png"</span>
+        <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+        <span class="name">height</span>: <span class="number">100</span></pre></div>
+<p>We use an <a href="./qml-qtquick-image.htm" translate="no">Image</a> type in a <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> type to create a back button. We use the <code translate="no">onClicked</code> signal handler to call the <a href="./qml-qtquick-controls-stackview.htm" translate="no">StackView</a> <code translate="no">pop()</code> function that pops off the page when users tap the button:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">id</span>: <span class="name">backButton</span>
+            <span class="name">width</span>: <span class="name">opacity</span> ? <span class="number">60</span> : <span class="number">0</span>
+            <span class="name">anchors</span>.left: <span class="name">parent</span>.<span class="name">left</span>
+            <span class="name">anchors</span>.leftMargin: <span class="number">20</span>
+            <span class="name">opacity</span>: <span class="name">stackView</span>.<span class="name">depth</span> <span class="operator">&gt;</span> <span class="number">1</span> ? <span class="number">1</span> : <span class="number">0</span>
+            <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+            <span class="name">antialiasing</span>: <span class="number">true</span>
+            <span class="name">height</span>: <span class="number">60</span>
+            <span class="name">radius</span>: <span class="number">4</span>
+            <span class="name">color</span>: <span class="name">backmouse</span>.<span class="name">pressed</span> ? <span class="string">"#222"</span> : <span class="string">"transparent"</span>
+            Behavior on <span class="name">opacity</span> { <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span>{} }
+            <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+                <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+                <span class="name">source</span>: <span class="string">"images/navigation_previous_item.png"</span>
+            }
+            <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+                <span class="name">id</span>: <span class="name">backmouse</span>
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="name">anchors</span>.margins: -<span class="number">10</span>
+                <span class="name">onClicked</span>: <span class="name">stackView</span>.<span class="name">pop</span>()
+            }
+        }</pre></div>
+<p>We use the <code translate="no">opacity</code> property to hide the back button on the main page.</p>
+<p>We use a <a href="./qml-qtquick-text.htm" translate="no">Text</a> type to display the application name:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">font</span>.pixelSize: <span class="number">42</span>
+            Behavior on <span class="name">x</span> { <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span>{ <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutCubic</span>} }
+            <span class="name">x</span>: <span class="name">backButton</span>.<span class="name">x</span> <span class="operator">+</span> <span class="name">backButton</span>.<span class="name">width</span> <span class="operator">+</span> <span class="number">20</span>
+            <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+            <span class="name">color</span>: <span class="string">"white"</span>
+            <span class="name">text</span>: <span class="string">"Widget Gallery"</span>
+        }</pre></div>
+<p>The <code translate="no">x</code> position of the <a href="./qml-qtquick-text.htm" translate="no">Text</a> type is bound to the position and width of the back button, and animated using a <a href="./qml-qtquick-behavior.htm" translate="no">Behavior</a>.</p>
+<p>We use a ListModel type that contains ListElement definitions to define titles and source files for the other pages in the application:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">ListModel</span> {
+        <span class="name">id</span>: <span class="name">pageModel</span>
+        <span class="type">ListElement</span> {
+            <span class="name">title</span>: <span class="string">"Buttons"</span>
+            <span class="name">page</span>: <span class="string">"content/ButtonPage.qml"</span>
+        }
+        <span class="type">ListElement</span> {
+            <span class="name">title</span>: <span class="string">"Sliders"</span>
+            <span class="name">page</span>: <span class="string">"content/SliderPage.qml"</span>
+        }
+        <span class="type">ListElement</span> {
+            <span class="name">title</span>: <span class="string">"ProgressBar"</span>
+            <span class="name">page</span>: <span class="string">"content/ProgressBarPage.qml"</span>
+        }
+        <span class="type">ListElement</span> {
+            <span class="name">title</span>: <span class="string">"Tabs"</span>
+            <span class="name">page</span>: <span class="string">"content/TabBarPage.qml"</span>
+        }
+        <span class="type">ListElement</span> {
+            <span class="name">title</span>: <span class="string">"TextInput"</span>
+            <span class="name">page</span>: <span class="string">"content/TextInputPage.qml"</span>
+        }
+        <span class="type">ListElement</span> {
+            <span class="name">title</span>: <span class="string">"List"</span>
+            <span class="name">page</span>: <span class="string">"content/ListPage.qml"</span>
+        }
+    }</pre></div>
+<a name="navigating-in-the-application"></a>
+<h4 id="navigating-in-the-application">Navigating in the Application<a class="plink" href="#navigating-in-the-application" title="Direct link to this headline"></a></h4>
+<p>We implement a stack-based navigation model to link the application pages together. Items are pushed onto the stack as users navigate deeper into the application, and popped off again when they return to the main page.</p>
+<p>In main.qml, we add a <a href="./qml-qtquick-controls-stackview.htm" translate="no">StackView</a> type as a child of the application window:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-controls-stackview.htm" translate="no">StackView</a></span> {
+        <span class="name">id</span>: <span class="name">stackView</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="comment">// Implements back key navigation</span>
+        <span class="name">focus</span>: <span class="number">true</span>
+        <span class="name">Keys</span>.onReleased: <span class="keyword">if</span> (<span class="name">event</span>.<span class="name">key</span> <span class="operator">===</span> <span class="name">Qt</span>.<span class="name">Key_Back</span> <span class="operator">&amp;&amp;</span> <span class="name">stackView</span>.<span class="name">depth</span> <span class="operator">&gt;</span> <span class="number">1</span>) {
+                             <span class="name">stackView</span>.<span class="name">pop</span>();
+                             <span class="name">event</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+                         }</pre></div>
+<p>The stack is used by invoking its navigation methods. To load the first item in the stack view, we assign it to <code translate="no">initialItem</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="name">initialItem</span>: <span class="name">Item</span> {
+            <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+            <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span>
+            <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+                <span class="name">model</span>: <span class="name">pageModel</span>
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="name">delegate</span>: <span class="name">AndroidDelegate</span> {
+                    <span class="name">text</span>: <span class="name">title</span>
+                    <span class="name">onClicked</span>: <span class="name">stackView</span>.<span class="name">push</span>(<span class="name">Qt</span>.<span class="name">resolvedUrl</span>(<span class="name">page</span>))
+                }
+            }
+        }
+    }
+
+}</pre></div>
+<p>We use a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> type to display a list of the items provided by <code translate="no">pageModel</code>. The <code translate="no">AndroidDelegate</code> custom type defines each item instantiated by the view.</p>
+<a name="creating-push-buttons-and-switches"></a>
+<h4 id="creating-push-buttons-and-switches">Creating Push Buttons and Switches<a class="plink" href="#creating-push-buttons-and-switches" title="Direct link to this headline"></a></h4>
+<p>In ButtonPage.qml we use the <a href="./qml-qtquick-controls-button.htm" translate="no">Button</a> type to create two buttons that change color when users tap them and one that pops off the page and returns the user to the main page:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qtquick-controls-button.htm" translate="no">Button</a></span> {
+            <span class="name">text</span>: <span class="string">"Press me"</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-controls-button.htm" translate="no">Button</a></span> {
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">text</span>: <span class="string">"Press me too"</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-controls-button.htm" translate="no">Button</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">text</span>: <span class="string">"Don't press me"</span>
+            <span class="name">onClicked</span>: <span class="keyword">if</span> (<span class="name">stackView</span>) <span class="name">stackView</span>.<span class="name">pop</span>()
+        }</pre></div>
+<p>We use a <a href="./qml-qtquick-controls-switch.htm" translate="no">Switch</a> type to create two switches that users can turn on and off. They are placed within a <a href="./qml-qtquick-row.htm" translate="no">Row</a> type to lay them out horizontally:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qtquick-row.htm" translate="no">Row</a></span> {
+            <span class="name">spacing</span>: <span class="number">20</span>
+            <span class="type"><a href="./qml-qtquick-controls-switch.htm" translate="no">Switch</a></span> {
+                <span class="name">style</span>: <span class="name">switchStyle</span>
+            }
+            <span class="type"><a href="./qml-qtquick-controls-switch.htm" translate="no">Switch</a></span> {
+                <span class="name">style</span>: <span class="name">switchStyle</span>
+            }
+        }</pre></div>
+<p>A <a href="./qml-qtquick-controls-styles-buttonstyle.htm" translate="no">ButtonStyle</a> type creates a custom appearance for the buttons:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">touchStyle</span>
+        <span class="type"><a href="./qml-qtquick-controls-styles-buttonstyle.htm" translate="no">ButtonStyle</a></span> {
+            <span class="name">panel</span>: <span class="name">Item</span> {
+                <span class="name">implicitHeight</span>: <span class="number">50</span>
+                <span class="name">implicitWidth</span>: <span class="number">320</span>
+                <span class="type"><a href="./qml-qtquick-borderimage.htm" translate="no">BorderImage</a></span> {
+                    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                    <span class="name">antialiasing</span>: <span class="number">true</span>
+                    <span class="name">border</span>.bottom: <span class="number">8</span>
+                    <span class="name">border</span>.top: <span class="number">8</span>
+                    <span class="name">border</span>.left: <span class="number">8</span>
+                    <span class="name">border</span>.right: <span class="number">8</span>
+                    <span class="name">anchors</span>.margins: <span class="name">control</span>.<span class="name">pressed</span> ? -<span class="number">4</span> : <span class="number">0</span>
+                    <span class="name">source</span>: <span class="name">control</span>.<span class="name">pressed</span> ? <span class="string">"../images/button_pressed.png"</span> : <span class="string">"../images/button_default.png"</span>
+                    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                        <span class="name">text</span>: <span class="name">control</span>.<span class="name">text</span>
+                        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                        <span class="name">color</span>: <span class="string">"white"</span>
+                        <span class="name">font</span>.pixelSize: <span class="number">23</span>
+                        <span class="name">renderType</span>: <span class="name">Text</span>.<span class="name">NativeRendering</span>
+                    }</pre></div>
+<p>To use Qt Quick Controls Styles, we must import them:</p>
+<div class="pre"><pre class="cpp" translate="no">import <span class="type"><a href="./qtquick-module.htm" translate="no">QtQuick</a></span><span class="operator">.</span>Controls<span class="operator">.</span>Styles <span class="number">1.1</span></pre></div>
+<p>A <a href="./qml-qtquick-controls-styles-switchstyle.htm" translate="no">SwitchStyle</a> type creates a custom appearance for the switches:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">switchStyle</span>
+        <span class="type"><a href="./qml-qtquick-controls-styles-switchstyle.htm" translate="no">SwitchStyle</a></span> {
+
+            <span class="name">groove</span>: <span class="name">Rectangle</span> {
+                <span class="name">implicitHeight</span>: <span class="number">50</span>
+                <span class="name">implicitWidth</span>: <span class="number">152</span>
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">anchors</span>.top: <span class="name">parent</span>.<span class="name">top</span>
+                    <span class="name">anchors</span>.left: <span class="name">parent</span>.<span class="name">left</span>
+                    <span class="name">anchors</span>.bottom: <span class="name">parent</span>.<span class="name">bottom</span>
+                    <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span><span class="operator">/</span><span class="number">2</span> <span class="operator">-</span> <span class="number">2</span>
+                    <span class="name">height</span>: <span class="number">20</span>
+                    <span class="name">anchors</span>.margins: <span class="number">2</span>
+                    <span class="name">color</span>: <span class="name">control</span>.<span class="name">checked</span> ? <span class="string">"#468bb7"</span> : <span class="string">"#222"</span>
+                    Behavior on <span class="name">color</span> {<span class="type"><a href="./qml-qtquick-coloranimation.htm" translate="no">ColorAnimation</a></span> {}}
+                    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                        <span class="name">font</span>.pixelSize: <span class="number">23</span>
+                        <span class="name">color</span>: <span class="string">"white"</span>
+                        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                        <span class="name">text</span>: <span class="string">"ON"</span>
+                    }
+                }
+                <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+                    <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span><span class="operator">/</span><span class="number">2</span>
+                    <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span>
+                    <span class="name">anchors</span>.right: <span class="name">parent</span>.<span class="name">right</span>
+                    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                        <span class="name">font</span>.pixelSize: <span class="number">23</span>
+                        <span class="name">color</span>: <span class="string">"white"</span>
+                        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                        <span class="name">text</span>: <span class="string">"OFF"</span>
+                    }
+                }
+                <span class="name">color</span>: <span class="string">"#222"</span>
+                <span class="name">border</span>.color: <span class="string">"#444"</span>
+                <span class="name">border</span>.width: <span class="number">2</span>
+            }
+            <span class="name">handle</span>: <span class="name">Rectangle</span> {
+                <span class="name">width</span>: <span class="name">parent</span>.<span class="name">parent</span>.<span class="name">width</span><span class="operator">/</span><span class="number">2</span>
+                <span class="name">height</span>: <span class="name">control</span>.<span class="name">height</span>
+                <span class="name">color</span>: <span class="string">"#444"</span>
+                <span class="name">border</span>.color: <span class="string">"#555"</span>
+                <span class="name">border</span>.width: <span class="number">2</span>
+            }
+        }
+    }
+}</pre></div>
+<p>The <code translate="no">groove</code> property holds the background groove of the switch and the <code translate="no">handle</code> property defines the switch handle.</p>
+<a name="creating-sliders"></a>
+<h4 id="creating-sliders">Creating Sliders<a class="plink" href="#creating-sliders" title="Direct link to this headline"></a></h4>
+<p>In SliderPage.qml, we use a <a href="./qml-qtquick-controls-slider.htm" translate="no">Slider</a> type to create three horizontal sliders that are placed within a <a href="./qml-qtquick-column.htm" translate="no">Column</a> type to lay them out in a column:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+        <span class="name">spacing</span>: <span class="number">12</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+
+        <span class="type"><a href="./qml-qtquick-controls-slider.htm" translate="no">Slider</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">value</span>: <span class="number">0</span>
+        }
+        <span class="type"><a href="./qml-qtquick-controls-slider.htm" translate="no">Slider</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">value</span>: <span class="number">0.5</span>
+        }
+        <span class="type"><a href="./qml-qtquick-controls-slider.htm" translate="no">Slider</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">value</span>: <span class="number">1.0</span>
+        }
+
+    }</pre></div>
+<p>The <code translate="no">value</code> property holds the initial handle position on the slider.</p>
+<p>A <a href="./qml-qtquick-controls-styles-sliderstyle.htm" translate="no">SliderStyle</a> type creates a custom appearance for the sliders:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">touchStyle</span>
+        <span class="type"><a href="./qml-qtquick-controls-styles-sliderstyle.htm" translate="no">SliderStyle</a></span> {
+            <span class="name">handle</span>: <span class="name">Rectangle</span> {
+                <span class="name">width</span>: <span class="number">30</span>
+                <span class="name">height</span>: <span class="number">30</span>
+                <span class="name">radius</span>: <span class="name">height</span>
+                <span class="name">antialiasing</span>: <span class="number">true</span>
+                <span class="name">color</span>: <span class="name">Qt</span>.<span class="name">lighter</span>(<span class="string">"#468bb7"</span>, <span class="number">1.2</span>)
+            }
+
+            <span class="name">groove</span>: <span class="name">Item</span> {
+                <span class="name">implicitHeight</span>: <span class="number">50</span>
+                <span class="name">implicitWidth</span>: <span class="number">400</span>
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">height</span>: <span class="number">8</span>
+                    <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+                    <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+                    <span class="name">color</span>: <span class="string">"#444"</span>
+                    <span class="name">opacity</span>: <span class="number">0.8</span>
+                    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                        <span class="name">antialiasing</span>: <span class="number">true</span>
+                        <span class="name">radius</span>: <span class="number">1</span>
+                        <span class="name">color</span>: <span class="string">"#468bb7"</span>
+                        <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span>
+                        <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">*</span> <span class="name">control</span>.<span class="name">value</span> <span class="operator">/</span> <span class="name">control</span>.<span class="name">maximumValue</span>
+                    }
+                }
+            }
+        }
+    }
+}</pre></div>
+<p>The <code translate="no">handle</code> property defines the slider handle and the <code translate="no">groove</code> property holds the background groove of the slider.</p>
+<a name="indicating-progress"></a>
+<h4 id="indicating-progress">Indicating Progress<a class="plink" href="#indicating-progress" title="Direct link to this headline"></a></h4>
+<p>In <a href="./qml-qtquick-controls-progressbar.htm" translate="no">ProgressBar</a>.qml, we use a <a href="./qml-qtquick-controls-progressbar.htm" translate="no">ProgressBar</a> type to create three progress bars:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+        <span class="name">spacing</span>: <span class="number">40</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+
+        <span class="type"><a href="./qml-qtquick-controls-progressbar.htm" translate="no">ProgressBar</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">width</span>: <span class="number">400</span>
+            <span class="name">value</span>: <span class="name">progress</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-controls-progressbar.htm" translate="no">ProgressBar</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">width</span>: <span class="number">400</span>
+            <span class="name">value</span>: <span class="number">1</span> <span class="operator">-</span> <span class="name">progress</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-controls-progressbar.htm" translate="no">ProgressBar</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">value</span>: <span class="number">1</span>
+            <span class="name">width</span>: <span class="number">400</span>
+        }</pre></div>
+<p>We use a <a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a> type with a <a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a> type to run two number animations in a sequence. We apply the animations on the <code translate="no">progress</code> custom property to animate the current value on the progress bars:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    property <span class="type">real</span> <span class="name">progress</span>: <span class="number">0</span>
+    SequentialAnimation on <span class="name">progress</span> {
+        <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+        <span class="name">running</span>: <span class="number">true</span>
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">from</span>: <span class="number">0</span>
+            <span class="name">to</span>: <span class="number">1</span>
+            <span class="name">duration</span>: <span class="number">3000</span>
+        }
+        <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+            <span class="name">from</span>: <span class="number">1</span>
+            <span class="name">to</span>: <span class="number">0</span>
+            <span class="name">duration</span>: <span class="number">3000</span>
+        }</pre></div>
+<p>A <a href="./qml-qtquick-controls-styles-progressbarstyle.htm" translate="no">ProgressBarStyle</a> type creates a custom appearance for the progress bars:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">touchStyle</span>
+        <span class="type"><a href="./qml-qtquick-controls-styles-progressbarstyle.htm" translate="no">ProgressBarStyle</a></span> {
+            <span class="name">panel</span>: <span class="name">Rectangle</span> {
+                <span class="name">implicitHeight</span>: <span class="number">15</span>
+                <span class="name">implicitWidth</span>: <span class="number">400</span>
+                <span class="name">color</span>: <span class="string">"#444"</span>
+                <span class="name">opacity</span>: <span class="number">0.8</span>
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">antialiasing</span>: <span class="number">true</span>
+                    <span class="name">radius</span>: <span class="number">1</span>
+                    <span class="name">color</span>: <span class="string">"#468bb7"</span>
+                    <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span>
+                    <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">*</span> <span class="name">control</span>.<span class="name">value</span> <span class="operator">/</span> <span class="name">control</span>.<span class="name">maximumValue</span>
+                }
+            }
+        }
+    }
+}</pre></div>
+<a name="creating-tabs"></a>
+<h4 id="creating-tabs">Creating Tabs<a class="plink" href="#creating-tabs" title="Direct link to this headline"></a></h4>
+<p>In TabBarPage.qml, we use a <a href="./qml-qtquick-controls-tabview.htm" translate="no">TabView</a> type with a <a href="./qml-qtquick-controls-tab.htm" translate="no">Tab</a> type to provide a tab-based navigation model for our application. We use tabs to display the ButtonPage, SliderPage, and ProgressBarPage on separate tab pages:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-controls-tabview.htm" translate="no">TabView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">style</span>: <span class="name">touchStyle</span>
+        <span class="type"><a href="./qml-qtquick-controls-tab.htm" translate="no">Tab</a></span> {
+            <span class="name">title</span>: <span class="string">"Buttons"</span>
+            <span class="type">ButtonPage</span>{ <span class="name">visible</span>: <span class="number">true</span> }
+        }
+        <span class="type"><a href="./qml-qtquick-controls-tab.htm" translate="no">Tab</a></span> {
+            <span class="name">title</span>: <span class="string">"Sliders"</span>
+            <span class="type">SliderPage</span>{ <span class="name">visible</span>: <span class="number">true</span> }
+        }
+        <span class="type"><a href="./qml-qtquick-controls-tab.htm" translate="no">Tab</a></span> {
+            <span class="name">title</span>: <span class="string">"Progress"</span>
+            <span class="type">ProgressBarPage</span>{ <span class="name">visible</span>: <span class="number">true</span> }
+        }</pre></div>
+<p>A <a href="./qml-qtquick-controls-styles-tabviewstyle.htm" translate="no">TabViewStyle</a> type creates a custom appearance for the tabs:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">touchStyle</span>
+        <span class="type"><a href="./qml-qtquick-controls-styles-tabviewstyle.htm" translate="no">TabViewStyle</a></span> {
+            <span class="name">tabsAlignment</span>: <span class="name">Qt</span>.<span class="name">AlignVCenter</span>
+            <span class="name">tabOverlap</span>: <span class="number">0</span>
+            <span class="name">frame</span>: <span class="name">Item</span> { }
+            <span class="name">tab</span>: <span class="name">Item</span> {
+                <span class="name">implicitWidth</span>: <span class="name">control</span>.<span class="name">width</span><span class="operator">/</span><span class="name">control</span>.<span class="name">count</span>
+                <span class="name">implicitHeight</span>: <span class="number">50</span>
+                <span class="type"><a href="./qml-qtquick-borderimage.htm" translate="no">BorderImage</a></span> {
+                    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                    <span class="name">border</span>.bottom: <span class="number">8</span>
+                    <span class="name">border</span>.top: <span class="number">8</span>
+                    <span class="name">source</span>: <span class="name">styleData</span>.<span class="name">selected</span> ? <span class="string">"../images/tab_selected.png"</span>:<span class="string">"../images/tabs_standard.png"</span>
+                    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                        <span class="name">color</span>: <span class="string">"white"</span>
+                        <span class="name">text</span>: <span class="name">styleData</span>.<span class="name">title</span>.<span class="name">toUpperCase</span>()
+                        <span class="name">font</span>.pixelSize: <span class="number">16</span>
+                    }
+                    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                        <span class="name">visible</span>: <span class="name">index</span> <span class="operator">&gt;</span> <span class="number">0</span>
+                        <span class="name">anchors</span>.top: <span class="name">parent</span>.<span class="name">top</span>
+                        <span class="name">anchors</span>.bottom: <span class="name">parent</span>.<span class="name">bottom</span>
+                        <span class="name">anchors</span>.margins: <span class="number">10</span>
+                        <span class="name">width</span>:<span class="number">1</span>
+                        <span class="name">color</span>: <span class="string">"#3a3a3a"</span>
+                    }
+                }
+            }
+        }
+    }
+}</pre></div>
+<a name="creating-text-input-fields"></a>
+<h4 id="creating-text-input-fields">Creating Text Input Fields<a class="plink" href="#creating-text-input-fields" title="Direct link to this headline"></a></h4>
+<p>In the TextInputPage.qml, we use a <a href="./qml-qtquick-controls-textfield.htm" translate="no">TextField</a> type to create an input field and a read-only text field:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+        <span class="name">spacing</span>: <span class="number">40</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+
+        <span class="type"><a href="./qml-qtquick-controls-textfield.htm" translate="no">TextField</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">text</span>: <span class="string">"Text input"</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-controls-textfield.htm" translate="no">TextField</a></span> {
+            <span class="name">anchors</span>.margins: <span class="number">20</span>
+            <span class="name">text</span>: <span class="string">"Readonly Text input"</span>
+            <span class="name">style</span>: <span class="name">touchStyle</span>
+            <span class="name">readOnly</span>: <span class="number">true</span>
+        }
+    }</pre></div>
+<p>A <a href="./qml-qtquick-controls-styles-textfieldstyle.htm" translate="no">TextFieldStyle</a> creates a custom appearance for the text fields:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">touchStyle</span>
+
+        <span class="type"><a href="./qml-qtquick-controls-styles-textfieldstyle.htm" translate="no">TextFieldStyle</a></span> {
+            <span class="name">textColor</span>: <span class="string">"white"</span>
+            <span class="name">font</span>.pixelSize: <span class="number">28</span>
+            <span class="name">background</span>: <span class="name">Item</span> {
+                <span class="name">implicitHeight</span>: <span class="number">50</span>
+                <span class="name">implicitWidth</span>: <span class="number">320</span>
+                <span class="type"><a href="./qml-qtquick-borderimage.htm" translate="no">BorderImage</a></span> {
+                    <span class="name">source</span>: <span class="string">"../images/textinput.png"</span>
+                    <span class="name">border</span>.left: <span class="number">8</span>
+                    <span class="name">border</span>.right: <span class="number">8</span>
+                    <span class="name">anchors</span>.bottom: <span class="name">parent</span>.<span class="name">bottom</span>
+                    <span class="name">anchors</span>.left: <span class="name">parent</span>.<span class="name">left</span>
+                    <span class="name">anchors</span>.right: <span class="name">parent</span>.<span class="name">right</span>
+                }
+            }
+        }
+    }
+}</pre></div>
+<p>We use a <a href="./qml-qtquick-borderimage.htm" translate="no">BorderImage</a> type with an image to create borders for the fields.</p>
+<a name="creating-scrolling-lists"></a>
+<h4 id="creating-scrolling-lists">Creating Scrolling Lists<a class="plink" href="#creating-scrolling-lists" title="Direct link to this headline"></a></h4>
+<p>In ListPage.qml, we use a <a href="./qml-qtquick-controls-scrollview.htm" translate="no">ScrollView</a> type to provide a scrolling page with a vertical scoll bar:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-controls-scrollview.htm" translate="no">ScrollView</a></span> {
+    <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+    <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span>
+
+    <span class="name">flickableItem</span>.interactive: <span class="number">true</span></pre></div>
+<p>We use a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> type to display a list of 100 items by specifying an <a href="./qtquick-modelviewsdata-modelview.htm#integers-as-models" translate="no">integer</a> as the value of the <code translate="no">model</code> property. We reuse the <code translate="no">AndroidDelegate</code> custom type here to define each item instantiated by the view. The <code translate="no">text</code> property adds the string <code translate="no">Item #</code> to each list item:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">model</span>: <span class="number">100</span>
+        <span class="name">delegate</span>: <span class="name">AndroidDelegate</span> {
+            <span class="name">text</span>: <span class="string">"Item #"</span> <span class="operator">+</span> <span class="name">modelData</span>
+        }
+    }</pre></div>
+<p>A <a href="./qml-qtquick-controls-styles-scrollviewstyle.htm" translate="no">ScrollViewStyle</a> type creates a custom appearance for the scroll view:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="name">style</span>: <span class="name">ScrollViewStyle</span> {
+        <span class="name">transientScrollBars</span>: <span class="number">true</span>
+        <span class="name">handle</span>: <span class="name">Item</span> {
+            <span class="name">implicitWidth</span>: <span class="number">14</span>
+            <span class="name">implicitHeight</span>: <span class="number">26</span>
+            <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                <span class="name">color</span>: <span class="string">"#424246"</span>
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="name">anchors</span>.topMargin: <span class="number">6</span>
+                <span class="name">anchors</span>.leftMargin: <span class="number">4</span>
+                <span class="name">anchors</span>.rightMargin: <span class="number">4</span>
+                <span class="name">anchors</span>.bottomMargin: <span class="number">6</span>
+            }
+        }
+        <span class="name">scrollBarBackground</span>: <span class="name">Item</span> {
+            <span class="name">implicitWidth</span>: <span class="number">14</span>
+            <span class="name">implicitHeight</span>: <span class="number">26</span>
+        }
+    }
+}</pre></div>
+<p>The <code translate="no">transientScrollBars</code> property is set to <code translate="no">true</code> to make the scroll bars appear when the content is scrolled and disappear when they are no longer needed.</p>
+<p>The <code translate="no">handle</code> property controls the appearance of the scroll bar handle and the <code translate="no">scrollBarBackground</code> property that of the background.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtquickcontrols.git/tree/examples/quickcontrols/controls/touch?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@touch -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

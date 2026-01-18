@@ -1,0 +1,458 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++ API changes</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>C++ API changes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">C++ API changes</h1>
+<span class="subtitle"></span>
+<!-- $$$sourcebreaks.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt 5 introduces some source incompatible changes. Here we list some important ones, but you can find more complete lists in <code translate="no">&lt;Qt 5 Install Dir&gt;/qtbase/dist/changes-5.x.x</code>.</p>
+<p>The following sections list the API changes in each module and provide recommendations for handling those changes.</p>
+<a name="changes-to-qt-core"></a>
+<h2 id="changes-to-qt-core">Changes to Qt Core<a class="plink" href="#changes-to-qt-core" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./qlibrary.htm#resolve" translate="no">QLibrary::resolve</a>() now returns a function pointer instead of <code translate="no">void</code> pointer.</li>
+<li><code translate="no">QLibraryInfo::buildKey()</code> and the corresponding <code translate="no">QT_BUILD_KEY</code> macro are removed. You must remove all references to this function and macro, as build key is not necessary now.</li>
+<li>The <a href="./qtranslator.htm#translate" translate="no">QTranslator::translate</a>() function signature is changed to set the default value of <code translate="no">n</code> to -1. We recommend you to update the implementation of this virtual function in your sources.</li>
+<li><code translate="no">QBool</code> is removed. In Qt 4, <a href="./qstring.htm#contains" translate="no">QString::contains</a>(), <a href="./qbytearray.htm#contains" translate="no">QByteArray::contains</a>(), and <a href="./qlist.htm#contains" translate="no">QList::contains</a>() returned an internal <code translate="no">QBool</code> type so that the Qt3 code <code translate="no">if (a.contains() == 2)</code> would not compile anymore. If your code uses <code translate="no">QBool</code>, replace it with <code translate="no">bool</code>.</li>
+<li>The <code translate="no">QUuid::operator QString()</code> implicit conversion operator is removed. Use the <a href="./quuid.htm#toString" translate="no">QUuid::toString</a>() function instead.</li>
+<li><a href="./qprocess.htm#ProcessChannelMode-enum" translate="no">QProcess::ForwardedChannels</a> no longer forwards the output to the GUI applications on the Windows platform, unless those applications create a console.</li>
+<li><code translate="no">QSystemLocale</code> is not public anymore. Use <a href="./qlocale.htm" translate="no">QLocale</a> instead.</li>
+<li>Default value of the <a href="./qsortfilterproxymodel.htm#dynamicSortFilter-prop" translate="no">QSortFilterProxyModel::dynamicSortFilter</a> property is changed to <code translate="no">true</code>.</li>
+<li><code translate="no">QTextCodecPlugin</code> is removed as all the text codecs are part of Qt Core now.</li>
+<li><code translate="no">QFSFileEngine</code>, <code translate="no">QAbstractFileEngine</code>, <code translate="no">QAbstractFileEngineIterator</code>, and <code translate="no">QAbstractFileEngineHandler</code> are no longer public. We recommend you to avoid using these classes as there is no compatibility promise.</li>
+<li><a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>(), <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>(), <a href="./qtglobal.htm#qCritical" translate="no">qCritical</a>(), and <a href="./qtglobal.htm#qFatal" translate="no">qFatal</a>() are changed to macros now to track the origin of the message in source code. The information to be printed can be configured (for the default message handler) by setting the new <code translate="no">QT_MESSAGE_PATTERN</code> environment variable. <a href="./qtglobal-obsolete.htm#qInstallMsgHandler" translate="no">qInstallMsgHandler</a>() is deprecated, so we recommend using <a href="./qtglobal.htm#qInstallMessageHandler" translate="no">qInstallMessageHandler</a>() instead.</li>
+<li><a href="./qpointer.htm" translate="no">QPointer</a> is changed to use <a href="./qweakpointer.htm" translate="no">QWeakPointer</a>. The old guard mechanism has been removed, which causes a slight change in behavior when using <a href="./qpointer.htm" translate="no">QPointer</a>. In earlier Qt versions, if a <a href="./qpointer.htm" translate="no">QPointer</a> is used on a <a href="./qwidget.htm" translate="no">QWidget</a> (or a subclass of <a href="./qwidget.htm" translate="no">QWidget</a>), the <a href="./qpointer.htm" translate="no">QPointer</a> was cleared by the <a href="./qwidget.htm" translate="no">QWidget</a> destructor. In Qt 5, the <a href="./qpointer.htm" translate="no">QPointer</a> is cleared by the <a href="./qobject.htm" translate="no">QObject</a> destructor along with the <a href="./qweakpointer.htm" translate="no">QWeakPointer</a>s. Any <a href="./qpointer.htm" translate="no">QPointer</a> tracking a widget is not cleared before the <a href="./qwidget.htm" translate="no">QWidget</a> destructor destroys the children for the widget being tracked.</li>
+<li><a href="./qt-obsolete.htm#WFlags-typedef" translate="no">Qt::WFlags</a> is deprecated, use <a href="./qt.htm#WindowType-enum" translate="no">Qt::WindowFlags</a> instead. This typedef dates from the Qt 1 days, and such abbreviations are not current Qt style.</li>
+<li><a href="./qt.htm#HANDLE-typedef" translate="no">Qt::HANDLE</a> typedef is now defined as <code translate="no">void *</code> on all platforms.</li>
+<li>The non-atomic convenience methods of <a href="./qatomicint.htm" translate="no">QAtomicInt</a> and <a href="./qatomicpointer.htm" translate="no">QAtomicPointer</a> (that is, <code translate="no">operator=</code>, <code translate="no">operator int</code>, <code translate="no">operator T*</code>, <code translate="no">operator!</code>, <code translate="no">operator==</code>, <code translate="no">operator!=</code>, and <code translate="no">operator-&gt;</code>) have been removed as they performed implicit loads and stores of unspecified memory ordering. Code dealing with loading and storing is expected to use <code translate="no">load()</code>, <code translate="no">loadAquire()</code>, <code translate="no">store()</code>, and <code translate="no">storeRelease()</code>, instead.</li>
+<li>The return type of <code translate="no">QFlags&lt;Enum&gt;::operator int()</code> matches the enum's underlying type (signed or unsigned) instead of always being <code translate="no">int</code>. This allows <a href="./qflags.htm" translate="no">QFlags</a> over enums of the unsigned type (for example, <a href="./qt.htm#MouseButton-enum" translate="no">Qt::MouseButton</a>).</li>
+<li>Because of major changes in the behavior of <a href="./qtextboundaryfinder.htm#boundaryReasons" translate="no">QTextBoundaryFinder::boundaryReasons</a>(), the <code translate="no">StartWord</code> and <code translate="no">EndWord</code> enum values were replaced with the <code translate="no">StartOfItem</code> and <code translate="no">EndOfItem</code> values to enforce revision of the affected code.</li>
+<li>A number of functions in &lt;QtAlgorithms&gt; are deprecated. Use the implementations available in the STL, as described in <a href="./qtalgorithms.htm#porting-guidelines" translate="no">Porting Guidelines</a>.</li>
+<li><code translate="no">setSharable()</code> and <code translate="no">isSharable()</code> in Qt containers are deprecated and will be removed in Qt 6. You should not use them in new applications. If you used them in existing applications, even though they are not documented, you should port away from them.</li>
+</ul>
+<a name="changes-to-qaction"></a>
+<h3 id="changes-to-qaction">Changes to QAction<a class="plink" href="#changes-to-qaction" title="Direct link to this headline"></a></h3>
+<p>The Softkeys API is removed, so the following functions and enums are removed:</p>
+<ul>
+<li><code translate="no">QAction::setSoftKeyRole()</code></li>
+<li><code translate="no">QAction::softKeyRole()</code></li>
+<li><code translate="no">QAction::SoftKeyRole</code></li>
+<li><code translate="no">Qt::WA_MergeSoftkeys</code></li>
+<li><code translate="no">Qt::WA_MergeSoftkeysRecursively</code></li>
+<li><code translate="no">Qt::WindowSoftkeysVisibleHint</code></li>
+<li><code translate="no">Qt::WindowSoftkeysRespondHint</code></li>
+</ul>
+<a name="changes-to-qchar"></a>
+<h3 id="changes-to-qchar">Changes to QChar<a class="plink" href="#changes-to-qchar" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QChar::NoCategory</code> is removed. The <a href="./qchar.htm#Category-enum" translate="no">QChar::Other_NotAssigned</a> enum value is returned for unassigned codepoints now.</li>
+<li><a href="./qchar-obsolete.htm#Joining-enum" translate="no">QChar::Joining</a> and <a href="./qchar-obsolete.htm#joining" translate="no">QChar::joining</a>() are deprecated. Use the <a href="./qchar.htm#JoiningType-enum" translate="no">QChar::JoiningType</a> enum and <a href="./qchar.htm#joiningType" translate="no">QChar::joiningType</a>() function instead.</li>
+</ul>
+<a name="changes-to-qcoreapplication"></a>
+<h3 id="changes-to-qcoreapplication">Changes to QCoreApplication<a class="plink" href="#changes-to-qcoreapplication" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qcoreapplication.htm#translate" translate="no">QCoreApplication::translate</a>() no longer returns the source text if the translation is empty. Use the Qt Linguist Release tool (<code translate="no">lrelease -removeidentical</code>) instead for optimization.</li>
+<li><code translate="no">QCoreApplication::setEventFilter()</code> and <code translate="no">QApplication::x11EventFilter/macEventFilter/qwsEventFilter/winEventFilter</code> are replaced with <a href="./qcoreapplication.htm#installNativeEventFilter" translate="no">QCoreApplication::installNativeEventFilter</a>() and <a href="./qcoreapplication.htm#removeNativeEventFilter" translate="no">QCoreApplication::removeNativeEventFilter</a>() for an API much closer to <a href="./qevent.htm" translate="no">QEvent</a> filtering.<div class="admonition note">
+<p><b>Note: </b>The native events that can be filtered this way depend on the <a href="./qpa.htm" translate="no">QPA</a> backend chosen at runtime. On X11, XEvents are replaced with <code translate="no">xcb_generic_event_t</code> due to the switch to XCB, which requires porting the application code to XCB as well.</p>
+</div>
+</li>
+<li><code translate="no">QCoreApplication::Type</code> and <code translate="no">QApplication::type()</code> are removed. These Qt 3 legacy application types did not match the application types available in Qt 5. Use <code translate="no">qobject_cast</code> instead to dynamically find out the exact application type.</li>
+<li><a href="./qcoreapplication-obsolete.htm#hasPendingEvents" translate="no">QCoreApplication::hasPendingEvents</a> and <a href="./qabstracteventdispatcher-obsolete.htm#hasPendingEvents" translate="no">QAbstractEventDispatcher::hasPendingEvents</a> are deprecated.</li>
+</ul>
+<a name="changes-to-qevent"></a>
+<h3 id="changes-to-qevent">Changes to QEvent<a class="plink" href="#changes-to-qevent" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QEvent::AccessibilityPrepare</code>, <code translate="no">QEvent::AccessibilityHelp</code>, and <code translate="no">QEvent::AccessibilityDescription</code> are removed.</li>
+<li><a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchCancel</a> is introduced to use it on systems where it makes sense to differentiate between a regular <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchEnd</a> and abrupt touch sequence cancellations caused by the compositor. For example, when a swype gesture is recognized.</li>
+</ul>
+<a name="changes-to-qfile"></a>
+<h3 id="changes-to-qfile">Changes to QFile<a class="plink" href="#changes-to-qfile" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qfile-obsolete.htm#setEncodingFunction" translate="no">QFile::setEncodingFunction</a>() and <a href="./qfile-obsolete.htm#setDecodingFunction" translate="no">QFile::setDecodingFunction</a>() are deprecated.</li>
+<li><a href="./qfile.htm#encodeName" translate="no">QFile::encodeName</a>() and <a href="./qfile.htm#decodeName" translate="no">QFile::decodeName</a>() are now hard-coded to operate on <a href="./qstring.htm#fromLocal8Bit" translate="no">QString::fromLocal8Bit</a>() and <a href="./qstring.htm#toLocal8Bit" translate="no">QString::toLocal8Bit</a>() only. The old behavior is still possible using <a href="./qtextcodec.htm#setCodecForLocale" translate="no">QTextCodec::setCodecForLocale</a>(), but the new code should not make assumptions about the file system encoding and older code should remove such assumptions.</li>
+</ul>
+<a name="changes-to-qfont"></a>
+<h3 id="changes-to-qfont">Changes to QFont<a class="plink" href="#changes-to-qfont" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QFont::handle()</code> is removed.</li>
+<li><a href="./qfont-obsolete.htm#rawName" translate="no">QFont::rawName</a>() and <a href="./qfont-obsolete.htm#setRawName" translate="no">QFont::setRawName</a>() are deprecated.</li>
+</ul>
+<a name="changes-to-qmetatype"></a>
+<h3 id="changes-to-qmetatype">Changes to QMetaType<a class="plink" href="#changes-to-qmetatype" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QMetaType::construct()</code> is renamed as <a href="./qmetatype.htm#create" translate="no">QMetaType::create</a>().</li>
+<li><code translate="no">QMetaType::unregisterType()</code> is removed.</li>
+<li><a href="./qmetatype.htm" translate="no">QMetaType</a> now records whether the type argument inherits <a href="./qobject.htm" translate="no">QObject</a>. Such information can be useful for scripting APIs, so that custom <a href="./qobject.htm" translate="no">QObject</a> subclasses are treated as <a href="./qobject.htm" translate="no">QObject</a> pointers. For example, in <a href="./qtscript-index.htm" translate="no">Qt Script</a> this means <a href="./qscriptvalue.htm#isQObject" translate="no">QScriptValue::isQObject</a>() can be <code translate="no">true</code>, where it was <code translate="no">false</code> before.</li>
+<li><code translate="no">QMetaType::QWidgetStar</code> is removed. Use <a href="./qmetatype.htm#qMetaTypeId" translate="no">qMetaTypeId&lt;QWidget*&gt;</a>() or <a href="./qvariant.htm#canConvert-1" translate="no">QVariant::canConvert&lt;QWidget*&gt;</a>() instead.</li>
+<li><code translate="no">Q_DECLARE_METATYPE(type)</code> now requires <code translate="no">type</code> to be fully defined. This means, <code translate="no">Q_DECLARE_METATYPE(QSharedPointer&lt;t&gt;)</code> and <code translate="no">Q_DECLARE_METATYPE(QWeakPointer&lt;t&gt;)</code> also need <code translate="no">type</code> to be fully defined. In cases where a forward declared type is needed as a meta-type, use <code translate="no">Q_DECLARE_OPAQUE_POINTER(type)</code>.</li>
+</ul>
+<a name="changes-to-qmetamethod"></a>
+<h3 id="changes-to-qmetamethod">Changes to QMetaMethod<a class="plink" href="#changes-to-qmetamethod" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QMetaMethod::signature()</code> is renamed as <a href="./qmetamethod.htm#methodSignature" translate="no">QMetaMethod::methodSignature</a>(), and the return type is changed to <a href="./qbytearray.htm" translate="no">QByteArray</a>. This change is to enable generating the signature string on demand, rather than storing it in the meta-data.</li>
+<li><a href="./qmetamethod.htm#typeName" translate="no">QMetaMethod::typeName</a>() no longer returns an empty string if the return type is <code translate="no">void</code>, instead it returns <code translate="no">"void"</code>. The recommended way of checking whether a method returns <code translate="no">void</code> is to compare the return value of <a href="./qmetamethod.htm#returnType" translate="no">QMetaMethod::returnType</a>() with <a href="./qmetatype.htm#Type-enum" translate="no">QMetaType::Void</a>.</li>
+</ul>
+<a name="changes-to-qobject"></a>
+<h3 id="changes-to-qobject">Changes to QObject<a class="plink" href="#changes-to-qobject" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qobject.htm#connectNotify" translate="no">QObject::connectNotify</a>() and <a href="./qobject.htm#disconnectNotify" translate="no">QObject::disconnectNotify</a>() now need a <a href="./qmetamethod.htm" translate="no">QMetaMethod</a> argument that identifies the signal, rather than a <code translate="no">const char</code> pointer.</li>
+<li><a href="./qobject-obsolete.htm#trUtf8" translate="no">QObject::trUtf8</a>() and <code translate="no">QCoreApplication::Encoding</code> are deprecated. Qt assumes that the source code is encoded in UTF-8.</li>
+</ul>
+<a name="changes-to-qvariant"></a>
+<h3 id="changes-to-qvariant">Changes to QVariant<a class="plink" href="#changes-to-qvariant" title="Direct link to this headline"></a></h3>
+<ul>
+<li>The <a href="./qvariant.htm" translate="no">QVariant</a> constructor which takes <a href="./qt.htm#GlobalColor-enum" translate="no">Qt::GlobalColor</a> argument is removed. Code constructing such variants must explicitly call <a href="./qcolor.htm" translate="no">QColor</a> constructor now. For example, instead of <code translate="no">QVariant(Qt::red)</code>, use <code translate="no">QVariant(QColor(Qt::red))</code> to create a <a href="./qvariant.htm" translate="no">QVariant</a> instance.</li>
+<li>Implicit creation of <a href="./qvariant.htm" translate="no">QVariant</a> objects from the enum values <a href="./qt.htm#BrushStyle-enum" translate="no">Qt::BrushStyle</a>, <a href="./qt.htm#PenStyle-enum" translate="no">Qt::PenStyle</a>, and <a href="./qt.htm#CursorShape-enum" translate="no">Qt::CursorShape</a> has been removed. Create objects explicitly or use <code translate="no">static_cast&lt;int&gt;(Qt::SolidLine)</code> to create a <a href="./qvariant.htm" translate="no">QVariant</a> of type <code translate="no">int</code> with the same value as the enum.</li>
+</ul>
+<a name="changes-to-qabstracteventdispatcher"></a>
+<h3 id="changes-to-qabstracteventdispatcher">Changes to QAbstractEventDispatcher<a class="plink" href="#changes-to-qabstracteventdispatcher" title="Direct link to this headline"></a></h3>
+<ul>
+<li>The signature for the pure-virtual <code translate="no">registerTimer()</code> function is changed. All subclasses of <a href="./qabstracteventdispatcher.htm" translate="no">QAbstractEventDispatcher</a> must re-implement the function with this new signature:<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">virtual</span> <span class="type">void</span> registerTimer(<span class="type">int</span> timerId<span class="operator">,</span> <span class="type">int</span> interval<span class="operator">,</span><span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>TimerType timerType<span class="operator">,</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>object) <span class="operator">=</span> <span class="number">0</span>;</pre></div>
+</li>
+<li><a href="./qabstracteventdispatcher-timerinfo.htm" translate="no">QAbstractEventDispatcher::TimerInfo</a> is no longer a <code translate="no">typedef</code> of <code translate="no">QPair&lt;int, int&gt;</code>. It is now a <code translate="no">struct</code> with 3 members: <code translate="no">int timerId</code>, <code translate="no">int interval</code>, and <code translate="no">Qt::TimerType timerType</code>. Update the <a href="./qabstracteventdispatcher.htm#registeredTimers" translate="no">QAbstractEventDispatcher::registeredTimers</a>() function with this change.</li>
+</ul>
+<a name="changes-to-qdir"></a>
+<h3 id="changes-to-qdir">Changes to QDir<a class="plink" href="#changes-to-qdir" title="Direct link to this headline"></a></h3>
+<ul>
+<li>The <code translate="no">convertSeparators()</code> function is removed. Use <a href="./qdir.htm#toNativeSeparators" translate="no">QDir::toNativeSeparators</a>() instead.</li>
+<li>The <code translate="no">QDir::NoDotAndDotDot</code> enum value is removed. Use <a href="./qdir.htm#Filter-enum" translate="no">QDir::NoDot</a> or <a href="./qdir.htm#Filter-enum" translate="no">QDir::NoDotDot</a> instead.</li>
+</ul>
+<a name="changes-to-qlocale"></a>
+<h3 id="changes-to-qlocale">Changes to QLocale<a class="plink" href="#changes-to-qlocale" title="Direct link to this headline"></a></h3>
+<ul>
+<li>The <a href="./qlocale.htm" translate="no">QLocale</a> data has been updated to CLDR 22.1. The historical language and country names were updated to their modern values and some deprecated names were dropped or mapped to their modern alternatives.</li>
+<li>The <a href="./qlocale.htm#toShort" translate="no">QLocale::toShort</a>(), <a href="./qlocale.htm#toUShort" translate="no">QLocale::toUShort</a>(), <a href="./qlocale.htm#toInt" translate="no">QLocale::toInt</a>(), <a href="./qlocale.htm#toUInt" translate="no">QLocale::toUInt</a>(), <a href="./qlocale.htm#toLongLong" translate="no">QLocale::toLongLong</a>(), and <a href="./qlocale.htm#toULongLong" translate="no">QLocale::toULongLong</a>() functions no longer take the argument for base. They localize base 10 conversions. To convert other bases, use the <a href="./qstring.htm" translate="no">QString</a> functions instead.</li>
+</ul>
+<a name="changes-to-qabstractitemmodel"></a>
+<h3 id="changes-to-qabstractitemmodel">Changes to QAbstractItemModel<a class="plink" href="#changes-to-qabstractitemmodel" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qabstractitemmodel.htm#beginMoveRows" translate="no">QAbstractItemModel::beginMoveRows</a>() no longer emits the <code translate="no">layoutAboutToBeChanged</code> signal, and <a href="./qabstractitemmodel.htm#endMoveRows" translate="no">QAbstractItemModel::endMoveRows</a>() no longer emits the <code translate="no">layoutChanged</code> signal. All proxy models must connect to (and disconnect from) the <a href="./qabstractitemmodel.htm#rowsAboutToBeMoved" translate="no">QAbstractItemModel::rowsAboutToBeMoved</a> and <a href="./qabstractitemmodel.htm#rowsMoved" translate="no">QAbstractItemModel::rowsMoved</a> signals.</li>
+<li><a href="./qabstractitemmodel.htm#sibling" translate="no">QAbstractItemModel::sibling</a>() is virtual now to allow implementations to optimize based on internal data.</li>
+<li><a href="./qabstractitemmodel.htm#createIndex" translate="no">QAbstractItemModel::createIndex</a>() method now only provides the <code translate="no">void*</code> and <code translate="no">quintptr</code> overloads, making calls with a literal <code translate="no">0</code> (<code translate="no">createIndex(row, col, 0)</code>) ambiguous. Either cast <code translate="no">quintptr(0)</code> or omit the third argument to get the <code translate="no">void*</code> overload.</li>
+<li><a href="./qabstractitemmodel-obsolete.htm#setRoleNames" translate="no">QAbstractItemModel::setRoleNames</a>() is deprecated. Use <a href="./qabstractitemmodel.htm#roleNames" translate="no">QAbstractItemModel::roleNames</a>() instead. <a href="./qabstractitemmodel.htm#roleNames" translate="no">QAbstractItemModel::roleNames</a>() is virtual now to allow a consistent API with the rest of <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a>. Reimplementing the virtual methods to provide the elements is preferred to setting those directly.</li>
+</ul>
+<a name="changes-to-qstring"></a>
+<h3 id="changes-to-qstring">Changes to QString<a class="plink" href="#changes-to-qstring" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qstring.htm" translate="no">QString</a> and <a href="./qbytearray.htm" translate="no">QByteArray</a> constructors now use a negative size to indicate that the string passed is null-terminated (a null-terminated array of <a href="./qchar.htm" translate="no">QChar</a>, in the case of <a href="./qstring.htm" translate="no">QString</a>). In Qt 4, negative sizes were ignored, which resulted in empty <a href="./qstring.htm" translate="no">QString</a> and <a href="./qbytearray.htm" translate="no">QByteArray</a>. The size argument now has a default value of <code translate="no">-1</code>, replacing the separate constructors that did the same.</li>
+<li><a href="./qstring.htm#mid" translate="no">QString::mid</a>(), <a href="./qstring.htm#midRef" translate="no">QString::midRef</a>(), and <a href="./qbytearray.htm#mid" translate="no">QByteArray::mid</a>() now return an empty <code translate="no">QString</code>, <code translate="no">QStringRef</code>, and <code translate="no">QByteArray</code> respectively, if the position passed is equal to the length (that is, right after the last character or byte). In Qt 4, they returned a null <code translate="no">QString</code> or a null <code translate="no">QStringRef</code>.</li>
+<li>The following <a href="./qstring.htm" translate="no">QString</a> functions use the C locale instead of the default or system locale:<ul>
+<li><a href="./qstring.htm#toLongLong" translate="no">toLongLong()</a></li>
+<li><a href="./qstring.htm#toULongLong" translate="no">toULongLong()</a></li>
+<li><a href="./qstring.htm#toLong" translate="no">toLong()</a></li>
+<li><a href="./qstring.htm#toULong" translate="no">toULong()</a></li>
+<li><a href="./qstring.htm#toInt" translate="no">toInt()</a></li>
+<li><a href="./qstring.htm#toUInt" translate="no">toUInt()</a></li>
+<li><a href="./qstring.htm#toShort" translate="no">toShort()</a></li>
+<li><a href="./qstring.htm#toUShort" translate="no">toUShort()</a></li>
+<li><a href="./qstring.htm#toDouble" translate="no">toDouble()</a></li>
+<li><a href="./qstring.htm#toFloat" translate="no">toFloat()</a></li>
+</ul>
+<p>This is to guarantee consistent default conversion of strings. For locale-aware conversions use the equivalent <a href="./qlocale.htm" translate="no">QLocale</a> functions.</p>
+</li>
+</ul>
+<a name="changes-to-qdate-qtime-and-qdatetime"></a>
+<h3 id="changes-to-qdate-qtime-and-qdatetime">Changes to QDate, QTime, and QDateTime<a class="plink" href="#changes-to-qdate-qtime-and-qdatetime" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qdate.htm" translate="no">QDate</a> only implements the Gregorian calendar, and the switch to the Julian calendar before 1582 has been removed. This means all <a href="./qdate.htm" translate="no">QDate</a> functions return different results for dates prior to 15 October 1582, and there is no longer a gap between 4 October 1582 and 15 October 1582.</li>
+<li><a href="./qdate-obsolete.htm#setYMD" translate="no">QDate::setYMD</a>() is deprecated, use <a href="./qdate.htm#setDate" translate="no">QDate::setDate</a>() instead.</li>
+<li>Adding days to a null <a href="./qdate.htm" translate="no">QDate</a> or seconds to a null <a href="./qtime.htm" translate="no">QTime</a> will no longer return a valid <a href="./qdate.htm" translate="no">QDate</a>/<a href="./qtime.htm" translate="no">QTime</a>.</li>
+<li>The <a href="./qdate.htm#addDays" translate="no">QDate::addDays</a>() and <a href="./qdatetime.htm#addDays" translate="no">QDateTime::addDays</a>() functions now take a <code translate="no">qint64</code> argument, and the <a href="./qdate.htm#daysTo" translate="no">QDate::daysTo</a>() and <a href="./qdatetime.htm#daysTo" translate="no">QDateTime::daysTo</a>() functions now return a <code translate="no">qint64</code> value.</li>
+<li><a href="./qdate.htm" translate="no">QDate</a> and <a href="./qtime.htm" translate="no">QTime</a> are the <code translate="no">userProperty</code> for the <a href="./qtimeedit.htm" translate="no">QTimeEdit</a> and <a href="./qdateedit.htm" translate="no">QDateEdit</a> classes, insted of <a href="./qdatetime.htm" translate="no">QDateTime</a> as it was for the 4.7 and 4.8 releases. The USER property for these classes was removed before Qt 4.7.0 and added again in Qt 5.0.</li>
+<li>The serialization behavior for <a href="./qdatetime.htm" translate="no">QDateTime</a> is reverted to pre-Qt 5, because <a href="./qt.htm#TimeSpec-enum" translate="no">Qt::LocalTime</a> is the local time (that is, <code translate="no">ymd hms</code>) regardless of the underlying system time, time zone, or changes in the system zone. Therefore, the consistent behavior when serialising is to save and restore as the local time and not its UTC equivalent. This means that the <a href="./qdatastream.htm" translate="no">QDataStream</a> version is 14 since Qt 5.1.</li>
+<li>The supported date range in <a href="./qdatetime.htm" translate="no">QDateTime</a> has been reduced to about +/- 292 million years, the range supported by the number of msecs since the Unix epoch of 1 Jan 1970 as stored in a <code translate="no">qint64</code>, and as able to be used in <a href="./qdatetime.htm#setMSecsSinceEpoch" translate="no">QDateTime::setMSecsSinceEpoch</a>() and <a href="./qdatetime.htm#toMSecsSinceEpoch" translate="no">QDateTime::toMSecsSinceEpoch</a>().</li>
+<li><a href="./qdate.htm#fromString" translate="no">QDate::fromString</a>() and <a href="./qdatetime.htm#fromString" translate="no">QDateTime::fromString</a>() require non-numeric date component separators when parsing <a href="./qt.htm#DateFormat-enum" translate="no">Qt::ISODate</a>. A string like <i>2000901901</i> will no longer be recognized as a valid ISO date, whereas <i>2000/01/01</i> will, even though it differs from the ISO format <i>2000-01-01</i>.</li>
+</ul>
+<a name="changes-to-qtextcodec"></a>
+<h3 id="changes-to-qtextcodec">Changes to QTextCodec<a class="plink" href="#changes-to-qtextcodec" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QTextCodec::codecForCStrings()</code> and <code translate="no">QTextCodec::setCodecForCStrings()</code> are removed as they were creating uncertainty/bugs in using <a href="./qstring.htm" translate="no">QString</a> easily and (to a lesser extent) performance issues.</li>
+<li><code translate="no">QTextCodec::codecForTr()</code> and <code translate="no">QTextCodec::setCodecForTr()</code> are removed.</li>
+</ul>
+<a name="changes-to-qurl"></a>
+<h3 id="changes-to-qurl">Changes to QUrl<a class="plink" href="#changes-to-qurl" title="Direct link to this headline"></a></h3>
+<p><a href="./qurl.htm" translate="no">QUrl</a> changed considerably in Qt 5 to comply better with the URL specifications and with brokenness out there. The following list summarizes the most important functional changes:</p>
+<ul>
+<li><a href="./qurl.htm#setPath" translate="no">QUrl::setPath</a>() no longer handles relative paths. They are by definition invalid. Use the <a href="./qurl.htm#UrlFormattingOption-enum" translate="no">QUrl::NormalizePathSegments</a> flag to remove /./ or /../ sequences as much as possible. It will not remove /../ from the beginning of the path.</li>
+<li><a href="./qurl.htm" translate="no">QUrl</a> has been changed to operate only on percent-encoded forms. Fully-decoded forms where the percent character stands for itself, can no longer be encoded, as the getters and setters with <i>encoded</i> in the name are deprecated (except <a href="./qurl.htm#toEncoded" translate="no">QUrl::toEncoded</a>() and <a href="./qurl.htm#fromEncoded" translate="no">QUrl::fromEncoded</a>()).<p>The most notable difference with this change is when dealing with <a href="./qurl.htm#toString" translate="no">QUrl::toString</a>(). In earlier Qt versions, this function would return percent characters in the URL, but now it returns <i>%25</i> like <a href="./qurl.htm#toEncoded" translate="no">QUrl::toEncoded</a>() does.</p>
+</li>
+<li><a href="./qurl.htm" translate="no">QUrl</a> no longer decodes %7B and %7D to "{" and "}" in the output of <a href="./qurl.htm#toString" translate="no">QUrl::toString</a>().</li>
+<li><a href="./qurl.htm" translate="no">QUrl</a> now defaults to decoded mode in the getters and setters for <code translate="no">userName</code>, <code translate="no">password</code>, <code translate="no">host</code>, <code translate="no">topLevelDomain</code>, <code translate="no">path</code> and <code translate="no">fileName</code>. This means a % in one of those fields is now returned (or set) as <code translate="no">%</code> rather than <code translate="no">%25</code>. If the former behavior was expected, pass <code translate="no">PrettyDecoded</code> to the getter and <code translate="no">TolerantMode</code> to the setter.</li>
+<li><a href="./qurl.htm" translate="no">QUrl</a> no longer has functions that handle individual query items and query delimiters, such as <code translate="no">addQueryItem()</code> and <code translate="no">queryPairDelimiter()</code>. These have been moved to the new <a href="./qurlquery.htm" translate="no">QUrlQuery</a> class.</li>
+<li><a href="./qurl.htm" translate="no">QUrl</a> no longer considers all delimiter characters equivalent to their percent-encoded forms. <a href="./qurl.htm" translate="no">QUrl</a> and <a href="./qurlquery.htm" translate="no">QUrlQuery</a> always keep all delimiters exactly as they were in the original URL text.</li>
+<li><a href="./qurl.htm" translate="no">QUrl</a> no longer supports <a href="./qurl.htm#ComponentFormattingOption-enum" translate="no">QUrl::FullyDecoded</a> mode in <a href="./qurl.htm#authority" translate="no">QUrl::authority</a>() and <a href="./qurl.htm#userInfo" translate="no">QUrl::userInfo</a>(), nor <a href="./qurl.htm#ParsingMode-enum" translate="no">QUrl::DecodedMode</a> in <a href="./qurl.htm#setAuthority" translate="no">QUrl::setAuthority</a>() and <a href="./qurl.htm#setUserInfo" translate="no">QUrl::setUserInfo</a>().</li>
+<li><a href="./qurl.htm" translate="no">QUrl</a> no longer decodes %23 found in the fragment to "#" in the output of <a href="./qurl.htm#toString" translate="no">QUrl::toString</a> (<code translate="no">FullyEncoded</code>) or <a href="./qurl.htm#toEncoded" translate="no">QUrl::toEncoded</a>().</li>
+</ul>
+<a name="changes-to-qt-concurrent"></a>
+<h2 id="changes-to-qt-concurrent">Changes to Qt Concurrent<a class="plink" href="#changes-to-qt-concurrent" title="Direct link to this headline"></a></h2>
+<p><a href="./qtconcurrent-index.htm" translate="no">Qt Concurrent</a> has been moved from <a href="./qtcore-index.htm" translate="no">Qt Core</a> to its own module. To link against the Qt Core module, add this line to the project file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QT <span class="operator">+</span><span class="operator">=</span> concurrent</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>The <code translate="no">QtConcurrent::Exception</code> class is renamed <a href="./qexception.htm" translate="no">QException</a> and <code translate="no">QtConcurrent::UnhandledException</code> class is renamed <a href="./qunhandledexception.htm" translate="no">QUnhandledException</a>. They remain in Qt Core.</p>
+</div>
+<a name="changes-to-qt-gui"></a>
+<h2 id="changes-to-qt-gui">Changes to Qt GUI<a class="plink" href="#changes-to-qt-gui" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./qpen.htm" translate="no">QPen</a> now has a default width of 1 instead of 0. Thus, it is no longer <a href="./qpen.htm#isCosmetic" translate="no">cosmetic</a> by default.</li>
+<li><a href="./qaccessibleactioninterface.htm" translate="no">QAccessibleActionInterface</a> is now based on providing a list of action names. All functions have been changed to take arguments of type <code translate="no">string</code> insted of <code translate="no">int</code>.</li>
+<li>The constructor of <a href="./qaccessibleevent.htm" translate="no">QAccessibleEvent</a> does not need the <code translate="no">child</code> parameter anymore, and the corresponding <code translate="no">QAccessibleEvent::child()</code> function is removed.</li>
+<li>The constructor of <a href="./qtabletevent.htm" translate="no">QTabletEvent</a> does not need the <code translate="no">hiResGlobalPos</code> argument anymore, as all coordinates are floating point-based now.</li>
+<li><code translate="no">QIconEngineV2</code> is now merged into <a href="./qiconengine.htm" translate="no">QIconEngine</a>. Update your sources to use <code translate="no">QIconEngine</code> instead of <code translate="no">QIconEngineV2</code>.</li>
+<li><a href="./qsound.htm" translate="no">QSound</a> is moved to Qt Multimedia from Qt GUI.</li>
+<li><code translate="no">QDesktopServices::storageLocation()</code> and <code translate="no">QDesktopServices::displayName()</code> are replaced by <a href="./qstandardpaths.htm#writableLocation" translate="no">QStandardPaths::writableLocation</a>() and <a href="./qstandardpaths.htm#displayName" translate="no">QStandardPaths::displayName</a>() respectively. They are now in the <a href="./qtcore-index.htm" translate="no">Qt Core</a> module. Make sure to read the <a href="./qdesktopservices-obsolete.htm#storageLocation" translate="no">QDesktopServices::storageLocation</a>() documentation when porting from <a href="./qdesktopservices-obsolete.htm#StandardLocation-enum" translate="no">QDesktopServices::DataLocation</a>.</li>
+<li><code translate="no">QPixmap::grabWindow()</code> and <code translate="no">QPixmap::grabWidget()</code> are removed. Use <a href="./qscreen.htm#grabWindow" translate="no">QScreen::grabWindow</a>() instead.</li>
+<li>The session management API has been simplified. The <code translate="no">commitData()</code> function is removed and replaced by the signal <a href="./qguiapplication.htm#commitDataRequest" translate="no">QGuiApplication::commitDataRequest</a>(). <a href="./qapplication.htm" translate="no">QApplication</a> and <a href="./qguiapplication.htm" translate="no">QGuiApplication</a> will emit this signal from 5.2 onward on supported platforms (Linux and Windows).</li>
+<li><code translate="no">QWidget *widget()</code> is replaced with <code translate="no">QObject *target()</code> to avoid <a href="./qwidget.htm" translate="no">QWidget</a> dependencies.</li>
+</ul>
+<a name="changes-to-qaccessibleinterface"></a>
+<h3 id="changes-to-qaccessibleinterface">Changes to QAccessibleInterface<a class="plink" href="#changes-to-qaccessibleinterface" title="Direct link to this headline"></a></h3>
+<ul>
+<li>The <i>child</i> integer parameters are removed to bring <a href="./qaccessibleinterface.htm" translate="no">QAccessibleInterface</a> closer to <a href="./qtgui-attribution-iaccessible2.htm#iaccessible2" translate="no">IAccessible2</a>. This means that the following functions lose the integer parameter:<ul>
+<li><code translate="no">text(Text t, int child)</code> is now <a href="./qaccessibleinterface.htm#text" translate="no">text</a>(Text t)</li>
+<li><code translate="no">rect(int child)</code> is now <a href="./qaccessibleinterface.htm#rect" translate="no">rect()</a></li>
+<li><code translate="no">setText(Text t, int child, const QString &amp;text)</code> is now <a href="./qaccessibleinterface.htm#setText" translate="no">setText(Text t, const QString &amp;text)</a></li>
+<li><code translate="no">role(int child)</code> is now <a href="./qaccessibleinterface.htm#role" translate="no">role()</a></li>
+<li><code translate="no">state(int child)</code> is now <a href="./qaccessibleinterface.htm#state" translate="no">state()</a></li>
+</ul>
+</li>
+<li><code translate="no">navigate()</code> is replaced with <a href="./qaccessibleinterface.htm#parent" translate="no">parent()</a> and <a href="./qaccessibleinterface.htm#child" translate="no">child()</a> to navigate the hierarchy.</li>
+<li><code translate="no">relationTo()</code> is replaced with <a href="./qaccessibleinterface.htm#relations" translate="no">relations()</a>.</li>
+<li><code translate="no">QAccessibleInterface::userActionCount()</code>, <code translate="no">QAccessibleInterface::actionText()</code>, and <code translate="no">QAccessibleInterface::doAction()</code> are removed. We recommend using the <a href="./qaccessibleinterface.htm" translate="no">QAccessibleInterface</a> subclasses to implement the <a href="./qaccessibleactioninterface.htm" translate="no">QAccessibleActionInterface</a> instead.</li>
+</ul>
+<a name="changes-to-qimage"></a>
+<h3 id="changes-to-qimage">Changes to QImage<a class="plink" href="#changes-to-qimage" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qimage.htm#fill" translate="no">QImage::fill</a>() on an image with format <code translate="no">Format_RGB888</code> now expects image data in RGB layout as opposed to BGR layout. This is to ensure consistency with RGB32 and other 32-bit formats.</li>
+<li>The behavior of <a href="./qimage.htm#load" translate="no">QImage::load</a>(), <a href="./qimage.htm#loadFromData" translate="no">QImage::loadFromData</a>(), <a href="./qpixmap.htm#load" translate="no">QPixmap::load</a>(), and <a href="./qpixmap.htm#loadFromData" translate="no">QPixmap::loadFromData</a>() on a non-null image changed so that if the functions fail to load the image (return <code translate="no">false</code>), the the existent image data is invalidated, so that <code translate="no">isNull()</code> is guaranteed to return <code translate="no">true</code> in this case.</li>
+</ul>
+<a name="changes-to-qpainter"></a>
+<h3 id="changes-to-qpainter">Changes to QPainter<a class="plink" href="#changes-to-qpainter" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qpainter.htm" translate="no">QPainter</a> does not support uniting clipped regions anymore. Use <a href="./qregion.htm#united" translate="no">QRegion::united</a>() instead to unite clips and pass the result to <a href="./qpainter.htm" translate="no">QPainter</a>.</li>
+<li><a href="./qpainter.htm" translate="no">QPainter</a> fill rules when not using antialiased painting have changed so that the aliased and antialiased coordinate systems match. There used to be an offset of slightly less than half a pixel when doing sub-pixel rendering, in order to be consistent with the old X11 paint engine. The new behavior should be more predictable and give the same consistent rounding for images and pixmaps as for paths and rectangle filling. To get the old behavior, set the <a href="./qpainter.htm#RenderHint-enum" translate="no">QPainter::Qt4CompatiblePainting</a> render hint.</li>
+</ul>
+<a name="changes-to-qtouchevent"></a>
+<h3 id="changes-to-qtouchevent">Changes to QTouchEvent<a class="plink" href="#changes-to-qtouchevent" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QTouchEvent::DeviceType</code> and <code translate="no">QTouchEvent::deviceType()</code> are deprecated as <a href="./qtouchdevice.htm" translate="no">QTouchDevice</a> provides a better way to identify and access the device from which the events originate.</li>
+<li>The constructor now takes a <a href="./qtouchdevice.htm" translate="no">QTouchDevice</a> pointer instead of <code translate="no">DeviceType</code> value.</li>
+<li><code translate="no">TouchPointStateMask</code> and <code translate="no">TouchPointPrimary</code> are removed from the <a href="./qt.htm#TouchPointState-enum" translate="no">Qt::TouchPointStates</a> enum.</li>
+<li><code translate="no">QTouchEvent::TouchPoint::isPrimary()</code> is removed.</li>
+</ul>
+<a name="changes-to-qt-widgets"></a>
+<h2 id="changes-to-qt-widgets">Changes to Qt Widgets<a class="plink" href="#changes-to-qt-widgets" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./qitemeditorfactory.htm#createEditor" translate="no">QItemEditorFactory::createEditor</a>() and <a href="./qitemeditorfactory.htm#valuePropertyName" translate="no">QItemEditorFactory::valuePropertyName</a>() signatures are changed to take arguments of type <code translate="no">int</code> instead of <a href="./qvariant-obsolete.htm#Type-enum" translate="no">QVariant::Type</a>.</li>
+<li><code translate="no">QInputContext</code> is removed as related getter and setter functions in <a href="./qwidget.htm" translate="no">QWidget</a> and <a href="./qapplication.htm" translate="no">QApplication</a> are removed. Input contexts are now platform-specific.</li>
+<li><a href="./qinputdialog-obsolete.htm#getInteger" translate="no">QInputDialog::getInteger</a>() is deprecated. Use <a href="./qinputdialog.htm#getInt" translate="no">QInputDialog::getInt</a>() instead.</li>
+<li>The <code translate="no">QStyleOption*V{2,3,4}</code> classes are removed, and their members are merged with the respective base classes. The removed classes are left as typedefs for binary compatibility.</li>
+<li><a href="./qgraphicsitem.htm" translate="no">QGraphicsItem</a> and its derived classes can no longer pass a <a href="./qgraphicsscene.htm" translate="no">QGraphicsScene</a> to the item's constructor. Construct the item without a scene and call <a href="./qgraphicsscene.htm#addItem" translate="no">QGraphicsScene::addItem</a>() to add the item to the scene.</li>
+<li><code translate="no">QProxyModel</code> is removed. Use <a href="./qabstractproxymodel.htm" translate="no">QAbstractProxyModel</a> and the related classes instead. A copy of <code translate="no">QProxyModel</code> is available in the <a href="http://wiki.qt.io/Qt_5_UI_Helpers" translate="no">Ui Helpers</a> repository.</li>
+</ul>
+<a name="changes-to-qapplication"></a>
+<h3 id="changes-to-qapplication">Changes to QApplication<a class="plink" href="#changes-to-qapplication" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QApplication::setGraphicsSystem()</code> is removed, because the introduction of <a href="./qpa.htm" translate="no">QPA</a> made it redundant.</li>
+<li><code translate="no">QApplication::commitData</code> and <code translate="no">QApplication::saveState</code> virtual methods that were used for session management are removed. Connect to the <a href="./qguiapplication.htm#commitDataRequest" translate="no">QApplication::commitDataRequest</a> and <a href="./qguiapplication.htm#saveStateRequest" translate="no">QApplication::saveStateRequest</a> signals instead. Use <a href="./qguiapplication.htm#isSavingSession" translate="no">QApplication::isSavingSession</a>() if the <a href="./qwidget.htm#closeEvent" translate="no">QWidget::closeEvent</a> if your window needs to know whether it is being called during shutdown.</li>
+</ul>
+<a name="changes-to-qstyle"></a>
+<h3 id="changes-to-qstyle">Changes to QStyle<a class="plink" href="#changes-to-qstyle" title="Direct link to this headline"></a></h3>
+<ul>
+<li><code translate="no">QStyle::standardIconImplementation()</code> and <code translate="no">QStyle::layoutSpacingImplementation()</code> are removed, and the <a href="./qstyle.htm#standardIcon" translate="no">QStyle::standardIcon</a>() and <a href="./qstyle.htm#layoutSpacing" translate="no">QStyle::layoutSpacing</a>() functions are made pure virtual now. The removed functions were introduced in Qt 4 for binary compatibility reasons.</li>
+<li><code translate="no">QMotifStyle</code>, <code translate="no">QPlastiqueStyle</code>, <code translate="no">QCleanlooksStyle</code>, and <code translate="no">QCDEStyle</code> are replaced with a new <i>fusion</i> style. If your application depends on any of these removed styles, you can either use the <a href="http://code.qt.io/cgit/qt/qtstyleplugins.git/" translate="no">qtstyleplugins</a> project to get these styles or update your application to use the new fusion style. For more details about this change, see <a href="https://blog.qt.io/blog/2012/10/30/cleaning-up-styles-in-qt5-and-adding-fusion/" translate="no">https://blog.qt.io/blog/2012/10/30/cleaning-up-styles-in-qt5-and-adding-fusion/</a>.</li>
+<li>The following <a href="./qstyle.htm" translate="no">QStyle</a> implementations have been made internal:<ul>
+<li>QFusionStyle</li>
+<li>QGtkStyle</li>
+<li>QMacStyle</li>
+<li>QWindowsCEStyle</li>
+<li>QWindowsMobileStyle</li>
+<li>QWindowsStyle</li>
+<li>QWindowsVistaStyle</li>
+<li>QWindowsXPStyle</li>
+</ul>
+<p>Instead of creating instances or inheriting these classes directly, use:</p>
+<ul>
+<li><a href="./qstylefactory.htm" translate="no">QStyleFactory</a> for creating instances of specific styles.</li>
+<li><a href="./qproxystyle.htm" translate="no">QProxyStyle</a> for customizing existing style implementations.</li>
+<li><a href="./qcommonstyle.htm" translate="no">QCommonStyle</a> as a base for implementing full custom styles.</li>
+</ul>
+</li>
+</ul>
+<a name="changes-to-qheaderview"></a>
+<h3 id="changes-to-qheaderview">Changes to QHeaderView<a class="plink" href="#changes-to-qheaderview" title="Direct link to this headline"></a></h3>
+<p>The following functions are deprecated:</p>
+<ul>
+<li><code translate="no">void setMovable(bool movable)</code> - Use <a href="./qheaderview.htm#setSectionsMovable" translate="no">QHeaderView::setSectionsMovable</a>() instead.</li>
+<li><code translate="no">bool isMovable() const</code> - Use <a href="./qheaderview.htm#sectionsMovable" translate="no">QHeaderView::sectionsMovable</a>() instead.</li>
+<li><code translate="no">void setClickable(bool clickable)</code> - Use <a href="./qheaderview.htm#setSectionsClickable" translate="no">QHeaderView::setSectionsClickable</a>() instead.</li>
+<li><code translate="no">bool isClickable() const</code> - Use <a href="./qheaderview.htm#sectionsClickable" translate="no">QHeaderView::sectionsClickable</a>() instead.</li>
+<li><code translate="no">void setResizeMode(int logicalindex, ResizeMode mode)</code> - Use <a href="./qheaderview.htm#setSectionResizeMode" translate="no">QHeaderView::setSectionResizeMode</a>() instead.</li>
+<li><code translate="no">ResizeMode resizeMode(int logicalindex) const</code> - Use <a href="./qheaderview.htm#sectionResizeMode" translate="no">QHeaderView::sectionResizeMode</a>() instead.</li>
+</ul>
+<a name="changes-to-qabstractitemview"></a>
+<h3 id="changes-to-qabstractitemview">Changes to QAbstractItemView<a class="plink" href="#changes-to-qabstractitemview" title="Direct link to this headline"></a></h3>
+<ul>
+<li>The derived classes now emit the <code translate="no">clicked()</code> signal on the left mouse click only, instead of all mouse clicks.</li>
+<li>The virtual <a href="./qabstractitemview.htm#dataChanged" translate="no">QAbstractItemView::dataChanged</a>() function signature now includes the roles that have changed. The signature is consistent with the <code translate="no">dataChanged()</code> signal in the model.</li>
+</ul>
+<a name="changes-to-qcolordialog"></a>
+<h3 id="changes-to-qcolordialog">Changes to QColorDialog<a class="plink" href="#changes-to-qcolordialog" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qcolordialog.htm#customColor" translate="no">QColorDialog::customColor</a>() now returns a <a href="./qcolor.htm" translate="no">QColor</a> value instead of <code translate="no">QRgb</code>.</li>
+<li><a href="./qcolordialog.htm#setCustomColor" translate="no">QColorDialog::setCustomColor</a>() and <a href="./qcolordialog.htm#setStandardColor" translate="no">QColorDialog::setStandardColor</a>() now need a <a href="./qcolor.htm" translate="no">QColor</a> value as their second parameter instead of <code translate="no">QRgb</code>.</li>
+</ul>
+<a name="changes-to-qt-webkit"></a>
+<h2 id="changes-to-qt-webkit">Changes to Qt WebKit<a class="plink" href="#changes-to-qt-webkit" title="Direct link to this headline"></a></h2>
+<ul>
+<li>The <a href="./qtwebengine-3rdparty-webkit.htm" translate="no">WebKit</a> module in Qt is now split in two modules, <code translate="no">webkit</code> and <code translate="no">webkitwidgets</code>, in order to allow the dependency of the <code translate="no">widgets</code> module to be optional. The benefits will only be available once the QQuickWebView API is made public through C++ in a future version. The <code translate="no">webkitwidgets</code> module adds the <code translate="no">webkit</code> module automatically to the project, so in your application's project file, <code translate="no">QT += webkit</code> should now be modified to:<div class="pre"><pre class="cpp prettyprint" translate="no">QT <span class="operator">+</span><span class="operator">=</span> webkitwidgets</pre></div>
+</li>
+<li>The same applies to the module include, <code translate="no">#include &lt;QtWebKit/QtWebKit&gt;</code> should be modified to:<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtWebKitWidgets/QtWebKitWidgets&gt;</span></pre></div>
+</li>
+<li>A consequence of the module split is that classes of the <a href="http://doc.qt.io/archives/qt-5.3/qtwebkit-index.html" translate="no">Qt WebKit</a> API aren't all in the new module, so for a better compatibility of your application with both Qt4 and Qt5, #include &lt;QtWebKit/QWebPage&gt;, for example, should be included directly as:<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QWebPage&gt;</span></pre></div>
+<p>The include path will take care of selecting the right module.</p>
+</li>
+<li>The qwebkitversion.h header has been renamed to q<b>t</b>webkitversion.h to match other Qt modules, and part of its contents has been moved to qwebkitglobal.h. <code translate="no">#include &lt;qwebkitversion.h&gt;</code> should be replaced with two includes:<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;qtwebkitversion.h&gt;</span>
+<span class="preprocessor">#include &lt;qwebkitglobal.h&gt;</span></pre></div>
+</li>
+</ul>
+<a name="changes-to-qt-print-support"></a>
+<h2 id="changes-to-qt-print-support">Changes to Qt Print Support<a class="plink" href="#changes-to-qt-print-support" title="Direct link to this headline"></a></h2>
+<ul>
+<li>The <code translate="no">QPageSetupDialog::PageSetupDialogOption</code> enum and the corresponding set and get functions, <code translate="no">QPageSetupDialog::options()</code> and <code translate="no">QPageSetupDialog::setOptions()</code> are removed.</li>
+<li>Support for printing PostScript files has been removed.</li>
+<li>The <code translate="no">QAbstractPageSetupDialog</code> class is removed. Use <a href="./qprintdialog.htm" translate="no">QPrintDialog</a> instead.</li>
+<li>The <a href="./qprintengine.htm#PrintEnginePropertyKey-enum" translate="no">QPrintEngine::PrintEnginePropertyKey</a> enum value <code translate="no">PPK_SuppressSystemPrintStatus</code> is removed.</li>
+<li><a href="./qprinter.htm" translate="no">QPrinter</a> no longer allows you to set an invalid printer name.</li>
+</ul>
+<a name="changes-to-qt-network"></a>
+<h2 id="changes-to-qt-network">Changes to Qt Network<a class="plink" href="#changes-to-qt-network" title="Direct link to this headline"></a></h2>
+<ul>
+<li>The <code translate="no">QSsl::TlsV1</code> enum value is renamed as <a href="./qssl.htm#SslProtocol-enum" translate="no">QSsl::TlsV1_0</a>.</li>
+<li>The <code translate="no">QHttp</code>, <code translate="no">QHttpHeader</code>, <code translate="no">QHttpResponseHeader</code>, and <code translate="no">QHttpRequestHeader</code> classes are removed. Use <a href="./qnetworkaccessmanager.htm" translate="no">QNetworkAccessManager</a> instead.</li>
+<li>The <code translate="no">QFtp</code> and <code translate="no">QUrlInfo</code> classes are no longer exported. Use <a href="./qnetworkaccessmanager.htm" translate="no">QNetworkAccessManager</a> instead. Programs that require raw FTP or HTTP streams can use the <a href="https://codereview.qt-project.org/#/admin/projects/qt/qtftp" translate="no">Qt FTP</a> and <a href="https://codereview.qt-project.org/#/admin/projects/qt/qthttp" translate="no">Qt HTTP</a> compatibility add-on modules that provide the <code translate="no">QFtp</code> and <code translate="no">QHttp</code> classes as they existed in Qt 4.</li>
+<li><a href="./qabstractsocket.htm#connectToHost" translate="no">QAbstractSocket::connectToHost</a>() and <a href="./qabstractsocket.htm#disconnectFromHost" translate="no">QAbstractSocket::disconnectFromHost</a>() are virtual now, and <code translate="no">QAbstractSocket::connectToHostImplementation()</code> and <code translate="no">QAbstractSocket::disconnectFromHostImplementation()</code> are removed.</li>
+<li><a href="./qtcpserver.htm#incomingConnection" translate="no">QTcpServer::incomingConnection</a>() now takes arguments of type <code translate="no">qintptr</code> instead of an <code translate="no">int</code>.</li>
+<li><code translate="no">QNetworkConfiguration::bearerName()</code> is removed. Use the <a href="./qnetworkconfiguration.htm#bearerTypeName" translate="no">bearerTypeName()</a> instead.</li>
+</ul>
+<a name="changes-to-qsslcertificate"></a>
+<h3 id="changes-to-qsslcertificate">Changes to QSslCertificate<a class="plink" href="#changes-to-qsslcertificate" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qsslcertificate.htm#subjectInfo" translate="no">QSslCertificate::subjectInfo</a>() and <a href="./qsslcertificate.htm#issuerInfo" translate="no">QSslCertificate::issuerInfo</a>() now return <a href="./qstringlist.htm" translate="no">QStringList</a> instead of a <a href="./qstring.htm" translate="no">QString</a>. This change makes searching the required information a lot easier than scanning a long string.</li>
+<li><a href="./qsslcertificate-obsolete.htm#isValid" translate="no">QSslCertificate::isValid</a>() is deprecated. Use <a href="./qsslcertificate.htm#isBlacklisted" translate="no">QSslCertificate::isBlacklisted</a>() instead to avoid binary breaks in the future.</li>
+<li><a href="./qsslcertificate-obsolete.htm#alternateSubjectNames" translate="no">QSslCertificate::alternateSubjectNames</a>() is deprecated. Use <a href="./qsslcertificate.htm#subjectAlternativeNames" translate="no">QSslCertificate::subjectAlternativeNames</a>() instead.</li>
+</ul>
+<a name="changes-to-qt-sql"></a>
+<h2 id="changes-to-qt-sql">Changes to Qt SQL<a class="plink" href="#changes-to-qt-sql" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./qsqlquerymodel.htm#indexInQuery" translate="no">QSqlQueryModel::indexInQuery</a>() is virtual now.</li>
+<li><a href="./qsqlquerymodel.htm#setQuery" translate="no">QSqlQueryModel::setQuery</a>() emits fewer signals. The <code translate="no">modelAboutToBeReset()</code> and <code translate="no">modelReset()</code> signals are sufficient to inform views that they must re-interrogate the model.</li>
+<li><a href="./qsqldriver.htm#subscribeToNotification" translate="no">QSqlDriver::subscribeToNotification</a>(), <a href="./qsqldriver.htm#unsubscribeFromNotification" translate="no">QSqlDriver::unsubscribeFromNotification</a>(), <a href="./qsqldriver.htm#subscribedToNotifications" translate="no">QSqlDriver::subscribedToNotifications</a>(), <a href="./qsqldriver.htm#isIdentifierEscaped" translate="no">QSqlDriver::isIdentifierEscaped</a>(), and <a href="./qsqldriver.htm#stripDelimiters" translate="no">QSqlDriver::stripDelimiters</a>() are virtual now. The corresponding <code translate="no">xxxImplementation</code> functions are also removed as the subclasses of <a href="./qsqldriver.htm" translate="no">QSqlDriver</a> can re-implement those directly.</li>
+<li><a href="./qsqlerror.htm" translate="no">QSqlError</a> now handles alphanumeric error codes that are used by QPSQL. The numeric codes are deprecated.</li>
+</ul>
+<a name="changes-to-qt-test"></a>
+<h2 id="changes-to-qt-test">Changes to Qt Test<a class="plink" href="#changes-to-qt-test" title="Direct link to this headline"></a></h2>
+<ul>
+<li>The plain-text, XML and lightxml test output formats are updated to include test result for every row of test data in data-driven tests. In Qt4, only fails and skips were included for individual data rows without the passes information. This limitation prevented accurate test run and pass rates calculation.</li>
+<li>The <code translate="no">QTRY_VERIFY</code> and <code translate="no">QTRY_COMPARE</code> macros are now part of <code translate="no">QTestLib</code>. These macros were part of <code translate="no">tests/shared/util.h</code> earlier, but now they are part of the &lt;<a href="./qttest-qmlmodule.htm" translate="no">QtTest</a>/<a href="./qttest-qmlmodule.htm" translate="no">QtTest</a>&gt; header. In addition, <code translate="no">QTRY_VERIFY_WITH_TIMEOUT</code> and <code translate="no">QTRY_COMPARE_WITH_TIMEOUT</code> are provided to specify custom timeout values.</li>
+<li>The <code translate="no">QTEST_NOOP_MAIN</code> macro is removed. If a test appears to be inapplicable for a particular build at compile-time, it should be omitted either using the .pro file logic or call <code translate="no">QSKIP</code> in the <code translate="no">initTestCase()</code> method to skip the entire test. If you're using the later approach, report a meaningful explanation in the test log.</li>
+<li>The <code translate="no">DEPENDS_ON</code> macro is removed as it misled some users to believe that they could make test functions depend on each other or impose an execution order on test functions.</li>
+<li><code translate="no">QTest::qt_snprintf()</code> is removed. This was an internal test library function that was exposed in the public API due to its use in a public macro. Any calls to this function must be replaced with <a href="./qbytearray-obsolete.htm#qsnprintf" translate="no">QByteArray::qsnprintf</a>().</li>
+<li>c{QTest::pixmapsAreEqual()} is removed. Comparison of <a href="./qpixmap.htm" translate="no">QPixmap</a> objects must be done using the <code translate="no">QCOMPARE</code> macro, which provides more informative output in the event of a failure.</li>
+<li>The <code translate="no">"mode"</code> parameter in <code translate="no">QSKIP</code> macro is removed. This parameter caused problems in test metrics calculation because of the <code translate="no">SkipAll</code> mode, which hid information about the skipped test data. Calling <code translate="no">QSKIP</code> in a test function now behaves like <code translate="no">SkipSingle</code>, which is skipping a non-data-driven test function or skipping only the current data row of a data-driven test function. Every skipped data row is now reported in the test log.</li>
+<li><code translate="no">qCompare()</code> has been replaced by overloading. Code such as <code translate="no">qCompare&lt;QString&gt;(l, r)</code> no longer uses the <a href="./qstring.htm" translate="no">QString</a>-specific implementation and may fail to compile. We recommend that you replace specialization with overloading. Also, rather than pass explicit template arguments to <code translate="no">qCompare</code>, let the overload resolution pick the correct one, and cast arguments in case of ambiguous overloads (for example, <code translate="no">qCompare(QString(l), r)</code>). The resulting code will continue to work against older QtTestlib versions.</li>
+<li><code translate="no">QTest::qWaitForWindowShown()</code> is replaced with <a href="./qtest.htm#qWaitForWindowExposed" translate="no">QTest::qWaitForWindowExposed</a>().</li>
+</ul>
+<a name="changes-to-qt-opengl"></a>
+<h2 id="changes-to-qt-opengl">Changes to Qt OpenGL<a class="plink" href="#changes-to-qt-opengl" title="Direct link to this headline"></a></h2>
+<p>Apart from the <a href="./qglwidget.htm" translate="no">QGLWidget</a> class, the <a href="./qtopengl-index.htm" translate="no">Qt OpenGL</a> module should not be used for new code. Instead, use the corresponding <i>OpenGL</i> classes in <a href="./qtgui-index.htm" translate="no">Qt GUI</a>.</p>
+<ul>
+<li><a href="./qglpixelbuffer.htm" translate="no">QGLPixelBuffer</a> is deprecated and implemented by using a hidden <a href="./qglwidget.htm" translate="no">QGLWidget</a> and a <a href="./qopenglframebufferobject.htm" translate="no">QOpenGLFramebufferObject</a>. For offscreen rendering to a texture, switch to using <a href="./qopenglframebufferobject.htm" translate="no">QOpenGLFramebufferObject</a> directly to improve performance.</li>
+<li>The default major version of <a href="./qglformat.htm" translate="no">QGLFormat</a> is changed to 2 to align it with <a href="./qsurfaceformat.htm" translate="no">QSurfaceFormat</a>. Applications that want to use a different version, should explicitly request it using <a href="./qglformat.htm#setVersion" translate="no">QGLFormat::setVersion</a>().</li>
+<li><code translate="no">QGLContext::generateFontDisplayLists()</code> and <code translate="no">QGLWidget::fontDisplayListBase()</code> are removed.</li>
+<li>The <code translate="no">listBase</code> parameter is removed from <a href="./qglwidget.htm#renderText" translate="no">QGLWidget::renderText</a>() functions.</li>
+<li>To ensure support on more platforms, stricter requirements have been introduced for doing threaded <code translate="no">OpenGL</code>. First, you must call <a href="./qglwidget.htm#makeCurrent" translate="no">QGLWidget::makeCurrent</a>() at least once per each <a href="./qglwidget.htm#swapBuffers" translate="no">QGLWidget::swapBuffers</a>() call, so that the platform has a chance to synchronize resizing the <code translate="no">OpenGL</code> surface. Second, before calling <a href="./qglwidget.htm#makeCurrent" translate="no">QGLWidget::makeCurrent</a>() or <a href="./qglwidget.htm#swapBuffers" translate="no">QGLWidget::swapBuffers</a>() in a separate thread, you must call <a href="./qglcontext.htm#moveToThread" translate="no">QGLContext::moveToThread</a>() to explicitly let Qt know in which thread a <a href="./qglcontext.htm" translate="no">QGLContext</a> is currently being used. You also need to make sure that the context is not current in the current thread before moving it to a different thread.</li>
+</ul>
+<a name="changes-to-qt-global"></a>
+<h2 id="changes-to-qt-global">Changes to Qt Global<a class="plink" href="#changes-to-qt-global" title="Direct link to this headline"></a></h2>
+<ul>
+<li><code translate="no">qMacVersion()</code> is removed. Use <a href="./qsysinfo-obsolete.htm#macVersion" translate="no">QSysInfo::macVersion</a>() or <a href="./qsysinfo-obsolete.htm#MacintoshVersion-var" translate="no">QSysInfo::MacintoshVersion</a> instead.</li>
+<li><code translate="no">Qt::escape()</code> is deprecated. Use <a href="./qstring.htm#toHtmlEscaped" translate="no">QString::toHtmlEscaped</a>() instead.</li>
+<li><code translate="no">qIsDetached&lt;&gt;</code> is removed, becauses it is irrelevant for multi-threaded applications. There is no replacement for this function.</li>
+</ul>
+<a name="changes-to-tools"></a>
+<h2 id="changes-to-tools">Changes to Tools<a class="plink" href="#changes-to-tools" title="Direct link to this headline"></a></h2>
+<ul>
+<li>The <code translate="no">qttest_p4.prf</code> file is removed. Use <code translate="no">CONFIG+=testcase</code> and other flags instead.</li>
+<li>The <code translate="no">-dwarf2</code> configure argument is removed. DWARF2 is always used on macOS now.</li>
+<li>Configure no longer calls <code translate="no">qmake -recursive</code> by default, because the subsequent build invokes qmake as needed. Use <code translate="no">-fully-process</code> to restore the old behavior.</li>
+<li>The <a href="./linguist-manager.htm#using-lupdate" translate="no">lupdate</a> <code translate="no">CODECFORTR</code> variable is deprecated, because source code written with Qt 5 is expected to use UTF-8 encoding.</li>
+</ul>
+<a name="related-topics"></a>
+<h2 id="related-topics">Related Topics<a class="plink" href="#related-topics" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./newclasses55.htm" translate="no">New Classes and Functions in Qt 5.5</a></li>
+<li><a href="./newclasses54.htm" translate="no">New Classes and Functions in Qt 5.4</a></li>
+<li><a href="./newclasses53.htm" translate="no">New Classes and Functions in Qt 5.3</a></li>
+<li><a href="./newclasses52.htm" translate="no">New Classes and Functions in Qt 5.2</a></li>
+<li><a href="./newclasses51.htm" translate="no">New Classes and Functions in Qt 5.1</a></li>
+</ul>
+</div>
+<!-- @@@sourcebreaks.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

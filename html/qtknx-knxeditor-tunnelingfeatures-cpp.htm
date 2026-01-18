@@ -1,0 +1,392 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Editor Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Editor Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/******************************************************************************
+**
+** Copyright (C) 2018 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtKnx module.
+**
+** $QT_BEGIN_LICENSE:GPL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3 or (at your option) any later version
+** approved by the KDE Free Qt Foundation. The licenses are as published by
+** the Free Software Foundation and appearing in the file LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
+**
+** $QT_END_LICENSE$
+**
+******************************************************************************/</span></div>
+
+<span class="preprocessor">#include "tunnelingfeatures.h"</span>
+<span class="preprocessor">#include "ui_tunnelingfeatures.h"</span>
+
+<span class="preprocessor">#include &lt;QtCore/QMetaEnum&gt;</span>
+<span class="preprocessor">#include &lt;QtCore/QMetaType&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnx1Bit&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnx&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnxUtils&gt;</span>
+
+bool validFeature(<span class="keyword">const</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>NetIp<span class="operator">::</span>ServiceType <span class="operator">&amp;</span>frameType<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature <span class="operator">&amp;</span>feature<span class="operator">,</span>
+                  <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value)
+{
+    <span class="keyword">using</span> ServType <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>NetIp<span class="operator">::</span>ServiceType;
+    <span class="keyword">if</span> (frameType <span class="operator">!</span><span class="operator">=</span> ServType<span class="operator">::</span>TunnelingFeatureSet)
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+
+    <span class="keyword">using</span> FeatureType <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature;
+    <span class="keyword">switch</span> (feature) {
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>SupportedEmiType:
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>HostDeviceDescriptorType0:
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>KnxManufacturerCode:
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>IndividualAddress:
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>MaximumApduLength:
+            <span class="keyword">return</span> value<span class="operator">.</span>size() <span class="operator">=</span><span class="operator">=</span> <span class="number">2</span>;
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>BusConnectionStatus:
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>InterfaceFeatureInfoServiceEnable:
+            <span class="keyword">return</span> value<span class="operator">.</span>size() <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span> <span class="operator">&amp;</span><span class="operator">&amp;</span> ((value<span class="operator">.</span>at(<span class="number">0</span>) <span class="operator">=</span><span class="operator">=</span> <span class="number">0x01</span>) <span class="operator">|</span><span class="operator">|</span> (value<span class="operator">.</span>at(<span class="number">0</span>) <span class="operator">=</span><span class="operator">=</span> <span class="number">0x00</span>));
+        <span class="keyword">case</span> FeatureType<span class="operator">::</span>ActiveEmiType:
+            <span class="keyword">return</span> value<span class="operator">.</span>size() <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>;
+        <span class="keyword">default</span>:
+            <span class="keyword">break</span>;
+    }
+
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}
+
+TunnelingFeatures<span class="operator">::</span>TunnelingFeatures(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+    <span class="operator">,</span> ui(<span class="keyword">new</span> Ui<span class="operator">::</span>TunnelingFeatures)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelServiceType<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>featureIdentifier<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Connecting to: %1 on port: %2 protocol: %3"</span>)
+            <span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())
+            <span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointPort())<span class="operator">.</span>arg(<span class="type">int</span>(m_protocol)));
+
+        m_tunnel<span class="operator">.</span>setLocalPort(<span class="number">0</span>);
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>isChecked()) {
+            <span class="keyword">auto</span> config <span class="operator">=</span> m_configs<span class="operator">.</span>value(ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+            config<span class="operator">.</span>setKeepSecureSessionAlive(<span class="keyword">true</span>);
+            m_tunnel<span class="operator">.</span>setSecureConfiguration(config);
+            m_tunnel<span class="operator">.</span>connectToHostEncrypted(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+                m_server<span class="operator">.</span>controlEndpointPort());
+        } <span class="keyword">else</span> {
+            m_tunnel<span class="operator">.</span>connectToHost(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+                m_server<span class="operator">.</span>controlEndpointPort()<span class="operator">,</span> m_protocol);
+        }
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        <span class="keyword">using</span> ServType <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>NetIp<span class="operator">::</span>ServiceType;
+        ServType type <span class="operator">=</span> ServType(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span>(ServType<span class="operator">::</span>TunnelingFeatureGet));
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelServiceType<span class="operator">-</span><span class="operator">&gt;</span>currentIndex() <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>)
+            type <span class="operator">=</span> ServType(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span>(ServType<span class="operator">::</span>TunnelingFeatureSet));
+
+        <span class="keyword">using</span> FeatureType <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature;
+        FeatureType featureType <span class="operator">=</span> FeatureType(<span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(FeatureType<span class="operator">::</span>SupportedEmiType)
+            <span class="operator">+</span> ui<span class="operator">-</span><span class="operator">&gt;</span>featureIdentifier<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+
+        <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> bytes <span class="operator">=</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toUtf8());
+        <span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> frame;
+
+        <span class="keyword">if</span> (type <span class="operator">=</span><span class="operator">=</span> ServType<span class="operator">::</span>TunnelingFeatureGet)
+            m_tunnel<span class="operator">.</span>sendTunnelingFeatureGet(featureType);
+        <span class="keyword">else</span> <span class="keyword">if</span> (type <span class="operator">=</span><span class="operator">=</span> ServType<span class="operator">::</span>TunnelingFeatureSet)
+            m_tunnel<span class="operator">.</span>sendTunnelingFeatureSet(featureType<span class="operator">,</span> bytes);
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Status: (%1) Messages sent."</span>)<span class="operator">.</span>arg(m_tunnel
+            <span class="operator">.</span>sequenceCount(<span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>SequenceType<span class="operator">::</span>Send) <span class="operator">+</span> <span class="number">1</span>));
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>tunnelingFeatureInfoReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value) {
+
+        <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">&gt;</span>();
+        <span class="keyword">if</span> (feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>InterfaceFeatureInfoServiceEnable) {
+            <span class="keyword">auto</span> state <span class="operator">=</span> <span class="type">QKnxSwitch</span><span class="operator">::</span>State(value<span class="operator">.</span>at(<span class="number">0</span>));
+            <span class="keyword">auto</span> metaEnumState <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxSwitch</span><span class="operator">::</span>State<span class="operator">&gt;</span>();
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received Tunneling Feature Info: Feature (%1), "</span>
+                <span class="string">"Value (%2)"</span>)
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature))))
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnumState<span class="operator">.</span>valueToKey(<span class="type">int</span>(state)))));
+        } <span class="keyword">else</span> {
+            tr(<span class="string">"Received Tunneling Feature Info: Feature (%1), Value: "</span>)
+                <span class="operator">.</span>arg(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature)))
+                <span class="operator">+</span> QLatin1String(value<span class="operator">.</span>toByteArray()<span class="operator">,</span> value<span class="operator">.</span>size());
+        }
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>tunnelingFeatureResponseReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>ReturnCode code<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value) {
+
+        <span class="keyword">auto</span> metaEnum <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">&gt;</span>();
+        <span class="keyword">auto</span> metaReturnCode <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>ReturnCode<span class="operator">&gt;</span>();
+        <span class="keyword">if</span> (feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>InterfaceFeatureInfoServiceEnable
+            <span class="operator">|</span><span class="operator">|</span> feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>BusConnectionStatus) {
+            <span class="keyword">auto</span> state <span class="operator">=</span> <span class="type">QKnxSwitch</span><span class="operator">::</span>State(value<span class="operator">.</span>at(<span class="number">0</span>));
+            <span class="keyword">auto</span> metaEnumState <span class="operator">=</span> <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type">QKnxSwitch</span><span class="operator">::</span>State<span class="operator">&gt;</span>();
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received Tunneling Feature Response: Feature (%1), "</span>
+                <span class="string">"Return Code (%2), Value (%3)"</span>)
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature))))
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaReturnCode<span class="operator">.</span>valueToKey(<span class="type">int</span>(code))))
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnumState<span class="operator">.</span>valueToKey(<span class="type">int</span>(state)))));
+        } <span class="keyword">else</span> <span class="keyword">if</span> (feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>IndividualAddress) {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received Tunneling Feature Response: Feature (%1), "</span>
+                <span class="string">"Return Code (%2), Individual Address Value (%3)"</span>)
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature))))
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaReturnCode<span class="operator">.</span>valueToKey(<span class="type">int</span>(code))))
+            <span class="operator">.</span>arg(<span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span>(<span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> value)<span class="operator">.</span>toString()));
+        } <span class="keyword">else</span> <span class="keyword">if</span> (feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>KnxManufacturerCode
+                   <span class="operator">|</span><span class="operator">|</span> feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>MaximumApduLength) {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received Tunneling Feature Response: Feature (%1), "</span>
+                <span class="string">"Return Code (%2), Value (%3)"</span>)
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature))))
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaReturnCode<span class="operator">.</span>valueToKey(<span class="type">int</span>(code))))
+            <span class="operator">.</span>arg(<span class="type">QKnxUtils</span><span class="operator">::</span>QUint16<span class="operator">::</span>fromBytes(value)));
+        } <span class="keyword">else</span> <span class="keyword">if</span> (feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>ActiveEmiType
+                   <span class="operator">|</span><span class="operator">|</span> feature <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature<span class="operator">::</span>SupportedEmiType) {
+            <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> str;
+            <span class="keyword">auto</span>  types <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiTypes(value<span class="operator">.</span>at(<span class="number">0</span>));
+            <span class="keyword">auto</span> metaEmiType <span class="operator">=</span>  <span class="type"><a href="./qmetaenum.htm" translate="no">QMetaEnum</a></span><span class="operator">::</span>fromType<span class="operator">&lt;</span><span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">&gt;</span>();
+            <span class="keyword">if</span> (types<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI1))
+                str <span class="operator">=</span> QLatin1String(metaEmiType<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI1)));
+            <span class="keyword">if</span> (types<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI2))
+                str <span class="operator">+</span><span class="operator">=</span> <span class="string">"|"</span> <span class="operator">+</span> QLatin1String(metaEmiType<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>EMI2)));
+            <span class="keyword">if</span> (types<span class="operator">.</span>testFlag(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>cEMI))
+                str <span class="operator">+</span><span class="operator">=</span> <span class="string">"|"</span> <span class="operator">+</span> QLatin1String(metaEmiType<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>cEMI)));
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received Tunneling Feature Response: Feature (%1), "</span>
+                <span class="string">"Return Code (%2), EMI (%3)"</span>)
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature))))
+            <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaReturnCode<span class="operator">.</span>valueToKey(<span class="type">int</span>(code))))
+            <span class="operator">.</span>arg(str<span class="operator">.</span>isEmpty() <span class="operator">?</span> QLatin1String(metaEmiType<span class="operator">.</span>valueToKey(<span class="type">int</span>(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>EmiType<span class="operator">::</span>Unknown)))
+                : str));
+        } <span class="keyword">else</span> {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received Tunneling Feature Response: Feature (%1), "</span>
+                    <span class="string">"Return Code (%2), Value: "</span>)
+                <span class="operator">.</span>arg(metaEnum<span class="operator">.</span>valueToKey(<span class="type">int</span>(feature)))
+                <span class="operator">.</span>arg(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(metaReturnCode<span class="operator">.</span>valueToKey(<span class="type">int</span>(code))))
+                <span class="operator">+</span> QLatin1String(value<span class="operator">.</span>toByteArray()<span class="operator">,</span> value<span class="operator">.</span>size()));
+        }
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>connected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelServiceType<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>featureIdentifier<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelServiceType<span class="operator">-</span><span class="operator">&gt;</span>currentText() <span class="operator">=</span><span class="operator">=</span> <span class="string">"TunnelingFeatureSet"</span>) {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+            ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="operator">!</span>ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>isEmpty());
+        } <span class="keyword">else</span> {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+            ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        }
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Successfully connected to: %1 on port: %2"</span>)<span class="operator">.</span>arg(m_server
+            <span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointPort()));
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Status: Connected."</span>);
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        m_tunnel<span class="operator">.</span>disconnectFromHost();
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>disconnected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelServiceType<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>featureIdentifier<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Successfully disconnected from: %1 on port: %2\n"</span>)
+            <span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointPort()));
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Status: Disconnected."</span>);
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>errorOccurred<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> (<span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>Error<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorString) {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(errorString);
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelServiceType<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text) {
+        <span class="keyword">if</span> (text <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="string">"TunnelingFeatureSet"</span>)) {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Status: Fill in the feature type and value fields."</span>);
+        } <span class="keyword">else</span> {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">""</span>);
+        }
+        checkFeatureValue();
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>textChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>) {
+        checkFeatureValue();
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>featureIdentifier<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>) {
+        checkFeatureValue();
+    });
+}
+
+TunnelingFeatures<span class="operator">::</span><span class="operator">~</span>TunnelingFeatures()
+{
+    <span class="keyword">delete</span> ui;
+}
+
+<span class="type">void</span> TunnelingFeatures<span class="operator">::</span>setNatAware(bool isNatAware)
+{
+    m_tunnel<span class="operator">.</span>setNatAware(isNatAware);
+}
+
+<span class="type">void</span> TunnelingFeatures<span class="operator">::</span>setLocalAddress(<span class="keyword">const</span> <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span> <span class="operator">&amp;</span>address)
+{
+    m_tunnel<span class="operator">.</span>disconnectFromHost();
+    m_tunnel<span class="operator">.</span>setLocalAddress(address);
+}
+
+<span class="type">void</span> TunnelingFeatures<span class="operator">::</span>setKnxNetIpServer(<span class="keyword">const</span> <span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> <span class="operator">&amp;</span>server)
+{
+    m_tunnel<span class="operator">.</span>disconnectFromHost();
+    m_server <span class="operator">=</span> server;
+
+    <span class="keyword">if</span> (m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>State<span class="operator">::</span>Disconnected) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    }
+
+    updateSecureConfigCombo();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Status: Start by clicking connect."</span>);
+}
+
+<span class="type">void</span> TunnelingFeatures<span class="operator">::</span>setTcpEnable(bool value)
+{
+    m_protocol <span class="operator">=</span> (value <span class="operator">?</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>TCP_IPv4 : <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>UDP_IPv4);
+}
+
+<span class="type">void</span> TunnelingFeatures<span class="operator">::</span>onKeyringChanged(<span class="keyword">const</span> <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">&gt;</span> <span class="operator">&amp;</span>configs)
+{
+    m_configs <span class="operator">=</span> configs;
+    updateSecureConfigCombo();
+}
+
+<span class="type">void</span> TunnelingFeatures<span class="operator">::</span>checkFeatureValue()
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>isEnabled()) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">""</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>State<span class="operator">::</span>Connected);
+        <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">using</span> ServType <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>NetIp<span class="operator">::</span>ServiceType;
+    ServType type <span class="operator">=</span> ServType(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span>(ServType<span class="operator">::</span>TunnelingFeatureGet));
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelServiceType<span class="operator">-</span><span class="operator">&gt;</span>currentIndex() <span class="operator">=</span><span class="operator">=</span> <span class="number">1</span>)
+        type <span class="operator">=</span> ServType(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span>(ServType<span class="operator">::</span>TunnelingFeatureSet));
+
+    <span class="keyword">using</span> FeatureType <span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature;
+    FeatureType featureType <span class="operator">=</span> FeatureType(<span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(FeatureType<span class="operator">::</span>SupportedEmiType)
+        <span class="operator">+</span> ui<span class="operator">-</span><span class="operator">&gt;</span>featureIdentifier<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+
+    <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> bytes <span class="operator">=</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toUtf8());
+    <span class="keyword">auto</span> text <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>featureValue<span class="operator">-</span><span class="operator">&gt;</span>text();
+    <span class="keyword">if</span> (text<span class="operator">.</span>isEmpty() <span class="operator">|</span><span class="operator">|</span> <span class="operator">!</span>validFeature(type<span class="operator">,</span> featureType<span class="operator">,</span> bytes)
+        <span class="operator">|</span><span class="operator">|</span> ((text<span class="operator">.</span>size() <span class="operator">%</span> <span class="number">2</span>) <span class="operator">!</span><span class="operator">=</span> <span class="number">0</span>)) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Status: Invalid value entered"</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        <span class="keyword">return</span>;
+    }
+    ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Status: Valid value entered, click send."</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSend<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>State<span class="operator">::</span>Connected);
+}
+
+<span class="type">void</span> TunnelingFeatures<span class="operator">::</span>updateSecureConfigCombo()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>clear();
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="operator">!</span>m_configs<span class="operator">.</span>isEmpty());
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(m_protocol <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>TCP_IPv4);
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> m_configs<span class="operator">.</span>size(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>config <span class="operator">=</span> m_configs<span class="operator">[</span>i<span class="operator">]</span>;
+        <span class="keyword">if</span> (m_server<span class="operator">.</span>individualAddress() <span class="operator">!</span><span class="operator">=</span> config<span class="operator">.</span>host())
+            <span class="keyword">continue</span>;
+
+        <span class="keyword">const</span> <span class="keyword">auto</span> ia <span class="operator">=</span> config<span class="operator">.</span>individualAddress();
+        ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"User ID: %1 (Individual Address: %2)"</span>)
+            <span class="operator">.</span>arg(config<span class="operator">.</span>userId())
+            <span class="operator">.</span>arg(ia<span class="operator">.</span>isValid() <span class="operator">?</span> ia<span class="operator">.</span>toString() : tr(<span class="string">"No specific address"</span>))<span class="operator">,</span> i);
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

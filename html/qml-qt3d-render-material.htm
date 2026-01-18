@@ -1,0 +1,146 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Material QML Type | Qt 3D</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qt3d-render-material.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qt3d-index.htm" translate="no">Qt 3D</a></li>
+                            <li><a href="./qt3d-qml.htm" translate="no">QML Types</a></li>
+                            <li><a>Material QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Material QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Material-brief -->
+<p>Non-creatable abstract base for materials. <a href="#details">More...</a></p>
+<!-- @@@Material -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import Qt3D.Render 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.5</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Instantiates:</td><td class="memItemRight bottomAlign"> <a href="./qml-qt3d-render-material.htm" translate="no"></a><a href="./qt3drender-qmaterial.htm" translate="no">QMaterial</a></td></tr></tbody></table></div><ul>
+<li><a href="./qml-qt3d-render-material-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-material.htm#effect-prop" translate="no">effect</a></b></b> : Effect</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-material.htm#parameters-prop" translate="no">parameters</a></b></b> : list&lt;Parameter&gt;</li>
+</ul>
+<!-- $$$Material-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Material provides a way to specify the rendering of an <a href="./qml-qt3d-core-entity.htm" translate="no">entity</a>. Any aspect can define its own subtype of Material so that a Material can be used to describe a visual element; for example, the way sound should reflect off an element, the temperature of a surface, and so on.</p>
+<p>In itself, a Material doesn't do anything. It's only when it references an Effect node that a Material becomes useful.</p>
+<p>In practice, it often happens that a single Effect is being referenced by several Material components. This allows to only create the effect, techniques, passes and shaders once while allowing to specify the material by adding Parameter instances.</p>
+<p>A Parameter defined on a Material overrides parameter (of the same name) defined in a Effect, Technique and <a href="./qml-qt3d-render-renderpass.htm" translate="no">RenderPass</a>, but are overridden by parameters in <a href="./qml-qt3d-render-renderpassfilter.htm" translate="no">RenderPassFilter</a> and <a href="./qml-qt3d-render-techniquefilter.htm" translate="no">TechniqueFilter</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Effect {
+    id: effect
+
+    technique: <span class="operator">[</span>
+        Technique {
+            id: gl3Technique
+            graphicsApiFilter {
+                api: GraphicsApiFilter<span class="operator">.</span>OpenGL
+                profile: GraphicsApiFilter<span class="operator">.</span>CoreProfile
+                majorVersion: <span class="number">3</span>
+                minorVersion: <span class="number">1</span>
+            }
+            renderPasses: <span class="operator">[</span>
+                RenderPass {
+                    id: gl3Pass
+                    shaderProgram: ShaderProgram {
+                        <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+                    }
+                }
+            <span class="operator">]</span>
+        }
+    <span class="operator">]</span>
+}
+
+Material {
+    id: material1
+    parameters: <span class="operator">[</span>
+        Parameter { name: <span class="string">"color"</span>; value: <span class="string">"green"</span> }
+    <span class="operator">]</span>
+}
+
+Material {
+    id: material2
+    parameters: <span class="operator">[</span>
+        Parameter { name: <span class="string">"color"</span>; value: <span class="string">"white"</span> }
+    <span class="operator">]</span>
+}</pre></div>
+<p><b>See also </b><a href="./qml-qt3d-render-effect.htm" translate="no">Effect</a>, <a href="./qml-qt3d-render-technique.htm" translate="no">Technique</a>, and <a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a>.</p>
+<!-- @@@Material -->
+<h2>Property Documentation</h2>
+<!-- $$$effect -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="effect-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="effect-prop"></a><span class="name">effect</span> : <span class="type"><a href="./qml-qt3d-render-effect.htm" translate="no">Effect</a></span><a class="plink" href="#effect-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Specifies the effect to be used with the material.</p>
+</div></div><!-- @@@effect -->
+<br>
+<!-- $$$parameters -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="parameters-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="parameters-prop"></a><span class="name">parameters</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a></span>&gt;<a class="plink" href="#parameters-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds the list of parameters used by the material.</p>
+</div></div><!-- @@@parameters -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

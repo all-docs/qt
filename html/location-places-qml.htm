@@ -1,0 +1,220 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML Places API | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/location-places-qml.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a>QML Places API</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">QML Places API</h1>
+<span class="subtitle"></span>
+<!-- $$$location-places-qml.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview"></a>
+<h2 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h2>
+<p>The Places API allows users to discover places of interest and view details about them, such as address and contact information. Some places may have additional content associated with them, such as images and reviews. The Places API also facilitates management of places and categories, allowing users to save and remove them.</p>
+<a name="introductory-concepts"></a>
+<h2 id="introductory-concepts">Introductory Concepts<a class="plink" href="#introductory-concepts" title="Direct link to this headline"></a></h2>
+<a name="plugin"></a>
+<h3 id="plugin">Plugin<a class="plink" href="#plugin" title="Direct link to this headline"></a></h3>
+<p>A <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> is an abstraction for a backend. One <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> might access places from a REST server while another may access places from a local database. The following instantiates a <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> object by providing a name of "osm". The <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> name identifies which backend to choose from. Plugins may also be provided with a set of <a href="./qml-qtlocation-pluginparameter.htm" translate="no">parameters</a>, which essentially takes the form of a set of key-value pairs. The <a href="./qml-qtlocation-pluginparameter.htm" translate="no">parameters</a> that can be specified vary among the different <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> backends. For documentation on the possible <a href="./qml-qtlocation-pluginparameter.htm" translate="no">parameters</a> and nuances of each <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a>, see the <a href="./qtlocation-index.htm#plugin-references-and-parameters" translate="no">Plugin References</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-plugin.htm" translate="no">Plugin</a></span> {
+    <span class="name">id</span>: <span class="name">myPlugin</span>
+    <span class="name">name</span>: <span class="string">"osm"</span>
+    <span class="comment">//specify plugin parameters as necessary</span>
+    <span class="comment">//PluginParameter {...}</span>
+    <span class="comment">//PluginParameter {...}</span>
+    <span class="comment">//...</span>
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>The HERE plugin must be supplied with some mandatory parameters as outlined in the <a href="./location-plugin-here.htm#mandatory-parameters" translate="no">HERE Plugin</a> documentation.</p>
+</div>
+<a name="models-views-and-delegates"></a>
+<h3 id="models-views-and-delegates">Models, Views and Delegates<a class="plink" href="#models-views-and-delegates" title="Direct link to this headline"></a></h3>
+<p>The QML Places API is built around the notion of models, views and delegates.</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><b>Model</b></td><td>A model holds data items and maintains their structure. The model is also responsible for retrieving the items from a data source.</td></tr>
+<tr class="even" valign="top"><td><b>View</b></td><td>A view is a visual container that displays the data and manages how visual items are shown such as in a list or a grid. The view may also be responsible for navigating the data, for example, scrolling through the visual items during a flicking motion.</td></tr>
+<tr class="odd" valign="top"><td><b>Delegate</b></td><td>A delegate defines how individual data elements should appear as visual items in the view. The models expose a set of data roles and the delegate uses them to construct a visual item. The delegate may also define behaviour such as an operation to invoke when a visual item is clicked.</td></tr>
+</tbody></table></div>
+<p>The Common Use Cases section below demonstrates concrete examples of how these concepts fit together.</p>
+<a name="common-use-cases"></a>
+<h2 id="common-use-cases">Common Use Cases<a class="plink" href="#common-use-cases" title="Direct link to this headline"></a></h2>
+<a name="searching-for-places"></a>
+<h3 id="searching-for-places">Searching for Places<a class="plink" href="#searching-for-places" title="Direct link to this headline"></a></h3>
+<p>Searching is accomplished via the <a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a>. The <a href="./qml-qtlocation-placesearchmodel.htm#plugin-prop" translate="no">plugin</a> property specifies which backend to perform search operations against. Search parameters may be provided through properties such as the <a href="./qml-qtlocation-placesearchmodel.htm#searchTerm-prop" translate="no">searchTerm</a> and <a href="./qml-qtlocation-placesearchmodel.htm#searchArea-prop" translate="no">searchArea</a>. A search operation can then be started by invoking the <a href="./qml-qtlocation-placesearchmodel.htm#update-method" translate="no">update()</a> method. For simplicity, the snippet below invokes <a href="./qml-qtlocation-placesearchmodel.htm#update-method" translate="no">update()</a> once construction of the model as been completed, typically <a href="./qml-qtlocation-placesearchmodel.htm#update-method" translate="no">update()</a> would be invoked in response to a user action such as a button click. While the search operation is underway the <a href="./qml-qtlocation-placesearchmodel.htm#status-prop" translate="no">PlaceSearchModel::status</a> property transitions into the <code translate="no">Loading</code> state and when successfully completed moves into the <code translate="no">Ready</code> state.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a></span> {
+    <span class="name">id</span>: <span class="name">searchModel</span>
+
+    <span class="name">plugin</span>: <span class="name">myPlugin</span>
+
+    <span class="name">searchTerm</span>: <span class="string">"pizza"</span>
+    <span class="name">searchArea</span>: <span class="name">QtPositioning</span>.<span class="name">circle</span>(<span class="name">startCoordinate</span>);
+
+    <span class="name">Component</span>.onCompleted: <span class="name">update</span>()
+
+}</pre></div>
+<a name="display-search-results-using-a-listview"></a>
+<h3 id="display-search-results-using-a-listview">Display Search Results using a ListView<a class="plink" href="#display-search-results-using-a-listview" title="Direct link to this headline"></a></h3>
+<p>A <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> can be used to show the search results found by the model. It defines the visual region for where the results are shown, and in the case below fills the entirety of its parent. The <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> has built in behavior that enables the region to respond to flicking events and to scroll appropriately.</p>
+<p>In the snippet below, the search model has been assigned to the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>'s <a href="./qml-qtquick-listview.htm#model-prop" translate="no">model</a> property. When the model is updated with new results, the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> is automatically updated to reflect the model's new data items.</p>
+<p>A simple delegate has been bound to the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>'s <a href="./qml-qtquick-listview.htm#delegate-prop" translate="no">delegate</a> property. The <a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a> exposes a set of <a href="./qml-qtlocation-placesearchmodel.htm#placesearchmodel-roles" translate="no">roles</a> of which the <i>title</i> and <i>place</i> roles have been used below, these are of type string and <a href="./qml-qtlocation-place.htm" translate="no">Place</a> respectively. Essentially for each data item that should be visible in the view, the view invokes the delegate to create a visual representation of the item.</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">model</span>: <span class="name">searchModel</span>
+    <span class="name">delegate</span>: <span class="name">Component</span> {
+        <span class="type"><a href="./qml-qtquick-row.htm" translate="no">Row</a></span> {
+            <span class="name">spacing</span>: <span class="number">5</span>
+            <span class="type">Marker</span> { <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span> }
+            <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">title</span>; <span class="name">font</span>.bold: <span class="number">true</span> }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">place</span>.<span class="name">location</span>.<span class="name">address</span>.<span class="name">text</span> }
+            }
+        }
+    }
+}</pre></div>
+</td><td><img alt="" src="./images/places_list.png"></td></tr>
+</tbody></table></div>
+<div class="admonition note">
+<p><b>Note: </b>For simplicty's sake we have assumed that every search result is of <a href="./qml-qtlocation-placesearchmodel.htm#search-result-types" translate="no">type</a> <code translate="no">PlaceSearchResult</code> and so always have access to the <i>place</i> role, other search result types may not have a <i>place</i> role.</p>
+</div>
+<p>See the <a href="./qtlocation-places-list-example.htm" translate="no">Places List</a> example for full source code.</p>
+<a name="display-search-results-using-a-mapitemview"></a>
+<h3 id="display-search-results-using-a-mapitemview">Display Search Results using a MapItemView<a class="plink" href="#display-search-results-using-a-mapitemview" title="Direct link to this headline"></a></h3>
+<p>Instead of a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>, the <a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a> can be used in conjunction with a <a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a> to display markers on a map. Firstly a <a href="./qml-qtlocation-map.htm" translate="no">Map</a> is used to define the visual region occupied by the map, in this case it fills the entirety of its parent. Other properties are specified such as the <a href="./qml-qtlocation-map.htm#plugin-prop" translate="no">plugin</a> providing the maps, and the map's <a href="./qml-qtlocation-map.htm#center-prop" translate="no">center</a> and <a href="./qml-qtlocation-map.htm#zoomLevel-prop" translate="no">zoomLevel</a>.</p>
+<p>Inside the <a href="./qml-qtlocation-map.htm" translate="no">Map</a>, a <a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a> is declared, where the <a href="./qml-qtlocation-mapitemview.htm#model-prop" translate="no">model</a> property has been set to the search model and a <a href="./qml-qtlocation-mapitemview.htm#delegate-prop" translate="no">delegate</a> consisting of a <a href="./qml-qtlocation-mapquickitem.htm" translate="no">MapQuickItem</a> is used to display a marker image. A marker is shown for every place that was found by the search model. The delegate uses the <i>place</i> role to position the marker.</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-map.htm" translate="no">Map</a></span> {
+    <span class="name">id</span>: <span class="name">map</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">plugin</span>: <span class="name">myPlugin</span>;
+    <span class="name">center</span>: <span class="name">locationOslo</span>
+    <span class="name">zoomLevel</span>: <span class="number">13</span>
+
+    <span class="type"><a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a></span> {
+        <span class="name">model</span>: <span class="name">searchModel</span>
+        <span class="name">delegate</span>: <span class="name">MapQuickItem</span> {
+            <span class="name">coordinate</span>: <span class="name">place</span>.<span class="name">location</span>.<span class="name">coordinate</span>
+
+            <span class="name">anchorPoint</span>.x: <span class="name">image</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">0.5</span>
+            <span class="name">anchorPoint</span>.y: <span class="name">image</span>.<span class="name">height</span>
+
+            <span class="name">sourceItem</span>: <span class="name">Column</span> {
+                <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> { <span class="name">id</span>: <span class="name">image</span>; <span class="name">source</span>: <span class="string">"marker.png"</span> }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">title</span>; <span class="name">font</span>.bold: <span class="number">true</span> }
+            }
+        }
+    }
+}</pre></div>
+</td><td><img alt="" src="./images/places_map.png"></td></tr>
+</tbody></table></div>
+<div class="admonition note">
+<p><b>Note: </b>For simplicty's sake we have assumed that every search result is of <a href="./qml-qtlocation-placesearchmodel.htm#search-result-types" translate="no">type</a> <code translate="no">PlaceSearchResult</code> and so always have access to the <i>place</i> role, other search result types may not have a <i>place</i> role.</p>
+</div>
+<p>See the <a href="./qtlocation-places-map-example.htm" translate="no">Places Map</a> example for full source code.</p>
+<a name="fetching-place-details"></a>
+<h3 id="fetching-place-details">Fetching Place Details<a class="plink" href="#fetching-place-details" title="Direct link to this headline"></a></h3>
+<p>In order to save bandwidth, sometimes a backend will only return places which are partially populated with details. This can be checked with the <a href="./qml-qtlocation-place.htm#detailsFetched-prop" translate="no">Place::detailsFetched</a> property which indicates whether all availalable details have been fetched or not. If not, the <a href="./qml-qtlocation-place.htm#getDetails-method" translate="no">Place::getDetails</a>() method can be invoked to fetch the remaining details.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="keyword">if</span> (!<span class="name">place</span>.<span class="name">detailsFetched</span>)
+    <span class="name">place</span>.<span class="name">getDetails</span>();</pre></div>
+<a name="saving-and-removing-places"></a>
+<h3 id="saving-and-removing-places">Saving and Removing Places<a class="plink" href="#saving-and-removing-places" title="Direct link to this headline"></a></h3>
+<p>Some backends may support saving and removing places. This can be done by calling the <a href="./qml-qtlocation-place.htm#save-method" translate="no">Place::save</a>() and <a href="./qml-qtlocation-place.htm#remove-method" translate="no">Place::remove</a>() methods respectively. Note that in order to save a <a href="./qml-qtlocation-place.htm" translate="no">Place</a>, a <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> must be assigned to specify which backend we are saving to. The <a href="./qml-qtlocation-place.htm#status-prop" translate="no">status</a> property will transition into the <code translate="no">Saving</code> state while the save operation is happening and on successful completion will move to the <code translate="no">Ready</code> state. The following snippet shows how to save and remove a place using javascript.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">//creating and saving a place</span>
+var place = <span class="name">Qt</span>.<span class="name">createQmlObject</span>(<span class="string">'import QtLocation 5.3; Place { }'</span>, <span class="name">parent</span>);
+<span class="name">place</span>.<span class="name">plugin</span> <span class="operator">=</span> <span class="name">myPlugin</span>;
+<span class="name">place</span>.<span class="name">name</span> <span class="operator">=</span> <span class="string">"New York"</span>;
+<span class="name">place</span>.<span class="name">location</span>.<span class="name">coordinate</span>.<span class="name">latitude</span> <span class="operator">=</span> <span class="number">40.7</span>
+<span class="name">place</span>.<span class="name">location</span>.<span class="name">coordinate</span>.<span class="name">longitude</span> <span class="operator">=</span> -<span class="number">74.0</span>
+<span class="name">place</span>.<span class="name">save</span>();
+
+<span class="comment">//removing a place</span>
+<span class="name">place</span>.<span class="name">remove</span>();</pre></div>
+<a name="learn-more"></a>
+<h3 id="learn-more">Learn More<a class="plink" href="#learn-more" title="Direct link to this headline"></a></h3>
+<p>The above snippets only exhibit a small subset of Places functionality. Refer to the <a href="./location-places-qml.htm#places-types" translate="no">Places Types</a> shown below for richer content such as <a href="./qml-qtlocation-imagemodel.htm" translate="no">images</a>, <a href="./qml-qtlocation-reviewmodel.htm" translate="no">reviews</a> etc, as well as more indepth descriptions and explanations.</p>
+<p>See also the <a href="./qtlocation-places-example.htm" translate="no">Places (QML)</a> example for a more comprehensive demonstration on how to use the API.</p>
+<a name="places-types"></a>
+<h2 id="places-types">Places Types<a class="plink" href="#places-types" title="Direct link to this headline"></a></h2>
+<a name="data-types"></a>
+<h3 id="data-types">Data Types<a class="plink" href="#data-types" title="Direct link to this headline"></a></h3>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-category.htm">Category</a></p></td><td class="tblDescr"><p>Type represents a category that a Place can be associated with</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-contactdetail.htm">ContactDetail</a></p></td><td class="tblDescr"><p>Type holds a contact detail such as a phone number or a website address</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-contactdetails.htm">ContactDetails</a></p></td><td class="tblDescr"><p>Type holds contact details for a Place</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-extendedattributes.htm">ExtendedAttributes</a></p></td><td class="tblDescr"><p>Type holds additional data about a Place</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-icon.htm">Icon</a></p></td><td class="tblDescr"><p>Type represents an icon image source which can have multiple sizes</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-place.htm">Place</a></p></td><td class="tblDescr"><p>Type represents a location that is a position of interest</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placeattribute.htm">PlaceAttribute</a></p></td><td class="tblDescr"><p>Type holds generic place attribute information</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-ratings.htm">Ratings</a></p></td><td class="tblDescr"><p>Type holds place rating information</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-supplier.htm">Supplier</a></p></td><td class="tblDescr"><p>Holds data regarding the supplier of a place, a place's image, review, or editorial</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-user.htm">User</a></p></td><td class="tblDescr"><p>Type identifies a user who contributed a particular Place content item</p></td></tr>
+</tbody></table></div>
+<a name="models"></a>
+<h3 id="models">Models<a class="plink" href="#models" title="Direct link to this headline"></a></h3>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-categorymodel.htm">CategoryModel</a></p></td><td class="tblDescr"><p>Type provides a model of the categories supported by a Plugin</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-editorialmodel.htm">EditorialModel</a></p></td><td class="tblDescr"><p>Type provides a model of place editorials</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-imagemodel.htm">ImageModel</a></p></td><td class="tblDescr"><p>Type provides a model of place images</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placesearchmodel.htm">PlaceSearchModel</a></p></td><td class="tblDescr"><p>Provides access to place search results</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-placesearchsuggestionmodel.htm">PlaceSearchSuggestionModel</a></p></td><td class="tblDescr"><p>Provides access to search term suggestions</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-reviewmodel.htm">ReviewModel</a></p></td><td class="tblDescr"><p>Provides access to reviews of a Place</p></td></tr>
+</tbody></table></div>
+</div>
+<!-- @@@location-places-qml.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

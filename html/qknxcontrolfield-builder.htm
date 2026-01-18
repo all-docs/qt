@@ -1,0 +1,133 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Builder | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>Builder</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Builder Class</h1>
+<span class="small-subtitle" translate="no">class <a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a>::Builder</span>
+<!-- $$$Builder-brief -->
+<p>The <a href="./qknxcontrolfield-builder.htm" translate="no">QKnxControlField::Builder</a> class creates a KNX control field with some default values set. <a href="#details">More...</a></p>
+<!-- @@@Builder -->
+<ul>
+<li><a href="./qknxcontrolfield-builder-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QKnxControlField </td><td class="memItemRight bottomAlign"><b><a href="./qknxcontrolfield-builder.htm#create" translate="no">create</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxcontrolfield-builder.htm#setAcknowledge" translate="no">setAcknowledge</a></b>(Acknowledge <i>acknowledge</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxcontrolfield-builder.htm#setBroadcast" translate="no">setBroadcast</a></b>(Broadcast <i>broadcast</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxcontrolfield-builder.htm#setConfirm" translate="no">setConfirm</a></b>(Confirm <i>errorStatus</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxcontrolfield-builder.htm#setFrameFormat" translate="no">setFrameFormat</a></b>(FrameFormat <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxcontrolfield-builder.htm#setPriority" translate="no">setPriority</a></b>(Priority <i>priority</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxcontrolfield-builder.htm#setRepeat" translate="no">setRepeat</a></b>(Repeat <i>repeat</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$Builder-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The control field of a KNX frame must specify at least the <a href="./qknxcontrolfield.htm#FrameFormat-enum" translate="no">FrameFormat</a>, the <a href="./qknxcontrolfield.htm#Repeat-enum" translate="no">Repeat</a> flag, and the frame <a href="./qknxcontrolfield.htm#Priority-enum" translate="no">Priority</a>. In addition, it may specify how widely the frame is <a href="./qknxcontrolfield.htm#Broadcast-enum" translate="no">Broadcast</a>, and whether acknowledgment (<a href="./qknxcontrolfield.htm#Acknowledge-enum" translate="no">Acknowledge</a>) or confirmation (<a href="./qknxcontrolfield.htm#Confirm-enum" translate="no">Confirm</a>) is requested for the transmission or reception of the frame.</p>
+<p>The default values produce control fields that are suitable for multicast frames that read or write group values.</p>
+<p>The control field selects the standard or extended frame format for the data link layer and includes information for the used extended frame type. By default, the frame format is set to <a href="./qknxcontrolfield.htm#FrameFormat-enum" translate="no">Standard</a>, which is the preferred format for short frames.</p>
+<p>The repeat flag determines whether the frame transmission is repeated if the status of an acknowledgment frame received from a bus device indicates that an error has occurred. By default, the repeat flag is set to <a href="./qknxcontrolfield.htm#Repeat-enum" translate="no">DoNotRepeat</a>.</p>
+<p>The broadcast flag selects the communication mode used for transmitting the frame. By default, it is set to <a href="./qknxcontrolfield.htm#Broadcast-enum" translate="no">Domain</a> to transmit frames using broadcast communication mode.</p>
+<p>The priority of frames should be selected carefully to ensure fair bus access. By default, the priority of a frame is set to <a href="./qknxcontrolfield.htm#Priority-enum" translate="no">Low</a>, which is mandatory for long frames. The maximum priority that is allowed for run-time communication is <a href="./qknxcontrolfield.htm#Priority-enum" translate="no">Normal</a>.</p>
+<p>The acknowledge flag determines whether a Layer 2 acknowledge is requested for an <code translate="no">L_Data.req</code> frame that is used in client-to-server communiction on the KNX data link layer. By default, it is set to <a href="./qknxcontrolfield.htm#Acknowledge-enum" translate="no">NotRequested</a>.</p>
+<p>The confirm flag indicates whether there is an error in the transmitted frame. By default, it is set to <a href="./qknxcontrolfield.htm#Confirm-enum" translate="no">NoError</a>.</p>
+<p>The following sample code creates a control field using the default values:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> ctrl <span class="operator">=</span> <span class="type"><a href="./qknxcontrolfield.htm#QKnxControlField" translate="no">QKnxControlField</a></span><span class="operator">::</span>builder<span class="operator">.</span>create();</pre></div>
+<p>Some flags can be modified for more advanced use, such as setting up a control field used for unicast or broadcast with a higher priority:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> ctrl <span class="operator">=</span> <span class="type"><a href="./qknxcontrolfield.htm#QKnxControlField" translate="no">QKnxControlField</a></span><span class="operator">::</span>builder
+    <span class="operator">.</span>setPriority(<span class="type"><a href="./qknxcontrolfield.htm#QKnxControlField" translate="no">QKnxControlField</a></span><span class="operator">::</span>Priority<span class="operator">::</span>System)
+    <span class="operator">.</span>create();</pre></div>
+</div>
+<!-- @@@Builder -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$create[overload1]$$$create -->
+<h3 class="fn" id="create" translate="no"><a name="create"></a><span class="type"><a href="./qknxcontrolfield.htm#QKnxControlField" translate="no">QKnxControlField</a></span> Builder::<span class="name">create</span>() const<a class="plink" href="#create" title="Direct link to this headline"></a></h3>
+<p>Creates and returns a KNX control field.</p>
+<!-- @@@create -->
+<!-- $$$setAcknowledge[overload1]$$$setAcknowledgeAcknowledge -->
+<h3 class="fn" id="setAcknowledge" translate="no"><a name="setAcknowledge"></a><span class="type"><a href="./qknxcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setAcknowledge</span>(<span class="type"><a href="./qknxcontrolfield.htm#Acknowledge-enum" translate="no">Acknowledge</a></span> <i>acknowledge</i>)<a class="plink" href="#setAcknowledge" title="Direct link to this headline"></a></h3>
+<p>Sets the acknowledge flag to <i translate="no">acknowledge</i> and returns a reference to the builder.</p>
+<!-- @@@setAcknowledge -->
+<!-- $$$setBroadcast[overload1]$$$setBroadcastBroadcast -->
+<h3 class="fn" id="setBroadcast" translate="no"><a name="setBroadcast"></a><span class="type"><a href="./qknxcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setBroadcast</span>(<span class="type"><a href="./qknxcontrolfield.htm#Broadcast-enum" translate="no">Broadcast</a></span> <i>broadcast</i>)<a class="plink" href="#setBroadcast" title="Direct link to this headline"></a></h3>
+<p>Sets the broadcast flag to <i translate="no">broadcast</i> and returns a reference to the builder.</p>
+<!-- @@@setBroadcast -->
+<!-- $$$setConfirm[overload1]$$$setConfirmConfirm -->
+<h3 class="fn" id="setConfirm" translate="no"><a name="setConfirm"></a><span class="type"><a href="./qknxcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setConfirm</span>(<span class="type"><a href="./qknxcontrolfield.htm#Confirm-enum" translate="no">Confirm</a></span> <i>errorStatus</i>)<a class="plink" href="#setConfirm" title="Direct link to this headline"></a></h3>
+<p>Sets the confirm flag to <i translate="no">errorStatus</i> and returns a reference to the builder.</p>
+<!-- @@@setConfirm -->
+<!-- $$$setFrameFormat[overload1]$$$setFrameFormatFrameFormat -->
+<h3 class="fn" id="setFrameFormat" translate="no"><a name="setFrameFormat"></a><span class="type"><a href="./qknxcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setFrameFormat</span>(<span class="type"><a href="./qknxcontrolfield.htm#FrameFormat-enum" translate="no">FrameFormat</a></span> <i>type</i>)<a class="plink" href="#setFrameFormat" title="Direct link to this headline"></a></h3>
+<p>Sets the frame type bit of the frame format parameter to <i translate="no">type</i> and returns a reference to the builder.</p>
+<!-- @@@setFrameFormat -->
+<!-- $$$setPriority[overload1]$$$setPriorityPriority -->
+<h3 class="fn" id="setPriority" translate="no"><a name="setPriority"></a><span class="type"><a href="./qknxcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setPriority</span>(<span class="type"><a href="./qknxcontrolfield.htm#Priority-enum" translate="no">Priority</a></span> <i>priority</i>)<a class="plink" href="#setPriority" title="Direct link to this headline"></a></h3>
+<p>Sets the priority flag to <i translate="no">priority</i> and returns a reference to the builder.</p>
+<!-- @@@setPriority -->
+<!-- $$$setRepeat[overload1]$$$setRepeatRepeat -->
+<h3 class="fn" id="setRepeat" translate="no"><a name="setRepeat"></a><span class="type"><a href="./qknxcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setRepeat</span>(<span class="type"><a href="./qknxcontrolfield.htm#Repeat-enum" translate="no">Repeat</a></span> <i>repeat</i>)<a class="plink" href="#setRepeat" title="Direct link to this headline"></a></h3>
+<p>Sets the repeat flag to <i translate="no">repeat</i> and returns a reference to the builder.</p>
+<!-- @@@setRepeat -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

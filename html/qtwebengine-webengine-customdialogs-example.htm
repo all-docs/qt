@@ -1,0 +1,459 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebEngine Qt Quick Custom Dialogs Example | Qt WebEngine</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a></li>
+                            <li><a href="./webengine-examples.htm" translate="no">Qt WebEngine Examples</a></li>
+                            <li><a>WebEngine Qt Quick Custom Dialogs Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">WebEngine Qt Quick Custom Dialogs Example</h1>
+<span class="subtitle"></span>
+<!-- $$$webengine/customdialogs-brief -->
+<p>Customizes UI elements of Qt WebEngine's dialogs.</p>
+<!-- @@@webengine/customdialogs -->
+<!-- $$$webengine/customdialogs-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/customdialogs.png"></p><p>A web page might request dialogs for various purposes, such as authentication, picking colors, choosing files, and responding to JavaScript alerts, confirmation requests, and prompts.</p>
+<p><i>Custom Dialogs</i> demonstrates how to use <a href="./qml-qtwebengine-webengine.htm" translate="no">WebEngine</a> dialog request objects to implement custom dialogs for use instead of the default dialogs.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="ui-elements-of-webengineview"></a>
+<h4 id="ui-elements-of-webengineview">UI Elements of WebEngineView<a class="plink" href="#ui-elements-of-webengineview" title="Direct link to this headline"></a></h4>
+<p>In this example, we create a simple <code translate="no">index.html</code> page that contains buttons and text fields for triggering a context menu and the following dialogs:</p>
+<ul>
+<li>HTTP Authentication Dialog</li>
+<li>Proxy Authentication Dialog</li>
+<li>JavaScript Alert, Confirm, and Prompt Dialogs</li>
+<li>Color Picker Dialog</li>
+<li>File Picker Dialog</li>
+</ul>
+<a name="triggering-dialogs"></a>
+<h4 id="triggering-dialogs">Triggering Dialogs<a class="plink" href="#triggering-dialogs" title="Direct link to this headline"></a></h4>
+<p>As mentioned, the <code translate="no">index.html</code> file is responsible for triggering the dialogs from the side of HTML and JavaScript. Additionally, the example program starts a localhost TCP server returning the mocked HTTP responses needed to trigger proxy and HTTP authentication dialogs.</p>
+<a name="custom-dialogs"></a>
+<h4 id="custom-dialogs">Custom Dialogs<a class="plink" href="#custom-dialogs" title="Direct link to this headline"></a></h4>
+<p>The custom dialogs are just <i>Qt Quick Designer UI Forms</i> without any business logic. The point here is to present the glue code that is required to display the custom dialog for a particular web engine dialog or a menu request.</p>
+<a name="creating-the-main-window"></a>
+<h4 id="creating-the-main-window">Creating the Main Window<a class="plink" href="#creating-the-main-window" title="Direct link to this headline"></a></h4>
+<p>In <code translate="no">main.cpp</code>, we initialize the <a href="./qml-qtwebengine-webengine.htm" translate="no">WebEngine</a> the same way as in the <a href="./qtwebengine-webengine-minimal-example.htm" translate="no">WebEngine Qt Quick Minimal Example</a>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setOrganizationName(<span class="string">"QtExamples"</span>);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AA_EnableHighDpiScaling);
+    <span class="type"><a href="./qtwebengine-module.htm" translate="no">QtWebEngine</a></span><span class="operator">::</span>initialize();
+
+    Application app(argc<span class="operator">,</span> argv);
+
+    <span class="type"><a href="./qqmlapplicationengine.htm" translate="no">QQmlApplicationEngine</a></span> engine;
+    Server <span class="operator">*</span>server <span class="operator">=</span> <span class="keyword">new</span> Server(<span class="operator">&amp;</span>engine);
+
+    engine<span class="operator">.</span>load(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"qrc:/main.qml"</span>)));
+    <span class="type"><a href="./qtimer.htm" translate="no">QTimer</a></span><span class="operator">::</span>singleShot(<span class="number">0</span><span class="operator">,</span> server<span class="operator">,</span> <span class="operator">&amp;</span>Server<span class="operator">::</span>run);
+
+    <span class="type"><a href="./qnetworkproxy.htm" translate="no">QNetworkProxy</a></span> proxy;
+    proxy<span class="operator">.</span>setType(<span class="type"><a href="./qnetworkproxy.htm" translate="no">QNetworkProxy</a></span><span class="operator">::</span>HttpProxy);
+    proxy<span class="operator">.</span>setHostName(<span class="string">"localhost"</span>);
+    proxy<span class="operator">.</span>setPort(<span class="number">5555</span>);
+    <span class="type"><a href="./qnetworkproxy.htm" translate="no">QNetworkProxy</a></span><span class="operator">::</span>setApplicationProxy(proxy);
+
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>In addition, we set up a proxy and a TCP server to be able to simulate proxy and HTTP authetication requests.</p>
+<p>In <code translate="no">main.qml</code>, we create a top level window, which contains a <a href="./qml-qtquick-controls2-stackview.htm" translate="no">StackView</a> with a SwitchButton and a <a href="./qml-qtwebview-webview.htm" translate="no">WebView</a>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">import QtQuick.Window 2.0
+
+<span class="type">Window</span> {
+    <span class="name">width</span>: <span class="number">350</span>
+    <span class="name">height</span>: <span class="number">550</span>
+    <span class="name">visible</span>: <span class="number">true</span>
+
+    <span class="type">Controls</span>.StackView {
+        <span class="name">id</span>: <span class="name">stackView</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">focus</span>: <span class="number">true</span>
+        <span class="name">initialItem</span>: <span class="name">Item</span> {
+            <span class="name">id</span>: <span class="name">main</span>
+            <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+            <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span>
+            <span class="type"><a href="./qml-qtquick-layouts-columnlayout.htm" translate="no">ColumnLayout</a></span> {
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="type">SwitchButton</span> {
+                    <span class="name">id</span>: <span class="name">switcher</span>
+                    <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+                }
+                <span class="type"><a href="./qml-qtwebview-webview.htm" translate="no">WebView</a></span> {
+                    <span class="name">id</span>: <span class="name">webView</span>
+                    <span class="name">useDefaultDialogs</span>: <span class="name">switcher</span>.<span class="name">checked</span>
+                    <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+                    <span class="name">Layout</span>.fillHeight: <span class="number">true</span>
+                }
+            }
+        }
+
+        <span class="keyword">function </span><span class="name">closeForm</span>()
+        {
+            <span class="name">pop</span>(<span class="name">main</span>);
+        }
+
+        <span class="keyword">function </span><span class="name">openForm</span>(form)
+        {
+            <span class="name">push</span>(<span class="name">form</span>);
+            <span class="name">currentItem</span>.<span class="name">closeForm</span>.<span class="name">connect</span>(<span class="name">closeForm</span>);
+        }
+
+    }
+
+    <span class="name">Component</span>.onCompleted: {
+        <span class="name">webView</span>.<span class="name">openForm</span>.<span class="name">connect</span>(<span class="name">stackView</span>.<span class="name">openForm</span>);
+    }
+}</pre></div>
+<a name="handling-web-engine-requests"></a>
+<h4 id="handling-web-engine-requests">Handling Web Engine Requests<a class="plink" href="#handling-web-engine-requests" title="Direct link to this headline"></a></h4>
+<p>In this example, we implement the handling of the following web engine requests:</p>
+<ul>
+<li><a href="./qml-qtwebengine-contextmenurequest.htm" translate="no">ContextMenuRequest</a></li>
+<li><a href="./qml-qtwebengine-authenticationdialogrequest.htm" translate="no">AuthenticationDialogRequest</a></li>
+<li><a href="./qml-qtwebengine-javascriptdialogrequest.htm" translate="no">JavaScriptDialogRequest</a></li>
+<li><a href="./qml-qtwebengine-colordialogrequest.htm" translate="no">ColorDialogRequest</a></li>
+<li><a href="./qml-qtwebengine-filedialogrequest.htm" translate="no">FileDialogRequest</a></li>
+</ul>
+<a name="context-menu-requests"></a>
+<h5 id="context-menu-requests">Context Menu Requests<a class="plink" href="#context-menu-requests" title="Direct link to this headline"></a></h5>
+<p><a href="./qml-qtwebengine-contextmenurequest.htm" translate="no">ContextMenuRequest</a> is a request object that is passed as a parameter of the <a href="./qml-qtwebengine-webengineview.htm#contextMenuRequested-signal" translate="no">WebEngineView::contextMenuRequested</a> signal. We use the <code translate="no">onContextMenuRequested</code> signal handler to handle requests for <code translate="no">#openMenu</code> URL links:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+    ...
+    <span class="name">onContextMenuRequested</span>: <span class="keyword">function</span>(request) {
+        <span class="comment">// we only show menu for links with #openMenu</span>
+        <span class="keyword">if</span> (!<span class="name">request</span>.<span class="name">linkUrl</span>.<span class="name">toString</span>().<span class="name">endsWith</span>(<span class="string">"#openMenu"</span>)) {
+            <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+            <span class="keyword">return</span>;
+        }
+        <span class="comment">// return early to show default menu</span>
+        <span class="keyword">if</span> (<span class="name">useDefaultDialogs</span>)
+            <span class="keyword">return</span>;
+
+        <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+        <span class="name">openForm</span>({item: <span class="name">Qt</span>.<span class="name">resolvedUrl</span>(<span class="string">"forms/Menu.qml"</span>),
+                     properties: {"request": <span class="name">request</span>}});
+    }
+    ...
+}</pre></div>
+<p>The first text field from the top on our page triggers the request. Next, we check whether we should use the default menu. If not, we accept the request and switch the view to show the <code translate="no">MenuForm</code>:</p>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-menu.png"></p><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">MenuForm</span> {
+    property <span class="type"><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></span> <span class="name">request</span>
+    signal <span class="type">closeForm</span>()
+
+    <span class="name">followLink</span>.onClicked: <span class="name">closeForm</span>()
+    <span class="name">back</span>.onClicked: <span class="name">closeForm</span>()
+    <span class="name">forward</span>.onClicked: <span class="name">closeForm</span>()
+    <span class="name">reload</span>.onClicked: <span class="name">closeForm</span>()
+    <span class="name">copyLinkUrl</span>.onClicked: <span class="name">closeForm</span>()
+    <span class="name">saveLink</span>.onClicked: <span class="name">closeForm</span>()
+    <span class="name">close</span>.onClicked: <span class="name">closeForm</span>()
+
+    <span class="name">Component</span>.onCompleted: {
+        <span class="name">back</span>.<span class="name">btnEnable</span> <span class="operator">=</span> <span class="number">false</span>;
+        <span class="name">forward</span>.<span class="name">btnEnable</span> <span class="operator">=</span> <span class="number">false</span>;
+    }
+}</pre></div>
+<p>To keep things simple, we do not provide any logic on component completion, and we simply close the form on any action.</p>
+<a name="tooltip-requests"></a>
+<h5 id="tooltip-requests">Tooltip Requests<a class="plink" href="#tooltip-requests" title="Direct link to this headline"></a></h5>
+<p><a href="./qml-qtwebengine-tooltiprequest.htm" translate="no">TooltipRequest</a> is a request object that is passed as a parameter of the <a href="./qml-qtwebengine-webengineview.htm#tooltipRequested-signal" translate="no">WebEngineView::tooltipRequested</a> signal. We use the <code translate="no">onTooltipRequested</code> signal handler to handle requests for custom tooltip menus at specific positions:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+    ...
+    <span class="name">onTooltipRequested</span>: <span class="keyword">function</span>(request) {
+        <span class="keyword">if</span> (<span class="name">useDefaultDialogs</span>)
+            <span class="keyword">return</span>;
+
+        <span class="keyword">if</span> (<span class="name">request</span>.<span class="name">type</span> <span class="operator">==</span> <span class="name">TooltipRequest</span>.<span class="name">Show</span>) {
+            <span class="name">tooltip</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">true</span>;
+            <span class="name">tooltip</span>.<span class="name">x</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">x</span>;
+            <span class="name">tooltip</span>.<span class="name">y</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">y</span>;
+            <span class="name">tooltip</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">text</span>;
+        } <span class="keyword">else</span> {
+            <span class="name">tooltip</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">false</span>;
+        }
+
+        <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+    }
+    ...
+}</pre></div>
+<p>The second text field from the top on our page triggers the request. Next, we check whether we should use the default menu. If not, we accept the request and show a custom QML element as tooltip:</p>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-tooltip.png"></p><div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">tooltip</span>
+        <span class="name">width</span>: <span class="number">200</span>
+        <span class="name">height</span>: <span class="number">30</span>
+        <span class="name">z</span>: <span class="number">50</span>
+        <span class="name">visible</span>: <span class="number">false</span>
+        <span class="name">color</span>: <span class="string">"gray"</span>
+        <span class="name">border</span>.color: <span class="string">"black"</span>
+        <span class="name">border</span>.width: <span class="number">2</span>
+        <span class="name">radius</span>: <span class="number">3</span>
+
+        property <span class="type">string</span> <span class="name">text</span>: <span class="string">""</span>
+
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">x</span>: <span class="number">0</span>
+            <span class="name">y</span>: <span class="number">0</span>
+            <span class="name">color</span>: <span class="string">"#ffffff"</span>
+            <span class="name">text</span>: <span class="name">parent</span>.<span class="name">text</span>
+            <span class="name">font</span>.pointSize: <span class="number">12</span>
+            <span class="name">anchors</span>.horizontalCenter: <span class="name">parent</span>.<span class="name">horizontalCenter</span>
+            <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+            <span class="name">font</span>.bold: <span class="number">false</span>
+        }</pre></div>
+<a name="authentication-dialog-requests"></a>
+<h5 id="authentication-dialog-requests">Authentication Dialog Requests<a class="plink" href="#authentication-dialog-requests" title="Direct link to this headline"></a></h5>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-auth1.png"></p><p><a href="./qml-qtwebengine-authenticationdialogrequest.htm" translate="no">AuthenticationDialogRequest</a> is a request object that is passed as a parameter of the <a href="./qml-qtwebengine-webengineview.htm#authenticationDialogRequested-signal" translate="no">WebEngineView::authenticationDialogRequested</a> signal:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+    ...
+    <span class="name">onAuthenticationDialogRequested</span>: <span class="keyword">function</span>(request) {
+        <span class="keyword">if</span> (<span class="name">useDefaultDialogs</span>)
+            <span class="keyword">return</span>;
+
+        <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+        <span class="name">openForm</span>({item: <span class="name">Qt</span>.<span class="name">resolvedUrl</span>(<span class="string">"forms/Authentication.qml"</span>),
+                     properties: {"request": <span class="name">request</span>}});
+    }
+    ...
+}</pre></div>
+<p>We use the <code translate="no">onAuthenticationDialogRequested</code> signal handler to check whether we should use the default authentication dialog. If not, we accept the request and switch the view to show the <code translate="no">AuthenticationForm</code>:</p>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-auth2.png"></p><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">AuthenticationForm</span> {
+    property <span class="type"><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></span> <span class="name">request</span>
+    signal <span class="type">closeForm</span>()
+
+    <span class="name">cancelButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogReject</span>();
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="name">loginButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogReject</span>();
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="name">Component</span>.onCompleted: {
+        <span class="keyword">switch</span> (<span class="name">request</span>.<span class="name">type</span>) {
+        <span class="keyword">case</span>  <span class="name">AuthenticationDialogRequest</span>.<span class="name">AuthenticationTypeHTTP</span>:
+            <span class="name">console</span>.<span class="name">log</span>(<span class="string">"HTTP Authentication Required. Host says: "</span> <span class="operator">+</span> <span class="name">request</span>.<span class="name">realm</span>);
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span>  <span class="name">AuthenticationDialogRequest</span>.<span class="name">AuthenticationTypeProxy</span>:
+            <span class="name">console</span>.<span class="name">log</span>(<span class="string">"Proxy Authentication Required for: "</span> <span class="operator">+</span> <span class="name">request</span>.<span class="name">proxyHost</span>);
+            <span class="keyword">break</span>;
+        }
+    }
+}</pre></div>
+<p>On component completion, we log the request type. The user can fill in the credentials and click <b translate="no">Login</b>. We provide <code translate="no">onClicked</code> handlers to accept or reject the authentication dialog. The TCP server on localhost does not handle real authentication, and therefore we call <code translate="no">rejectDialog()</code> instead of <code translate="no">acceptDialog()</code> also for the login button <code translate="no">clicked</code> signal.</p>
+<a name="javascript-dialog-requests"></a>
+<h5 id="javascript-dialog-requests">JavaScript Dialog Requests<a class="plink" href="#javascript-dialog-requests" title="Direct link to this headline"></a></h5>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-prompt1.png"></p><p><a href="./qml-qtwebengine-javascriptdialogrequest.htm" translate="no">JavaScriptDialogRequest</a> is a request object that is passed as a parameter of the <a href="./qml-qtwebengine-webengineview.htm#javaScriptDialogRequested-signal" translate="no">WebEngineView::javaScriptDialogRequested</a> signal:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+    ...
+    <span class="name">onJavaScriptDialogRequested</span>: <span class="keyword">function</span>(request) {
+        <span class="keyword">if</span> (<span class="name">useDefaultDialogs</span>)
+            <span class="keyword">return</span>;
+
+        <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+        <span class="name">openForm</span>({item: <span class="name">Qt</span>.<span class="name">resolvedUrl</span>(<span class="string">"forms/JavaScript.qml"</span>),
+                     properties: {"request": <span class="name">request</span>}});
+    }
+    ...
+}</pre></div>
+<p>We use the <code translate="no">onJavaScriptDialogRequested</code> signal handler to check whether we should use the default JavaScript dialog. If not, we accept the request and switch the view to show the <code translate="no">JavaScriptForm</code>:</p>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-prompt2.png"></p><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">JavaScriptForm</span> {
+    property <span class="type"><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></span> <span class="name">request</span>
+    signal <span class="type">closeForm</span>()
+
+    <span class="name">cancelButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogReject</span>();
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="name">okButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogAccept</span>(<span class="name">prompt</span>.<span class="name">text</span>);
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="name">Component</span>.onCompleted: {
+        <span class="keyword">switch</span> (<span class="name">request</span>.<span class="name">type</span>) {
+        <span class="keyword">case</span> <span class="name">JavaScriptDialogRequest</span>.<span class="name">DialogTypeAlert</span>:
+            <span class="name">cancelButton</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">false</span>;
+            <span class="name">title</span> <span class="operator">=</span> <span class="name">qsTr</span>(<span class="string">"Alert"</span>);
+            <span class="name">message</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">message</span>;
+            <span class="name">prompt</span>.<span class="name">text</span> <span class="operator">=</span> <span class="string">""</span>;
+            <span class="name">prompt</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">false</span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="name">JavaScriptDialogRequest</span>.<span class="name">DialogTypeConfirm</span>:
+            <span class="name">title</span> <span class="operator">=</span> <span class="name">qsTr</span>(<span class="string">"Confirm"</span>);
+            <span class="name">message</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">message</span>;
+            <span class="name">prompt</span>.<span class="name">text</span> <span class="operator">=</span> <span class="string">""</span>;
+            <span class="name">prompt</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">false</span>;
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="name">JavaScriptDialogRequest</span>.<span class="name">DialogTypePrompt</span>:
+            <span class="name">title</span> <span class="operator">=</span> <span class="name">qsTr</span>(<span class="string">"Prompt"</span>);
+            <span class="name">message</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">message</span>;
+            <span class="name">prompt</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">defaultText</span>;
+            <span class="name">prompt</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">true</span>;
+            <span class="keyword">break</span>;
+        }
+    }
+}</pre></div>
+<p>On component completion, we customize the form based on the request type. For a JavaScript prompt dialog we use <code translate="no">dialogAccept()</code> with the <code translate="no">prompt.text</code> argument.</p>
+<a name="color-dialog-requests"></a>
+<h5 id="color-dialog-requests">Color Dialog Requests<a class="plink" href="#color-dialog-requests" title="Direct link to this headline"></a></h5>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-color1.png"></p><p><a href="./qml-qtwebengine-colordialogrequest.htm" translate="no">ColorDialogRequest</a> is a request object that is passed as a parameter of the <a href="./qml-qtwebengine-webengineview.htm#colorDialogRequested-signal" translate="no">WebEngineView::colorDialogRequested</a> signal:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+    ...
+    <span class="name">onColorDialogRequested</span>: <span class="keyword">function</span>(request) {
+        <span class="keyword">if</span> (<span class="name">useDefaultDialogs</span>)
+            <span class="keyword">return</span>;
+
+        <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+        <span class="name">openForm</span>({item: <span class="name">Qt</span>.<span class="name">resolvedUrl</span>(<span class="string">"forms/ColorPicker.qml"</span>),
+                     properties: {"request": <span class="name">request</span>}});
+    }
+    ...
+}</pre></div>
+<p>We use the <code translate="no">onColorDialogRequested</code> signal handler to check whether we should use the default color picker dialog. If not, we accept the request and switch the view to show the <code translate="no">ColorPickerForm</code>:</p>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-color2.png"></p><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">ColorPickerForm</span> {
+    property <span class="type"><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></span> <span class="name">request</span>
+    signal <span class="type">closeForm</span>()
+
+    <span class="name">okButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogAccept</span>(<span class="name">colorPicker</span>.<span class="name">color</span>);
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="name">cancelButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogReject</span>();
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="keyword">function </span><span class="name">createCallback</span>(color) {
+        <span class="keyword">return</span> <span class="keyword">function</span>() { <span class="name">colorPicker</span>.<span class="name">color</span> <span class="operator">=</span> <span class="name">color</span> };
+    }
+
+    <span class="name">Component</span>.onCompleted:{
+        <span class="keyword">for</span> (var i = 0; <span class="name">i</span> <span class="operator">&lt;</span> <span class="name">grid</span>.<span class="name">children</span>.<span class="name">length</span>; i++) {
+            var cell = <span class="name">grid</span>.<span class="name">children</span>[<span class="name">i</span>];
+            <span class="name">cell</span>.<span class="name">clicked</span>.<span class="name">connect</span>(<span class="name">createCallback</span>(<span class="name">cell</span>.<span class="name">color</span>));
+        }
+        <span class="name">colorPicker</span>.<span class="name">color</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">color</span>;
+    }
+}</pre></div>
+<p>On component completion, we create callbacks for all the color cells. When the user selects the color and clicks <code translate="no">OK</code>, we pass the selected color to the <code translate="no">dialogAccept()</code> method.</p>
+<a name="file-dialog-requests"></a>
+<h5 id="file-dialog-requests">File Dialog Requests<a class="plink" href="#file-dialog-requests" title="Direct link to this headline"></a></h5>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-file1.png"></p><p><a href="./qml-qtwebengine-filedialogrequest.htm" translate="no">FileDialogRequest</a> is a request object that is passed as a parameter of the <a href="./qml-qtwebengine-webengineview.htm#fileDialogRequested-signal" translate="no">WebEngineView::fileDialogRequested</a> signal:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+    ...
+    <span class="name">onFileDialogRequested</span>: <span class="keyword">function</span>(request) {
+        <span class="keyword">if</span> (<span class="name">useDefaultDialogs</span>)
+            <span class="keyword">return</span>;
+
+        <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>;
+        <span class="name">openForm</span>({item: <span class="name">Qt</span>.<span class="name">resolvedUrl</span>(<span class="string">"forms/FilePicker.qml"</span>),
+                     properties: {"request": <span class="name">request</span>}});
+
+    }
+}</pre></div>
+<p>We use the <code translate="no">onFileDialogRequested</code> signal handler to check whether we should use the default color picker dialog. If not, we accept the request and switch the view to show the <code translate="no">FilePickerForm</code>:</p>
+<p class="centerAlign"><img alt="" src="./images/customdialogs-file2.png"></p><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">FilePickerForm</span> {
+    property <span class="type"><a href="./qml-qtqml-qtobject.htm" translate="no">QtObject</a></span> <span class="name">request</span>
+    property <span class="type">string</span> <span class="name">selectedFile</span>
+    signal <span class="type">closeForm</span>()
+
+    <span class="name">cancelButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogReject</span>();
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="name">okButton</span>.onClicked: {
+        <span class="name">request</span>.<span class="name">dialogAccept</span>(<span class="string">'/'</span> <span class="operator">+</span> <span class="name">selectedFile</span>);
+        <span class="name">closeForm</span>();
+    }
+
+    <span class="keyword">function </span><span class="name">createCallback</span>(fileIndex) {
+        <span class="keyword">return</span> <span class="keyword">function</span>() {
+            <span class="keyword">for</span> (var i = 0; <span class="name">i</span> <span class="operator">&lt;</span> <span class="name">files</span>.<span class="name">children</span>.<span class="name">length</span>; i++) {
+                var file = <span class="name">files</span>.<span class="name">children</span>[<span class="name">i</span>];
+                <span class="keyword">if</span> (<span class="name">i</span> <span class="operator">===</span> <span class="name">fileIndex</span>) {
+                    <span class="name">selectedFile</span> <span class="operator">=</span> <span class="name">file</span>.<span class="name">text</span>;
+                    <span class="name">file</span>.<span class="name">selected</span> <span class="operator">=</span> <span class="number">true</span>;
+                } <span class="keyword">else</span> {
+                    <span class="name">file</span>.<span class="name">selected</span> <span class="operator">=</span> <span class="number">false</span>;
+                }
+            }
+        }
+    }
+
+    <span class="name">Component</span>.onCompleted: {
+        <span class="name">selectedFile</span> <span class="operator">=</span> <span class="name">request</span>.<span class="name">defaultFileName</span>;
+        <span class="keyword">for</span> (var i = 0; <span class="name">i</span> <span class="operator">&lt;</span> <span class="name">files</span>.<span class="name">children</span>.<span class="name">length</span>; i++) {
+            var file = <span class="name">files</span>.<span class="name">children</span>[<span class="name">i</span>];
+            <span class="name">file</span>.<span class="name">clicked</span>.<span class="name">connect</span>(<span class="name">createCallback</span>(<span class="name">i</span>));
+            <span class="keyword">if</span> (<span class="name">file</span>.<span class="name">text</span> <span class="operator">===</span> <span class="name">selectedFile</span>)
+                <span class="name">file</span>.<span class="name">selected</span> <span class="operator">=</span> <span class="number">true</span>;
+        }
+    }</pre></div>
+<p>On component completion, we create callbacks for selecting files. When the user selects a file and clicks <code translate="no">OK</code>, we pass the selected file to the <code translate="no">dialogAccept</code> method.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/examples/webengine/customdialogs?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@webengine/customdialogs -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,354 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find Files Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-dialogs.htm" translate="no">Dialog Examples</a></li>
+                            <li><a>Find Files Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Find Files Example</h1>
+<span class="subtitle"></span>
+<!-- $$$dialogs/findfiles-brief -->
+<p>A dialog for finding files in a specified folder.</p>
+<!-- @@@dialogs/findfiles -->
+<!-- $$$dialogs/findfiles-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Find Files application allows the user to search for files in a specified directory, matching a given file name or wildcard, and containing a specified string (if filled in). The search result is displayed in a table containing the names of the files and their sizes. The application also shows the number of files found.</p>
+<p>The Find Files example illustrates the use of several classes:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./qprogressdialog.htm" translate="no">QProgressDialog</a></td><td>Provide feedback on the progress of a search operation</td></tr>
+<tr class="even" valign="top"><td><a href="./qfiledialog.htm" translate="no">QFileDialog</a></td><td>Browse through a file list</td></tr>
+<tr class="odd" valign="top"><td><a href="./qtextstream.htm" translate="no">QTextStream</a></td><td>Use stream operators to read a file</td></tr>
+<tr class="even" valign="top"><td><a href="./qtablewidget.htm" translate="no">QTableWidget</a></td><td>Browse through the search results in a table</td></tr>
+<tr class="odd" valign="top"><td><a href="./qdesktopservices.htm" translate="no">QDesktopServices</a></td><td>Open files in the result list in a suitable application</td></tr>
+</tbody></table></div>
+<p class="centerAlign"><img alt="Screenshot of the Find Files example" src="./images/findfiles-example.png"></p><a name="window-class-definition"></a>
+<h4 id="window-class-definition">Window Class Definition<a class="plink" href="#window-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">Window</code> class inherits <a href="./qwidget.htm" translate="no">QWidget</a>, and is the main application widget. It shows the search options and displays the search results.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Window : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> browse();
+    <span class="type">void</span> find();
+    <span class="type">void</span> animateFindClick();
+    <span class="type">void</span> openFileOfItem(<span class="type">int</span> row<span class="operator">,</span> <span class="type">int</span> column);
+    <span class="type">void</span> contextMenu(<span class="keyword">const</span> <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> <span class="operator">&amp;</span>pos);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> findFiles(<span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>files<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text);
+    <span class="type">void</span> showFiles(<span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>paths);
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>createComboBox(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>());
+    <span class="type">void</span> createFilesTable();
+
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>fileComboBox;
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>textComboBox;
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>directoryComboBox;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>filesFoundLabel;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>findButton;
+    <span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span> <span class="operator">*</span>filesTable;
+
+    <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span> currentDir;
+};</pre></div>
+<p>The application has two private slots:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>The <code translate="no">browse()</code> slot</td><td>Called whenever the user wants to browse for a directory to search in</td></tr>
+<tr class="even" valign="top"><td>The <code translate="no">find()</code> slot</td><td>Called whenever the user launches a search with the <b translate="no">Find</b> button</td></tr>
+</tbody></table></div>
+<p>In addition we declare several private functions:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>findFiles()</td><td>Search for files matching the search parameters</td></tr>
+<tr class="even" valign="top"><td>showFiles()</td><td>Display the search result</td></tr>
+<tr class="odd" valign="top"><td>ceateButton()</td><td>Construct the widget</td></tr>
+<tr class="even" valign="top"><td>createComboBox()</td><td>Construct the widget</td></tr>
+<tr class="odd" valign="top"><td>createFilesTable()</td><td>Construct the widget</td></tr>
+</tbody></table></div>
+<a name="window-class-implementation"></a>
+<h4 id="window-class-implementation">Window Class Implementation<a class="plink" href="#window-class-implementation" title="Direct link to this headline"></a></h4>
+<p>In the constructor we first create the application's widgets.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Window<span class="operator">::</span>Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+{
+    setWindowTitle(tr(<span class="string">"Find Files"</span>));
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>browseButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Browse..."</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    connect(browseButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>browse);
+    findButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Find"</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    connect(findButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>find);
+
+    fileComboBox <span class="operator">=</span> createComboBox(tr(<span class="string">"*"</span>));
+    connect(fileComboBox<span class="operator">-</span><span class="operator">&gt;</span>lineEdit()<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>returnPressed<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>animateFindClick);
+    textComboBox <span class="operator">=</span> createComboBox();
+    connect(textComboBox<span class="operator">-</span><span class="operator">&gt;</span>lineEdit()<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>returnPressed<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>animateFindClick);
+    directoryComboBox <span class="operator">=</span> createComboBox(<span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(<span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>currentPath()));
+    connect(directoryComboBox<span class="operator">-</span><span class="operator">&gt;</span>lineEdit()<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>returnPressed<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>animateFindClick);
+
+    filesFoundLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>;
+
+    createFilesTable();
+
+    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>mainLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>(<span class="keyword">this</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(<span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Named:"</span>))<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(fileComboBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(<span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Containing text:"</span>))<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(textComboBox<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(<span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"In directory:"</span>))<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">0</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(directoryComboBox<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">1</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(browseButton<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">2</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(filesTable<span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">3</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(filesFoundLabel<span class="operator">,</span> <span class="number">4</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(findButton<span class="operator">,</span> <span class="number">4</span><span class="operator">,</span> <span class="number">2</span>);</pre></div>
+<p>We create the widgets to build up the UI, and we add them to a main layout using <a href="./qgridlayout.htm" translate="no">QGridLayout</a>. We have, however, put the <code translate="no">Find</code> and <code translate="no">Quit</code> buttons and a stretchable space in a separate <a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a> first, to make the buttons appear in the <code translate="no">Window</code> widget's bottom right corner.</p>
+<p>Alternatively, we could have used Qt Designer to construct a UI file, and <a href="./uic.htm" translate="no">uic</a> to generate this code.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    connect(<span class="keyword">new</span> <span class="type"><a href="./qshortcut.htm" translate="no">QShortcut</a></span>(<span class="type"><a href="./qkeysequence.htm" translate="no">QKeySequence</a></span><span class="operator">::</span>Quit<span class="operator">,</span> <span class="keyword">this</span>)<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qshortcut.htm" translate="no">QShortcut</a></span><span class="operator">::</span>activated<span class="operator">,</span>
+        <a href="./qapplication.htm#qApp" translate="no">qApp</a><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>quit);</pre></div>
+<p>We did not create a <a href="./qmenubar.htm" translate="no">QMenuBar</a> with a <b translate="no">Quit</b> menu item; but we would still like to have a keyboard shortcut for quitting. Since we construct a <a href="./qshortcut.htm" translate="no">QShortcut</a> with <a href="./qkeysequence.htm#StandardKey-enum" translate="no">QKeySequence::Quit</a>, and connect it to <a href="./qcoreapplication.htm#quit" translate="no">QApplication::quit</a>(), on most platforms it will be possible to press Control-Q to quit (or whichever standard Quit key is configured on that platform). (On macOS, this is redundant, because every application gets a <b translate="no">Quit</b> menu item automatically; but it helps to make the application portable.)</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>browse()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> directory <span class="operator">=</span>
+        <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(<span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span><span class="operator">::</span>getExistingDirectory(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Find Files"</span>)<span class="operator">,</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>currentPath()));
+
+    <span class="keyword">if</span> (<span class="operator">!</span>directory<span class="operator">.</span>isEmpty()) {
+        <span class="keyword">if</span> (directoryComboBox<span class="operator">-</span><span class="operator">&gt;</span>findText(directory) <span class="operator">=</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>)
+            directoryComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(directory);
+        directoryComboBox<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(directoryComboBox<span class="operator">-</span><span class="operator">&gt;</span>findText(directory));
+    }
+}</pre></div>
+<p>The <code translate="no">browse()</code> slot presents a file dialog to the user, using the <a href="./qfiledialog.htm" translate="no">QFileDialog</a> class. <a href="./qfiledialog.htm" translate="no">QFileDialog</a> enables a user to traverse the file system in order to select one or many files or a directory. The easiest way to create a <a href="./qfiledialog.htm" translate="no">QFileDialog</a> is to use the convenience static functions.</p>
+<p>Here we use the static <a href="./qfiledialog.htm#getExistingDirectory" translate="no">QFileDialog::getExistingDirectory</a>() function which returns an existing directory selected by the user. Then we display the directory in the directory combobox using the <a href="./qcombobox.htm#addItem" translate="no">QComboBox::addItem</a>() function and update the current index.</p>
+<p><a href="./qcombobox.htm#addItem" translate="no">QComboBox::addItem</a>() adds an item to the combobox with the given text (if not already present in the list), and containing the specified userData. The item is appended to the list of existing items.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>find()
+{
+    filesTable<span class="operator">-</span><span class="operator">&gt;</span>setRowCount(<span class="number">0</span>);
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> fileName <span class="operator">=</span> fileComboBox<span class="operator">-</span><span class="operator">&gt;</span>currentText();
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> text <span class="operator">=</span> textComboBox<span class="operator">-</span><span class="operator">&gt;</span>currentText();
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> path <span class="operator">=</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>cleanPath(directoryComboBox<span class="operator">-</span><span class="operator">&gt;</span>currentText());
+    currentDir <span class="operator">=</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span>(path);</pre></div>
+<p>The <code translate="no">find()</code> slot is called whenever the user requests a new search by pressing the <b translate="no">Find</b> button.</p>
+<p>First we eliminate any previous search results by setting the table widgets row count to zero. Then we retrieve the specified file name, text, and directory path from the respective comboboxes.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> filter;
+    <span class="keyword">if</span> (<span class="operator">!</span>fileName<span class="operator">.</span>isEmpty())
+        filter <span class="operator">&lt;</span><span class="operator">&lt;</span> fileName;
+    <span class="type"><a href="./qdiriterator.htm" translate="no">QDirIterator</a></span> it(path<span class="operator">,</span> filter<span class="operator">,</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>AllEntries <span class="operator">|</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>NoSymLinks <span class="operator">|</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>NoDotAndDotDot<span class="operator">,</span> <span class="type"><a href="./qdiriterator.htm" translate="no">QDirIterator</a></span><span class="operator">::</span>Subdirectories);
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> files;
+    <span class="keyword">while</span> (it<span class="operator">.</span>hasNext())
+        files <span class="operator">&lt;</span><span class="operator">&lt;</span> it<span class="operator">.</span>next();
+    <span class="keyword">if</span> (<span class="operator">!</span>text<span class="operator">.</span>isEmpty())
+        files <span class="operator">=</span> findFiles(files<span class="operator">,</span> text);
+    files<span class="operator">.</span>sort();
+    showFiles(files);
+}</pre></div>
+<p>We use the directory's path to create a <a href="./qdir.htm" translate="no">QDir</a>; the <a href="./qdir.htm" translate="no">QDir</a> class provides access to the directory structure and its contents.</p>
+<p>We use <a href="./qdiriterator.htm" translate="no">QDirIterator</a> to iterate over the files that match the specified file name and build a <a href="./qstringlist.htm" translate="no">QStringList</a> of paths.</p>
+<p>Then we search through all the files in the list, using the private <code translate="no">findFiles()</code> function, eliminating the ones that don't contain the specified text. We sort them (because <a href="./qdiriterator.htm" translate="no">QDirIterator</a> did not). And finally, we display the results using the private <code translate="no">showFiles()</code> function.</p>
+<p>If the user didn't specify any text, there is no reason to search through the files, so we sort and display the results immediately.</p>
+<p class="centerAlign"><img alt="Screenshot of the Progress Dialog" src="./images/findfiles_progress_dialog.png"></p><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> Window<span class="operator">::</span>findFiles(<span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>files<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text)
+{
+    <span class="type"><a href="./qprogressdialog.htm" translate="no">QProgressDialog</a></span> progressDialog(<span class="keyword">this</span>);
+    progressDialog<span class="operator">.</span>setCancelButtonText(tr(<span class="string">"&amp;Cancel"</span>));
+    progressDialog<span class="operator">.</span>setRange(<span class="number">0</span><span class="operator">,</span> files<span class="operator">.</span>size());
+    progressDialog<span class="operator">.</span>setWindowTitle(tr(<span class="string">"Find Files"</span>));</pre></div>
+<p>In the private <code translate="no">findFiles()</code> function we search through a list of files, looking for the ones that contain a specified text. This can be a very slow operation depending on the number of files as well as their sizes. <a href="./qprogressdialog.htm" translate="no">QProgressDialog</a> displays a progress dialog if the application has to search through a large number of files, or if some of the files have a large size. <a href="./qprogressdialog.htm" translate="no">QProgressDialog</a> can also allow the user to abort the operation if it takes too much time.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qmimedatabase.htm" translate="no">QMimeDatabase</a></span> mimeDatabase;
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> foundFiles;
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> files<span class="operator">.</span>size(); <span class="operator">+</span><span class="operator">+</span>i) {
+        progressDialog<span class="operator">.</span>setValue(i);
+        progressDialog<span class="operator">.</span>setLabelText(tr(<span class="string">"Searching file number %1 of %n..."</span><span class="operator">,</span> nullptr<span class="operator">,</span> files<span class="operator">.</span>size())<span class="operator">.</span>arg(i));
+        <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>processEvents();</pre></div>
+<p>We run through the files, one at a time, and for each file we update the <a href="./qprogressdialog.htm" translate="no">QProgressDialog</a> value. This property holds the current amount of progress made. We also update the progress dialog's label.</p>
+<p>Then we call the <a href="./qcoreapplication.htm#processEvents" translate="no">QCoreApplication::processEvents</a>() function using the <a href="./qapplication.htm" translate="no">QApplication</a> object. In this way we interleave the display of the progress made with the process of searching through the files so the application doesn't appear to be frozen.</p>
+<p>The <a href="./qapplication.htm" translate="no">QApplication</a> class manages the GUI application's control flow and main settings. It contains the main event loop, where all events from the window system and other sources are processed and dispatched. <a href="./qapplication.htm" translate="no">QApplication</a> inherits <a href="./qcoreapplication.htm" translate="no">QCoreApplication</a>. The <a href="./qcoreapplication.htm#processEvents" translate="no">QCoreApplication::processEvents</a>() function processes all pending events according to the specified QEventLoop::ProcessEventFlags until there are no more events to process. The default flags are <a href="./qeventloop.htm#ProcessEventsFlag-enum" translate="no">QEventLoop::AllEvents</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> fileName <span class="operator">=</span> files<span class="operator">.</span>at(i);
+        <span class="keyword">const</span> <span class="type"><a href="./qmimetype.htm" translate="no">QMimeType</a></span> mimeType <span class="operator">=</span> mimeDatabase<span class="operator">.</span>mimeTypeForFile(fileName);
+        <span class="keyword">if</span> (mimeType<span class="operator">.</span>isValid() <span class="operator">&amp;</span><span class="operator">&amp;</span> <span class="operator">!</span>mimeType<span class="operator">.</span>inherits(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"text/plain"</span>))) {
+            <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Not searching binary file "</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(fileName);
+            <span class="keyword">continue</span>;
+        }
+        <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> file(fileName);
+        <span class="keyword">if</span> (file<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>ReadOnly)) {
+            <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> line;
+            <span class="type"><a href="./qtextstream.htm" translate="no">QTextStream</a></span> in(<span class="operator">&amp;</span>file);
+            <span class="keyword">while</span> (<span class="operator">!</span>in<span class="operator">.</span>atEnd()) {
+                <span class="keyword">if</span> (progressDialog<span class="operator">.</span>wasCanceled())
+                    <span class="keyword">break</span>;
+                line <span class="operator">=</span> in<span class="operator">.</span>readLine();
+                <span class="keyword">if</span> (line<span class="operator">.</span>contains(text<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CaseInsensitive)) {
+                    foundFiles <span class="operator">&lt;</span><span class="operator">&lt;</span> files<span class="operator">[</span>i<span class="operator">]</span>;
+                    <span class="keyword">break</span>;
+                }
+            }
+        }
+    }
+    <span class="keyword">return</span> foundFiles;
+}</pre></div>
+<p>After updating the <a href="./qprogressdialog.htm" translate="no">QProgressDialog</a>, we open the file in read-only mode, and read one line at a time using <a href="./qtextstream.htm" translate="no">QTextStream</a>.</p>
+<p>The <a href="./qtextstream.htm" translate="no">QTextStream</a> class provides a convenient interface for reading and writing text. Using <a href="./qtextstream.htm" translate="no">QTextStream</a>'s streaming operators, you can conveniently read and write words, lines and numbers.</p>
+<p>For each line we read we check if the <a href="./qprogressdialog.htm" translate="no">QProgressDialog</a> has been canceled. If it has, we abort the operation, otherwise we check if the line contains the specified text. When we find the text within one of the files, we add the file's name to a list of found files that contain the specified text, and start searching a new file.</p>
+<p>Finally, we return the list of the files found.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>showFiles(<span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> <span class="operator">&amp;</span>paths)
+{
+    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>filePath : paths) {
+        <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> toolTip <span class="operator">=</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(filePath);
+        <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> relativePath <span class="operator">=</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(currentDir<span class="operator">.</span>relativeFilePath(filePath));
+        <span class="keyword">const</span> <span class="type"><a href="./qtglobal.htm#qint64-typedef" translate="no">qint64</a></span> size <span class="operator">=</span> <span class="type"><a href="./qfileinfo.htm" translate="no">QFileInfo</a></span>(filePath)<span class="operator">.</span>size();
+        <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span> <span class="operator">*</span>fileNameItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span>(relativePath);
+        fileNameItem<span class="operator">-</span><span class="operator">&gt;</span>setData(absoluteFileNameRole<span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>(filePath));
+        fileNameItem<span class="operator">-</span><span class="operator">&gt;</span>setToolTip(toolTip);
+        fileNameItem<span class="operator">-</span><span class="operator">&gt;</span>setFlags(fileNameItem<span class="operator">-</span><span class="operator">&gt;</span>flags() <span class="operator">^</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>ItemIsEditable);
+        <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span> <span class="operator">*</span>sizeItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span>(<span class="type"><a href="./qlocale.htm" translate="no">QLocale</a></span>()<span class="operator">.</span>formattedDataSize(size));
+        sizeItem<span class="operator">-</span><span class="operator">&gt;</span>setData(absoluteFileNameRole<span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>(filePath));
+        sizeItem<span class="operator">-</span><span class="operator">&gt;</span>setToolTip(toolTip);
+        sizeItem<span class="operator">-</span><span class="operator">&gt;</span>setTextAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignRight <span class="operator">|</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignVCenter);
+        sizeItem<span class="operator">-</span><span class="operator">&gt;</span>setFlags(sizeItem<span class="operator">-</span><span class="operator">&gt;</span>flags() <span class="operator">^</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>ItemIsEditable);
+
+        <span class="type">int</span> row <span class="operator">=</span> filesTable<span class="operator">-</span><span class="operator">&gt;</span>rowCount();
+        filesTable<span class="operator">-</span><span class="operator">&gt;</span>insertRow(row);
+        filesTable<span class="operator">-</span><span class="operator">&gt;</span>setItem(row<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> fileNameItem);
+        filesTable<span class="operator">-</span><span class="operator">&gt;</span>setItem(row<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> sizeItem);
+    }
+    filesFoundLabel<span class="operator">-</span><span class="operator">&gt;</span>setText(tr(<span class="string">"%n file(s) found (Double click on a file to open it)"</span><span class="operator">,</span> nullptr<span class="operator">,</span> paths<span class="operator">.</span>size()));
+    filesFoundLabel<span class="operator">-</span><span class="operator">&gt;</span>setWordWrap(<span class="keyword">true</span>);
+}</pre></div>
+<p>Both the <code translate="no">findFiles()</code> and <code translate="no">showFiles()</code> functions are called from the <code translate="no">find()</code> slot. In the <code translate="no">showFiles()</code> function we run through the provided list of file names, adding each relative file name to the first column in the table widget and retrieving the file's size using <a href="./qfileinfo.htm" translate="no">QFileInfo</a> for the second column. We use <a href="./qlocale-obsolete.htm#formattedDataSize" translate="no">QLocale::formattedDataSize</a>() to format the file size in a human-readable form. For later use, we set the absolute path as a data on the <a href="./qtablewidget.htm" translate="no">QTableWidget</a> using the the role absoluteFileNameRole defined to be <a href="./qt.htm#ItemDataRole-enum" translate="no">Qt::UserRole</a> + 1.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">enum</span> { absoluteFileNameRole <span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>UserRole <span class="operator">+</span> <span class="number">1</span> };</pre></div>
+<p>This allows for retrieving the name of an item using a convenience function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> fileNameOfItem(<span class="keyword">const</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span> <span class="operator">*</span>item)
+{
+    <span class="keyword">return</span> item<span class="operator">-</span><span class="operator">&gt;</span>data(absoluteFileNameRole)<span class="operator">.</span>toString();
+}</pre></div>
+<p>We also update the total number of files found.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>Window<span class="operator">::</span>createComboBox(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text)
+{
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>comboBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>;
+    comboBox<span class="operator">-</span><span class="operator">&gt;</span>setEditable(<span class="keyword">true</span>);
+    comboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(text);
+    comboBox<span class="operator">-</span><span class="operator">&gt;</span>setSizePolicy(<span class="type"><a href="./qsizepolicy.htm" translate="no">QSizePolicy</a></span><span class="operator">::</span>Expanding<span class="operator">,</span> <span class="type"><a href="./qsizepolicy.htm" translate="no">QSizePolicy</a></span><span class="operator">::</span>Preferred);
+    <span class="keyword">return</span> comboBox;
+}</pre></div>
+<p>The private <code translate="no">createComboBox()</code> function is also called from the contructor. We create a <a href="./qcombobox.htm" translate="no">QComboBox</a> with the given text, and make it editable.</p>
+<p>When the user enters a new string in an editable combobox, the widget may or may not insert it, and it can insert it in several locations, depending on the <a href="./qcombobox.htm#InsertPolicy-enum" translate="no">QComboBox::InsertPolicy</a>. The default policy is is <a href="./qcombobox.htm#InsertPolicy-enum" translate="no">QComboBox::InsertAtBottom</a>.</p>
+<p>Then we add the provided text to the combobox, and specify the widget's size policies, before we return a pointer to the combobox.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>createFilesTable()
+{
+    filesTable <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">2</span>);
+    filesTable<span class="operator">-</span><span class="operator">&gt;</span>setSelectionBehavior(<span class="type"><a href="./qabstractitemview.htm" translate="no">QAbstractItemView</a></span><span class="operator">::</span>SelectRows);
+
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> labels;
+    labels <span class="operator">&lt;</span><span class="operator">&lt;</span> tr(<span class="string">"Filename"</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> tr(<span class="string">"Size"</span>);
+    filesTable<span class="operator">-</span><span class="operator">&gt;</span>setHorizontalHeaderLabels(labels);
+    filesTable<span class="operator">-</span><span class="operator">&gt;</span>horizontalHeader()<span class="operator">-</span><span class="operator">&gt;</span>setSectionResizeMode(<span class="number">0</span><span class="operator">,</span> <span class="type"><a href="./qheaderview.htm" translate="no">QHeaderView</a></span><span class="operator">::</span>Stretch);
+    filesTable<span class="operator">-</span><span class="operator">&gt;</span>verticalHeader()<span class="operator">-</span><span class="operator">&gt;</span>hide();
+    filesTable<span class="operator">-</span><span class="operator">&gt;</span>setShowGrid(<span class="keyword">false</span>);
+    filesTable<span class="operator">-</span><span class="operator">&gt;</span>setContextMenuPolicy(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CustomContextMenu);
+    connect(filesTable<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span><span class="operator">::</span>customContextMenuRequested<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>contextMenu);
+    connect(filesTable<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span><span class="operator">::</span>cellActivated<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>openFileOfItem);
+}</pre></div>
+<p>The private <code translate="no">createFilesTable()</code> function is called from the constructor. In this function we create the <a href="./qtablewidget.htm" translate="no">QTableWidget</a> that will display the search results. We set its horizontal headers and their resize mode.</p>
+<p><a href="./qtablewidget.htm" translate="no">QTableWidget</a> inherits <a href="./qtableview.htm" translate="no">QTableView</a> which provides a default model/view implementation of a table view. The <a href="./qtableview.htm#horizontalHeader" translate="no">QTableView::horizontalHeader</a>() function returns the table view's horizontal header as a <a href="./qheaderview.htm" translate="no">QHeaderView</a>. The <a href="./qheaderview.htm" translate="no">QHeaderView</a> class provides a header row or header column for item views, and the QHeaderView::setResizeMode() function sets the constraints on how the section in the header can be resized.</p>
+<p>Finally, we hide the <a href="./qtablewidget.htm" translate="no">QTableWidget</a>'s vertical headers using the <a href="./qwidget.htm#hide" translate="no">QWidget::hide</a>() function, and remove the default grid drawn for the table using the <a href="./qtableview.htm#showGrid-prop" translate="no">QTableView::setShowGrid</a>() function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>openFileOfItem(<span class="type">int</span> row<span class="operator">,</span> <span class="type">int</span> <span class="comment">/* column */</span>)
+{
+    <span class="keyword">const</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span> <span class="operator">*</span>item <span class="operator">=</span> filesTable<span class="operator">-</span><span class="operator">&gt;</span>item(row<span class="operator">,</span> <span class="number">0</span>);
+    openFile(fileNameOfItem(item));
+}
+
+<span class="keyword">static</span> <span class="keyword">inline</span> <span class="type">void</span> openFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fileName)
+{
+    <span class="type"><a href="./qdesktopservices.htm" translate="no">QDesktopServices</a></span><span class="operator">::</span>openUrl(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span><span class="operator">::</span>fromLocalFile(fileName));
+}</pre></div>
+<p>The <code translate="no">openFileOfItem()</code> slot is invoked when the user double clicks on a cell in the table. The <a href="./qdesktopservices.htm#openUrl" translate="no">QDesktopServices::openUrl</a>() knows how to open a file given the file name.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    filesTable<span class="operator">-</span><span class="operator">&gt;</span>setContextMenuPolicy(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CustomContextMenu);
+    connect(filesTable<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span><span class="operator">::</span>customContextMenuRequested<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>contextMenu);
+    connect(filesTable<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span><span class="operator">::</span>cellActivated<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>openFileOfItem);
+<span class="type">void</span> Window<span class="operator">::</span>contextMenu(<span class="keyword">const</span> <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> <span class="operator">&amp;</span>pos)
+{
+    <span class="keyword">const</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span> <span class="operator">*</span>item <span class="operator">=</span> filesTable<span class="operator">-</span><span class="operator">&gt;</span>itemAt(pos);
+    <span class="keyword">if</span> (<span class="operator">!</span>item)
+        <span class="keyword">return</span>;
+    <span class="type"><a href="./qmenu.htm" translate="no">QMenu</a></span> menu;
+<span class="preprocessor">#ifndef QT_NO_CLIPBOARD</span>
+    <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span> <span class="operator">*</span>copyAction <span class="operator">=</span> menu<span class="operator">.</span>addAction(<span class="string">"Copy Name"</span>);
+<span class="preprocessor">#endif</span>
+    <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span> <span class="operator">*</span>openAction <span class="operator">=</span> menu<span class="operator">.</span>addAction(<span class="string">"Open"</span>);
+    <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span> <span class="operator">*</span>action <span class="operator">=</span> menu<span class="operator">.</span>exec(filesTable<span class="operator">-</span><span class="operator">&gt;</span>mapToGlobal(pos));
+    <span class="keyword">if</span> (<span class="operator">!</span>action)
+        <span class="keyword">return</span>;
+    <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> fileName <span class="operator">=</span> fileNameOfItem(item);
+    <span class="keyword">if</span> (action <span class="operator">=</span><span class="operator">=</span> openAction)
+        openFile(fileName);
+<span class="preprocessor">#ifndef QT_NO_CLIPBOARD</span>
+    <span class="keyword">else</span> <span class="keyword">if</span> (action <span class="operator">=</span><span class="operator">=</span> copyAction)
+        <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>clipboard()<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(fileName));
+<span class="preprocessor">#endif</span>
+}</pre></div>
+<p>We set the context menu policy to of the table view to <a href="./qt.htm#ContextMenuPolicy-enum" translate="no">Qt::CustomContextMenu</a> and connect a slot contextMenu() to its signal customContextMenuRequested(). We retrieve the absolute file name from the data of the <a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a> and populate the context menu with actions offering to copy the file name and to open the file.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/dialogs/findfiles?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@dialogs/findfiles -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

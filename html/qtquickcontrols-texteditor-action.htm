@@ -1,0 +1,166 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Text Editor - Connecting Actions</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Text Editor - Connecting Actions</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qtquickcontrols-texteditor-logic.html" rel="prev">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qtquickcontrols-texteditor-logic.htm">Qt Quick Text Editor Guide - Logic</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Qt Quick Text Editor - Connecting Actions</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquickcontrols-texteditor-action.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Earlier in the <a href="./qtquickcontrols-texteditor.htm" translate="no">Qt Quick Text Editor Guide</a>, we created a <i>main.qml</i> file containing the description of our user interface in QML. The user interface contains tool buttons in a tool bar on top of a text area. Afterwards, we created a DocumentHandler class in C++ that will handle the file loading and saving.</p>
+<p>Now we shall use the DocumentHandler in the QML file through <i>actions</i>. There is an <a href="./qml-qt3d-input-action.htm" translate="no">Action</a> QML type that we can connect to the tool buttons which in turn calls the DocumentHandler functions.</p>
+<a name="importing-the-documenthandler-qml-type"></a>
+<h2 id="importing-the-documenthandler-qml-type">Importing the DocumentHandler QML Type<a class="plink" href="#importing-the-documenthandler-qml-type" title="Direct link to this headline"></a></h2>
+<p>With the <code translate="no">qmlRegisterType()</code> function, we declared that the DocumentHandler QML type is imported from the <code translate="no">org.qtproject.example</code> library.</p>
+<p>The following code is taken from the <i>main.cpp</i> file from the previous stage.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">qmlRegisterType<span class="operator">&lt;</span>DocumentHandler<span class="operator">&gt;</span>(<span class="string">"org.qtproject.example"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="string">"DocumentHandler"</span>);</pre></div>
+<p>In the <i>main.qml</i> file, enter the following import statement:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import org.qtproject.example 1.0</pre></div>
+<p>The DocumentHandler type is then available and we can create an object directly by adding it at the bottom of the application window.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">DocumentHandler</span> {
+    <span class="name">id</span>: <span class="name">document</span>
+}</pre></div>
+<a name="assigning-actions"></a>
+<h2 id="assigning-actions">Assigning Actions<a class="plink" href="#assigning-actions" title="Direct link to this headline"></a></h2>
+<p>As mentioned, the tool buttons are associated with an <i>action</i>, for example, the cut button is associated with the cut action. The cut action embodies the events that define the action, for example, the calling of the appropriate function in the text area.</p>
+<p>For our application, we have six actions, which may be placed inside the application window.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">Action {
+    id: cutaction
+    text: "Cut"
+    shortcut: "ctrl+x"
+    iconSource: "images/editcut.png"
+    iconName: "edit-cut"
+    onTriggered: textarea.cut()
+}
+
+Action {
+    id: copyaction
+    text: "Copy"
+    shortcut: "Ctrl+C"
+    iconSource: "images/editcopy.png"
+    iconName: "edit-copy"
+    onTriggered: textarea.copy()
+}
+
+Action {
+    id: pasteaction
+    text: "Paste"
+    shortcut: "ctrl+v"
+    iconSource: "qrc:images/editpaste.png"
+    iconName: "edit-paste"
+    onTriggered: textarea.paste()
+}
+
+Action {
+    id: fileopenaction
+    iconSource: "images/fileopen.png"
+    iconName: "document-open"
+    text: "Open"
+    onTriggered: fileDialog.open()
+}</pre></div>
+<p>These actions call the appropriate function and assign a specific icon and name to the action. To connect the <code translate="no">cutaction</code> to the cut tool button, add the following to the tool button</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-controls2-toolbutton.htm" translate="no">ToolButton</a></span> {
+            <span class="name">id</span>: <span class="name">cut_toolbutton</span>
+            <span class="name">iconSource</span>: <span class="string">"images/editcut.png"</span>
+            <span class="name">iconName</span>: <span class="string">"cut_icon"</span>
+            <span class="name">anchors</span>.left: <span class="name">save_toolbutton</span>.<span class="name">right</span>
+            <span class="name">action</span>: <span class="name">cutaction</span>;
+}</pre></div>
+<p>For the open and save actions, we require that the user choose an existing file or create a new file. To do this, we can pop up a file dialog and ask the user to select the file to open from or save onto. We can create two file dialogs, one for opening a file and one for saving the file, each setting their own titles.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">FileDialog {
+    id: fileOpenDialog
+    title: "Please choose a file to open"
+    nameFilters: ["Text files (*.txt)"]
+    onAccepted: document.fileUrl = fileUrl
+}
+
+FileDialog {
+    id: fileSaveDialog
+    title: "Please enter the file to save"
+    nameFilters: ["Text files (*.txt)"]
+    selectExisting: false
+    onAccepted: document.saveFile(fileUrl)
+}</pre></div>
+<p>Setting the <a href="./qml-qt-labs-platform-filedialog.htm" translate="no">FileDialog</a>'s <code translate="no">selectExisting</code> property to <code translate="no">false</code> allows us to save new files.</p>
+<p>The <a href="./qml-qt-labs-platform-filedialog.htm" translate="no">FileDialog</a> type is from the <a href="./qtquickdialogs-index.htm" translate="no">Qt Quick Dialogs</a> and is imported with</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick.Dialogs 1.2</pre></div>
+<a name="deploying-texteditor"></a>
+<h2 id="deploying-texteditor">Deploying TextEditor<a class="plink" href="#deploying-texteditor" title="Direct link to this headline"></a></h2>
+<p>Deploying the TextEditor depends on the platform on which the application is run. The process is simple and Qt provides several tools for packaging applications for a given platform. The <a href="./deployment.htm" translate="no">Deploying Qt Applications</a> page lists the instructions for the supported platforms. For this guide, we will deploy on Windows desktop platform with the <code translate="no">windeploytool</code> to create a directory with the required dependent libraries.</p>
+<p>To package TextEditor,</p>
+<ol class="1" type="1"><li>Copy the <i>texteditor.exe</i> file from the release directory to another directory which serves as the destination folder.</li>
+<li>Run the <i>windeployqt.exe</i> file which resolves and copies the Qt libraries into the destination folder. <i>windeployqt.exe</i> is found in the <i>bin</i> directory of the installation.<div class="pre"><pre class="cpp prettyprint" translate="no">C:\<span class="type"><a href="./qt.htm" translate="no">Qt</a></span>\<span class="number">5.3</span>\msvc2012_opengl\bin<span class="operator">&gt;</span>windeployqt<span class="operator">.</span>exe <span class="operator">&lt;</span>path to destination folder<span class="operator">&gt;</span></pre></div>
+</li>
+</ol>
+<p>The destination folder can now be packaged and the binary file is executable. The images and QML file are already packaged into the binary file.</p>
+<a name="example-files"></a>
+<h2 id="example-files">Example Files<a class="plink" href="#example-files" title="Direct link to this headline"></a></h2>
+<p>The accompanying examples files are found in the following page:</p>
+<ul>
+<li><a href="./qtquickcontrols1-texteditor-example.htm" translate="no">Qt Quick Controls 1 - Text Editor Example</a></li>
+</ul>
+</div>
+<!-- @@@qtquickcontrols-texteditor-action.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./qtquickcontrols-texteditor-logic.htm">Qt Quick Text Editor Guide - Logic</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

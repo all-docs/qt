@@ -1,0 +1,170 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started with Qt Purchasing in C++ | Qt Purchasing</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpurchasing-index.htm" translate="no">Qt Purchasing</a></li>
+                            <li><a>Getting Started with Qt Purchasing in C++</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Getting Started with Qt Purchasing in C++</h1>
+<span class="subtitle"></span>
+<!-- $$$qtpurchasing-gettingstarted-cpp.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>This guide assumes that you have registered the in-app products for your application in the external store. For more information about registering products, see <a href="./qtpurchasing-googleplay.htm" translate="no">Registering Products in Google Play</a>, <a href="./qtpurchasing-appstore.htm" translate="no">Registering Products in App Store</a>, and <a href="./qtpurchasing-windowsstore.htm" translate="no">Registering Products in Windows Store</a>.</p>
+<a name="preparing-the-application"></a>
+<h2 id="preparing-the-application">Preparing the Application<a class="plink" href="#preparing-the-application" title="Direct link to this headline"></a></h2>
+<p>Use the following include statement to access the C++ classes:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtPurchasing&gt;</span></pre></div>
+<p>Before building your application, add the following statement to your <code translate="no">.pro</code> file to link against the Qt Purchasing library:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QT <span class="operator">+</span><span class="operator">=</span> purchasing</pre></div>
+<a name="registering-products"></a>
+<h2 id="registering-products">Registering Products<a class="plink" href="#registering-products" title="Direct link to this headline"></a></h2>
+<p>In order to allow in-app purchases in your application, register the products in your application. Start by creating an application-global instance of <a href="./qinappstore.htm" translate="no">QInAppStore</a>, and use the registerProduct() function to register each product.</p>
+<p>The following example is a hypothetical role-playing game, which provides two in-app products to the user.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MyApplication<span class="operator">::</span>MyApplication(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>(parent)
+{
+    m_myStore <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qinappstore.htm" translate="no">QInAppStore</a></span>(<span class="keyword">this</span>);
+    setupConnections();
+
+    m_myStore<span class="operator">-</span><span class="operator">&gt;</span>registerProduct(<span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span><span class="operator">::</span>Consumable<span class="operator">,</span>
+                               <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"healthPotion"</span>));
+    m_myStore<span class="operator">-</span><span class="operator">&gt;</span>registerProduct(<span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span><span class="operator">::</span>Unlockable<span class="operator">,</span>
+                               <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"dlcForestOfFooBar"</span>));
+}</pre></div>
+<p>As you can see, there are <a href="./qinappproduct.htm#ProductType-enum" translate="no">consumable products</a> and <a href="./qinappproduct.htm#ProductType-enum" translate="no">unlockable products</a>. The former can be purchased any number of times by the same user, whereas the latter can only be purchased once.</p>
+<p>In our example, the <code translate="no">"healthPotion"</code> is a consumable product, because the user should be able to buy any number of health potions and add them to their in-game inventory.</p>
+<p>The <code translate="no">"dlcForestOfFooBar"</code> is downloadable content, which unlocks a new part of the game, and once it is bought, the purchase should be persistent across the user's devices and across reinstallations.</p>
+<a name="making-connections"></a>
+<h2 id="making-connections">Making Connections<a class="plink" href="#making-connections" title="Direct link to this headline"></a></h2>
+<p>Registering a product is an asynchronous operation, as are all operations supported by Qt Purchasing. Before you start registering a product, you must listen to the <a href="./qinappstore.htm#productRegistered" translate="no">QInAppStore::productRegistered</a>() and <a href="./qinappstore.htm#productUnknown" translate="no">QInAppStore::productUnknown</a>() signals in <a href="./qinappstore.htm" translate="no">QInAppStore</a> to know the status of your registration.</p>
+<p>If the application intends to allow users to purchase products, it also needs to listen for the <a href="./qinappstore.htm#transactionReady" translate="no">QInAppStore::transactionReady</a>() signal to be notified when a transaction is pending.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyApplication<span class="operator">::</span>setupConnections()
+{
+    connect(m_myStore<span class="operator">,</span> SIGNAL(productRegistered(<span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span><span class="operator">*</span>))<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> SLOT(markProductAvailable(<span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span><span class="operator">*</span>)));
+    connect(m_myStore<span class="operator">,</span> SIGNAL(productUnknown(<span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span><span class="operator">*</span>))<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> SLOT(handleErrorGracefully(<span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span><span class="operator">*</span>)));
+
+    connect(m_myStore<span class="operator">,</span> SIGNAL(transactionReady(<span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span><span class="operator">*</span>))<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> SLOT(handleTransaction(<span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span><span class="operator">*</span>)));
+}</pre></div>
+<a name="purchasing-a-product"></a>
+<h2 id="purchasing-a-product">Purchasing A Product<a class="plink" href="#purchasing-a-product" title="Direct link to this headline"></a></h2>
+<p>When the user wants to purchase a product, call <a href="./qinappproduct.htm#purchase" translate="no">QInAppProduct::purchase</a>() on the product. This launches a platform-specific, asynchronous process to purchase the product, for example by requesting the user's password and confirmation of the purchase. In most cases, you must make sure that the application UI is not accepting input while the purchase request is being processed, as this is not handled automatically on all platforms.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyApplication<span class="operator">::</span>purchaseHealthPotion()
+{
+    <span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span> <span class="operator">*</span>product <span class="operator">=</span> m_myStore<span class="operator">-</span><span class="operator">&gt;</span>registeredProduct(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"healthPotion"</span>));
+
+    <span class="comment">// Should not get here if product is not registered</span>
+    Q_ASSERT(product <span class="operator">!</span><span class="operator">=</span> <span class="number">0</span>);
+
+    product<span class="operator">-</span><span class="operator">&gt;</span>purchase();
+}</pre></div>
+<p>When this function is called, the purchase process is initiated. At some point during the process, the <a href="./qinappstore.htm#transactionReady" translate="no">QInAppStore::transactionReady</a>() signal is emitted, and the slot registered earlier is called. In this function, you can save data about a successful purchase so that it survives across application runs. After verifying that the data has been stored, finalize the transaction. If the transaction fails, display information about the failure to the user and finalize the transaction.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyApplication<span class="operator">::</span>handleTransaction(<span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span> <span class="operator">*</span>transaction)
+{
+    <span class="keyword">if</span> (transaction<span class="operator">-</span><span class="operator">&gt;</span>status() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span><span class="operator">::</span>PurchaseApproved
+        <span class="operator">&amp;</span><span class="operator">&amp;</span> transaction<span class="operator">-</span><span class="operator">&gt;</span>product()<span class="operator">-</span><span class="operator">&gt;</span>identifier() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"healthPotion"</span>)) {
+        <span class="keyword">if</span> (<span class="operator">!</span>hasAlreadyStoredTransaction(transaction<span class="operator">-</span><span class="operator">&gt;</span>orderId())) {
+            <span class="operator">+</span><span class="operator">+</span>m_healthPotions;
+            <span class="keyword">if</span> (<span class="operator">!</span>addHealthPotionToPersistentStorage(transaction<span class="operator">-</span><span class="operator">&gt;</span>orderId()))
+                popupErrorDialog(tr(<span class="string">"Unable to write to persistent storage. Please make sure there is sufficient space and restart."</span>));
+            <span class="keyword">else</span>
+                transaction<span class="operator">-</span><span class="operator">&gt;</span>finalize();
+        }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (transaction<span class="operator">-</span><span class="operator">&gt;</span>status() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span><span class="operator">::</span>PurchaseFailed) {
+        popupErrorDialog(tr(<span class="string">"Purchase not completed."</span>));
+        transaction<span class="operator">-</span><span class="operator">&gt;</span>finalize();
+    }
+}</pre></div>
+<p>If a transaction is not finalized, the <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady() signal</a> is emitted again for the same transaction the next time the product is registered, providing another chance to store the data. The transaction for a consumable product must be finalized before the product can be purchased again.</p>
+<a name="restoring-previously-purchased-products"></a>
+<h2 id="restoring-previously-purchased-products">Restoring Previously Purchased Products<a class="plink" href="#restoring-previously-purchased-products" title="Direct link to this headline"></a></h2>
+<p>If the application is uninstalled and subsequently reinstalled (or installed by the same user on a different device), you must provide a way to restore the previously purchased unlockable products.</p>
+<p>To start the process of restoring purchases, call the <a href="./qinappstore.htm#restorePurchases" translate="no">QInAppStore::restorePurchases</a>() function. This emits the <a href="./qinappstore.htm#transactionReady" translate="no">QInAppStore::transactionReady</a>() signal for each of the application's unlockable products that were purchased previously by the current user. The status of these transactions will be <a href="./qinapptransaction.htm#TransactionStatus-enum" translate="no">QInAppTransaction::PurchaseRestored</a>.</p>
+<p>Continuing on the example from earlier, lets imagine that the game has downloadable content that you can buy to extend the game further. This must be an unlockable product, because the user need not purchase it more than once.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyApplication<span class="operator">::</span>handleTransaction(<span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span> <span class="operator">*</span>transaction)
+{
+    <span class="keyword">if</span> ((transaction<span class="operator">-</span><span class="operator">&gt;</span>status() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span><span class="operator">::</span>PurchaseApproved
+         <span class="operator">|</span><span class="operator">|</span> transaction<span class="operator">-</span><span class="operator">&gt;</span>status() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span><span class="operator">::</span>PurchaseRestored)
+        <span class="operator">&amp;</span><span class="operator">&amp;</span> transaction<span class="operator">-</span><span class="operator">&gt;</span>product()<span class="operator">-</span><span class="operator">&gt;</span>identifier() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"dlcForestOfFooBar"</span>))
+    {
+
+        <span class="keyword">if</span> (<span class="operator">!</span>hasMap(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"forestOfFooBar.map"</span>)) {
+            <span class="keyword">if</span> (<span class="operator">!</span>downloadExtraMap(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"forestOfFooBar.map"</span>)))
+                popupErrorDialog(tr(<span class="string">"Unable to download The Forest of FooBar map. Please make sure there is sufficient space and restart."</span>))
+            <span class="keyword">else</span>
+                transaction<span class="operator">-</span><span class="operator">&gt;</span>finalize()
+        }
+
+    } <span class="keyword">else</span> <span class="keyword">if</span> (transaction<span class="operator">-</span><span class="operator">&gt;</span>status() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span><span class="operator">::</span>PurchaseApproved
+        <span class="operator">&amp;</span><span class="operator">&amp;</span> transaction<span class="operator">-</span><span class="operator">&gt;</span>product()<span class="operator">-</span><span class="operator">&gt;</span>identifier() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"healthPotion"</span>)) {
+
+        <span class="comment">// ... handle healthPotion purchase</span>
+
+    } <span class="keyword">else</span> {
+        popupErrorDialog(tr(<span class="string">"Purchase not completed."</span>));
+        transaction<span class="operator">-</span><span class="operator">&gt;</span>finalize();
+    }
+}</pre></div>
+<p>If a user buys the downloadable content and later either installs the game on another device or uninstalls and reinstalls the game, you can provide a way to restore the purchase by calling <a href="./qinappstore.htm#restorePurchases" translate="no">QInAppStore::restorePurchases</a>(). Purchases must be restored in response to a user input, as it may present a password dialog on some platforms.</p>
+<div class="admonition note">
+<p><b>Note: </b>While the function behaves as documented on Android, this functionality is technically not needed there. Android manages all unlockable purchases with no intervention from the application. If an application is uninstalled and reinstalled (or installed on a different Android device), <a href="./qinappstore.htm#transactionReady" translate="no">QInAppStore::transactionReady</a>() is emitted at application start-up for each previously purchased unlockable product, with the <a href="./qinapptransaction.htm#TransactionStatus-enum" translate="no">QInAppTransaction::PurchaseApproved</a> status.</p>
+</div>
+</div>
+<!-- @@@qtpurchasing-gettingstarted-cpp.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

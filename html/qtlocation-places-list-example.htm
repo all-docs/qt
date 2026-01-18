@@ -1,0 +1,120 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Places List (QML) | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtlocation-places-list-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-examples.htm" translate="no">Qt Location Examples</a></li>
+                            <li><a>Places List (QML)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Places List (QML)</h1>
+<span class="subtitle"></span>
+<!-- $$$places_list-brief -->
+<p>The Places List example demonstrates how to search for and display a list of places using a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>.</p>
+<!-- @@@places_list -->
+<!-- $$$places_list-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/places_list.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<p>The <code translate="no">Places List</code> example demonstrates how to search for a list of places in a certain area and displays the result using a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>. In this particular case, a search for places associated with the term <code translate="no">pizza</code> is performed.</p>
+<a name="performing-a-place-search"></a>
+<h4 id="performing-a-place-search">Performing a Place Search<a class="plink" href="#performing-a-place-search" title="Direct link to this headline"></a></h4>
+<p>To write a QML application that will show places in a list, we start by making the following import declarations.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+import QtPositioning 5.5
+import QtLocation 5.6</pre></div>
+<p>Instantiate a <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> instance. The <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> is effectively the backend from where places are sourced from. Depending on the type of the plugin, some mandatory parameters may be need to be filled in. The most likely type of <a href="./qml-qtlocation-pluginparameter.htm" translate="no">PluginParameter</a> are some form of service access token which are documented in the service plugin. As an example see the <a href="./location-plugin-here.htm#mandatory-parameters" translate="no">HERE Plugin</a> documentation. In this snippet the <code translate="no">osm</code> plugin is used which does not require any further parameter:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-plugin.htm" translate="no">Plugin</a></span> {
+    <span class="name">id</span>: <span class="name">myPlugin</span>
+    <span class="name">name</span>: <span class="string">"osm"</span>
+    <span class="comment">//specify plugin parameters as necessary</span>
+    <span class="comment">//PluginParameter {...}</span>
+    <span class="comment">//PluginParameter {...}</span>
+    <span class="comment">//...</span>
+}</pre></div>
+<p>Next we instantiate a <a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a> which we can use to specify search parameters and perform a places search operation. For illustrative purposes, <a href="./qml-qtlocation-placesearchmodel.htm#update-method" translate="no">update()</a> is invoked once construction of the model is complete. Typically <a href="./qml-qtlocation-placesearchmodel.htm#update-method" translate="no">update()</a> would be invoked in response to a user action such as a button click.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a></span> {
+    <span class="name">id</span>: <span class="name">searchModel</span>
+
+    <span class="name">plugin</span>: <span class="name">myPlugin</span>
+
+    <span class="name">searchTerm</span>: <span class="string">"pizza"</span>
+    <span class="name">searchArea</span>: <span class="name">QtPositioning</span>.<span class="name">circle</span>(<span class="name">startCoordinate</span>);
+
+    <span class="name">Component</span>.onCompleted: <span class="name">update</span>()
+
+}</pre></div>
+<p>Finally we instantiate a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> to show the search results found by the model. An inline delegate has been used and we have assumed that every search result is of <a href="./qml-qtlocation-placesearchmodel.htm#search-result-types" translate="no">type</a> <code translate="no">PlaceSearchesult</code>. Consequently it is assumed that we always have access to the <i>place</i> <a href="./qml-qtlocation-placesearchmodel.htm#placesearchmodel-roles" translate="no">role</a>, other search result types may not have a <i>place</i> <a href="./qml-qtlocation-placesearchmodel.htm#placesearchmodel-roles" translate="no">role</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">model</span>: <span class="name">searchModel</span>
+    <span class="name">delegate</span>: <span class="name">Component</span> {
+        <span class="type"><a href="./qml-qtquick-row.htm" translate="no">Row</a></span> {
+            <span class="name">spacing</span>: <span class="number">5</span>
+            <span class="type">Marker</span> { <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span> }
+            <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">title</span>; <span class="name">font</span>.bold: <span class="number">true</span> }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">place</span>.<span class="name">location</span>.<span class="name">address</span>.<span class="name">text</span> }
+            }
+        }
+    }
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtlocation.git/tree/examples/location/places_list?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@places_list -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

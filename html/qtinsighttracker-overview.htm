@@ -1,0 +1,128 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Insight Tracker Overview | Qt Insight Tracker</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtinsighttracker-index.htm" translate="no">Qt Insight Tracker</a></li>
+                            <li class="last"><a>Qt Insight Tracker Overview</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Insight Tracker Overview</h1>
+<span class="subtitle"></span>
+<!-- $$$qtinsighttracker-overview.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="tracking-application-usage"></a>
+<h2 id="tracking-application-usage">Tracking Application Usage<a class="plink" href="#tracking-application-usage" title="Direct link to this headline"></a></h2>
+<p>You can use Qt Insight Tracker from your application code to track application usage with two event types: interactions and transitions.</p>
+<p>Use transition events to track the current state of the UI. Transition events can be sent whenever your application changes UI views or states, or whenever there are other UI flow changes such as dialog and notification pop-ups.</p>
+<p>From QML code, this can be done for example with:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="name">onStateChanged</span>: <span class="name">InsightTracker</span>.<span class="name">transition</span>(<span class="name">applicationFlow</span>.<span class="name">state</span>);</pre></div>
+<p>Use interaction events to track which part of UI users interact with. Interaction events automatically include the current state of the UI, as reported using the transition event. Individual UI elements can send the event with QML code:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">onClicked</span>: {
+            <span class="name">root</span>.<span class="name">clicked</span>()
+            <span class="name">InsightTracker</span>.<span class="name">interaction</span>(<span class="name">root</span>.<span class="name">text</span>, <span class="name">root</span>.<span class="name">InsightCategory</span>.<span class="name">category</span>);
+            <span class="name">InsightTracker</span>.<span class="name">dimensionData</span>(<span class="string">"CoffeeType"</span>, <span class="name">root</span>.<span class="name">text</span>);
+        }
+        <span class="name">onPressed</span>: {
+            <span class="name">glow</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">true</span>
+            <span class="name">animation1</span>.<span class="name">start</span>()
+            <span class="name">animation2</span>.<span class="name">start</span>()
+        }
+    }</pre></div>
+<p>Some additional information about the device (model, variant, screen resolution, and screen type) and the application (version, build, and Qt version) is sent automatically on the application start.</p>
+<p>A UUID is generated on the first use of Qt Insight Tracker and used in all the events sent to the back-end server. It can identify all the events coming from one particular device but not individual users.</p>
+<a name="automatic-event-tracking"></a>
+<h2 id="automatic-event-tracking">Automatic Event Tracking<a class="plink" href="#automatic-event-tracking" title="Direct link to this headline"></a></h2>
+<p>Qt Insight Tracker can track any event handled by the Qt's <a href="./eventsandfilters.htm" translate="no">event system</a>. Tracking these event does not require any changes to the application, unlike the interaction and transition events. All valid event types in <a href="./qevent.htm#Type-enum" translate="no">QEvent::Type</a> can be used. Events are not tracked by default and you need to add events types that you want to track to the JSON configuration file.</p>
+<div class="admonition note">
+<p><b>Note: </b>Some of the event types can cause a very large number of tracked events and this may have an impact on your application performance, network usage and event quota in the Qt Insight Console.</p>
+</div>
+<a name="enabling-tracking"></a>
+<h2 id="enabling-tracking">Enabling Tracking<a class="plink" href="#enabling-tracking" title="Direct link to this headline"></a></h2>
+<p>Qt Insight Tracker does not collect or send any data unless the application explicitly enables it through the API. The application must have user's concent before enabling the tracking.</p>
+<a name="configuration"></a>
+<h2 id="configuration">Configuration<a class="plink" href="#configuration" title="Direct link to this headline"></a></h2>
+<p>You can configure Qt Insight Tracker with a JSON configuration file and with C++ and QML APIs. The configuration file is read at startup and you can change the values from application code. You must make all configuration changes before enabling the tracking.</p>
+<p>To configure Qt Insight Tracker using a configuration file, add the following JSON file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"server"</span> : <span class="string">"collect-insight.qt.io"</span><span class="operator">,</span>
+    <span class="string">"token"</span> : <span class="string">"00000000-0000-0000-0000-000000000000"</span><span class="operator">,</span>
+}</pre></div>
+<p>A <code translate="no">token</code> is used to match the data your application sends to your Qt Insight Organization and you can find your token from the <a href="https://insight.qt.io" translate="no">Qt Insight Console</a>.</p>
+<p>To configure Qt Insight Tracker from your application, add the following to your QML code:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtinsighttracker-insightconfiguration.htm" translate="no">InsightConfiguration</a></span> {
+    <span class="name">token</span>: <span class="string">"1234"</span>
+    <span class="name">syncInterval</span>: <span class="number">3600</span>
+}</pre></div>
+<p>or your C++ code:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qinsighttracker.htm" translate="no">QInsightTracker</a></span> tracker;
+tracker<span class="operator">.</span>configuration()<span class="operator">.</span>syncInterval(<span class="number">3600</span>);</pre></div>
+<p>For more details on the configuration file syntax and the API, see <a href="./qinsightconfiguration.htm" translate="no">QInsightConfiguration</a>.</p>
+<a name="event-caching"></a>
+<h2 id="event-caching">Event Caching<a class="plink" href="#event-caching" title="Direct link to this headline"></a></h2>
+<p>By default, the tracked events are cached locally before being sent to the back-end server. The tracked info is then retained if network connectivity is not available or the application exits before the data has been sent. An SQLite database is used for caching, but the implementation allows adding other storage types later. If SQLite support is not available in Qt, events are sent directly to the back-end server without caching.</p>
+<a name="event-filtering"></a>
+<h2 id="event-filtering">Event Filtering<a class="plink" href="#event-filtering" title="Direct link to this headline"></a></h2>
+<p>Certain events can be filtered before they are sent to the back-end server. This can be done with categories which can be attached to the QML components using <a href="./qml-qtinsighttracker-insightcategory.htm" translate="no">InsightCategory</a> or used in the API calls.</p>
+<p>Then you can configure the tracker with <a href="./qinsightconfiguration.htm#setCategories" translate="no">QInsightConfiguration::setCategories</a>() to only track events with matching category.</p>
+<a name="offline-usage"></a>
+<h2 id="offline-usage">Offline Usage<a class="plink" href="#offline-usage" title="Direct link to this headline"></a></h2>
+<p>You can configure Qt Insight Tracker to work in an offline mode, which means that events are tracked normally to the local event cache but they are never sent to the back-end server. This is useful for devices that do not have network connectivity. To turn on offline mode, omit the <code translate="no">sync</code> interval from the configuration json or set all values to zero.</p>
+<p>Qt Insight Tracker comes with a separate command-line utility (<code translate="no">Qt Insight Uploader</code>) that you can use to send the events to the back-end at a later time. You need to retrive the database file from the device and then run the <code translate="no">insightuploader</code> utility on your PC.</p>
+</div>
+<!-- @@@qtinsighttracker-overview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

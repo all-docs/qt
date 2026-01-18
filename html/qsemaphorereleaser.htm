@@ -1,0 +1,164 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QSemaphoreReleaser | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qsemaphorereleaser.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QSemaphoreReleaser</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QSemaphoreReleaser Class</h1>
+<!-- $$$QSemaphoreReleaser-brief -->
+<p>The QSemaphoreReleaser class provides exception-safe deferral of a <a href="./qsemaphore.htm#release" translate="no">QSemaphore::release</a>() call. <a href="#details">More...</a></p>
+<!-- @@@QSemaphoreReleaser -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QSemaphoreReleaser&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += core</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.10</td></tr></tbody></table></div><p>This class was introduced in Qt 5.10.</p>
+<ul>
+<li><a href="./qsemaphorereleaser-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<p><b>Note:</b> All functions in this class are <a href="./threads-reentrancy.htm" translate="no">reentrant</a>.</p>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser-3" translate="no">QSemaphoreReleaser</a></b>(QSemaphoreReleaser &amp;&amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser-2" translate="no">QSemaphoreReleaser</a></b>(QSemaphore *<i>sem</i>, int <i>n</i> = 1)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser-1" translate="no">QSemaphoreReleaser</a></b>(QSemaphore &amp;<i>sem</i>, int <i>n</i> = 1)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSemaphoreReleaser &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#operator-eq" translate="no">operator=</a></b>(QSemaphoreReleaser &amp;&amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#dtor.QSemaphoreReleaser" translate="no">~QSemaphoreReleaser</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSemaphore *</td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#cancel" translate="no">cancel</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSemaphore *</td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#semaphore" translate="no">semaphore</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qsemaphorereleaser.htm#swap" translate="no">swap</a></b>(QSemaphoreReleaser &amp;<i>other</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QSemaphoreReleaser-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QSemaphoreReleaser can be used wherever you would otherwise use <a href="./qsemaphore.htm#release" translate="no">QSemaphore::release</a>(). Constructing a QSemaphoreReleaser defers the release() call on the semaphore until the QSemaphoreReleaser is destroyed (see <a href="http://en.cppreference.com/w/cpp/language/raii" translate="no">RAII pattern</a>).</p>
+<p>You can use this to reliably release a semaphore to avoid dead-lock in the face of exceptions or early returns:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// ... do something that may throw or return early</span>
+sem<span class="operator">.</span>release();</pre></div>
+<p>If an early return is taken or an exception is thrown before the <code translate="no">sem.release()</code> call is reached, the semaphore is not released, possibly preventing the thread waiting in the corresponding <code translate="no">sem.acquire()</code> call from ever continuing execution.</p>
+<p>When using RAII instead:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">const</span> <span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span> releaser(sem);
+<span class="comment">// ... do something that may throw or early return</span>
+<span class="comment">// implicitly calls sem.release() here and at every other return in between</span></pre></div>
+<p>this can no longer happen, because the compiler will make sure that the QSemaphoreReleaser destructor is always called, and therefore the semaphore is always released.</p>
+<p>QSemaphoreReleaser is move-enabled and can therefore be returned from functions to transfer responsibility for releasing a semaphore out of a function or a scope:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{ <span class="comment">// some scope</span>
+    <span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span> releaser; <span class="comment">// does nothing</span>
+    <span class="comment">// ...</span>
+    <span class="keyword">if</span> (someCondition) {
+        releaser <span class="operator">=</span> <span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span>(sem);
+        <span class="comment">// ...</span>
+    }
+    <span class="comment">// ...</span>
+} <span class="comment">// conditionally calls sem.release(), depending on someCondition</span></pre></div>
+<p>A QSemaphoreReleaser can be canceled by a call to <a href="./qsemaphorereleaser.htm#cancel" translate="no">cancel</a>(). A canceled semaphore releaser will no longer call <a href="./qsemaphore.htm#release" translate="no">QSemaphore::release</a>() in its destructor.</p>
+</div>
+<p><b>See also </b><a href="./qmutexlocker.htm" translate="no">QMutexLocker</a>.</p>
+<!-- @@@QSemaphoreReleaser -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QSemaphoreReleaser$$$QSemaphoreReleaserQSemaphoreReleaser&& -->
+<h3 class="fn" id="QSemaphoreReleaser-3" translate="no"><a name="QSemaphoreReleaser-3"></a>QSemaphoreReleaser::<span class="name">QSemaphoreReleaser</span>(<span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span> &amp;&amp;<i>other</i>)<a class="plink" href="#QSemaphoreReleaser-3" title="Direct link to this headline"></a></h3>
+<p>Move constructor. Takes over responsibility to call <a href="./qsemaphore.htm#release" translate="no">QSemaphore::release</a>() from <i translate="no">other</i>, which in turn is canceled.</p>
+<p><b>See also </b><a href="./qsemaphorereleaser.htm#cancel" translate="no">cancel</a>().</p>
+<!-- @@@QSemaphoreReleaser -->
+<!-- $$$QSemaphoreReleaser$$$QSemaphoreReleaserQSemaphore*int -->
+<h3 class="fn" id="QSemaphoreReleaser-2" translate="no"><a name="QSemaphoreReleaser-2"></a>QSemaphoreReleaser::<span class="name">QSemaphoreReleaser</span>(<span class="type"><a href="./qsemaphore.htm" translate="no">QSemaphore</a></span> *<i>sem</i>, <span class="type">int</span> <i>n</i> = 1)<a class="plink" href="#QSemaphoreReleaser-2" title="Direct link to this headline"></a></h3>
+<p>Constructor. Stores the arguments and calls <i translate="no">sem</i>-&gt;release(<i translate="no">n</i>) in the destructor.</p>
+<!-- @@@QSemaphoreReleaser -->
+<!-- $$$QSemaphoreReleaser$$$QSemaphoreReleaserQSemaphore&int -->
+<h3 class="fn" id="QSemaphoreReleaser-1" translate="no"><a name="QSemaphoreReleaser-1"></a>QSemaphoreReleaser::<span class="name">QSemaphoreReleaser</span>(<span class="type"><a href="./qsemaphore.htm" translate="no">QSemaphore</a></span> &amp;<i>sem</i>, <span class="type">int</span> <i>n</i> = 1)<a class="plink" href="#QSemaphoreReleaser-1" title="Direct link to this headline"></a></h3>
+<p>Constructor. Stores the arguments and calls <i translate="no">sem</i>.release(<i translate="no">n</i>) in the destructor.</p>
+<!-- @@@QSemaphoreReleaser -->
+<!-- $$$QSemaphoreReleaser[overload1]$$$QSemaphoreReleaser -->
+<h3 class="fn" id="QSemaphoreReleaser" translate="no"><a name="QSemaphoreReleaser"></a>QSemaphoreReleaser::<span class="name">QSemaphoreReleaser</span>()<a class="plink" href="#QSemaphoreReleaser" title="Direct link to this headline"></a></h3>
+<p>Default constructor. Creates a QSemaphoreReleaser that does nothing.</p>
+<!-- @@@QSemaphoreReleaser -->
+<!-- $$$operator=[overload1]$$$operator=QSemaphoreReleaser&& -->
+<h3 class="fn" id="operator-eq" translate="no"><a name="operator-eq"></a><span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span> &amp;QSemaphoreReleaser::<span class="name">operator=</span>(<span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span> &amp;&amp;<i>other</i>)<a class="plink" href="#operator-eq" title="Direct link to this headline"></a></h3>
+<p>Move assignment operator. Takes over responsibility to call <a href="./qsemaphore.htm#release" translate="no">QSemaphore::release</a>() from <i translate="no">other</i>, which in turn is canceled.</p>
+<p>If this semaphore releaser had the responsibility to call some <a href="./qsemaphore.htm#release" translate="no">QSemaphore::release</a>() itself, it performs the call before taking over from <i translate="no">other</i>.</p>
+<p><b>See also </b><a href="./qsemaphorereleaser.htm#cancel" translate="no">cancel</a>().</p>
+<!-- @@@operator= -->
+<!-- $$$~QSemaphoreReleaser[overload1]$$$~QSemaphoreReleaser -->
+<h3 class="fn" id="dtor.QSemaphoreReleaser" translate="no"><a name="dtor.QSemaphoreReleaser"></a>QSemaphoreReleaser::<span class="name">~QSemaphoreReleaser</span>()<a class="plink" href="#dtor.QSemaphoreReleaser" title="Direct link to this headline"></a></h3>
+<p>Unless canceled, calls <a href="./qsemaphore.htm#release" translate="no">QSemaphore::release</a>() with the arguments provided to the constructor, or by the last move assignment.</p>
+<!-- @@@~QSemaphoreReleaser -->
+<!-- $$$cancel[overload1]$$$cancel -->
+<h3 class="fn" id="cancel" translate="no"><a name="cancel"></a><span class="type"><a href="./qsemaphore.htm" translate="no">QSemaphore</a></span> *QSemaphoreReleaser::<span class="name">cancel</span>()<a class="plink" href="#cancel" title="Direct link to this headline"></a></h3>
+<p>Cancels this <a href="./qsemaphorereleaser.htm" translate="no">QSemaphoreReleaser</a> such that the destructor will no longer call <code translate="no">semaphore()-&gt;release()</code>. Returns the value of <a href="./qsemaphorereleaser.htm#semaphore" translate="no">semaphore</a>() before this call. After this call, <a href="./qsemaphorereleaser.htm#semaphore" translate="no">semaphore</a>() will return <code translate="no">nullptr</code>.</p>
+<p>To enable again, assign a new <a href="./qsemaphorereleaser.htm" translate="no">QSemaphoreReleaser</a>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">releaser<span class="operator">.</span>cancel(); <span class="comment">// avoid releasing old semaphore()</span>
+releaser <span class="operator">=</span> <span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span>(sem<span class="operator">,</span> <span class="number">42</span>);
+<span class="comment">// now will call sem.release(42) when 'releaser' is destroyed</span></pre></div>
+<!-- @@@cancel -->
+<!-- $$$semaphore[overload1]$$$semaphore -->
+<h3 class="fn" id="semaphore" translate="no"><a name="semaphore"></a><span class="type"><a href="./qsemaphore.htm" translate="no">QSemaphore</a></span> *QSemaphoreReleaser::<span class="name">semaphore</span>() const<a class="plink" href="#semaphore" title="Direct link to this headline"></a></h3>
+<p>Returns a pointer to the <a href="./qsemaphore.htm" translate="no">QSemaphore</a> object provided to the constructor, or by the last move assignment, if any. Otherwise, returns <code translate="no">nullptr</code>.</p>
+<!-- @@@semaphore -->
+<!-- $$$swap[overload1]$$$swapQSemaphoreReleaser& -->
+<h3 class="fn" id="swap" translate="no"><a name="swap"></a><span class="type">void</span> QSemaphoreReleaser::<span class="name">swap</span>(<span class="type"><a href="./qsemaphorereleaser.htm#QSemaphoreReleaser" translate="no">QSemaphoreReleaser</a></span> &amp;<i>other</i>)<a class="plink" href="#swap" title="Direct link to this headline"></a></h3>
+<p>Exchanges the responsibilities of <code translate="no">*this</code> and <i translate="no">other</i>.</p>
+<p>Unlike move assignment, neither of the two objects ever releases its semaphore, if any, as a consequence of swapping.</p>
+<p>Therefore this function is very fast and never fails.</p>
+<!-- @@@swap -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

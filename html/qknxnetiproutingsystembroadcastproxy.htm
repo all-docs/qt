@@ -1,0 +1,128 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QKnxNetIpRoutingSystemBroadcastProxy | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QKnxNetIpRoutingSystemBroadcastProxy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QKnxNetIpRoutingSystemBroadcastProxy Class</h1>
+<!-- $$$QKnxNetIpRoutingSystemBroadcastProxy-brief -->
+<p>The QKnxNetIpRoutingSystemBroadcastProxy class provides the means to introspect a generic routing system broadcast <a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a> and to create a KNXnet/IP frame based on the information. <a href="#details">More...</a></p>
+<!-- @@@QKnxNetIpRoutingSystemBroadcastProxy -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QKnxNetIpRoutingSystemBroadcastProxy&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += knx</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.12</td></tr></tbody></table></div><p>This class was introduced in Qt 5.12.</p>
+<ul>
+<li><a href="./qknxnetiproutingsystembroadcastproxy-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> class </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiproutingsystembroadcastproxy-builder.htm" translate="no">Builder</a></b></td></tr>
+</tbody></table></div>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiproutingsystembroadcastproxy.htm#QKnxNetIpRoutingSystemBroadcastProxy-2" translate="no">QKnxNetIpRoutingSystemBroadcastProxy</a></b>(const QKnxNetIpFrame &amp;<i>frame</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QKnxLinkLayerFrame </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiproutingsystembroadcastproxy.htm#cemi" translate="no">cemi</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiproutingsystembroadcastproxy.htm#isValid" translate="no">isValid</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="static-public-members"></a>
+<h2 id="static-public-members">Static Public Members<a class="plink" href="#static-public-members" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIpRoutingSystemBroadcastProxy::Builder </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiproutingsystembroadcastproxy.htm#builder" translate="no">builder</a></b>()</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QKnxNetIpRoutingSystemBroadcastProxy-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Routing system broadcast messages are useful in the situation when KNXnet/IP devices configured on different multicast addresses and secure KNXnet/IP devices configured on different backbone keys are not able to communicate between each other.</p>
+<div class="admonition note">
+<p><b>Note: </b>When using QKnxNetIpRoutingSystemBroadcastProxy, care must be taken to ensure that the referenced KNXnet/IP frame outlives the proxy on all code paths, lest the proxy ends up referencing deleted data.</p>
+</div>
+<p>The following code sample illustrates how to introspect a routing system broadcast frame:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> netIpFrame <span class="operator">=</span> <span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span><span class="operator">::</span>fromBytes(<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>);
+
+<span class="keyword">const</span> <span class="type">QKnxNetIpRoutingSystemBroadcastProxy</span> proxy(netIpFrame);
+<span class="keyword">if</span> (<span class="operator">!</span>proxy<span class="operator">.</span>isValid())
+    <span class="keyword">return</span>;
+
+<span class="keyword">auto</span> linkFrame <span class="operator">=</span> proxy<span class="operator">.</span>cemi();</pre></div>
+</div>
+<p><b>See also </b><a href="./qknxnetiproutingsystembroadcastproxy.htm#builder" translate="no">builder</a>(), <a href="./qknxnetiproutingsystembroadcastproxy.htm" translate="no">QKnxNetIpRoutingSystemBroadcastProxy</a>, and <a href="./qtknx-netip.htm" translate="no">Qt KNXnet/IP Connection Classes</a>.</p>
+<!-- @@@QKnxNetIpRoutingSystemBroadcastProxy -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QKnxNetIpRoutingSystemBroadcastProxy$$$QKnxNetIpRoutingSystemBroadcastProxyconstQKnxNetIpFrame& -->
+<h3 class="fn" id="QKnxNetIpRoutingSystemBroadcastProxy-2" translate="no"><a name="QKnxNetIpRoutingSystemBroadcastProxy-2"></a>QKnxNetIpRoutingSystemBroadcastProxy::<span class="name">QKnxNetIpRoutingSystemBroadcastProxy</span>(const <span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> &amp;<i>frame</i>)<a class="plink" href="#QKnxNetIpRoutingSystemBroadcastProxy-2" title="Direct link to this headline"></a></h3>
+<p>Constructs a proxy object to read the routing system broadcast carried by the specified KNXnet/IP frame <i translate="no">frame</i>.</p>
+<!-- @@@QKnxNetIpRoutingSystemBroadcastProxy -->
+<!-- $$$builder[overload1]$$$builder -->
+<h3 class="fn" id="builder" translate="no"><a name="builder"></a><code translate="no">[static] </code><span class="type"><a href="./qknxnetiproutingsystembroadcastproxy-builder.htm" translate="no">QKnxNetIpRoutingSystemBroadcastProxy::Builder</a></span> QKnxNetIpRoutingSystemBroadcastProxy::<span class="name">builder</span>()<a class="plink" href="#builder" title="Direct link to this headline"></a></h3>
+<p>Returns a builder object to create a KNXnet/IP routing system broadcast frame.</p>
+<!-- @@@builder -->
+<!-- $$$cemi[overload1]$$$cemi -->
+<h3 class="fn" id="cemi" translate="no"><a name="cemi"></a><span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span> QKnxNetIpRoutingSystemBroadcastProxy::<span class="name">cemi</span>() const<a class="plink" href="#cemi" title="Direct link to this headline"></a></h3>
+<p>Returns a cEMI frame that contains the routing system broadcast message.</p>
+<!-- @@@cemi -->
+<!-- $$$isValid[overload1]$$$isValid -->
+<h3 class="fn" id="isValid" translate="no"><a name="isValid"></a><span class="type">bool</span> QKnxNetIpRoutingSystemBroadcastProxy::<span class="name">isValid</span>() const<a class="plink" href="#isValid" title="Direct link to this headline"></a></h3>
+<p>Returns <code translate="no">true</code> if the frame contains initialized values and is in itself valid, otherwise returns <code translate="no">false</code>. A valid KNXnet/IP frame consists of at least a valid header and a size in bytes corresponding to the total size of the KNXnet/IP frame header.</p>
+<!-- @@@isValid -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

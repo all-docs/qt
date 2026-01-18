@@ -1,0 +1,225 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Demo - RSS News</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Demo - RSS News</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Quick Demo - RSS News</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+import QtQuick 2.2
+import QtQuick.XmlListModel 2.0
+import QtQuick.Window 2.1
+import "./content"
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">window</span>
+
+    <span class="name">width</span>: <span class="number">800</span>
+    <span class="name">height</span>: <span class="number">480</span>
+
+    property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">currentFeed</span>: <span class="name">rssFeeds</span>.<span class="name">get</span>(<span class="number">0</span>).<span class="name">feed</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">loading</span>: <span class="name">feedModel</span>.<span class="name">status</span> <span class="operator">===</span> <span class="name">XmlListModel</span>.<span class="name">Loading</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">isPortrait</span>: <span class="name">Screen</span>.<span class="name">primaryOrientation</span> <span class="operator">===</span> <span class="name">Qt</span>.<span class="name">PortraitOrientation</span>
+
+    <span class="name">onLoadingChanged</span>: {
+        <span class="keyword">if</span> (<span class="name">feedModel</span>.<span class="name">status</span> <span class="operator">==</span> <span class="name">XmlListModel</span>.<span class="name">Ready</span>)
+            <span class="name">list</span>.<span class="name">positionViewAtBeginning</span>()
+    }
+
+    <span class="type">RssFeeds</span> { <span class="name">id</span>: <span class="name">rssFeeds</span> }
+
+    <span class="type"><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a></span> {
+        <span class="name">id</span>: <span class="name">feedModel</span>
+
+        <span class="name">source</span>: <span class="string">"http://"</span> <span class="operator">+</span> <span class="name">window</span>.<span class="name">currentFeed</span>
+        <span class="name">query</span>: <span class="string">"/rss/channel/item[child::media:content]"</span>
+        <span class="name">namespaceDeclarations</span>: <span class="string">"declare namespace media = 'http://search.yahoo.com/mrss/';"</span>
+
+        <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"title"</span>; <span class="name">query</span>: <span class="string">"title/string()"</span> }
+        <span class="comment">// Remove any links from the description</span>
+        <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"description"</span>; <span class="name">query</span>: <span class="string">"fn:replace(description/string(), '\&amp;lt;a href=.*\/a\&amp;gt;', '')"</span> }
+        <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"image"</span>; <span class="name">query</span>: <span class="string">"media:content/@url/string()"</span> }
+        <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"link"</span>; <span class="name">query</span>: <span class="string">"link/string()"</span> }
+        <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"pubDate"</span>; <span class="name">query</span>: <span class="string">"pubDate/string()"</span> }
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">id</span>: <span class="name">categories</span>
+        property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">itemWidth</span>: <span class="number">190</span>
+
+        <span class="name">width</span>: <span class="name">isPortrait</span> ? <span class="name">parent</span>.<span class="name">width</span> : <span class="name">itemWidth</span>
+        <span class="name">height</span>: <span class="name">isPortrait</span> ? <span class="name">itemWidth</span> : <span class="name">parent</span>.<span class="name">height</span>
+        <span class="name">orientation</span>: <span class="name">isPortrait</span> ? <span class="name">ListView</span>.<span class="name">Horizontal</span> : <span class="name">ListView</span>.<span class="name">Vertical</span>
+        <span class="name">anchors</span>.top: <span class="name">parent</span>.<span class="name">top</span>
+        <span class="name">model</span>: <span class="name">rssFeeds</span>
+        <span class="name">delegate</span>: <span class="name">CategoryDelegate</span> { <span class="name">itemSize</span>: <span class="name">categories</span>.<span class="name">itemWidth</span> }
+        <span class="name">spacing</span>: <span class="number">3</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-controls2-scrollbar.htm" translate="no">ScrollBar</a></span> {
+        <span class="name">id</span>: <span class="name">listScrollBar</span>
+
+        <span class="name">orientation</span>: <span class="name">isPortrait</span> ? <span class="name">Qt</span>.<span class="name">Horizontal</span> : <span class="name">Qt</span>.<span class="name">Vertical</span>
+        <span class="name">height</span>: <span class="name">isPortrait</span> ? <span class="number">8</span> : <span class="name">categories</span>.<span class="name">height</span>;
+        <span class="name">width</span>: <span class="name">isPortrait</span> ? <span class="name">categories</span>.<span class="name">width</span> : <span class="number">8</span>
+        <span class="name">scrollArea</span>: <span class="name">categories</span>;
+        <span class="name">anchors</span>.right: <span class="name">categories</span>.<span class="name">right</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">id</span>: <span class="name">list</span>
+
+        <span class="name">anchors</span>.left: <span class="name">isPortrait</span> ? <span class="name">window</span>.<span class="name">left</span> : <span class="name">categories</span>.<span class="name">right</span>
+        <span class="name">anchors</span>.right: <span class="name">closeButton</span>.<span class="name">left</span>
+        <span class="name">anchors</span>.top: <span class="name">isPortrait</span> ? <span class="name">categories</span>.<span class="name">bottom</span> : <span class="name">window</span>.<span class="name">top</span>
+        <span class="name">anchors</span>.bottom: <span class="name">window</span>.<span class="name">bottom</span>
+        <span class="name">anchors</span>.leftMargin: <span class="number">30</span>
+        <span class="name">anchors</span>.rightMargin: <span class="number">4</span>
+        <span class="name">clip</span>: <span class="name">isPortrait</span>
+        <span class="name">model</span>: <span class="name">feedModel</span>
+        <span class="name">footer</span>: <span class="name">footerText</span>
+        <span class="name">delegate</span>: <span class="name">NewsDelegate</span> {}
+    }
+
+    <span class="type"><a href="./qml-qtquick-controls2-scrollbar.htm" translate="no">ScrollBar</a></span> {
+        <span class="name">scrollArea</span>: <span class="name">list</span>
+        <span class="name">width</span>: <span class="number">8</span>
+        <span class="name">anchors</span>.right: <span class="name">window</span>.<span class="name">right</span>
+        <span class="name">anchors</span>.top: <span class="name">isPortrait</span> ? <span class="name">categories</span>.<span class="name">bottom</span> : <span class="name">window</span>.<span class="name">top</span>
+        <span class="name">anchors</span>.bottom: <span class="name">window</span>.<span class="name">bottom</span>
+    }
+
+    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">footerText</span>
+
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+            <span class="name">height</span>: <span class="name">closeButton</span>.<span class="name">height</span>
+            <span class="name">color</span>: <span class="string">"lightgray"</span>
+
+            <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                <span class="name">text</span>: <span class="string">"RSS Feed from Yahoo News"</span>
+                <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                <span class="name">font</span>.pixelSize: <span class="number">14</span>
+            }
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">closeButton</span>
+        <span class="name">source</span>: <span class="string">"content/images/btn_close.png"</span>
+        <span class="name">scale</span>: <span class="number">0.8</span>
+        <span class="name">anchors</span>.top: <span class="name">parent</span>.<span class="name">top</span>
+        <span class="name">anchors</span>.right: <span class="name">parent</span>.<span class="name">right</span>
+        <span class="name">anchors</span>.margins: <span class="number">4</span>
+        <span class="name">opacity</span>: (<span class="name">isPortrait</span> <span class="operator">&amp;&amp;</span> <span class="name">categories</span>.<span class="name">moving</span>) ? <span class="number">0.2</span> : <span class="number">1.0</span>
+        Behavior on <span class="name">opacity</span> {
+            <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">duration</span>: <span class="number">300</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">OutSine</span> }
+        }
+
+        <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+            <span class="name">anchors</span>.fill: <span class="name">parent</span>
+            <span class="name">onClicked</span>: {
+                <span class="name">Qt</span>.<span class="name">quit</span>()
+            }
+        }
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

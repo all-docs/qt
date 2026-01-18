@@ -1,0 +1,108 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsolete Members for QAbstractItemModel | Qt Core</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QAbstractItemModel</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Obsolete Members for QAbstractItemModel</h1>
+<p><b>The following members of class <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a> are obsolete.</b> They are provided to keep old source code working. We strongly advise against using them in new code.</p>
+<h2>Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>void </td><td class="memItemRight bottomAlign"><b><a href="./qabstractitemmodel-obsolete.htm#setSupportedDragActions" translate="no">setSupportedDragActions</a></b>(Qt::DropActions <i>actions</i>)</td></tr>
+</tbody></table></div>
+<h2>Protected Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>void </td><td class="memItemRight bottomAlign"><b><a href="./qabstractitemmodel-obsolete.htm#reset" translate="no">reset</a></b>()</td></tr>
+<tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>void </td><td class="memItemRight bottomAlign"><b><a href="./qabstractitemmodel-obsolete.htm#setRoleNames" translate="no">setRoleNames</a></b>(const QHash&lt;int, QByteArray&gt; &amp;<i>roleNames</i>)</td></tr>
+</tbody></table></div>
+<h2>Member Function Documentation</h2>
+<!-- $$$reset[overload1]$$$reset -->
+<h3 class="fn" id="reset" translate="no"><a name="reset"></a><code translate="no">[protected] </code><span class="type">void</span> QAbstractItemModel::<span class="name">reset</span>()<a class="plink" href="#reset" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Resets the model to its original state in any attached views.</p>
+<p>This function emits the signals <a href="./qabstractitemmodel.htm#modelAboutToBeReset" translate="no">modelAboutToBeReset</a>() and <a href="./qabstractitemmodel.htm#modelReset" translate="no">modelReset</a>().</p>
+<div class="admonition note">
+<p><b>Note: </b>Use <a href="./qabstractitemmodel.htm#beginResetModel" translate="no">beginResetModel</a>() and <a href="./qabstractitemmodel.htm#endResetModel" translate="no">endResetModel</a>() instead whenever possible. Use this method only if there is no way to call <a href="./qabstractitemmodel.htm#beginResetModel" translate="no">beginResetModel</a>() before invalidating the model. Otherwise it could lead to unexpected behaviour, especially when used with proxy models.</p>
+</div>
+<p>For example, in this code both signals <a href="./qabstractitemmodel.htm#modelAboutToBeReset" translate="no">modelAboutToBeReset</a>() and <a href="./qabstractitemmodel.htm#modelReset" translate="no">modelReset</a>() are emitted <i>after</i> the data changes:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">myData<span class="operator">.</span>clear();
+reset();</pre></div>
+<p>Instead you should use:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">beginResetModel();
+myData<span class="operator">.</span>clear();
+endResetModel();</pre></div>
+<!-- @@@reset -->
+<!-- $$$setRoleNames[overload1]$$$setRoleNamesconstQHash<int,QByteArray>& -->
+<h3 class="fn" id="setRoleNames" translate="no"><a name="setRoleNames"></a><code translate="no">[protected] </code><span class="type">void</span> QAbstractItemModel::<span class="name">setRoleNames</span>(const <span class="type"><a href="./qhash.htm" translate="no">QHash</a></span>&lt;<span class="type">int</span>, <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span>&gt; &amp;<i>roleNames</i>)<a class="plink" href="#setRoleNames" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>This function is obsolete. Reimplement <a href="./qabstractitemmodel.htm#roleNames" translate="no">roleNames</a>() instead.</p>
+<p>Sets the model's role names to <i translate="no">roleNames</i>.</p>
+<p>This function allows mapping of role identifiers to role property names in scripting languages.</p>
+<p>This function was introduced in Qt 4.6.</p>
+<p><b>See also </b><a href="./qabstractitemmodel.htm#roleNames" translate="no">roleNames</a>().</p>
+<!-- @@@setRoleNames -->
+<!-- $$$setSupportedDragActions[overload1]$$$setSupportedDragActionsQt::DropActions -->
+<h3 class="fn" id="setSupportedDragActions" translate="no"><a name="setSupportedDragActions"></a><span class="type">void</span> QAbstractItemModel::<span class="name">setSupportedDragActions</span>(<span class="type"><a href="./qt.htm#DropAction-enum" translate="no">Qt::DropActions</a></span> <i>actions</i>)<a class="plink" href="#setSupportedDragActions" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>This function is obsolete. Reimplement <a href="./qabstractitemmodel.htm#supportedDragActions" translate="no">supportedDragActions</a>() instead.</p>
+<p>Sets the supported drag <i translate="no">actions</i> for the items in the model.</p>
+<p>This function was introduced in Qt 4.2.</p>
+<p><b>See also </b><a href="./qabstractitemmodel.htm#supportedDragActions" translate="no">supportedDragActions</a>() and <a href="./model-view-programming.htm#using-drag-and-drop-with-item-views" translate="no">Using drag and drop with item views</a>.</p>
+<!-- @@@setSupportedDragActions -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

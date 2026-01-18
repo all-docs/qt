@@ -1,0 +1,140 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Event System | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/eventsandfilters.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a>The Event System</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">The Event System</h1>
+<span class="subtitle"></span>
+<!-- $$$eventsandfilters.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>In Qt, events are objects, derived from the abstract <a href="./qevent.htm" translate="no">QEvent</a> class, that represent things that have happened either within an application or as a result of outside activity that the application needs to know about. Events can be received and handled by any instance of a <a href="./qobject.htm" translate="no">QObject</a> subclass, but they are especially relevant to widgets. This document describes how events are delivered and handled in a typical application.</p>
+<a name="how-events-are-delivered"></a>
+<h2 id="how-events-are-delivered">How Events are Delivered<a class="plink" href="#how-events-are-delivered" title="Direct link to this headline"></a></h2>
+<p>When an event occurs, Qt creates an event object to represent it by constructing an instance of the appropriate <a href="./qevent.htm" translate="no">QEvent</a> subclass, and delivers it to a particular instance of <a href="./qobject.htm" translate="no">QObject</a> (or one of its subclasses) by calling its <a href="./qobject.htm#event" translate="no">event()</a> function.</p>
+<p>This function does not handle the event itself; based on the type of event delivered, it calls an event handler for that specific type of event, and sends a response based on whether the event was accepted or ignored.</p>
+<p>Some events, such as <a href="./qmouseevent.htm" translate="no">QMouseEvent</a> and <a href="./qkeyevent.htm" translate="no">QKeyEvent</a>, come from the window system; some, such as <a href="./qtimerevent.htm" translate="no">QTimerEvent</a>, come from other sources; some come from the application itself.</p>
+<a name="event-types"></a>
+<h2 id="event-types">Event Types<a class="plink" href="#event-types" title="Direct link to this headline"></a></h2>
+<p>Most event types have special classes, notably <a href="./qresizeevent.htm" translate="no">QResizeEvent</a>, <a href="./qpaintevent.htm" translate="no">QPaintEvent</a>, <a href="./qmouseevent.htm" translate="no">QMouseEvent</a>, <a href="./qkeyevent.htm" translate="no">QKeyEvent</a>, and <a href="./qcloseevent.htm" translate="no">QCloseEvent</a>. Each class subclasses <a href="./qevent.htm" translate="no">QEvent</a> and adds event-specific functions. For example, <a href="./qresizeevent.htm" translate="no">QResizeEvent</a> adds <a href="./qresizeevent.htm#size" translate="no">size()</a> and <a href="./qresizeevent.htm#oldSize" translate="no">oldSize()</a> to enable widgets to discover how their dimensions have been changed.</p>
+<p>Some classes support more than one actual event type. <a href="./qmouseevent.htm" translate="no">QMouseEvent</a> supports mouse button presses, double-clicks, moves, and other related operations.</p>
+<p>Each event has an associated type, defined in <a href="./qevent.htm#Type-enum" translate="no">QEvent::Type</a>, and this can be used as a convenient source of run-time type information to quickly determine which subclass a given event object was constructed from.</p>
+<p>Since programs need to react in varied and complex ways, Qt's event delivery mechanisms are flexible. The documentation for <a href="./qcoreapplication.htm#notify" translate="no">QCoreApplication::notify</a>() concisely tells the whole story; the <i>Qt Quarterly</i> article <a href="http://doc.qt.io/archives/qq/qq11-events.html" translate="no">Another Look at Events</a> rehashes it less concisely. Here we will explain enough for 95% of applications.</p>
+<a name="event-handlers"></a>
+<h2 id="event-handlers">Event Handlers<a class="plink" href="#event-handlers" title="Direct link to this headline"></a></h2>
+<p>The normal way for an event to be delivered is by calling a virtual function. For example, <a href="./qpaintevent.htm" translate="no">QPaintEvent</a> is delivered by calling <a href="./qwidget.htm#paintEvent" translate="no">QWidget::paintEvent</a>(). This virtual function is responsible for reacting appropriately, normally by repainting the widget. If you do not perform all the necessary work in your implementation of the virtual function, you may need to call the base class's implementation.</p>
+<p>For example, the following code handles left mouse button clicks on a custom checkbox widget while passing all other button clicks to the base <a href="./qcheckbox.htm" translate="no">QCheckBox</a> class:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyCheckBox<span class="operator">::</span>mousePressEvent(<span class="type"><a href="./qmouseevent.htm" translate="no">QMouseEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>button() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>LeftButton) {
+        <span class="comment">// handle left mouse button here</span>
+    } <span class="keyword">else</span> {
+        <span class="comment">// pass on other buttons to base class</span>
+        <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>mousePressEvent(event);
+    }
+}</pre></div>
+<p>If you want to replace the base class's function, you must implement everything yourself. However, if you only want to extend the base class's functionality, then you implement what you want and call the base class to obtain the default behavior for any cases you do not want to handle.</p>
+<p>Occasionally, there isn't such an event-specific function, or the event-specific function isn't sufficient. The most common example involves Tab key presses. Normally, <a href="./qwidget.htm" translate="no">QWidget</a> intercepts these to move the keyboard focus, but a few widgets need the Tab key for themselves.</p>
+<p>These objects can reimplement <a href="./qobject.htm#event" translate="no">QObject::event</a>(), the general event handler, and either do their event handling before or after the usual handling, or they can replace the function completely. A very unusual widget that both interprets Tab and has an application-specific custom event might contain the following <a href="./qobject.htm#event" translate="no">event()</a> function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool MyWidget<span class="operator">::</span>event(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>type() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>KeyPress) {
+        <span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span>ke <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span><span class="operator">&gt;</span>(event);
+        <span class="keyword">if</span> (ke<span class="operator">-</span><span class="operator">&gt;</span>key() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Tab) {
+            <span class="comment">// special tab handling here</span>
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (event<span class="operator">-</span><span class="operator">&gt;</span>type() <span class="operator">=</span><span class="operator">=</span> MyCustomEventType) {
+        MyCustomEvent <span class="operator">*</span>myEvent <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>MyCustomEvent <span class="operator">*</span><span class="operator">&gt;</span>(event);
+        <span class="comment">// custom event handling here</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+
+    <span class="keyword">return</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">::</span>event(event);
+}</pre></div>
+<p>Note that <a href="./qwidget.htm#event" translate="no">QWidget::event</a>() is still called for all of the cases not handled, and that the return value indicates whether an event was dealt with; a <code translate="no">true</code> value prevents the event from being sent on to other objects.</p>
+<a name="event-filters"></a>
+<h2 id="event-filters">Event Filters<a class="plink" href="#event-filters" title="Direct link to this headline"></a></h2>
+<p>Sometimes an object needs to look at, and possibly intercept, the events that are delivered to another object. For example, dialogs commonly want to filter key presses for some widgets; for example, to modify Return-key handling.</p>
+<p>The <a href="./qobject.htm#installEventFilter" translate="no">QObject::installEventFilter</a>() function enables this by setting up an <i>event filter</i>, causing a nominated filter object to receive the events for a target object in its <a href="./qobject.htm#eventFilter" translate="no">QObject::eventFilter</a>() function. An event filter gets to process events before the target object does, allowing it to inspect and discard the events as required. An existing event filter can be removed using the <a href="./qobject.htm#removeEventFilter" translate="no">QObject::removeEventFilter</a>() function.</p>
+<p>When the filter object's <a href="./qobject.htm#eventFilter" translate="no">eventFilter()</a> implementation is called, it can accept or reject the event, and allow or deny further processing of the event. If all the event filters allow further processing of an event (by each returning <code translate="no">false</code>), the event is sent to the target object itself. If one of them stops processing (by returning <code translate="no">true</code>), the target and any later event filters do not get to see the event at all.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool FilterObject<span class="operator">::</span>eventFilter(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>object<span class="operator">,</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">if</span> (object <span class="operator">=</span><span class="operator">=</span> target <span class="operator">&amp;</span><span class="operator">&amp;</span> event<span class="operator">-</span><span class="operator">&gt;</span>type() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>KeyPress) {
+        <span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span>keyEvent <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qkeyevent.htm" translate="no">QKeyEvent</a></span> <span class="operator">*</span><span class="operator">&gt;</span>(event);
+        <span class="keyword">if</span> (keyEvent<span class="operator">-</span><span class="operator">&gt;</span>key() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Key_Tab) {
+            <span class="comment">// Special tab handling</span>
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+        } <span class="keyword">else</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}</pre></div>
+<p>The above code shows another way to intercept Tab key press events sent to a particular target widget. In this case, the filter handles the relevant events and returns <code translate="no">true</code> to stop them from being processed any further. All other events are ignored, and the filter returns <code translate="no">false</code> to allow them to be sent on to the target widget, via any other event filters that are installed on it.</p>
+<p>It is also possible to filter <i>all</i> events for the entire application, by installing an event filter on the <a href="./qapplication.htm" translate="no">QApplication</a> or <a href="./qcoreapplication.htm" translate="no">QCoreApplication</a> object. Such global event filters are called before the object-specific filters. This is very powerful, but it also slows down event delivery of every single event in the entire application; the other techniques discussed should generally be used instead.</p>
+<a name="sending-events"></a>
+<h2 id="sending-events">Sending Events<a class="plink" href="#sending-events" title="Direct link to this headline"></a></h2>
+<p>Many applications want to create and send their own events. You can send events in exactly the same ways as Qt's own event loop by constructing suitable event objects and sending them with <a href="./qcoreapplication.htm#sendEvent" translate="no">QCoreApplication::sendEvent</a>() and <a href="./qcoreapplication.htm#postEvent" translate="no">QCoreApplication::postEvent</a>().</p>
+<p><a href="./qcoreapplication.htm#sendEvent" translate="no">sendEvent()</a> processes the event immediately. When it returns, the event filters and/or the object itself have already processed the event. For many event classes there is a function called <a href="./qevent.htm#accepted-prop" translate="no">isAccepted()</a> that tells you whether the event was accepted or rejected by the last handler that was called.</p>
+<p><a href="./qcoreapplication.htm#postEvent" translate="no">postEvent()</a> posts the event on a queue for later dispatch. The next time Qt's main event loop runs, it dispatches all posted events, with some optimization. For example, if there are several resize events, they are compressed into one. The same applies to paint events: <a href="./qwidget.htm#update" translate="no">QWidget::update</a>() calls <a href="./qcoreapplication.htm#postEvent" translate="no">postEvent()</a>, which eliminates flickering and increases speed by avoiding multiple repaints.</p>
+<p><a href="./qcoreapplication.htm#postEvent" translate="no">postEvent()</a> is also used during object initialization, since the posted event will typically be dispatched very soon after the initialization of the object is complete. When implementing a widget, it is important to realize that events can be delivered very early in its lifetime so, in its constructor, be sure to initialize member variables early on, before there's any chance that it might receive an event.</p>
+<p>To create events of a custom type, you need to define an event number, which must be greater than <a href="./qevent.htm#Type-enum" translate="no">QEvent::User</a>, and you may need to subclass <a href="./qevent.htm" translate="no">QEvent</a> in order to pass specific information about your custom event. See the <a href="./qevent.htm" translate="no">QEvent</a> documentation for further details.</p>
+</div>
+<!-- @@@eventsandfilters.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

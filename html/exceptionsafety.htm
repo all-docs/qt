@@ -1,0 +1,141 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exception Safety</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/exceptionsafety.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./overviews-main.htm#best-practices" translate="no">Best Practice Guides</a></li>
+                            <li><a>Exception Safety</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Exception Safety</h1>
+<span class="subtitle"></span>
+<!-- $$$exceptionsafety.html-description -->
+<div class="descr"> <a name="details"></a>
+<p><b>Preliminary warning</b>: Exception safety is not feature complete! Common cases should work, but classes might still leak or even crash.</p>
+<p>Qt itself will not throw exceptions. Instead, error codes are used. In addition, some classes have user visible error messages, for example <a href="./qiodevice.htm#errorString" translate="no">QIODevice::errorString</a>() or <a href="./qsqlquery.htm#lastError" translate="no">QSqlQuery::lastError</a>(). This has historical and practical reasons - turning on exceptions can increase the library size by over 20%.</p>
+<p>The following sections describe Qt's behavior if exception support is enabled at compile time.</p>
+<a name="exception-safe-modules"></a>
+<h2 id="exception-safe-modules">Exception Safe Modules<a class="plink" href="#exception-safe-modules" title="Direct link to this headline"></a></h2>
+<a name="containers"></a>
+<h3 id="containers">Containers<a class="plink" href="#containers" title="Direct link to this headline"></a></h3>
+<p>Qt's <a href="./topics-core.htm#container-classes" translate="no">container classes</a> are generally exception neutral. They pass any exception that happens within their contained type <code translate="no">T</code> to the user while keeping their internal state valid.</p>
+<p>Example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">&gt;</span> list;
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="keyword">try</span> {
+    list<span class="operator">.</span>append(<span class="string">"hello"</span>);
+} <span class="keyword">catch</span> (<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>) {
+}
+<span class="comment">// list is safe to use - the exception did not affect it.</span></pre></div>
+<p>Exceptions to that rule are containers for types that can throw during assignment or copy constructions. For those types, functions that modify the container as well as returning a value, are unsafe to use:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MyType s <span class="operator">=</span> list<span class="operator">.</span>takeAt(<span class="number">2</span>);</pre></div>
+<p>If an exception occurs during the assignment of <code translate="no">s</code>, the value at index 2 is already removed from the container, but hasn't been assigned to <code translate="no">s</code> yet. It is lost without chance of recovery.</p>
+<p>The correct way to write it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MyType s <span class="operator">=</span> list<span class="operator">.</span>at(<span class="number">2</span>);
+list<span class="operator">.</span>removeAt(<span class="number">2</span>);</pre></div>
+<p>If the assignment throws, the container will still contain the value; no data loss occurred.</p>
+<p>Note that implicitly shared Qt classes will not throw in their assignment operators or copy constructors, so the limitation above does not apply.</p>
+<a name="out-of-memory-handling"></a>
+<h2 id="out-of-memory-handling">Out of Memory Handling<a class="plink" href="#out-of-memory-handling" title="Direct link to this headline"></a></h2>
+<p>Most desktop operating systems overcommit memory. This means that <code translate="no">malloc()</code> or <code translate="no">operator new</code> return a valid pointer, even though there is not enough memory available at allocation time. On such systems, no exception of type <code translate="no">std::bad_alloc</code> is thrown.</p>
+<p>On all other operating systems, Qt will throw an exception of type std::bad_alloc if any allocation fails. Allocations can fail if the system runs out of memory or doesn't have enough continuous memory to allocate the requested size.</p>
+<p>Exceptions to that rule are documented. As an example, <a href="./qimage.htm" translate="no">QImage</a> constructors will create a <a href="./qimage.htm#isNull" translate="no">null</a> image if not enough memory exists instead of throwing an exception.</p>
+<a name="recovering-from-exceptions"></a>
+<h2 id="recovering-from-exceptions">Recovering from Exceptions<a class="plink" href="#recovering-from-exceptions" title="Direct link to this headline"></a></h2>
+<p>Currently, the only supported use case for recovering from exceptions thrown within Qt (for example due to out of memory) is to exit the event loop and do some cleanup before exiting the application.</p>
+<p>Typical use case:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="type">int</span> ret;
+<span class="keyword">try</span> {
+    ret <span class="operator">=</span> app<span class="operator">.</span>exec();
+} <span class="keyword">catch</span> (<span class="keyword">const</span> std<span class="operator">::</span>bad_alloc <span class="operator">&amp;</span>) {
+    <span class="comment">// clean up here, e.g. save the session</span>
+    <span class="comment">// and close all config files.</span>
+
+    <span class="keyword">return</span> EXIT_FAILURE; <span class="comment">// exit the application</span>
+}
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="keyword">return</span> ret;</pre></div>
+<p>After an exception is thrown, the connection to the windowing server might already be closed. It is not safe to call a GUI related function after catching an exception.</p>
+<a name="exceptions-in-client-code"></a>
+<h2 id="exceptions-in-client-code">Exceptions in Client Code<a class="plink" href="#exceptions-in-client-code" title="Direct link to this headline"></a></h2>
+<a name="signals-and-slots"></a>
+<h3 id="signals-and-slots">Signals and Slots<a class="plink" href="#signals-and-slots" title="Direct link to this headline"></a></h3>
+<p>Throwing an exception from a slot invoked by Qt's <a href="./signalsandslots.htm" translate="no">signal-slot</a> connection mechanism is considered undefined behaviour, unless it is handled within the slot:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">State state;
+StateListener stateListener;
+
+<span class="comment">// OK; the exception is handled before it leaves the slot.</span>
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>state<span class="operator">,</span> SIGNAL(stateChanged())<span class="operator">,</span> <span class="operator">&amp;</span>stateListener<span class="operator">,</span> SLOT(throwHandledException()));
+<span class="comment">// Undefined behaviour; upon invocation of the slot, the exception will be propagated to the</span>
+<span class="comment">// point of emission, unwinding the stack of the Qt code (which is not guaranteed to be exception safe).</span>
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>state<span class="operator">,</span> SIGNAL(stateChanged())<span class="operator">,</span> <span class="operator">&amp;</span>stateListener<span class="operator">,</span> SLOT(throwUnhandledException()));</pre></div>
+<p>If the slot was invoked directly, like a regular function call, exceptions may be used. This is because the connection mechanism is bypassed when invoking slots directly:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">State state;
+StateListener stateListener;
+
+<span class="comment">// ...</span>
+
+<span class="keyword">try</span> {
+    <span class="comment">// OK; invoking slot directly.</span>
+    stateListener<span class="operator">.</span>throwException();
+} <span class="keyword">catch</span> (<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>) {
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Handling exception not caught in slot."</span>;
+}</pre></div>
+</div>
+<!-- @@@exceptionsafety.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

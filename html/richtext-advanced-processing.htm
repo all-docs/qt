@@ -1,0 +1,99 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Rich Text Processing | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/richtext-advanced-processing.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a>Advanced Rich Text Processing</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="richtext-common-tasks.html" rel="prev">
+<link href="richtext-html-subset.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./richtext-common-tasks.htm">Common Rich Text Editing Tasks</a>
+<a class="" href="./richtext-html-subset.htm">Supported HTML Subset</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Advanced Rich Text Processing</h1>
+<span class="subtitle"></span>
+<!-- $$$richtext-advanced-processing.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="handling-large-files"></a>
+<h2 id="handling-large-files">Handling Large Files<a class="plink" href="#handling-large-files" title="Direct link to this headline"></a></h2>
+<p>Qt does not limit the size of files that are used for text processing. In most cases, this will not present a problem. For especially large files, however, you might experience that your application will become unresponsive or that you will run out of memory. The size of the files you can load depends on your hardware and on Qt's and your own application's implementation.</p>
+<p>If you are faced with this problem, we recommend that you address the following issues:</p>
+<ul>
+<li>You should consider breaking up large paragraphs into smaller ones as Qt handles small paragraphs better. You could also insert line breaks at regular intervals, which will look the same as one large paragraph in a <a href="./qtextedit.htm" translate="no">QTextEdit</a>.</li>
+<li>You can reduce the amount of blocks in a <a href="./qtextdocument.htm" translate="no">QTextDocument</a> with <a href="./qtextdocument.htm#maximumBlockCount-prop" translate="no">maximumBlockCount()</a>. The document is only as large as the number of blocks as far as <a href="./qtextedit.htm" translate="no">QTextEdit</a> is concerned.</li>
+<li>When adding text to a text edit, it is an advantage to add it in an edit block (see example below). The result is that the text edit does not need to build the entire document structure at once.</li>
+</ul>
+<p>We give an example of the latter technique from the list. We assume that the text edit is visible.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">textEdit<span class="operator">.</span>show();
+
+textCursor<span class="operator">.</span>beginEditBlock();
+
+<span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> <span class="number">1000</span>; <span class="operator">+</span><span class="operator">+</span>i) {
+    textCursor<span class="operator">.</span>insertBlock();
+    textCursor<span class="operator">.</span>insertText(paragraphText<span class="operator">.</span>at(i));
+}
+
+textCursor<span class="operator">.</span>endEditBlock();</pre></div>
+</div>
+<!-- @@@richtext-advanced-processing.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./richtext-common-tasks.htm">Common Rich Text Editing Tasks</a>
+<a class="nextPage" href="./richtext-html-subset.htm">Supported HTML Subset</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

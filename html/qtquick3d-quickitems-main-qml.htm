@@ -1,0 +1,338 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick 3D - Quick Items Example | Qt Quick 3D</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick3d-index.htm" translate="no">Qt Quick 3D</a></li>
+                            <li><a href="./quick3d-examples.htm" translate="no">Qt Quick 3D Examples and Tutorials</a></li>
+                            <li class="last"><a>Qt Quick 3D - Quick Items Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Quick 3D - Quick Items Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2020 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+import QtQuick 2.15
+import QtQuick.Window 2.12
+import QtQuick3D 1.15
+
+<span class="type"><a href="./qml-qtquick-window-window.htm" translate="no">Window</a></span> {
+    <span class="name">width</span>: <span class="number">800</span>
+    <span class="name">height</span>: <span class="number">480</span>
+    <span class="name">visible</span>: <span class="number">true</span>
+    <span class="name">title</span>: <span class="name">qsTr</span>(<span class="string">"Quick Items Example"</span>)
+
+    <span class="type"><a href="./qml-qtquick3d-view3d.htm" translate="no">View3D</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">environment</span>: <span class="name">SceneEnvironment</span> {
+            <span class="name">clearColor</span>: <span class="string">"#808080"</span>
+            <span class="name">backgroundMode</span>: <span class="name">SceneEnvironment</span>.<span class="name">Color</span>
+            <span class="name">antialiasingMode</span>: <span class="name">SceneEnvironment</span>.<span class="name">MSAA</span>
+            <span class="name">antialiasingQuality</span>: <span class="name">SceneEnvironment</span>.<span class="name">High</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-perspectivecamera.htm" translate="no">PerspectiveCamera</a></span> {
+            <span class="name">id</span>: <span class="name">camera</span>
+            property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">cameraAnimation</span>: <span class="number">1</span>
+            SequentialAnimation on <span class="name">cameraAnimation</span> {
+                <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                    <span class="name">to</span>: -<span class="number">1</span>
+                    <span class="name">duration</span>: <span class="number">5000</span>
+                    <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                }
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                    <span class="name">to</span>: <span class="number">1</span>
+                    <span class="name">duration</span>: <span class="number">5000</span>
+                    <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                }
+            }
+            <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">200</span> <span class="operator">*</span> <span class="name">cameraAnimation</span>, <span class="number">300</span>, <span class="number">500</span>)
+            <span class="name">eulerRotation</span>.x: -<span class="number">20</span>
+            <span class="name">eulerRotation</span>.y: <span class="number">20</span> <span class="operator">*</span> <span class="name">cameraAnimation</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-directionallight.htm" translate="no">DirectionalLight</a></span> {
+            <span class="name">eulerRotation</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(-<span class="number">135</span>, -<span class="number">110</span>, <span class="number">0</span>)
+            <span class="name">brightness</span>: <span class="number">100</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-spotlight.htm" translate="no">SpotLight</a></span> {
+            <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, <span class="number">500</span>, <span class="number">600</span>)
+            <span class="name">eulerRotation</span>.x: -<span class="number">45</span>
+            <span class="name">brightness</span>: <span class="number">3000</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+            <span class="name">source</span>: <span class="string">"#Rectangle"</span>
+            <span class="name">y</span>: -<span class="number">500</span>
+            <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">12</span>, <span class="number">12</span>, <span class="number">12</span>)
+            <span class="name">eulerRotation</span>.x: -<span class="number">90</span>
+            <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1.0</span>)
+            }
+        }
+        <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+            <span class="name">source</span>: <span class="string">"#Rectangle"</span>
+            <span class="name">x</span>: -<span class="number">600</span>
+            <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">12</span>, <span class="number">10</span>, <span class="number">12</span>)
+            <span class="name">eulerRotation</span>.y: <span class="number">90</span>
+            <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">0.6</span>, <span class="number">1.0</span>)
+            }
+        }
+        <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+            <span class="name">source</span>: <span class="string">"#Rectangle"</span>
+            <span class="name">z</span>: -<span class="number">600</span>
+            <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">12</span>, <span class="number">10</span>, <span class="number">12</span>)
+            <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.8</span>, <span class="number">0.8</span>, <span class="number">0.6</span>, <span class="number">1.0</span>)
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-node.htm" translate="no">Node</a></span> {
+            <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, <span class="number">100</span>, -<span class="number">120</span>)
+            <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+                <span class="name">width</span>: <span class="number">400</span>
+                <span class="name">height</span>: <span class="number">400</span>
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                    <span class="name">opacity</span>: <span class="number">0.4</span>
+                    <span class="name">color</span>: <span class="string">"#202020"</span>
+                    <span class="name">radius</span>: <span class="number">10</span>
+                    <span class="name">border</span>.width: <span class="number">2</span>
+                    <span class="name">border</span>.color: <span class="string">"#f0f0f0"</span>
+                }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                    <span class="name">anchors</span>.top: <span class="name">parent</span>.<span class="name">top</span>
+                    <span class="name">anchors</span>.topMargin: <span class="number">10</span>
+                    <span class="name">anchors</span>.horizontalCenter: <span class="name">parent</span>.<span class="name">horizontalCenter</span>
+                    <span class="name">font</span>.pixelSize: <span class="number">20</span>
+                    <span class="name">color</span>: <span class="string">"#e0e0e0"</span>
+                    <span class="name">style</span>: <span class="name">Text</span>.<span class="name">Raised</span>
+                    <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Background Item"</span>)
+                }
+                <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+                    <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                    <span class="name">source</span>: <span class="string">"Built_with_Qt_RGB_logo_vertical"</span>
+                }
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-node.htm" translate="no">Node</a></span> {
+            <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, <span class="number">150</span>, <span class="number">100</span>)
+            SequentialAnimation on <span class="name">x</span> {
+                <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                    <span class="name">to</span>: -<span class="number">200</span>
+                    <span class="name">duration</span>: <span class="number">1500</span>
+                    <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                }
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                    <span class="name">to</span>: <span class="number">200</span>
+                    <span class="name">duration</span>: <span class="number">1500</span>
+                    <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                }
+            }
+            NumberAnimation on <span class="name">eulerRotation</span>.z {
+                <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+                <span class="name">from</span>: <span class="number">0</span>
+                <span class="name">to</span>: <span class="number">360</span>
+                <span class="name">duration</span>: <span class="number">4000</span>
+                <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutBack</span>
+            }
+            <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+                <span class="name">width</span>: <span class="number">400</span>
+                <span class="name">height</span>: <span class="number">400</span>
+                <span class="comment">// This allows rendering into offscreen surface and caching it.</span>
+                <span class="name">layer</span>.enabled: <span class="number">true</span>
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">x</span>: <span class="number">150</span>
+                    <span class="name">y</span>: <span class="number">100</span>
+                    <span class="name">width</span>: <span class="number">100</span>
+                    <span class="name">height</span>: <span class="number">100</span>
+                    <span class="name">radius</span>: <span class="number">50</span>
+                    <span class="name">color</span>: <span class="string">"#80808020"</span>
+                    <span class="name">border</span>.color: <span class="string">"black"</span>
+                    <span class="name">border</span>.width: <span class="number">2</span>
+                }
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">x</span>: <span class="number">90</span>
+                    <span class="name">y</span>: <span class="number">200</span>
+                    <span class="name">width</span>: <span class="number">100</span>
+                    <span class="name">height</span>: <span class="number">100</span>
+                    <span class="name">radius</span>: <span class="number">50</span>
+                    <span class="name">color</span>: <span class="string">"#80808020"</span>
+                    <span class="name">border</span>.color: <span class="string">"black"</span>
+                    <span class="name">border</span>.width: <span class="number">2</span>
+                }
+                <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                    <span class="name">x</span>: <span class="number">210</span>
+                    <span class="name">y</span>: <span class="number">200</span>
+                    <span class="name">width</span>: <span class="number">100</span>
+                    <span class="name">height</span>: <span class="number">100</span>
+                    <span class="name">radius</span>: <span class="number">50</span>
+                    <span class="name">color</span>: <span class="string">"#80808020"</span>
+                    <span class="name">border</span>.color: <span class="string">"black"</span>
+                    <span class="name">border</span>.width: <span class="number">2</span>
+                }
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-node.htm" translate="no">Node</a></span> {
+            <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, <span class="number">80</span>, <span class="number">250</span>)
+            <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+                <span class="name">width</span>: <span class="number">300</span>
+                <span class="name">wrapMode</span>: <span class="name">Text</span>.<span class="name">WordWrap</span>
+                <span class="name">horizontalAlignment</span>: <span class="name">Text</span>.<span class="name">AlignJustify</span>
+                <span class="name">font</span>.pixelSize: <span class="number">14</span>
+                <span class="name">color</span>: <span class="string">"#e0e0e0"</span>
+                <span class="name">style</span>: <span class="name">Text</span>.<span class="name">Raised</span>
+                <span class="name">text</span>: <span class="string">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "</span> <span class="operator">+</span>
+                      <span class="string">"tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim "</span> <span class="operator">+</span>
+                      <span class="string">"veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea "</span> <span class="operator">+</span>
+                      <span class="string">"commodo consequat."</span>
+                SequentialAnimation on <span class="name">opacity</span> {
+                    <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+                    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                        <span class="name">to</span>: <span class="number">0</span>
+                        <span class="name">duration</span>: <span class="number">1500</span>
+                        <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                    }
+                    <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                        <span class="name">to</span>: <span class="number">1</span>
+                        <span class="name">duration</span>: <span class="number">1500</span>
+                        <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                    }
+                }
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick3d-node.htm" translate="no">Node</a></span> {
+            <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>, <span class="number">800</span>, <span class="number">0</span>)
+            SequentialAnimation on <span class="name">eulerRotation</span>.x {
+                <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                    <span class="name">to</span>: <span class="number">20</span>
+                    <span class="name">duration</span>: <span class="number">3500</span>
+                    <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                }
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {
+                    <span class="name">to</span>: -<span class="number">20</span>
+                    <span class="name">duration</span>: <span class="number">3500</span>
+                    <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InOutQuad</span>
+                }
+            }
+            <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+                <span class="name">source</span>: <span class="string">"#Cylinder"</span>
+                <span class="name">y</span>: -<span class="number">300</span>
+                <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.1</span>, <span class="number">6.1</span>, <span class="number">0.1</span>)
+                <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                    <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">0.9</span>, <span class="number">1.0</span>)
+                }
+            }
+            <span class="type"><a href="./qml-qtquick3d-model.htm" translate="no">Model</a></span> {
+                <span class="name">source</span>: <span class="string">"#Sphere"</span>
+                <span class="name">y</span>: -<span class="number">700</span>
+                <span class="name">scale</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>)
+                <span class="name">materials</span>: <span class="name">DefaultMaterial</span> {
+                    <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.4</span>, <span class="number">0.4</span>, <span class="number">0.4</span>, <span class="number">1.0</span>)
+                }
+            }
+        }
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

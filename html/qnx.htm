@@ -1,0 +1,230 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt for QNX</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qnx.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt for QNX</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt for QNX</h1>
+<span class="subtitle"></span>
+<!-- $$$qnx.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="supported-architectures-and-qnx-releases"></a>
+<h2 id="supported-architectures-and-qnx-releases">Supported Architectures and QNX Releases<a class="plink" href="#supported-architectures-and-qnx-releases" title="Direct link to this headline"></a></h2>
+<p>From the perspective of an application development platform, Qt runs on top of <a href="http://www.qnx.com/products/neutrino-rtos/neutrino-rtos.html" translate="no">QNX Neutrino RTOS</a>. System integrators and application developers use a QNX SDP (Software Development Platform) which includes QNX Neutrino RTOS components for various targets and a full set of development tools.</p>
+<p>Qt 5 is currently tested and supported on QNX SDP 7.0 and 7.1, with support for the following target architectures:</p>
+<ul>
+<li><code translate="no">(32-bit)</code> ARMle-v7 and <code translate="no">x86</code> (QNX 7.0 only)</li>
+<li><code translate="no">(64-bit)</code> AArch64le and <code translate="no">x86-64</code></li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>Support for 64-bit architectures was added in QNX SDP 7.0. Support for 32-bit x86 architecture was removed in QNX SDP 7.1.</p>
+</div>
+<a name="previous-releases"></a>
+<h3 id="previous-releases">Previous Releases<a class="plink" href="#previous-releases" title="Direct link to this headline"></a></h3>
+<p>Older QNX SDP releases and other architectures may also work, but are not subject to regular builds and testing.</p>
+<ul>
+<li><a href="https://doc.qt.io/archives/qt-5.10/platform-notes-qnx.html" translate="no">Qt for QNX SDP 6.6</a></li>
+</ul>
+<p>For a specific list of available boards, displays and input devices, contact QNX Software Systems (<a href="mailto://qnx.com" translate="no">info@qnx.com</a>) or KDAB (<a href="mailto://kdab.com" translate="no">qnx-info@kdab.com</a>). Qt on the QNX Neutrino OS is also supported by <a href="https://doc.qt.io/QtForDeviceCreation-5.15" translate="no">Qt for Device Creation</a>, <a href="https://www.qt.io/contact-us/" translate="no">contact The Qt Company</a> for more details.</p>
+<a name="supported-modules"></a>
+<h2 id="supported-modules">Supported Modules<a class="plink" href="#supported-modules" title="Direct link to this headline"></a></h2>
+<p>All the <a href="./qtmodules.htm#qt-essentials" translate="no">Qt Essentials</a> modules are supported in Qt for QNX.</p>
+<p>See <a href="./qtmodules.htm#qt-add-ons" translate="no">Qt Add-Ons</a> for information about which Qt Add-Ons modules are supported in Qt for QNX.</p>
+<p>If you build Qt from a released source code distribution archive, the <code translate="no">configure</code> tool ensures that the build will be made only for modules which are known to build for the target specified. Additionally, you can explicitly exclude unsupported or not needed modules from the build via the <code translate="no">-skip &lt;module&gt;</code> option when running the <code translate="no">configure</code> tool.</p>
+<p>If you build Qt directly from the Git repository, you should initialize the repository only with modules which are supported or build and install modules separately. This helps to prevent unexpected build problems.</p>
+<a name="build-requirements"></a>
+<h2 id="build-requirements">Build Requirements<a class="plink" href="#build-requirements" title="Direct link to this headline"></a></h2>
+<p>Building Qt 5 requires downloading, and installing of, QNX SDP 7.0 or 7.1 from the <a href="http://www.qnx.com/" translate="no">QNX website</a>.</p>
+<div class="admonition note">
+<p><b>Note: </b>A suitable license is required. Contact (<a href="mailto://qnx.com" translate="no">QNX</a> for more information.</p>
+</div>
+<p>The compiler and other parts of the tool chain are provided in the SDP packages. You do not need any additional installations on your host PC. However, it is advisable to ensure that you can build Qt for the desktop target on the host as well. See <a href="./build-sources.htm" translate="no">Building Qt Sources</a> for more details. All supported QNX Neutrino RTOS targets are fully integrated in the makespecs provided in the Qt sources.</p>
+<p>You need to specify the target name for cross-compilation when configuring a Qt build:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Architecture</th><th>Configure cross-compilation target</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><code translate="no">ARMle-v7</code> (32-bit)</td><td><div class="pre"><pre class="cpp plain" translate="no">./configure -xplatform qnx-armle-v7-qcc</pre></div>
+</td></tr>
+<tr class="even" valign="top"><td><code translate="no">AArch64le</code> (64-bit)</td><td><div class="pre"><pre class="cpp plain" translate="no">./configure -xplatform qnx-aarch64le-qcc</pre></div>
+</td></tr>
+<tr class="odd" valign="top"><td><code translate="no">x86</code> (32-bit)</td><td><div class="pre"><pre class="cpp plain" translate="no">./configure -xplatform qnx-x86-qcc</pre></div>
+</td></tr>
+<tr class="even" valign="top"><td><code translate="no">x86-64</code> (64-bit)</td><td><div class="pre"><pre class="cpp plain" translate="no">./configure -xplatform qnx-x86-64-qcc</pre></div>
+</td></tr>
+</tbody></table></div>
+<p>The <code translate="no">configure</code> tool runs various tests to detect capabilities of the SDP and its add-ons. It sets related flags according the test results. Check the configure summary on the console or in <code translate="no">./qtbase/config.summary</code> if needed and set other flags manually as required.</p>
+<p>Independent of the platform you are building for, consider using the <code translate="no">-prefix</code> option with <code translate="no">configure</code> as well, for example, <code translate="no">-prefix&lt;Qt-install-path&gt;</code>. This specifies the target folder where Qt will be installed and places all build artifacts outside of the source code tree.</p>
+<p>See <a href="./configure-options.htm" translate="no">Qt Configure Options</a> for more details.</p>
+<a name="qt-runtime-target-requirements"></a>
+<h2 id="qt-runtime-target-requirements">Qt Runtime Target Requirements<a class="plink" href="#qt-runtime-target-requirements" title="Direct link to this headline"></a></h2>
+<p>QNX Software Systems delivers software solutions for making embedded devices. This includes creation of QNX Neutrino RTOS boot images in a very flexible way. Even though QNX provides several reference scripts for the OS image creation, sooner or later you will need to make changes or you might decide to create an OS image from scratch. Qt relies on the existence of several third-party components and selected OS services. Due to this, QNX Neutrino RTOS boot images for a target device running Qt must meet a couple of requirements to ensure that Qt works as expected. The sections below list the crucial parts for Qt.</p>
+<a name="qnx-screen-graphics-subsystem"></a>
+<h3 id="qnx-screen-graphics-subsystem">QNX Screen Graphics Subsystem<a class="plink" href="#qnx-screen-graphics-subsystem" title="Direct link to this headline"></a></h3>
+<p>Before any Qt application can be started, the <a href="http://www.qnx.com/developers/docs/7.0.0/#com.qnx.doc.screen/topic/manual/cscreen_about.html" translate="no">QNX Screen Graphics Subsystem</a> (also called just "Screen") must be running. The Screen consists not only of a driver, but also includes several utilities and other services which are used by Qt. This includes processing of mouse and keyboard events as well. You can ensure that the Screen is configured and running correctly by verifying that a graphics application, like <code translate="no">gles2-gears</code>, can be started and runs without problems. Most of the recent sample OS build scripts in the SDP include sections with all components and start commands for the Screen. Use them as a reference.</p>
+<a name="ipv6-support"></a>
+<h3 id="ipv6-support">IPv6 Support<a class="plink" href="#ipv6-support" title="Direct link to this headline"></a></h3>
+<p><a href="./qtnetwork-index.htm" translate="no">Qt's networking stack</a> requires IPv6 support to be enabled, independent of whether the actual networking uses IPv4 or IPv6. That means, that <code translate="no">io-pkt-v6-hc</code> must be running, <i>not</i> <code translate="no">io-pkt-v4</code>.</p>
+<a name="random-device-op-op-dev-op-op-random"></a>
+<h3 id="random-device-op-op-dev-op-op-random">Random Device <code translate="no">/dev/random</code><a class="plink" href="#random-device-op-op-dev-op-op-random" title="Direct link to this headline"></a></h3>
+<p>Qt requires <code translate="no">/dev/random</code> to be present and functional. Start it before starting any Qt application or during the system startup:</p>
+<div class="pre"><pre class="cpp plain" translate="no">random -p
+waitfor /dev/random</pre></div>
+<a name="system-logger"></a>
+<h3 id="system-logger">System Logger<a class="plink" href="#system-logger" title="Direct link to this headline"></a></h3>
+<p>QNX provides the <a href="http://www.qnx.com/developers/docs/7.0.0/#com.qnx.doc.neutrino.utilities/topic/s/slogger2.html" translate="no">slog2</a> logging framework tailored to specifics of embedded systems. The major advantage of it is a much better performance than a text output to files. Qt uses this framework by default for any logging output going through <a href="./qdebug.htm" translate="no">QDebug</a> on QNX Neutrino RTOS. The <code translate="no">slog2</code> service should be started during the system startup. The <code translate="no">slog2</code> also relies on the existence of the <code translate="no">/tmp</code> folder which has to be configured as well, for example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">[type=link] /tmp=/dev/shmem
+display_msg "Starting slogger2..."
+slogger2 -U1001:1000 &amp;
+waitfor /dev/slog2</pre></div>
+<a name="environment-variables"></a>
+<h3 id="environment-variables">Environment Variables<a class="plink" href="#environment-variables" title="Direct link to this headline"></a></h3>
+<p>There is a set of environment variables you should set when starting a Qt application. Most of them are actually not specific to QNX Neutrino RTOS. They are still mentioned here, since knowing them just saves a lot of time in case of problems.</p>
+<a name="qt-runtime-location"></a>
+<h4 id="qt-runtime-location">Qt Runtime Location<a class="plink" href="#qt-runtime-location" title="Direct link to this headline"></a></h4>
+<p>If you did not build Qt with RPATH enabled, you can place the Qt runtime components in any folder in the file system. The following environment variables should point to valid locations assuming that the Qt installation is located in <code translate="no">&lt;Qt-install-path&gt;</code>:</p>
+<ul>
+<li><code translate="no">LD_LIBRARY_PATH</code> should contain the path to the Qt libraries in <code translate="no">&lt;Qt-install-path&gt;/lib</code></li>
+<li><code translate="no">QT_PLUGIN_PATH</code> defines where the Qt plug-ins are located. It should be set to <code translate="no">&lt;Qt-install-path&gt;/plugins</code></li>
+<li><code translate="no">QML2_IMPORT_PATH</code> defines where the Qt Quick plug-ins are located. It should be set to <code translate="no">&lt;Qt-install-path&gt;/qml</code></li>
+<li>If Qt does not use fontconfig, you must either provide the path to the fonts with <code translate="no">QT_QPA_FONTDIR</code>, or place the fonts under <code translate="no">&lt;Qt-install-path&gt;/lib/fonts</code> which is the default font location.</li>
+</ul>
+<a name="physical-screen-size"></a>
+<h4 id="physical-screen-size">Physical Screen Size<a class="plink" href="#physical-screen-size" title="Direct link to this headline"></a></h4>
+<p>Qt needs information about the physical dimensions of the attached display to determine DPI values and thus set correct font sizes. Usually, this information is provided by the Screen. In some cases you may see an invalid screen size such as 0mmx0mm. In such a case Qt requires an environment variable <code translate="no">QQNX_PHYSICAL_SCREEN_SIZE</code> set to according values to get the required information. If Qt applications exit with an error message saying that the physical screen size couldn't be determined, set the variable like this before starting the Qt application:</p>
+<div class="pre"><pre class="cpp plain" translate="no">export QQNX_PHYSICAL_SCREEN_SIZE=150,100</pre></div>
+<p>to inform Qt that the screen has a width of 150mm and a height of 100mm in this particular case. The physical screen size is measured in millimeters (mm) and should correspond to the actual physical size of the display in the final configuration.</p>
+<a name="troubleshooting-the-first-start-of-a-qt-application"></a>
+<h4 id="troubleshooting-the-first-start-of-a-qt-application">Troubleshooting the First Start of a Qt Application<a class="plink" href="#troubleshooting-the-first-start-of-a-qt-application" title="Direct link to this headline"></a></h4>
+<p>The only drawback of the flexibility provided by QNX Neutrino RTOS is a risk that the run environment is slightly different on your target than what is expected by Qt. This is a common reason why a Qt application on a new target fails to start. A few generic environment variables can help locate the root cause for problems:</p>
+<ul>
+<li>Setting <code translate="no">QT_DEBUG_PLUGINS</code> to <code translate="no">1</code> helps to see why the QPA plugin cannot load.</li>
+<li>Setting <code translate="no">LD_DEBUG</code> to <code translate="no">1</code> helps to see where and how shared libraries are loaded. This can be used in combination with <code translate="no">QT_DEBUG_PLUGINS</code> when a plugin failed to load because it could not load other shared libraries.</li>
+<li>Setting <code translate="no">QT_LOGGING_TO_CONSOLE</code> will force sending all logging messages to <code translate="no">stderr</code> instead of <code translate="no">slog2</code>. This is useful for analyzing application startup problems, as you do not need to use another tool to see the messages.</li>
+</ul>
+<a name="third-party-libraries"></a>
+<h3 id="third-party-libraries">Third Party Libraries<a class="plink" href="#third-party-libraries" title="Direct link to this headline"></a></h3>
+<p>Make sure that your system image contains the following additional 3rd-party libraries which are not always included in minimal QNX Neutrino RTOS images:</p>
+<ul>
+<li><code translate="no">libfontconfig</code></li>
+<li><code translate="no">libfreetype</code></li>
+<li><code translate="no">libiconv</code></li>
+<li><code translate="no">libicui18n</code></li>
+<li><code translate="no">libicudata</code></li>
+<li><code translate="no">libicuuc</code></li>
+<li><code translate="no">libpng14</code></li>
+<li><code translate="no">libxml2</code></li>
+<li><code translate="no">libsqlite3</code></li>
+<li><code translate="no">libssl</code></li>
+<li><code translate="no">libcrypto</code></li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>This is not a complete list of shared libraries used by Qt on QNX Neutrino OS. Multiple shared libraries are already available in a typical OS image, or included by other parts of the system, for example, the <code translate="no">Screen</code>.</p>
+</div>
+<a name="accessing-environment-variables"></a>
+<h3 id="accessing-environment-variables">Accessing Environment Variables<a class="plink" href="#accessing-environment-variables" title="Direct link to this headline"></a></h3>
+<p><code translate="no">setconf</code> and <code translate="no">getconf</code> are required to access POSIX environment variables, especially for the host name and time and date.</p>
+<a name="qt-creator-target-requirements"></a>
+<h2 id="qt-creator-target-requirements">Qt Creator Target Requirements<a class="plink" href="#qt-creator-target-requirements" title="Direct link to this headline"></a></h2>
+<div class="admonition note">
+<p><b>Note: </b>Qt Creator support has been tested with QNX 7.0 only.</p>
+</div>
+<p>A QNX Neutrino RTOS target used for development with Qt Creator should provide a few additional command line tools and services.</p>
+<a name="ssh"></a>
+<h3 id="ssh">SSH<a class="plink" href="#ssh" title="Direct link to this headline"></a></h3>
+<p>Deployment and remote application startup relies on SSH. The SSH daemon (<code translate="no">sshd</code>) must be installed and running during the system startup. Please note that it requires <code translate="no">/dev/random</code> which was already mentioned. It also expects specific access rights to be set correctly to its configuration files. The latter makes it impossible starting SSH from a file system which does not have full access rights support, for example, FAT.</p>
+<a name="scp-and-sftp"></a>
+<h3 id="scp-and-sftp">SCP and SFTP<a class="plink" href="#scp-and-sftp" title="Direct link to this headline"></a></h3>
+<p><code translate="no">scp</code> and <code translate="no">sftp</code> utilities are used by Qt Creator for deployment and should be available on the target. Additionally, <code translate="no">inetd</code> daemon has to be started at the system startup which then launches according services, including FTP when needed.</p>
+<a name="qnx-tools-for-remote-debugging"></a>
+<h3 id="qnx-tools-for-remote-debugging">QNX Tools for Remote Debugging<a class="plink" href="#qnx-tools-for-remote-debugging" title="Direct link to this headline"></a></h3>
+<p>Remote debugging requires the <code translate="no">pdebug</code> (<a href="http://www.qnx.com/developers/docs/7.0.0/#com.qnx.doc.neutrino.prog/topic/devel_pdebug.html" translate="no">process-level debugger</a>) to be running on the development device. It is usually started by the <code translate="no">qconn</code> process which also provides various process information to Qt Creator. Generally, Qt Creator uses the same remote debugging interfaces as the QNX Momentics IDE provided in the SDP. See the related <a href="http://www.qnx.com/developers/docs/7.0.0/#com.qnx.doc.ide.userguide/topic/debugging.html" translate="no">QNX documentation</a> for more details.</p>
+<a name="other-utilities-on-the-target-device"></a>
+<h3 id="other-utilities-on-the-target-device">Other Utilities on the Target Device<a class="plink" href="#other-utilities-on-the-target-device" title="Direct link to this headline"></a></h3>
+<p>QNX provides board support packages (BSPs) for many common platforms and their individual variants. However, if you need a BSP for a board that QNX does not provide, you can modify an existing one or develop your own.</p>
+<p>When you develop a BSP for your board, you should include the following utilities to enable Qt Creator to deploy, run, debug, and stop applications on QNX devices:</p>
+<ul>
+<li><code translate="no">awk</code></li>
+<li><code translate="no">cat</code></li>
+<li><code translate="no">cut</code></li>
+<li><code translate="no">df</code></li>
+<li><code translate="no">grep</code></li>
+<li><code translate="no">kill</code></li>
+<li><code translate="no">ln</code></li>
+<li><code translate="no">mkdir</code></li>
+<li><code translate="no">netstat</code></li>
+<li><code translate="no">print</code></li>
+<li><code translate="no">printf</code></li>
+<li><code translate="no">ps</code></li>
+<li><code translate="no">read</code></li>
+<li><code translate="no">sed</code></li>
+<li><code translate="no">sleep</code></li>
+<li><code translate="no">slog2info</code></li>
+<li><code translate="no">tail</code></li>
+<li><code translate="no">tar</code></li>
+<li><code translate="no">zip</code></li>
+<li><code translate="no">uname</code></li>
+<li><code translate="no">unzip</code></li>
+</ul>
+<p>The utilities need to be in a standard location, such as <code translate="no">/bin</code> or <code translate="no">/usr/bin</code>. Alternatively, you can use the <code translate="no">~/.ssh/environment</code> file to set variables for remote commands, such as <code translate="no">PATH</code>. In addition, you must set <code translate="no">enable PermitUserEnvironment</code> in the SSH Daemon configuration.</p>
+<p>Run the test when you configure a new target device in Qt Creator to verify that all required components are available and running.</p>
+<p>For more information about modifying or developing a BSP for you board, see <a href="http://www.qnx.com/developers/docs/7.0.0/index.html#com.qnx.doc.neutrino.custom_bsp/topic/about.html" translate="no">Customizing a BSP</a> in the QNX developer documentation.</p>
+<a name="deployment-destination-folder"></a>
+<h3 id="deployment-destination-folder">Deployment Destination Folder<a class="plink" href="#deployment-destination-folder" title="Direct link to this headline"></a></h3>
+<p>Qt Creator deploys an application to the target device before starting it remotely. On most embedded devices, it is just copying application binaries and related data files to a folder on the target device. However, there is no standard for how this folder is called and where it is located. Quite a few configurations use <code translate="no">/tmp</code> for this, which is often mapped to a RAM disk. This can cause some confusion as deployed applications disappear on the next device shutdown.</p>
+<p>Another popular target is <code translate="no">/opt</code>. This folder is located in a read-only partition on many systems, making deployment impossible. Make sure that you use a destination folder which meets your needs. You can set it in the <code translate="no">install.path</code> variable in the <code translate="no">.pro</code> file of your project, see <a href="./qmake-advanced-usage.htm#installing-files" translate="no">Installing Files</a> in the <a href="./qmake-manual.htm" translate="no">qmake</a> documentation for more details.</p>
+</div>
+<!-- @@@qnx.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,147 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Places Map (QML) | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtlocation-places-map-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-examples.htm" translate="no">Qt Location Examples</a></li>
+                            <li><a>Places Map (QML)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Places Map (QML)</h1>
+<span class="subtitle"></span>
+<!-- $$$places_map-brief -->
+<p>The Places Map example demonstrates how to search for and display a list of places on a map using a <a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a>.</p>
+<!-- @@@places_map -->
+<!-- $$$places_map-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/places_map.png"></p><p>The example displays a map of the current location or, if no position is available, it uses Brisbane/Australia. Subsequently a search for places matching the term "pizza" is performed and each result shown on the map.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="local-search"></a>
+<h4 id="local-search">Local Search<a class="plink" href="#local-search" title="Direct link to this headline"></a></h4>
+<p>To write the QML application that will show places on a map, we start by making the following import declarations.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+import QtPositioning 5.5
+import QtLocation 5.6</pre></div>
+<p>Instantiate a <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> instance. The <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> is effectively the backend from where places are sourced from. Depending on the chosen plugin some manadatory parameters may be needed. In this case the <a href="./location-plugin-osm.htm" translate="no">OSM plugin</a> is selected which does not have any mandatory parameters.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-plugin.htm" translate="no">Plugin</a></span> {
+    <span class="name">id</span>: <span class="name">myPlugin</span>
+    <span class="name">name</span>: <span class="string">"osm"</span> <span class="comment">// "mapboxgl", "esri", ...</span>
+    <span class="comment">//specify plugin parameters if necessary</span>
+    <span class="comment">//PluginParameter {...}</span>
+    <span class="comment">//PluginParameter {...}</span>
+    <span class="comment">//...</span>
+}</pre></div>
+<p>Next we instantiate a <a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a> which we can use to specify search parameters and perform a places search operation. For illustrative purposes, <a href="./qml-qtlocation-placesearchmodel.htm#update-method" translate="no">update()</a> is invoked once construction of the model is complete. Typically <a href="./qml-qtlocation-placesearchmodel.htm#update-method" translate="no">update()</a> would be invoked in response to a user action such as a button click.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">property <span class="type"><a href="./qml-variant.htm" translate="no">variant</a></span> <span class="name">locationOslo</span>: <span class="name">QtPositioning</span>.<span class="name">coordinate</span>( <span class="number">59.93</span>, <span class="number">10.76</span>)
+
+<span class="type"><a href="./qml-qtlocation-placesearchmodel.htm" translate="no">PlaceSearchModel</a></span> {
+    <span class="name">id</span>: <span class="name">searchModel</span>
+
+    <span class="name">plugin</span>: <span class="name">myPlugin</span>
+
+    <span class="name">searchTerm</span>: <span class="string">"Pizza"</span>
+    <span class="name">searchArea</span>: <span class="name">QtPositioning</span>.<span class="name">circle</span>(<span class="name">locationOslo</span>)
+
+    <span class="name">Component</span>.onCompleted: <span class="name">update</span>()
+}</pre></div>
+<p>The map is displayed by using the <a href="./qml-qtlocation-map.htm" translate="no">Map</a> type and inside we declare the <a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a> and supply the search model and a delegate. An inline delegate has been used and we have assumed that every search result is of <a href="./qml-qtlocation-placesearchmodel.htm#search-result-types" translate="no">type</a> <code translate="no">PlaceSerachesult</code>. Consequently it is assumed that we always have access to the <i>place</i> <a href="./qml-qtlocation-placesearchmodel.htm#placesearchmodel-roles" translate="no">role</a>, other search result types may not have a <i>place</i> <a href="./qml-qtlocation-placesearchmodel.htm#placesearchmodel-roles" translate="no">role</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-map.htm" translate="no">Map</a></span> {
+    <span class="name">id</span>: <span class="name">map</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">plugin</span>: <span class="name">myPlugin</span>;
+    <span class="name">center</span>: <span class="name">locationOslo</span>
+    <span class="name">zoomLevel</span>: <span class="number">13</span>
+
+    <span class="type"><a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a></span> {
+        <span class="name">model</span>: <span class="name">searchModel</span>
+        <span class="name">delegate</span>: <span class="name">MapQuickItem</span> {
+            <span class="name">coordinate</span>: <span class="name">place</span>.<span class="name">location</span>.<span class="name">coordinate</span>
+
+            <span class="name">anchorPoint</span>.x: <span class="name">image</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">0.5</span>
+            <span class="name">anchorPoint</span>.y: <span class="name">image</span>.<span class="name">height</span>
+
+            <span class="name">sourceItem</span>: <span class="name">Column</span> {
+                <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> { <span class="name">id</span>: <span class="name">image</span>; <span class="name">source</span>: <span class="string">"marker.png"</span> }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="name">title</span>; <span class="name">font</span>.bold: <span class="number">true</span> }
+            }
+        }
+    }
+}</pre></div>
+<p>Finally, a <code translate="no">PositionSource</code> is used to reset the map to the curent location and find "pizza" places in the new area. The position information is updated every 2 minutes and if the new position is more than 500 meters away from the last pizza search area the place search is retriggered.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtpositioning-positionsource.htm" translate="no">PositionSource</a></span> {
+    <span class="name">id</span>: <span class="name">positionSource</span>
+    property <span class="type"><a href="./qml-variant.htm" translate="no">variant</a></span> <span class="name">lastSearchPosition</span>: <span class="name">locationOslo</span>
+    <span class="name">active</span>: <span class="number">true</span>
+    <span class="name">updateInterval</span>: <span class="number">120000</span> <span class="comment">// 2 mins</span>
+    <span class="name">onPositionChanged</span>:  {
+        var currentPosition = <span class="name">positionSource</span>.<span class="name">position</span>.<span class="name">coordinate</span>
+        <span class="name">map</span>.<span class="name">center</span> <span class="operator">=</span> <span class="name">currentPosition</span>
+        var distance = <span class="name">currentPosition</span>.<span class="name">distanceTo</span>(<span class="name">lastSearchPosition</span>)
+        <span class="keyword">if</span> (<span class="name">distance</span> <span class="operator">&gt;</span> <span class="number">500</span>) {
+            <span class="comment">// 500m from last performed pizza search</span>
+            <span class="name">lastSearchPosition</span> <span class="operator">=</span> <span class="name">currentPosition</span>
+            <span class="name">searchModel</span>.<span class="name">searchArea</span> <span class="operator">=</span> <span class="name">QtPositioning</span>.<span class="name">circle</span>(<span class="name">currentPosition</span>)
+            <span class="name">searchModel</span>.<span class="name">update</span>()
+        }
+    }
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtlocation.git/tree/examples/location/places_map?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@places_map -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

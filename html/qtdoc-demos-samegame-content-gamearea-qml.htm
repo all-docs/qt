@@ -1,0 +1,293 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Demo - Same Game</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Demo - Same Game</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Quick Demo - Same Game</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+import QtQuick 2.0
+import QtQuick.Particles 2.0
+import "samegame.js" as Logic
+import "."
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">id</span>: <span class="name">gameCanvas</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">gameOver</span>: <span class="number">true</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">score</span>: <span class="number">0</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">highScore</span>: <span class="number">0</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">moves</span>: <span class="number">0</span>
+    property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">mode</span>: <span class="string">""</span>
+    property <span class="type"><a href="./qml-qtquick-particles-particlesystem.htm" translate="no">ParticleSystem</a></span> <span class="name">ps</span>: <span class="name">particleSystem</span>
+    <span class="comment">//For easy theming</span>
+    property <span class="type">alias</span> <span class="name">backgroundVisible</span>: <span class="name">bg</span>.<span class="name">visible</span>
+    property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">background</span>: <span class="string">"gfx/background.png"</span>
+    property <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <span class="name">blockFile</span>: <span class="string">"Block.qml"</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">blockSize</span>: <span class="name">Settings</span>.<span class="name">blockSize</span>
+    <span class="name">onBlockFileChanged</span>: <span class="name">Logic</span>.<span class="name">changeBlock</span>(<span class="name">blockFile</span>);
+    property <span class="type">alias</span> <span class="name">particlePack</span>: <span class="name">auxLoader</span>.<span class="name">source</span>
+    <span class="comment">//For multiplayer</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">score2</span>: <span class="number">0</span>
+    property <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <span class="name">curTurn</span>: <span class="number">1</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">autoTurnChange</span>: <span class="number">false</span>
+    signal <span class="type">swapPlayers</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">swapping</span>: <span class="number">false</span>
+    <span class="comment">//onSwapPlayers: if (autoTurnChange) Logic.turnChange();//Now implemented below</span>
+    <span class="comment">//For puzzle</span>
+    property <span class="type"><a href="./qml-url.htm" translate="no">url</a></span> <span class="name">level</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">puzzleWon</span>: <span class="number">false</span>
+    signal <span class="type">puzzleLost</span> <span class="comment">//Since root is tracking the puzzle progress</span>
+    <span class="keyword">function </span><span class="name">showPuzzleEnd</span> (won) {
+        <span class="keyword">if</span> (<span class="name">won</span>) {
+            <span class="name">smokeParticle</span>.<span class="name">color</span> <span class="operator">=</span> <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>);
+            <span class="name">puzzleWin</span>.<span class="name">play</span>();
+        } <span class="keyword">else</span> {
+            <span class="name">smokeParticle</span>.<span class="name">color</span> <span class="operator">=</span> <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);
+            <span class="name">puzzleFail</span>.<span class="name">play</span>();
+            <span class="name">puzzleLost</span>();
+        }
+    }
+    <span class="keyword">function </span><span class="name">showPuzzleGoal</span> (str) {
+        <span class="name">puzzleTextBubble</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">1</span>;
+        <span class="name">puzzleTextLabel</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">str</span>;
+    }
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">bg</span>
+        <span class="name">z</span>: -<span class="number">1</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">source</span>: <span class="name">background</span>;
+        <span class="name">fillMode</span>: <span class="name">Image</span>.<span class="name">PreserveAspectCrop</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>; <span class="name">onClicked</span>: {
+            <span class="keyword">if</span> (<span class="name">puzzleTextBubble</span>.<span class="name">opacity</span> <span class="operator">==</span> <span class="number">1</span>) {
+                <span class="name">puzzleTextBubble</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">0</span>;
+                <span class="name">Logic</span>.<span class="name">finishLoadingMap</span>();
+            } <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="name">swapping</span>) {
+                <span class="name">Logic</span>.<span class="name">handleClick</span>(<span class="name">mouse</span>.<span class="name">x</span>,<span class="name">mouse</span>.<span class="name">y</span>);
+            }
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">highScoreTextBubble</span>
+        <span class="name">opacity</span>: <span class="name">mode</span> <span class="operator">==</span> <span class="string">"arcade"</span> <span class="operator">&amp;&amp;</span> <span class="name">gameOver</span> <span class="operator">&amp;&amp;</span> <span class="name">gameCanvas</span>.<span class="name">score</span> <span class="operator">==</span> <span class="name">gameCanvas</span>.<span class="name">highScore</span> ? <span class="number">1</span> : <span class="number">0</span>
+        Behavior on <span class="name">opacity</span> { <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {} }
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">z</span>: <span class="number">10</span>
+        <span class="name">source</span>: <span class="string">"gfx/bubble-highscore.png"</span>
+        <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">source</span>: <span class="string">"gfx/text-highscore-new.png"</span>
+            <span class="name">rotation</span>: -<span class="number">10</span>
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">puzzleTextBubble</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">opacity</span>: <span class="number">0</span>
+        Behavior on <span class="name">opacity</span> { <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {} }
+        <span class="name">z</span>: <span class="number">10</span>
+        <span class="name">source</span>: <span class="string">"gfx/bubble-puzzle.png"</span>
+        <span class="type"><a href="./qml-qtqml-connections.htm" translate="no">Connections</a></span> {
+            <span class="name">target</span>: <span class="name">gameCanvas</span>
+            <span class="name">onModeChanged</span>: <span class="keyword">if</span> (<span class="name">mode</span> <span class="operator">!=</span> <span class="string">"puzzle"</span> <span class="operator">&amp;&amp;</span> <span class="name">puzzleTextBubble</span>.<span class="name">opacity</span> <span class="operator">&gt;</span> <span class="number">0</span>) <span class="name">puzzleTextBubble</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">0</span>;
+        }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">id</span>: <span class="name">puzzleTextLabel</span>
+            <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">-</span> <span class="number">24</span>
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">horizontalAlignment</span>: <span class="name">Text</span>.<span class="name">AlignHCenter</span>
+            <span class="name">color</span>: <span class="string">"white"</span>
+            <span class="name">font</span>.pixelSize: <span class="number">24</span>
+            <span class="name">font</span>.bold: <span class="number">true</span>
+            <span class="name">wrapMode</span>: <span class="name">Text</span>.<span class="name">WordWrap</span>
+        }
+    }
+    <span class="name">onModeChanged</span>: {
+        <span class="name">p1WonImg</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">0</span>;
+        <span class="name">p2WonImg</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">0</span>;
+    }
+    <span class="type">SmokeText</span> { <span class="name">id</span>: <span class="name">puzzleWin</span>; <span class="name">source</span>: <span class="string">"gfx/icon-ok.png"</span>; <span class="name">system</span>: <span class="name">particleSystem</span> }
+    <span class="type">SmokeText</span> { <span class="name">id</span>: <span class="name">puzzleFail</span>; <span class="name">source</span>: <span class="string">"gfx/icon-fail.png"</span>; <span class="name">system</span>: <span class="name">particleSystem</span> }
+
+    <span class="name">onSwapPlayers</span>: {
+        <span class="name">smokeParticle</span>.<span class="name">color</span> <span class="operator">=</span> <span class="string">"yellow"</span>
+        <span class="name">Logic</span>.<span class="name">turnChange</span>();
+        <span class="keyword">if</span> (<span class="name">curTurn</span> <span class="operator">==</span> <span class="number">1</span>) {
+            <span class="name">p1Text</span>.<span class="name">play</span>();
+        } <span class="keyword">else</span> {
+            <span class="name">p2Text</span>.<span class="name">play</span>();
+        }
+        <span class="name">clickDelay</span>.<span class="name">running</span> <span class="operator">=</span> <span class="number">true</span>;
+    }
+    <span class="type"><a href="./qml-qtquick-sequentialanimation.htm" translate="no">SequentialAnimation</a></span> {
+        <span class="name">id</span>: <span class="name">clickDelay</span>
+        <span class="type"><a href="./qml-qtquick-scriptaction.htm" translate="no">ScriptAction</a></span> { <span class="name">script</span>: <span class="name">gameCanvas</span>.<span class="name">swapping</span> <span class="operator">=</span> <span class="number">true</span>; }
+        <span class="type"><a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a></span> { <span class="name">duration</span>: <span class="number">750</span> }
+        <span class="type"><a href="./qml-qtquick-scriptaction.htm" translate="no">ScriptAction</a></span> { <span class="name">script</span>: <span class="name">gameCanvas</span>.<span class="name">swapping</span> <span class="operator">=</span> <span class="number">false</span>; }
+    }
+
+    <span class="type">SmokeText</span> {
+        <span class="name">id</span>: <span class="name">p1Text</span>; <span class="name">source</span>: <span class="string">"gfx/text-p1-go.png"</span>;
+        <span class="name">system</span>: <span class="name">particleSystem</span>; <span class="name">playerNum</span>: <span class="number">1</span>
+        <span class="name">opacity</span>: <span class="name">p1WonImg</span>.<span class="name">opacity</span> <span class="operator">+</span> <span class="name">p2WonImg</span>.<span class="name">opacity</span> <span class="operator">&gt;</span> <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>
+    }
+
+    <span class="type">SmokeText</span> {
+        <span class="name">id</span>: <span class="name">p2Text</span>; <span class="name">source</span>: <span class="string">"gfx/text-p2-go.png"</span>;
+        <span class="name">system</span>: <span class="name">particleSystem</span>; <span class="name">playerNum</span>: <span class="number">2</span>
+        <span class="name">opacity</span>: <span class="name">p1WonImg</span>.<span class="name">opacity</span> <span class="operator">+</span> <span class="name">p2WonImg</span>.<span class="name">opacity</span> <span class="operator">&gt;</span> <span class="number">0</span> ? <span class="number">0</span> : <span class="number">1</span>
+    }
+
+    <span class="name">onGameOverChanged</span>: {
+        <span class="keyword">if</span> (<span class="name">gameCanvas</span>.<span class="name">mode</span> <span class="operator">==</span> <span class="string">"multiplayer"</span>) {
+            <span class="keyword">if</span> (<span class="name">gameCanvas</span>.<span class="name">score</span> <span class="operator">&gt;=</span> <span class="name">gameCanvas</span>.<span class="name">score2</span>) {
+                <span class="name">p1WonImg</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">1</span>;
+            } <span class="keyword">else</span> {
+                <span class="name">p2WonImg</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">1</span>;
+            }
+        }
+    }
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">p1WonImg</span>
+        <span class="name">source</span>: <span class="string">"gfx/text-p1-won.png"</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">opacity</span>: <span class="number">0</span>
+        Behavior on <span class="name">opacity</span> { <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {} }
+        <span class="name">z</span>: <span class="number">10</span>
+    }
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">p2WonImg</span>
+        <span class="name">source</span>: <span class="string">"gfx/text-p2-won.png"</span>
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">opacity</span>: <span class="number">0</span>
+        Behavior on <span class="name">opacity</span> { <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> {} }
+        <span class="name">z</span>: <span class="number">10</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-particles-particlesystem.htm" translate="no">ParticleSystem</a></span>{
+        <span class="name">id</span>: <span class="name">particleSystem</span>;
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">z</span>: <span class="number">5</span>
+        <span class="type"><a href="./qml-qtquick-particles-imageparticle.htm" translate="no">ImageParticle</a></span> {
+            <span class="name">id</span>: <span class="name">smokeParticle</span>
+            <span class="name">groups</span>: [<span class="string">"smoke"</span>]
+            <span class="name">source</span>: <span class="string">"gfx/particle-smoke.png"</span>
+            <span class="name">alpha</span>: <span class="number">0.1</span>
+            <span class="name">alphaVariation</span>: <span class="number">0.1</span>
+            <span class="name">color</span>: <span class="string">"yellow"</span>
+        }
+        <span class="type"><a href="./qml-qtquick-loader.htm" translate="no">Loader</a></span> {
+            <span class="name">id</span>: <span class="name">auxLoader</span>
+            <span class="name">anchors</span>.fill: <span class="name">parent</span>
+            <span class="name">source</span>: <span class="string">"PrimaryPack.qml"</span>
+            <span class="name">onItemChanged</span>: {
+                <span class="keyword">if</span> (<span class="name">item</span> <span class="operator">&amp;&amp;</span> <span class="string">"particleSystem"</span> <span class="operator">in</span> <span class="name">item</span>)
+                    <span class="name">item</span>.<span class="name">particleSystem</span> <span class="operator">=</span> <span class="name">particleSystem</span>
+                <span class="keyword">if</span> (<span class="name">item</span> <span class="operator">&amp;&amp;</span> <span class="string">"gameArea"</span> <span class="operator">in</span> <span class="name">item</span>)
+                    <span class="name">item</span>.<span class="name">gameArea</span> <span class="operator">=</span> <span class="name">gameCanvas</span>
+            }
+        }
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

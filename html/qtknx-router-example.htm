@@ -1,0 +1,214 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Router Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>Router Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Router Example</h1>
+<span class="subtitle"></span>
+<!-- $$$router-brief -->
+<p>A CLI client using a <a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a>.</p>
+<!-- @@@router -->
+<!-- $$$router-description -->
+<div class="descr"> <a name="details"></a>
+<p>This example shows a CLI client using a <a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a> to monitor KNX frames sent by neighboring KNXnet/IP routers. It is a CLI interactive client that allows the user to send a predifined KNX frame on the default 224.0.23.12 multicast address that is the most commonly used in KNX installations.</p>
+<a name="usage"></a>
+<h4 id="usage">Usage<a class="plink" href="#usage" title="Direct link to this headline"></a></h4>
+<p>Here are the parameters that the client allows. For example, the network interface used by the router and the multicast address used can be changed to the user's needs.</p>
+<div class="pre"><pre class="cpp" translate="no">Options:
+  <span class="operator">-</span>h<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>help                                 Displays <span class="keyword">this</span> help<span class="operator">.</span>
+  <span class="operator">-</span>n<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>interface <span class="operator">&lt;</span>InterfaceName<span class="operator">&gt;</span>            Sets the network interface name
+                                             that the KNXnet<span class="operator">/</span>Ip routing
+                                             interface will use<span class="operator">.</span>
+  <span class="operator">-</span>m<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>multicastAddress <span class="operator">&lt;</span>multicastAddress<span class="operator">&gt;</span>  Sets the multicast address that
+                                             the KNXnet<span class="operator">/</span>Ip routing interface
+                                             will use <span class="keyword">for</span> sending routing
+                                             messages<span class="operator">.</span>
+  <span class="operator">-</span>i<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>indication                           Sends routing indication messages<span class="operator">.</span>
+  <span class="operator">-</span>b<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>busy                                 Sends routing busy messages<span class="operator">.</span>
+  <span class="operator">-</span><span class="operator">-</span>busyControlField <span class="operator">&lt;</span>busyControlField<span class="operator">&gt;</span>      Sets the busy control field of
+                                             busy messages<span class="operator">.</span>
+  <span class="operator">-</span><span class="operator">-</span>busyWaitTime <span class="operator">&lt;</span>busyWaitTime<span class="operator">&gt;</span>              Sets the wait time <span class="keyword">for</span> busy
+                                             messages<span class="operator">.</span>
+  <span class="operator">-</span>l<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>lost                                 Sends routing lost messages<span class="operator">.</span>
+  <span class="operator">-</span>r<span class="operator">,</span> <span class="operator">-</span><span class="operator">-</span>receiver                             Determines that <span class="keyword">this</span> router will only
+                                             work as a KNXnet<span class="operator">/</span>IP routing message
+                                             receiver<span class="operator">.</span></pre></div>
+<p>There are two main modes of using the example. One of the modes is using it as a receiver of KNX frames. In this mode no other messages can be sent. This mode is used to monitor KNXnet/IP frames and it can be achieved by running the example like this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">router <span class="operator">-</span>n eth0 <span class="operator">-</span><span class="operator">-</span>receiver</pre></div>
+<p>In the other mode, in addition to receiving KNX frames the router can send a unique type of KNX frames that has been predefined. The type of frame to use can be specified as a parameter in the command line.</p>
+<p>For sending indication frames and receiving any other KNX frame the example can be run like this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">router <span class="operator">-</span>n eth0 <span class="operator">-</span><span class="operator">-</span>indication</pre></div>
+<p>In this last command the router will send an indication KNX frame every time the user hits the <b>Enter</b>. The router will also display information about KNX frames received on that network interface.</p>
+<p>For sending busy frames and routing lost messages, the example has to be run in one of the following ways:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">router <span class="operator">-</span>n eth0 <span class="operator">-</span><span class="operator">-</span>busy <span class="operator">-</span><span class="operator">-</span>busyWaitTime <span class="number">30</span>
+router <span class="operator">-</span>n eth0 <span class="operator">-</span><span class="operator">-</span>lost</pre></div>
+<p>As explained above, it will send the predifined messages every time the user hits the <b>Enter</b>. However, the message sent can be customized by pasting the frame representation as a hexadecimal stream of bytes and hitting <b>Enter</b>.</p>
+<p>Here is an example of how the example looks like when running it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">router <span class="operator">-</span>n enp0s31f6 <span class="operator">-</span>i
+
+<span class="number">11</span>:<span class="number">40</span>:<span class="number">26</span> : Router is in Routing state<span class="operator">.</span>
+Network interface used:  enp0s31f6 ( <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(<span class="string">"10.9.78.59"</span>) )
+Multicast address:  <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(<span class="string">"224.0.23.12"</span>)
+Type <span class="char">'quit'</span> to stop the application<span class="operator">.</span>
+Type the hexadecimal content of the indication and hit <span class="char">'enter'</span><span class="operator">.</span> Setting no content by <span class="keyword">default</span> uses <span class="number">1100b4e000000002010000.</span></pre></div>
+<a name="implementation"></a>
+<h4 id="implementation">Implementation<a class="plink" href="#implementation" title="Direct link to this headline"></a></h4>
+<p>The class <a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a> used in this example allows sending and receiving routing KNXnet/IP packets to and from other KNXnet/IP routers. There are some helper functions that will be explained in the following lines.</p>
+<p>The main function starts by instantiating the <a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a> class. After that, in order to have a functional router, certain properties of the <a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a> instance must be set up. This is done by the method <code translate="no">setupRouterSignalHandlers()</code>. The following code snippet shows where this happens:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    ...
+    <span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span> router;
+    setupRouterSignalHandlers(router<span class="operator">,</span> iface<span class="operator">,</span> multicastAddress);</pre></div>
+<p>The most important step to get a functional router is to assign it a network interface. That way, the router is ready for monitoring and sending KNX frames from/to other KNX routers and the KNX system connected to that same network.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> setupRouterSignalHandlers(<span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span> <span class="operator">&amp;</span>router<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qnetworkinterface.htm" translate="no">QNetworkInterface</a></span> <span class="operator">&amp;</span>iface<span class="operator">,</span>
+                 <span class="keyword">const</span> <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span> <span class="operator">&amp;</span>multicastAddress)
+{
+    router<span class="operator">.</span>setInterfaceAffinity(iface);
+    Q_ASSERT(router<span class="operator">.</span>interfaceAffinity()<span class="operator">.</span>index() <span class="operator">=</span><span class="operator">=</span> iface<span class="operator">.</span>index());
+    router<span class="operator">.</span>setMulticastAddress(multicastAddress);</pre></div>
+<p>The next step consists of setting the handlers that allow monitoring KNXnet/IP frames received from neighboring KNX routers as well as the frames sent by this router.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> setupRouterSignalHandlers(<span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span> <span class="operator">&amp;</span>router<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qnetworkinterface.htm" translate="no">QNetworkInterface</a></span> <span class="operator">&amp;</span>iface<span class="operator">,</span>
+                 <span class="keyword">const</span> <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span> <span class="operator">&amp;</span>multicastAddress)
+{
+    ...
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>router<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span><span class="operator">::</span>routingIndicationReceived<span class="operator">,</span>
+                     <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> frame) {
+        <span class="type"><a href="./qknxnetiproutingindicationproxy.htm" translate="no">QKnxNetIpRoutingIndicationProxy</a></span> indication(frame);
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Received routing indication"</span>
+                          <span class="operator">&lt;</span><span class="operator">&lt;</span> indication<span class="operator">.</span>isValid();
+    });
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>router<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span><span class="operator">::</span>routingBusyReceived<span class="operator">,</span>
+                     <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> frame) {
+        <span class="type"><a href="./qknxnetiproutingbusyproxy.htm" translate="no">QKnxNetIpRoutingBusyProxy</a></span> busy(frame);
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Received routing busy, wait time: "</span>
+                          <span class="operator">&lt;</span><span class="operator">&lt;</span> busy<span class="operator">.</span>routingBusyWaitTime() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">" busy control field: "</span>
+                          <span class="operator">&lt;</span><span class="operator">&lt;</span> busy<span class="operator">.</span>routingBusyControl();
+    });
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>router<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span><span class="operator">::</span>routingLostCountReceived<span class="operator">,</span>
+                     <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> frame) {
+        <span class="type"><a href="./qknxnetiproutinglostmessageproxy.htm" translate="no">QKnxNetIpRoutingLostMessageProxy</a></span> lost(frame);
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Received routing lost count"</span>
+                          <span class="operator">&lt;</span><span class="operator">&lt;</span> lost<span class="operator">.</span>deviceState();
+    });
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>router<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span><span class="operator">::</span>routingIndicationSent<span class="operator">,</span>
+                     <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> frame) {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Sent routing indication"</span>;
+        Q_UNUSED(frame);
+    });
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>router<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span><span class="operator">::</span>routingBusySent<span class="operator">,</span>
+                     <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> frame) {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Sent routing busy"</span>;
+        Q_UNUSED(frame);
+    });
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>router<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span><span class="operator">::</span>routingLostCountSent<span class="operator">,</span>
+                     <span class="operator">[</span><span class="operator">]</span>(<span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> frame) {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Sent routing lost count"</span>;
+        Q_UNUSED(frame);
+    });
+}</pre></div>
+<p>The client can respond to the <b>Enter</b> press events and send predefined KNX messages. For this purpose a <a href="./qtextstream.htm" translate="no">QTextStream</a> instance is used and a handler installed for capturing the signal activated() emitted by the socket. The code below demonstrates this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> setupRouterCLI(<span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span> <span class="operator">&amp;</span>router<span class="operator">,</span>
+                    <span class="keyword">const</span> <span class="type"><a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a></span> <span class="operator">&amp;</span>cliParser<span class="operator">,</span>
+                    <span class="type"><a href="./qtextstream.htm" translate="no">QTextStream</a></span> <span class="operator">&amp;</span> input<span class="operator">,</span>
+<span class="preprocessor">#ifdef Q_OS_WIN</span>
+                    <span class="type"><a href="./qwineventnotifier.htm" translate="no">QWinEventNotifier</a></span> <span class="operator">&amp;</span>notifier)
+{
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>notifier<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qwineventnotifier.htm" translate="no">QWinEventNotifier</a></span><span class="operator">::</span>activated<span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(HANDLE) {
+<span class="preprocessor">#else</span>
+                    <span class="type"><a href="./qsocketnotifier.htm" translate="no">QSocketNotifier</a></span> <span class="operator">&amp;</span>notifier)
+{
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>notifier<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qsocketnotifier.htm" translate="no">QSocketNotifier</a></span><span class="operator">::</span>activated<span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type">int</span>) {
+<span class="preprocessor">#endif</span>
+    ...
+            <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">auto</span> bytes <span class="operator">=</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(<span class="string">"1100b4e000000002010000"</span>);
+            <span class="keyword">auto</span> frame <span class="operator">=</span> <span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>builder()
+                <span class="operator">.</span>setData(tmp<span class="operator">.</span>isEmpty() <span class="operator">?</span> bytes : <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(tmp))
+                <span class="operator">.</span>setMedium(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumType<span class="operator">::</span>NetIP)
+                <span class="operator">.</span>createFrame();
+            <span class="keyword">auto</span> indication <span class="operator">=</span> <span class="type"><a href="./qknxnetiproutingindicationproxy.htm" translate="no">QKnxNetIpRoutingIndicationProxy</a></span><span class="operator">::</span>builder()
+                              <span class="operator">.</span>setCemi(frame)
+                              <span class="operator">.</span>create();
+            router<span class="operator">.</span>sendRoutingIndication(indication);
+    ...
+}</pre></div>
+<p>The last thing before calling <a href="./qcoreapplication.htm#exec" translate="no">QCoreApplication::exec</a>() is the <a href="./qknxnetiprouter.htm#start" translate="no">QKnxNetIpRouter::start</a>() call. The call notifies the router to initialize its internal data and enables it to begin receiving and sending KNX frames, as seen here:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> startRouter(<span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span> <span class="operator">&amp;</span>router<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a></span> <span class="operator">&amp;</span>cliParser)
+{
+    router<span class="operator">.</span>start();
+
+    <span class="keyword">if</span> (router<span class="operator">.</span>error() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qknxnetiprouter.htm" translate="no">QKnxNetIpRouter</a></span><span class="operator">::</span>Error<span class="operator">::</span>None)
+        <span class="keyword">return</span>;
+    ...
+}</pre></div>
+<p>The <code translate="no">startRouter()</code> is a helper function that gets called at the end of main.</p>
+<p>Files:</p>
+<ul>
+<li><a href="./qtknx-router-main-cpp.htm" translate="no">router/main.cpp</a></li>
+<li><a href="./qtknx-router-router-pro.htm" translate="no">router/router.pro</a></li>
+</ul>
+</div>
+<!-- @@@router -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

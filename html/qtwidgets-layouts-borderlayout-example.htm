@@ -1,0 +1,141 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Border Layout Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Border Layout Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Border Layout Example</h1>
+<span class="subtitle"></span>
+<!-- $$$layouts/borderlayout-brief -->
+<p>Shows how to arrange child widgets along a border.</p>
+<!-- @@@layouts/borderlayout -->
+<!-- $$$layouts/borderlayout-description -->
+<div class="descr"> <a name="details"></a>
+<p><i>Border Layout</i> implements a layout that arranges child widgets to surround the main area.</p>
+<p class="centerAlign"><img alt="" src="./images/borderlayout-example.png"></p><p>The constructor of the Window class creates a <a href="./qtextbrowser.htm" translate="no">QTextBrowser</a> object, to which a BorderLayout named <code translate="no">layout</code> is added. The declaration of the BorderLayout class is quoted at the end of this document.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Window<span class="operator">::</span>Window()
+{
+    <span class="type"><a href="./qtextbrowser.htm" translate="no">QTextBrowser</a></span> <span class="operator">*</span>centralWidget <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtextbrowser.htm" translate="no">QTextBrowser</a></span>;
+    centralWidget<span class="operator">-</span><span class="operator">&gt;</span>setPlainText(tr(<span class="string">"Central widget"</span>));
+
+    BorderLayout <span class="operator">*</span>layout <span class="operator">=</span> <span class="keyword">new</span> BorderLayout;</pre></div>
+<p>Several labeled widgets are added to <code translate="no">layout</code> with the orientation <code translate="no">Center</code>, <code translate="no">North</code>, <code translate="no">West</code>, <code translate="no">East 1</code>, <code translate="no">East 2</code>, and <code translate="no">South</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(centralWidget<span class="operator">,</span> BorderLayout<span class="operator">::</span>Center);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(createLabel(<span class="string">"North"</span>)<span class="operator">,</span> BorderLayout<span class="operator">::</span>North);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(createLabel(<span class="string">"West"</span>)<span class="operator">,</span> BorderLayout<span class="operator">::</span>West);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(createLabel(<span class="string">"East 1"</span>)<span class="operator">,</span> BorderLayout<span class="operator">::</span>East);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(createLabel(<span class="string">"East 2"</span>) <span class="operator">,</span> BorderLayout<span class="operator">::</span>East);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(createLabel(<span class="string">"South"</span>)<span class="operator">,</span> BorderLayout<span class="operator">::</span>South);
+    setLayout(layout);
+
+    setWindowTitle(tr(<span class="string">"Border Layout"</span>));</pre></div>
+<p>createLabel() in class <code translate="no">Window</code> sets the text of the labeled widgets and the style.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>Window<span class="operator">::</span>createLabel(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text)
+{
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>label <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(text);
+    label<span class="operator">-</span><span class="operator">&gt;</span>setFrameStyle(<span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span><span class="operator">::</span>Box <span class="operator">|</span> <span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span><span class="operator">::</span>Raised);
+    <span class="keyword">return</span> label;
+}</pre></div>
+<p>Class BorderLayout contains all the utilitarian functions for formatting the widgets it contains.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> BorderLayout : <span class="keyword">public</span> <span class="type"><a href="./qlayout.htm" translate="no">QLayout</a></span>
+{
+<span class="keyword">public</span>:
+    <span class="keyword">enum</span> Position { West<span class="operator">,</span> North<span class="operator">,</span> South<span class="operator">,</span> East<span class="operator">,</span> Center };
+
+    <span class="keyword">explicit</span> BorderLayout(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qmargins.htm" translate="no">QMargins</a></span> <span class="operator">&amp;</span>margins <span class="operator">=</span> <span class="type"><a href="./qmargins.htm" translate="no">QMargins</a></span>()<span class="operator">,</span> <span class="type">int</span> spacing <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+    BorderLayout(<span class="type">int</span> spacing <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+    <span class="operator">~</span>BorderLayout();
+
+    <span class="type">void</span> addItem(<span class="type"><a href="./qlayoutitem.htm" translate="no">QLayoutItem</a></span> <span class="operator">*</span>item) override;
+    <span class="type">void</span> addWidget(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>widget<span class="operator">,</span> Position position);
+    <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Orientations expandingDirections() <span class="keyword">const</span> override;
+    bool hasHeightForWidth() <span class="keyword">const</span> override;
+    <span class="type">int</span> count() <span class="keyword">const</span> override;
+    <span class="type"><a href="./qlayoutitem.htm" translate="no">QLayoutItem</a></span> <span class="operator">*</span>itemAt(<span class="type">int</span> index) <span class="keyword">const</span> override;
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> minimumSize() <span class="keyword">const</span> override;
+    <span class="type">void</span> setGeometry(<span class="keyword">const</span> <span class="type"><a href="./qrect.htm" translate="no">QRect</a></span> <span class="operator">&amp;</span>rect) override;
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> sizeHint() <span class="keyword">const</span> override;
+    <span class="type"><a href="./qlayoutitem.htm" translate="no">QLayoutItem</a></span> <span class="operator">*</span>takeAt(<span class="type">int</span> index) override;
+
+    <span class="type">void</span> add(<span class="type"><a href="./qlayoutitem.htm" translate="no">QLayoutItem</a></span> <span class="operator">*</span>item<span class="operator">,</span> Position position);
+
+<span class="keyword">private</span>:
+    <span class="keyword">struct</span> ItemWrapper
+    {
+        ItemWrapper(<span class="type"><a href="./qlayoutitem.htm" translate="no">QLayoutItem</a></span> <span class="operator">*</span>i<span class="operator">,</span> Position p) {
+            item <span class="operator">=</span> i;
+            position <span class="operator">=</span> p;
+        }
+
+        <span class="type"><a href="./qlayoutitem.htm" translate="no">QLayoutItem</a></span> <span class="operator">*</span>item;
+        Position position;
+    };
+
+    <span class="keyword">enum</span> SizeType { MinimumSize<span class="operator">,</span> SizeHint };
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> calculateSize(SizeType sizeType) <span class="keyword">const</span>;
+
+    <span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span>ItemWrapper <span class="operator">*</span><span class="operator">&gt;</span> list;
+};</pre></div>
+<p>For more information, visit the <a href="./layout.htm" translate="no">Layout Management</a> page.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/layouts/borderlayout?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@layouts/borderlayout -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,156 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Positioning with Anchors | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-positioning-anchors.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Positioning with Anchors</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Positioning with Anchors</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-positioning-anchors.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>In addition to the more traditional <a href="./qml-qtquick-grid.htm" translate="no">Grid</a>, <a href="./qml-qtquick-row.htm" translate="no">Row</a>, and <a href="./qml-qtquick-column.htm" translate="no">Column</a>, Qt Quick also provides a way to layout items using the concept of <i>anchors</i>. Each item can be thought of as having a set of 7 invisible "anchor lines": <a href="./qml-qtquick-item.htm#anchors.left-prop" translate="no">left</a>, <a href="./qml-qtquick-item.htm#anchors.horizontalCenter-prop" translate="no">horizontalCenter</a>, <a href="./qml-qtquick-item.htm#anchors.right-prop" translate="no">right</a>, <a href="./qml-qtquick-item.htm#anchors.top-prop" translate="no">top</a>, <a href="./qml-qtquick-item.htm#anchors.verticalCenter-prop" translate="no">verticalCenter</a>, <a href="./qml-qtquick-item.htm#anchors.baseline-prop" translate="no">baseline</a>, and <a href="./qml-qtquick-item.htm#anchors.bottom-prop" translate="no">bottom</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/edges_qml.png"></p><p>The baseline (not pictured above) corresponds to the imaginary line on which text would sit. For items with no text it is the same as <i>top</i>.</p>
+<p>The Qt Quick anchoring system allows you to define relationships between the anchor lines of different items. For example, you can write:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Rectangle { id: rect1; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }
+Rectangle { id: rect2; anchors<span class="operator">.</span>left: rect1<span class="operator">.</span>right; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }</pre></div>
+<p>In this case, the left edge of <i>rect2</i> is bound to the right edge of <i>rect1</i>, producing the following:</p>
+<p class="centerAlign"><img alt="" src="./images/edge1.png"></p><p>You can specify multiple anchors. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Rectangle { id: rect1; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }
+Rectangle { id: rect2; anchors<span class="operator">.</span>left: rect1<span class="operator">.</span>right; anchors<span class="operator">.</span>top: rect1<span class="operator">.</span>bottom; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }</pre></div>
+<p class="centerAlign"><img alt="" src="./images/edge3.png"></p><p>By specifying multiple horizontal or vertical anchors you can control the size of an item. Below, <i>rect2</i> is anchored to the right of <i>rect1</i> and the left of <i>rect3</i>. If either of the blue rectangles are moved, <i>rect2</i> will stretch and shrink as necessary:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Rectangle { id: rect1; x: <span class="number">0</span>; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }
+Rectangle { id: rect2; anchors<span class="operator">.</span>left: rect1<span class="operator">.</span>right; anchors<span class="operator">.</span>right: rect3<span class="operator">.</span>left; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }
+Rectangle { id: rect3; x: <span class="number">150</span>; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }</pre></div>
+<p class="centerAlign"><img alt="" src="./images/edge4.png"></p><p>There are also some convenience anchors. anchors.fill is a convenience that is the same as setting the left,right,top and bottom anchors to the left,right,top and bottom of the target item. anchors.centerIn is another convenience anchor, and is the same as setting the verticalCenter and horizontalCenter anchors to the verticalCenter and horizontalCenter of the target item.</p>
+<a name="anchor-margins-and-offsets"></a>
+<h2 id="anchor-margins-and-offsets">Anchor Margins and Offsets<a class="plink" href="#anchor-margins-and-offsets" title="Direct link to this headline"></a></h2>
+<p>The anchoring system also allows <i>margins</i> and <i>offsets</i> to be specified for an item's anchors. Margins specify the amount of empty space to leave to the outside of an item's anchor, while offsets allow positioning to be manipulated using the center anchor lines. An item can specify its anchor margins individually through <a href="./qml-qtquick-item.htm#anchors.leftMargin-prop" translate="no">leftMargin</a>, <a href="./qml-qtquick-item.htm#anchors.rightMargin-prop" translate="no">rightMargin</a>, <a href="./qml-qtquick-item.htm#anchors.topMargin-prop" translate="no">topMargin</a> and <a href="./qml-qtquick-item.htm#anchors.bottomMargin-prop" translate="no">bottomMargin</a>, or use <a href="./qml-qtquick-item.htm#anchors.margins-prop" translate="no">anchors.margins</a> to specify the same margin value for all four edges. Anchor offsets are specified using <a href="./qml-qtquick-item.htm#anchors.horizontalCenterOffset-prop" translate="no">horizontalCenterOffset</a>, <a href="./qml-qtquick-item.htm#anchors.verticalCenterOffset-prop" translate="no">verticalCenterOffset</a> and <a href="./qml-qtquick-item.htm#anchors.baselineOffset-prop" translate="no">baselineOffset</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/margins_qml.png"></p><p>The following example specifies a left margin:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Rectangle { id: rect1; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }
+Rectangle { id: rect2; anchors<span class="operator">.</span>left: rect1<span class="operator">.</span>right; anchors<span class="operator">.</span>leftMargin: <span class="number">5</span>; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }</pre></div>
+<p>In this case, a margin of 5 pixels is reserved to the left of <i>rect2</i>, producing the following:</p>
+<p class="centerAlign"><img alt="" src="./images/edge2.png"></p><div class="admonition note">
+<p><b>Note: </b>Anchor margins only apply to anchors; they are <i>not</i> a generic means of applying margins to an <a href="./qml-qtquick-item.htm" translate="no">Item</a>. If an anchor margin is specified for an edge but the item is not anchored to any item on that edge, the margin is not applied.</p>
+</div>
+<a name="changing-anchors"></a>
+<h2 id="changing-anchors">Changing Anchors<a class="plink" href="#changing-anchors" title="Direct link to this headline"></a></h2>
+<p>Qt Quick provides the <a href="./qml-qtquick-anchorchanges.htm" translate="no">AnchorChanges</a> type for specifying the anchors in a state.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+    <span class="name">name</span>: <span class="string">"anchorRight"</span>
+    <span class="type"><a href="./qml-qtquick-anchorchanges.htm" translate="no">AnchorChanges</a></span> {
+        <span class="name">target</span>: <span class="name">rect2</span>
+        <span class="name">anchors</span>.right: <span class="name">parent</span>.<span class="name">right</span>
+        <span class="name">anchors</span>.left: <span class="name">undefined</span>  <span class="comment">//remove the left anchor</span>
+    }
+}</pre></div>
+<p><a href="./qml-qtquick-anchorchanges.htm" translate="no">AnchorChanges</a> can be animated using the <a href="./qml-qtquick-anchoranimation.htm" translate="no">AnchorAnimation</a> type.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-transition.htm" translate="no">Transition</a></span> {
+    <span class="type"><a href="./qml-qtquick-anchoranimation.htm" translate="no">AnchorAnimation</a></span> {}  <span class="comment">//animates any AnchorChanges in the corresponding state change</span>
+}</pre></div>
+<p>Anchors can also be changed imperatively within JavaScript. However, these changes should be carefully ordered, or they may produce unexpected outcomes. The following example illustrates the issue:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">//bad code</span>
+Rectangle {
+    width: <span class="number">50</span>
+    anchors<span class="operator">.</span>left: parent<span class="operator">.</span>left
+
+    function reanchorToRight() {
+        anchors<span class="operator">.</span>right <span class="operator">=</span> parent<span class="operator">.</span>right
+        anchors<span class="operator">.</span>left <span class="operator">=</span> undefined
+    }
+}</pre></div>
+</td><td><p class="centerAlign"><img alt="" src="./images/anchor_ordering_bad.png"></p></td></tr>
+</tbody></table></div>
+<p>When <code translate="no">reanchorToRight</code> is called, the function first sets the right anchor. At that point, both left and right anchors are set, and the item will be stretched horizontally to fill its parent. When the left anchor is unset, the new width will remain. Thus when updating anchors within JavaScript, you should first unset any anchors that are no longer required, and only then set any new anchors that are required, as shown below:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">50</span>
+    <span class="name">anchors</span>.left: <span class="name">parent</span>.<span class="name">left</span>
+
+    <span class="keyword">function </span><span class="name">reanchorToRight</span>() {
+        <span class="name">anchors</span>.<span class="name">left</span> <span class="operator">=</span> <span class="name">undefined</span>
+        <span class="name">anchors</span>.<span class="name">right</span> <span class="operator">=</span> <span class="name">parent</span>.<span class="name">right</span>
+    }
+}</pre></div>
+</td><td><p class="centerAlign"><img alt="" src="./images/anchor_ordering.png"></p></td></tr>
+</tbody></table></div>
+<p>Because the evaluation order of bindings is not defined, it is not recommended to change anchors via conditional bindings, as this can lead to the ordering issue described above. In the following example the Rectangle will eventually grow to the full width of its parent, because both left and right anchors will be simultaneously set during binding update.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">//bad code</span>
+Rectangle {
+    width: <span class="number">50</span>; height: <span class="number">50</span>
+    anchors<span class="operator">.</span>left: state <span class="operator">=</span><span class="operator">=</span> <span class="string">"right"</span> <span class="operator">?</span> undefined : parent<span class="operator">.</span>left;
+    anchors<span class="operator">.</span>right: state <span class="operator">=</span><span class="operator">=</span> <span class="string">"right"</span> <span class="operator">?</span> parent<span class="operator">.</span>right : undefined;
+}</pre></div>
+<p>This should be rewritten to use <a href="./qml-qtquick-anchorchanges.htm" translate="no">AnchorChanges</a> instead, as <a href="./qml-qtquick-anchorchanges.htm" translate="no">AnchorChanges</a> will automatically handle ordering issues internally.</p>
+<a name="restrictions"></a>
+<h2 id="restrictions">Restrictions<a class="plink" href="#restrictions" title="Direct link to this headline"></a></h2>
+<p>For performance reasons, you can only anchor an item to its siblings and direct parent. For example, the following anchor is invalid and would produce a warning:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">//bad code</span>
+Item {
+    id: group1
+    Rectangle { id: rect1; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }
+}
+Item {
+    id: group2
+    Rectangle { id: rect2; anchors<span class="operator">.</span>left: rect1<span class="operator">.</span>right; <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> }    <span class="comment">// invalid anchor!</span>
+}</pre></div>
+<p>Also, anchor-based layouts cannot be mixed with absolute positioning. If an item specifies its <a href="./qml-qtquick-item.htm#x-prop" translate="no">x</a> position and also sets <a href="./qml-qtquick-item.htm#anchors.left-prop" translate="no">anchors.left</a>, or anchors its left and right edges but additionally sets a <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a>, the result is undefined, as it would not be clear whether the item should use anchoring or absolute positioning. The same can be said for setting an item's <a href="./qml-qtquick-item.htm#y-prop" translate="no">y</a> and <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a> with <a href="./qml-qtquick-item.htm#anchors.top-prop" translate="no">anchors.top</a> and <a href="./qml-qtquick-item.htm#anchors.bottom-prop" translate="no">anchors.bottom</a>, or setting <a href="./qml-qtquick-item.htm#anchors.fill-prop" translate="no">anchors.fill</a> as well as <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> or <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a>. The same applies when using positioners such as Row and Grid, which may set the item's <a href="./qml-qtquick-item.htm#x-prop" translate="no">x</a> and <a href="./qml-qtquick-item.htm#y-prop" translate="no">y</a> properties. If you wish to change from using anchor-based to absolute positioning, you can clear an anchor value by setting it to <code translate="no">undefined</code>.</p>
+</div>
+<!-- @@@qtquick-positioning-anchors.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

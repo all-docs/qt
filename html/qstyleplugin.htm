@@ -1,0 +1,129 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QStylePlugin | Qt Widgets</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qstyleplugin.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./qtwidgets-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QStylePlugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QStylePlugin Class</h1>
+<!-- $$$QStylePlugin-brief -->
+<p>The QStylePlugin class provides an abstract base for custom <a href="./qstyle.htm" translate="no">QStyle</a> plugins. <a href="#details">More...</a></p>
+<!-- @@@QStylePlugin -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QStylePlugin&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += widgets</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qobject.htm" translate="no">QObject</a></td></tr></tbody></table></div><ul>
+<li><a href="./qstyleplugin-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qstyleplugin.htm#QStylePlugin" translate="no">QStylePlugin</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qstyleplugin.htm#dtor.QStylePlugin" translate="no">~QStylePlugin</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QStyle *</td><td class="memItemRight bottomAlign"><b><a href="./qstyleplugin.htm#create" translate="no">create</a></b>(const QString &amp;<i>key</i>) = 0</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QStylePlugin-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QStylePlugin is a simple plugin interface that makes it easy to create custom styles that can be loaded dynamically into applications using the <a href="./qstylefactory.htm" translate="no">QStyleFactory</a> class.</p>
+<p>Writing a style plugin is achieved by subclassing this base class, reimplementing the pure virtual <a href="./qstyleplugin.htm#create" translate="no">create</a>() function, and exporting the class using the <a href="./qtplugin.htm#Q_PLUGIN_METADATA" translate="no">Q_PLUGIN_METADATA</a>() macro.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MyStylePlugin : <span class="keyword">public</span> <span class="type"><a href="./qstyleplugin.htm#QStylePlugin" translate="no">QStylePlugin</a></span>
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID <span class="string">"org.qt-project.Qt.QStyleFactoryInterface"</span> FILE <span class="string">"mystyleplugin.json"</span>)
+<span class="keyword">public</span>:
+    MyStylePlugin(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> <span class="operator">*</span>parent <span class="operator">=</span> <span class="number">0</span>);
+
+    <span class="type"><a href="./qstyle.htm" translate="no">QStyle</a></span> <span class="operator">*</span>create(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>key) override;
+};</pre></div>
+<p>The json metadata file <code translate="no">mystyleplugin.json</code> for the plugin needs to contain information about the names of the styles the plugins supports as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{ "Keys": [ "Rocket", "Starbuster" ] }</pre></div>
+<p>See <a href="./plugins-howto.htm" translate="no">How to Create Qt Plugins</a> for details.</p>
+</div>
+<p><b>See also </b><a href="./qstylefactory.htm" translate="no">QStyleFactory</a> and <a href="./qstyle.htm" translate="no">QStyle</a>.</p>
+<!-- @@@QStylePlugin -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QStylePlugin[overload1]$$$QStylePluginQObject* -->
+<h3 class="fn" id="QStylePlugin" translate="no"><a name="QStylePlugin"></a>QStylePlugin::<span class="name">QStylePlugin</span>(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#QStylePlugin" title="Direct link to this headline"></a></h3>
+<p>Constructs a style plugin with the given <i translate="no">parent</i>.</p>
+<p>Note that this constructor is invoked automatically by the moc generated code that exports the plugin, so there is no need for calling it explicitly.</p>
+<!-- @@@QStylePlugin -->
+<!-- $$$~QStylePlugin[overload1]$$$~QStylePlugin -->
+<h3 class="fn" id="dtor.QStylePlugin" translate="no"><a name="dtor.QStylePlugin"></a><code translate="no">[virtual] </code>QStylePlugin::<span class="name">~QStylePlugin</span>()<a class="plink" href="#dtor.QStylePlugin" title="Direct link to this headline"></a></h3>
+<p>Destroys the style plugin.</p>
+<p>Note that Qt destroys a plugin automatically when it is no longer used, so there is no need for calling the destructor explicitly.</p>
+<!-- @@@~QStylePlugin -->
+<!-- $$$create[overload1]$$$createconstQString& -->
+<h3 class="fn" id="create" translate="no"><a name="create"></a><code translate="no">[pure virtual] </code><span class="type"><a href="./qstyle.htm" translate="no">QStyle</a></span> *QStylePlugin::<span class="name">create</span>(const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>key</i>)<a class="plink" href="#create" title="Direct link to this headline"></a></h3>
+<p>Creates and returns a <a href="./qstyle.htm" translate="no">QStyle</a> object for the given style <i translate="no">key</i>. If a plugin cannot create a style, it should return 0 instead.</p>
+<p>The style key is usually the class name of the required style. Note that the keys are case insensitive. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qstyle.htm" translate="no">QStyle</a></span> <span class="operator">*</span>MyStylePlugin<span class="operator">::</span>create(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>key)
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> lcKey <span class="operator">=</span> key<span class="operator">.</span>toLower();
+    <span class="keyword">if</span> (lcKey <span class="operator">=</span><span class="operator">=</span> <span class="string">"rocket"</span>) {
+        <span class="keyword">return</span> <span class="keyword">new</span> RocketStyle;
+    } <span class="keyword">else</span> <span class="keyword">if</span> (lcKey <span class="operator">=</span><span class="operator">=</span> <span class="string">"starbuster"</span>) {
+        <span class="keyword">return</span> <span class="keyword">new</span> StarBusterStyle;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+<!-- @@@create -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

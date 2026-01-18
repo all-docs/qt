@@ -1,0 +1,139 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt CoAP Overview | Qt CoAP</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcoap-overview.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcoap-index.htm" translate="no">Qt CoAP</a></li>
+                            <li><a>Qt CoAP Overview</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt CoAP Overview</h1>
+<span class="subtitle"></span>
+<!-- $$$qtcoap-overview.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Constrained Application Protocol (CoAP) is an IoT protocol that is specifically designed for M2M data exchange between constrained devices (such as microcontrollers) in constrained networks.</p>
+<p>The interaction model of CoAP is similar to the client/server model of HTTP, but unlike HTTP, it uses datagram-oriented connectionless transport such as UDP, which leads to a very low overhead and allows UDP broadcast and multicast to be used for addressing. At the same time it provides lightweight reliability mechanisms and security.</p>
+<p>Qt CoAP implements the client side of CoAP. By default, the transport layer uses <a href="./qudpsocket.htm" translate="no">QUdpSocket</a> and <a href="./qdtls.htm" translate="no">QDtls</a> for security. Alternative transports can be used by implementing the QCoapConnection interface.</p>
+<a name="messaging-model"></a>
+<h2 id="messaging-model">Messaging Model<a class="plink" href="#messaging-model" title="Direct link to this headline"></a></h2>
+<p>The CoAP messaging model is based on the exchange of messages between endpoints: clients make requests to servers; servers send back responses. Clients may <i>GET</i>, <i>PUT</i>, <i>POST</i> and <i>DELETE</i> resources. They can also discover resources on a server by making discovery requests, or in the local network, by making multicast discovery requests. It is also possible to subscribe to a resource, with an observe request.</p>
+<p>Reliability of the transfer is achieved by marking a message <i>confirmable</i> (CON). A confirmable message is retransmitted using a default timeout and exponential back-off between retransmissions, until the recipient sends an <i>acknowledgment</i> (ACK) message. When the recipient is not able to process a confirmable message, it replies with a <i>reset</i> message (RST) instead of an acknowledgment.</p>
+<p>A message that does not require reliable transmission can be sent as a <i>non-confirmable</i> (NON) message.</p>
+<a name="using-the-qt-coap-api"></a>
+<h2 id="using-the-qt-coap-api">Using the Qt CoAP API<a class="plink" href="#using-the-qt-coap-api" title="Direct link to this headline"></a></h2>
+<p>The communication of the client with the CoAP server is done using the <a href="./qcoapclient.htm" translate="no">QCoapClient</a> class. It contains the methods for sending different CoAP requests and the signals that get triggered when the replies for the sent request arrive. The <a href="./qcoaprequest.htm" translate="no">QCoapRequest</a> class is used for creating CoAP requests. The response from the server is returned in a <a href="./qcoapreply.htm" translate="no">QCoapReply</a> object. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span> <span class="operator">*</span>client <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span>();
+connect(client<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span><span class="operator">::</span>finished<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MyClass<span class="operator">::</span>onFinished);
+connect(client<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span><span class="operator">::</span>error<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MyClass<span class="operator">::</span>onError);
+
+<span class="type"><a href="./qcoaprequest.htm" translate="no">QCoapRequest</a></span> request(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="string">"coap://127.0.0.1/test"</span>)<span class="operator">,</span> <span class="type"><a href="./qcoapmessage.htm" translate="no">QCoapMessage</a></span><span class="operator">::</span>Confirmable);
+client<span class="operator">-</span><span class="operator">&gt;</span>get(request);
+client<span class="operator">-</span><span class="operator">&gt;</span>put(request<span class="operator">,</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span>(<span class="string">"payload"</span>));</pre></div>
+<a name="supported-features"></a>
+<h2 id="supported-features">Supported Features<a class="plink" href="#supported-features" title="Direct link to this headline"></a></h2>
+<a name="resource-discovery"></a>
+<h3 id="resource-discovery">Resource Discovery<a class="plink" href="#resource-discovery" title="Direct link to this headline"></a></h3>
+<p>CoAP discovery requests are used to query the resources available on an endpoint or in the complete network. This is really important for M2M applications, where there are no humans in the loop. For example, for home or building automation, there is a need for local clients and servers to find and interact with each other without human intervention. Resource discovery allows clients to learn about the endpoints available in the network.</p>
+<p>Qt CoAP supports discovery requests to a single endpoint and to multicast groups. For example, a discovery request to <code translate="no">/.well-known/core</code>, which is the default resource discovery entry point, may return something like:</p>
+<div class="pre"><pre class="cpp plain" translate="no">RES: 2.05 Content
+&lt;/sensors/temp&gt;;rt="temperature-c";if="sensor";obs,
+&lt;/sensors/light&gt;;rt="light-lux";if="sensor",
+&lt;/firmware/v2.1&gt;;rt="firmware";sz=262144</pre></div>
+<p>Indicating that there are resources for temperature and light sensors and a firmware resource available in the network. The reply is represented in <a href="https://tools.ietf.org/html/rfc6690" translate="no">CoRE Link Format</a>.</p>
+<p>The specialized <a href="./qcoapresourcediscoveryreply.htm" translate="no">QCoapResourceDiscoveryReply</a> class is used to get the discovery replies:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// This will make a multicast discovery request to the CoAP IPv4 multicast group.</span>
+<span class="type"><a href="./qcoapresourcediscoveryreply.htm" translate="no">QCoapResourceDiscoveryReply</a></span> <span class="operator">*</span>discoverReply <span class="operator">=</span> client<span class="operator">-</span><span class="operator">&gt;</span>discover();
+connect(discoverReply<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoapresourcediscoveryreply.htm" translate="no">QCoapResourceDiscoveryReply</a></span><span class="operator">::</span>discovered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MyClass<span class="operator">::</span>onDiscovered);</pre></div>
+<p>The <a href="./qcoapresourcediscoveryreply.htm#discovered" translate="no">QCoapResourceDiscoveryReply::discovered</a> will return the list of CoAP resources found in the network.</p>
+<a name="resource-observation"></a>
+<h3 id="resource-observation">Resource Observation<a class="plink" href="#resource-observation" title="Direct link to this headline"></a></h3>
+<p>Observe requests are used to receive automatic server notifications for a resource. The client becomes an observer of an observable resource by sending an observe request to the resource. For example, the temperature sensor from the above example is observable, because it has the <code translate="no">obs</code> attribute. So the client can subscribe to the temperature updates by sending an observe request to it.</p>
+<p>The following example code shows how to send observe requests using Qt CoAP:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcoapreply.htm" translate="no">QCoapReply</a></span> <span class="operator">*</span>reply <span class="operator">=</span> client<span class="operator">-</span><span class="operator">&gt;</span>observe(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="string">"127.0.0.1/temp"</span>));
+connect(reply<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcoapreply.htm" translate="no">QCoapReply</a></span><span class="operator">::</span>notified<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MyClass<span class="operator">::</span>onNotified);</pre></div>
+<p>For Observe requests specifically, you can use the <a href="./qcoapreply.htm#notified" translate="no">QCoapReply::notified</a> signal to handle notifications from the CoAP server.</p>
+<a name="blockwise-transfers"></a>
+<h3 id="blockwise-transfers">Blockwise Transfers<a class="plink" href="#blockwise-transfers" title="Direct link to this headline"></a></h3>
+<p>Since CoAP is based on datagram transports such as UDP, there are limits on how big a resource representation can be, to be transferred without fragmentation causing problems. Qt CoAP supports block-wise transfers for situations where a resource representation is larger than can be comfortably transferred in the payload of a single CoAP datagram.</p>
+<a name="security"></a>
+<h3 id="security">Security<a class="plink" href="#security" title="Direct link to this headline"></a></h3>
+<p>The following security modes are defined for CoAP:</p>
+<ul>
+<li><b>Pre-Shared Key</b> - in this mode the client must send to the server its identity and the pre-shared key.</li>
+<li><b>Raw Public Key</b> - the client has an asymmetric key pair without a certificate (a raw public key). The client also has an identity calculated from the public key and a list of identities of the nodes it can communicate with. Qt CoAP has not implemented this mode yet.</li>
+<li><b>Certificate</b> - the client has an asymmetric key pair with an X.509 certificate that is signed by some common trust root.</li>
+</ul>
+<p>Since CoAP is designed to be a UDP-based protocol, Qt CoAP module implements security based on Datagram TLS (DTLS) over UDP. However, as mentioned above, it is possible to provide a custom transport with another security type.</p>
+<p>For securing the CoAP client, one of the supported security modes should be specified when creating the client:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span> <span class="operator">*</span>client <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span>(<span class="keyword">this</span><span class="operator">,</span> <span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>PreSharedKey);</pre></div>
+<p>The <a href="./qcoapsecurityconfiguration.htm" translate="no">QCoapSecurityConfiguration</a> class is used for specifying the security parameters. For example, in pre-shared key mode the following example code can be used:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcoapsecurityconfiguration.htm" translate="no">QCoapSecurityConfiguration</a></span> config;
+config<span class="operator">.</span>setPreSharedKey(<span class="string">"secretPSK"</span>);
+config<span class="operator">.</span>setIdentity(<span class="string">"Client_identity"</span>);
+client<span class="operator">-</span><span class="operator">&gt;</span>setSecurityConfiguration(config);</pre></div>
+<p>And in certificate mode:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span> <span class="operator">*</span>client <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcoapclient.htm" translate="no">QCoapClient</a></span>(<span class="keyword">this</span><span class="operator">,</span> <span class="type"><a href="./qtcoap-module.htm" translate="no">QtCoap</a></span><span class="operator">::</span>Certificate);
+<span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qsslcertificate.htm" translate="no">QSslCertificate</a></span><span class="operator">&gt;</span> localCertificates<span class="operator">,</span> caCertificates;
+<span class="type"><a href="./qcoapprivatekey.htm" translate="no">QCoapPrivateKey</a></span> key;
+<span class="comment">// Initialize the key and certificates</span>
+<span class="type"><a href="./qcoapsecurityconfiguration.htm" translate="no">QCoapSecurityConfiguration</a></span> config;
+config<span class="operator">.</span>setLocalCertificateChain(localCertificates);
+config<span class="operator">.</span>setCaCertificates(caCertificates)
+config<span class="operator">.</span>setPrivateKey(key);
+client<span class="operator">-</span><span class="operator">&gt;</span>setSecurityConfiguration(config);</pre></div>
+</div>
+<!-- @@@qtcoap-overview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

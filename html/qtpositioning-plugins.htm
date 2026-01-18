@@ -1,0 +1,113 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Positioning Plugins | Qt Positioning</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtpositioning-plugins.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpositioning-index.htm" translate="no">Qt Positioning</a></li>
+                            <li><a>Qt Positioning Plugins</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Positioning Plugins</h1>
+<span class="subtitle"></span>
+<!-- $$$qtpositioning-plugins.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt Positioning provides the majority of its functionality through plugins. This document outlines how to develop a new position plugin.</p>
+<a name="default-plugins"></a>
+<h2 id="default-plugins">Default plugins<a class="plink" href="#default-plugins" title="Direct link to this headline"></a></h2>
+<p>Some plugins already ship with Qt. These are:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><b>android</b></td><td>Wraps Android positioning subsystem. Available only on Android.</td></tr>
+<tr class="even" valign="top"><td><b>corelocation</b></td><td>A <a href="./position-plugin-corelocation.htm" translate="no">Core Location</a> backend wraps iOS and macOS positioning subsystems. Available only on Apple platforms supporting corelocation.</td></tr>
+<tr class="odd" valign="top"><td><b>geoclue</b></td><td>Interfaces with <a href="https://www.freedesktop.org/wiki/Software/GeoClue/" translate="no">GeoClue</a> v0.12. Requires GeoClue 0.12 to be present to function.</td></tr>
+<tr class="even" valign="top"><td><b>geoclue2</b></td><td>Interfaces with <a href="https://www.freedesktop.org/wiki/Software/GeoClue/" translate="no">GeoClue</a> v2. Requires GeoClue v2 to be present to function.</td></tr>
+<tr class="odd" valign="top"><td><b>gypsy</b></td><td>Interfaces with <a href="https://gypsy.freedesktop.org/wiki/" translate="no">Gypsy</a> daemon. Requires Gypsy to be present to function.</td></tr>
+<tr class="even" valign="top"><td><b>winrt</b></td><td>Wraps WinRT positioning subsystem. Available only on WinRT and Windows10.</td></tr>
+<tr class="odd" valign="top"><td><b>serialnmea</b></td><td>A <a href="./position-plugin-serialnmea.htm" translate="no">Serial NMEA</a> backend that parses NMEA streams from a GPS receiver over a serial link to provide position updates.</td></tr>
+<tr class="even" valign="top"><td><b>positionpoll</b></td><td>A backend providing only area monitoring functionalities via polling on position updates.</td></tr>
+</tbody></table></div>
+<a name="plugin-description"></a>
+<h2 id="plugin-description">Plugin Description<a class="plink" href="#plugin-description" title="Direct link to this headline"></a></h2>
+<p>Each plugin is described by a json file. The json describes the plugins capabilities and version. Below is an example of a json file used by the postionpoll plugin:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    "Keys": ["positionpoll"],
+    "Provider": "positionpoll",
+    "Position": false,
+    "Satellite": false,
+    "Monitor": true,
+    "Priority": 1000,
+    "Testable": true
+}</pre></div>
+<p>The entries have the following meaning:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Key</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>Keys</td><td>The unique name/key of the plugin. Each position plugin must have a unique name.</td></tr>
+<tr class="even" valign="top"><td>Provider</td><td>The provider name of the services. Multiple plugins may have the same name. In such cases the Version string will be used to further distinguish the plugins.</td></tr>
+<tr class="odd" valign="top"><td>Position</td><td>Set to <code translate="no">true</code> if the plugin implements a <a href="./qgeopositioninfosource.htm" translate="no">QGeoPositionInfoSource</a>.</td></tr>
+<tr class="even" valign="top"><td>Satellite</td><td>Set to <code translate="no">true</code> if the plugin implements a <a href="./qgeosatelliteinfosource.htm" translate="no">QGeoSatelliteInfoSource</a>.</td></tr>
+<tr class="odd" valign="top"><td>Monitor</td><td>Set to <code translate="no">true</code> if the plugin implements a <a href="./qgeoareamonitorsource.htm" translate="no">QGeoAreaMonitorSource</a>.</td></tr>
+<tr class="even" valign="top"><td>Priority</td><td>The plugin priority. If multiple plugins have the same provider name, the plugin with the higest priority will be used.</td></tr>
+</tbody></table></div>
+<a name="implementing-plugins"></a>
+<h2 id="implementing-plugins">Implementing Plugins<a class="plink" href="#implementing-plugins" title="Direct link to this headline"></a></h2>
+<p>A plugin implementer needs to subclass <a href="./qgeopositioninfosourcefactory.htm" translate="no">QGeoPositionInfoSourceFactory</a> and override one or more of its functions. If a plugin does not support a specific feature the function should return 0 or utilize the default implementation.</p>
+<ul>
+<li><a href="./qgeopositioninfosourcefactory.htm#areaMonitor" translate="no">QGeoPositionInfoSourceFactory::areaMonitor</a>()</li>
+<li><a href="./qgeopositioninfosourcefactory.htm#positionInfoSource" translate="no">QGeoPositionInfoSourceFactory::positionInfoSource</a>()</li>
+<li><a href="./qgeopositioninfosourcefactory.htm#satelliteInfoSource" translate="no">QGeoPositionInfoSourceFactory::satelliteInfoSource</a>()</li>
+</ul>
+</div>
+<!-- @@@qtpositioning-plugins.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

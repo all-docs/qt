@@ -1,0 +1,125 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Positioner QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-positioner.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>Positioner QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Positioner QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Positioner-brief -->
+<p>Provides attached properties that contain details on where an item exists in a positioner. <a href="#details">More...</a></p>
+<!-- @@@Positioner -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-positioner-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="attached-properties"></a>
+<h2 id="attached-properties">Attached Properties<a class="plink" href="#attached-properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-positioner.htm#index-attached-prop" translate="no">index</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-positioner.htm#isFirstItem-attached-prop" translate="no">isFirstItem</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-positioner.htm#isLastItem-attached-prop" translate="no">isLastItem</a></b></b> : bool</li>
+</ul>
+<!-- $$$Positioner-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>An object of type Positioner is attached to the top-level child item within a Column, Row, Flow or Grid. It provides properties that allow a child item to determine where it exists within the layout of its parent Column, Row, Flow or Grid.</p>
+<p>For example, below is a <a href="./qml-qtquick-grid.htm" translate="no">Grid</a> with 16 child rectangles, as created through a <a href="./qml-qtquick-repeater.htm" translate="no">Repeater</a>. Each <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> displays its index in the Grid using <a href="./qml-qtquick-positioner.htm#index-attached-prop" translate="no">Positioner.index</a>, and the first item is colored differently by taking <a href="./qml-qtquick-positioner.htm#isFirstItem-attached-prop" translate="no">Positioner.isFirstItem</a> into account:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Grid {
+    Repeater {
+        model: <span class="number">16</span>
+
+        Rectangle {
+            id: rect
+            width: <span class="number">30</span>; height: <span class="number">30</span>
+            border<span class="operator">.</span>width: <span class="number">1</span>
+            color: Positioner<span class="operator">.</span>isFirstItem <span class="operator">?</span> <span class="string">"yellow"</span> : <span class="string">"lightsteelblue"</span>
+
+            Text { text: rect<span class="operator">.</span>Positioner<span class="operator">.</span>index }
+        }
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/positioner-example.png"></p><!-- @@@Positioner -->
+<h2>Attached Property Documentation</h2>
+<!-- $$$ -->
+<div class="qmlitem"><div class="fngroup">
+<div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="isFirstItem-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="isFirstItem-attached-prop"></a><span class="name">Positioner.isFirstItem</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#isFirstItem-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+<tr class="odd" id="isLastItem-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="isLastItem-attached-prop"></a><span class="name">Positioner.isLastItem</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#isLastItem-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+</div><div class="qmldoc"><p>These properties allow the item to determine if it is the first or last item in the positioner, respectively.</p>
+</div></div><!-- @@@ -->
+<br>
+<!-- $$$index -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="index-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="index-attached-prop"></a><span class="name">Positioner.index</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#index-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property allows the item to determine its index within the positioner.</p>
+</div></div><!-- @@@index -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

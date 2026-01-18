@@ -1,0 +1,116 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML Poster Example | Qt NFC</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtnfc-index.htm" translate="no">Qt NFC</a></li>
+                            <li><a>QML Poster Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">QML Poster Example</h1>
+<span class="subtitle"></span>
+<!-- $$$poster-brief -->
+<p>A QML example about reading and displaying NFC Data Exchange Format (NDEF) messages.</p>
+<!-- @@@poster -->
+<!-- $$$poster-description -->
+<div class="descr"> <a name="details"></a>
+<p>The QML Poster example displays the contents of specifically formatted NFC Data Exchange Format (NDEF) messages read from an NFC Tag. The NDEF message must contain a URI record, an optional <code translate="no">image/*</code> MIME record, and one or more localized Text records.</p>
+<p class="centerAlign"><img alt="" src="./images/qml-poster-example.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="applying-ndef-filters"></a>
+<h4 id="applying-ndef-filters">Applying NDEF Filters<a class="plink" href="#applying-ndef-filters" title="Direct link to this headline"></a></h4>
+<p>The example is designed to display the content of a very specific type of NFC tag. The tag must contain at least one URI record and one text record. If those two record types do not exist, nothing will happen. Such filtering is applied via the <a href="./qml-qtnfc-nearfield.htm" translate="no">NearField</a> type's filter property. The property accepts a list of <a href="./qml-qtnfc-ndeffilter.htm" translate="no">NdefFilter</a> objects.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">filter</span>: [
+    <span class="type"><a href="./qml-qtnfc-ndeffilter.htm" translate="no">NdefFilter</a></span> { <span class="name">type</span>: <span class="string">"U"</span>; <span class="name">typeNameFormat</span>: <span class="name">NdefRecord</span>.<span class="name">NfcRtd</span>; <span class="name">maximum</span>: <span class="number">1</span> },
+    <span class="type"><a href="./qml-qtnfc-ndeffilter.htm" translate="no">NdefFilter</a></span> { <span class="name">type</span>: <span class="string">"T"</span>; <span class="name">typeNameFormat</span>: <span class="name">NdefRecord</span>.<span class="name">NfcRtd</span> },
+    <span class="type"><a href="./qml-qtnfc-ndeffilter.htm" translate="no">NdefFilter</a></span> { <span class="name">typeNameFormat</span>: <span class="name">NdefRecord</span>.<span class="name">Mime</span>; <span class="name">minimum</span>: <span class="number">0</span>; <span class="name">maximum</span>: <span class="number">1</span> }
+]</pre></div>
+<a name="processing-found-ndef-messages"></a>
+<h4 id="processing-found-ndef-messages">Processing Found NDEF Messages<a class="plink" href="#processing-found-ndef-messages" title="Direct link to this headline"></a></h4>
+<p>Once an appropriate tag is found, the <a href="./qml-qtnfc-nearfield.htm#messageRecords-prop" translate="no">NearField::messageRecords</a> property reflects the content. It transports the list of found NDEF records. The QML snippet below demonstrates how these records can be accessed:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">onMessageRecordsChanged</span>: {
+    <span class="keyword">for</span> (<span class="name">i</span> <span class="operator">=</span> <span class="number">0</span>; <span class="name">i</span> <span class="operator">&lt;</span> <span class="name">messageRecords</span>.<span class="name">length</span>; ++<span class="name">i</span>) {
+        <span class="keyword">switch</span> (<span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">typeNameFormat</span>) {
+        <span class="keyword">case</span> <span class="name">NdefRecord</span>.<span class="name">NfcRtd</span>:
+            <span class="keyword">if</span> (<span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">type</span> <span class="operator">===</span> <span class="string">"T"</span>) {
+                <span class="keyword">if</span> (<span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">localeMatch</span> <span class="operator">&gt;</span> <span class="name">currentLocaleMatch</span>) {
+                    <span class="name">currentLocaleMatch</span> <span class="operator">=</span> <span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">localeMatch</span>;
+                    <span class="name">posterText</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">text</span>;
+                    <span class="name">found</span> <span class="operator">=</span> <span class="number">true</span>;
+                }
+
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">type</span> <span class="operator">===</span> <span class="string">"U"</span>) {
+                 <span class="name">posterUrl</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">uri</span>;
+                <span class="name">found</span> <span class="operator">=</span> <span class="number">true</span>;
+            }
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="name">NdefRecord</span>.<span class="name">Mime</span>:
+            <span class="keyword">if</span> (<span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">type</span>.<span class="name">indexOf</span>(<span class="string">"image/"</span>) <span class="operator">===</span> <span class="number">0</span> ) {
+                <span class="name">posterImage</span>.<span class="name">source</span> <span class="operator">=</span> <span class="name">messageRecords</span>[<span class="name">i</span>].<span class="name">uri</span>;
+                <span class="name">found</span> <span class="operator">=</span> <span class="number">true</span>;
+            }
+            <span class="keyword">break</span>;
+        }
+
+        <span class="keyword">if</span> (!<span class="name">found</span>)
+            <span class="name">console</span>.<span class="name">warn</span>(<span class="string">"Unknown NFC tag detected. Cannot display content."</span>)
+    }
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtconnectivity.git/tree/examples/nfc/poster?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<p><b>See also </b><a href="./qtnfc-index.htm" translate="no">Qt NFC</a>.</p>
+<!-- @@@poster -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

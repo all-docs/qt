@@ -1,0 +1,115 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registering Products in Google Play | Qt Purchasing</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtpurchasing-googleplay.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpurchasing-index.htm" translate="no">Qt Purchasing</a></li>
+                            <li><a>Registering Products in Google Play</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Registering Products in Google Play</h1>
+<span class="subtitle"></span>
+<!-- $$$qtpurchasing-googleplay.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Google Play market place allows you to register your application, as well as the in-app products you want to make available to it, without publishing it. The following guide gives a brief introduction on uploading your application to Google Play and registering products.</p>
+<p>For more information, refer to the <a href="http://developer.android.com/google/play/billing/billing_testing.html" translate="no">Android documentation</a>.</p>
+<a name="preparing-your-application-for-submission"></a>
+<h2 id="preparing-your-application-for-submission">Preparing Your Application for Submission<a class="plink" href="#preparing-your-application-for-submission" title="Direct link to this headline"></a></h2>
+<p>Before you can upload your application to Google Play, you must prepare it for submission.</p>
+<a name="adding-a-manifest-xml"></a>
+<h3 id="adding-a-manifest-xml">Adding a Manifest XML<a class="plink" href="#adding-a-manifest-xml" title="Direct link to this headline"></a></h3>
+<p>The default <code translate="no">AndroidManifest.xml</code> generated for applications by Qt is suitable for development testing, but cannot be used when submitting the application to Google Play.</p>
+<p>Create your own manifest by clicking the <b translate="no">Create Templates</b> button in Qt Creator. You can find the button under <b translate="no">Projects</b> &gt; <b translate="no">Build</b> tab. Expand <b translate="no">Build Android APK</b> to see it.</p>
+<p>Once the manifest is added to your project, you can modify it. The most important parts are the application name and the package name. The package name must be unique, and it is recommended to follow the com.mycompany.myappname naming convention. The "com.mycompany" namespace is based on the Internet domain ownership to avoid naming collisions with other applications.</p>
+<p>Other important parts of the manifest include the <code translate="no">versionCode</code>, which must be incremented every time you upload a new version of the application. Other properties will decide how your application package is presented in the store listing, such as the application name and the version name.</p>
+<p>Finally, the application needs the billing permission. If you disabled <b translate="no">Include default permissions for Qt modules</b> from Qt Creator, you'll need to add</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">&lt;</span>uses<span class="operator">-</span>permission android:name<span class="operator">=</span><span class="string">"com.android.vending.BILLING"</span> <span class="operator">/</span><span class="operator">&gt;</span></pre></div>
+<p>to your manifest file.</p>
+<p>For more information on the <code translate="no">AndroidManifest.xml</code>, see <a href="http://developer.android.com/guide/topics/manifest/manifest-element.html" translate="no">Android documentation</a>.</p>
+<a name="signing-the-application"></a>
+<h3 id="signing-the-application">Signing the Application<a class="plink" href="#signing-the-application" title="Direct link to this headline"></a></h3>
+<p>Qt uses the default debug key to sign your application to enable running the application on a device. Same key cannot be used to sign the Application Package (APK) that is meant to be published on Google Play.</p>
+<p>Use a private a key to sign your application to publish it on Google Play. To do so, open the <b translate="no">Build Android APK</b> in Qt Creator and add keystore information. When you are done, select <b translate="no">Release</b> as the build configuration and deploy your project.</p>
+<p>This should create an <code translate="no">APK</code> file in the build directory of your project.</p>
+<div class="admonition note">
+<p><b>Note: </b>Save the key used to sign the application for future use. You must sign the future versions of the application using the same key.</p>
+</div>
+<a name="registering-your-application"></a>
+<h2 id="registering-your-application">Registering Your Application<a class="plink" href="#registering-your-application" title="Direct link to this headline"></a></h2>
+<p>Once the application is prepared for publishing, you can create a listing for it in Google Play.</p>
+<p>The first step is to get a publisher account, if you do not already have one. Go to <a href="https://play.google.com/apps/publish/" translate="no">the Google Play developer console</a>, log in with the Google account of your choice, and follow the steps as directed.</p>
+<p>When you have set up your account, click on <b translate="no">Add new application</b> in Google Play's developer console.</p>
+<p>Fill out as much information as you want in the store listing, and also the <b translate="no">Pricing and distribution</b> page.</p>
+<a name="publishing-your-application"></a>
+<h3 id="publishing-your-application">Publishing Your Application<a class="plink" href="#publishing-your-application" title="Direct link to this headline"></a></h3>
+<p>In order to test in-app purchases in your application, you first have to publish it. To limit the users who can access the application before it is ready for production, it can be published as either alpha or beta, in the respective tabs on the <b translate="no">APK</b> page of the developer console. In order to make an alpha or beta application, fill out all the required information about the application, upload the <code translate="no">APK</code> file under the <b translate="no">Beta testing</b> or <b translate="no">Alpha testing</b> tab, and mark the application as <b translate="no">published</b>.</p>
+<p>When the selected test users that you have added to your alpha or beta program purchase in-app products in your application, they will make actual purchases and will be charged for them. For testing purchases, you can register the e-mail addresses that should have testing access, under <b translate="no">Settings</b> in the developer console. The users with these e-mail addresses can purchase your in-app products without being charged for the purchase, and the transaction is canceled automatically at a later stage.</p>
+<a name="adding-in-app-products"></a>
+<h3 id="adding-in-app-products">Adding In-App Products<a class="plink" href="#adding-in-app-products" title="Direct link to this headline"></a></h3>
+<p>In order to access in-app products from your application, you must register them in Google Play. Go to the <b translate="no">In-app products</b> page and click <b translate="no">Add new product</b>.</p>
+<p>Fill out the following information about your product:</p>
+<ul>
+<li><b translate="no">Product ID</b> - an identifier that is used to access the product from your code.</li>
+<li><b translate="no">Product Type</b> - Choose <b translate="no">Managed product</b> as this is the only type supported by the Qt Purchasing API.</li>
+<li>Price for the product in all the different geographical areas where it is available.</li>
+</ul>
+<p>Once these details are added, <b translate="no">Activate</b> the product. If you have not published the application yet, the product is marked as <b translate="no">To be activated</b>. Otherwise, it is marked as active. The product must be activated before it can be queried from the Qt Purchasing API. If the application has recently been published, then it may take a few hours before the in-app products can be accessed from your application. Look for the <b translate="no">Updates pending</b> label on the top right side of the screen. If this is visible, then there are updates pending which are not yet visible from the outside.</p>
+<div class="admonition note">
+<p><b>Note: </b>Only application packages signed with the same key used for the one in Google Play can make purchases in the application. If you want to test in-app purchases, make sure the application package is signed before you deploy and run it. It's also required that the <code translate="no">versionCode</code> of the the application is same as the package in Google Play. Upload a new package to Google Play every time the <code translate="no">versionCode</code> is updated.</p>
+</div>
+</div>
+<!-- @@@qtpurchasing-googleplay.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

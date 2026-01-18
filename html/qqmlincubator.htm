@@ -1,0 +1,131 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QQmlIncubator | Qt QML</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qqmlincubator.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtqml-index.htm" translate="no">Qt QML</a></li>
+                            <li><a href="./qtqml-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QQmlIncubator</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QQmlIncubator Class</h1>
+<!-- $$$QQmlIncubator-brief -->
+<p>The QQmlIncubator class allows QML objects to be created asynchronously. <a href="#details">More...</a></p>
+<!-- @@@QQmlIncubator -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QQmlIncubator&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += qml</td></tr></tbody></table></div><ul>
+<li><a href="./qqmlincubator-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="./qqmlincubator.htm#IncubationMode-enum" translate="no">IncubationMode</a></b> { Asynchronous, AsynchronousIfNested, Synchronous }</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="./qqmlincubator.htm#Status-enum" translate="no">Status</a></b> { Null, Ready, Loading, Error }</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QQmlIncubator-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Creating QML objects - like delegates in a view, or a new page in an application - can take a noticeable amount of time, especially on resource constrained mobile devices. When an application uses <a href="./qqmlcomponent.htm#create" translate="no">QQmlComponent::create</a>() directly, the QML object instance is created synchronously which, depending on the complexity of the object, can cause noticeable pauses or stutters in the application.</p>
+<p>The use of QQmlIncubator gives more control over the creation of a QML object, including allowing it to be created asynchronously using application idle time. The following example shows a simple use of QQmlIncubator.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">QQmlIncubator</span> incubator;
+component<span class="operator">-</span><span class="operator">&gt;</span>create(incubator);
+
+<span class="keyword">while</span> (<span class="operator">!</span>incubator<span class="operator">.</span>isReady()) {
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>processEvents(<span class="type"><a href="./qeventloop.htm" translate="no">QEventLoop</a></span><span class="operator">::</span>AllEvents<span class="operator">,</span> <span class="number">50</span>);
+}
+
+<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>object <span class="operator">=</span> incubator<span class="operator">.</span>object();</pre></div>
+<p>Asynchronous incubators are controlled by a <a href="./qqmlincubationcontroller.htm" translate="no">QQmlIncubationController</a> that is set on the <a href="./qqmlengine.htm" translate="no">QQmlEngine</a>, which lets the engine know when the application is idle and incubating objects should be processed. If an incubation controller is not set on the <a href="./qqmlengine.htm" translate="no">QQmlEngine</a>, QQmlIncubator creates objects synchronously regardless of the specified <a href="./qqmlincubator.htm#IncubationMode-enum" translate="no">IncubationMode</a>.</p>
+<p>QQmlIncubator supports three incubation modes:</p>
+<ul>
+<li>Synchronous The creation occurs synchronously. That is, once the <a href="./qqmlcomponent.htm#create" translate="no">QQmlComponent::create</a>() call returns, the incubator will already be in either the Error or Ready state. A synchronous incubator has no real advantage compared to using the synchronous creation methods on <a href="./qqmlcomponent.htm" translate="no">QQmlComponent</a> directly, but it may simplify an application's implementation to use the same API for both synchronous and asynchronous creations.</li>
+<li>Asynchronous (default) The creation occurs asynchronously, assuming a QQmlIncubatorController is set on the <a href="./qqmlengine.htm" translate="no">QQmlEngine</a>.<p>The incubator will remain in the Loading state until either the creation is complete or an error occurs. The statusChanged() callback can be used to be notified of status changes.</p>
+<p>Applications should use the Asynchronous incubation mode to create objects that are not needed immediately. For example, the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> type uses Asynchronous incubation to create objects that are slightly off screen while the list is being scrolled. If, during asynchronous creation, the object is needed immediately the QQmlIncubator::forceCompletion() method can be called to complete the creation process synchronously.</p>
+</li>
+<li><a href="./qqmlincubator.htm#IncubationMode-enum" translate="no">AsynchronousIfNested</a> The creation will occur asynchronously if part of a nested asynchronous creation, or synchronously if not.<p>In most scenarios where a QML component wants the appearance of a synchronous instantiation, it should use this mode.</p>
+<p>This mode is best explained with an example. When the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> type is first created, it needs to populate itself with an initial set of delegates to show. If the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> was 400 pixels high, and each delegate was 100 pixels high, it would need to create four initial delegate instances. If the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> used the Asynchronous incubation mode, the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> would always be created empty and then, sometime later, the four initial items would appear.</p>
+<p>Conversely, if the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> was to use the Synchronous incubation mode it would behave correctly but it may introduce stutters into the application. As QML would have to stop and instantiate the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>'s delegates synchronously, if the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> was part of a QML component that was being instantiated asynchronously this would undo much of the benefit of asynchronous instantiation.</p>
+<p>The <a href="./qqmlincubator.htm#IncubationMode-enum" translate="no">AsynchronousIfNested</a> mode reconciles this problem. By using <a href="./qqmlincubator.htm#IncubationMode-enum" translate="no">AsynchronousIfNested</a>, the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> delegates are instantiated asynchronously if the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> itself is already part of an asynchronous instantiation, and synchronously otherwise. In the case of a nested asynchronous instantiation, the outer asynchronous instantiation will not complete until after all the nested instantiations have also completed. This ensures that by the time the outer asynchronous instantitation completes, inner items like <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> have already completed loading their initial delegates.</p>
+<p>It is almost always incorrect to use the Synchronous incubation mode - elements or components that want the appearance of synchronous instantiation, but without the downsides of introducing freezes or stutters into the application, should use the <a href="./qqmlincubator.htm#IncubationMode-enum" translate="no">AsynchronousIfNested</a> incubation mode.</p>
+</li>
+</ul>
+</div>
+<!-- @@@QQmlIncubator -->
+<div class="types">
+<h2>Member Type Documentation</h2>
+<!-- $$$IncubationMode$$$Asynchronous$$$AsynchronousIfNested$$$Synchronous -->
+<h3 class="fn" id="IncubationMode-enum" translate="no"><a name="IncubationMode-enum"></a>enum QQmlIncubator::<span class="name">IncubationMode</span><a class="plink" href="#IncubationMode-enum" title="Direct link to this headline"></a></h3>
+<p>Specifies the mode the incubator operates in. Regardless of the incubation mode, a <a href="./qqmlincubator.htm" translate="no">QQmlIncubator</a> will behave synchronously if the <a href="./qqmlengine.htm" translate="no">QQmlEngine</a> does not have a <a href="./qqmlincubationcontroller.htm" translate="no">QQmlIncubationController</a> set.</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tblval">Value</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">QQmlIncubator::Asynchronous</code></td><td class="topAlign tblval"><code translate="no">0</code></td><td class="topAlign">The object will be created asynchronously.</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlIncubator::AsynchronousIfNested</code></td><td class="topAlign tblval"><code translate="no">1</code></td><td class="topAlign">If the object is being created in a context that is already part of an asynchronous creation, this incubator will join that existing incubation and execute asynchronously. The existing incubation will not become Ready until both it and this incubation have completed. Otherwise, the incubation will execute synchronously.</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlIncubator::Synchronous</code></td><td class="topAlign tblval"><code translate="no">2</code></td><td class="topAlign">The object will be created synchronously.</td></tr>
+</tbody></table></div>
+<!-- @@@IncubationMode -->
+<!-- $$$Status$$$Null$$$Ready$$$Loading$$$Error -->
+<h3 class="fn" id="Status-enum" translate="no"><a name="Status-enum"></a>enum QQmlIncubator::<span class="name">Status</span><a class="plink" href="#Status-enum" title="Direct link to this headline"></a></h3>
+<p>Specifies the status of the <a href="./qqmlincubator.htm" translate="no">QQmlIncubator</a>.</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tblval">Value</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">QQmlIncubator::Null</code></td><td class="topAlign tblval"><code translate="no">0</code></td><td class="topAlign">Incubation is not in progress. Call <a href="./qqmlcomponent.htm#create" translate="no">QQmlComponent::create</a>() to begin incubating.</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlIncubator::Ready</code></td><td class="topAlign tblval"><code translate="no">1</code></td><td class="topAlign">The object is fully created and can be accessed by calling object().</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlIncubator::Loading</code></td><td class="topAlign tblval"><code translate="no">2</code></td><td class="topAlign">The object is in the process of being created.</td></tr>
+<tr><td class="topAlign"><code translate="no">QQmlIncubator::Error</code></td><td class="topAlign tblval"><code translate="no">3</code></td><td class="topAlign">An error occurred. The errors can be access by calling errors().</td></tr>
+</tbody></table></div>
+<!-- @@@Status -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

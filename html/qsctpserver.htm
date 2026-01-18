@@ -1,0 +1,144 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QSctpServer | Qt Network</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qsctpserver.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtnetwork-index.htm" translate="no">Qt Network</a></li>
+                            <li><a href="./qtnetwork-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QSctpServer</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QSctpServer Class</h1>
+<!-- $$$QSctpServer-brief -->
+<p>The QSctpServer class provides an SCTP-based server. <a href="#details">More...</a></p>
+<!-- @@@QSctpServer -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QSctpServer&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += network</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.8</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qtcpserver.htm" translate="no">QTcpServer</a></td></tr></tbody></table></div><p>This class was introduced in Qt 5.8.</p>
+<ul>
+<li><a href="./qsctpserver-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qsctpserver.htm#QSctpServer" translate="no">QSctpServer</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qsctpserver.htm#dtor.QSctpServer" translate="no">~QSctpServer</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="./qsctpserver.htm#maximumChannelCount" translate="no">maximumChannelCount</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSctpSocket *</td><td class="memItemRight bottomAlign"><b><a href="./qsctpserver.htm#nextPendingDatagramConnection" translate="no">nextPendingDatagramConnection</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qsctpserver.htm#setMaximumChannelCount" translate="no">setMaximumChannelCount</a></b>(int <i>count</i>)</td></tr>
+</tbody></table></div>
+<a name="reimplemented-protected-functions"></a>
+<h2 id="reimplemented-protected-functions">Reimplemented Protected Functions<a class="plink" href="#reimplemented-protected-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="./qsctpserver.htm#incomingConnection" translate="no">incomingConnection</a></b>(qintptr <i>socketDescriptor</i>) override</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QSctpServer-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>SCTP (Stream Control Transmission Protocol) is a transport layer protocol serving in a similar role as the popular protocols TCP and UDP. Like UDP, SCTP is message-oriented, but it ensures reliable, in-sequence transport of messages with congestion control like TCP. See the <a href="./qsctpsocket.htm" translate="no">QSctpSocket</a> documentation for more protocol details.</p>
+<p>QSctpServer is a convenience subclass of <a href="./qtcpserver.htm" translate="no">QTcpServer</a> that allows you to accept incoming SCTP socket connections either in TCP emulation or in datagram mode.</p>
+<p>The most common way to use QSctpServer is to construct an object and set the maximum number of channels that the server is prepared to support, by calling <a href="./qsctpserver.htm#setMaximumChannelCount" translate="no">setMaximumChannelCount</a>(). You can set the TCP emulation mode by passing a negative argument in this call. Also, a special value of 0 (the default) indicates to use the peer's value as the actual number of channels. The new incoming connection inherits this number from the server socket descriptor and adjusts it according to the remote endpoint settings.</p>
+<p>In TCP emulation mode, accepted clients use a single continuous byte stream for data transmission, and QSctpServer acts like a plain <a href="./qtcpserver.htm" translate="no">QTcpServer</a>. Call <a href="./qtcpserver.htm#nextPendingConnection" translate="no">nextPendingConnection</a>() to accept the pending connection as a connected <a href="./qtcpsocket.htm" translate="no">QTcpSocket</a>. The function returns a pointer to a <a href="./qtcpsocket.htm" translate="no">QTcpSocket</a> in <a href="./qabstractsocket.htm#SocketState-enum" translate="no">QAbstractSocket::ConnectedState</a> that you can use for communicating with the client. This mode gives access only to basic SCTP protocol features. The socket transmits SCTP packets over IP at system level and interacts through the <a href="./qtcpsocket.htm" translate="no">QTcpSocket</a> interface with the application.</p>
+<p>In contrast, datagram mode is message-oriented and provides a complete simultaneous transmission of multiple data streams between endpoints. Call <a href="./qsctpserver.htm#nextPendingDatagramConnection" translate="no">nextPendingDatagramConnection</a>() to accept the pending datagram-mode connection as a connected <a href="./qsctpsocket.htm" translate="no">QSctpSocket</a>.</p>
+<div class="admonition note">
+<p><b>Note: </b>This feature is not supported on the Windows platform.</p>
+</div>
+</div>
+<p><b>See also </b><a href="./qtcpserver.htm" translate="no">QTcpServer</a>, <a href="./qsctpsocket.htm" translate="no">QSctpSocket</a>, and <a href="./qabstractsocket.htm" translate="no">QAbstractSocket</a>.</p>
+<!-- @@@QSctpServer -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QSctpServer[overload1]$$$QSctpServerQObject* -->
+<h3 class="fn" id="QSctpServer" translate="no"><a name="QSctpServer"></a>QSctpServer::<span class="name">QSctpServer</span>(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#QSctpServer" title="Direct link to this headline"></a></h3>
+<p>Constructs a QSctpServer object.</p>
+<p>Sets the datagram operation mode. The <i translate="no">parent</i> argument is passed to <a href="./qobject.htm" translate="no">QObject</a>'s constructor.</p>
+<p><b>See also </b><a href="./qsctpserver.htm#setMaximumChannelCount" translate="no">setMaximumChannelCount</a>(), <a href="./qtcpserver.htm#listen" translate="no">listen</a>(), and <a href="./qtcpserver.htm#setSocketDescriptor" translate="no">setSocketDescriptor</a>().</p>
+<!-- @@@QSctpServer -->
+<!-- $$$~QSctpServer[overload1]$$$~QSctpServer -->
+<h3 class="fn" id="dtor.QSctpServer" translate="no"><a name="dtor.QSctpServer"></a><code translate="no">[virtual] </code>QSctpServer::<span class="name">~QSctpServer</span>()<a class="plink" href="#dtor.QSctpServer" title="Direct link to this headline"></a></h3>
+<p>Destroys the <a href="./qsctpserver.htm" translate="no">QSctpServer</a> object. If the server is listening for connections, the socket is automatically closed.</p>
+<p><b>See also </b><a href="./qtcpserver.htm#close" translate="no">close</a>().</p>
+<!-- @@@~QSctpServer -->
+<!-- $$$incomingConnection[overload1]$$$incomingConnectionqintptr -->
+<h3 class="fn" id="incomingConnection" translate="no"><a name="incomingConnection"></a><code translate="no">[override virtual protected] </code><span class="type">void</span> QSctpServer::<span class="name">incomingConnection</span>(<span class="type"><a href="./qtglobal.htm#qintptr-typedef" translate="no">qintptr</a></span> <i>socketDescriptor</i>)<a class="plink" href="#incomingConnection" title="Direct link to this headline"></a></h3>
+<p>Reimplements: <a href="./qtcpserver.htm#incomingConnection" translate="no">QTcpServer::incomingConnection</a>(qintptr socketDescriptor).</p>
+<!-- @@@incomingConnection -->
+<!-- $$$maximumChannelCount[overload1]$$$maximumChannelCount -->
+<h3 class="fn" id="maximumChannelCount" translate="no"><a name="maximumChannelCount"></a><span class="type">int</span> QSctpServer::<span class="name">maximumChannelCount</span>() const<a class="plink" href="#maximumChannelCount" title="Direct link to this headline"></a></h3>
+<p>Returns the maximum number of channels that the accepted sockets are able to support.</p>
+<p>A value of 0 (the default) means that the number of connection channels would be set by the remote endpoint.</p>
+<p>Returns -1, if <a href="./qsctpserver.htm" translate="no">QSctpServer</a> running in TCP emulation mode.</p>
+<p><b>See also </b><a href="./qsctpserver.htm#setMaximumChannelCount" translate="no">setMaximumChannelCount</a>().</p>
+<!-- @@@maximumChannelCount -->
+<!-- $$$nextPendingDatagramConnection[overload1]$$$nextPendingDatagramConnection -->
+<h3 class="fn" id="nextPendingDatagramConnection" translate="no"><a name="nextPendingDatagramConnection"></a><span class="type"><a href="./qsctpsocket.htm" translate="no">QSctpSocket</a></span> *QSctpServer::<span class="name">nextPendingDatagramConnection</span>()<a class="plink" href="#nextPendingDatagramConnection" title="Direct link to this headline"></a></h3>
+<p>Returns the next pending datagram-mode connection as a connected <a href="./qsctpsocket.htm" translate="no">QSctpSocket</a> object.</p>
+<p>Datagram-mode connection provides a message-oriented, multi-stream communication.</p>
+<p>The socket is created as a child of the server, which means that it is automatically deleted when the <a href="./qsctpserver.htm" translate="no">QSctpServer</a> object is destroyed. It is still a good idea to delete the object explicitly when you are done with it, to avoid wasting memory.</p>
+<p>This function returns null if there are no pending datagram-mode connections.</p>
+<div class="admonition note">
+<p><b>Note: </b>The returned <a href="./qsctpsocket.htm" translate="no">QSctpSocket</a> object cannot be used from another thread. If you want to use an incoming connection from another thread, you need to override <a href="./qsctpserver.htm#incomingConnection" translate="no">incomingConnection</a>().</p>
+</div>
+<p><b>See also </b><a href="./qtcpserver.htm#hasPendingConnections" translate="no">hasPendingConnections</a>(), <a href="./qtcpserver.htm#nextPendingConnection" translate="no">nextPendingConnection</a>(), and <a href="./qsctpsocket.htm" translate="no">QSctpSocket</a>.</p>
+<!-- @@@nextPendingDatagramConnection -->
+<!-- $$$setMaximumChannelCount[overload1]$$$setMaximumChannelCountint -->
+<h3 class="fn" id="setMaximumChannelCount" translate="no"><a name="setMaximumChannelCount"></a><span class="type">void</span> QSctpServer::<span class="name">setMaximumChannelCount</span>(<span class="type">int</span> <i>count</i>)<a class="plink" href="#setMaximumChannelCount" title="Direct link to this headline"></a></h3>
+<p>Sets the maximum number of channels that the server is prepared to support in datagram mode, to <i translate="no">count</i>. If <i translate="no">count</i> is 0, endpoint maximum number of channels value would be used. Negative <i translate="no">count</i> sets a TCP emulation mode.</p>
+<p>Call this method only when <a href="./qsctpserver.htm" translate="no">QSctpServer</a> is in UnconnectedState.</p>
+<p><b>See also </b><a href="./qsctpserver.htm#maximumChannelCount" translate="no">maximumChannelCount</a>() and <a href="./qsctpsocket.htm" translate="no">QSctpSocket</a>.</p>
+<!-- @@@setMaximumChannelCount -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,191 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qml Axes | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-qmlaxes-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Qml Axes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qml Axes</h1>
+<span class="subtitle"></span>
+<!-- $$$qmlaxes-brief -->
+<p>This is a demonstration of how to use axes in your QML application.</p>
+<!-- @@@qmlaxes -->
+<!-- $$$qmlaxes-description -->
+<div class="descr"> <a name="details"></a>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="using-axes-in-qt-quick-applications"></a>
+<h4 id="using-axes-in-qt-quick-applications">Using Axes in Qt Quick Applications<a class="plink" href="#using-axes-in-qt-quick-applications" title="Direct link to this headline"></a></h4>
+<p>We begin with a chart that has a line series and a scatter series with random data. Both series use the same axes.</p>
+<p class="centerAlign"><img alt="" src="./images/examples_qmlaxes1.png"></p><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtcharts-chartview.htm" translate="no">ChartView</a></span> {
+    <span class="name">title</span>: <span class="string">"Two Series, Common Axes"</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">legend</span>.visible: <span class="number">false</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+
+    <span class="type"><a href="./qml-qtcharts-valueaxis.htm" translate="no">ValueAxis</a></span> {
+        <span class="name">id</span>: <span class="name">axisX</span>
+        <span class="name">min</span>: <span class="number">0</span>
+        <span class="name">max</span>: <span class="number">10</span>
+        <span class="name">tickCount</span>: <span class="number">5</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-valueaxis.htm" translate="no">ValueAxis</a></span> {
+        <span class="name">id</span>: <span class="name">axisY</span>
+        <span class="name">min</span>: -<span class="number">0.5</span>
+        <span class="name">max</span>: <span class="number">1.5</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-lineseries.htm" translate="no">LineSeries</a></span> {
+        <span class="name">id</span>: <span class="name">series1</span>
+        <span class="name">axisX</span>: <span class="name">axisX</span>
+        <span class="name">axisY</span>: <span class="name">axisY</span>
+    }
+
+    <span class="type"><a href="./qml-qtcharts-scatterseries.htm" translate="no">ScatterSeries</a></span> {
+        <span class="name">id</span>: <span class="name">series2</span>
+        <span class="name">axisX</span>: <span class="name">axisX</span>
+        <span class="name">axisY</span>: <span class="name">axisY</span>
+    }
+}
+
+<span class="comment">// Add data dynamically to the series</span>
+<span class="name">Component</span>.onCompleted: {
+    <span class="keyword">for</span> (var i = 0; <span class="name">i</span> <span class="operator">&lt;=</span> <span class="number">10</span>; i++) {
+        <span class="name">series1</span>.<span class="name">append</span>(<span class="name">i</span>, <span class="name">Math</span>.<span class="name">random</span>());
+        <span class="name">series2</span>.<span class="name">append</span>(<span class="name">i</span>, <span class="name">Math</span>.<span class="name">random</span>());
+    }
+}</pre></div>
+<p>The next example shows a chart with some accurate historical data that makes us to use a <a href="./qml-qtcharts-datetimeaxis.htm" translate="no">DateTimeAxis</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/examples_qmlaxes2.png"></p><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtcharts-chartview.htm" translate="no">ChartView</a></span> {
+    <span class="name">title</span>: <span class="string">"Accurate Historical Data"</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">legend</span>.visible: <span class="number">false</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+
+    <span class="type"><a href="./qml-qtcharts-lineseries.htm" translate="no">LineSeries</a></span> {
+        <span class="name">axisX</span>: <span class="name">DateTimeAxis</span> {
+            <span class="name">format</span>: <span class="string">"yyyy MMM"</span>
+            <span class="name">tickCount</span>: <span class="number">5</span>
+        }
+        <span class="name">axisY</span>: <span class="name">ValueAxis</span> {
+            <span class="name">min</span>: <span class="number">0</span>
+            <span class="name">max</span>: <span class="number">150</span>
+        }
+
+        <span class="comment">// Please note that month in JavaScript months are zero based, so 2 means March</span>
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="name">toMsecsSinceEpoch</span>(new <span class="name">Date</span>(<span class="number">1950</span>, <span class="number">2</span>, <span class="number">15</span>)); <span class="name">y</span>: <span class="number">5</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="name">toMsecsSinceEpoch</span>(new <span class="name">Date</span>(<span class="number">1970</span>, <span class="number">0</span>, <span class="number">1</span>)); <span class="name">y</span>: <span class="number">50</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="name">toMsecsSinceEpoch</span>(new <span class="name">Date</span>(<span class="number">1987</span>, <span class="number">12</span>, <span class="number">31</span>)); <span class="name">y</span>: <span class="number">102</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="name">toMsecsSinceEpoch</span>(new <span class="name">Date</span>(<span class="number">1998</span>, <span class="number">7</span>, <span class="number">1</span>)); <span class="name">y</span>: <span class="number">100</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="name">toMsecsSinceEpoch</span>(new <span class="name">Date</span>(<span class="number">2012</span>, <span class="number">8</span>, <span class="number">2</span>)); <span class="name">y</span>: <span class="number">110</span> }
+    }
+}
+
+<span class="comment">// DateTimeAxis is based on QDateTimes so we must convert our JavaScript dates to</span>
+<span class="comment">// milliseconds since epoch to make them match the DateTimeAxis values</span>
+<span class="keyword">function </span><span class="name">toMsecsSinceEpoch</span>(date) {
+    var msecs = <span class="name">date</span>.<span class="name">getTime</span>();
+    <span class="keyword">return</span> <span class="name">msecs</span>;
+}</pre></div>
+<p>And the final example with a chart that uses a <a href="./qml-qtcharts-categoryaxis.htm" translate="no">CategoryAxis</a> to make the data easier to understand.</p>
+<p class="centerAlign"><img alt="" src="./images/examples_qmlaxes3.png"></p><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtcharts-chartview.htm" translate="no">ChartView</a></span> {
+    <span class="name">title</span>: <span class="string">"Numerical Data for Dummies"</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">legend</span>.visible: <span class="number">false</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+
+    <span class="type"><a href="./qml-qtcharts-lineseries.htm" translate="no">LineSeries</a></span> {
+        <span class="name">axisY</span>: <span class="name">CategoryAxis</span> {
+            <span class="name">min</span>: <span class="number">0</span>
+            <span class="name">max</span>: <span class="number">30</span>
+            <span class="type"><a href="./qml-qtcharts-categoryrange.htm" translate="no">CategoryRange</a></span> {
+                <span class="name">label</span>: <span class="string">"critical"</span>
+                <span class="name">endValue</span>: <span class="number">2</span>
+            }
+            <span class="type"><a href="./qml-qtcharts-categoryrange.htm" translate="no">CategoryRange</a></span> {
+                <span class="name">label</span>: <span class="string">"low"</span>
+                <span class="name">endValue</span>: <span class="number">4</span>
+            }
+            <span class="type"><a href="./qml-qtcharts-categoryrange.htm" translate="no">CategoryRange</a></span> {
+                <span class="name">label</span>: <span class="string">"normal"</span>
+                <span class="name">endValue</span>: <span class="number">7</span>
+            }
+            <span class="type"><a href="./qml-qtcharts-categoryrange.htm" translate="no">CategoryRange</a></span> {
+                <span class="name">label</span>: <span class="string">"high"</span>
+                <span class="name">endValue</span>: <span class="number">15</span>
+            }
+            <span class="type"><a href="./qml-qtcharts-categoryrange.htm" translate="no">CategoryRange</a></span> {
+                <span class="name">label</span>: <span class="string">"extremely high"</span>
+                <span class="name">endValue</span>: <span class="number">30</span>
+            }
+        }
+
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">0</span>; <span class="name">y</span>: <span class="number">4.3</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">1</span>; <span class="name">y</span>: <span class="number">4.1</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2</span>; <span class="name">y</span>: <span class="number">4.7</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">3</span>; <span class="name">y</span>: <span class="number">3.9</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">4</span>; <span class="name">y</span>: <span class="number">5.2</span> }
+    }
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/qmlaxes?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@qmlaxes -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,89 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt for Windows - Specific Issues</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/windows-issues.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt for Windows - Specific Issues</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt for Windows - Specific Issues</h1>
+<span class="subtitle"></span>
+<!-- $$$windows-issues.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>This page contains information about <a href="./windows.htm" translate="no">Qt for Windows</a>.</p>
+<a name="installation-location"></a>
+<h2 id="installation-location">Installation location<a class="plink" href="#installation-location" title="Direct link to this headline"></a></h2>
+<p>Installing Qt into a directory with spaces, for example, <i>C:\Program Files</i>, may cause linker errors like the following:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">c:\program<span class="operator">.</span>obj <span class="keyword">not</span> found</pre></div>
+<p>Install Qt into a sub-directory without spaces to avoid this problem.</p>
+<a name="possible-gl-conflict"></a>
+<h2 id="possible-gl-conflict">Possible GL conflict<a class="plink" href="#possible-gl-conflict" title="Direct link to this headline"></a></h2>
+<p>There is a known issue when running Microsoft NetMeeting, Lotus SameTime, and other applications that require screen grabbing while direct rendering is enabled. Other GL-applications may not work as expected, unless direct rendering is disabled.</p>
+<a name="visual-studio"></a>
+<h2 id="visual-studio">Visual Studio<a class="plink" href="#visual-studio" title="Direct link to this headline"></a></h2>
+<p>The Visual C++ Linker doesn't understand filenames with spaces (for example, <i>C:\Program files\Qt\</i>) so you will have to move it to another place, or explicitly set the path yourself.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QTDIR<span class="operator">=</span>C:\Progra<span class="operator">~</span><span class="number">1</span>\<span class="type"><a href="./qt.htm" translate="no">Qt</a></span></pre></div>
+<p>If you are experiencing strange problems with using special flags that modify the alignment of structure and union members (such as <code translate="no">/Zp2</code>) then you will need to recompile Qt with the flags set for the application as well.</p>
+<a name="fullscreen-opengl-based-windows"></a>
+<h2 id="fullscreen-opengl-based-windows">Fullscreen OpenGL Based Windows<a class="plink" href="#fullscreen-opengl-based-windows" title="Direct link to this headline"></a></h2>
+<p>When a window is using an OpenGL based surface and is appearing in full screen mode, problems can occur with other top-level windows which are part of the application. Due to limitations of the Windows DWM, compositing is not handled correctly for OpenGL based windows when going into full screen mode. As a result, other top-level windows are not placed on top of the full screen window when they are made visible. For example, menus may not appear correctly, or dialogs fail to show up.</p>
+<p>A window can use an OpenGL based surface either explicitly when <a href="./qwindow.htm#setSurfaceType" translate="no">setSurfaceType()</a> is called, or when something that requires OpenGL is used inside the window, causing the whole window to be OpenGL based. For example, <a href="./qopenglwidget.htm" translate="no">QOpenGLWidget</a> or <a href="./qquickwidget.htm" translate="no">QQuickWidget</a> can trigger this. However, if the surface is contained in a <a href="./qwindow.htm" translate="no">QWindow</a> which is hosted with <a href="./qwidget.htm#createWindowContainer" translate="no">createWindowContainer()</a>, or the obsoleted QGLWidget is used and it does cover the entire full screen window, then this problem does not occur.</p>
+<p>To solve this problem, a QWindowsWindowFunction can be used to enable a native Windows flag which will set <code translate="no">WS_BORDER</code> when showing in full screen mode. This can be utilized as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qwindowswindowfunctions.htm" translate="no">QWindowsWindowFunctions</a></span><span class="operator">::</span>setHasBorderInFullScreen(tlwWindow<span class="operator">-</span><span class="operator">&gt;</span>windowHandle()<span class="operator">,</span> <span class="keyword">true</span>);</pre></div>
+<p>This will give the full screen window a 1-pixel border, thus enabling the other top level windows to appear on top.</p>
+</div>
+<!-- @@@windows-issues.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

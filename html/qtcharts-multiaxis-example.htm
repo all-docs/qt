@@ -1,0 +1,122 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multiple Axes Example | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-multiaxis-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Multiple Axes Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Multiple Axes Example</h1>
+<span class="subtitle"></span>
+<!-- $$$multiaxis-brief -->
+<p>The example shows how to create a simple chart with two vertical axes. One for each series.</p>
+<!-- @@@multiaxis -->
+<!-- $$$multiaxis-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/examples_multiaxis.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="using-multiple-axes"></a>
+<h4 id="using-multiple-axes">Using Multiple Axes<a class="plink" href="#using-multiple-axes" title="Direct link to this headline"></a></h4>
+<p>Create the <a href="./qchart.htm" translate="no">QChart</a> instance, hide the legend of the chart, and set its title.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qchart.htm" translate="no">QChart</a></span> <span class="operator">*</span>chart <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span>();
+chart<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>hide();
+chart<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Multiaxis chart example"</span>);</pre></div>
+<p>Create a <a href="./qvalueaxis.htm" translate="no">QValueAxis</a> instance that will be used as a horizontal axis by both series and add it the bottom of the chart. The axis can be shared between many series, but each series can have only one vertical and horizontal axis.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qvalueaxis.htm" translate="no">QValueAxis</a></span> <span class="operator">*</span>axisX <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvalueaxis.htm" translate="no">QValueAxis</a></span>;
+axisX<span class="operator">-</span><span class="operator">&gt;</span>setTickCount(<span class="number">10</span>);
+chart<span class="operator">-</span><span class="operator">&gt;</span>addAxis(axisX<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignBottom);</pre></div>
+<p>Create the first series, and add the data to it. Finally, add the series to the chart. Instantiate its own Y-axis, add it to the chart. Then attach both the common X-axis and the series specific Y-axis. In this example the color of the axis line is set to be the same as the color of the series to make it possible to distinguish which axis is attached to which series.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qsplineseries.htm" translate="no">QSplineSeries</a></span> <span class="operator">*</span>series <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsplineseries.htm" translate="no">QSplineSeries</a></span>;
+<span class="operator">*</span>series <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">1</span><span class="operator">,</span> <span class="number">5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">3.5</span><span class="operator">,</span> <span class="number">18</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">4.8</span><span class="operator">,</span> <span class="number">7.5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">10</span><span class="operator">,</span> <span class="number">2.5</span>);
+chart<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);
+
+<span class="type"><a href="./qvalueaxis.htm" translate="no">QValueAxis</a></span> <span class="operator">*</span>axisY <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvalueaxis.htm" translate="no">QValueAxis</a></span>;
+axisY<span class="operator">-</span><span class="operator">&gt;</span>setLinePenColor(series<span class="operator">-</span><span class="operator">&gt;</span>pen()<span class="operator">.</span>color());
+
+chart<span class="operator">-</span><span class="operator">&gt;</span>addAxis(axisY<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignLeft);
+series<span class="operator">-</span><span class="operator">&gt;</span>attachAxis(axisX);
+series<span class="operator">-</span><span class="operator">&gt;</span>attachAxis(axisY);</pre></div>
+<p>Similarly prepare another series. This time a different axis type is used. Additionally grid lines color is also set to be the same as the color of the series.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">series <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qsplineseries.htm" translate="no">QSplineSeries</a></span>;
+<span class="operator">*</span>series <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">1</span><span class="operator">,</span> <span class="number">0.5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">1.5</span><span class="operator">,</span> <span class="number">4.5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">2.4</span><span class="operator">,</span> <span class="number">2.5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">4.3</span><span class="operator">,</span> <span class="number">12.5</span>)
+        <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">5.2</span><span class="operator">,</span> <span class="number">3.5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">7.4</span><span class="operator">,</span> <span class="number">16.5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">8.3</span><span class="operator">,</span> <span class="number">7.5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">10</span><span class="operator">,</span> <span class="number">17</span>);
+chart<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);
+
+<span class="type"><a href="./qcategoryaxis.htm" translate="no">QCategoryAxis</a></span> <span class="operator">*</span>axisY3 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcategoryaxis.htm" translate="no">QCategoryAxis</a></span>;
+axisY3<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Low"</span><span class="operator">,</span> <span class="number">5</span>);
+axisY3<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"Medium"</span><span class="operator">,</span> <span class="number">12</span>);
+axisY3<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="string">"High"</span><span class="operator">,</span> <span class="number">17</span>);
+axisY3<span class="operator">-</span><span class="operator">&gt;</span>setLinePenColor(series<span class="operator">-</span><span class="operator">&gt;</span>pen()<span class="operator">.</span>color());
+axisY3<span class="operator">-</span><span class="operator">&gt;</span>setGridLinePen((series<span class="operator">-</span><span class="operator">&gt;</span>pen()));
+
+chart<span class="operator">-</span><span class="operator">&gt;</span>addAxis(axisY3<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignRight);
+series<span class="operator">-</span><span class="operator">&gt;</span>attachAxis(axisX);
+series<span class="operator">-</span><span class="operator">&gt;</span>attachAxis(axisY3);</pre></div>
+<p>Create a <a href="./qchartview.htm" translate="no">QChartView</a> object with <a href="./qchart.htm" translate="no">QChart</a> as a parameter. Enable Antialiasing to have the rendered splines look nicer.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span>(chart);
+chartView<span class="operator">-</span><span class="operator">&gt;</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);</pre></div>
+<p>The chart is ready to be shown.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span> window;
+window<span class="operator">.</span>setCentralWidget(chartView);
+window<span class="operator">.</span>resize(<span class="number">800</span><span class="operator">,</span> <span class="number">600</span>);
+window<span class="operator">.</span>show();</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/multiaxis?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@multiaxis -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,378 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drag QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-drag.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>Drag QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Drag QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Drag-brief -->
+<p>For specifying drag and drop events for moved Items. <a href="#details">More...</a></p>
+<!-- @@@Drag -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-drag-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="attached-properties"></a>
+<h2 id="attached-properties">Attached Properties<a class="plink" href="#attached-properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#active-attached-prop" translate="no">active</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#dragType-attached-prop" translate="no">dragType</a></b></b> : enumeration</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#hotSpot-attached-prop" translate="no">hotSpot</a></b></b> : QPointF</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#imageSource-attached-prop" translate="no">imageSource</a></b></b> : QUrl</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#keys-attached-prop" translate="no">keys</a></b></b> : stringlist</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#mimeData-attached-prop" translate="no">mimeData</a></b></b> : stringlist</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#proposedAction-attached-prop" translate="no">proposedAction</a></b></b> : enumeration</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#source-attached-prop" translate="no">source</a></b></b> : Object</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#supportedActions-attached-prop" translate="no">supportedActions</a></b></b> : flags</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#target-attached-prop" translate="no">target</a></b></b> : Object</li>
+</ul>
+<a name="attached-signals"></a>
+<h2 id="attached-signals">Attached Signals<a class="plink" href="#attached-signals" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#dragFinished-signal" translate="no">dragFinished</a></b></b>(DropAction <i>dropAction</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-drag.htm#dragStarted-signal" translate="no">dragStarted</a></b></b>()</li>
+</ul>
+<a name="attached-methods"></a>
+<h2 id="attached-methods">Attached Methods<a class="plink" href="#attached-methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-drag.htm#cancel-method" translate="no">cancel</a></b></b>()</li>
+<li class="fn" translate="no">enumeration <b><b><a href="./qml-qtquick-drag.htm#drop-method" translate="no">drop</a></b></b>()</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-drag.htm#start-method" translate="no">start</a></b></b>(flags <i>supportedActions</i>)</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-drag.htm#startDrag-method" translate="no">startDrag</a></b></b>(flags <i>supportedActions</i>)</li>
+</ul>
+<!-- $$$Drag-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Using the Drag attached property, any Item can be made a source of drag and drop events within a scene.</p>
+<p>When a drag is <a href="./qml-qtquick-drag.htm#active-attached-prop" translate="no">active</a> on an item, any change in that item's position will generate a drag event that will be sent to any <a href="./qml-qtquick-droparea.htm" translate="no">DropArea</a> that intersects with the new position of the item. Other items which implement drag and drop event handlers can also receive these events.</p>
+<p>The following snippet shows how an item can be dragged with a <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a>. However, dragging is not limited to mouse drags; anything that can move an item can generate drag events, including touch events, animations and bindings.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">200</span>; <span class="name">height</span>: <span class="number">200</span>
+
+    <span class="type"><a href="./qml-qtquick-droparea.htm" translate="no">DropArea</a></span> {
+        <span class="name">x</span>: <span class="number">75</span>; <span class="name">y</span>: <span class="number">75</span>
+        <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span>
+
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">anchors</span>.fill: <span class="name">parent</span>
+            <span class="name">color</span>: <span class="string">"green"</span>
+
+            <span class="name">visible</span>: <span class="name">parent</span>.<span class="name">containsDrag</span>
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">x</span>: <span class="number">10</span>; <span class="name">y</span>: <span class="number">10</span>
+        <span class="name">width</span>: <span class="number">20</span>; <span class="name">height</span>: <span class="number">20</span>
+        <span class="name">color</span>: <span class="string">"red"</span>
+
+        <span class="name">Drag</span>.active: <span class="name">dragArea</span>.<span class="name">drag</span>.<span class="name">active</span>
+        <span class="name">Drag</span>.hotSpot.x: <span class="number">10</span>
+        <span class="name">Drag</span>.hotSpot.y: <span class="number">10</span>
+
+        <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+            <span class="name">id</span>: <span class="name">dragArea</span>
+            <span class="name">anchors</span>.fill: <span class="name">parent</span>
+
+            <span class="name">drag</span>.target: <span class="name">parent</span>
+        }
+    }
+}</pre></div>
+<p>A drag can be terminated either by canceling it with Drag.<a href="./qml-qtquick-drag.htm#cancel-method" translate="no">cancel()</a> or setting Drag.active to false, or it can be terminated with a drop event by calling Drag.<a href="./qml-qtquick-drag.htm#drop-method" translate="no">drop()</a>. If the drop event is accepted, Drag.<a href="./qml-qtquick-drag.htm#drop-method" translate="no">drop()</a> will return the <a href="./qml-qtquick-drag.htm#supportedActions-attached-prop" translate="no">drop action</a> chosen by the recipient of the event, otherwise it will return Qt.IgnoreAction.</p>
+<p><b>See also </b><a href="./qtquick-draganddrop-example.htm" translate="no">Qt Quick Examples - Drag and Drop</a> and <a href="./qtquick-externaldraganddrop-example.htm" translate="no">Qt Quick Examples - externaldraganddrop</a>.</p>
+<!-- @@@Drag -->
+<h2>Attached Property Documentation</h2>
+<!-- $$$active -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="active-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="active-attached-prop"></a><span class="name">Drag.active</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#active-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds whether a drag event sequence is currently active.</p>
+<p>Binding this property to the active property of <a href="./qml-qtquick-mousearea.htm#drag-prop" translate="no">MouseArea::drag</a> will cause <a href="./qml-qtquick-drag.htm#startDrag-method" translate="no">startDrag</a> to be called when the user starts dragging.</p>
+<p>Setting this property to true will also send a QDragEnter event to the scene with the item's current position. Setting it to false will send a QDragLeave event.</p>
+<p>While a drag is active any change in an item's position will send a QDragMove event with item's new position to the scene.</p>
+</div></div><!-- @@@active -->
+<br>
+<!-- $$$dragType -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="dragType-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="dragType-attached-prop"></a><span class="name">Drag.dragType</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#dragType-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property indicates whether to automatically start drags, do nothing, or to use backwards compatible internal drags. The default is to use backwards compatible internal drags.</p>
+<p>A drag can also be started manually using <a href="./qml-qtquick-drag.htm#startDrag-method" translate="no">startDrag</a>.</p>
+<ul>
+<li>Drag.None - do not start drags automatically</li>
+<li>Drag.Automatic - start drags automatically</li>
+<li>Drag.Internal (default) - start backwards compatible drags automatically</li>
+</ul>
+<p>When using <code translate="no">Drag.Automatic</code> you should also define <a href="./qml-qtquick-drag.htm#mimeData-attached-prop" translate="no">mimeData</a> and bind the <a href="./qml-qtquick-drag.htm#active-attached-prop" translate="no">active</a> property to the active property of <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> : <a href="./qml-qtquick-mousearea.htm#drag.active-prop" translate="no">MouseArea::drag.active</a></p>
+<p>This property was introduced in Qt 5.2.</p>
+</div></div><!-- @@@dragType -->
+<br>
+<!-- $$$hotSpot -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="hotSpot-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="hotSpot-attached-prop"></a><span class="name">Drag.hotSpot</span> : <span class="type">QPointF</span><a class="plink" href="#hotSpot-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the drag position relative to the top left of the item.</p>
+<p>By default this is (0, 0).</p>
+<p>Changes to hotSpot trigger a new drag move with the updated position.</p>
+</div></div><!-- @@@hotSpot -->
+<br>
+<!-- $$$imageSource -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="imageSource-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="imageSource-attached-prop"></a><span class="name">Drag.imageSource</span> : <span class="type">QUrl</span><a class="plink" href="#imageSource-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the URL of the image which will be used to represent the data during the drag and drop operation. Changing this property after the drag operation has started will have no effect.</p>
+<p>The example below uses an item's contents as a drag image:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.12
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">200</span>; <span class="name">height</span>: <span class="number">200</span>
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">width</span>: <span class="name">text</span>.<span class="name">implicitWidth</span> <span class="operator">+</span> <span class="number">20</span>; <span class="name">height</span>: <span class="name">text</span>.<span class="name">implicitHeight</span> <span class="operator">+</span> <span class="number">10</span>
+        <span class="name">color</span>: <span class="string">"green"</span>
+        <span class="name">radius</span>: <span class="number">5</span>
+
+        <span class="name">Drag</span>.active: <span class="name">dragHandler</span>.<span class="name">active</span>
+        <span class="name">Drag</span>.dragType: <span class="name">Drag</span>.<span class="name">Automatic</span>
+        <span class="name">Drag</span>.supportedActions: <span class="name">Qt</span>.<span class="name">CopyAction</span>
+        <span class="name">Drag</span>.mimeData: {
+            "text/plain": <span class="string">"Copied text"</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">id</span>: <span class="name">text</span>
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">text</span>: <span class="string">"Drag me"</span>
+        }
+
+        <span class="type"><a href="./qml-qtquick-draghandler.htm" translate="no">DragHandler</a></span> {
+            <span class="name">id</span>: <span class="name">dragHandler</span>
+            <span class="name">onActiveChanged</span>:
+                <span class="keyword">if</span> (<span class="name">active</span>) {
+                    <span class="name">parent</span>.<span class="name">grabToImage</span>(<span class="keyword">function</span>(result) {
+                        <span class="name">parent</span>.<span class="name">Drag</span>.<span class="name">imageSource</span> <span class="operator">=</span> <span class="name">result</span>.<span class="name">url</span>;
+                    })
+                }
+        }
+    }
+}</pre></div>
+<p>This property was introduced in Qt 5.8.</p>
+<p><b>See also </b><a href="./qml-qtquick-item.htm#grabToImage-method" translate="no">Item::grabToImage()</a>.</p>
+</div></div><!-- @@@imageSource -->
+<br>
+<!-- $$$keys -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="keys-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="keys-attached-prop"></a><span class="name">Drag.keys</span> : <span class="type">stringlist</span><a class="plink" href="#keys-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds a list of keys that can be used by a <a href="./qml-qtquick-droparea.htm" translate="no">DropArea</a> to filter drag events.</p>
+<p>Changing the keys while a drag is active will reset the sequence of drag events by sending a drag leave event followed by a drag enter event with the new source.</p>
+</div></div><!-- @@@keys -->
+<br>
+<!-- $$$mimeData -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="mimeData-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="mimeData-attached-prop"></a><span class="name">Drag.mimeData</span> : <span class="type">stringlist</span><a class="plink" href="#mimeData-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds a map of mimeData that is used during <a href="./qml-qtquick-drag.htm#startDrag-method" translate="no">startDrag</a>.</p>
+<p>This property was introduced in Qt 5.2.</p>
+</div></div><!-- @@@mimeData -->
+<br>
+<!-- $$$proposedAction -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="proposedAction-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="proposedAction-attached-prop"></a><span class="name">Drag.proposedAction</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#proposedAction-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds an action that is recommended by the drag source as a return value from Drag.<a href="./qml-qtquick-drag.htm#drop-method" translate="no">drop()</a>.</p>
+<p>Changes to proposedAction will trigger a move event with the updated proposal.</p>
+</div></div><!-- @@@proposedAction -->
+<br>
+<!-- $$$source -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="source-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="source-attached-prop"></a><span class="name">Drag.source</span> : <span class="type">Object</span><a class="plink" href="#source-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds an object that is identified to recipients of drag events as the source of the events. By default this is the item that the Drag property is attached to.</p>
+<p>Changing the source while a drag is active will reset the sequence of drag events by sending a drag leave event followed by a drag enter event with the new source.</p>
+</div></div><!-- @@@source -->
+<br>
+<!-- $$$supportedActions -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="supportedActions-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="supportedActions-attached-prop"></a><span class="name">Drag.supportedActions</span> : <span class="type">flags</span><a class="plink" href="#supportedActions-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds return values of Drag.<a href="./qml-qtquick-drag.htm#drop-method" translate="no">drop()</a> supported by the drag source.</p>
+<p>Changing the supportedActions while a drag is active will reset the sequence of drag events by sending a drag leave event followed by a drag enter event with the new source.</p>
+</div></div><!-- @@@supportedActions -->
+<br>
+<!-- $$$target -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="target-attached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="target-attached-prop"></a><span class="name">Drag.target</span> : <span class="type">Object</span><a class="plink" href="#target-attached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>While a drag is active this property holds the last object to accept an enter event from the dragged item, if the current drag position doesn't intersect any accepting targets it is null.</p>
+<p>When a drag is not active this property holds the object that accepted the drop event that ended the drag, if no object accepted the drop or the drag was canceled the target will then be null.</p>
+</div></div><!-- @@@target -->
+<br>
+<h2>Attached Signal Documentation</h2>
+<!-- $$$dragFinished[overload1]$$$dragFinishedDropAction -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="dragFinished-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="dragFinished-signal"></a><span class="name">dragFinished</span>(<span class="type">DropAction</span> <i>dropAction</i>)<a class="plink" href="#dragFinished-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when a drag finishes and the drag was started with the <a href="./qml-qtquick-drag.htm#startDrag-method" translate="no">startDrag()</a> method or started automatically using the <a href="./qml-qtquick-drag.htm#dragType-attached-prop" translate="no">dragType</a> property.</p>
+<p><i translate="no">dropAction</i> holds the action accepted by the target item.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onDragFinished</code>.</p>
+<p><b>See also </b><a href="./qml-qtquick-drag.htm#drop-method" translate="no">drop()</a>.</p>
+</div></div><!-- @@@dragFinished -->
+<br>
+<!-- $$$dragStarted[overload1]$$$dragStarted -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="dragStarted-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="dragStarted-signal"></a><span class="name">dragStarted</span>()<a class="plink" href="#dragStarted-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when a drag is started with the <a href="./qml-qtquick-drag.htm#startDrag-method" translate="no">startDrag()</a> method or when it is started automatically using the <a href="./qml-qtquick-drag.htm#dragType-attached-prop" translate="no">dragType</a> property.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onDragStarted</code>.</p>
+</div></div><!-- @@@dragStarted -->
+<br>
+<h2>Attached Method Documentation</h2>
+<!-- $$$cancel[overload1]$$$cancel -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="cancel-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="cancel-method"></a><span class="type">void</span> <span class="name">cancel</span>()<a class="plink" href="#cancel-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Ends a drag sequence.</p>
+</div></div><!-- @@@cancel -->
+<br>
+<!-- $$$drop[overload1]$$$drop -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="drop-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="drop-method"></a><span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span> <span class="name">drop</span>()<a class="plink" href="#drop-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Ends a drag sequence by sending a drop event to the target item.</p>
+<p>Returns the action accepted by the target item. If the target item or a parent doesn't accept the drop event then Qt.IgnoreAction will be returned.</p>
+<p>The returned drop action may be one of:</p>
+<ul>
+<li>Qt.CopyAction Copy the data to the target</li>
+<li>Qt.MoveAction Move the data from the source to the target</li>
+<li>Qt.LinkAction Create a link from the source to the target.</li>
+<li>Qt.IgnoreAction Ignore the action (do nothing with the data).</li>
+</ul>
+</div></div><!-- @@@drop -->
+<br>
+<!-- $$$start[overload1]$$$startflags -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="start-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="start-method"></a><span class="type">void</span> <span class="name">start</span>(<span class="type">flags</span> <i>supportedActions</i>)<a class="plink" href="#start-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Starts sending drag events. Used for starting old-style internal drags. <a href="./qml-qtquick-drag.htm#startDrag-method" translate="no">startDrag</a> is the new-style, preferred method of starting drags.</p>
+<p>The optional <i translate="no">supportedActions</i> argument can be used to override the <a href="./qml-qtquick-drag.htm#supportedActions-attached-prop" translate="no">supportedActions</a> property for the started sequence.</p>
+</div></div><!-- @@@start -->
+<br>
+<!-- $$$startDrag[overload1]$$$startDragflags -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="startDrag-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="startDrag-method"></a><span class="type">void</span> <span class="name">startDrag</span>(<span class="type">flags</span> <i>supportedActions</i>)<a class="plink" href="#startDrag-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Starts sending drag events.</p>
+<p>The optional <i translate="no">supportedActions</i> argument can be used to override the <a href="./qml-qtquick-drag.htm#supportedActions-attached-prop" translate="no">supportedActions</a> property for the started sequence.</p>
+</div></div><!-- @@@startDrag -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

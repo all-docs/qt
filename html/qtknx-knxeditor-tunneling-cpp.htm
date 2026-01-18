@@ -1,0 +1,482 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Editor Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Editor Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtKnx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "tunneling.h"</span>
+<span class="preprocessor">#include "ui_tunneling.h"</span>
+
+<span class="preprocessor">#include &lt;QKnxLinkLayerFrameBuilder&gt;</span>
+<span class="preprocessor">#include &lt;QKnxNetIpSecureConfiguration&gt;</span>
+<span class="preprocessor">#include &lt;QMetaEnum&gt;</span>
+<span class="preprocessor">#include &lt;QMetaType&gt;</span>
+<span class="preprocessor">#include &lt;QStandardItemModel&gt;</span>
+<span class="preprocessor">#include &lt;QTreeView&gt;</span>
+<span class="preprocessor">#include &lt;QTreeWidget&gt;</span>
+
+<span class="comment">// -- KnxAddressValidator</span>
+
+KnxAddressValidator<span class="operator">::</span>KnxAddressValidator(QLatin1Char delimiter<span class="operator">,</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qvalidator.htm" translate="no">QValidator</a></span>(parent)
+    <span class="operator">,</span> m_delimiter(delimiter)
+    <span class="operator">,</span> m_expr(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"[^0-9\\%1]"</span>)<span class="operator">.</span>arg(delimiter))
+{}
+
+<span class="type"><a href="./qvalidator.htm" translate="no">QValidator</a></span><span class="operator">::</span>State KnxAddressValidator<span class="operator">::</span>validate(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span> input<span class="operator">,</span> <span class="type">int</span> <span class="operator">&amp;</span>) <span class="keyword">const</span>
+{
+    <span class="keyword">auto</span> result <span class="operator">=</span> m_expr<span class="operator">.</span>match(input);
+    <span class="keyword">if</span> (result<span class="operator">.</span>hasMatch())
+        <span class="keyword">return</span> State<span class="operator">::</span>Invalid;
+
+    <span class="keyword">auto</span> n <span class="operator">=</span> input<span class="operator">.</span>split(m_delimiter);
+    <span class="keyword">if</span> (n<span class="operator">.</span>value(<span class="number">0</span>)<span class="operator">.</span>toInt() <span class="operator">&gt;</span> <span class="number">15</span> <span class="operator">|</span><span class="operator">|</span> n<span class="operator">.</span>value(<span class="number">1</span>)<span class="operator">.</span>toInt() <span class="operator">&gt;</span> <span class="number">15</span> <span class="operator">|</span><span class="operator">|</span> n<span class="operator">.</span>value(<span class="number">2</span>)<span class="operator">.</span>toInt() <span class="operator">&gt;</span> <span class="number">255</span>)
+        <span class="keyword">return</span> State<span class="operator">::</span>Invalid;
+    <span class="keyword">return</span> State<span class="operator">::</span>Intermediate;
+}
+
+<span class="comment">// -- Tunneling</span>
+
+Tunneling<span class="operator">::</span>Tunneling(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">*</span> parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+    <span class="operator">,</span> ui(<span class="keyword">new</span> Ui<span class="operator">::</span>Tunneling)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+
+    setupApciTpciComboBox();
+    setupMessageCodeComboBox();
+    updateAdditionalInfoTypesComboBox();
+
+    m_frame<span class="operator">.</span>setMediumType(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumType<span class="operator">::</span>NetIP);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        m_tunnel<span class="operator">.</span>setLocalPort(<span class="number">0</span>);
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>isChecked()) {
+            <span class="keyword">auto</span> config <span class="operator">=</span> m_configs<span class="operator">.</span>value(ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+            config<span class="operator">.</span>setKeepSecureSessionAlive(<span class="keyword">true</span>);
+            m_tunnel<span class="operator">.</span>setSecureConfiguration(config);
+            m_tunnel<span class="operator">.</span>connectToHostEncrypted(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+                m_server<span class="operator">.</span>controlEndpointPort());
+        } <span class="keyword">else</span> {
+            m_tunnel<span class="operator">.</span>connectToHost(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">,</span>
+                m_server<span class="operator">.</span>controlEndpointPort()<span class="operator">,</span> m_proto);
+        }
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>connected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSendRequest<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>sourceAddress<span class="operator">-</span><span class="operator">&gt;</span>setText(m_tunnel<span class="operator">.</span>individualAddress()<span class="operator">.</span>toString());
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Successfully connected to: %1 on port: %2"</span>)<span class="operator">.</span>arg(m_server
+            <span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointPort()));
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        m_tunnel<span class="operator">.</span>disconnectFromHost();
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>disconnected<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        <span class="keyword">if</span> (<span class="operator">!</span>ui)
+            <span class="keyword">return</span>;
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSendRequest<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Successfully disconnected from: %1 on port: %2\n"</span>)
+            <span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(m_server<span class="operator">.</span>controlEndpointPort()));
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSendRequest<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Send tunnel frame with cEMI payload: "</span>)
+            <span class="operator">+</span> ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text());
+        <span class="keyword">auto</span> data <span class="operator">=</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toLatin1());
+        <span class="keyword">auto</span> frame <span class="operator">=</span> <span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>builder()
+                <span class="operator">.</span>setData(data)
+                <span class="operator">.</span>setMedium(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumType<span class="operator">::</span>NetIP)
+                <span class="operator">.</span>createFrame();
+        m_tunnel<span class="operator">.</span>sendFrame(frame);
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>frameReceived<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span> frame) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Source address: %1"</span>)<span class="operator">.</span>arg(frame<span class="operator">.</span>sourceAddress()
+            <span class="operator">.</span>toString()));
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Destination address: %1"</span>)<span class="operator">.</span>arg(frame<span class="operator">.</span>destinationAddress()
+            <span class="operator">.</span>toString()));
+        ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Received tunnel frame with cEMI payload: "</span>
+            <span class="operator">+</span> frame<span class="operator">.</span>bytes()<span class="operator">.</span>toHex()<span class="operator">.</span>toByteArray()));
+    });
+
+    connect(<span class="operator">&amp;</span>m_tunnel<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span><span class="operator">::</span>errorOccurred<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> (<span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>Error<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorString) {
+            ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>append(errorString);
+    });
+
+    updateControlField();
+    updateExtendedControlField();
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>frameFormat<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text) {
+        <span class="keyword">if</span> (text <span class="operator">=</span><span class="operator">=</span> <span class="string">"Extended"</span>) {
+            <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfosList<span class="operator">-</span><span class="operator">&gt;</span>count(); <span class="operator">+</span><span class="operator">+</span>i) {
+                <span class="keyword">auto</span> b <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfosList<span class="operator">-</span><span class="operator">&gt;</span>item(i)<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toLatin1();
+                m_frame<span class="operator">.</span>addAdditionalInfo(<span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span><span class="operator">::</span>fromBytes(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(b)<span class="operator">,</span> <span class="number">0</span>));
+            }
+            ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfo<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        } <span class="keyword">else</span> {
+            m_frame<span class="operator">.</span>clearAdditionalInfos();
+            ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfo<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        }
+        updateControlField();
+    });
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>repeat<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateControlField);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>broadcast<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateControlField);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>priority<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateControlField);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>acknowledge<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateControlField);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>confirm<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateControlField);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>destAddrType<span class="operator">,</span> (<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged)<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text) {
+        QLatin1Char delimiter(text <span class="operator">=</span><span class="operator">=</span> <span class="string">"Group"</span> <span class="operator">?</span> <span class="char">'/'</span> : <span class="char">'.'</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>destAddress<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> KnxAddressValidator(delimiter));
+        ui<span class="operator">-</span><span class="operator">&gt;</span>destAddress<span class="operator">-</span><span class="operator">&gt;</span>setText(ui<span class="operator">-</span><span class="operator">&gt;</span>destAddress<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>replace(<span class="type"><a href="./qregularexpression.htm" translate="no">QRegularExpression</a></span>(<span class="string">"\\/|\\."</span>)<span class="operator">,</span>
+            <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(delimiter)));
+        updateExtendedControlField();
+    });
+    <span class="keyword">using</span> overload <span class="operator">=</span> <span class="type">void</span> (<span class="type"><a href="./qspinbox.htm" translate="no">QSpinBox</a></span><span class="operator">::</span><span class="operator">*</span>)(<span class="type">int</span>);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>hopCount<span class="operator">,</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>overload<span class="operator">&gt;</span>(<span class="operator">&amp;</span><span class="type"><a href="./qspinbox.htm" translate="no">QSpinBox</a></span><span class="operator">::</span>valueChanged)<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateExtendedControlField);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>extFrameFormat<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateExtendedControlField);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfoTypes<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        bool fixed <span class="operator">=</span> <span class="keyword">true</span>;
+        <span class="keyword">auto</span> type <span class="operator">=</span> <span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span><span class="operator">::</span>Type(ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfoTypes<span class="operator">-</span><span class="operator">&gt;</span>currentData()<span class="operator">.</span>toUInt());
+        <span class="type">int</span> size <span class="operator">=</span> <span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span><span class="operator">::</span>expectedDataSize(type<span class="operator">,</span> <span class="operator">&amp;</span>fixed);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>additionallnfoData<span class="operator">-</span><span class="operator">&gt;</span>setMaxLength((fixed <span class="operator">?</span> size : <span class="number">252</span>) <span class="operator">*</span> <span class="number">2</span>);
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>addAdditionalInfo<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        <span class="keyword">auto</span> type <span class="operator">=</span> <span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span><span class="operator">::</span>Type(ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfoTypes<span class="operator">-</span><span class="operator">&gt;</span>currentData()<span class="operator">.</span>toUInt());
+        <span class="keyword">auto</span> info <span class="operator">=</span> <span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span>(type<span class="operator">,</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>additionallnfoData<span class="operator">-</span><span class="operator">&gt;</span>text()
+            <span class="operator">.</span>toLatin1()));
+        <span class="keyword">if</span> (info<span class="operator">.</span>isValid()) {
+            m_frame<span class="operator">.</span>addAdditionalInfo(info);
+            ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(m_frame<span class="operator">.</span>bytes()<span class="operator">.</span>toHex()<span class="operator">.</span>toByteArray());
+            ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfosList<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="keyword">new</span> <span class="type"><a href="./qlistwidgetitem.htm" translate="no">QListWidgetItem</a></span>(info<span class="operator">.</span>bytes()<span class="operator">.</span>toByteArray()));
+        }
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>removeAdditionalInfo<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>() {
+        <span class="keyword">auto</span> index <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfosList<span class="operator">-</span><span class="operator">&gt;</span>currentIndex();
+        <span class="keyword">if</span> (index<span class="operator">.</span>isValid()) {
+            <span class="keyword">auto</span> currentItem <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfosList<span class="operator">-</span><span class="operator">&gt;</span>item(index<span class="operator">.</span>row());
+            <span class="keyword">auto</span> b <span class="operator">=</span> currentItem<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toLatin1();
+            m_frame<span class="operator">.</span>removeAdditionalInfo(<span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span><span class="operator">::</span>fromBytes(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(b)<span class="operator">,</span>
+                <span class="number">0</span>));
+            ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(m_frame<span class="operator">.</span>bytes()<span class="operator">.</span>toHex()<span class="operator">.</span>toByteArray());
+            <span class="keyword">delete</span> ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfosList<span class="operator">-</span><span class="operator">&gt;</span>takeItem(index<span class="operator">.</span>row());
+        }
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateFrame);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>sourceAddress<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>textChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateFrame);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>destAddress<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>textChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateFrame);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>apci<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateFrame);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>tpci<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>currentTextChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateFrame);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>textChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>updateFrame);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>manualInput<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(bool checked) {
+        bool disable <span class="operator">=</span> checked;
+        <span class="keyword">if</span> (<span class="operator">!</span>checked)
+            disable <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>frameFormat<span class="operator">-</span><span class="operator">&gt;</span>currentText() <span class="operator">=</span><span class="operator">=</span> <span class="string">"Standard"</span>;
+        ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfo<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(disable);
+
+        <span class="keyword">if</span> (<span class="operator">!</span>checked) {
+            disable <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>tpci<span class="operator">-</span><span class="operator">&gt;</span>itemData(ui<span class="operator">-</span><span class="operator">&gt;</span>tpci<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())
+                <span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>TransportControlField<span class="operator">&gt;</span>() <span class="operator">&gt;</span><span class="operator">=</span> <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>TransportControlField<span class="operator">::</span>Connect;
+        }
+        ui<span class="operator">-</span><span class="operator">&gt;</span>apci<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(disable);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>setDisabled(disable);
+    });
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>destAddress<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> KnxAddressValidator(QLatin1Char(<span class="char">'/'</span>)));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>sourceAddress<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> KnxAddressValidator(QLatin1Char(<span class="char">'.'</span>)));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> <span class="type"><a href="./qregexpvalidator.htm" translate="no">QRegExpValidator</a></span>(<span class="type"><a href="./qregexp.htm" translate="no">QRegExp</a></span>(<span class="string">"[0-9a-fA-F]+"</span>)));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>additionallnfoData<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> <span class="type"><a href="./qregexpvalidator.htm" translate="no">QRegExpValidator</a></span>(<span class="type"><a href="./qregexp.htm" translate="no">QRegExp</a></span>(<span class="string">"[0-9a-fA-F]+"</span>)));
+}
+
+Tunneling<span class="operator">::</span><span class="operator">~</span>Tunneling()
+{
+    <span class="keyword">delete</span> ui;
+    ui <span class="operator">=</span> nullptr;
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>setNatAware(bool isNatAware)
+{
+    m_tunnel<span class="operator">.</span>setNatAware(isNatAware);
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>setLocalAddress(<span class="keyword">const</span> <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span> <span class="operator">&amp;</span>address)
+{
+    m_tunnel<span class="operator">.</span>disconnectFromHost();
+    m_tunnel<span class="operator">.</span>setLocalAddress(address);
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>setKnxNetIpServer(<span class="keyword">const</span> <span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> <span class="operator">&amp;</span>server)
+{
+    m_tunnel<span class="operator">.</span>disconnectFromHost();
+    m_server <span class="operator">=</span> server;
+
+    <span class="keyword">if</span> (m_tunnel<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>State<span class="operator">::</span>Disconnected) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>connectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>disconnectTunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    }
+
+    updateSecureConfigCombo();
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSendRequest<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>setTcpEnable(bool value)
+{
+    m_proto <span class="operator">=</span> (value <span class="operator">?</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>TCP_IPv4 : <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>UDP_IPv4);
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>clearLogging()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>textOuputTunneling<span class="operator">-</span><span class="operator">&gt;</span>clear();
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>updateFrame()
+{
+    m_frame<span class="operator">.</span>setMessageCode(<span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>MessageCode(ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>currentData()<span class="operator">.</span>toUInt()));
+    m_frame<span class="operator">.</span>setControlField(m_ctrl);
+    m_frame<span class="operator">.</span>setExtendedControlField(m_extCtrl);
+    m_frame<span class="operator">.</span>setSourceAddress({ <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>sourceAddress<span class="operator">-</span><span class="operator">&gt;</span>text() });
+    m_frame<span class="operator">.</span>setDestinationAddress({ m_extCtrl<span class="operator">.</span>destinationAddressType()<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>destAddress<span class="operator">-</span><span class="operator">&gt;</span>text() });
+
+    <span class="keyword">auto</span> tpdu <span class="operator">=</span> <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span> { ui<span class="operator">-</span><span class="operator">&gt;</span>tpci<span class="operator">-</span><span class="operator">&gt;</span>itemData(ui<span class="operator">-</span><span class="operator">&gt;</span>tpci<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())
+        <span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>TransportControlField<span class="operator">&gt;</span>() };
+
+    <span class="keyword">if</span> (tpdu<span class="operator">.</span>transportControlField() <span class="operator">&lt;</span> <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>TransportControlField<span class="operator">::</span>Connect) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>apci<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        tpdu<span class="operator">.</span>setApplicationControlField(ui<span class="operator">-</span><span class="operator">&gt;</span>apci<span class="operator">-</span><span class="operator">&gt;</span>itemData(ui<span class="operator">-</span><span class="operator">&gt;</span>apci<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())
+            <span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>ApplicationControlField<span class="operator">&gt;</span>());
+        tpdu<span class="operator">.</span>setData(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>toLatin1()));
+    } <span class="keyword">else</span> {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>apci<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>data<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    }
+    m_frame<span class="operator">.</span>setTpdu(tpdu);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setText(m_frame<span class="operator">.</span>bytes()<span class="operator">.</span>toHex()<span class="operator">.</span>toByteArray());
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingSendRequest<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(m_frame<span class="operator">.</span>isValid());
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>updateControlField()
+{
+    m_ctrl<span class="operator">.</span>setFrameFormat(<span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span><span class="operator">::</span>FrameFormat(ui<span class="operator">-</span><span class="operator">&gt;</span>frameFormat<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()));
+    m_ctrl<span class="operator">.</span>setRepeat(<span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span><span class="operator">::</span>Repeat(ui<span class="operator">-</span><span class="operator">&gt;</span>repeat<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()));
+    m_ctrl<span class="operator">.</span>setBroadcast(<span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span><span class="operator">::</span>Broadcast(ui<span class="operator">-</span><span class="operator">&gt;</span>broadcast<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()));
+    m_ctrl<span class="operator">.</span>setPriority(<span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span><span class="operator">::</span>Priority(ui<span class="operator">-</span><span class="operator">&gt;</span>priority<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()));
+    m_ctrl<span class="operator">.</span>setAcknowledge(<span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span><span class="operator">::</span>Acknowledge(ui<span class="operator">-</span><span class="operator">&gt;</span>acknowledge<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()));
+    m_ctrl<span class="operator">.</span>setConfirm(<span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span><span class="operator">::</span>Confirm(ui<span class="operator">-</span><span class="operator">&gt;</span>confirm<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()));
+
+    updateFrame();
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>updateExtendedControlField()
+{
+    m_extCtrl<span class="operator">.</span>setDestinationAddressType(<span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type(ui<span class="operator">-</span><span class="operator">&gt;</span>destAddrType<span class="operator">-</span><span class="operator">&gt;</span>currentText() <span class="operator">=</span><span class="operator">=</span> <span class="string">"Group"</span>));
+    m_extCtrl<span class="operator">.</span>setHopCount(ui<span class="operator">-</span><span class="operator">&gt;</span>hopCount<span class="operator">-</span><span class="operator">&gt;</span>value());
+    m_extCtrl<span class="operator">.</span>setFormat(<span class="type"><a href="./qknxextendedcontrolfield.htm" translate="no">QKnxExtendedControlField</a></span><span class="operator">::</span>ExtendedFrameFormat(ui<span class="operator">-</span><span class="operator">&gt;</span>extFrameFormat<span class="operator">-</span><span class="operator">&gt;</span>currentIndex()));
+
+    updateFrame();
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>on_manualInput_clicked(bool checked)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="operator">!</span>checked);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setMaxLength(SHRT_MAX);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>cemiFrame<span class="operator">-</span><span class="operator">&gt;</span>setFocus();
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>onKeyringChanged(<span class="keyword">const</span> <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">&gt;</span> <span class="operator">&amp;</span>configs)
+{
+    m_configs <span class="operator">=</span> configs;
+    updateSecureConfigCombo();
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>setupApciTpciComboBox()
+{
+    <span class="type">int</span> index <span class="operator">=</span> <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>indexOfEnumerator(<span class="string">"ApplicationControlField"</span>);
+    <span class="keyword">auto</span> typeEnum <span class="operator">=</span> <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>enumerator(index);
+    <span class="keyword">if</span> (<span class="operator">!</span>typeEnum<span class="operator">.</span>isValid())
+        <span class="keyword">return</span>;
+
+    <span class="type"><a href="./qregularexpression.htm" translate="no">QRegularExpression</a></span> regexp(<span class="string">"[A-Z]"</span>);
+    <span class="keyword">for</span> (<span class="keyword">auto</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> typeEnum<span class="operator">.</span>keyCount() <span class="operator">-</span> <span class="number">1</span>; <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="keyword">auto</span> string <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(typeEnum<span class="operator">.</span>key(i));
+        <span class="keyword">auto</span> index <span class="operator">=</span> string<span class="operator">.</span>lastIndexOf(regexp);
+        <span class="keyword">if</span> (index <span class="operator">&gt;</span> <span class="number">0</span>) string<span class="operator">.</span>insert(index<span class="operator">,</span> QLatin1Char(<span class="char">'_'</span>));
+        ui<span class="operator">-</span><span class="operator">&gt;</span>apci<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"A_"</span>) <span class="operator">+</span> string<span class="operator">,</span> typeEnum<span class="operator">.</span>value(i));
+    }
+
+    index <span class="operator">=</span> <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>indexOfEnumerator(<span class="string">"TransportControlField"</span>);
+    typeEnum <span class="operator">=</span> <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>enumerator(index);
+    <span class="keyword">if</span> (<span class="operator">!</span>typeEnum<span class="operator">.</span>isValid())
+        <span class="keyword">return</span>;
+
+    regexp <span class="operator">=</span> <span class="type"><a href="./qregularexpression.htm" translate="no">QRegularExpression</a></span>(<span class="string">"(?=[A-Z])"</span>);
+    <span class="keyword">for</span> (<span class="keyword">auto</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> typeEnum<span class="operator">.</span>keyCount() <span class="operator">-</span> <span class="number">1</span>; <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="keyword">auto</span> string <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(typeEnum<span class="operator">.</span>key(i))<span class="operator">.</span>split(regexp<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>SkipEmptyParts);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tpci<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"T_"</span> <span class="operator">+</span> string<span class="operator">.</span>join(QLatin1Char(<span class="char">'_'</span>))<span class="operator">,</span> typeEnum<span class="operator">.</span>value(i));
+    }
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>setupMessageCodeComboBox()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"L_Data.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>DataRequest));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"L_Raw.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>RawRequest));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>mc<span class="operator">-</span><span class="operator">&gt;</span>addItem(<span class="string">"M_Reset.req"</span><span class="operator">,</span>
+        <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span>(<span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>MessageCode<span class="operator">::</span>ResetRequest));
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>updateAdditionalInfoTypesComboBox()
+{
+    <span class="type">int</span> index <span class="operator">=</span> <span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>indexOfEnumerator(<span class="string">"Type"</span>);
+    <span class="keyword">auto</span> typeEnum <span class="operator">=</span> <span class="type"><a href="./qknxadditionalinfo.htm" translate="no">QKnxAdditionalInfo</a></span><span class="operator">::</span>staticMetaObject<span class="operator">.</span>enumerator(index);
+    <span class="keyword">if</span> (<span class="operator">!</span>typeEnum<span class="operator">.</span>isValid())
+        <span class="keyword">return</span>;
+
+    <span class="keyword">auto</span> model <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span><span class="operator">*</span><span class="operator">&gt;</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>additionalInfoTypes<span class="operator">-</span><span class="operator">&gt;</span>model());
+    <span class="keyword">for</span> (<span class="type">int</span> row <span class="operator">=</span> <span class="number">0</span>; row <span class="operator">&lt;</span> model<span class="operator">-</span><span class="operator">&gt;</span>rowCount(); <span class="operator">+</span><span class="operator">+</span>row) {
+        <span class="keyword">auto</span> data <span class="operator">=</span> model<span class="operator">-</span><span class="operator">&gt;</span>itemData(model<span class="operator">-</span><span class="operator">&gt;</span>index(row<span class="operator">,</span> <span class="number">0</span>));
+        data<span class="operator">.</span>insert(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>UserRole<span class="operator">,</span> typeEnum<span class="operator">.</span>value(row));
+        model<span class="operator">-</span><span class="operator">&gt;</span>setItemData(model<span class="operator">-</span><span class="operator">&gt;</span>index(row<span class="operator">,</span> <span class="number">0</span>)<span class="operator">,</span> data);
+    }
+    model<span class="operator">-</span><span class="operator">&gt;</span>item(<span class="number">0</span>)<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    model<span class="operator">-</span><span class="operator">&gt;</span>item(model<span class="operator">-</span><span class="operator">&gt;</span>rowCount() <span class="operator">-</span> <span class="number">1</span>)<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+}
+
+<span class="type">void</span> Tunneling<span class="operator">::</span>updateSecureConfigCombo()
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>clear();
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="operator">!</span>m_configs<span class="operator">.</span>isEmpty());
+    ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(m_proto <span class="operator">=</span><span class="operator">=</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>TCP_IPv4);
+
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> m_configs<span class="operator">.</span>size(); <span class="operator">+</span><span class="operator">+</span>i) {
+        <span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>config <span class="operator">=</span> m_configs<span class="operator">[</span>i<span class="operator">]</span>;
+        <span class="keyword">if</span> (m_server<span class="operator">.</span>individualAddress() <span class="operator">!</span><span class="operator">=</span> config<span class="operator">.</span>host())
+            <span class="keyword">continue</span>;
+
+        <span class="keyword">const</span> <span class="keyword">auto</span> ia <span class="operator">=</span> config<span class="operator">.</span>individualAddress();
+        ui<span class="operator">-</span><span class="operator">&gt;</span>secureSessionCb<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"User ID: %1 (Individual Address: %2)"</span>)
+            <span class="operator">.</span>arg(config<span class="operator">.</span>userId())
+            <span class="operator">.</span>arg(ia<span class="operator">.</span>isValid() <span class="operator">?</span> ia<span class="operator">.</span>toString() : tr(<span class="string">"No specific address"</span>))<span class="operator">,</span> i);
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

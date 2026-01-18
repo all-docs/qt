@@ -1,0 +1,133 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QOpcUaElementOperand | Qt OPC UA</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qopcuaelementoperand.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtopcua-index.htm" translate="no">Qt OPC UA</a></li>
+                            <li><a href="./qtopcua-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QOpcUaElementOperand</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QOpcUaElementOperand Class</h1>
+<!-- $$$QOpcUaElementOperand-brief -->
+<p>The OPC UA <a href="./qml-qtopcua-elementoperand.htm" translate="no">ElementOperand</a> type. <a href="#details">More...</a></p>
+<!-- @@@QOpcUaElementOperand -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QOpcUaElementOperand&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += opcua</td></tr></tbody></table></div><ul>
+<li><a href="./qopcuaelementoperand-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qopcuaelementoperand.htm#QOpcUaElementOperand-2" translate="no">QOpcUaElementOperand</a></b>(quint32 <i>index</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qopcuaelementoperand.htm#QOpcUaElementOperand-1" translate="no">QOpcUaElementOperand</a></b>(const QOpcUaElementOperand &amp;<i>rhs</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QOpcUaElementOperand &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qopcuaelementoperand.htm#operator-eq" translate="no">operator=</a></b>(const QOpcUaElementOperand &amp;<i>rhs</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> quint32 </td><td class="memItemRight bottomAlign"><b><a href="./qopcuaelementoperand.htm#index" translate="no">index</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qopcuaelementoperand.htm#setIndex" translate="no">setIndex</a></b>(quint32 <i>index</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVariant </td><td class="memItemRight bottomAlign"><b><a href="./qopcuaelementoperand.htm#operator-QVariant" translate="no">operator QVariant</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QOpcUaElementOperand-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qml-qtopcua-elementoperand.htm" translate="no">ElementOperand</a> is defined in OPC-UA part 4, 7.4.4.2. It is used to identify another element in the filter by its index (the first element has the index 0).</p>
+<p>This is required to create complex filters, for example to reference the two operands of the AND operation in ((Severity &gt; 500) AND (Message == "TestString")). The first step is to create content filter elements for the two conditions (Severity &gt; 500) and (Message == "TestString"). A third content filter element is required to create an AND combination of the two conditions. It consists of the AND operator and two element operands with the indices of the two conditions created before:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qopcuamonitoringparameters.htm" translate="no">QOpcUaMonitoringParameters</a></span><span class="operator">::</span>EventFilter filter;
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="comment">// setup select clauses</span>
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="type"><a href="./qopcuacontentfilterelement.htm" translate="no">QOpcUaContentFilterElement</a></span> condition1;
+<span class="type"><a href="./qopcuacontentfilterelement.htm" translate="no">QOpcUaContentFilterElement</a></span> condition2;
+<span class="type"><a href="./qopcuacontentfilterelement.htm" translate="no">QOpcUaContentFilterElement</a></span> condition3;
+condition1 <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qopcuacontentfilterelement.htm" translate="no">QOpcUaContentFilterElement</a></span><span class="operator">::</span>FilterOperator<span class="operator">::</span>GreaterThan <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qopcuasimpleattributeoperand.htm" translate="no">QOpcUaSimpleAttributeOperand</a></span>(<span class="string">"Severity"</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span>
+                <span class="type"><a href="./qopcualiteraloperand.htm" translate="no">QOpcUaLiteralOperand</a></span>(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span>(<span class="number">500</span>)<span class="operator">,</span> <span class="type">QOpcUa</span><span class="operator">::</span>Types<span class="operator">::</span>UInt16);
+condition2 <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qopcuacontentfilterelement.htm" translate="no">QOpcUaContentFilterElement</a></span><span class="operator">::</span>FilterOperator<span class="operator">::</span>Equals <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qopcuasimpleattributeoperand.htm" translate="no">QOpcUaSimpleAttributeOperand</a></span>(<span class="string">"Message"</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span>
+                <span class="type"><a href="./qopcualiteraloperand.htm" translate="no">QOpcUaLiteralOperand</a></span>(<span class="string">"TestString"</span><span class="operator">,</span> <span class="type">QOpcUa</span><span class="operator">::</span>Types<span class="operator">::</span>String);
+condition3 <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qopcuacontentfilterelement.htm" translate="no">QOpcUaContentFilterElement</a></span><span class="operator">::</span>FilterOperator<span class="operator">::</span>And <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type">QOpcUaElementOperand</span>(<span class="number">0</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type">QOpcUaElementOperand</span>(<span class="number">1</span>);
+filter <span class="operator">&lt;</span><span class="operator">&lt;</span> condition1 <span class="operator">&lt;</span><span class="operator">&lt;</span> condition2 <span class="operator">&lt;</span><span class="operator">&lt;</span> condition3;</pre></div>
+</div>
+<!-- @@@QOpcUaElementOperand -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QOpcUaElementOperand$$$QOpcUaElementOperandquint32 -->
+<h3 class="fn" id="QOpcUaElementOperand-2" translate="no"><a name="QOpcUaElementOperand-2"></a>QOpcUaElementOperand::<span class="name">QOpcUaElementOperand</span>(<span class="type"><a href="./qtglobal.htm#quint32-typedef" translate="no">quint32</a></span> <i>index</i>)<a class="plink" href="#QOpcUaElementOperand-2" title="Direct link to this headline"></a></h3>
+<p>Constructs an element operand with index <i translate="no">index</i>.</p>
+<!-- @@@QOpcUaElementOperand -->
+<!-- $$$QOpcUaElementOperand$$$QOpcUaElementOperandconstQOpcUaElementOperand& -->
+<h3 class="fn" id="QOpcUaElementOperand-1" translate="no"><a name="QOpcUaElementOperand-1"></a>QOpcUaElementOperand::<span class="name">QOpcUaElementOperand</span>(const <span class="type">QOpcUaElementOperand</span> &amp;<i>rhs</i>)<a class="plink" href="#QOpcUaElementOperand-1" title="Direct link to this headline"></a></h3>
+<p>Constructs an element operand from <i translate="no">rhs</i>.</p>
+<!-- @@@QOpcUaElementOperand -->
+<!-- $$$operator=[overload1]$$$operator=constQOpcUaElementOperand& -->
+<h3 class="fn" id="operator-eq" translate="no"><a name="operator-eq"></a><span class="type">QOpcUaElementOperand</span> &amp;QOpcUaElementOperand::<span class="name">operator=</span>(const <span class="type">QOpcUaElementOperand</span> &amp;<i>rhs</i>)<a class="plink" href="#operator-eq" title="Direct link to this headline"></a></h3>
+<p>Sets the values from <i translate="no">rhs</i> in this element operand.</p>
+<!-- @@@operator= -->
+<!-- $$$index[overload1]$$$index -->
+<h3 class="fn" id="index" translate="no"><a name="index"></a><span class="type"><a href="./qtglobal.htm#quint32-typedef" translate="no">quint32</a></span> QOpcUaElementOperand::<span class="name">index</span>() const<a class="plink" href="#index" title="Direct link to this headline"></a></h3>
+<p>Returns the index of the filter element that is going to be used as operand.</p>
+<p><b>See also </b><a href="./qopcuaelementoperand.htm#setIndex" translate="no">setIndex</a>().</p>
+<!-- @@@index -->
+<!-- $$$setIndex[overload1]$$$setIndexquint32 -->
+<h3 class="fn" id="setIndex" translate="no"><a name="setIndex"></a><span class="type">void</span> QOpcUaElementOperand::<span class="name">setIndex</span>(<span class="type"><a href="./qtglobal.htm#quint32-typedef" translate="no">quint32</a></span> <i>index</i>)<a class="plink" href="#setIndex" title="Direct link to this headline"></a></h3>
+<p>Sets the index of the filter element that is going to be used as operand to <i translate="no">index</i>.</p>
+<p><b>See also </b><a href="./qopcuaelementoperand.htm#index" translate="no">index</a>().</p>
+<!-- @@@setIndex -->
+<!-- $$$operator QVariant[overload1]$$$operator QVariant -->
+<h3 class="fn" id="operator-QVariant" translate="no"><a name="operator-QVariant"></a><span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> QOpcUaElementOperand::<span class="name">operator QVariant</span>() const<a class="plink" href="#operator-QVariant" title="Direct link to this headline"></a></h3>
+<p>Converts this element operand to <a href="./qvariant.htm" translate="no">QVariant</a>.</p>
+<!-- @@@operator QVariant -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

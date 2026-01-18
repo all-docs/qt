@@ -1,0 +1,285 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XmlListModel QML Type | Qt XML Patterns</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtxmlpatterns-index.htm" translate="no">Qt XML Patterns</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">XmlListModel QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$XmlListModel-brief -->
+<p>For specifying a read-only model using XPath expressions. <a href="#details">More...</a></p>
+<!-- @@@XmlListModel -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick.XmlListModel 2.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-xmllistmodel-xmllistmodel-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#count-prop" translate="no">count</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#namespaceDeclarations-prop" translate="no">namespaceDeclarations</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#progress-prop" translate="no">progress</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#query-prop" translate="no">query</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#roles-prop" translate="no">roles</a></b></b> : list&lt;XmlRole&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#source-prop" translate="no">source</a></b></b> : url</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#status-prop" translate="no">status</a></b></b> : enumeration</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#xml-prop" translate="no">xml</a></b></b> : string</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#errorString-method" translate="no">errorString</a></b></b>()</li>
+<li class="fn" translate="no">object <b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#get-method" translate="no">get</a></b></b>(int <i>index</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#reload-method" translate="no">reload</a></b></b>()</li>
+</ul>
+<!-- $$$XmlListModel-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>To use this element, you will need to import the module with the following line:</p>
+<div class="pre"><pre class="cpp" translate="no">import <span class="type">QtQuick</span><span class="operator">.</span>XmlListModel <span class="number">2.0</span></pre></div>
+<p>XmlListModel is used to create a read-only model from XML data. It can be used as a data source for view elements (such as <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>, <a href="./qml-qtquick-pathview.htm" translate="no">PathView</a>, <a href="./qml-qtquick-gridview.htm" translate="no">GridView</a>) and other elements that interact with model data (such as <a href="./qml-qtquick-repeater.htm" translate="no">Repeater</a>).</p>
+<p>For example, if there is a XML document at http://www.mysite.com/feed.xml like this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">&lt;</span><span class="operator">?</span>xml version<span class="operator">=</span><span class="string">"1.0"</span> encoding<span class="operator">=</span><span class="string">"utf-8"</span><span class="operator">?</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>rss version<span class="operator">=</span><span class="string">"2.0"</span><span class="operator">&gt;</span>
+    <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+    <span class="operator">&lt;</span>channel<span class="operator">&gt;</span>
+        <span class="operator">&lt;</span>item<span class="operator">&gt;</span>
+            <span class="operator">&lt;</span>title<span class="operator">&gt;</span>A blog post<span class="operator">&lt;</span><span class="operator">/</span>title<span class="operator">&gt;</span>
+            <span class="operator">&lt;</span>pubDate<span class="operator">&gt;</span>Sat<span class="operator">,</span> <span class="number">07</span> Sep <span class="number">2010</span> <span class="number">10</span>:<span class="number">00</span>:<span class="number">01</span> GMT<span class="operator">&lt;</span><span class="operator">/</span>pubDate<span class="operator">&gt;</span>
+        <span class="operator">&lt;</span><span class="operator">/</span>item<span class="operator">&gt;</span>
+        <span class="operator">&lt;</span>item<span class="operator">&gt;</span>
+            <span class="operator">&lt;</span>title<span class="operator">&gt;</span>Another blog post<span class="operator">&lt;</span><span class="operator">/</span>title<span class="operator">&gt;</span>
+            <span class="operator">&lt;</span>pubDate<span class="operator">&gt;</span>Sat<span class="operator">,</span> <span class="number">07</span> Sep <span class="number">2010</span> <span class="number">15</span>:<span class="number">35</span>:<span class="number">01</span> GMT<span class="operator">&lt;</span><span class="operator">/</span>pubDate<span class="operator">&gt;</span>
+        <span class="operator">&lt;</span><span class="operator">/</span>item<span class="operator">&gt;</span>
+    <span class="operator">&lt;</span><span class="operator">/</span>channel<span class="operator">&gt;</span>
+<span class="operator">&lt;</span><span class="operator">/</span>rss<span class="operator">&gt;</span></pre></div>
+<p>A XmlListModel could create a model from this data, like this:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+import QtQuick.XmlListModel 2.0
+
+<span class="type"><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a></span> {
+    <span class="name">id</span>: <span class="name">xmlModel</span>
+    <span class="name">source</span>: <span class="string">"http://www.mysite.com/feed.xml"</span>
+    <span class="name">query</span>: <span class="string">"/rss/channel/item"</span>
+
+    <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"title"</span>; <span class="name">query</span>: <span class="string">"title/string()"</span> }
+    <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"pubDate"</span>; <span class="name">query</span>: <span class="string">"pubDate/string()"</span> }
+}</pre></div>
+<p>The <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#query-prop" translate="no">query</a> value of "/rss/channel/item" specifies that the XmlListModel should generate a model item for each <code translate="no">&lt;item&gt;</code> in the XML document.</p>
+<p>The <a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a> objects define the model item attributes. Here, each model item will have <code translate="no">title</code> and <code translate="no">pubDate</code> attributes that match the <code translate="no">title</code> and <code translate="no">pubDate</code> values of its corresponding <code translate="no">&lt;item&gt;</code>. (See <a href="./qml-qtquick-xmllistmodel-xmlrole.htm#query-prop" translate="no">XmlRole::query</a> for more examples of valid XPath expressions for <a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a>.)</p>
+<p>The model could be used in a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>, like this:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">width</span>: <span class="number">180</span>; <span class="name">height</span>: <span class="number">300</span>
+    <span class="name">model</span>: <span class="name">xmlModel</span>
+    <span class="name">delegate</span>: <span class="name">Text</span> { <span class="name">text</span>: <span class="name">title</span> <span class="operator">+</span> <span class="string">": "</span> <span class="operator">+</span> <span class="name">pubDate</span> }
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/qml-xmllistmodel-example.png"></p><p>The XmlListModel data is loaded asynchronously, and <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#status-prop" translate="no">status</a> is set to <code translate="no">XmlListModel.Ready</code> when loading is complete. Note this means when XmlListModel is used for a view, the view is not populated until the model is loaded.</p>
+<a name="using-key-xml-roles"></a>
+<h3 id="using-key-xml-roles">Using Key XML Roles<a class="plink" href="#using-key-xml-roles" title="Direct link to this headline"></a></h3>
+<p>You can define certain roles as "keys" so that when <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#reload-method" translate="no">reload()</a> is called, the model will only add and refresh data that contains new values for these keys.</p>
+<p>For example, if above role for "pubDate" was defined like this instead:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"pubDate"</span>; <span class="name">query</span>: <span class="string">"pubDate/string()"</span>; <span class="name">isKey</span>: <span class="number">true</span> }</pre></div>
+<p>Then when <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#reload-method" translate="no">reload()</a> is called, the model will only add and reload items with a "pubDate" value that is not already present in the model.</p>
+<p>This is useful when displaying the contents of XML documents that are incrementally updated (such as RSS feeds) to avoid repainting the entire contents of a model in a view.</p>
+<p>If multiple key roles are specified, the model only adds and reload items with a combined value of all key roles that is not already present in the model.</p>
+<p><b>See also </b><a href="./qtdoc-demos-rssnews-example.htm" translate="no">Qt Quick Demo - RSS News</a>.</p>
+<!-- @@@XmlListModel -->
+<h2>Property Documentation</h2>
+<!-- $$$count -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="count-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="count-prop"></a><span class="name">count</span> : <span class="type">int</span><a class="plink" href="#count-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The number of data entries in the model.</p>
+</div></div><!-- @@@count -->
+<br>
+<!-- $$$namespaceDeclarations -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="namespaceDeclarations-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="namespaceDeclarations-prop"></a><span class="name">namespaceDeclarations</span> : <span class="type">string</span><a class="plink" href="#namespaceDeclarations-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The namespace declarations to be used in the XPath queries.</p>
+<p>The namespaces should be declared as in <a href="./xmlprocessing.htm" translate="no">XQuery</a>. For example, if a requested document at http://mysite.com/feed.xml uses the namespace "http://www.w3.org/2005/Atom", this can be declared as the default namespace:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a></span> {
+    <span class="name">source</span>: <span class="string">"http://mysite.com/feed.xml"</span>
+    <span class="name">query</span>: <span class="string">"/feed/entry"</span>
+    <span class="name">namespaceDeclarations</span>: <span class="string">"declare default element namespace 'http://www.w3.org/2005/Atom';"</span>
+
+    <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"title"</span>; <span class="name">query</span>: <span class="string">"title/string()"</span> }
+}</pre></div>
+</div></div><!-- @@@namespaceDeclarations -->
+<br>
+<!-- $$$progress -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="progress-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="progress-prop"></a><span class="name">progress</span> : <span class="type">real</span><a class="plink" href="#progress-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This indicates the current progress of the downloading of the XML data source. This value ranges from 0.0 (no data downloaded) to 1.0 (all data downloaded). If the XML data is not from a remote source, the progress becomes 1.0 as soon as the data is read.</p>
+<p>Note that when the progress is 1.0, the XML data has been downloaded, but it is yet to be loaded into the model at this point. Use the status property to find out when the XML data has been read and loaded into the model.</p>
+<p><b>See also </b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#status-prop" translate="no">status</a> and <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#source-prop" translate="no">source</a>.</p>
+</div></div><!-- @@@progress -->
+<br>
+<!-- $$$query -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="query-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="query-prop"></a><span class="name">query</span> : <span class="type">string</span><a class="plink" href="#query-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>An absolute XPath query representing the base query for creating model items from this model's <a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a> objects. The query should start with '/' or '//'.</p>
+</div></div><!-- @@@query -->
+<br>
+<!-- $$$roles -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="roles-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="roles-prop"></a><span class="name">roles</span> : <span class="type">list</span>&lt;<span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span>&gt;<a class="plink" href="#roles-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The roles to make available for this model.</p>
+</div></div><!-- @@@roles -->
+<br>
+<!-- $$$source -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="source-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="source-prop"></a><span class="name">source</span> : <span class="type">url</span><a class="plink" href="#source-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The location of the XML data source.</p>
+<p>If both <code translate="no">source</code> and <a href="./xmlprocessing.htm#xml" translate="no">xml</a> are set, <a href="./xmlprocessing.htm#xml" translate="no">xml</a> is used.</p>
+</div></div><!-- @@@source -->
+<br>
+<!-- $$$status -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="status-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="status-prop"></a><span class="name">status</span> : <span class="type">enumeration</span><a class="plink" href="#status-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Specifies the model loading status, which can be one of the following:</p>
+<ul>
+<li><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a>.Null - No XML data has been set for this model.</li>
+<li><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a>.Ready - The XML data has been loaded into the model.</li>
+<li><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a>.Loading - The model is in the process of reading and loading XML data.</li>
+<li><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a>.Error - An error occurred while the model was loading. See <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#errorString-method" translate="no">errorString()</a> for details about the error.</li>
+</ul>
+<p><b>See also </b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#progress-prop" translate="no">progress</a>.</p>
+</div></div><!-- @@@status -->
+<br>
+<!-- $$$xml -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="xml-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="xml-prop"></a><span class="name">xml</span> : <span class="type">string</span><a class="plink" href="#xml-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the XML data for this model, if set.</p>
+<p>The text is assumed to be UTF-8 encoded.</p>
+<p>If both <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#source-prop" translate="no">source</a> and <code translate="no">xml</code> are set, <code translate="no">xml</code> is used.</p>
+</div></div><!-- @@@xml -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$errorString[overload1]$$$errorString -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="errorString-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="errorString-method"></a><span class="name">errorString</span>()<a class="plink" href="#errorString-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Returns a string description of the last error that occurred if <a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#status-prop" translate="no">status</a> is XmlListModel::Error.</p>
+</div></div><!-- @@@errorString -->
+<br>
+<!-- $$$get[overload1]$$$getint -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="get-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="get-method"></a><span class="type">object</span> <span class="name">get</span>(<span class="type">int</span> <i>index</i>)<a class="plink" href="#get-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Returns the item at <i translate="no">index</i> in the model.</p>
+<p>For example, for a model like this:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm" translate="no">XmlListModel</a></span> {
+    <span class="name">id</span>: <span class="name">model</span>
+    <span class="name">source</span>: <span class="string">"http://mysite.com/feed.xml"</span>
+    <span class="name">query</span>: <span class="string">"/feed/entry"</span>
+    <span class="type"><a href="./qml-qtquick-xmllistmodel-xmlrole.htm" translate="no">XmlRole</a></span> { <span class="name">name</span>: <span class="string">"title"</span>; <span class="name">query</span>: <span class="string">"title/string()"</span> }
+}</pre></div>
+<p>This will access the <code translate="no">title</code> value for the first item in the model:</p>
+<div class="pre"><pre class="js prettyprint">var title = <span class="name">model</span>.<span class="name">get</span>(<span class="number">0</span>).<span class="name">title</span>;</pre></div>
+</div></div><!-- @@@get -->
+<br>
+<!-- $$$reload[overload1]$$$reload -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="reload-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="reload-method"></a><span class="name">reload</span>()<a class="plink" href="#reload-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Reloads the model.</p>
+<p>If no key roles have been specified, all existing model data is removed, and the model is rebuilt from scratch.</p>
+<p>Otherwise, items are only added if the model does not already contain items with matching key role values.</p>
+<p><b>See also </b><a href="./qml-qtquick-xmllistmodel-xmllistmodel.htm#using-key-xml-roles" translate="no">Using key XML roles</a> and <a href="./qml-qtquick-xmllistmodel-xmlrole.htm#isKey-prop" translate="no">XmlRole::isKey</a>.</p>
+</div></div><!-- @@@reload -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

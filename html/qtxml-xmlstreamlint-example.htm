@@ -1,0 +1,99 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XML Stream Lint Example | Qt XML</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtxml-index.htm" translate="no">Qt XML</a></li>
+                            <li><a>XML Stream Lint Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">XML Stream Lint Example</h1>
+<span class="subtitle"></span>
+<!-- $$$xmlstreamlint-brief -->
+<p>A commandline tool reading from an input file and writing to the standard output file.</p>
+<!-- @@@xmlstreamlint -->
+<!-- $$$xmlstreamlint-description -->
+<div class="descr"> <a name="details"></a>
+<p>The XML Stream Lint example provides a simple command line utility that accepts a file name as its single argument and writes it to the standard output file.</p>
+<p>The specified file is parsed using an <a href="./qxmlstreamreader.htm" translate="no">QXmlStreamReader</a> object and written to the standard output file using an <a href="./qxmlstreamwriter.htm" translate="no">QXmlStreamWriter</a> object. If the file does not contain a well-formed XML document or the use of namespaces in the document is incorrect, a description of the error is printed to the standard error file and will appear in the console.</p>
+<a name="basic-operation"></a>
+<h4 id="basic-operation">Basic Operation<a class="plink" href="#basic-operation" title="Direct link to this headline"></a></h4>
+<p>The main function of the example opens the file specified by the user for input (<code translate="no">inputFile</code>), and it uses <a href="./qfile.htm" translate="no">QFile</a> to access the standard output file.</p>
+<p>Reading XML is handled by an instance of the <a href="./qxmlstreamreader.htm" translate="no">QXmlStreamReader</a> class, which operates on the input file object; writing is handled by an instance of <a href="./qxmlstreamwriter.htm" translate="no">QXmlStreamWriter</a> operating on the output file object:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qxmlstreamreader.htm" translate="no">QXmlStreamReader</a></span> reader(<span class="operator">&amp;</span>inputFile);
+    <span class="type"><a href="./qxmlstreamwriter.htm" translate="no">QXmlStreamWriter</a></span> writer(<span class="operator">&amp;</span>outputFile);</pre></div>
+<p>The work of parsing and rewriting the XML is done in a while loop, and is driven by input from the reader:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">while</span> (<span class="operator">!</span>reader<span class="operator">.</span>atEnd())
+    {
+        reader<span class="operator">.</span>readNext();
+
+        <span class="keyword">if</span> (reader<span class="operator">.</span>error())
+        {
+            errorStream <span class="operator">&lt;</span><span class="operator">&lt;</span> XmlStreamLint<span class="operator">::</span>tr(
+                           <span class="string">"Error: %1 in file %2 at line %3, column %4.\n"</span>)<span class="operator">.</span>arg(
+                               reader<span class="operator">.</span>errorString()<span class="operator">,</span> inputFilePath<span class="operator">,</span>
+                               <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(reader<span class="operator">.</span>lineNumber())<span class="operator">,</span>
+                               <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(reader<span class="operator">.</span>columnNumber()));
+            <span class="keyword">return</span> ParseFailure;</pre></div>
+<p>If more input is available, the next token from the input file is read and parsed. If an error occurred, information is written to the standard error file via a stream, and the example exits by returning a non-zero value from the main function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        } <span class="keyword">else</span>
+            writer<span class="operator">.</span>writeCurrentToken(reader);
+    }</pre></div>
+<p>For valid input, the writer is fed the current token from the reader, and this is written to the output file that was specified when it was constructed.</p>
+<p>When there is no more input, the loop terminates, and the example can exit successfully.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/xml/xmlstreamlint?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@xmlstreamlint -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

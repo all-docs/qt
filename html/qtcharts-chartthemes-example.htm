@@ -1,0 +1,145 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chart Themes Example | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-chartthemes-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Chart Themes Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Chart Themes Example</h1>
+<span class="subtitle"></span>
+<!-- $$$chartthemes-brief -->
+<p>The example shows the look and feel of the different built-in themes.</p>
+<!-- @@@chartthemes -->
+<!-- $$$chartthemes-description -->
+<div class="descr"> <a name="details"></a>
+<p>This example shows the look and feel of the different built-in themes for some of the supported chart types.</p>
+<p class="centerAlign"><img alt="" src="./images/examples_chartthemes_light.png"></p><p class="centerAlign"><img alt="" src="./images/examples_chartthemes_brown_sand.png"></p><p class="centerAlign"><img alt="" src="./images/examples_chartthemes_blue_cerulean.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-charts"></a>
+<h4 id="creating-charts">Creating Charts<a class="plink" href="#creating-charts" title="Direct link to this headline"></a></h4>
+<p>The charts of different types are generated and added to the layout separately. For example, the line chart is created as follows. The creation of other chart types is similar.</p>
+<p>First a chart is created.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qchart.htm" translate="no">QChart</a></span> <span class="operator">*</span>chart <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span>();
+chart<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Line chart"</span>);</pre></div>
+<p>A common set of random data is generated and placed in a list. This list is used in each chart type to add data to the series of the chart. For the line series, <a href="./qlineseries.htm" translate="no">QLineSeries</a> instances are created and added to the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name(<span class="string">"Series "</span>);
+<span class="type">int</span> nameIndex <span class="operator">=</span> <span class="number">0</span>;
+<span class="keyword">for</span> (<span class="keyword">const</span> DataList <span class="operator">&amp;</span>list : m_dataTable) {
+    <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span> <span class="operator">*</span>series <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineseries.htm" translate="no">QLineSeries</a></span>(chart);
+    <span class="keyword">for</span> (<span class="keyword">const</span> Data <span class="operator">&amp;</span>data : list)
+        series<span class="operator">-</span><span class="operator">&gt;</span>append(data<span class="operator">.</span>first);
+    series<span class="operator">-</span><span class="operator">&gt;</span>setName(name <span class="operator">+</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(nameIndex));
+    nameIndex<span class="operator">+</span><span class="operator">+</span>;
+    chart<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series);
+}</pre></div>
+<p>Default axes are created for the line series. We also specify ranges for the axes based on the range of the data used for the series.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">chart<span class="operator">-</span><span class="operator">&gt;</span>createDefaultAxes();
+chart<span class="operator">-</span><span class="operator">&gt;</span>axes(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Horizontal)<span class="operator">.</span>first()<span class="operator">-</span><span class="operator">&gt;</span>setRange(<span class="number">0</span><span class="operator">,</span> m_valueMax);
+chart<span class="operator">-</span><span class="operator">&gt;</span>axes(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Vertical)<span class="operator">.</span>first()<span class="operator">-</span><span class="operator">&gt;</span>setRange(<span class="number">0</span><span class="operator">,</span> m_valueCount);</pre></div>
+<p>We also want to add more space between the labels and the y-axes. For this we specify a label format that adds space characters to the labels.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// Add space to label to add space between labels and axis</span>
+<span class="type"><a href="./qvalueaxis.htm" translate="no">QValueAxis</a></span> <span class="operator">*</span>axisY <span class="operator">=</span> qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qvalueaxis.htm" translate="no">QValueAxis</a></span><span class="operator">*</span><span class="operator">&gt;</span>(chart<span class="operator">-</span><span class="operator">&gt;</span>axes(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Vertical)<span class="operator">.</span>first());
+Q_ASSERT(axisY);
+axisY<span class="operator">-</span><span class="operator">&gt;</span>setLabelFormat(<span class="string">"%.1f  "</span>);</pre></div>
+<p>Finally the line chart is added to the grid layout.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">chartView <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span>(createLineChart());
+m_ui<span class="operator">-</span><span class="operator">&gt;</span>gridLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(chartView<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);</pre></div>
+<a name="changing-theme"></a>
+<h4 id="changing-theme">Changing Theme<a class="plink" href="#changing-theme" title="Direct link to this headline"></a></h4>
+<p>The user can select a built-in theme to be used in the example. This theme is then applied to all charts in the layout.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>ChartTheme theme <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span><span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>ChartTheme<span class="operator">&gt;</span>(
+            m_ui<span class="operator">-</span><span class="operator">&gt;</span>themeComboBox<span class="operator">-</span><span class="operator">&gt;</span>itemData(m_ui<span class="operator">-</span><span class="operator">&gt;</span>themeComboBox<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())<span class="operator">.</span>toInt());
+chartView<span class="operator">-</span><span class="operator">&gt;</span>chart()<span class="operator">-</span><span class="operator">&gt;</span>setTheme(theme);</pre></div>
+<p>In order to give the result a more harmonious look, the background palette of the application is customized to match the selected theme. The <a href="./qpalette.htm#ColorRole-enum" translate="no">QPalette::Window</a> and <a href="./qpalette.htm#ColorRole-enum" translate="no">QPalette::WindowText</a> roles are set based on the selected theme.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qpalette.htm" translate="no">QPalette</a></span> pal <span class="operator">=</span> window()<span class="operator">-</span><span class="operator">&gt;</span>palette();
+<span class="keyword">if</span> (theme <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>ChartThemeLight) {
+    pal<span class="operator">.</span>setColor(<span class="type"><a href="./qpalette.htm" translate="no">QPalette</a></span><span class="operator">::</span>Window<span class="operator">,</span> <span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0xf0f0f0</span>));
+    pal<span class="operator">.</span>setColor(<span class="type"><a href="./qpalette.htm" translate="no">QPalette</a></span><span class="operator">::</span>WindowText<span class="operator">,</span> <span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0x404044</span>));</pre></div>
+<a name="changing-animation-legend-and-anti-aliasing"></a>
+<h4 id="changing-animation-legend-and-anti-aliasing">Changing Animation, Legend and Anti-Aliasing<a class="plink" href="#changing-animation-legend-and-anti-aliasing" title="Direct link to this headline"></a></h4>
+<p>In this example, it is also possible to see how changing animation, legend and anti-aliasing affects the appearance of the chart.</p>
+<p>Based on the user's selection, the used animation type is set on each chart. It is possible to have no animations in the chart, or have animations for grid axis or series, or both.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qchart.htm" translate="no">QChart</a></span><span class="operator">::</span>AnimationOptions options(
+            m_ui<span class="operator">-</span><span class="operator">&gt;</span>animatedComboBox<span class="operator">-</span><span class="operator">&gt;</span>itemData(m_ui<span class="operator">-</span><span class="operator">&gt;</span>animatedComboBox<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())<span class="operator">.</span>toInt());
+<span class="keyword">if</span> (<span class="operator">!</span>m_charts<span class="operator">.</span>isEmpty() <span class="operator">&amp;</span><span class="operator">&amp;</span> m_charts<span class="operator">.</span>at(<span class="number">0</span>)<span class="operator">-</span><span class="operator">&gt;</span>chart()<span class="operator">-</span><span class="operator">&gt;</span>animationOptions() <span class="operator">!</span><span class="operator">=</span> options) {
+    <span class="keyword">for</span> (<span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView : charts)
+        chartView<span class="operator">-</span><span class="operator">&gt;</span>chart()<span class="operator">-</span><span class="operator">&gt;</span>setAnimationOptions(options);
+}</pre></div>
+<p>The chart can be shown with a legend. The legend can be aligned to different sides of the chart.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Alignment alignment(
+            m_ui<span class="operator">-</span><span class="operator">&gt;</span>legendComboBox<span class="operator">-</span><span class="operator">&gt;</span>itemData(m_ui<span class="operator">-</span><span class="operator">&gt;</span>legendComboBox<span class="operator">-</span><span class="operator">&gt;</span>currentIndex())<span class="operator">.</span>toInt());
+
+<span class="keyword">if</span> (<span class="operator">!</span>alignment) {
+    <span class="keyword">for</span> (<span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView : charts)
+        chartView<span class="operator">-</span><span class="operator">&gt;</span>chart()<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>hide();
+} <span class="keyword">else</span> {
+    <span class="keyword">for</span> (<span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chartView : charts) {
+        chartView<span class="operator">-</span><span class="operator">&gt;</span>chart()<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>setAlignment(alignment);
+        chartView<span class="operator">-</span><span class="operator">&gt;</span>chart()<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>show();
+    }
+}</pre></div>
+<p>The user can also see how changing anti-aliasing option changes the appearance of the chart. Anti-aliasing is updated based on the user's selection.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool checked <span class="operator">=</span> m_ui<span class="operator">-</span><span class="operator">&gt;</span>antialiasCheckBox<span class="operator">-</span><span class="operator">&gt;</span>isChecked();
+<span class="keyword">for</span> (<span class="type"><a href="./qchartview.htm" translate="no">QChartView</a></span> <span class="operator">*</span>chart : charts)
+    chart<span class="operator">-</span><span class="operator">&gt;</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing<span class="operator">,</span> checked);</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/chartthemes?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@chartthemes -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

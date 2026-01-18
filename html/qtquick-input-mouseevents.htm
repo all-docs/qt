@@ -1,0 +1,137 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mouse Events | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-input-mouseevents.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Mouse Events</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Mouse Events</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-input-mouseevents.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>A more modern way of handling events from all pointing devices, including mouse and touchscreen, is via <a href="./qtquickhandlers-index.htm" translate="no">Input Handlers</a>. This page describes the original Qt Quick <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> type, which was initially designed to handle mouse input, and later began handling single-touch events (in the form of synthetic mouse events) in simple touch-oriented user interfaces.</p>
+<a name="mouse-types"></a>
+<h2 id="mouse-types">Mouse Types<a class="plink" href="#mouse-types" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> type</li>
+<li><a href="./qml-qtquick-mouseevent.htm" translate="no">MouseEvent</a> object</li>
+</ul>
+<a name="mouse-event-handling"></a>
+<h2 id="mouse-event-handling">Mouse Event Handling<a class="plink" href="#mouse-event-handling" title="Direct link to this headline"></a></h2>
+<p>QML uses <a href="./qtqml-syntax-signals.htm" translate="no">signals and handlers</a> to deliver mouse interactions. Specifically, Qt Quick provides the <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> and <a href="./qml-qtquick-mouseevent.htm" translate="no">MouseEvent</a> types that allow developers to define JavaScript callbacks (also called signal handlers), which accept mouse events within a defined area.</p>
+<a name="defining-a-mouse-area"></a>
+<h2 id="defining-a-mouse-area">Defining a Mouse Area<a class="plink" href="#defining-a-mouse-area" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> type receives events within a defined area. One quick way to define this area is to anchor the <code translate="no">MouseArea</code> to its parent's area using the <code translate="no">anchors.fill</code> property. If the parent is a <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> (or any <a href="./qml-qtquick-item.htm" translate="no">Item</a> component), then the <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> will fill the area defined by the parent's dimensions. Alternatively, an area smaller or larger than the parent is definable.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">button</span>
+    <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>
+
+    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">onClicked</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"button clicked"</span>)
+    }
+    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">width</span>:<span class="number">150</span>; <span class="name">height</span>: <span class="number">75</span>
+        <span class="name">onClicked</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"irregular area clicked"</span>)
+    }
+}</pre></div>
+<a name="receiving-events"></a>
+<h2 id="receiving-events">Receiving Events<a class="plink" href="#receiving-events" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> type emits <a href="./qtqml-syntax-signals.htm" translate="no">signals</a> in response to different mouse events. The <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> type documentation describes these gestures in greater detail:</p>
+<ul>
+<li>canceled</li>
+<li>clicked</li>
+<li>doubleClicked</li>
+<li>entered</li>
+<li>exited</li>
+<li>positionChanged</li>
+<li>pressAndHold</li>
+<li>pressed</li>
+<li>released</li>
+</ul>
+<p>These signals can have callbacks that are invoked when the signals are emitted.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">onClicked</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"area clicked"</span>)
+        <span class="name">onDoubleClicked</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"area double clicked"</span>)
+        <span class="name">onEntered</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"mouse entered the area"</span>)
+        <span class="name">onExited</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"mouse left the area"</span>)
+    }</pre></div>
+<a name="enabling-gestures"></a>
+<h2 id="enabling-gestures">Enabling Gestures<a class="plink" href="#enabling-gestures" title="Direct link to this headline"></a></h2>
+<p>Some mouse gestures and button clicks need to be enabled before they send or receive events. Certain <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> and <a href="./qml-qtquick-mouseevent.htm" translate="no">MouseEvent</a> properties enable these gestures.</p>
+<p>To listen to (or explicitly ignore) a certain mouse button, set the appropriate mouse button to the <a href="./qml-qtquick-mousearea.htm#acceptedButtons-prop" translate="no">acceptedButtons</a> property.</p>
+<p>Naturally, the mouse events, such as button presses and mouse positions, are sent during a mouse click. For example, the <code translate="no">containsMouse</code> property will only retrieve its correct value during a mouse press. The <a href="./qml-qtquick-mousearea.htm#hoverEnabled-prop" translate="no">hoverEnabled</a> will enable mouse events and positioning even when there are no mouse button presses. Setting the <code translate="no">hoverEnabled</code> property to <code translate="no">true</code>, in turn will enable the <code translate="no">entered</code>, <code translate="no">exited</code>, and <code translate="no">positionChanged</code> signal and their respective signal handlers.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">hoverEnabled</span>: <span class="number">true</span>
+        <span class="name">acceptedButtons</span>: <span class="name">Qt</span>.<span class="name">LeftButton</span> <span class="operator">|</span> <span class="name">Qt</span>.<span class="name">RightButton</span>
+        <span class="name">onEntered</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"mouse entered the area"</span>)
+        <span class="name">onExited</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"mouse left the area"</span>)
+    }</pre></div>
+<p>Additionally, to disable the whole mouse area, set the <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> <code translate="no">enabled</code> property to <code translate="no">false</code>.</p>
+<a name="mouseevent-object"></a>
+<h2 id="mouseevent-object">MouseEvent Object<a class="plink" href="#mouseevent-object" title="Direct link to this headline"></a></h2>
+<p>Signals and their callbacks receive a <a href="./qml-qtquick-mouseevent.htm" translate="no">MouseEvent</a> object as a parameter. The <code translate="no">mouse</code> object contains information about the mouse event. For example, the mouse button that started the event is queried through the <a href="./qml-qtquick-mouseevent.htm#button-prop" translate="no">mouse.button</a> property.</p>
+<p>The <code translate="no">MouseEvent</code> object can also ignore a mouse event using its <code translate="no">accepted</code> property.</p>
+<a name="accepting-further-signals"></a>
+<h3 id="accepting-further-signals">Accepting Further Signals<a class="plink" href="#accepting-further-signals" title="Direct link to this headline"></a></h3>
+<p>Many of the signals are sent multiple times to reflect various mouse events such as double clicking. To facilitate the classification of mouse clicks, the <a href="./qml-qtquick-mouseevent.htm" translate="no">MouseEvent</a> object has an <code translate="no">accepted</code> property to disable the event propagation.</p>
+<p>To learn more about QML's event system, please read the <a href="./qtqml-syntax-signals.htm" translate="no">signals and handlers, and event system</a> document.</p>
+</div>
+<!-- @@@qtquick-input-mouseevents.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

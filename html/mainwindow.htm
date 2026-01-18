@@ -1,0 +1,147 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Application Main Window | Qt Widgets</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/mainwindow.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Application Main Window</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Application Main Window</h1>
+<span class="subtitle"></span>
+<!-- $$$mainwindow.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview-of-the-main-window-classes"></a>
+<h2 id="overview-of-the-main-window-classes">Overview of the Main Window Classes<a class="plink" href="#overview-of-the-main-window-classes" title="Direct link to this headline"></a></h2>
+<p>These classes provide everything you need for a typical modern main application window, like the main window itself, menu and tool bars, a status bar, etc.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qaction.htm">QAction</a></p></td><td class="tblDescr"><p>Abstract user interface action that can be inserted into widgets</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qactiongroup.htm">QActionGroup</a></p></td><td class="tblDescr"><p>Groups actions together</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qdockwidget.htm">QDockWidget</a></p></td><td class="tblDescr"><p>Widget that can be docked inside a QMainWindow or floated as a top-level window on the desktop</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qmainwindow.htm">QMainWindow</a></p></td><td class="tblDescr"><p>Main application window</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qmdiarea.htm">QMdiArea</a></p></td><td class="tblDescr"><p>Area in which MDI windows are displayed</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qmdisubwindow.htm">QMdiSubWindow</a></p></td><td class="tblDescr"><p>Subwindow class for QMdiArea</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qmenu.htm">QMenu</a></p></td><td class="tblDescr"><p>Menu widget for use in menu bars, context menus, and other popup menus</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qmenubar.htm">QMenuBar</a></p></td><td class="tblDescr"><p>Horizontal menu bar</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qsizegrip.htm">QSizeGrip</a></p></td><td class="tblDescr"><p>Resize handle for resizing top-level windows</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qstatusbar.htm">QStatusBar</a></p></td><td class="tblDescr"><p>Horizontal bar suitable for presenting status information</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qtoolbar.htm">QToolBar</a></p></td><td class="tblDescr"><p>Movable panel that contains a set of controls</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qwidgetaction.htm">QWidgetAction</a></p></td><td class="tblDescr"><p>Extends QAction by an interface for inserting custom widgets into action based containers, such as toolbars</p></td></tr>
+</tbody></table></div>
+<a name="the-main-window-classes"></a>
+<h2 id="the-main-window-classes">The Main Window Classes<a class="plink" href="#the-main-window-classes" title="Direct link to this headline"></a></h2>
+<p>Qt provides the following classes for managing main windows and associated user interface components:</p>
+<ul>
+<li><a href="./qmainwindow.htm" translate="no">QMainWindow</a> is the central class around which applications can be built. Along with the companion <a href="./qdockwidget.htm" translate="no">QDockWidget</a> and <a href="./qtoolbar.htm" translate="no">QToolBar</a> classes, it represents the top-level user interface of the application.</li>
+<li><a href="./qdockwidget.htm" translate="no">QDockWidget</a> provides a widget that can be used to create detachable tool palettes or helper windows. Dock widgets keep track of their own properties, and they can be moved, closed, and floated as external windows.</li>
+<li><a href="./qtoolbar.htm" translate="no">QToolBar</a> provides a generic toolbar widget that can hold a number of different action-related widgets, such as buttons, drop-down menus, comboboxes, and spin boxes. The emphasis on a unified action model in Qt means that toolbars cooperate well with menus and keyboard shortcuts.</li>
+</ul>
+<a name="example-code"></a>
+<h2 id="example-code">Example Code<a class="plink" href="#example-code" title="Direct link to this headline"></a></h2>
+<p>Using <a href="./qmainwindow.htm" translate="no">QMainWindow</a> is straightforward. Generally, we subclass <a href="./qmainwindow.htm" translate="no">QMainWindow</a> and set up menus, toolbars, and dock widgets inside the <a href="./qmainwindow.htm" translate="no">QMainWindow</a> constructor.</p>
+<p>To add a menu bar to the main window, we simply create the menus, and add them to the main window's menu bar. Note that the <a href="./qmainwindow.htm#menuBar" translate="no">QMainWindow::menuBar</a>() function will automatically create the menu bar the first time it is called. You can also call <a href="./qmainwindow.htm#setMenuBar" translate="no">QMainWindow::setMenuBar</a>() to use a custom menu bar in the main window.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MainWindow<span class="operator">::</span>MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>(parent)
+{
+    ...
+    newAct <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span>(tr(<span class="string">"&amp;New"</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    newAct<span class="operator">-</span><span class="operator">&gt;</span>setShortcuts(<span class="type"><a href="./qkeysequence.htm" translate="no">QKeySequence</a></span><span class="operator">::</span>New);
+    newAct<span class="operator">-</span><span class="operator">&gt;</span>setStatusTip(tr(<span class="string">"Create a new file"</span>));
+    connect(newAct<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>newFile);
+
+    openAct <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span>(tr(<span class="string">"&amp;Open..."</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    openAct<span class="operator">-</span><span class="operator">&gt;</span>setShortcuts(<span class="type"><a href="./qkeysequence.htm" translate="no">QKeySequence</a></span><span class="operator">::</span>Open);
+    openAct<span class="operator">-</span><span class="operator">&gt;</span>setStatusTip(tr(<span class="string">"Open an existing file"</span>));
+    connect(openAct<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>open);
+    ...</pre></div>
+<p>Once actions have been created, we can add them to the main window components. To begin with, we add them to the pop-up menus:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    fileMenu <span class="operator">=</span> menuBar()<span class="operator">-</span><span class="operator">&gt;</span>addMenu(tr(<span class="string">"&amp;File"</span>));
+    fileMenu<span class="operator">-</span><span class="operator">&gt;</span>addAction(newAct);
+    fileMenu<span class="operator">-</span><span class="operator">&gt;</span>addAction(openAct);
+    ...
+    fileMenu<span class="operator">-</span><span class="operator">&gt;</span>addSeparator();
+    ...</pre></div>
+<p>The <a href="./qtoolbar.htm" translate="no">QToolBar</a> and <a href="./qmenu.htm" translate="no">QMenu</a> classes use Qt's action system to provide a consistent API. In the above code, some existing actions were added to the file menu with the <a href="./qmenu.htm#addAction" translate="no">QMenu::addAction</a>() function. <a href="./qtoolbar.htm" translate="no">QToolBar</a> also provides this function, making it easy to reuse actions in different parts of the main window. This avoids unnecessary duplication of work.</p>
+<p>We create a toolbar as a child of the main window, and add the desired actions to it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">fileToolBar <span class="operator">=</span> addToolBar(tr(<span class="string">"File"</span>));
+fileToolBar<span class="operator">-</span><span class="operator">&gt;</span>addAction(newAct);
+fileToolBar<span class="operator">-</span><span class="operator">&gt;</span>addAction(openAct);
+    ...
+fileToolbar<span class="operator">-</span><span class="operator">&gt;</span>setAllowedAreas(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>TopToolBarArea <span class="operator">|</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>BottomToolBarArea);
+addToolBar(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>TopToolBarArea<span class="operator">,</span> fileToolbar);</pre></div>
+<p>In this example, the toolbar is restricted to the top and bottom toolbar areas of the main window, and is initially placed in the top tool bar area. We can see that the actions specified by <code translate="no">newAct</code> and <code translate="no">openAct</code> will be displayed both on the toolbar and in the file menu.</p>
+<p><a href="./qdockwidget.htm" translate="no">QDockWidget</a> is used in a similar way to <a href="./qtoolbar.htm" translate="no">QToolBar</a>. We create a dock widget as a child of the main window, and add widgets as children of the dock widget:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    contentsWindow <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qdockwidget.htm" translate="no">QDockWidget</a></span>(tr(<span class="string">"Table of Contents"</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    contentsWindow<span class="operator">-</span><span class="operator">&gt;</span>setAllowedAreas(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>LeftDockWidgetArea
+                                  <span class="operator">|</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>RightDockWidgetArea);
+    addDockWidget(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>LeftDockWidgetArea<span class="operator">,</span> contentsWindow);
+
+    headingList <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlistwidget.htm" translate="no">QListWidget</a></span>(contentsWindow);
+    contentsWindow<span class="operator">-</span><span class="operator">&gt;</span>setWidget(headingList);</pre></div>
+<p>In this example, the dock widget can only be placed in the left and right dock areas, and it is initially placed in the left dock area.</p>
+<p>The <a href="./qmainwindow.htm" translate="no">QMainWindow</a> API allows the programmer to customize which dock widget areas occupy the four corners of the dock widget area. If required, the default can be changed with the <a href="./qmainwindow.htm#setCorner" translate="no">QMainWindow::setCorner</a>() function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">setCorner(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>TopLeftCorner<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>LeftDockWidgetArea);
+setCorner(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>BottomLeftCorner<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>LeftDockWidgetArea);
+setCorner(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>TopRightCorner<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>RightDockWidgetArea);
+setCorner(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>BottomRightCorner<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>RightDockWidgetArea);</pre></div>
+<p>The following diagram shows the configuration produced by the above code. Note that the left and right dock widgets will occupy the top and bottom corners of the main window in this layout.</p>
+<p class="centerAlign"><img alt="" src="./images/mainwindow-docks-example.png"></p><p>Once all of the main window components have been set up, the central widget is created and installed by using code similar to the following:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>centralWidget <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(<span class="keyword">this</span>);
+setCentralWidget(centralWidget);</pre></div>
+<p>The central widget can be any subclass of <a href="./qwidget.htm" translate="no">QWidget</a>.</p>
+</div>
+<!-- @@@mainwindow.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

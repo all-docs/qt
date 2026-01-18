@@ -1,0 +1,176 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QInAppStore | Qt Purchasing</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpurchasing-index.htm" translate="no">Qt Purchasing</a></li>
+                            <li><a href="./qtpurchasing-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QInAppStore</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QInAppStore Class</h1>
+<!-- $$$QInAppStore-brief -->
+<p>The main entry point for managing in-app purchases. <a href="#details">More...</a></p>
+<!-- @@@QInAppStore -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QInAppStore&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qobject.htm" translate="no">QObject</a></td></tr></tbody></table></div><ul>
+<li><a href="./qinappstore-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#QInAppStore" translate="no">QInAppStore</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#dtor.QInAppStore" translate="no">~QInAppStore</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#registerProduct" translate="no">registerProduct</a></b>(QInAppProduct::ProductType <i>productType</i>, const QString &amp;<i>identifier</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QInAppProduct *</td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#registeredProduct" translate="no">registeredProduct</a></b>(const QString &amp;<i>identifier</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#restorePurchases" translate="no">restorePurchases</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#setPlatformProperty" translate="no">setPlatformProperty</a></b>(const QString &amp;<i>propertyName</i>, const QString &amp;<i>value</i>)</td></tr>
+</tbody></table></div>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#productRegistered" translate="no">productRegistered</a></b>(QInAppProduct *<i>product</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#productUnknown" translate="no">productUnknown</a></b>(QInAppProduct::ProductType <i>productType</i>, const QString &amp;<i>identifier</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a></b>(QInAppTransaction *<i>transaction</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QInAppStore-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QInAppStore is used for managing in-app purchases in your application in a cross-platform way.</p>
+<a name="using-the-qinappstore"></a>
+<h3 id="using-the-qinappstore">Using the QInAppStore<a class="plink" href="#using-the-qinappstore" title="Direct link to this headline"></a></h3>
+<p>In general there are two steps to completing an in-app purchase using the API:</p>
+<a name="initialize-the-store"></a>
+<h4 id="initialize-the-store">Initialize the store<a class="plink" href="#initialize-the-store" title="Direct link to this headline"></a></h4>
+<p>Upon start-up of your application, connect all signals in QInAppStore to related slots in your own <a href="./qobject.htm" translate="no">QObject</a>. Then use the <a href="./qinappstore.htm#registerProduct" translate="no">registerProduct</a>() function to register the ID of each product you expect to find registered in the external store, as well as its type.</p>
+<p>Registering a product is asynchronous, and will at some point yield one of the following two signals: 1. <a href="./qinappstore.htm#productRegistered" translate="no">productRegistered</a>() if the product was found in the external store with a matching type. 2. <a href="./qinappstore.htm#productUnknown" translate="no">productUnknown</a>() if the product was not found in the external store with the type you specified.</p>
+<p>In addition, a <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a>() signal may be emitted for any existing transaction which has not yet been finalized. At this point, you should check if the transaction has previously been registered. If it hasn't, register it right away. Finally, call <a href="./qinapptransaction.htm#finalize" translate="no">QInAppTransaction::finalize</a>() on the transaction.</p>
+<a name="complete-a-purchase"></a>
+<h4 id="complete-a-purchase">Complete a purchase<a class="plink" href="#complete-a-purchase" title="Direct link to this headline"></a></h4>
+<p>Once the items have been successfully registered in the store, you can purchase them. Get the previously registered <a href="./qinappproduct.htm" translate="no">QInAppProduct</a> using <a href="./qinappstore.htm#registeredProduct" translate="no">registeredProduct</a>() and call <a href="./qinappproduct.htm#purchase" translate="no">QInAppProduct::purchase</a>(). This call is also asynchronous.</p>
+<p>At some point later on, the <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a>() signal will be emitted for the purchase. Check <a href="./qinapptransaction.htm#status-prop" translate="no">QInAppTransaction::status</a>() to see if the purchase was completed successfully. If it was, then you must save the information about the purchase in a safe way, so that the application can restore it later.</p>
+<p>When you are done, call <a href="./qinapptransaction.htm#finalize" translate="no">QInAppTransaction::finalize</a>(), regardless of its status. Transactions which are not finalized will be emitted again the next time your application calls <a href="./qinappstore.htm#registerProduct" translate="no">registerProduct</a>() for the same product.</p>
+<div class="admonition note">
+<p><b>Note: </b>Please mind that QInAppStore does not save the purchased state of items in the store for you. The application should store this information in a safe way upon receiving the <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a>() signal, before calling <a href="./qinapptransaction.htm#finalize" translate="no">QInAppTransaction::finalize</a>().</p>
+</div>
+<a name="types-of-purchases"></a>
+<h3 id="types-of-purchases">Types of purchases<a class="plink" href="#types-of-purchases" title="Direct link to this headline"></a></h3>
+<p>There are two types of purchases supported by QInAppStore: <a href="./qinappproduct.htm#ProductType-enum" translate="no">QInAppProduct::Consumable</a> and <a href="./qinappproduct.htm#ProductType-enum" translate="no">QInAppProduct::Unlockable</a>. The former will be consumed when the transaction is completed and <a href="./qinapptransaction.htm#finalize" translate="no">QInAppTransaction::finalize</a>() is called, meaning that it can be purchased again, any number of times. Unlockable items can only be purchased once.</p>
+<p>Consumable products are temporary and can be purchased multiple times. Examples could be a day-ticket on the bus or a magic sword in a computer game. Note that when purchasing the same product multiple times, you should call <a href="./qinapptransaction.htm#finalize" translate="no">QInAppTransaction::finalize</a>() on each transaction before you can purchase the same product again.</p>
+<p>Unlockable products are products that a user will buy once, and the purchase of these items will be persistent. It can typically be used for things like unlocking content or functionality in the application.</p>
+<a name="restoring-purchases"></a>
+<h3 id="restoring-purchases">Restoring purchases<a class="plink" href="#restoring-purchases" title="Direct link to this headline"></a></h3>
+<p>If your application has unlockable products, and does not store the purchase states of these products in a way which makes it possible to restore them when the user reinstalls the application, you should provide a way for the user to restore the purchases manually.</p>
+<p>Call the <a href="./qinappstore.htm#restorePurchases" translate="no">restorePurchases</a>() function to begin this process. Granted that the remote store supports it, you will then at some point get <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a>() for each unlockable item which has previously been purchased by the current user.</p>
+<p>Save the purchase state of each product and call <a href="./qinapptransaction.htm#finalize" translate="no">QInAppTransaction::finalize</a>() as you would for a regular purchase.</p>
+<p>Since <a href="./qinappstore.htm#restorePurchases" translate="no">restorePurchases</a>() may, on some platforms, cause the user to be prompted for their password, it should usually be called as a reaction to user input. For instance applications can have a button in the UI which will trigger <a href="./qinappstore.htm#restorePurchases" translate="no">restorePurchases</a>() and which users can hit manually if they have reinstalled the application (or installed it on a new device) and need to unlock the features that they have previously paid for.</p>
+<div class="admonition note">
+<p><b>Note: </b>This depends on support for this functionality in the remote store. If the remote store does not save the purchase state of unlockable products for you, the call will yield no <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a>() signals, as if no products have been purchased. Both the Android and OS X / iOS backends support restoring unlockable products.</p>
+</div>
+</div>
+<!-- @@@QInAppStore -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QInAppStore[overload1]$$$QInAppStoreQObject* -->
+<h3 class="fn" id="QInAppStore" translate="no"><a name="QInAppStore"></a>QInAppStore::<span class="name">QInAppStore</span>(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#QInAppStore" title="Direct link to this headline"></a></h3>
+<p>Constructs a QInAppStore with the given <i translate="no">parent</i>.</p>
+<!-- @@@QInAppStore -->
+<!-- $$$productRegistered[overload1]$$$productRegisteredQInAppProduct* -->
+<h3 class="fn" id="productRegistered" translate="no"><a name="productRegistered"></a><code translate="no">[signal] </code><span class="type">void</span> QInAppStore::<span class="name">productRegistered</span>(<span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span> *<i>product</i>)<a class="plink" href="#productRegistered" title="Direct link to this headline"></a></h3>
+<p>This signal is emitted when information about a <i translate="no">product</i> has been collected from the remote store. It is emitted as a reaction to a <a href="./qinappstore.htm#registerProduct" translate="no">registerProduct</a>() call for the same product.</p>
+<p><b>See also </b><a href="./qinappstore.htm#productUnknown" translate="no">productUnknown</a>().</p>
+<!-- @@@productRegistered -->
+<!-- $$$productUnknown[overload1]$$$productUnknownQInAppProduct::ProductTypeconstQString& -->
+<h3 class="fn" id="productUnknown" translate="no"><a name="productUnknown"></a><code translate="no">[signal] </code><span class="type">void</span> QInAppStore::<span class="name">productUnknown</span>(<span class="type"><a href="./qinappproduct.htm#ProductType-enum" translate="no">QInAppProduct::ProductType</a></span> <i>productType</i>, const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>identifier</i>)<a class="plink" href="#productUnknown" title="Direct link to this headline"></a></h3>
+<p>This signal is emitted when the product named <i translate="no">identifier</i> was registered using <a href="./qinappstore.htm#registerProduct" translate="no">registerProduct</a>() and matching information could not be provided by the remote store. The <i translate="no">productType</i> matches the product type which was originally passed to <a href="./qinappstore.htm#registerProduct" translate="no">registerProduct</a>().</p>
+<p><b>See also </b><a href="./qinappstore.htm#productRegistered" translate="no">productRegistered</a>().</p>
+<!-- @@@productUnknown -->
+<!-- $$$transactionReady[overload1]$$$transactionReadyQInAppTransaction* -->
+<h3 class="fn" id="transactionReady" translate="no"><a name="transactionReady"></a><code translate="no">[signal] </code><span class="type">void</span> QInAppStore::<span class="name">transactionReady</span>(<span class="type"><a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a></span> *<i>transaction</i>)<a class="plink" href="#transactionReady" title="Direct link to this headline"></a></h3>
+<p>This signal is emitted whenever there is a <i translate="no">transaction</i> which needs to be finalized. It is emitted either when a purchase request has been made for a product, when <a href="./qinappstore.htm#restorePurchases" translate="no">restorePurchases</a>() has been called and the product was previously purchased, or when <a href="./qinappstore.htm#registerProduct" translate="no">registerProduct</a>() was called for a product and there was a pending transaction for the product which had not yet been finalized.</p>
+<!-- @@@transactionReady -->
+<!-- $$$~QInAppStore[overload1]$$$~QInAppStore -->
+<h3 class="fn" id="dtor.QInAppStore" translate="no"><a name="dtor.QInAppStore"></a><code translate="no">[virtual] </code>QInAppStore::<span class="name">~QInAppStore</span>()<a class="plink" href="#dtor.QInAppStore" title="Direct link to this headline"></a></h3>
+<p>Destroys the <a href="./qinappstore.htm" translate="no">QInAppStore</a>.</p>
+<!-- @@@~QInAppStore -->
+<!-- $$$registerProduct[overload1]$$$registerProductQInAppProduct::ProductTypeconstQString& -->
+<h3 class="fn" id="registerProduct" translate="no"><a name="registerProduct"></a><span class="type">void</span> QInAppStore::<span class="name">registerProduct</span>(<span class="type"><a href="./qinappproduct.htm#ProductType-enum" translate="no">QInAppProduct::ProductType</a></span> <i>productType</i>, const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>identifier</i>)<a class="plink" href="#registerProduct" title="Direct link to this headline"></a></h3>
+<p>Registers a product identified by <i translate="no">identifier</i> and with the given <i translate="no">productType</i>. The <i translate="no">identifier</i> must match the identifier of the product in the remote store. If the remote store differentiates between consumable and unlockable products, the <i translate="no">productType</i> must also match this.</p>
+<p>Calling this function will asynchronously yield either a <a href="./qinappstore.htm#productRegistered" translate="no">productRegistered</a>() or a <a href="./qinappstore.htm#productUnknown" translate="no">productUnknown</a>() signal. It may also yield a <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a>() signal if there is a pending transaction for the product which has not yet been finalized.</p>
+<p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See <a href="./qobject.htm#Q_INVOKABLE" translate="no">Q_INVOKABLE</a>.</p>
+<!-- @@@registerProduct -->
+<!-- $$$registeredProduct[overload1]$$$registeredProductconstQString& -->
+<h3 class="fn" id="registeredProduct" translate="no"><a name="registeredProduct"></a><span class="type"><a href="./qinappproduct.htm" translate="no">QInAppProduct</a></span> *QInAppStore::<span class="name">registeredProduct</span>(const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>identifier</i>) const<a class="plink" href="#registeredProduct" title="Direct link to this headline"></a></h3>
+<p>Returns the previously registered product uniquely known by the <i translate="no">identifier</i>.</p>
+<p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See <a href="./qobject.htm#Q_INVOKABLE" translate="no">Q_INVOKABLE</a>.</p>
+<!-- @@@registeredProduct -->
+<!-- $$$restorePurchases[overload1]$$$restorePurchases -->
+<h3 class="fn" id="restorePurchases" translate="no"><a name="restorePurchases"></a><span class="type">void</span> QInAppStore::<span class="name">restorePurchases</span>()<a class="plink" href="#restorePurchases" title="Direct link to this headline"></a></h3>
+<p>Requests existing purchases of unlockable items and will yield a <a href="./qinappstore.htm#transactionReady" translate="no">transactionReady</a>() signal for each unlockable product that the remote store confirms have previously been purchased by the current user.</p>
+<p>This function can typically be used for restoring unlockable products when the application has been reinstalled and lost the saved purchase states.</p>
+<div class="admonition note">
+<p><b>Note: </b>Calling this function may prompt the user for their password on some platforms.</p>
+</div>
+<p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See <a href="./qobject.htm#Q_INVOKABLE" translate="no">Q_INVOKABLE</a>.</p>
+<!-- @@@restorePurchases -->
+<!-- $$$setPlatformProperty[overload1]$$$setPlatformPropertyconstQString&constQString& -->
+<h3 class="fn" id="setPlatformProperty" translate="no"><a name="setPlatformProperty"></a><span class="type">void</span> QInAppStore::<span class="name">setPlatformProperty</span>(const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>propertyName</i>, const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>value</i>)<a class="plink" href="#setPlatformProperty" title="Direct link to this headline"></a></h3>
+<p>Sets the platform specific property given by <i translate="no">propertyName</i> to <i translate="no">value</i>. This can be used to pass information to the platform implementation. The properties will be silently ignored on other platforms.</p>
+<p>Currently, the only supported platform property is "AndroidPublicKey" which is used by the Android backend to verify purchases. If it is not set, purchases will be accepted with no verification. (You can also do the verification manually by getting the signature from the <a href="./qinapptransaction.htm" translate="no">QInAppTransaction</a> object for the purchase.) For more information, see <a href="http://developer.android.com/google/play/billing/billing_integrate.html#billing-security" translate="no">the Android documentation for billing security</a>.</p>
+<p><b>Note: </b>This function can be invoked via the meta-object system and from QML. See <a href="./qobject.htm#Q_INVOKABLE" translate="no">Q_INVOKABLE</a>.</p>
+<!-- @@@setPlatformProperty -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

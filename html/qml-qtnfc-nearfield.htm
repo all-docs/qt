@@ -1,0 +1,176 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NearField QML Type | Qt NFC</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtnfc-index.htm" translate="no">Qt NFC</a></li>
+                            <li><a href="./qtnfc-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>NearField QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">NearField QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$NearField-brief -->
+<p>Provides access to NDEF messages stored on NFC Forum tags. <a href="#details">More...</a></p>
+<!-- @@@NearField -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtNfc 5.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.2</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtnfc-nearfield-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtnfc-nearfield.htm#filter-prop" translate="no">filter</a></b></b> : list&lt;NdefFilter&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtnfc-nearfield.htm#messageRecords-prop" translate="no">messageRecords</a></b></b> : list&lt;NdefRecord&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtnfc-nearfield.htm#orderMatch-prop" translate="no">orderMatch</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtnfc-nearfield.htm#polling-prop" translate="no">polling</a></b></b> : bool</li>
+</ul>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtnfc-nearfield.htm#tagFound-signal" translate="no">tagFound</a></b></b>()</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtnfc-nearfield.htm#tagRemoved-signal" translate="no">tagRemoved</a></b></b>()</li>
+</ul>
+<!-- $$$NearField-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The NearField type can be used to read NDEF messages from NFC Forum tags. Set the <a href="./qml-qtnfc-nearfield.htm#filter-prop" translate="no">filter</a> and <a href="./qml-qtnfc-nearfield.htm#orderMatch-prop" translate="no">orderMatch</a> properties to match the required NDEF messages. Once an NDEF message is successfully read from a tag the <a href="./qml-qtnfc-nearfield.htm#messageRecords-prop" translate="no">messageRecords</a> property is updated.</p>
+<div class="admonition note">
+<p><b>Note: </b>For platforms using neard, filtering is currently not implemented. For more information on neard see <a href="./qnearfieldmanager.htm" translate="no">QNearFieldManager</a>.</p>
+</div>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtnfc-nearfield.htm" translate="no">NearField</a></span> {
+        <span class="name">filter</span>: [ <span class="type"><a href="./qml-qtnfc-ndeffilter.htm" translate="no">NdefFilter</a></span> { <span class="name">type</span>: <span class="string">"U"</span>; <span class="name">typeNameFormat</span>: <span class="name">NdefRecord</span>.<span class="name">NfcRtd</span>; <span class="name">minimum</span>: <span class="number">1</span>; <span class="name">maximum</span>: <span class="number">1</span> } ]
+        <span class="name">orderMatch</span>: <span class="number">false</span>
+
+        <span class="name">onMessageRecordsChanged</span>: <span class="name">displayMessage</span>()
+    }</pre></div>
+<p><b>See also </b><a href="./qml-qtnfc-ndeffilter.htm" translate="no">NdefFilter</a>, <a href="./qml-qtnfc-ndefrecord.htm" translate="no">NdefRecord</a>, <a href="./qnearfieldmanager.htm" translate="no">QNearFieldManager</a>, <a href="./qndefmessage.htm" translate="no">QNdefMessage</a>, and <a href="./qndefrecord.htm" translate="no">QNdefRecord</a>.</p>
+<!-- @@@NearField -->
+<h2>Property Documentation</h2>
+<!-- $$$filter -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="filter-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="filter-prop"></a><span class="name">filter</span> : <span class="type">list</span>&lt;<span class="type"><a href="./qml-qtnfc-ndeffilter.htm" translate="no">NdefFilter</a></span>&gt;<a class="plink" href="#filter-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the NDEF filter constraints. The <a href="./qml-qtnfc-nearfield.htm#messageRecords-prop" translate="no">messageRecords</a> property will only be set to NDEF messages which match the filter. If no filter is set, a message handler for all NDEF messages will be registered.</p>
+<div class="admonition note">
+<p><b>Note: </b>Filtering is not supported when using neard.</p>
+</div>
+<p><a href="./qnearfieldmanager.htm#registerNdefMessageHandler" translate="no">QNearFieldManager::registerNdefMessageHandler()</a></p>
+</div></div><!-- @@@filter -->
+<br>
+<!-- $$$messageRecords -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="messageRecords-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="messageRecords-prop"></a><span class="name">messageRecords</span> : <span class="type">list</span>&lt;<span class="type"><a href="./qml-qtnfc-ndefrecord.htm" translate="no">NdefRecord</a></span>&gt;<a class="plink" href="#messageRecords-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property contains the list of NDEF records in the last NDEF message read.</p>
+</div></div><!-- @@@messageRecords -->
+<br>
+<!-- $$$orderMatch -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="orderMatch-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="orderMatch-prop"></a><span class="name">orderMatch</span> : <span class="type">bool</span><a class="plink" href="#orderMatch-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property indicates whether the order of records should be taken into account when matching messages. This is not supported when using neard.</p>
+<p>The default of orderMatch is false.</p>
+</div></div><!-- @@@orderMatch -->
+<br>
+<!-- $$$polling -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="polling-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="polling-prop"></a><span class="name">polling</span> : <span class="type">bool</span><a class="plink" href="#polling-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property indicates if the underlying adapter is currently in polling state. If set to <code translate="no">true</code> the adapter will start polling and stop polling if set to <code translate="no">false</code>.</p>
+<div class="admonition note">
+<p><b>Note: </b>On platforms using neard, the adapter will stop polling as soon as a tag has been detected. For more information see <a href="./qnearfieldmanager.htm" translate="no">QNearFieldManager</a>.</p>
+</div>
+<p>This property was introduced in Qt 5.5.</p>
+</div></div><!-- @@@polling -->
+<br>
+<h2>Signal Documentation</h2>
+<!-- $$$tagFound[overload1]$$$tagFound -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="tagFound-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="tagFound-signal"></a><span class="name">tagFound</span>()<a class="plink" href="#tagFound-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal will be emitted when a tag has been detected.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onTagFound</code>.</p>
+<p>This signal was introduced in Qt 5.5.</p>
+</div></div><!-- @@@tagFound -->
+<br>
+<!-- $$$tagRemoved[overload1]$$$tagRemoved -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="tagRemoved-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="tagRemoved-signal"></a><span class="name">tagRemoved</span>()<a class="plink" href="#tagRemoved-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal will be emitted when a tag has been removed.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onTagRemoved</code>.</p>
+<p>This signal was introduced in Qt 5.5.</p>
+</div></div><!-- @@@tagRemoved -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

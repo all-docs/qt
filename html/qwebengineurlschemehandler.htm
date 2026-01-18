@@ -1,0 +1,138 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QWebEngineUrlSchemeHandler | Qt WebEngine</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qwebengineurlschemehandler.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a></li>
+                            <li><a href="./qtwebengine-modules.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QWebEngineUrlSchemeHandler</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QWebEngineUrlSchemeHandler Class</h1>
+<!-- $$$QWebEngineUrlSchemeHandler-brief -->
+<p>The QWebEngineUrlSchemeHandler class is a base class for handling custom URL schemes. <a href="#details">More...</a></p>
+<!-- @@@QWebEngineUrlSchemeHandler -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QWebEngineUrlSchemeHandler&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.6</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qobject.htm" translate="no">QObject</a></td></tr></tbody></table></div><p>This class was introduced in Qt 5.6.</p>
+<ul>
+<li><a href="./qwebengineurlschemehandler-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlschemehandler.htm#QWebEngineUrlSchemeHandler" translate="no">QWebEngineUrlSchemeHandler</a></b>(QObject *<i>parent</i> = Q_NULLPTR)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlschemehandler.htm#dtor.QWebEngineUrlSchemeHandler" translate="no">~QWebEngineUrlSchemeHandler</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlschemehandler.htm#requestStarted" translate="no">requestStarted</a></b>(QWebEngineUrlRequestJob *<i>request</i>) = 0</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QWebEngineUrlSchemeHandler-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>To implement a custom URL scheme for <a href="./qtwebengine-module.htm" translate="no">QtWebEngine</a>, you first have to create an instance of <a href="./qwebengineurlscheme.htm" translate="no">QWebEngineUrlScheme</a> and register it using <a href="./qwebengineurlscheme.htm#registerScheme" translate="no">QWebEngineUrlScheme::registerScheme</a>().</p>
+<div class="admonition note">
+<p><b>Note: </b>Make sure that you create and register the scheme object <i>before</i> the <a href="./qguiapplication.htm" translate="no">QGuiApplication</a> or <a href="./qapplication.htm" translate="no">QApplication</a> object is instantiated.</p>
+</div>
+<p>Then you must create a class derived from QWebEngineUrlSchemeHandler, and reimplement the <a href="./qwebengineurlschemehandler.htm#requestStarted" translate="no">requestStarted</a>() method.</p>
+<p>Finally, install the scheme handler object via QWebEngineProfile::installUrlSchemeHandler() or <a href="./qquickwebengineprofile.htm#installUrlSchemeHandler" translate="no">QQuickWebEngineProfile::installUrlSchemeHandler</a>().</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MySchemeHandler : <span class="keyword">public</span> <span class="type"><a href="./qwebengineurlschemehandler.htm#QWebEngineUrlSchemeHandler" translate="no">QWebEngineUrlSchemeHandler</a></span>
+{
+<span class="keyword">public</span>:
+    MySchemeHandler(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    <span class="type">void</span> requestStarted(<span class="type"><a href="./qwebengineurlrequestjob.htm" translate="no">QWebEngineUrlRequestJob</a></span> <span class="operator">*</span>request)
+    {
+        <span class="comment">// ....</span>
+    }
+};
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span><span class="operator">*</span>argv)
+{
+    <span class="type"><a href="./qwebengineurlscheme.htm" translate="no">QWebEngineUrlScheme</a></span> scheme(<span class="string">"myscheme"</span>);
+    scheme<span class="operator">.</span>setSyntax(<span class="type"><a href="./qwebengineurlscheme.htm" translate="no">QWebEngineUrlScheme</a></span><span class="operator">::</span>Syntax<span class="operator">::</span>HostAndPort);
+    scheme<span class="operator">.</span>setDefaultPort(<span class="number">2345</span>);
+    scheme<span class="operator">.</span>setFlags(<span class="type"><a href="./qwebengineurlscheme.htm" translate="no">QWebEngineUrlScheme</a></span><span class="operator">::</span>SecureScheme);
+    <span class="type"><a href="./qwebengineurlscheme.htm" translate="no">QWebEngineUrlScheme</a></span><span class="operator">::</span>registerScheme(scheme);
+
+    <span class="comment">// ...</span>
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    <span class="comment">// ...</span>
+
+    <span class="comment">// installUrlSchemeHandler does not take ownership of the handler.</span>
+    MySchemeHandler <span class="operator">*</span>handler <span class="operator">=</span> <span class="keyword">new</span> MySchemeHandler(parent);
+    <span class="type"><a href="./qwebengineprofile.htm" translate="no">QWebEngineProfile</a></span><span class="operator">::</span>defaultProfile()<span class="operator">-</span><span class="operator">&gt;</span>installUrlSchemeHandler(<span class="string">"myscheme"</span><span class="operator">,</span> handler);
+}</pre></div>
+</div>
+<p><b>See also </b><a href="./qwebengineurlscheme.htm" translate="no">QWebEngineUrlScheme</a> and <a href="./qtwebengine-webenginewidgets-webui-example.htm" translate="no">WebEngine Widgets WebUI Example</a>.</p>
+<!-- @@@QWebEngineUrlSchemeHandler -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QWebEngineUrlSchemeHandler[overload1]$$$QWebEngineUrlSchemeHandlerQObject* -->
+<h3 class="fn" id="QWebEngineUrlSchemeHandler" translate="no"><a name="QWebEngineUrlSchemeHandler"></a>QWebEngineUrlSchemeHandler::<span class="name">QWebEngineUrlSchemeHandler</span>(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> *<i>parent</i> = Q_NULLPTR)<a class="plink" href="#QWebEngineUrlSchemeHandler" title="Direct link to this headline"></a></h3>
+<p>Constructs a new URL scheme handler.</p>
+<p>The handler is created with the parent <i translate="no">parent</i>.</p>
+<!-- @@@QWebEngineUrlSchemeHandler -->
+<!-- $$$~QWebEngineUrlSchemeHandler[overload1]$$$~QWebEngineUrlSchemeHandler -->
+<h3 class="fn" id="dtor.QWebEngineUrlSchemeHandler" translate="no"><a name="dtor.QWebEngineUrlSchemeHandler"></a><code translate="no">[virtual] </code>QWebEngineUrlSchemeHandler::<span class="name">~QWebEngineUrlSchemeHandler</span>()<a class="plink" href="#dtor.QWebEngineUrlSchemeHandler" title="Direct link to this headline"></a></h3>
+<p>Deletes a custom URL scheme handler.</p>
+<!-- @@@~QWebEngineUrlSchemeHandler -->
+<!-- $$$requestStarted[overload1]$$$requestStartedQWebEngineUrlRequestJob* -->
+<h3 class="fn" id="requestStarted" translate="no"><a name="requestStarted"></a><code translate="no">[pure virtual] </code><span class="type">void</span> QWebEngineUrlSchemeHandler::<span class="name">requestStarted</span>(<span class="type"><a href="./qwebengineurlrequestjob.htm" translate="no">QWebEngineUrlRequestJob</a></span> *<i>request</i>)<a class="plink" href="#requestStarted" title="Direct link to this headline"></a></h3>
+<p>This method is called whenever a request <i translate="no">request</i> for the registered scheme is started.</p>
+<p>This method must be reimplemented by all custom URL scheme handlers. The request is asynchronous and does not need to be handled right away.</p>
+<p><b>See also </b><a href="./qwebengineurlrequestjob.htm" translate="no">QWebEngineUrlRequestJob</a>.</p>
+<!-- @@@requestStarted -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

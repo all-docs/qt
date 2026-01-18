@@ -1,0 +1,182 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt OPC UA X509 Support Example | Qt OPC UA</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtopcua-x509-main-cpp.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtopcua-index.htm" translate="no">Qt OPC UA</a></li>
+                            <li><a href="./qtopcua-examples.htm" translate="no">Qt OPC UA Examples</a></li>
+                            <li><a>Qt OPC UA X509 Support Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt OPC UA X509 Support Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2019 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt OPC UA module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include &lt;QOpcUaProvider&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaKeyPair&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaX509CertificateSigningRequest&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaX509ExtensionSubjectAlternativeName&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaX509ExtensionBasicConstraints&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaX509ExtensionKeyUsage&gt;</span>
+<span class="preprocessor">#include &lt;QFile&gt;</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span><span class="operator">*</span>argv)
+{
+    Q_UNUSED(argc);
+    Q_UNUSED(argv);
+
+    <span class="comment">// Generate RSA Key</span>
+    <span class="type"><a href="./qopcuakeypair.htm" translate="no">QOpcUaKeyPair</a></span> key;
+    key<span class="operator">.</span>generateRsaKey(<span class="type"><a href="./qopcuakeypair.htm" translate="no">QOpcUaKeyPair</a></span><span class="operator">::</span>RsaKeyStrength<span class="operator">::</span>Bits1024);
+
+    <span class="comment">// Save private key to file</span>
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> keyData <span class="operator">=</span> key<span class="operator">.</span>privateKeyToByteArray(<span class="type"><a href="./qopcuakeypair.htm" translate="no">QOpcUaKeyPair</a></span><span class="operator">::</span>Cipher<span class="operator">::</span>Aes128Cbc<span class="operator">,</span> <span class="string">"password"</span>);
+
+    <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> keyFile(<span class="string">"privateKey.pem"</span>);
+    keyFile<span class="operator">.</span>open(<span class="type"><a href="./qfile.htm" translate="no">QFile</a></span><span class="operator">::</span>WriteOnly);
+    keyFile<span class="operator">.</span>write(keyData);
+    keyFile<span class="operator">.</span>close();
+
+    <span class="comment">// Create a certificate signing request</span>
+    QOpcUaX509CertificateSigningRequest csr;
+
+    <span class="comment">// Set the subject of the certificate</span>
+    QOpcUaX509DistinguishedName dn;
+    dn<span class="operator">.</span>setEntry(QOpcUaX509DistinguishedName<span class="operator">::</span>Type<span class="operator">::</span>CommonName<span class="operator">,</span> <span class="string">"QtOpcUaViewer"</span>);
+    dn<span class="operator">.</span>setEntry(QOpcUaX509DistinguishedName<span class="operator">::</span>Type<span class="operator">::</span>CountryName<span class="operator">,</span> <span class="string">"DE"</span>);
+    dn<span class="operator">.</span>setEntry(QOpcUaX509DistinguishedName<span class="operator">::</span>Type<span class="operator">::</span>LocalityName<span class="operator">,</span> <span class="string">"Berlin"</span>);
+    dn<span class="operator">.</span>setEntry(QOpcUaX509DistinguishedName<span class="operator">::</span>Type<span class="operator">::</span>StateOrProvinceName<span class="operator">,</span> <span class="string">"Berlin"</span>);
+    dn<span class="operator">.</span>setEntry(QOpcUaX509DistinguishedName<span class="operator">::</span>Type<span class="operator">::</span>OrganizationName<span class="operator">,</span> <span class="string">"The Qt Company"</span>);
+    csr<span class="operator">.</span>setSubject(dn);
+
+    <span class="comment">// The subject alternative name extension is needed for OPC UA</span>
+    QOpcUaX509ExtensionSubjectAlternativeName <span class="operator">*</span>san <span class="operator">=</span> <span class="keyword">new</span> QOpcUaX509ExtensionSubjectAlternativeName;
+    san<span class="operator">-</span><span class="operator">&gt;</span>addEntry(QOpcUaX509ExtensionSubjectAlternativeName<span class="operator">::</span>Type<span class="operator">::</span>DNS<span class="operator">,</span> <span class="string">"foo.com"</span>);
+    san<span class="operator">-</span><span class="operator">&gt;</span>addEntry(QOpcUaX509ExtensionSubjectAlternativeName<span class="operator">::</span>Type<span class="operator">::</span>URI<span class="operator">,</span> <span class="string">"urn:foo.com:The%20Qt%20Company:QtOpcUaViewer"</span>);
+    san<span class="operator">-</span><span class="operator">&gt;</span>setCritical(<span class="keyword">true</span>);
+    csr<span class="operator">.</span>addExtension(san);
+
+    <span class="comment">// Set the certificate basic constraints</span>
+    QOpcUaX509ExtensionBasicConstraints <span class="operator">*</span>bc <span class="operator">=</span> <span class="keyword">new</span> QOpcUaX509ExtensionBasicConstraints;
+    bc<span class="operator">-</span><span class="operator">&gt;</span>setCa(<span class="keyword">false</span>);
+    bc<span class="operator">-</span><span class="operator">&gt;</span>setCritical(<span class="keyword">true</span>);
+    csr<span class="operator">.</span>addExtension(bc);
+
+    <span class="comment">// Set the key usage constraints</span>
+    QOpcUaX509ExtensionKeyUsage <span class="operator">*</span>ku <span class="operator">=</span> <span class="keyword">new</span> QOpcUaX509ExtensionKeyUsage;
+    ku<span class="operator">-</span><span class="operator">&gt;</span>setCritical(<span class="keyword">true</span>);
+    ku<span class="operator">-</span><span class="operator">&gt;</span>setKeyUsage(QOpcUaX509ExtensionKeyUsage<span class="operator">::</span>KeyUsage<span class="operator">::</span>DigitalSignature);
+    ku<span class="operator">-</span><span class="operator">&gt;</span>setKeyUsage(QOpcUaX509ExtensionKeyUsage<span class="operator">::</span>KeyUsage<span class="operator">::</span>NonRepudiation);
+    ku<span class="operator">-</span><span class="operator">&gt;</span>setKeyUsage(QOpcUaX509ExtensionKeyUsage<span class="operator">::</span>KeyUsage<span class="operator">::</span>KeyEncipherment);
+    ku<span class="operator">-</span><span class="operator">&gt;</span>setKeyUsage(QOpcUaX509ExtensionKeyUsage<span class="operator">::</span>KeyUsage<span class="operator">::</span>DataEncipherment);
+    ku<span class="operator">-</span><span class="operator">&gt;</span>setKeyUsage(QOpcUaX509ExtensionKeyUsage<span class="operator">::</span>KeyUsage<span class="operator">::</span>CertificateSigning);
+    csr<span class="operator">.</span>addExtension(ku);
+
+    <span class="comment">// Now there are two options:</span>
+    <span class="comment">// 1. When you need to get your certificate signing request signed by a certificate authority</span>
+    <span class="comment">//    you have to use the request data.</span>
+    <span class="comment">// 2. When there is no certificate authority you have to self-sign the request.</span>
+
+    <span class="comment">// Option 1</span>
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> certificateSigingRequestData <span class="operator">=</span> csr<span class="operator">.</span>createRequest(key);
+
+    <span class="comment">// Option 2</span>
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> selfSignedCertificateData <span class="operator">=</span> csr<span class="operator">.</span>createSelfSignedCertificate(key);
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

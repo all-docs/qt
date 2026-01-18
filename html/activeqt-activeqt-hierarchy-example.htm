@@ -1,0 +1,215 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hierarchy Example (ActiveQt) | Active Qt</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./activeqt-index.htm" translate="no">Active Qt</a></li>
+                            <li><a>Hierarchy Example (ActiveQt)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Hierarchy Example (ActiveQt)</h1>
+<span class="subtitle"></span>
+<!-- $$$activeqt/hierarchy-brief -->
+<p>The Hierarchy example is shows how to write an in-process ActiveX control. The control is a <a href="./qwidget.htm" translate="no">QWidget</a> subclass with child widgets that are accessible as sub-types.</p>
+<!-- @@@activeqt/hierarchy -->
+<!-- $$$activeqt/hierarchy-description -->
+<div class="descr"> <a name="details"></a>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> <span class="type">QParentWidget</span> : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+    Q_CLASSINFO(<span class="string">"ClassID"</span><span class="operator">,</span> <span class="string">"{d574a747-8016-46db-a07c-b2b4854ee75c}"</span>);
+    Q_CLASSINFO(<span class="string">"InterfaceID"</span><span class="operator">,</span> <span class="string">"{4a30719d-d9c2-4659-9d16-67378209f822}"</span>);
+    Q_CLASSINFO(<span class="string">"EventsID"</span><span class="operator">,</span> <span class="string">"{4a30719d-d9c2-4659-9d16-67378209f823}"</span>);
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> <span class="type">QParentWidget</span>(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> sizeHint() <span class="keyword">const</span> override;
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> createSubWidget(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name);
+
+    <span class="type">QSubWidget</span> <span class="operator">*</span>subWidget(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>m_vbox;
+};</pre></div>
+<p>The <code translate="no">QParentWidget</code> class provides slots to create a widget with a name, and to return a pointer to a named widget. The class declaration uses <code translate="no">Q_CLASSINFO()</code> to provide the COM identifiers for this class.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">QParentWidget</span><span class="operator">::</span><span class="type">QParentWidget</span>(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+: <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)<span class="operator">,</span>
+  m_vbox(<span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>(<span class="keyword">this</span>))
+{
+}</pre></div>
+<p>The constructor of <code translate="no">QParentWidget</code> creates a vertical box layout. New child widgets are automatically added to the layout.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> <span class="type">QParentWidget</span><span class="operator">::</span>createSubWidget(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name)
+{
+    <span class="type">QSubWidget</span> <span class="operator">*</span>sw <span class="operator">=</span> <span class="keyword">new</span> <span class="type">QSubWidget</span>(<span class="keyword">this</span><span class="operator">,</span> name);
+    m_vbox<span class="operator">-</span><span class="operator">&gt;</span>addWidget(sw);
+    sw<span class="operator">-</span><span class="operator">&gt;</span>setLabel(name);
+    sw<span class="operator">-</span><span class="operator">&gt;</span>show();
+}</pre></div>
+<p>The <code translate="no">createSubWidget</code> slot creates a new <code translate="no">QSubWidget</code> with the name provided in the parameter, and sets the label to that name. The widget is also shown explicitly.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">QSubWidget</span> <span class="operator">*</span><span class="type">QParentWidget</span><span class="operator">::</span>subWidget(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name)
+{
+    <span class="keyword">return</span> findChild<span class="operator">&lt;</span><span class="type">QSubWidget</span> <span class="operator">*</span><span class="operator">&gt;</span>(name);
+}</pre></div>
+<p>The <code translate="no">subWidget</code> slot uses the <code translate="no">QObject::findChild()</code> function and returns the first child of type <code translate="no">QSubWidget</code> that has the requested name.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> <span class="type">QSubWidget</span> : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> label READ label WRITE setLabel)
+
+    Q_CLASSINFO(<span class="string">"ClassID"</span><span class="operator">,</span> <span class="string">"{850652f4-8f71-4f69-b745-bce241ccdc30}"</span>);
+    Q_CLASSINFO(<span class="string">"InterfaceID"</span><span class="operator">,</span> <span class="string">"{2d76cc2f-3488-417a-83d6-debff88b3c3f}"</span>);
+    Q_CLASSINFO(<span class="string">"ToSuperClass"</span><span class="operator">,</span> <span class="string">"QSubWidget"</span>);
+
+<span class="keyword">public</span>:
+    <span class="type">QSubWidget</span>(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>());
+
+    <span class="type">void</span> setLabel(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text);
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> label() <span class="keyword">const</span>;
+
+    <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> sizeHint() <span class="keyword">const</span> override;
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>e) override;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> m_label;
+};</pre></div>
+<p>The <code translate="no">QSubWidget</code> class has a single string-property <code translate="no">label</code>, and implements the paintEvent to draw the label. The class uses again <code translate="no">Q_CLASSINFO</code> to provide the COM identifiers, and also sets the <i>ToSuperClass</i> attribute to <i>QSubWidget</i>, to ensure that only no slots of any superclasses (i.e. <a href="./qwidget.htm" translate="no">QWidget</a>) are exposed.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">QSubWidget</span><span class="operator">::</span><span class="type">QSubWidget</span>(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name)
+: <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+{
+    setObjectName(name);
+}
+
+<span class="type">void</span> <span class="type">QSubWidget</span><span class="operator">::</span>setLabel(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text)
+{
+    m_label <span class="operator">=</span> text;
+    setObjectName(text);
+    update();
+}
+
+<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="type">QSubWidget</span><span class="operator">::</span>label() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> m_label;
+}
+
+<span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> <span class="type">QSubWidget</span><span class="operator">::</span>sizeHint() <span class="keyword">const</span>
+{
+    <span class="type"><a href="./qfontmetrics.htm" translate="no">QFontMetrics</a></span> fm(font());
+    <span class="keyword">return</span> <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span>(fm<span class="operator">.</span>horizontalAdvance(m_label)<span class="operator">,</span> fm<span class="operator">.</span>height());
+}
+
+<span class="type">void</span> <span class="type">QSubWidget</span><span class="operator">::</span>paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>)
+{
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter(<span class="keyword">this</span>);
+    painter<span class="operator">.</span>setPen(palette()<span class="operator">.</span>text()<span class="operator">.</span>color());
+    painter<span class="operator">.</span>drawText(rect()<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignCenter<span class="operator">,</span> m_label);
+}</pre></div>
+<p>The implementation of the <code translate="no">QSubWidget</code> class is self-explanatory.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "objects.h"</span>
+<span class="preprocessor">#include &lt;QAxFactory&gt;</span>
+
+QAXFACTORY_BEGIN(<span class="string">"{9e626211-be62-4d18-9483-9419358fbb03}"</span><span class="operator">,</span> <span class="string">"{75c276de-1df5-451f-a004-e4fa1a587df1}"</span>)
+    QAXCLASS(<span class="type">QParentWidget</span>)
+    QAXTYPE(<span class="type">QSubWidget</span>)
+QAXFACTORY_END()</pre></div>
+<p>The classes are then exported using a <a href="./qaxfactory.htm" translate="no">QAxFactory</a>. <code translate="no">QParentWidget</code> is exported as a full class (which can be created ), while <code translate="no">QSubWidget</code> is only exported as a type, which can only be created indirectly through APIs of <code translate="no">QParentWidget</code>.</p>
+<p>To build the example you must first build the <a href="./qaxserver-module.htm" translate="no">QAxServer</a> library. Then run qmake and your make tool in <code translate="no">activeqt/hierarchy</code>.</p>
+<p>The <a href="./qaxserver-demo-hierarchy.htm" translate="no">demonstration</a> requires your WebBrowser to support ActiveX controls, and scripting to be enabled.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">&lt;</span>script language<span class="operator">=</span><span class="string">"javascript"</span><span class="operator">&gt;</span>
+function createSubWidget( form )
+{
+    ParentWidget<span class="operator">.</span>createSubWidget( form<span class="operator">.</span>nameEdit<span class="operator">.</span>value );
+}
+
+function renameSubWidget( form )
+{
+    var SubWidget <span class="operator">=</span> ParentWidget<span class="operator">.</span>subWidget( form<span class="operator">.</span>nameEdit<span class="operator">.</span>value );
+    <span class="keyword">if</span> ( <span class="operator">!</span>SubWidget ) {
+        alert( <span class="string">"No such widget "</span> <span class="operator">+</span> form<span class="operator">.</span>nameEdit<span class="operator">.</span>value <span class="operator">+</span> <span class="string">"!"</span> );
+        <span class="keyword">return</span>;
+    }
+    SubWidget<span class="operator">.</span>label <span class="operator">=</span> form<span class="operator">.</span>labelEdit<span class="operator">.</span>value;
+    form<span class="operator">.</span>nameEdit<span class="operator">.</span>value <span class="operator">=</span> SubWidget<span class="operator">.</span>label;
+}
+
+function setFont( form )
+{
+    ParentWidget<span class="operator">.</span>font <span class="operator">=</span> form<span class="operator">.</span>fontEdit<span class="operator">.</span>value;
+}
+<span class="operator">&lt;</span><span class="operator">/</span>script<span class="operator">&gt;</span>
+
+<span class="operator">&lt;</span>p<span class="operator">&gt;</span>
+This widget can have many children<span class="operator">!</span>
+<span class="operator">&lt;</span><span class="operator">/</span>p<span class="operator">&gt;</span>
+<span class="operator">&lt;</span>object ID<span class="operator">=</span><span class="string">"ParentWidget"</span> CLASSID<span class="operator">=</span><span class="string">"CLSID:d574a747-8016-46db-a07c-b2b4854ee75c"</span>
+CODEBASE<span class="operator">=</span><span class="string">"http://www.qt-project.org/demos/hierarchy.cab"</span><span class="operator">&gt;</span>
+<span class="operator">[</span>Object <span class="keyword">not</span> available<span class="operator">!</span> Did you forget to build and <span class="keyword">register</span> the server<span class="operator">?</span><span class="operator">]</span>
+<span class="operator">&lt;</span><span class="operator">/</span>object<span class="operator">&gt;</span><span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>form<span class="operator">&gt;</span>
+<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"edit"</span> ID<span class="operator">=</span><span class="string">"nameEdit"</span> value<span class="operator">=</span><span class="string">"&amp;lt;enter object name&amp;gt;"</span> <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"button"</span> value<span class="operator">=</span><span class="string">"Create"</span> onClick<span class="operator">=</span><span class="string">"createSubWidget(this.form)"</span> <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"edit"</span> ID<span class="operator">=</span><span class="string">"labelEdit"</span> <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"button"</span> value<span class="operator">=</span><span class="string">"Rename"</span> onClick<span class="operator">=</span><span class="string">"renameSubWidget(this.form)"</span> <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>br <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"edit"</span> ID<span class="operator">=</span><span class="string">"fontEdit"</span> value<span class="operator">=</span><span class="string">"MS Sans Serif"</span> <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span>input type<span class="operator">=</span><span class="string">"button"</span> value <span class="operator">=</span> <span class="string">"Set Font"</span> onClick<span class="operator">=</span><span class="string">"setFont(this.form)"</span> <span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span><span class="operator">/</span>form<span class="operator">&gt;</span></pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtactiveqt.git/tree/examples/activeqt/hierarchy?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@activeqt/hierarchy -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

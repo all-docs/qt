@@ -1,0 +1,119 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Text Editor Guide</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Text Editor Guide</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qtquickcontrols-texteditor-ui.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qtquickcontrols-texteditor-ui.htm">Qt Quick Text Editor Guide - UI</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Qt Quick Text Editor Guide</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquickcontrols-texteditor.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="application-design"></a>
+<h2 id="application-design">Application Design<a class="plink" href="#application-design" title="Direct link to this headline"></a></h2>
+<p>The <i>Text Editor</i> example is a simple example of creating an application with Qt. Specifically, the example uses QML to set up the user interface, C++ to implement the file operations, and the Qt tools to manage the project files and build environment.</p>
+<p>We will use Qt Quick Designer to add QML controls onto our application and set up the controls and resources. We will also implement the logic and connect the user interface to a C++ backend that will handle the saving and loading of text files.</p>
+<p>This guide assumes that you have downloaded Qt and are able to install, open, and run the basic examples found in Qt Creator's <b translate="no">Welcome Mode</b>. If not, here are the pages that will help you:</p>
+<ul>
+<li><a href="./gettingstarted.htm" translate="no">Getting Started with Qt</a></li>
+</ul>
+<p>The guide attempts to be self-contained but will refer to topics in the Qt reference documentation. Feel free to click on the links, but it is not necessary to leave the guide to find the information necessary to develop the application.</p>
+<p>The files are part of the Qt package and are available when searched for <b translate="no">Qt Quick Text Editor</b> in Qt Creator's <b translate="no">Welcome mode</b>. All files used in the application are listed for viewing in the <a href="./qtquickcontrols1-texteditor-example.htm" translate="no">Qt Quick Controls 1 - Text Editor Example</a> page.</p>
+<a name="setting-up-the-environment-and-project"></a>
+<h2 id="setting-up-the-environment-and-project">Setting Up the Environment and Project<a class="plink" href="#setting-up-the-environment-and-project" title="Direct link to this headline"></a></h2>
+<p>We can start by creating the project in Qt Creator. Our application has the name <i>Text Editor</i> and it is a Qt Quick Application. Qt Creator has a wizard that can create the project for you.</p>
+<ol class="1" type="1"><li>Select <b translate="no">File</b> &gt; <b translate="no">New File or Project</b> &gt; <b translate="no">Applications</b> &gt; <b translate="no">Qt Quick Application</b> &gt; <b translate="no">Choose</b>.</li>
+<li>In the <b translate="no">Name</b> field, enter <b translate="no">TextEditor</b> and select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Qt Quick component set</b> field, select <b translate="no">Qt Quick Controls 1.2</b> &gt; <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Kit Selection</b> page, select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Summary</b> page, select <b translate="no">Finish</b>.</li>
+</ol>
+<p>The wizard creates the project and you can run it by clicking on the run button, <img alt="" src="./images/qtcreator-run.png"> . The application is an empty shell but it contains the basic window and layout on which we can build. Make sure that you can run the basic application and if not, make sure that your build environment and Qt version are configured.</p>
+<a name="project-files"></a>
+<h3 id="project-files">Project Files<a class="plink" href="#project-files" title="Direct link to this headline"></a></h3>
+<p>The wizard creates the project files used to build the project. To view them, select the <b translate="no">Edit mode</b>. The following project files are modified later in the guide:</p>
+<ul>
+<li><b translate="no">TextEdit.pro</b> - the project file used to create the build files. Also sets the paths that are visible to the project.</li>
+<li><b translate="no">Sources</b> - contains the C++ implementation files (<code translate="no">.cpp</code>).</li>
+<li><b translate="no">Resources</b> - contains a resource file that configures the application assets and how the application resolves the location of the assets. The QML file is also found here.</li>
+<li><b translate="no">Headers</b> - contains the C++ header files (<code translate="no">.h</code>). The default project does not have any header files, therefore this is not visible.</li>
+</ul>
+<a name="resource-files"></a>
+<h3 id="resource-files">Resource Files<a class="plink" href="#resource-files" title="Direct link to this headline"></a></h3>
+<p>The text editor uses several icons to represent various actions. The icons are in the <i>images</i> directory which is directly under the <i>TextEditor</i> project directory. The images as well as the project files are also listed in the reference documentation on the <a href="./qtquickcontrols1-texteditor-example.htm" translate="no">Qt Quick Controls 1 - Text Editor Example</a> page.</p>
+<p>We first need to register the image files into the project's resource file, <i>qml.qrc</i>. The resource files compact the images into the binary packages. The resource files provide a streamlined directory structure, which is cross-platform. It is beneficial especially on mobile platforms, where each platform manages the application resources differently.</p>
+<ul>
+<li>To register the image files, in the <b translate="no">Edit</b> mode, right-click the <i>qml.qrc</i> file and select <b translate="no">Open in Editor</b>.</li>
+<li>Click the <b translate="no">Add</b> button and select <b translate="no">Add Files</b>.</li>
+<li>In the file manager, select the files to be added. You can select all the images in the <i>images</i> directory at once.</li>
+</ul>
+<p>You can refer to the images from QML by referring directly to the filename. For example, <code translate="no">images/editcopy.png</code> is the name of the <i>editcopy.png</i> file. We will use these images later in the guide.</p>
+<p>Qt Creator then packages the images alongside your application in a single binary. For more information about resource files, see the <a href="./qtquick-deployment.htm#managing-resource-files-with-the-qt-resource-system" translate="no">Managing Resource Files with the Qt Resource System</a> and the <a href="./resources.htm" translate="no">The Qt Resource System</a> pages.</p>
+<a name="example-files"></a>
+<h2 id="example-files">Example Files<a class="plink" href="#example-files" title="Direct link to this headline"></a></h2>
+<p>The accompanying examples files are listed in the following page:</p>
+<ul>
+<li><a href="./qtquickcontrols1-texteditor-example.htm" translate="no">Qt Quick Controls 1 - Text Editor Example</a></li>
+</ul>
+</div>
+<!-- @@@qtquickcontrols-texteditor.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="nextPage" href="./qtquickcontrols-texteditor-ui.htm">Qt Quick Text Editor Guide - UI</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

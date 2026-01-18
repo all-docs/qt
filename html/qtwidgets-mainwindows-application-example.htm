@@ -1,0 +1,421 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Application Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-mainwindow.htm" translate="no">Main Window Examples</a></li>
+                            <li><a>Application Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Application Example</h1>
+<span class="subtitle"></span>
+<!-- $$$mainwindows/application-brief -->
+<p>The Application example shows how to implement a standard GUI application with menus, toolbars, and a status bar. The example itself is a simple text editor program built around <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a>.</p>
+<!-- @@@mainwindows/application -->
+<!-- $$$mainwindows/application-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="Screenshot of the Application example" src="./images/application.png"></p><p>Nearly all of the code for the Application example is in the <code translate="no">MainWindow</code> class, which inherits <a href="./qmainwindow.htm" translate="no">QMainWindow</a>. <a href="./qmainwindow.htm" translate="no">QMainWindow</a> provides the framework for windows that have menus, toolbars, dock windows, and a status bar. The application provides <b translate="no">File</b>, <b translate="no">Edit</b>, and <b translate="no">Help</b> entries in the menu bar, with the following popup menus:</p>
+<p class="centerAlign"><img alt="The Application example's menu system" src="./images/application-menus.png"></p><p>The status bar at the bottom of the main window shows a description of the menu item or toolbar button under the cursor.</p>
+<p>To keep the example simple, recently opened files aren't shown in the <b translate="no">File</b> menu, even though this feature is desired in 90% of applications. Furthermore, this example can only load one file at a time. The <a href="./qtwidgets-mainwindows-sdi-example.htm" translate="no">SDI</a> and <a href="./qtwidgets-mainwindows-mdi-example.htm" translate="no">MDI</a> examples show how to lift these restrictions and how to implement recently opened files handling.</p>
+<a name="mainwindow-class-definition"></a>
+<h4 id="mainwindow-class-definition">MainWindow Class Definition<a class="plink" href="#mainwindow-class-definition" title="Direct link to this headline"></a></h4>
+<p>Here's the class definition:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MainWindow : <span class="keyword">public</span> <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    MainWindow();
+
+    <span class="type">void</span> loadFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fileName);
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> closeEvent(<span class="type"><a href="./qcloseevent.htm" translate="no">QCloseEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> newFile();
+    <span class="type">void</span> open();
+    bool save();
+    bool saveAs();
+    <span class="type">void</span> about();
+    <span class="type">void</span> documentWasModified();
+<span class="preprocessor">#ifndef QT_NO_SESSIONMANAGER</span>
+    <span class="type">void</span> commitData(<span class="type"><a href="./qsessionmanager.htm" translate="no">QSessionManager</a></span> <span class="operator">&amp;</span>);
+<span class="preprocessor">#endif</span>
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> createActions();
+    <span class="type">void</span> createStatusBar();
+    <span class="type">void</span> readSettings();
+    <span class="type">void</span> writeSettings();
+    bool maybeSave();
+    bool saveFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fileName);
+    <span class="type">void</span> setCurrentFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fileName);
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> strippedName(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fullFileName);
+
+    <span class="type"><a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a></span> <span class="operator">*</span>textEdit;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> curFile;
+};</pre></div>
+<p>The public API is restricted to the constructor. In the <code translate="no">protected</code> section, we reimplement <a href="./qwidget.htm#closeEvent" translate="no">QWidget::closeEvent</a>() to detect when the user attempts to close the window, and warn the user about unsaved changes. In the <code translate="no">private slots</code> section, we declare slots that correspond to menu entries, as well as a mysterious <code translate="no">documentWasModified()</code> slot. Finally, in the <code translate="no">private</code> section of the class, we have various members that will be explained in due time.</p>
+<a name="mainwindow-class-implementation"></a>
+<h4 id="mainwindow-class-implementation">MainWindow Class Implementation<a class="plink" href="#mainwindow-class-implementation" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtWidgets&gt;</span>
+
+<span class="preprocessor">#include "mainwindow.h"</span></pre></div>
+<p>We start by including <code translate="no">&lt;QtWidgets&gt;</code>, a header file that contains the definition of all classes in the Qt Core, Qt GUI and Qt Widgets modules. This saves us from the trouble of having to include every class individually. We also include <code translate="no">mainwindow.h</code>.</p>
+<p>You might wonder why we don't include <code translate="no">&lt;QtWidgets&gt;</code> in <code translate="no">mainwindow.h</code> and be done with it. The reason is that including such a large header from another header file can rapidly degrade performances. Here, it wouldn't do any harm, but it's still generally a good idea to include only the header files that are strictly necessary from another header file.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MainWindow<span class="operator">::</span>MainWindow()
+    : textEdit(<span class="keyword">new</span> <span class="type"><a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a></span>)
+{
+    setCentralWidget(textEdit);
+
+    createActions();
+    createStatusBar();
+
+    readSettings();
+
+    connect(textEdit<span class="operator">-</span><span class="operator">&gt;</span>document()<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtextdocument.htm" translate="no">QTextDocument</a></span><span class="operator">::</span>contentsChanged<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>documentWasModified);
+
+<span class="preprocessor">#ifndef QT_NO_SESSIONMANAGER</span>
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>setFallbackSessionManagementEnabled(<span class="keyword">false</span>);
+    connect(<a href="./qapplication.htm#qApp" translate="no">qApp</a><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>commitDataRequest<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>commitData);
+<span class="preprocessor">#endif</span>
+
+    setCurrentFile(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span>());
+    setUnifiedTitleAndToolBarOnMac(<span class="keyword">true</span>);
+}</pre></div>
+<p>In the constructor, we start by creating a <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a> widget as a child of the main window (the <code translate="no">this</code> object). Then we call <a href="./qmainwindow.htm#setCentralWidget" translate="no">QMainWindow::setCentralWidget</a>() to tell that this is going to be the widget that occupies the central area of the main window, between the toolbars and the status bar.</p>
+<p>Then we call <code translate="no">createActions()</code> and <code translate="no">createStatusBar()</code>, two private functions that set up the user interface. After that, we call <code translate="no">readSettings()</code> to restore the user's preferences.</p>
+<p>We establish a signal-slot connection between the <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a>'s document object and our <code translate="no">documentWasModified()</code> slot. Whenever the user modifies the text in the <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a>, we want to update the title bar to show that the file was modified.</p>
+<p>At the end, we set the window title using the private <code translate="no">setCurrentFile()</code> function. We'll come back to this later.</p>
+<a name="close-event-handler"></a><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>closeEvent(<span class="type"><a href="./qcloseevent.htm" translate="no">QCloseEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">if</span> (maybeSave()) {
+        writeSettings();
+        event<span class="operator">-</span><span class="operator">&gt;</span>accept();
+    } <span class="keyword">else</span> {
+        event<span class="operator">-</span><span class="operator">&gt;</span>ignore();
+    }
+}</pre></div>
+<p>When the user attempts to close the window, we call the private function <code translate="no">maybeSave()</code> to give the user the possibility to save pending changes. The function returns true if the user wants the application to close; otherwise, it returns false. In the first case, we save the user's preferences to disk and accept the close event; in the second case, we ignore the close event, meaning that the application will stay up and running as if nothing happened.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>newFile()
+{
+    <span class="keyword">if</span> (maybeSave()) {
+        textEdit<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        setCurrentFile(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span>());
+    }
+}</pre></div>
+<p>The <code translate="no">newFile()</code> slot is invoked when the user selects <b translate="no">File|New</b> from the menu. We call <code translate="no">maybeSave()</code> to save any pending changes and if the user accepts to go on, we clear the <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a> and call the private function <code translate="no">setCurrentFile()</code> to update the window title and clear the <a href="./qwidget.htm#windowModified-prop" translate="no">windowModified</a> flag.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>open()
+{
+    <span class="keyword">if</span> (maybeSave()) {
+        <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> fileName <span class="operator">=</span> <span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span><span class="operator">::</span>getOpenFileName(<span class="keyword">this</span>);
+        <span class="keyword">if</span> (<span class="operator">!</span>fileName<span class="operator">.</span>isEmpty())
+            loadFile(fileName);
+    }
+}</pre></div>
+<p>The <code translate="no">open()</code> slot is invoked when the user clicks <b translate="no">File|Open</b>. We pop up a <a href="./qfiledialog.htm" translate="no">QFileDialog</a> asking the user to choose a file. If the user chooses a file (i.e., <code translate="no">fileName</code> is not an empty string), we call the private function <code translate="no">loadFile()</code> to actually load the file.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool MainWindow<span class="operator">::</span>save()
+{
+    <span class="keyword">if</span> (curFile<span class="operator">.</span>isEmpty()) {
+        <span class="keyword">return</span> saveAs();
+    } <span class="keyword">else</span> {
+        <span class="keyword">return</span> saveFile(curFile);
+    }
+}</pre></div>
+<p>The <code translate="no">save()</code> slot is invoked when the user clicks <b translate="no">File|Save</b>. If the user hasn't provided a name for the file yet, we call <code translate="no">saveAs()</code>; otherwise, we call the private function <code translate="no">saveFile()</code> to actually save the file.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool MainWindow<span class="operator">::</span>saveAs()
+{
+    <span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span> dialog(<span class="keyword">this</span>);
+    dialog<span class="operator">.</span>setWindowModality(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>WindowModal);
+    dialog<span class="operator">.</span>setAcceptMode(<span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span><span class="operator">::</span>AcceptSave);
+    <span class="keyword">if</span> (dialog<span class="operator">.</span>exec() <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span><span class="operator">::</span>Accepted)
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="keyword">return</span> saveFile(dialog<span class="operator">.</span>selectedFiles()<span class="operator">.</span>first());
+}</pre></div>
+<p>In <code translate="no">saveAs()</code>, we start by popping up a <a href="./qfiledialog.htm" translate="no">QFileDialog</a> asking the user to provide a name. If the user clicks <b translate="no">Cancel</b>, the returned file name is empty, and we do nothing.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>about()
+{
+   <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>about(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"About Application"</span>)<span class="operator">,</span>
+            tr(<span class="string">"The &lt;b&gt;Application&lt;/b&gt; example demonstrates how to "</span>
+               <span class="string">"write modern GUI applications using Qt, with a menu bar, "</span>
+               <span class="string">"toolbars, and a status bar."</span>));
+}</pre></div>
+<p>The application's About box is done using one statement, using the <a href="./qmessagebox.htm#about" translate="no">QMessageBox::about</a>() static function and relying on its support for an HTML subset.</p>
+<p>The <a href="./qobject.htm#tr" translate="no">tr()</a> call around the literal string marks the string for translation. It is a good habit to call <a href="./qobject.htm#tr" translate="no">tr()</a> on all user-visible strings, in case you later decide to translate your application to other languages. The <a href="./internationalization.htm" translate="no">Internationalization with Qt</a> overview covers <a href="./qobject.htm#tr" translate="no">tr()</a> in more detail.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>documentWasModified()
+{
+    setWindowModified(textEdit<span class="operator">-</span><span class="operator">&gt;</span>document()<span class="operator">-</span><span class="operator">&gt;</span>isModified());
+}</pre></div>
+<p>The <code translate="no">documentWasModified()</code> slot is invoked each time the text in the <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a> changes because of user edits. We call <a href="./qwidget.htm#windowModified-prop" translate="no">QWidget::setWindowModified</a>() to make the title bar show that the file was modified. How this is done varies on each platform.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>createActions()
+{
+
+    <span class="type"><a href="./qmenu.htm" translate="no">QMenu</a></span> <span class="operator">*</span>fileMenu <span class="operator">=</span> menuBar()<span class="operator">-</span><span class="operator">&gt;</span>addMenu(tr(<span class="string">"&amp;File"</span>));
+    <span class="type"><a href="./qtoolbar.htm" translate="no">QToolBar</a></span> <span class="operator">*</span>fileToolBar <span class="operator">=</span> addToolBar(tr(<span class="string">"File"</span>));
+    <span class="keyword">const</span> <span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span> newIcon <span class="operator">=</span> <span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span><span class="operator">::</span>fromTheme(<span class="string">"document-new"</span><span class="operator">,</span> <span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span>(<span class="string">":/images/new.png"</span>));
+    <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span> <span class="operator">*</span>newAct <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span>(newIcon<span class="operator">,</span> tr(<span class="string">"&amp;New"</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    newAct<span class="operator">-</span><span class="operator">&gt;</span>setShortcuts(<span class="type"><a href="./qkeysequence.htm" translate="no">QKeySequence</a></span><span class="operator">::</span>New);
+    newAct<span class="operator">-</span><span class="operator">&gt;</span>setStatusTip(tr(<span class="string">"Create a new file"</span>));
+    connect(newAct<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>newFile);
+    fileMenu<span class="operator">-</span><span class="operator">&gt;</span>addAction(newAct);
+    fileToolBar<span class="operator">-</span><span class="operator">&gt;</span>addAction(newAct);
+
+    <span class="keyword">const</span> <span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span> openIcon <span class="operator">=</span> <span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span><span class="operator">::</span>fromTheme(<span class="string">"document-open"</span><span class="operator">,</span> <span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span>(<span class="string">":/images/open.png"</span>));
+    <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span> <span class="operator">*</span>openAct <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span>(openIcon<span class="operator">,</span> tr(<span class="string">"&amp;Open..."</span>)<span class="operator">,</span> <span class="keyword">this</span>);
+    openAct<span class="operator">-</span><span class="operator">&gt;</span>setShortcuts(<span class="type"><a href="./qkeysequence.htm" translate="no">QKeySequence</a></span><span class="operator">::</span>Open);
+    openAct<span class="operator">-</span><span class="operator">&gt;</span>setStatusTip(tr(<span class="string">"Open an existing file"</span>));
+    connect(openAct<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>open);
+    fileMenu<span class="operator">-</span><span class="operator">&gt;</span>addAction(openAct);
+    fileToolBar<span class="operator">-</span><span class="operator">&gt;</span>addAction(openAct);
+    ...
+    <span class="type"><a href="./qaction.htm" translate="no">QAction</a></span> <span class="operator">*</span>aboutQtAct <span class="operator">=</span> helpMenu<span class="operator">-</span><span class="operator">&gt;</span>addAction(tr(<span class="string">"About &amp;Qt"</span>)<span class="operator">,</span> <a href="./qapplication.htm#qApp" translate="no">qApp</a><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>aboutQt);
+    aboutQtAct<span class="operator">-</span><span class="operator">&gt;</span>setStatusTip(tr(<span class="string">"Show the Qt library's About box"</span>));</pre></div>
+<p>The <code translate="no">createActions()</code> private function, which is called from the <code translate="no">MainWindow</code> constructor, creates <a href="./qaction.htm" translate="no">QAction</a>s and populates the menus and two toolbars. The code is very repetitive, so we show only the actions corresponding to <b translate="no">File|New</b>, <b translate="no">File|Open</b>, and <b translate="no">Help|About Qt</b>.</p>
+<p>A <a href="./qaction.htm" translate="no">QAction</a> is an object that represents one user action, such as saving a file or invoking a dialog. An action can be put in a <a href="./qmenu.htm" translate="no">QMenu</a> or a <a href="./qtoolbar.htm" translate="no">QToolBar</a>, or both, or in any other widget that reimplements <a href="./qwidget.htm#actionEvent" translate="no">QWidget::actionEvent</a>().</p>
+<p>An action has a text that is shown in the menu, an icon, a shortcut key, a tooltip, a status tip (shown in the status bar), a "What's This?" text, and more. It emits a <a href="./qaction.htm#triggered" translate="no">triggered()</a> signal whenever the user invokes the action (e.g., by clicking the associated menu item or toolbar button).</p>
+<p>Instances of <a href="./qaction.htm" translate="no">QAction</a> can be created by passing a parent <a href="./qobject.htm" translate="no">QObject</a> or by using one of the convenience functions of <a href="./qmenu.htm" translate="no">QMenu</a>, <a href="./qmenubar.htm" translate="no">QMenuBar</a> or <a href="./qtoolbar.htm" translate="no">QToolBar</a>. We create the actions that are in a menu as well as in a toolbar parented on the window to prevent ownership issues. For actions that are only in the menu, we use the convenience function <a href="./qmenu.htm#addAction" translate="no">QMenu::addAction</a>(), which allows us to pass text, icon and the target object and its slot member function.</p>
+<p>Creating toolbars is very similar to creating menus. The same actions that we put in the menus can be reused in the toolbars. After creating the action, we add it to the toolbar using <a href="./qtoolbar.htm#addAction" translate="no">QToolBar::addAction</a>().</p>
+<p>The code above contains one more idiom that must be explained. For some of the actions, we specify an icon as a <a href="./qicon.htm" translate="no">QIcon</a> to the <a href="./qaction.htm" translate="no">QAction</a> constructor. We use <a href="./qicon.htm#fromTheme" translate="no">QIcon::fromTheme</a>() to obtain the correct standard icon from the underlying window system. If that fails due to the platform not supporting it, we pass a file name as fallback. Here, the file name starts with <code translate="no">:</code>. Such file names aren't ordinary file names, but rather path in the executable's stored resources. We'll come back to this when we review the <code translate="no">application.qrc</code> file that's part of the project.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#ifndef QT_NO_CLIPBOARD</span>
+    cutAct<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    copyAct<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    connect(textEdit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a></span><span class="operator">::</span>copyAvailable<span class="operator">,</span> cutAct<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>setEnabled);
+    connect(textEdit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a></span><span class="operator">::</span>copyAvailable<span class="operator">,</span> copyAct<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>setEnabled);
+<span class="preprocessor">#endif // !QT_NO_CLIPBOARD</span>
+}</pre></div>
+<p>The <b translate="no">Edit|Cut</b> and <b translate="no">Edit|Copy</b> actions must be available only when the <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a> contains selected text. We disable them by default and connect the <a href="./qplaintextedit.htm#copyAvailable" translate="no">QPlainTextEdit::copyAvailable</a>() signal to the <a href="./qaction.htm#enabled-prop" translate="no">QAction::setEnabled</a>() slot, ensuring that the actions are disabled when the text editor has no selection.</p>
+<p>Just before we create the <b translate="no">Help</b> menu, we call <a href="./qmenubar.htm#addSeparator" translate="no">QMenuBar::addSeparator</a>(). This has no effect for most widget styles (e.g., Windows and macOS styles), but for some styles this makes sure that <b translate="no">Help</b> is pushed to the right side of the menu bar.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>createStatusBar()
+{
+    statusBar()<span class="operator">-</span><span class="operator">&gt;</span>showMessage(tr(<span class="string">"Ready"</span>));
+}</pre></div>
+<p><a href="./qmainwindow.htm#statusBar" translate="no">QMainWindow::statusBar</a>() returns a pointer to the main window's <a href="./qstatusbar.htm" translate="no">QStatusBar</a> widget. Like with <a href="./qmainwindow.htm#menuBar" translate="no">QMainWindow::menuBar</a>(), the widget is automatically created the first time the function is called.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>readSettings()
+{
+    <span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span> settings(<span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>organizationName()<span class="operator">,</span> <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationName());
+    <span class="keyword">const</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> geometry <span class="operator">=</span> settings<span class="operator">.</span>value(<span class="string">"geometry"</span><span class="operator">,</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span>())<span class="operator">.</span>toByteArray();
+    <span class="keyword">if</span> (geometry<span class="operator">.</span>isEmpty()) {
+        <span class="keyword">const</span> <span class="type"><a href="./qrect.htm" translate="no">QRect</a></span> availableGeometry <span class="operator">=</span> screen()<span class="operator">-</span><span class="operator">&gt;</span>availableGeometry();
+        resize(availableGeometry<span class="operator">.</span>width() <span class="operator">/</span> <span class="number">3</span><span class="operator">,</span> availableGeometry<span class="operator">.</span>height() <span class="operator">/</span> <span class="number">2</span>);
+        move((availableGeometry<span class="operator">.</span>width() <span class="operator">-</span> width()) <span class="operator">/</span> <span class="number">2</span><span class="operator">,</span>
+             (availableGeometry<span class="operator">.</span>height() <span class="operator">-</span> height()) <span class="operator">/</span> <span class="number">2</span>);
+    } <span class="keyword">else</span> {
+        restoreGeometry(geometry);
+    }
+}</pre></div>
+<p>The <code translate="no">readSettings()</code> function is called from the constructor to load the user's preferences and other application settings. The <a href="./qsettings.htm" translate="no">QSettings</a> class provides a high-level interface for storing settings permanently on disk. On Windows, it uses the (in)famous Windows registry; on macOS, it uses the native XML-based CFPreferences API; on Unix/X11, it uses text files.</p>
+<p>The <a href="./qsettings.htm" translate="no">QSettings</a> constructor takes arguments that identify your company and the name of the product. This ensures that the settings for different applications are kept separately.</p>
+<p>We use <a href="./qsettings.htm#value" translate="no">QSettings::value</a>() to extract the value of the geometry setting. The second argument to <a href="./qsettings.htm#value" translate="no">QSettings::value</a>() is optional and specifies a default value for the setting if there exists none. This value is used the first time the application is run.</p>
+<p>We use <a href="./qwidget.htm#saveGeometry" translate="no">QWidget::saveGeometry</a>() and Widget::restoreGeometry() to save the position. They use an opaque <a href="./qbytearray.htm" translate="no">QByteArray</a> to store screen number, geometry and window state.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>writeSettings()
+{
+    <span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span> settings(<span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>organizationName()<span class="operator">,</span> <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationName());
+    settings<span class="operator">.</span>setValue(<span class="string">"geometry"</span><span class="operator">,</span> saveGeometry());
+}</pre></div>
+<p>The <code translate="no">writeSettings()</code> function is called from <code translate="no">closeEvent()</code>. Writing settings is similar to reading them, except simpler. The arguments to the <a href="./qsettings.htm" translate="no">QSettings</a> constructor must be the same as in <code translate="no">readSettings()</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool MainWindow<span class="operator">::</span>maybeSave()
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>textEdit<span class="operator">-</span><span class="operator">&gt;</span>document()<span class="operator">-</span><span class="operator">&gt;</span>isModified())
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">const</span> <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>StandardButton ret
+        <span class="operator">=</span> <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Application"</span>)<span class="operator">,</span>
+                               tr(<span class="string">"The document has been modified.\n"</span>
+                                  <span class="string">"Do you want to save your changes?"</span>)<span class="operator">,</span>
+                               <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>Save <span class="operator">|</span> <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>Discard <span class="operator">|</span> <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>Cancel);
+    <span class="keyword">switch</span> (ret) {
+    <span class="keyword">case</span> <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>Save:
+        <span class="keyword">return</span> save();
+    <span class="keyword">case</span> <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>Cancel:
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="keyword">default</span>:
+        <span class="keyword">break</span>;
+    }
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}</pre></div>
+<p>The <code translate="no">maybeSave()</code> function is called to save pending changes. If there are pending changes, it pops up a <a href="./qmessagebox.htm" translate="no">QMessageBox</a> giving the user to save the document. The options are <a href="./qmessagebox.htm#StandardButton-enum" translate="no">QMessageBox::Yes</a>, <a href="./qmessagebox.htm#StandardButton-enum" translate="no">QMessageBox::No</a>, and <a href="./qmessagebox.htm#StandardButton-enum" translate="no">QMessageBox::Cancel</a>. The <b translate="no">Yes</b> button is made the default button (the button that is invoked when the user presses <b translate="no">Return</b>) using the <a href="./qmessagebox.htm#StandardButton-enum" translate="no">QMessageBox::Default</a> flag; the <b translate="no">Cancel</b> button is made the escape button (the button that is invoked when the user presses <b translate="no">Esc</b>) using the <a href="./qmessagebox.htm#StandardButton-enum" translate="no">QMessageBox::Escape</a> flag.</p>
+<p>The <code translate="no">maybeSave()</code> function returns <code translate="no">true</code> in all cases, except when the user clicks <b translate="no">Cancel</b> or saving the file fails. The caller must check the return value and stop whatever it was doing if the return value is <code translate="no">false</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>loadFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fileName)
+{
+    <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> file(fileName);
+    <span class="keyword">if</span> (<span class="operator">!</span>file<span class="operator">.</span>open(<span class="type"><a href="./qfile.htm" translate="no">QFile</a></span><span class="operator">::</span>ReadOnly <span class="operator">|</span> <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span><span class="operator">::</span>Text)) {
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Application"</span>)<span class="operator">,</span>
+                             tr(<span class="string">"Cannot read file %1:\n%2."</span>)
+                             <span class="operator">.</span>arg(<span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(fileName)<span class="operator">,</span> file<span class="operator">.</span>errorString()));
+        <span class="keyword">return</span>;
+    }
+
+    <span class="type"><a href="./qtextstream.htm" translate="no">QTextStream</a></span> in(<span class="operator">&amp;</span>file);
+<span class="preprocessor">#ifndef QT_NO_CURSOR</span>
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>setOverrideCursor(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>WaitCursor);
+<span class="preprocessor">#endif</span>
+    textEdit<span class="operator">-</span><span class="operator">&gt;</span>setPlainText(in<span class="operator">.</span>readAll());
+<span class="preprocessor">#ifndef QT_NO_CURSOR</span>
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>restoreOverrideCursor();
+<span class="preprocessor">#endif</span>
+
+    setCurrentFile(fileName);
+    statusBar()<span class="operator">-</span><span class="operator">&gt;</span>showMessage(tr(<span class="string">"File loaded"</span>)<span class="operator">,</span> <span class="number">2000</span>);
+}</pre></div>
+<p>In <code translate="no">loadFile()</code>, we use <a href="./qfile.htm" translate="no">QFile</a> and <a href="./qtextstream.htm" translate="no">QTextStream</a> to read in the data. The <a href="./qfile.htm" translate="no">QFile</a> object provides access to the bytes stored in a file.</p>
+<p>We start by opening the file in read-only mode. The <a href="./qiodevice.htm#OpenModeFlag-enum" translate="no">QFile::Text</a> flag indicates that the file is a text file, not a binary file. On Unix and macOS, this makes no difference, but on Windows, it ensures that the "\r\n" end-of-line sequence is converted to "\n" when reading.</p>
+<p>If we successfully opened the file, we use a <a href="./qtextstream.htm" translate="no">QTextStream</a> object to read in the data. <a href="./qtextstream.htm" translate="no">QTextStream</a> automatically converts the 8-bit data into a Unicode <a href="./qstring.htm" translate="no">QString</a> and supports various encodings. If no encoding is specified, <a href="./qtextstream.htm" translate="no">QTextStream</a> assumes the file is written using the system's default 8-bit encoding (for example, Latin-1; see <a href="./qtextcodec.htm#codecForLocale" translate="no">QTextCodec::codecForLocale</a>() for details).</p>
+<p>Since the call to <a href="./qtextstream.htm#readAll" translate="no">QTextStream::readAll</a>() might take some time, we set the cursor to be <a href="./qt.htm#CursorShape-enum" translate="no">Qt::WaitCursor</a> for the entire application while it goes on.</p>
+<p>At the end, we call the private <code translate="no">setCurrentFile()</code> function, which we'll cover in a moment, and we display the string "File loaded" in the status bar for 2 seconds (2000 milliseconds).</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool MainWindow<span class="operator">::</span>saveFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fileName)
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorMessage;
+
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>setOverrideCursor(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>WaitCursor);
+    <span class="type"><a href="./qsavefile.htm" translate="no">QSaveFile</a></span> file(fileName);
+    <span class="keyword">if</span> (file<span class="operator">.</span>open(<span class="type"><a href="./qfile.htm" translate="no">QFile</a></span><span class="operator">::</span>WriteOnly <span class="operator">|</span> <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span><span class="operator">::</span>Text)) {
+        <span class="type"><a href="./qtextstream.htm" translate="no">QTextStream</a></span> out(<span class="operator">&amp;</span>file);
+        out <span class="operator">&lt;</span><span class="operator">&lt;</span> textEdit<span class="operator">-</span><span class="operator">&gt;</span>toPlainText();
+        <span class="keyword">if</span> (<span class="operator">!</span>file<span class="operator">.</span>commit()) {
+            errorMessage <span class="operator">=</span> tr(<span class="string">"Cannot write file %1:\n%2."</span>)
+                           <span class="operator">.</span>arg(<span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(fileName)<span class="operator">,</span> file<span class="operator">.</span>errorString());
+        }
+    } <span class="keyword">else</span> {
+        errorMessage <span class="operator">=</span> tr(<span class="string">"Cannot open file %1 for writing:\n%2."</span>)
+                       <span class="operator">.</span>arg(<span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(fileName)<span class="operator">,</span> file<span class="operator">.</span>errorString());
+    }
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span><span class="operator">::</span>restoreOverrideCursor();
+
+    <span class="keyword">if</span> (<span class="operator">!</span>errorMessage<span class="operator">.</span>isEmpty()) {
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>warning(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Application"</span>)<span class="operator">,</span> errorMessage);
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    }
+
+    setCurrentFile(fileName);
+    statusBar()<span class="operator">-</span><span class="operator">&gt;</span>showMessage(tr(<span class="string">"File saved"</span>)<span class="operator">,</span> <span class="number">2000</span>);
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}</pre></div>
+<p>Saving a file is similar to loading one. We use <a href="./qsavefile.htm" translate="no">QSaveFile</a> to ensure all data are safely written and existing files are not damaged should writing fail. We use the <a href="./qiodevice.htm#OpenModeFlag-enum" translate="no">QFile::Text</a> flag to make sure that on Windows, "\n" is converted into "\r\n" to conform to the Windows convention.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>setCurrentFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fileName)
+{
+    curFile <span class="operator">=</span> fileName;
+    textEdit<span class="operator">-</span><span class="operator">&gt;</span>document()<span class="operator">-</span><span class="operator">&gt;</span>setModified(<span class="keyword">false</span>);
+    setWindowModified(<span class="keyword">false</span>);
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> shownName <span class="operator">=</span> curFile;
+    <span class="keyword">if</span> (curFile<span class="operator">.</span>isEmpty())
+        shownName <span class="operator">=</span> <span class="string">"untitled.txt"</span>;
+    setWindowFilePath(shownName);
+}</pre></div>
+<p>The <code translate="no">setCurrentFile()</code> function is called to reset the state of a few variables when a file is loaded or saved, or when the user starts editing a new file (in which case <code translate="no">fileName</code> is empty). We update the <code translate="no">curFile</code> variable, clear the <a href="./qtextdocument.htm#modified-prop" translate="no">QTextDocument::modified</a> flag and the associated <code translate="no">QWidget:windowModified</code> flag, and update the window title to contain the new file name (or <code translate="no">untitled.txt</code>).</p>
+<p>The <code translate="no">strippedName()</code> function call around <code translate="no">curFile</code> in the <a href="./qwidget.htm#windowTitle-prop" translate="no">QWidget::setWindowTitle</a>() call shortens the file name to exclude the path. Here's the function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> MainWindow<span class="operator">::</span>strippedName(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>fullFileName)
+{
+    <span class="keyword">return</span> <span class="type"><a href="./qfileinfo.htm" translate="no">QFileInfo</a></span>(fullFileName)<span class="operator">.</span>fileName();
+}</pre></div>
+<a name="the-main-function"></a>
+<h4 id="the-main-function">The main() Function<a class="plink" href="#the-main-function" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">main()</code> function for this application is typical of applications that contain one main window:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QApplication&gt;</span>
+<span class="preprocessor">#include &lt;QCommandLineParser&gt;</span>
+<span class="preprocessor">#include &lt;QCommandLineOption&gt;</span>
+
+<span class="preprocessor">#include "mainwindow.h"</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    Q_INIT_RESOURCE(application);
+<span class="preprocessor">#ifdef Q_OS_ANDROID</span>
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AA_EnableHighDpiScaling);
+<span class="preprocessor">#endif</span>
+
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setOrganizationName(<span class="string">"QtProject"</span>);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setApplicationName(<span class="string">"Application Example"</span>);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setApplicationVersion(QT_VERSION_STR);
+    <span class="type"><a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a></span> parser;
+    parser<span class="operator">.</span>setApplicationDescription(<span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationName());
+    parser<span class="operator">.</span>addHelpOption();
+    parser<span class="operator">.</span>addVersionOption();
+    parser<span class="operator">.</span>addPositionalArgument(<span class="string">"file"</span><span class="operator">,</span> <span class="string">"The file to open."</span>);
+    parser<span class="operator">.</span>process(app);
+
+    MainWindow mainWin;
+    <span class="keyword">if</span> (<span class="operator">!</span>parser<span class="operator">.</span>positionalArguments()<span class="operator">.</span>isEmpty())
+        mainWin<span class="operator">.</span>loadFile(parser<span class="operator">.</span>positionalArguments()<span class="operator">.</span>first());
+    mainWin<span class="operator">.</span>show();
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>The main function uses <a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a> to check whether some file argument was passed to the application and loads it via MainWindow::loadFile().</p>
+<a name="the-resource-file"></a>
+<h4 id="the-resource-file">The Resource File<a class="plink" href="#the-resource-file" title="Direct link to this headline"></a></h4>
+<p>As you will probably recall, for some of the actions, we specified icons with file names starting with <code translate="no">:</code> and mentioned that such file names aren't ordinary file names, but path in the executable's stored resources. These resources are compiled</p>
+<p>The resources associated with an application are specified in a <code translate="no">.qrc</code> file, an XML-based file format that lists files on the disk. Here's the <code translate="no">application.qrc</code> file that's used by the Application example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;!DOCTYPE RCC&gt;&lt;RCC version="1.0"&gt;
+&lt;qresource&gt;
+    &lt;file&gt;images/copy.png&lt;/file&gt;
+    &lt;file&gt;images/cut.png&lt;/file&gt;
+    &lt;file&gt;images/new.png&lt;/file&gt;
+    &lt;file&gt;images/open.png&lt;/file&gt;
+    &lt;file&gt;images/paste.png&lt;/file&gt;
+    &lt;file&gt;images/save.png&lt;/file&gt;
+&lt;/qresource&gt;
+&lt;/RCC&gt;</pre></div>
+<p>The <code translate="no">.png</code> files listed in the <code translate="no">application.qrc</code> file are files that are part of the Application example's source tree. Paths are relative to the directory where the <code translate="no">application.qrc</code> file is located (the <code translate="no">mainwindows/application</code> directory).</p>
+<p>The resource file must be mentioned in the <code translate="no">application.pro</code> file so that <code translate="no">qmake</code> knows about it:</p>
+<div class="pre"><pre class="cpp" translate="no">RESOURCES     = application.qrc</pre></div>
+<p><code translate="no">qmake</code> will produce make rules to generate a file called <code translate="no">qrc_application.cpp</code> that is linked into the application. This file contains all the data for the images and other resources as static C++ arrays of compressed binary data. See <a href="./resources.htm" translate="no">The Qt Resource System</a> for more information about resources.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/mainwindows/application?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@mainwindows/application -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

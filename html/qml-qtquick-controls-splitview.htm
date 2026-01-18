@@ -1,0 +1,206 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SplitView QML Type | Qt Quick Controls 1</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-controls-splitview.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquickcontrols1-index.htm" translate="no">Qt Quick Controls 1</a></li>
+                            <li><a href="./qtquick-controls-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>SplitView QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">SplitView QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$SplitView-brief -->
+<p>Lays out items with a draggable splitter between each item. <a href="#details">More...</a></p>
+<!-- @@@SplitView -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick.Controls 1.4</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.1</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick-item.htm" translate="no">Item</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-controls-splitview-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-splitview.htm#handleDelegate-prop" translate="no">handleDelegate</a></b></b> : Component</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-splitview.htm#orientation-prop" translate="no">orientation</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-splitview.htm#resizing-prop" translate="no">resizing</a></b></b> : bool</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-controls-splitview.htm#addItem-method" translate="no">addItem</a></b></b>(Item <i>item</i>)</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-controls-splitview.htm#removeItem-method" translate="no">removeItem</a></b></b>(Item <i>item</i>)</li>
+</ul>
+<!-- $$$SplitView-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p class="centerAlign"><img alt="" src="./images/splitview.png"></p><p>SplitView is a control that lays out items horizontally or vertically with a draggable splitter between each item.</p>
+<p>There will always be one (and only one) item in the SplitView that has <a href="./qml-qtquick-layouts-layout.htm#fillWidth-attached-prop" translate="no">Layout.fillWidth</a> set to <code translate="no">true</code> (or <a href="./qml-qtquick-layouts-layout.htm#fillHeight-attached-prop" translate="no">Layout.fillHeight</a>, if orientation is Qt.Vertical). This means that the item will get all leftover space when other items have been laid out. By default, the last visible child of the SplitView will have this set, but it can be changed by explicitly setting fillWidth to <code translate="no">true</code> on another item.</p>
+<p>As the fillWidth item will automatically be resized to fit the extra space, explicit assignments to its width and height properties will be ignored (but <a href="./qml-qtquick-layouts-layout.htm#minimumWidth-attached-prop" translate="no">Layout.minimumWidth</a> and <a href="./qml-qtquick-layouts-layout.htm#maximumWidth-attached-prop" translate="no">Layout.maximumWidth</a> will still be respected). The initial sizes of other items should be set via their width and height properties. Any binding assignment to an item's width or height will be broken as soon as the user drags that item's splitter handle.</p>
+<p>A handle can belong to the item either on the left or top side, or on the right or bottom side:</p>
+<ul>
+<li>If the fillWidth item is to the right: the handle belongs to the left item.</li>
+<li>if the fillWidth item is on the left: the handle belongs to the right item.</li>
+</ul>
+<p>This will again control which item gets resized when the user drags a handle, and which handle gets hidden when an item is told to hide.</p>
+<p>SplitView supports setting attached Layout properties on child items, which means that you can set the following attached properties for each child:</p>
+<ul>
+<li><a href="./qml-qtquick-layouts-layout.htm#minimumWidth-attached-prop" translate="no">Layout.minimumWidth</a></li>
+<li><a href="./qml-qtquick-layouts-layout.htm#minimumHeight-attached-prop" translate="no">Layout.minimumHeight</a></li>
+<li><a href="./qml-qtquick-layouts-layout.htm#maximumWidth-attached-prop" translate="no">Layout.maximumWidth</a></li>
+<li><a href="./qml-qtquick-layouts-layout.htm#maximumHeight-attached-prop" translate="no">Layout.maximumHeight</a></li>
+<li><a href="./qml-qtquick-layouts-layout.htm#fillWidth-attached-prop" translate="no">Layout.fillWidth</a> (<code translate="no">true</code> for only one child)</li>
+<li><a href="./qml-qtquick-layouts-layout.htm#fillHeight-attached-prop" translate="no">Layout.fillHeight</a> (<code translate="no">true</code> for only one child)</li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>import <a href="./qtquick-module.htm" translate="no">QtQuick</a>.Layouts 1.0 in your QML file in order to use the Layout attached properties inside SplitView.</p>
+</div>
+<p>Example:</p>
+<p>To create a SplitView with three items, and let the center item get superfluous space, one could do the following:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-controls-splitview.htm" translate="no">SplitView</a></span> {
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">orientation</span>: <span class="name">Qt</span>.<span class="name">Horizontal</span>
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">width</span>: <span class="number">200</span>
+        <span class="name">Layout</span>.maximumWidth: <span class="number">400</span>
+        <span class="name">color</span>: <span class="string">"lightblue"</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">text</span>: <span class="string">"View 1"</span>
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        }
+    }
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">centerItem</span>
+        <span class="name">Layout</span>.minimumWidth: <span class="number">50</span>
+        <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        <span class="name">color</span>: <span class="string">"lightgray"</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">text</span>: <span class="string">"View 2"</span>
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        }
+    }
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">width</span>: <span class="number">200</span>
+        <span class="name">color</span>: <span class="string">"lightgreen"</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">text</span>: <span class="string">"View 3"</span>
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        }
+    }
+}</pre></div>
+<!-- @@@SplitView -->
+<h2>Property Documentation</h2>
+<!-- $$$handleDelegate -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="handleDelegate-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="handleDelegate-prop"></a><span class="name">handleDelegate</span> : <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span><a class="plink" href="#handleDelegate-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the delegate that will be instantiated between each child item. Inside the delegate the following properties are available:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>readonly property bool styleData.index</td><td>Specifies the index of the splitter handle. The handle between the first and the second item will get index 0, the next handle index 1 etc.</td></tr>
+<tr class="even" valign="top"><td>readonly property bool styleData.hovered</td><td>The handle is being hovered.</td></tr>
+<tr class="odd" valign="top"><td>readonly property bool styleData.pressed</td><td>The handle is being pressed.</td></tr>
+<tr class="even" valign="top"><td>readonly property bool styleData.resizing</td><td>The handle is being dragged.</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@handleDelegate -->
+<br>
+<!-- $$$orientation -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="orientation-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="orientation-prop"></a><span class="name">orientation</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#orientation-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the orientation of the <a href="./qml-qtquick-controls-splitview.htm" translate="no">SplitView</a>. The value can be either <code translate="no">Qt.Horizontal</code> or <code translate="no">Qt.Vertical</code>. The default value is <code translate="no">Qt.Horizontal</code>.</p>
+</div></div><!-- @@@orientation -->
+<br>
+<!-- $$$resizing -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="resizing-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="resizing-prop"></a><span class="name">resizing</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#resizing-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This propery is <code translate="no">true</code> when the user is resizing any of the items by dragging on the splitter handles.</p>
+</div></div><!-- @@@resizing -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$addItem[overload1]$$$addItemItem -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="addItem-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="addItem-method"></a><span class="type">void</span> <span class="name">addItem</span>(<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> <i>item</i>)<a class="plink" href="#addItem-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Add an <i translate="no">item</i> to the end of the view.</p>
+<p>This method was introduced in QtQuick.Controls 1.3.</p>
+</div></div><!-- @@@addItem -->
+<br>
+<!-- $$$removeItem[overload1]$$$removeItemItem -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="removeItem-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="removeItem-method"></a><span class="type">void</span> <span class="name">removeItem</span>(<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> <i>item</i>)<a class="plink" href="#removeItem-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Remove <i translate="no">item</i> from the view.</p>
+<p>This method was introduced in QtQuick.Controls 1.4.</p>
+</div></div><!-- @@@removeItem -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

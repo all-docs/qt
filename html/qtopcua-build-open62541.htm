@@ -1,0 +1,95 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building Qt OPC UA Open62541 Plugin | Qt OPC UA</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtopcua-build-open62541.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtopcua-index.htm" translate="no">Qt OPC UA</a></li>
+                            <li><a>Building Qt OPC UA Open62541 Plugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Building Qt OPC UA Open62541 Plugin</h1>
+<span class="subtitle"></span>
+<!-- $$$qtopcua-build-open62541.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Open62541 plugin is built by default from the included 3rd party sources and has no external dependencies. The open62541 library uses mbedTLS for security. If the mbedTLS library is detected during configuration, security is enabled for the tests and the open62541 backend. The Open62541 source and header files bundled with Qt OPC UA have been generated from the open62541 v1.0 tag using the following commands:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">cmake <span class="operator">-</span>DCMAKE_BUILD_TYPE<span class="operator">=</span>Release <span class="operator">-</span>DUA_ENABLE_AMALGAMATION<span class="operator">=</span>ON <span class="operator">-</span>DUA_AMALGAMATION_ARCHITECTURES<span class="operator">=</span><span class="string">"win32;posix"</span>
+make</pre></div>
+<p>In order to disable the Open62541 plugin completely use:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    qmake <span class="operator">&lt;</span><span class="operator">/</span>path<span class="operator">/</span>to<span class="operator">/</span>qtopcua<span class="operator">&gt;</span> <span class="operator">-</span><span class="operator">-</span> <span class="operator">-</span>no<span class="operator">-</span>open62541
+\encode
+
+In <span class="keyword">case</span> you want to build a custom version of the Open62541 plugin<span class="operator">,</span> Open62541 v1<span class="operator">.</span><span class="number">0</span> built with
+UA_ENABLE_AMALGAMATION<span class="operator">=</span>ON is required<span class="operator">.</span>
+
+When building at the top level<span class="operator">,</span> you have to specify the path to the Open62541 SDK:
+
+\code
+    configure <span class="operator">-</span>system<span class="operator">-</span>open62541 OPEN62541_PREFIX<span class="operator">=</span><span class="operator">/</span>path<span class="operator">/</span>to<span class="operator">/</span>sdk</pre></div>
+<p>If you are not building at the top level, this setting has to be given to qmake:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">qmake <span class="operator">&lt;</span><span class="operator">/</span>path<span class="operator">/</span>to<span class="operator">/</span>qtopcua<span class="operator">&gt;</span> <span class="operator">-</span><span class="operator">-</span> <span class="operator">-</span>system<span class="operator">-</span>open62541 OPEN62541_PREFIX<span class="operator">=</span><span class="operator">/</span>path<span class="operator">/</span>to<span class="operator">/</span>sdk</pre></div>
+<p>If the open62541 header and library files are located in a custom path, different settings must be used:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Setting</th><th>Value</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>OPEN62541_INCDIR</td><td>The directory which contains open62541.h</td></tr>
+<tr class="even" valign="top"><td>OPEN62541_LIBDIR</td><td>The directory which contains the library file</td></tr>
+</tbody></table></div>
+<p>For example, the following settings can be used for building the open62541 plugin using a static build directly from its build directory without installing it:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">OPEN62541_INCDIR<span class="operator">=</span><span class="operator">/</span>path<span class="operator">/</span>to<span class="operator">/</span>open62541<span class="operator">/</span>build OPEN62541_LIBDIR<span class="operator">=</span><span class="operator">/</span>path<span class="operator">/</span>to<span class="operator">/</span>open62541<span class="operator">/</span>build<span class="operator">/</span>bin</pre></div>
+<p>The output of the configuration step indicates whether the detection was successful:</p>
+<div class="pre"><pre class="cpp" translate="no">Open62541 <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> yes</pre></div>
+</div>
+<!-- @@@qtopcua-build-open62541.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

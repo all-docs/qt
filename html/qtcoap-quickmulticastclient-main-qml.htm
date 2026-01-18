@@ -1,0 +1,281 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick CoAP Multicast Discovery Example | Qt CoAP</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcoap-quickmulticastclient-main-qml.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcoap-index.htm" translate="no">Qt CoAP</a></li>
+                            <li><a href="./qtcoap-examples.htm" translate="no">Qt CoAP Examples</a></li>
+                            <li><a>Quick CoAP Multicast Discovery Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Quick CoAP Multicast Discovery Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2019 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the QtCoap module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.13
+import CoapMulticastClient 1.0
+import qtcoap.example.namespace 1.0
+
+<span class="type">Window</span> {
+    <span class="name">visible</span>: <span class="number">true</span>
+    <span class="name">width</span>: <span class="number">480</span>
+    <span class="name">height</span>: <span class="number">480</span>
+    <span class="name">title</span>: <span class="name">qsTr</span>(<span class="string">"Qt Quick CoAP Multicast Discovery"</span>)
+
+    <span class="keyword">function </span><span class="name">addResource</span>(resource) {
+        <span class="name">resourceModel</span>.<span class="name">insert</span>(<span class="number">0</span>, {"host" : <span class="name">resource</span>.<span class="name">host</span>,
+                                 "path" : <span class="name">resource</span>.<span class="name">path</span>,
+                                 "title" : <span class="name">resource</span>.<span class="name">title</span>})
+    }
+
+    <span class="type">CoapMulticastClient</span> {
+        <span class="name">id</span>: <span class="name">client</span>
+        <span class="name">onDiscovered</span>: <span class="name">addResource</span>(<span class="name">resource</span>)
+
+        <span class="name">onFinished</span>: {
+            <span class="name">statusLabel</span>.<span class="name">text</span> <span class="operator">=</span> (<span class="name">error</span> <span class="operator">===</span> <span class="name">QtCoap</span>.<span class="name">Error</span>.<span class="name">Ok</span>)
+                    ? <span class="name">qsTr</span>(<span class="string">"Finished resource discovery."</span>)
+                    : <span class="name">qsTr</span>(<span class="string">"Resource discovery failed with error code: %1"</span>).<span class="name">arg</span>(<span class="name">error</span>)
+        }
+
+        <span class="name">onError</span>:
+            <span class="name">statusLabel</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">qsTr</span>(<span class="string">"Resource discovery failed with error code: %1"</span>).<span class="name">arg</span>(<span class="name">error</span>)
+    }
+
+    <span class="type">GridLayout</span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">anchors</span>.margins: <span class="number">10</span>
+        <span class="name">columns</span>: <span class="number">2</span>
+
+        <span class="type">Label</span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Host:"</span>)
+        }
+
+        <span class="type">RowLayout</span> {
+            <span class="name">spacing</span>: <span class="number">5</span>
+
+            <span class="type">ComboBox</span> {
+                <span class="name">id</span>: <span class="name">groupComboBox</span>
+                <span class="name">textRole</span>: <span class="string">"group"</span>
+                <span class="name">Layout</span>.preferredWidth: <span class="number">210</span>
+                <span class="name">model</span>: <span class="name">ListModel</span> {
+                    <span class="name">id</span>: <span class="name">cbItems</span>
+                    <span class="type">ListElement</span> {
+                        <span class="name">group</span>: <span class="name">qsTr</span>(<span class="string">"IPv4 CoAP Nodes"</span>)
+                        <span class="name">address</span>: <span class="string">"224.0.1.187"</span>
+                        <span class="name">value</span>: <span class="name">QtCoap</span>.<span class="name">MulticastGroup</span>.<span class="name">AllCoapNodesIPv4</span>
+                    }
+                    <span class="type">ListElement</span> {
+                        <span class="name">group</span>: <span class="name">qsTr</span>(<span class="string">"IPv6 Link Local CoAP Nodes"</span>)
+                        <span class="name">address</span>: <span class="string">"ff02::fd"</span>
+                        <span class="name">value</span>: <span class="name">QtCoap</span>.<span class="name">MulticastGroup</span>.<span class="name">AllCoapNodesIPv6LinkLocal</span>
+                    }
+                    <span class="type">ListElement</span> {
+                        <span class="name">group</span>: <span class="name">qsTr</span>(<span class="string">"IPv6 Site Local CoAP Nodes"</span>)
+                        <span class="name">address</span>: <span class="string">"ff05::fd"</span>
+                        <span class="name">value</span>: <span class="name">QtCoap</span>.<span class="name">MulticastGroup</span>.<span class="name">AllCoapNodesIPv6SiteLocal</span>
+                    }
+                    <span class="type">ListElement</span> {
+                        <span class="name">group</span>: <span class="name">qsTr</span>(<span class="string">"Other"</span>)
+                        <span class="name">address</span>: <span class="string">""</span>
+                        <span class="name">value</span>: -<span class="number">1</span>
+                    }
+                }
+
+                <span class="name">delegate</span>: <span class="name">ItemDelegate</span> {
+                    <span class="name">width</span>: <span class="name">groupComboBox</span>.<span class="name">width</span>
+                    <span class="name">contentItem</span>: <span class="name">Column</span> {
+                        <span class="type">Text</span> { <span class="name">text</span>: <span class="name">group</span> }
+                        <span class="type">Text</span> { <span class="name">text</span>: <span class="name">address</span> }
+                    }
+                    <span class="name">highlighted</span>: <span class="name">groupComboBox</span>.<span class="name">highlightedIndex</span> <span class="operator">===</span> <span class="name">index</span>
+                }
+            }
+
+            <span class="type">TextField</span> {
+                <span class="name">id</span>: <span class="name">customGroupField</span>
+                <span class="name">placeholderText</span>: <span class="name">qsTr</span>(<span class="string">"&lt;Custom Group&gt;"</span>)
+                <span class="name">enabled</span>: <span class="name">groupComboBox</span>.<span class="name">model</span>.<span class="name">get</span>(<span class="name">groupComboBox</span>.<span class="name">currentIndex</span>).<span class="name">value</span> <span class="operator">===</span> -<span class="number">1</span>
+                <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            }
+        }
+
+        <span class="type">Label</span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Port:"</span>)
+        }
+
+        <span class="type">TextField</span> {
+            <span class="name">id</span>: <span class="name">portField</span>
+            <span class="name">text</span>: <span class="string">"5683"</span>
+            <span class="name">placeholderText</span>: <span class="name">qsTr</span>(<span class="string">"&lt;Port&gt;"</span>)
+            <span class="name">inputMethodHints</span>: <span class="name">Qt</span>.<span class="name">ImhDigitsOnly</span>
+            <span class="name">Layout</span>.preferredWidth: <span class="number">80</span>
+        }
+
+        <span class="type">Label</span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Discovery Path:"</span>)
+        }
+
+        <span class="type">TextField</span> {
+            <span class="name">id</span>: <span class="name">discoveryPathField</span>
+            <span class="name">text</span>: <span class="string">"/.well-known/core"</span>
+            <span class="name">placeholderText</span>: <span class="name">qsTr</span>(<span class="string">"&lt;Resource Discovery Path&gt;"</span>)
+            <span class="name">inputMethodHints</span>: <span class="name">Qt</span>.<span class="name">ImhUrlCharactersOnly</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        }
+
+        <span class="type">Button</span> {
+            <span class="name">id</span>: <span class="name">discoverButton</span>
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Discover"</span>)
+            <span class="name">Layout</span>.columnSpan: <span class="number">2</span>
+
+            <span class="name">onClicked</span>: {
+                var currentGroup = <span class="name">groupComboBox</span>.<span class="name">model</span>.<span class="name">get</span>(<span class="name">groupComboBox</span>.<span class="name">currentIndex</span>).<span class="name">value</span>;
+
+                var path = <span class="string">""</span>;
+                <span class="keyword">if</span> (<span class="name">currentGroup</span> <span class="operator">!==</span> - <span class="number">1</span>) {
+                    <span class="name">client</span>.<span class="name">discover</span>(<span class="name">currentGroup</span>, <span class="name">parseInt</span>(<span class="name">portField</span>.<span class="name">text</span>),
+                                    <span class="name">discoveryPathField</span>.<span class="name">text</span>);
+                    <span class="name">path</span> <span class="operator">=</span> <span class="name">groupComboBox</span>.<span class="name">currentText</span>;
+                } <span class="keyword">else</span> {
+                    <span class="name">client</span>.<span class="name">discover</span>(<span class="name">customGroupField</span>.<span class="name">text</span>, <span class="name">parseInt</span>(<span class="name">portField</span>.<span class="name">text</span>),
+                                    <span class="name">discoveryPathField</span>.<span class="name">text</span>);
+                    <span class="name">path</span> <span class="operator">=</span> <span class="name">customGroupField</span>.<span class="name">text</span> <span class="operator">+</span> <span class="name">discoveryPathField</span>.<span class="name">text</span>;
+                }
+                <span class="name">statusLabel</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">qsTr</span>(<span class="string">"Discovering resources at %1..."</span>).<span class="name">arg</span>(<span class="name">path</span>);
+            }
+        }
+
+        <span class="type">ListModel</span> {
+            <span class="name">id</span>: <span class="name">resourceModel</span>
+        }
+
+        <span class="type">ListView</span> {
+            <span class="name">id</span>: <span class="name">resourceView</span>
+            <span class="name">model</span>: <span class="name">resourceModel</span>
+            <span class="name">clip</span>: <span class="number">true</span>
+            <span class="name">Layout</span>.columnSpan: <span class="number">2</span>
+            <span class="name">Layout</span>.fillHeight: <span class="number">true</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+
+            <span class="name">delegate</span>: <span class="name">Rectangle</span> {
+                <span class="name">width</span>: <span class="name">resourceView</span>.<span class="name">width</span>
+                <span class="name">height</span>: <span class="number">60</span>
+                <span class="name">color</span>: <span class="string">"lightgray"</span>
+                <span class="name">border</span>.color: <span class="string">"darkgray"</span>
+                <span class="name">radius</span>: <span class="number">5</span>
+
+                <span class="type">Column</span> {
+                    <span class="name">topPadding</span>: <span class="number">5</span>
+                    <span class="name">leftPadding</span>: <span class="number">5</span>
+                    <span class="type">Text</span> { <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">'&lt;b&gt;Host:&lt;/b&gt; %1'</span>).<span class="name">arg</span>(<span class="name">host</span>) }
+                    <span class="type">Text</span> { <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">'&lt;b&gt;Resource:&lt;/b&gt; %1'</span>).<span class="name">arg</span>(<span class="name">path</span>) }
+                    <span class="type">Text</span> { <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">'&lt;b&gt;Title:&lt;/b&gt; %1'</span>).<span class="name">arg</span>(<span class="name">title</span>) }
+                }
+            }
+        }
+        <span class="type">Label</span> {
+            <span class="name">id</span>: <span class="name">statusLabel</span>
+            <span class="name">Layout</span>.columnSpan: <span class="number">2</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        }
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

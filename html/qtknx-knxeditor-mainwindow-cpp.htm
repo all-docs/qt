@@ -1,0 +1,407 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Editor Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Editor Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtKnx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "mainwindow.h"</span>
+<span class="preprocessor">#include "ui_mainwindow.h"</span>
+
+<span class="preprocessor">#include &lt;QElapsedTimer&gt;</span>
+<span class="preprocessor">#include &lt;QFileDialog&gt;</span>
+<span class="preprocessor">#include &lt;QInputDialog&gt;</span>
+<span class="preprocessor">#include &lt;QNetworkInterface&gt;</span>
+<span class="preprocessor">#include &lt;QStandardItem&gt;</span>
+<span class="preprocessor">#include &lt;QStandardPaths&gt;</span>
+
+Ui<span class="operator">::</span>MainWindow <span class="operator">*</span>MainWindow<span class="operator">::</span>s_ui { nullptr };
+
+<span class="keyword">static</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> familyToString(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily id)
+{
+    <span class="keyword">switch</span> (id) {
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>Core:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Core"</span>);
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>DeviceManagement:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Device Management"</span>);
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>IpTunneling:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Tunnel"</span>);
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>IpRouting:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Routing"</span>);
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>RemoteLogging:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Remote Logging"</span>);
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>RemoteConfigAndDiagnosis:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Remote Configuration"</span>);
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>ObjectServer:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Object Server"</span>);
+    <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>Security:
+        <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Security"</span>);
+    <span class="keyword">default</span>:
+        <span class="keyword">break</span>;
+    }
+    <span class="keyword">return</span> MainWindow<span class="operator">::</span>tr(<span class="string">"Unknown"</span>);
+}
+
+MainWindow<span class="operator">::</span>MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>(parent)<span class="operator">,</span>
+    ui(<span class="keyword">new</span> Ui<span class="operator">::</span>MainWindow)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingFeatures<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Press Scan button to discover KNX server(s)"</span>));
+
+    m_discoveryAgent<span class="operator">.</span>setTimeout(<span class="number">5000</span>);
+    connect(<span class="operator">&amp;</span>m_discoveryAgent<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>started<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        <span class="keyword">if</span> (<span class="operator">!</span>ui)
+            <span class="keyword">return</span>;
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>scanButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>checkboxNat<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>serverDescription<span class="operator">-</span><span class="operator">&gt;</span>clear();
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+
+        <span class="keyword">auto</span> firstItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstandarditem.htm" translate="no">QStandardItem</a></span>(tr(<span class="string">"Select a KNX server(s)"</span>));
+        qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span><span class="operator">*</span><span class="operator">&gt;</span>(ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>model())<span class="operator">-</span><span class="operator">&gt;</span>appendRow(firstItem);
+        firstItem<span class="operator">-</span><span class="operator">&gt;</span>setSelectable(<span class="keyword">false</span>);
+    });
+    connect(<span class="operator">&amp;</span>m_discoveryAgent<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>finished<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span> {
+        <span class="keyword">if</span> (<span class="operator">!</span>ui)
+            <span class="keyword">return</span>;
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>scanButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>checkboxNat<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+
+        <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">&lt;</span><span class="operator">=</span> <span class="number">1</span>)
+            ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>setItemText(<span class="number">0</span><span class="operator">,</span> tr(<span class="string">"Press Scan button to discover KNX server(s)"</span>));
+        <span class="keyword">else</span> <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">=</span><span class="operator">=</span> <span class="number">2</span>)
+            ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(<span class="number">1</span>);
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        newServerSelected(ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+    });
+    connect(<span class="operator">&amp;</span>m_discoveryAgent<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>deviceDiscovered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>showServerAndServices);
+
+    fillLocalIpBox();
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>scanButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="operator">&amp;</span>m_discoveryAgent<span class="operator">,</span>
+        <span class="type">QOverload</span><span class="operator">&lt;</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>start));
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>checkboxNat<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span><span class="operator">::</span>toggled<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">&amp;</span><span class="operator">]</span>(bool checked) {
+        <span class="keyword">if</span> (<span class="operator">!</span>ui)
+            <span class="keyword">return</span>;
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">-</span><span class="operator">&gt;</span>setNatAware(checked);
+        m_discoveryAgent<span class="operator">.</span>setNatAware(checked);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setNatAware(checked);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingFeatures<span class="operator">-</span><span class="operator">&gt;</span>setNatAware(checked);
+    });
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>localIpBox<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>activated)<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>newIPAddressSelected);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>activated)<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span>
+        <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>newServerSelected);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionExit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>quit);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionClear_Output<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtextedit.htm" translate="no">QTextEdit</a></span><span class="operator">::</span>clear);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionClear_All<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">,</span>
+        <span class="operator">&amp;</span>LocalDeviceManagement<span class="operator">::</span>clearLogging);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionClear_All<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtextedit.htm" translate="no">QTextEdit</a></span><span class="operator">::</span>clear);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionClear_All<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">,</span> <span class="operator">&amp;</span>Tunneling<span class="operator">::</span>clearLogging);
+    <span class="keyword">if</span> (ui<span class="operator">-</span><span class="operator">&gt;</span>localIpBox<span class="operator">-</span><span class="operator">&gt;</span>count() <span class="operator">=</span><span class="operator">=</span> <span class="number">2</span>) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>localIpBox<span class="operator">-</span><span class="operator">&gt;</span>setCurrentIndex(<span class="number">1</span>);
+        newIPAddressSelected(ui<span class="operator">-</span><span class="operator">&gt;</span>localIpBox<span class="operator">-</span><span class="operator">&gt;</span>currentIndex());
+    }
+
+    s_ui <span class="operator">=</span> ui;
+    <a href="./qtglobal.htm#qInstallMessageHandler" translate="no">qInstallMessageHandler</a>(MainWindow<span class="operator">::</span>messageHandler);
+}
+
+MainWindow<span class="operator">::</span><span class="operator">~</span>MainWindow()
+{
+    s_ui <span class="operator">=</span> nullptr;
+    <span class="keyword">delete</span> ui;
+    ui <span class="operator">=</span> nullptr;
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>newServerSelected(<span class="type">int</span> serverBoxIndex)
+{
+    <span class="keyword">if</span> (serverBoxIndex <span class="operator">&lt;</span> <span class="number">1</span>)
+        <span class="keyword">return</span>;
+
+    <span class="keyword">auto</span> info <span class="operator">=</span> ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>itemData(serverBoxIndex)<span class="operator">.</span>value<span class="operator">&lt;</span><span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span><span class="operator">&gt;</span>();
+    bool version2Supported <span class="operator">=</span> <span class="keyword">false</span>;
+    ui<span class="operator">-</span><span class="operator">&gt;</span>serverDescription<span class="operator">-</span><span class="operator">&gt;</span>setText(tr(<span class="string">"&lt;html&gt;&lt;head&gt;&lt;style&gt; th { text-align: left; } td.padding { "</span>
+        <span class="string">"padding-left: 10px; } &lt;/style&gt;&lt;/head&gt; &lt;body&gt;"</span>
+        <span class="string">"   &lt;table style=\"width:100%\"&gt;"</span>
+        <span class="string">"       &lt;th&gt;Device Information&lt;/th&gt;"</span>
+        <span class="string">"           &lt;tr&gt;&lt;td class=\"padding\"&gt;Individual address: %1&lt;/td&gt;&lt;/tr&gt;"</span>
+        <span class="string">"           &lt;tr&gt;&lt;td class=\"padding\"&gt;Server control endpoint: %2:%3&lt;/td&gt;&lt;/tr&gt;"</span>
+        <span class="string">"           &lt;tr&gt;&lt;/tr&gt;"</span>
+        <span class="string">"       &lt;tr&gt;&lt;th&gt;Supported services:&lt;/th&gt;&lt;/tr&gt;"</span>
+        <span class="string">"           %4"</span>
+        <span class="string">"       &lt;/table&gt;"</span>
+        <span class="string">"   &lt;/table&gt;"</span>
+        <span class="string">"&lt;/body&gt;&lt;/html&gt;"</span>)
+        <span class="operator">.</span>arg(info<span class="operator">.</span>individualAddress()<span class="operator">.</span>toString())
+        <span class="operator">.</span>arg(info<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(info<span class="operator">.</span>controlEndpointPort())
+        <span class="operator">.</span>arg(<span class="operator">[</span><span class="operator">&amp;</span>info<span class="operator">,</span> <span class="operator">&amp;</span>version2Supported<span class="operator">]</span>() <span class="operator">-</span><span class="operator">&gt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> {
+            <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> value;
+            <span class="keyword">const</span> <span class="keyword">auto</span> services <span class="operator">=</span> info<span class="operator">.</span>supportedServices();
+            <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>service : services) {
+                value<span class="operator">.</span>append(tr(<span class="string">"&lt;tr&gt;&lt;td class=\"padding\"&gt;%1&lt;/td&gt;&lt;/th&gt;"</span>)
+                    <span class="operator">.</span>arg(tr(<span class="string">"KNXnet/IP %1, Version: %2"</span>)<span class="operator">.</span>arg(familyToString(service<span class="operator">.</span>ServiceFamily))
+                        <span class="operator">.</span>arg(service<span class="operator">.</span>ServiceFamilyVersion)));
+                <span class="keyword">if</span> (service<span class="operator">.</span>ServiceFamilyVersion <span class="operator">&gt;</span><span class="operator">=</span> <span class="number">2</span>)
+                     version2Supported <span class="operator">=</span> <span class="keyword">true</span>;
+            }
+            <span class="keyword">return</span> value;
+        }())
+    );
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> <span class="operator">&amp;</span>hpai <span class="operator">=</span> info<span class="operator">.</span>endpoint();
+    <span class="keyword">const</span> <span class="type"><a href="./qknxnetiphpaiproxy.htm" translate="no">QKnxNetIpHpaiProxy</a></span> endpoint(hpai);
+    <span class="keyword">if</span> (endpoint<span class="operator">.</span>isValid() <span class="operator">&amp;</span><span class="operator">&amp;</span> m_server <span class="operator">!</span><span class="operator">=</span> info) {
+        m_server <span class="operator">=</span> info;
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">-</span><span class="operator">&gt;</span>setKnxNetIpServer(m_server);
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setKnxNetIpServer(m_server);
+
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingFeatures<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+        ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingFeatures<span class="operator">-</span><span class="operator">&gt;</span>setKnxNetIpServer(m_server);
+    }
+    ui<span class="operator">-</span><span class="operator">&gt;</span>radioButtonTCP<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(version2Supported);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>newIPAddressSelected(<span class="type">int</span> localIpBoxIndex)
+{
+    <span class="keyword">if</span> (localIpBoxIndex <span class="operator">&lt;</span> <span class="number">1</span>)
+        <span class="keyword">return</span>;
+
+    <span class="keyword">auto</span> newAddress <span class="operator">=</span> <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(ui<span class="operator">-</span><span class="operator">&gt;</span>localIpBox<span class="operator">-</span><span class="operator">&gt;</span>itemData(localIpBoxIndex)<span class="operator">.</span>toString());
+    <span class="keyword">if</span> (newAddress<span class="operator">.</span>isNull()) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Selected IP address is not valid"</span>));
+        <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">if</span> (m_discoveryAgent<span class="operator">.</span>localAddress() <span class="operator">=</span><span class="operator">=</span> newAddress)
+        <span class="keyword">return</span>;
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>scanButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Selected IP address: "</span>) <span class="operator">+</span> newAddress<span class="operator">.</span>toString());
+
+    m_discoveryAgent<span class="operator">.</span>stop();
+    m_discoveryAgent<span class="operator">.</span>setLocalAddress(newAddress);
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">-</span><span class="operator">&gt;</span>setLocalAddress(newAddress);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setLocalAddress(newAddress);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingFeatures<span class="operator">-</span><span class="operator">&gt;</span>setLocalAddress(newAddress);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>showServerAndServices(<span class="keyword">const</span> <span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> <span class="operator">&amp;</span>info)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Server Endpoint found"</span>));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Server's Multicast Address"</span>));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(info<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString());
+    ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"Server's Port"</span>));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>number(info<span class="operator">.</span>controlEndpointPort()));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"The following services are supported:"</span>));
+    <span class="keyword">const</span> <span class="keyword">auto</span> services <span class="operator">=</span> info<span class="operator">.</span>supportedServices();
+    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> service : services) {
+        ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(tr(<span class="string">"    KNXnet/IP %1, Version: %2"</span>)
+            <span class="operator">.</span>arg(familyToString(service<span class="operator">.</span>ServiceFamily))<span class="operator">.</span>arg(service<span class="operator">.</span>ServiceFamilyVersion));
+    }
+
+    ui<span class="operator">-</span><span class="operator">&gt;</span>serverBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"%1 (%2:%3)"</span>)<span class="operator">.</span>arg(info<span class="operator">.</span>deviceName()<span class="operator">,</span> info<span class="operator">.</span>controlEndpointAddress()
+        <span class="operator">.</span>toString())<span class="operator">.</span>arg(info<span class="operator">.</span>controlEndpointPort())<span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(info));
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_radioButtonTCP_toggled(bool checked)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">-</span><span class="operator">&gt;</span>setTcpEnable(checked);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">-</span><span class="operator">&gt;</span>setTcpEnable(checked);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingFeatures<span class="operator">-</span><span class="operator">&gt;</span>setTcpEnable(checked);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>on_actionEtsKeyringImport_triggered()
+{
+    <span class="keyword">auto</span> fileName <span class="operator">=</span> <span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span><span class="operator">::</span>getOpenFileName(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Import keyring file"</span>)<span class="operator">,</span>
+        <span class="type"><a href="./qstandardpaths.htm" translate="no">QStandardPaths</a></span><span class="operator">::</span>standardLocations(<span class="type"><a href="./qstandardpaths.htm" translate="no">QStandardPaths</a></span><span class="operator">::</span>DesktopLocation)<span class="operator">.</span>value(<span class="number">0</span>)<span class="operator">,</span>
+        tr(<span class="string">"KNX keyring file (*.knxkeys)"</span>));
+
+    <span class="keyword">if</span> (fileName<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span>;
+
+    bool ok;
+    <span class="keyword">auto</span> password <span class="operator">=</span> <span class="type"><a href="./qinputdialog.htm" translate="no">QInputDialog</a></span><span class="operator">::</span>getText(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Import keyring file"</span>)<span class="operator">,</span>
+        tr(<span class="string">"Keyring file password:"</span>)<span class="operator">,</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>Normal<span class="operator">,</span> {}<span class="operator">,</span> <span class="operator">&amp;</span>ok);
+    <span class="keyword">if</span> (<span class="operator">!</span>ok <span class="operator">|</span><span class="operator">|</span> password<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span>;
+
+    <span class="keyword">auto</span> mgmtConfigs <span class="operator">=</span> <span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">::</span>fromKeyring(<span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span>
+        <span class="operator">::</span>Type<span class="operator">::</span>DeviceManagement<span class="operator">,</span> fileName<span class="operator">,</span> password<span class="operator">.</span>toUtf8()<span class="operator">,</span> <span class="keyword">true</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>deviceManagement<span class="operator">-</span><span class="operator">&gt;</span>onKeyringChanged(mgmtConfigs);
+
+    <span class="keyword">for</span> (<span class="keyword">auto</span> <span class="operator">&amp;</span>config : mgmtConfigs)
+        config<span class="operator">.</span>setIndividualAddress({});
+
+    <span class="keyword">auto</span> tunnelConfigs <span class="operator">=</span> <span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">::</span>fromKeyring(<span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span>
+        <span class="operator">::</span>Type<span class="operator">::</span>Tunneling<span class="operator">,</span> fileName<span class="operator">,</span> password<span class="operator">.</span>toUtf8()<span class="operator">,</span> <span class="keyword">true</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunneling<span class="operator">-</span><span class="operator">&gt;</span>onKeyringChanged(mgmtConfigs <span class="operator">+</span> tunnelConfigs);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>tunnelingFeatures<span class="operator">-</span><span class="operator">&gt;</span>onKeyringChanged(mgmtConfigs <span class="operator">+</span> tunnelConfigs);
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>fillLocalIpBox()
+{
+    <span class="keyword">auto</span> firstItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstandarditem.htm" translate="no">QStandardItem</a></span>(tr(<span class="string">"Interface: IP address --Select One--"</span>));
+    qobject_cast<span class="operator">&lt;</span><span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span><span class="operator">*</span><span class="operator">&gt;</span>(ui<span class="operator">-</span><span class="operator">&gt;</span>localIpBox<span class="operator">-</span><span class="operator">&gt;</span>model())<span class="operator">-</span><span class="operator">&gt;</span>appendRow(firstItem);
+    firstItem<span class="operator">-</span><span class="operator">&gt;</span>setSelectable(<span class="keyword">false</span>);
+
+    <span class="keyword">auto</span> networkInterfaces <span class="operator">=</span> <span class="type"><a href="./qnetworkinterface.htm" translate="no">QNetworkInterface</a></span><span class="operator">::</span>allInterfaces();
+    <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> networkInterfaces<span class="operator">.</span>size(); i<span class="operator">+</span><span class="operator">+</span>) {
+        <span class="keyword">auto</span> addressList <span class="operator">=</span> networkInterfaces<span class="operator">[</span>i<span class="operator">]</span><span class="operator">.</span>addressEntries();
+        <span class="keyword">for</span> (<span class="type">int</span> j <span class="operator">=</span> <span class="number">0</span>; j <span class="operator">&lt;</span> addressList<span class="operator">.</span>size(); j<span class="operator">+</span><span class="operator">+</span>) {
+            <span class="keyword">auto</span> address <span class="operator">=</span> addressList<span class="operator">[</span>j<span class="operator">]</span><span class="operator">.</span>ip();
+            <span class="keyword">if</span> (address<span class="operator">.</span>isLoopback() <span class="operator">|</span><span class="operator">|</span> address<span class="operator">.</span>toIPv4Address() <span class="operator">=</span><span class="operator">=</span> <span class="number">0</span>)
+                <span class="keyword">continue</span>;
+            <span class="keyword">auto</span> ipAddress <span class="operator">=</span> address<span class="operator">.</span>toString();
+            ui<span class="operator">-</span><span class="operator">&gt;</span>localIpBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(networkInterfaces<span class="operator">[</span>i<span class="operator">]</span><span class="operator">.</span>name() <span class="operator">+</span> <span class="string">": "</span> <span class="operator">+</span> ipAddress<span class="operator">,</span> ipAddress);
+        }
+    }
+}
+
+<span class="type">void</span> MainWindow<span class="operator">::</span>messageHandler(<span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtMsgType</a></span> type<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qmessagelogcontext.htm" translate="no">QMessageLogContext</a></span> <span class="operator">&amp;</span>ctx<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>msg)
+{
+    <span class="keyword">class</span> Uptime : <span class="keyword">public</span> <span class="type"><a href="./qelapsedtimer.htm" translate="no">QElapsedTimer</a></span>
+    {
+    <span class="keyword">public</span>:
+        Uptime() { start(); }
+        <span class="type"><a href="./qtglobal.htm#quint64-typedef" translate="no">quint64</a></span> lastEvent { <span class="number">0</span> };
+    };
+    <span class="keyword">static</span> Uptime uptime;
+
+    <span class="keyword">auto</span> msec <span class="operator">=</span> uptime<span class="operator">.</span>elapsed();
+    <span class="keyword">if</span> (s_ui) {
+        s_ui<span class="operator">-</span><span class="operator">&gt;</span>outputEdit<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"[elapsed: %1 msec, diff: %2 msec]\n    %3"</span>)
+            <span class="operator">.</span>arg(msec) <span class="operator">.</span>arg(msec <span class="operator">-</span> uptime<span class="operator">.</span>lastEvent)<span class="operator">.</span>arg(msg));
+    }
+    uptime<span class="operator">.</span>lastEvent <span class="operator">=</span> msec;
+
+    <span class="keyword">if</span> (type <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qtglobal.htm#QtMsgType-enum" translate="no">QtFatalMsg</a></span>) {
+        <span class="keyword">auto</span> oldMsgHandler <span class="operator">=</span> <a href="./qtglobal.htm#qInstallMessageHandler" translate="no">qInstallMessageHandler</a>(<span class="number">0</span>);
+        qt_message_output(type<span class="operator">,</span> ctx<span class="operator">,</span> msg);
+        <a href="./qtglobal.htm#qInstallMessageHandler" translate="no">qInstallMessageHandler</a>(oldMsgHandler);
+    }
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

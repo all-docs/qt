@@ -1,0 +1,140 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QScriptable | Qt Script</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtscript-index.htm" translate="no">Qt Script</a></li>
+                            <li><a href="./qtscript-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QScriptable</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QScriptable Class</h1>
+<!-- $$$QScriptable-brief -->
+<p>The QScriptable class provides access to the Qt Script environment from Qt C++ member functions. <a href="#details">More...</a></p>
+<!-- @@@QScriptable -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QScriptable&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += script</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 4.3</td></tr></tbody></table></div><p>This class was introduced in Qt 4.3.</p>
+<ul>
+<li><a href="./qscriptable-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QScriptValue </td><td class="memItemRight bottomAlign"><b><a href="./qscriptable.htm#argument" translate="no">argument</a></b>(int <i>index</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="./qscriptable.htm#argumentCount" translate="no">argumentCount</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QScriptContext *</td><td class="memItemRight bottomAlign"><b><a href="./qscriptable.htm#context" translate="no">context</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QScriptEngine *</td><td class="memItemRight bottomAlign"><b><a href="./qscriptable.htm#engine" translate="no">engine</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QScriptValue </td><td class="memItemRight bottomAlign"><b><a href="./qscriptable.htm#thisObject" translate="no">thisObject</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QScriptable-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>With <a href="./qscriptengine.htm#newQObject" translate="no">QScriptEngine::newQObject</a>(), you can expose the signals and slots and properties of any <a href="./qobject.htm" translate="no">QObject</a> (or subclass) to script code. QScriptable augments this functionality by giving your C++ members access to the Qt Script environment they are invoked in; conceptually, it is similar to <a href="./qobject.htm#sender" translate="no">QObject::sender</a>().</p>
+<p>By subclassing QScriptable, you get the following functions in your class: <a href="./qscriptable.htm#thisObject" translate="no">thisObject</a>(), <a href="./qscriptable.htm#argumentCount" translate="no">argumentCount</a>(), <a href="./qscriptable.htm#argument" translate="no">argument</a>(), <a href="./qscriptable.htm#context" translate="no">context</a>() and <a href="./qscriptable.htm#engine" translate="no">engine</a>(). With these functions, you have full access to the Qt Script environment from the slots and property access functions of your class, when they are invoked from script code.</p>
+<p>For example, you can throw a Qt Script exception from a slot; manipulate the `this' object associated with the function call; inspect the arguments stored in the <a href="./qscriptcontext.htm" translate="no">QScriptContext</a> to know the "real" arguments passed to the function from script code; and call script functions from your slot.</p>
+<p>A typical use case of QScriptable is to implement prototype objects for custom C++ types. You define the scriptable interface of your custom type in a QScriptable subclass using properties and slots; then you wrap an instance of your class using <a href="./qscriptengine.htm#newQObject" translate="no">QScriptEngine::newQObject</a>(), and finally pass the result to <a href="./qscriptengine.htm#setDefaultPrototype" translate="no">QScriptEngine::setDefaultPrototype</a>(). See the <a href="./qtscript-script-defaultprototypes-example.htm" translate="no">Default Prototypes Example</a> to see how this can be done.</p>
+<p>The following is what subclassing QScriptable typically looks like:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MyScriptableObject: <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">,</span>
+      <span class="keyword">protected</span> <span class="type">QScriptable</span>
+{
+    Q_OBJECT
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> doSomething();
+    <span class="type">double</span> doSomethingElse();
+}</pre></div>
+<p>The only difference from regular <a href="./qobject.htm" translate="no">QObject</a> subclassing is that you also inherit from QScriptable.</p>
+<p>In the implementation of your slots, you can then use the functions inherited from QScriptable:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyScriptableObject<span class="operator">::</span>doSomething()
+{
+  context()<span class="operator">-</span><span class="operator">&gt;</span>throwError(<span class="string">"Threw an error from a slot"</span>);
+}
+
+<span class="type">double</span> MyScriptableObject<span class="operator">::</span>doSomethingElse()
+{
+  <span class="keyword">return</span> qscriptvalue_cast<span class="operator">&lt;</span><span class="type">double</span><span class="operator">&gt;</span>(thisObject());
+}</pre></div>
+</div>
+<p><b>See also </b><a href="./qtscript-script-defaultprototypes-example.htm" translate="no">Default Prototypes Example</a> and <a href="./qscriptengine.htm#newFunction" translate="no">QScriptEngine::newFunction</a>().</p>
+<!-- @@@QScriptable -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$argument[overload1]$$$argumentint -->
+<h3 class="fn" id="argument" translate="no"><a name="argument"></a><span class="type"><a href="./qscriptvalue.htm" translate="no">QScriptValue</a></span> QScriptable::<span class="name">argument</span>(<span class="type">int</span> <i>index</i>) const<a class="plink" href="#argument" title="Direct link to this headline"></a></h3>
+<p>Returns the function argument at the given <i translate="no">index</i>, or an invalid <a href="./qscriptvalue.htm" translate="no">QScriptValue</a> if the Qt function was not invoked from script code.</p>
+<p><b>See also </b><a href="./qscriptable.htm#argumentCount" translate="no">argumentCount</a>().</p>
+<!-- @@@argument -->
+<!-- $$$argumentCount[overload1]$$$argumentCount -->
+<h3 class="fn" id="argumentCount" translate="no"><a name="argumentCount"></a><span class="type">int</span> QScriptable::<span class="name">argumentCount</span>() const<a class="plink" href="#argumentCount" title="Direct link to this headline"></a></h3>
+<p>Returns the number of arguments passed to the function in this invocation, or -1 if the Qt function was not invoked from script code.</p>
+<p><b>See also </b><a href="./qscriptable.htm#argument" translate="no">argument</a>().</p>
+<!-- @@@argumentCount -->
+<!-- $$$context[overload1]$$$context -->
+<h3 class="fn" id="context" translate="no"><a name="context"></a><span class="type"><a href="./qscriptcontext.htm" translate="no">QScriptContext</a></span> *QScriptable::<span class="name">context</span>() const<a class="plink" href="#context" title="Direct link to this headline"></a></h3>
+<p>Returns a pointer to the <a href="./qscriptcontext.htm" translate="no">QScriptContext</a> associated with the current Qt function call, or 0 if the Qt function was not invoked from script code.</p>
+<!-- @@@context -->
+<!-- $$$engine[overload1]$$$engine -->
+<h3 class="fn" id="engine" translate="no"><a name="engine"></a><span class="type"><a href="./qscriptengine.htm" translate="no">QScriptEngine</a></span> *QScriptable::<span class="name">engine</span>() const<a class="plink" href="#engine" title="Direct link to this headline"></a></h3>
+<p>Returns a pointer to the <a href="./qscriptengine.htm" translate="no">QScriptEngine</a> associated with the current Qt function call, or 0 if the Qt function was not invoked from script code.</p>
+<!-- @@@engine -->
+<!-- $$$thisObject[overload1]$$$thisObject -->
+<h3 class="fn" id="thisObject" translate="no"><a name="thisObject"></a><span class="type"><a href="./qscriptvalue.htm" translate="no">QScriptValue</a></span> QScriptable::<span class="name">thisObject</span>() const<a class="plink" href="#thisObject" title="Direct link to this headline"></a></h3>
+<p>Returns the `this' object associated with the current Qt function call, or an invalid <a href="./qscriptvalue.htm" translate="no">QScriptValue</a> if the Qt function was not invoked from script code.</p>
+<!-- @@@thisObject -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

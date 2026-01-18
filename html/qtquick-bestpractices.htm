@@ -1,0 +1,363 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Best Practices for QML and Qt Quick | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-bestpractices.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Best Practices for QML and Qt Quick</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Best Practices for QML and Qt Quick</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-bestpractices.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Despite all of the benefits that QML and Qt Quick offer, they can be challenging in certain situations. The following sections elaborate on some of the best practices that will help you get better results when developing applications.</p>
+<a name="custom-ui-controls"></a>
+<h2 id="custom-ui-controls">Custom UI Controls<a class="plink" href="#custom-ui-controls" title="Direct link to this headline"></a></h2>
+<p>A fluid and modern UI is key for any application's success in today's world, and that's where QML makes so much sense for a designer or developer. Qt offers the most basic UI controls that are necessary to create a fluid and modern-looking UI. It is recommended to browse this list of UI controls before creating your own custom UI control.</p>
+<p>Besides these basic UI controls offered by Qt Quick itself, a rich set of UI controls are also available with Qt Quick Controls. They cater to the most common use cases without any change, and offer a lot more possibilities with their customization options. In particular, Qt Quick Controls provides styling options that align with the latest UI design trends. If these UI controls do not satisfy your application's needs, only then it is recommended to create a custom control.</p>
+<p>You can use the controls when you design UIs in Qt Design Studio. In addition, it provides timeline-based animations, visual effects, layouts, and a live-preview for prototyping applications.</p>
+<a name="related-information"></a>
+<h3 id="related-information">Related Information<a class="plink" href="#related-information" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qtquickcontrols-index.htm" translate="no">Qt Quick Controls</a></li>
+<li><a href="./qtquickcontrols2-customize.htm" translate="no">Customizing Qt Quick Controls</a></li>
+<li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+<li>Qt Design Studio Manual</li>
+</ul>
+<a name="coding-conventions"></a>
+<h2 id="coding-conventions">Coding Conventions<a class="plink" href="#coding-conventions" title="Direct link to this headline"></a></h2>
+<p>See <a href="./qml-codingconventions.htm" translate="no">QML Coding Conventions</a>.</p>
+<a name="bundle-application-resources"></a>
+<h2 id="bundle-application-resources">Bundle Application Resources<a class="plink" href="#bundle-application-resources" title="Direct link to this headline"></a></h2>
+<p>Most applications depend on resources such as images and icons to provide a rich user experience. It can often be a challenge to make these resources available to the application regardless of the target OS. Most popular OS-es employ stricter security policies that restrict access to the file system, making it harder to load these resources. As an alternative, Qt offers its own <a href="./resources.htm" translate="no">resource system</a> that is built into the application binary, enabling access to the application's resources regardless of the target OS.</p>
+<p>For example, consider the following project directory structure:</p>
+<div class="pre"><pre class="cpp plain" translate="no">project
+├── images
+│   ├── image1.png
+│   └── image2.png
+├── project.pro
+└── qml
+    └── main.qml</pre></div>
+<p>The following entry in <code translate="no">project.pro</code> ensures that the resources are built into the application binary, making them available when needed:</p>
+<div class="pre"><pre class="cpp plain" translate="no">RESOURCES += \
+    qml/main.qml \
+    images/image1.png \
+    images/image2.png</pre></div>
+<p>A more convenient approach is to use the <a href="./qmake-function-reference.htm#files-pattern-recursive-false" translate="no">wildcard syntax</a> to select several files at once:</p>
+<div class="pre"><pre class="cpp plain" translate="no">RESOURCES += \
+    $$files(qml/*.qml) \
+    $$files(images/*.png)</pre></div>
+<p>This approach is convenient for applications that depend on a limited number of resources. However, whenever a new file is added to <code translate="no">RESOURCES</code> using this approach, it causes <i>all</i> of the other files in <code translate="no">RESOURCES</code> to be recompiled as well. This can be inefficient, especially for large sets of files. In this case, a better approach is to separate each type of resource into its own <a href="./resources.htm#resource-collection-files" translate="no">.qrc</a> file. For example, the snippet above could be changed to the following:</p>
+<div class="pre"><pre class="cpp plain" translate="no">qml.files = $$files(*.qml)
+qml.prefix = /qml
+RESOURCES += qml
+
+images.files = $$files(*.png)
+images.prefix = /images
+RESOURCES += images</pre></div>
+<p>Now, whenever a QML file is changed, only the QML files have to be recompiled.</p>
+<p>Sometimes it can be necessary to have more control over the path for a specific file managed by the resource system. For example, if we wanted to give <code translate="no">image2.png</code> an alias, we would need to switch to an explicit <code translate="no">.qrc</code> file. <a href="https://doc.qt.io/qtcreator/creator-project-creating.html#creating-resource-files" translate="no">Creating Resource Files</a> explains how to do this in detail.</p>
+<a name="related-information"></a>
+<h3 id="related-information">Related Information<a class="plink" href="#related-information" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./resources.htm" translate="no">The Qt Resource System</a></li>
+</ul>
+<a name="separate-ui-from-business-logic"></a>
+<h2 id="separate-ui-from-business-logic">Separate UI from Business Logic<a class="plink" href="#separate-ui-from-business-logic" title="Direct link to this headline"></a></h2>
+<p>One of the key goals that most application developers want to achieve is to create a maintainable application. One of the ways to achieve this goal is to separate the user interface from the business logic. The following are a few reasons why an application's UI should be written in QML:</p>
+<ul>
+<li>Declarative languages are strongly suited for defining UIs.</li>
+<li>QML code is simpler to write, as it is less verbose than C++, and is not strongly typed. This also results in it being an excellent language to prototype in, a quality that is vital when collaborating with designers, for example.</li>
+<li>JavaScript can easily be used in QML to respond to events.</li>
+</ul>
+<p>Being a strongly typed language, C++ is best suited for an application's business logic. Typically, such code performs tasks such as complex calculations or data processing, which are faster in C++ than QML.</p>
+<p>Qt offers various approaches to integrate QML and C++ code in an application. A typical use case is displaying a list of data in a user interface. If the data set is static, simple, and/or small, a model written in QML can be sufficient.</p>
+<p>The following snippet demonstrates examples of models written in QML:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">model: ListModel {
+    ListElement { name: "Item 1" }
+    ListElement { name: "Item 2" }
+    ListElement { name: "Item 3" }
+}
+
+model: [ "Item 1", "Item 2", "Item 3" ]
+
+model: 10</pre></div>
+<p>Use <a href="./qtquick-modelviewsdata-cppmodels.htm#qabstractitemmodel-subclass" translate="no">C++</a> for dynamic data sets that are large or frequently modified.</p>
+<a name="interacting-with-qml-from-c"></a>
+<h3 id="interacting-with-qml-from-c">Interacting with QML from C++<a class="plink" href="#interacting-with-qml-from-c" title="Direct link to this headline"></a></h3>
+<p>Although Qt enables you to manipulate QML from C++, it is not recommended to do so. To explain why, let's take a look at a simplified example.</p>
+<a name="pulling-references-from-qml"></a>
+<h4 id="pulling-references-from-qml">Pulling References from QML<a class="plink" href="#pulling-references-from-qml" title="Direct link to this headline"></a></h4>
+<p>Suppose we were writing the UI for a settings page:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.15
+import QtQuick.Controls 2.15
+
+<span class="type"><a href="./qml-qtquick-controls2-page.htm" translate="no">Page</a></span> {
+    <span class="type"><a href="./qml-qtquick-controls2-button.htm" translate="no">Button</a></span> {
+        <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Restore default settings"</span>)
+    }
+}</pre></div>
+<p>We want the button to do something in C++ when it is clicked. We know objects in QML can emit change signals just like they can in C++, so we give the button an <a href="./qml-qtqml-qtobject.htm#objectName-prop" translate="no">objectName</a> so that we can find it from C++:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-controls2-button.htm" translate="no">Button</a></span> {
+    <span class="name">objectName</span>: <span class="string">"restoreDefaultsButton"</span>
+    <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Restore default settings"</span>)
+}</pre></div>
+<p>Then, in C++, we find that object and connect to its change signal:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QGuiApplication&gt;</span>
+<span class="preprocessor">#include &lt;QQmlApplicationEngine&gt;</span>
+<span class="preprocessor">#include &lt;QSettings&gt;</span>
+
+<span class="keyword">class</span> Backend : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    Backend() {}
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> restoreDefaults() {
+        settings<span class="operator">.</span>setValue(<span class="string">"loadLastProject"</span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>(<span class="keyword">false</span>));
+    }
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span> settings;
+};
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span> app(argc<span class="operator">,</span> argv);
+
+    <span class="type"><a href="./qqmlapplicationengine.htm" translate="no">QQmlApplicationEngine</a></span> engine;
+    engine<span class="operator">.</span>load(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"qrc:/main.qml"</span>)));
+    <span class="keyword">if</span> (engine<span class="operator">.</span>rootObjects()<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span>;
+
+    Backend backend;
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>rootObject <span class="operator">=</span> engine<span class="operator">.</span>rootObjects()<span class="operator">.</span>first();
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>restoreDefaultsButton <span class="operator">=</span> rootObject<span class="operator">-</span><span class="operator">&gt;</span>findChild<span class="operator">&lt;</span><span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">*</span><span class="operator">&gt;</span>(<span class="string">"restoreDefaultsButton"</span>);
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(restoreDefaultsButton<span class="operator">,</span> SIGNAL(clicked())<span class="operator">,</span>
+        <span class="operator">&amp;</span>backend<span class="operator">,</span> SLOT(restoreDefaults()));
+
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}
+
+<span class="preprocessor">#include "main.moc"</span></pre></div>
+<p>With this approach, references to objects are "pulled" from QML. The problem with this is that the C++ logic layer depends on the QML presentation layer. If we were to refactor the QML in such a way that the <code translate="no">objectName</code> changes, or some other change breaks the ability for the C++ to find the QML object, our workflow becomes much more complicated and tedious.</p>
+<a name="pushing-references-to-qml"></a>
+<h4 id="pushing-references-to-qml">Pushing References to QML<a class="plink" href="#pushing-references-to-qml" title="Direct link to this headline"></a></h4>
+<p>Refactoring QML is a lot easier than refactoring C++, so in order to make maintenance pain-free, we should strive to keep C++ types unaware of QML as much as possible. This can be achieved by "pushing" references to C++ types into QML:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span> app(argc<span class="operator">,</span> argv);
+
+    Backend backend;
+
+    <span class="type"><a href="./qqmlapplicationengine.htm" translate="no">QQmlApplicationEngine</a></span> engine;
+    engine<span class="operator">.</span>rootContext()<span class="operator">-</span><span class="operator">&gt;</span>setContextProperty(<span class="string">"backend"</span><span class="operator">,</span> <span class="operator">&amp;</span>backend);
+    engine<span class="operator">.</span>load(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"qrc:/main.qml"</span>)));
+    <span class="keyword">if</span> (engine<span class="operator">.</span>rootObjects()<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span> <span class="operator">-</span><span class="number">1</span>;
+
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>The QML then calls the C++ slot directly:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.15
+import QtQuick.Controls 2.15
+
+<span class="type"><a href="./qml-qtquick-controls2-page.htm" translate="no">Page</a></span> {
+    <span class="type"><a href="./qml-qtquick-controls2-button.htm" translate="no">Button</a></span> {
+        <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Restore default settings"</span>)
+        <span class="name">onClicked</span>: <span class="name">backend</span>.<span class="name">restoreDefaults</span>()
+    }
+}</pre></div>
+<p>With this approach, the C++ remains unchanged in the event that the QML needs to be refactored in the future.</p>
+<p>In the example above, we set a context property on the root context to expose the C++ object to QML. This means that the property is available to every component loaded by the engine. Context properties are useful for objects that must be available as soon as the QML is loaded and cannot be instantiated in QML.</p>
+<p>For a quick guide to choosing the correct approach to expose C++ types to QML, see <a href="./qtqml-cppintegration-overview.htm#choosing-the-correct-integration-method-between-c-and-qml" translate="no">Choosing the Correct Integration Method Between C++ and QML</a>.</p>
+<a name="related-information"></a>
+<h3 id="related-information">Related Information<a class="plink" href="#related-information" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qtqml-cppintegration-topic.htm" translate="no">Integrating QML and C++</a></li>
+<li><a href="./qtquickcontrols-chattutorial-example.htm" translate="no">Chat application tutorial</a></li>
+</ul>
+<a name="using-qt-design-studio"></a>
+<h2 id="using-qt-design-studio">Using Qt Design Studio<a class="plink" href="#using-qt-design-studio" title="Direct link to this headline"></a></h2>
+<p>Qt Design Studio uses UI files that have the filename extension <i>.ui.qml</i> to separate the visual parts of the UI from the UI logic you implement in <i>.qml</i> files. You should edit UI files only in the <b translate="no">2D</b> view in Qt Design Studio. If you use some other tool to add code that Qt Design Studio does not support, it displays error messages. Fix the errors to enable visual editing of the UI files again. Typically, you should move the unsupported code to a <i>.qml</i> file.</p>
+<a name="related-information"></a>
+<h3 id="related-information">Related Information<a class="plink" href="#related-information" title="Direct link to this headline"></a></h3>
+<ul>
+<li>Qt Design Studio: UI Files</li>
+</ul>
+<a name="using-qt-quick-layouts"></a>
+<h2 id="using-qt-quick-layouts">Using Qt Quick Layouts<a class="plink" href="#using-qt-quick-layouts" title="Direct link to this headline"></a></h2>
+<p>Qt offers Qt Quick Layouts to arrange Qt Quick items visually in a layout. Unlike its alternative, the item positioners, the Qt Quick Layouts can also resize its children on window resize. Although Qt Quick Layouts are often the desired choice for most use cases, the following <i>dos</i> and <i>don'ts</i> must be considered while using them:</p>
+<a name="dos"></a>
+<h3 id="dos">Dos<a class="plink" href="#dos" title="Direct link to this headline"></a></h3>
+<ul>
+<li>Use <a href="./qml-qtquick-item.htm#anchors-prop" translate="no">anchors</a> or the <a href="./qml-qtquick-item.htm#width-prop" translate="no">width</a> and <a href="./qml-qtquick-item.htm#height-prop" translate="no">height</a> properties to specify the size of the layout against its non-layout parent item.</li>
+<li>Use the <a href="./qml-qtquick-layouts-layout.htm" translate="no">Layout</a> attached property to set the size and alignment attributes of the layout's immediate children.</li>
+</ul>
+<a name="don-ts"></a>
+<h3 id="don-ts">Don'ts<a class="plink" href="#don-ts" title="Direct link to this headline"></a></h3>
+<ul>
+<li>Do not define preferred sizes for items that provide implicitWidth and implicitHeight, unless their implicit sizes are not satisfactory.</li>
+<li>Do not use anchors on an item that is an immediate child of a layout. Instead, use <code translate="no">Layout.preferredWidth</code> and <code translate="no">Layout.preferredHeight</code>:<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-layouts-rowlayout.htm" translate="no">RowLayout</a></span> {
+    <span class="name">id</span>: <span class="name">layout</span>
+    <span class="name">anchors</span>.fill: <span class="name">parent</span>
+    <span class="name">spacing</span>: <span class="number">6</span>
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">color</span>: <span class="string">'azure'</span>
+        <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        <span class="name">Layout</span>.minimumWidth: <span class="number">50</span>
+        <span class="name">Layout</span>.preferredWidth: <span class="number">100</span>
+        <span class="name">Layout</span>.maximumWidth: <span class="number">300</span>
+        <span class="name">Layout</span>.minimumHeight: <span class="number">150</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">text</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">+</span> <span class="string">'x'</span> <span class="operator">+</span> <span class="name">parent</span>.<span class="name">height</span>
+        }
+    }
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">color</span>: <span class="string">'plum'</span>
+        <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+        <span class="name">Layout</span>.minimumWidth: <span class="number">100</span>
+        <span class="name">Layout</span>.preferredWidth: <span class="number">200</span>
+        <span class="name">Layout</span>.preferredHeight: <span class="number">100</span>
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+            <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            <span class="name">text</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">+</span> <span class="string">'x'</span> <span class="operator">+</span> <span class="name">parent</span>.<span class="name">height</span>
+        }
+    }
+}</pre></div>
+</li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>Layouts and anchors are both types of objects that take more memory and instantiation time. Avoid using them (especially in list and table delegates, and styles for controls) when simple bindings to x, y, width, and height properties are enough.</p>
+</div>
+<a name="related-information"></a>
+<h3 id="related-information">Related Information<a class="plink" href="#related-information" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qtquick-positioning-layouts.htm" translate="no">Item Positioners</a></li>
+<li><a href="./qtquicklayouts-overview.htm" translate="no">Qt Quick Layouts Overview</a></li>
+</ul>
+<a name="type-safety"></a>
+<h2 id="type-safety">Type Safety<a class="plink" href="#type-safety" title="Direct link to this headline"></a></h2>
+<p>When declaring properties in QML, it's easy and convenient to use the "var" type:</p>
+<div class="pre"><pre class="cpp" translate="no">property var name
+property var size
+property var optionsMenu</pre></div>
+<p>However, this approach has several disadvantages:</p>
+<ul>
+<li>If a value with the wrong type is assigned, the error reported will point to the location of the property declaration, as opposed to the location where the property was assigned to. This slows down the development process by making it more difficult to track down errors.</li>
+<li>Static anaylsis to catch errors like the ones mentioned above is not possible.</li>
+<li>The actual underlying type of the property is not always immediately clear to the reader.</li>
+</ul>
+<p>Instead, always use the actual type where possible:</p>
+<div class="pre"><pre class="cpp" translate="no">property string name
+property <span class="type">int</span> size
+property MyMenu optionsMenu</pre></div>
+<a name="performance"></a>
+<h2 id="performance">Performance<a class="plink" href="#performance" title="Direct link to this headline"></a></h2>
+<p>For information on performance in QML and Qt Quick, see <a href="./qtquick-performance.htm" translate="no">Performance Considerations And Suggestions</a>.</p>
+<a name="prefer-declarative-bindings-over-imperative-assignments"></a>
+<h2 id="prefer-declarative-bindings-over-imperative-assignments">Prefer Declarative Bindings Over Imperative Assignments<a class="plink" href="#prefer-declarative-bindings-over-imperative-assignments" title="Direct link to this headline"></a></h2>
+<p>In QML, it's possible to use imperative JavaScript code to perform tasks such as responding to input events, send data over a network, and so on. Imperative code has an important place in QML, but it's also important to be aware of when not to use it.</p>
+<p>For example, consider the following imperative assignment:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Rectangle {
+    Component<span class="operator">.</span>onCompleted: color <span class="operator">=</span> <span class="string">"red"</span>
+}</pre></div>
+<p>This has the following disadvantages:</p>
+<ul>
+<li>It's slow. The color property will first be evaluated with a default-constructed value, and then again with "red" later on.</li>
+<li>It delays errors that could be found at build time to run time, slowing down the development process.</li>
+<li>It overwrites any declarative binding that was in place. In most cases this is intended, but sometimes it can be unintentional. See <a href="./qtqml-syntax-propertybinding.htm#debugging-overwriting-of-bindings" translate="no">Debugging overwriting of bindings</a> for more information.</li>
+<li>It interferes with tooling; Qt Quick Designer, for example, doesn't support JavaScript.</li>
+</ul>
+<p>The code can be rewritten to be a declarative binding instead:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Rectangle {
+    color: <span class="string">"red"</span>
+}</pre></div>
+<a name="tools-and-utilities"></a>
+<h2 id="tools-and-utilities">Tools and Utilities<a class="plink" href="#tools-and-utilities" title="Direct link to this headline"></a></h2>
+<p>For information on useful tools and utilies that make working with QML and Qt Quick easier, see <a href="./qtquick-tools-and-utilities.htm" translate="no">Qt Quick Tools and Utilities</a>.</p>
+<a name="scene-graph"></a>
+<h2 id="scene-graph">Scene Graph<a class="plink" href="#scene-graph" title="Direct link to this headline"></a></h2>
+<p>For information on Qt Quick's scene graph, see <a href="./qtquick-visualcanvas-scenegraph.htm" translate="no">Qt Quick Scene Graph</a>.</p>
+<a name="scalable-user-interfaces"></a>
+<h2 id="scalable-user-interfaces">Scalable User Interfaces<a class="plink" href="#scalable-user-interfaces" title="Direct link to this headline"></a></h2>
+<p>As display resolutions improve, a scalable application UI becomes more and more important. One of the approaches to achieve this is to maintain several copies of the UI for different screen resolutions, and load the appropriate one depending on the available resolution. Although this works pretty well, it adds to the maintenance overhead.</p>
+<p>Qt offers a better solution to this problem and recommends the application developers to follow these tips:</p>
+<ul>
+<li>Use anchors or the Qt Quick Layouts module to lay out the visual items.</li>
+<li>Do not specify explicit width and height for a visual item.</li>
+<li>Provide UI resources such as images and icons for each display resolution that your application supports. The Qt Quick Controls gallery example demonstrates this well by providing the <code translate="no">qt-logo.png</code> for <code translate="no">@2x</code>, <code translate="no">@3x</code>, and <code translate="no">@4x</code> resolutions, enabling the application to cater to high resolution displays. Qt automatically chooses the appropriate image that is suitable for the given display, provided the high DPI scaling feature is explicitly enabled.</li>
+<li>Use SVG images for small icons. While larger SVGs can be slow to render, small ones work well. Vector images avoid the need to provide several versions of an image, as is necessary with bitmap images.</li>
+<li>Use font-based icons, such as Font Awesome. These scale to any display resolution, and also allow colorization. The Qt Quick Controls Text Editor example demonstrates this well.</li>
+</ul>
+<p>With this in place, your application's UI should scale depending on the display resolution on offer.</p>
+<p class="centerAlign"><img alt="" src="./images/qtquickcontrols2-gallery-welcome.png"></p><a name="related-information"></a>
+<h3 id="related-information">Related Information<a class="plink" href="#related-information" title="Direct link to this headline"></a></h3>
+<ul>
+<li><a href="./qtquickcontrols-gallery-example.htm" translate="no">Gallery example</a></li>
+<li><a href="./qtquickcontrols-texteditor-example.htm" translate="no">Text Editor example</a></li>
+<li><a href="https://fontawesome.com/" translate="no">Font Awesome</a></li>
+<li><a href="./scalability.htm" translate="no">Scalability</a></li>
+<li><a href="./highdpi.htm" translate="no">High DPI Displays</a></li>
+</ul>
+</div>
+<!-- @@@qtquick-bestpractices.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

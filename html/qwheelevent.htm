@@ -1,0 +1,216 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QWheelEvent | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qwheelevent.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a href="./qtgui-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QWheelEvent</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QWheelEvent Class</h1>
+<!-- $$$QWheelEvent-brief -->
+<p>The QWheelEvent class contains parameters that describe a wheel event. <a href="#details">More...</a></p>
+<!-- @@@QWheelEvent -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QWheelEvent&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += gui</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qinputevent.htm" translate="no">QInputEvent</a></td></tr></tbody></table></div><ul>
+<li><a href="./qwheelevent-members.htm">List of all members, including inherited members</a></li>
+<li><a href="./qwheelevent-obsolete.htm">Obsolete members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#QWheelEvent-6" translate="no">QWheelEvent</a></b>(QPointF <i>pos</i>, QPointF <i>globalPos</i>, QPoint <i>pixelDelta</i>, QPoint <i>angleDelta</i>, Qt::MouseButtons <i>buttons</i>, Qt::KeyboardModifiers <i>modifiers</i>, Qt::ScrollPhase <i>phase</i>, bool <i>inverted</i>, Qt::MouseEventSource <i>source</i> = Qt::MouseEventNotSynthesized)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QPoint </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#angleDelta" translate="no">angleDelta</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Qt::MouseButtons </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#buttons" translate="no">buttons</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QPointF </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#globalPosition" translate="no">globalPosition</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#inverted" translate="no">inverted</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Qt::ScrollPhase </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#phase" translate="no">phase</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QPoint </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#pixelDelta" translate="no">pixelDelta</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QPointF </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#position" translate="no">position</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Qt::MouseEventSource </td><td class="memItemRight bottomAlign"><b><a href="./qwheelevent.htm#source" translate="no">source</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QWheelEvent-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Wheel events are sent to the widget under the mouse cursor, but if that widget does not handle the event they are sent to the focus widget. Wheel events are generated for both mouse wheels and trackpad scroll gestures. There are two ways to read the wheel event delta: <a href="./qwheelevent.htm#angleDelta" translate="no">angleDelta</a>() returns the deltas in wheel degrees. These values are always provided. <a href="./qwheelevent.htm#pixelDelta" translate="no">pixelDelta</a>() returns the deltas in screen pixels, and is available on platforms that have high-resolution trackpads, such as macOS. If that is the case, <a href="./qwheelevent.htm#source" translate="no">source</a>() will return <a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventSynthesizedBySystem</a>.</p>
+<p>The functions pos() and globalPos() return the mouse cursor's location at the time of the event.</p>
+<p>A wheel event contains a special accept flag that indicates whether the receiver wants the event. You should call <a href="./qevent.htm#ignore" translate="no">ignore</a>() if you do not handle the wheel event; this ensures that it will be sent to the parent widget.</p>
+<p>The <a href="./qwidget.htm#enabled-prop" translate="no">QWidget::setEnabled</a>() function can be used to enable or disable mouse and keyboard events for a widget.</p>
+<p>The event handler <a href="./qwidget.htm#wheelEvent" translate="no">QWidget::wheelEvent</a>() receives wheel events.</p>
+</div>
+<p><b>See also </b><a href="./qmouseevent.htm" translate="no">QMouseEvent</a> and <a href="./qwidget.htm#grabMouse" translate="no">QWidget::grabMouse</a>().</p>
+<!-- @@@QWheelEvent -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QWheelEvent$$$QWheelEventQPointFQPointFQPointQPointQt::MouseButtonsQt::KeyboardModifiersQt::ScrollPhaseboolQt::MouseEventSource -->
+<h3 class="fn" id="QWheelEvent-6" translate="no"><a name="QWheelEvent-6"></a>QWheelEvent::<span class="name">QWheelEvent</span>(<span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span> <i>pos</i>, <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span> <i>globalPos</i>, <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> <i>pixelDelta</i>, <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> <i>angleDelta</i>, <span class="type"><a href="./qt.htm#MouseButton-enum" translate="no">Qt::MouseButtons</a></span> <i>buttons</i>, <span class="type"><a href="./qt.htm#KeyboardModifier-enum" translate="no">Qt::KeyboardModifiers</a></span> <i>modifiers</i>, <span class="type"><a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollPhase</a></span> <i>phase</i>, <span class="type">bool</span> <i>inverted</i>, <span class="type"><a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventSource</a></span> <i>source</i> = Qt::MouseEventNotSynthesized)<a class="plink" href="#QWheelEvent-6" title="Direct link to this headline"></a></h3>
+<p>Constructs a wheel event object.</p>
+<p>The <i translate="no">pos</i> provides the location of the mouse cursor within the window. The position in global coordinates is specified by <i translate="no">globalPos</i>.</p>
+<p><i translate="no">pixelDelta</i> contains the scrolling distance in pixels on screen, while <i translate="no">angleDelta</i> contains the wheel rotation angle. <i translate="no">pixelDelta</i> is optional and can be null.</p>
+<p>The mouse and keyboard states at the time of the event are specified by <i translate="no">buttons</i> and <i translate="no">modifiers</i>.</p>
+<p>The scrolling phase of the event is specified by <i translate="no">phase</i>.</p>
+<p>If the wheel event comes from a physical mouse wheel, <i translate="no">source</i> is set to <a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventNotSynthesized</a>. If it comes from a gesture detected by the operating system, or from a non-mouse hardware device, such that <i translate="no">pixelDelta</i> is directly related to finger movement, <i translate="no">source</i> is set to <a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventSynthesizedBySystem</a>. If it comes from Qt, source would be set to <a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventSynthesizedByQt</a>.</p>
+<p>If the system is configured to invert the delta values delivered with the event (such as natural scrolling of the touchpad on macOS), <i translate="no">inverted</i> should be <code translate="no">true</code>. Otherwise, <i translate="no">inverted</i> is <code translate="no">false</code></p>
+<p>This function was introduced in Qt 5.12.</p>
+<p><b>See also </b><a href="./qwheelevent.htm#position" translate="no">position</a>(), <a href="./qwheelevent.htm#globalPosition" translate="no">globalPosition</a>(), <a href="./qwheelevent.htm#angleDelta" translate="no">angleDelta</a>(), <a href="./qwheelevent.htm#pixelDelta" translate="no">pixelDelta</a>(), <a href="./qwheelevent.htm#phase" translate="no">phase</a>(), <a href="./qwheelevent.htm#inverted" translate="no">inverted</a>(), and <a href="./qwheelevent.htm#source" translate="no">source</a>().</p>
+<!-- @@@QWheelEvent -->
+<!-- $$$angleDelta[overload1]$$$angleDelta -->
+<h3 class="fn" id="angleDelta" translate="no"><a name="angleDelta"></a><span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> QWheelEvent::<span class="name">angleDelta</span>() const<a class="plink" href="#angleDelta" title="Direct link to this headline"></a></h3>
+<p>Returns the relative amount that the wheel was rotated, in eighths of a degree. A positive value indicates that the wheel was rotated forwards away from the user; a negative value indicates that the wheel was rotated backwards toward the user. <code translate="no">angleDelta().y()</code> provides the angle through which the common vertical mouse wheel was rotated since the previous event. <code translate="no">angleDelta().x()</code> provides the angle through which the horizontal mouse wheel was rotated, if the mouse has a horizontal wheel; otherwise it stays at zero. Some mice allow the user to tilt the wheel to perform horizontal scrolling, and some touchpads support a horizontal scrolling gesture; that will also appear in <code translate="no">angleDelta().x()</code>.</p>
+<p>Most mouse types work in steps of 15 degrees, in which case the delta value is a multiple of 120; i.e., 120 units * 1/8 = 15 degrees.</p>
+<p>However, some mice have finer-resolution wheels and send delta values that are less than 120 units (less than 15 degrees). To support this possibility, you can either cumulatively add the delta values from events until the value of 120 is reached, then scroll the widget, or you can partially scroll the widget in response to each wheel event. But to provide a more native feel, you should prefer <a href="./qwheelevent.htm#pixelDelta" translate="no">pixelDelta</a>() on platforms where it's available.</p>
+<p>Example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyWidget<span class="operator">::</span>wheelEvent(<span class="type"><a href="./qwheelevent-obsolete.htm#QWheelEvent" translate="no">QWheelEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> numPixels <span class="operator">=</span> event<span class="operator">-</span><span class="operator">&gt;</span>pixelDelta();
+    <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> numDegrees <span class="operator">=</span> event<span class="operator">-</span><span class="operator">&gt;</span>angleDelta() <span class="operator">/</span> <span class="number">8</span>;
+
+    <span class="keyword">if</span> (<span class="operator">!</span>numPixels<span class="operator">.</span>isNull()) {
+        scrollWithPixels(numPixels);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="operator">!</span>numDegrees<span class="operator">.</span>isNull()) {
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> numSteps <span class="operator">=</span> numDegrees <span class="operator">/</span> <span class="number">15</span>;
+        scrollWithDegrees(numSteps);
+    }
+
+    event<span class="operator">-</span><span class="operator">&gt;</span>accept();
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>On platforms that support scrolling <a href="./qwheelevent.htm#phase" translate="no">phases</a>, the delta may be null when:</p>
+</div>
+<ul>
+<li>scrolling is about to begin, but the distance did not yet change (<a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollBegin</a>),</li>
+<li>or scrolling has ended and the distance did not change anymore (<a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollEnd</a>).</li>
+</ul>
+<p><b>See also </b><a href="./qwheelevent.htm#pixelDelta" translate="no">pixelDelta</a>().</p>
+<!-- @@@angleDelta -->
+<!-- $$$buttons[overload1]$$$buttons -->
+<h3 class="fn" id="buttons" translate="no"><a name="buttons"></a><span class="type"><a href="./qt.htm#MouseButton-enum" translate="no">Qt::MouseButtons</a></span> QWheelEvent::<span class="name">buttons</span>() const<a class="plink" href="#buttons" title="Direct link to this headline"></a></h3>
+<p>Returns the mouse state when the event occurred.</p>
+<!-- @@@buttons -->
+<!-- $$$globalPosition[overload1]$$$globalPosition -->
+<h3 class="fn" id="globalPosition" translate="no"><a name="globalPosition"></a><span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span> QWheelEvent::<span class="name">globalPosition</span>() const<a class="plink" href="#globalPosition" title="Direct link to this headline"></a></h3>
+<p>Returns the global position of the mouse pointer <i>at the time of the event</i>. This is important on asynchronous window systems such as X11; whenever you move your widgets around in response to mouse events, globalPosition() can differ a lot from the current cursor position returned by <a href="./qcursor.htm#pos" translate="no">QCursor::pos</a>().</p>
+<p><b>See also </b><a href="./qwheelevent.htm#position" translate="no">position</a>().</p>
+<!-- @@@globalPosition -->
+<!-- $$$inverted[overload1]$$$inverted -->
+<h3 class="fn" id="inverted" translate="no"><a name="inverted"></a><span class="type">bool</span> QWheelEvent::<span class="name">inverted</span>() const<a class="plink" href="#inverted" title="Direct link to this headline"></a></h3>
+<p>Returns whether the delta values delivered with the event are inverted.</p>
+<p>Normally, a vertical wheel will produce a <a href="./qwheelevent.htm" translate="no">QWheelEvent</a> with positive delta values if the top of the wheel is rotating away from the hand operating it. Similarly, a horizontal wheel movement will produce a <a href="./qwheelevent.htm" translate="no">QWheelEvent</a> with positive delta values if the top of the wheel is moved to the left.</p>
+<p>However, on some platforms this is configurable, so that the same operations described above will produce negative delta values (but with the same magnitude). With the inverted property a wheel event consumer can choose to always follow the direction of the wheel, regardless of the system settings, but only for specific widgets. (One such use case could be that the user is rotating the wheel in the same direction as a visual Tumbler rotates. Another usecase is to make a slider handle follow the direction of movement of fingers on a touchpad regardless of system configuration.)</p>
+<div class="admonition note">
+<p><b>Note: </b>Many platforms provide no such information. On such platforms inverted always returns false.</p>
+</div>
+<p>This function was introduced in Qt 5.7.</p>
+<!-- @@@inverted -->
+<!-- $$$phase[overload1]$$$phase -->
+<h3 class="fn" id="phase" translate="no"><a name="phase"></a><span class="type"><a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollPhase</a></span> QWheelEvent::<span class="name">phase</span>() const<a class="plink" href="#phase" title="Direct link to this headline"></a></h3>
+<p>Returns the scrolling phase of this wheel event.</p>
+<div class="admonition note">
+<p><b>Note: </b>The <a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollBegin</a> and <a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollEnd</a> phases are currently supported only on macOS.</p>
+</div>
+<p>This function was introduced in Qt 5.2.</p>
+<!-- @@@phase -->
+<!-- $$$pixelDelta[overload1]$$$pixelDelta -->
+<h3 class="fn" id="pixelDelta" translate="no"><a name="pixelDelta"></a><span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> QWheelEvent::<span class="name">pixelDelta</span>() const<a class="plink" href="#pixelDelta" title="Direct link to this headline"></a></h3>
+<p>Returns the scrolling distance in pixels on screen. This value is provided on platforms that support high-resolution pixel-based delta values, such as macOS. The value should be used directly to scroll content on screen.</p>
+<p>Example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyWidget<span class="operator">::</span>wheelEvent(<span class="type"><a href="./qwheelevent-obsolete.htm#QWheelEvent" translate="no">QWheelEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> numPixels <span class="operator">=</span> event<span class="operator">-</span><span class="operator">&gt;</span>pixelDelta();
+    <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> numDegrees <span class="operator">=</span> event<span class="operator">-</span><span class="operator">&gt;</span>angleDelta() <span class="operator">/</span> <span class="number">8</span>;
+
+    <span class="keyword">if</span> (<span class="operator">!</span>numPixels<span class="operator">.</span>isNull()) {
+        scrollWithPixels(numPixels);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="operator">!</span>numDegrees<span class="operator">.</span>isNull()) {
+        <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span> numSteps <span class="operator">=</span> numDegrees <span class="operator">/</span> <span class="number">15</span>;
+        scrollWithDegrees(numSteps);
+    }
+
+    event<span class="operator">-</span><span class="operator">&gt;</span>accept();
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>On platforms that support scrolling <a href="./qwheelevent.htm#phase" translate="no">phases</a>, the delta may be null when:</p>
+</div>
+<ul>
+<li>scrolling is about to begin, but the distance did not yet change (<a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollBegin</a>),</li>
+<li>or scrolling has ended and the distance did not change anymore (<a href="./qt.htm#ScrollPhase-enum" translate="no">Qt::ScrollEnd</a>).</li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>On X11 this value is driver specific and unreliable, use <a href="./qwheelevent.htm#angleDelta" translate="no">angleDelta</a>() instead</p>
+</div>
+<!-- @@@pixelDelta -->
+<!-- $$$position[overload1]$$$position -->
+<h3 class="fn" id="position" translate="no"><a name="position"></a><span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span> QWheelEvent::<span class="name">position</span>() const<a class="plink" href="#position" title="Direct link to this headline"></a></h3>
+<p>Returns the position of the mouse cursor relative to the widget that received the event.</p>
+<p>If you move your widgets around in response to mouse events, use <a href="./qwheelevent.htm#globalPosition" translate="no">globalPosition</a>() instead of this function.</p>
+<p>This function was introduced in Qt 5.14.</p>
+<p><b>See also </b><a href="./qwheelevent.htm#globalPosition" translate="no">globalPosition</a>().</p>
+<!-- @@@position -->
+<!-- $$$source[overload1]$$$source -->
+<h3 class="fn" id="source" translate="no"><a name="source"></a><span class="type"><a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventSource</a></span> QWheelEvent::<span class="name">source</span>() const<a class="plink" href="#source" title="Direct link to this headline"></a></h3>
+<p>Returns information about the wheel event source.</p>
+<p>The source can be used to distinguish between events that come from a mouse with a physical wheel and events that are generated by some other means, such as a flick gesture on a touchpad.</p>
+<div class="admonition note">
+<p><b>Note: </b>Many platforms provide no such information. On such platforms <a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventNotSynthesized</a> is returned always.</p>
+</div>
+<p>This function was introduced in Qt 5.5.</p>
+<p><b>See also </b><a href="./qt.htm#MouseEventSource-enum" translate="no">Qt::MouseEventSource</a>.</p>
+<!-- @@@source -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

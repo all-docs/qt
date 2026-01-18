@@ -1,0 +1,180 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>State QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-state.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>State QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">State QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$State-brief -->
+<p>Defines configurations of objects and properties. <a href="#details">More...</a></p>
+<!-- @@@State -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-state-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-state.htm#changes-prop" translate="no">changes</a></b></b> : list&lt;Change&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-state.htm#extend-prop" translate="no">extend</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-state.htm#name-prop" translate="no">name</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-state.htm#when-prop" translate="no">when</a></b></b> : bool</li>
+</ul>
+<!-- $$$State-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A <i>state</i> is a set of batched changes from the default configuration.</p>
+<p>All items have a default state that defines the default configuration of objects and property values. New states can be defined by adding State items to the <a href="./qml-qtquick-item.htm#states-prop" translate="no">states</a> property to allow items to switch between different configurations. These configurations can, for example, be used to apply different sets of property values or execute different scripts.</p>
+<p>The following example displays a single <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a>. In the default state, the rectangle is colored black. In the "clicked" state, a <a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a> object changes the rectangle's color to red. Clicking within the <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> toggles the rectangle's state between the default state and the "clicked" state, thus toggling the color of the rectangle between black and red.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">myRect</span>
+    <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>
+    <span class="name">color</span>: <span class="string">"black"</span>
+
+    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">id</span>: <span class="name">mouseArea</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">onClicked</span>: <span class="name">myRect</span>.<span class="name">state</span> <span class="operator">==</span> <span class="string">'clicked'</span> ? <span class="name">myRect</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">""</span> : <span class="name">myRect</span>.<span class="name">state</span> <span class="operator">=</span> <span class="string">'clicked'</span>;
+    }
+
+    <span class="name">states</span>: [
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"clicked"</span>
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">myRect</span>; <span class="name">color</span>: <span class="string">"red"</span> }
+        }
+    ]
+}</pre></div>
+<p>Notice the default state is referred to using an empty string ("").</p>
+<p>States are commonly used together with <a href="./qtquick-statesanimations-animations.htm" translate="no">Transitions</a> to provide animations when state changes occur.</p>
+<div class="admonition note">
+<p><b>Note: </b>Setting the state of an object from within another state of the same object is not allowed.</p>
+</div>
+<p><b>See also </b><a href="./qtquick-animation-example.htm#states" translate="no">States example</a>, <a href="./qtquick-statesanimations-states.htm" translate="no">Qt Quick States</a>, <a href="./qtquick-statesanimations-animations.htm" translate="no">Transitions</a>, and <a href="./qtqml-index.htm" translate="no">Qt QML</a>.</p>
+<!-- @@@State -->
+<h2>Property Documentation</h2>
+<!-- $$$changes -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="changes-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="changes-prop"></a><span class="qmldefault">[default] </span><span class="name">changes</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type">Change</span>&gt;<a class="plink" href="#changes-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the changes to apply for this state</p>
+<p>By default these changes are applied against the default state. If the state extends another state, then the changes are applied against the state being extended.</p>
+</div></div><!-- @@@changes -->
+<br>
+<!-- $$$extend -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="extend-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="extend-prop"></a><span class="name">extend</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#extend-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the state that this state extends.</p>
+<p>When a state extends another state, it inherits all the changes of that state.</p>
+<p>The state being extended is treated as the base state in regards to the changes specified by the extending state.</p>
+</div></div><!-- @@@extend -->
+<br>
+<!-- $$$name -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="name-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="name-prop"></a><span class="name">name</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#name-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the name of the state.</p>
+<p>Each state should have a unique name within its item.</p>
+</div></div><!-- @@@name -->
+<br>
+<!-- $$$when -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="when-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="when-prop"></a><span class="name">when</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#when-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds when the state should be applied.</p>
+<p>This should be set to an expression that evaluates to <code translate="no">true</code> when you want the state to be applied. For example, the following <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> changes in and out of the "hidden" state when the <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> is pressed:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">myRect</span>
+    <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>
+    <span class="name">color</span>: <span class="string">"red"</span>
+
+    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> { <span class="name">id</span>: <span class="name">mouseArea</span>; <span class="name">anchors</span>.fill: <span class="name">parent</span> }
+
+    <span class="name">states</span>: <span class="name">State</span> {
+        <span class="name">name</span>: <span class="string">"hidden"</span>; <span class="name">when</span>: <span class="name">mouseArea</span>.<span class="name">pressed</span>
+        <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> { <span class="name">target</span>: <span class="name">myRect</span>; <span class="name">opacity</span>: <span class="number">0</span> }
+    }
+}</pre></div>
+<p>If multiple states in a group have <code translate="no">when</code> clauses that evaluate to <code translate="no">true</code> at the same time, the first matching state will be applied. For example, in the following snippet <code translate="no">state1</code> will always be selected rather than <code translate="no">state2</code> when sharedCondition becomes <code translate="no">true</code>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">states</span>: [
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> { <span class="name">name</span>: <span class="string">"state1"</span>; <span class="name">when</span>: <span class="name">sharedCondition</span> },
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> { <span class="name">name</span>: <span class="string">"state2"</span>; <span class="name">when</span>: <span class="name">sharedCondition</span> }
+    ]
+    <span class="comment">// ...</span>
+}</pre></div>
+</div></div><!-- @@@when -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

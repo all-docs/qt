@@ -1,0 +1,160 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PathAttribute QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-pathattribute.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>PathAttribute QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">PathAttribute QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$PathAttribute-brief -->
+<p>Specifies how to set an attribute at a given position in a Path. <a href="#details">More...</a></p>
+<!-- @@@PathAttribute -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-pathattribute-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-pathattribute.htm#name-prop" translate="no">name</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-pathattribute.htm#value-prop" translate="no">value</a></b></b> : real</li>
+</ul>
+<!-- $$$PathAttribute-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The PathAttribute object allows attributes consisting of a name and a value to be specified for various points along a path. The attributes are exposed to the delegate as <a href="./qtqml-syntax-objectattributes.htm#attached-properties-and-attached-signal-handlers" translate="no">Attached Properties</a>. The value of an attribute at any particular point along the path is interpolated from the PathAttributes bounding that point.</p>
+<p>The example below shows a path with the items scaled to 30% with opacity 50% at the top of the path and scaled 100% with opacity 100% at the bottom. Note the use of the <a href="./qml-qtquick-pathview.htm" translate="no">PathView</a>.iconScale and <a href="./qml-qtquick-pathview.htm" translate="no">PathView</a>.iconOpacity attached properties to set the scale and opacity of the delegate.</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/declarative-pathattribute.png"></p></td><td><div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">240</span>; <span class="name">height</span>: <span class="number">200</span>
+
+    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">delegate</span>
+        <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+            <span class="name">width</span>: <span class="number">80</span>; <span class="name">height</span>: <span class="number">80</span>
+            <span class="name">scale</span>: <span class="name">PathView</span>.<span class="name">iconScale</span>
+            <span class="name">opacity</span>: <span class="name">PathView</span>.<span class="name">iconOpacity</span>
+            <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+                <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> { <span class="name">anchors</span>.horizontalCenter: <span class="name">nameText</span>.<span class="name">horizontalCenter</span>; <span class="name">width</span>: <span class="number">64</span>; <span class="name">height</span>: <span class="number">64</span>; <span class="name">source</span>: <span class="name">icon</span> }
+                <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">id</span>: <span class="name">nameText</span>; <span class="name">text</span>: <span class="name">name</span>; <span class="name">font</span>.pointSize: <span class="number">16</span> }
+            }
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-pathview.htm" translate="no">PathView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">model</span>: <span class="name">ContactModel</span> {}
+        <span class="name">delegate</span>: <span class="name">delegate</span>
+        <span class="name">path</span>: <span class="name">Path</span> {
+            <span class="name">startX</span>: <span class="number">120</span>; <span class="name">startY</span>: <span class="number">100</span>
+            <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">"iconScale"</span>; <span class="name">value</span>: <span class="number">1.0</span> }
+            <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">"iconOpacity"</span>; <span class="name">value</span>: <span class="number">1.0</span> }
+            <span class="type"><a href="./qml-qtquick-pathquad.htm" translate="no">PathQuad</a></span> { <span class="name">x</span>: <span class="number">120</span>; <span class="name">y</span>: <span class="number">25</span>; <span class="name">controlX</span>: <span class="number">260</span>; <span class="name">controlY</span>: <span class="number">75</span> }
+            <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">"iconScale"</span>; <span class="name">value</span>: <span class="number">0.3</span> }
+            <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">"iconOpacity"</span>; <span class="name">value</span>: <span class="number">0.5</span> }
+            <span class="type"><a href="./qml-qtquick-pathquad.htm" translate="no">PathQuad</a></span> { <span class="name">x</span>: <span class="number">120</span>; <span class="name">y</span>: <span class="number">100</span>; <span class="name">controlX</span>: -<span class="number">20</span>; <span class="name">controlY</span>: <span class="number">75</span> }
+        }
+    }
+}</pre></div>
+<p>(see the <a href="./qml-qtquick-pathview.htm" translate="no">PathView</a> documentation for the specification of ContactModel.qml used for ContactModel above.)</p>
+</td></tr>
+</tbody></table></div>
+<p><b>See also </b><a href="./qml-qtquick-path.htm" translate="no">Path</a>.</p>
+<!-- @@@PathAttribute -->
+<h2>Property Documentation</h2>
+<!-- $$$name -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="name-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="name-prop"></a><span class="name">name</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#name-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the name of the attribute to change.</p>
+<p>This attribute will be available to the delegate as <a href="./qml-qtquick-pathview.htm" translate="no">PathView</a>.&lt;name&gt;</p>
+<p>Note that using an existing Item property name such as "opacity" as an attribute is allowed. This is because path attributes add a new <a href="./qtqml-syntax-objectattributes.htm#attached-properties-and-attached-signal-handlers" translate="no">Attached Property</a> which in no way clashes with existing properties.</p>
+</div></div><!-- @@@name -->
+<br>
+<!-- $$$value -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="value-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="value-prop"></a><span class="name">value</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#value-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the value for the attribute.</p>
+<p>The value specified can be used to influence the visual appearance of an item along the path. For example, the following Path specifies an attribute named <i>itemRotation</i>, which has the value <i>0</i> at the beginning of the path, and the value 90 at the end of the path.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-path.htm" translate="no">Path</a></span> {
+    <span class="name">startX</span>: <span class="number">0</span>
+    <span class="name">startY</span>: <span class="number">0</span>
+    <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">"itemRotation"</span>; <span class="name">value</span>: <span class="number">0</span> }
+    <span class="type"><a href="./qml-qtquick-pathline.htm" translate="no">PathLine</a></span> { <span class="name">x</span>: <span class="number">100</span>; <span class="name">y</span>: <span class="number">100</span> }
+    <span class="type"><a href="./qml-qtquick-pathattribute.htm" translate="no">PathAttribute</a></span> { <span class="name">name</span>: <span class="string">"itemRotation"</span>; <span class="name">value</span>: <span class="number">90</span> }
+}</pre></div>
+<p>In our delegate, we can then bind the <i>rotation</i> property to the <a href="./qtqml-syntax-objectattributes.htm#attached-properties-and-attached-signal-handlers" translate="no">Attached Property</a> <i>PathView.itemRotation</i> created for this attribute.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">10</span>; <span class="name">height</span>: <span class="number">10</span>
+    <span class="name">rotation</span>: <span class="name">PathView</span>.<span class="name">itemRotation</span>
+}</pre></div>
+<p>As each item is positioned along the path, it will be rotated accordingly: an item at the beginning of the path with be not be rotated, an item at the end of the path will be rotated 90 degrees, and an item mid-way along the path will be rotated 45 degrees.</p>
+</div></div><!-- @@@value -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

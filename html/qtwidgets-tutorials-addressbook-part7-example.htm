@@ -1,0 +1,142 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Part 7 - Additional Features | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Part 7 - Additional Features</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Part 7 - Additional Features</h1>
+<span class="subtitle"></span>
+<!-- $$$tutorials/addressbook/part7-brief -->
+<p>Describes how to export data in VCard format.</p>
+<!-- @@@tutorials/addressbook/part7 -->
+<!-- $$$tutorials/addressbook/part7-description -->
+<div class="descr"> <a name="details"></a>
+<p>This part covers some additional features that make the address book more convenient for the frequent user.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part7-screenshot.png"></p><p>Although our address book is useful in isolation, it would be better if we could exchange contact data with other applications. The vCard format is a popular file format that can be used for this purpose. Here we extend our address book client to allow contacts to be exported to vCard <code translate="no">.vcf</code> files.</p>
+<a name="defining-the-addressbook-class"></a>
+<h4 id="defining-the-addressbook-class">Defining the AddressBook Class<a class="plink" href="#defining-the-addressbook-class" title="Direct link to this headline"></a></h4>
+<p>We add a <a href="./qpushbutton.htm" translate="no">QPushButton</a> object, <code translate="no">exportButton</code>, and a corresponding public slot, <code translate="no">exportAsVCard()</code> to our <code translate="no">AddressBook</code> class in the <code translate="no">addressbook.h</code> file.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">void</span> exportAsVCard();
+    ...
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>exportButton;</pre></div>
+<a name="implementing-the-addressbook-class"></a>
+<h4 id="implementing-the-addressbook-class">Implementing the AddressBook Class<a class="plink" href="#implementing-the-addressbook-class" title="Direct link to this headline"></a></h4>
+<p>Within the <code translate="no">AddressBook</code> constructor, we connect <code translate="no">exportButton</code>'s <a href="./qabstractbutton.htm#clicked" translate="no">clicked()</a> signal to <code translate="no">exportAsVCard()</code>. We also add this button to our <code translate="no">buttonLayout1</code>, the layout responsible for our panel of buttons on the right.</p>
+<p>In our <code translate="no">exportAsVCard()</code> function, we start by extracting the contact's name into <code translate="no">name</code>. We declare <code translate="no">firstName</code>, <code translate="no">lastName</code> and <code translate="no">nameList</code>. Next, we look for the index of the first white space in <code translate="no">name</code>. If there is a white space, we split the contact's name into <code translate="no">firstName</code> and <code translate="no">lastName</code>. Then, we replace the space with an underscore ("<a href="./qromancalendar.htm" translate="no">_</a>"). Alternately, if there is no white space, we assume that the contact only has a first name.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> AddressBook<span class="operator">::</span>exportAsVCard()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name <span class="operator">=</span> nameLine<span class="operator">-</span><span class="operator">&gt;</span>text();
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> address <span class="operator">=</span> addressText<span class="operator">-</span><span class="operator">&gt;</span>toPlainText();
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> firstName;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> lastName;
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> nameList;
+
+    <span class="type">int</span> index <span class="operator">=</span> name<span class="operator">.</span>indexOf(<span class="string">" "</span>);
+
+    <span class="keyword">if</span> (index <span class="operator">!</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>) {
+        nameList <span class="operator">=</span> name<span class="operator">.</span>split(<span class="type"><a href="./qregularexpression.htm" translate="no">QRegularExpression</a></span>(<span class="string">"\\s+"</span>)<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>SkipEmptyParts);
+        firstName <span class="operator">=</span> nameList<span class="operator">.</span>first();
+        lastName <span class="operator">=</span> nameList<span class="operator">.</span>last();
+    } <span class="keyword">else</span> {
+        firstName <span class="operator">=</span> name;
+        lastName <span class="operator">=</span> <span class="string">""</span>;
+    }
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> fileName <span class="operator">=</span> <span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span><span class="operator">::</span>getSaveFileName(<span class="keyword">this</span><span class="operator">,</span>
+        tr(<span class="string">"Export Contact"</span>)<span class="operator">,</span> <span class="string">""</span><span class="operator">,</span>
+        tr(<span class="string">"vCard Files (*.vcf);;All Files (*)"</span>));
+
+    <span class="keyword">if</span> (fileName<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span>;
+
+    <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> file(fileName);</pre></div>
+<p>As with the <code translate="no">saveToFile()</code> function, we open a file dialog to let the user choose a location for the file. Using the file name chosen, we create an instance of <a href="./qfile.htm" translate="no">QFile</a> to write to.</p>
+<p>We attempt to open the file in <a href="./qiodevice.htm#OpenModeFlag-enum" translate="no">WriteOnly</a> mode. If this process fails, we display a <a href="./qmessagebox.htm" translate="no">QMessageBox</a> to inform the user about the problem and return. Otherwise, we pass the file as a parameter to a <a href="./qtextstream.htm" translate="no">QTextStream</a> object, <code translate="no">out</code>. Like <a href="./qdatastream.htm" translate="no">QDataStream</a>, the <a href="./qtextstream.htm" translate="no">QTextStream</a> class provides functionality to read and write plain text to files. As a result, the <code translate="no">.vcf</code> file generated can be opened for editing in a text editor.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">if</span> (<span class="operator">!</span>file<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>WriteOnly)) {
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>information(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Unable to open file"</span>)<span class="operator">,</span>
+            file<span class="operator">.</span>errorString());
+        <span class="keyword">return</span>;
+    }
+
+    <span class="type"><a href="./qtextstream.htm" translate="no">QTextStream</a></span> out(<span class="operator">&amp;</span>file);</pre></div>
+<p>We then write out a vCard file with the <code translate="no">BEGIN:VCARD</code> tag, followed by the <code translate="no">VERSION:2.1</code> tag. The contact's name is written with the <code translate="no">N:</code> tag. For the <code translate="no">FN:</code> tag, which fills in the "File as" property of a vCard, we have to check whether the contact has a last name or not. If the contact does, we use the details in <code translate="no">nameList</code> to fill it. Otherwise, we write <code translate="no">firstName</code> only.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    out <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"BEGIN:VCARD"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">'\n'</span>;
+    out <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"VERSION:2.1"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">'\n'</span>;
+    out <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"N:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> lastName <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">';'</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> firstName <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">'\n'</span>;
+
+    <span class="keyword">if</span> (<span class="operator">!</span>nameList<span class="operator">.</span>isEmpty())
+       out <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"FN:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> nameList<span class="operator">.</span>join(<span class="char">' '</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">'\n'</span>;
+    <span class="keyword">else</span>
+       out <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"FN:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> firstName <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">'\n'</span>;</pre></div>
+<p>We proceed to write the contact's address. The semicolons in the address are escaped with "\", the newlines are replaced with semicolons, and the commas are replaced with spaces. Lastly, we write the <code translate="no">ADR;HOME:;</code> tag, followed by <code translate="no">address</code> and then the <code translate="no">END:VCARD</code> tag.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    address<span class="operator">.</span>replace(<span class="string">";"</span><span class="operator">,</span> <span class="string">"\\;"</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CaseInsensitive);
+    address<span class="operator">.</span>replace(<span class="char">'\n'</span><span class="operator">,</span> <span class="string">";"</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CaseInsensitive);
+    address<span class="operator">.</span>replace(<span class="string">","</span><span class="operator">,</span> <span class="string">" "</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>CaseInsensitive);
+
+    out <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"ADR;HOME:;"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> address <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">'\n'</span>;
+    out <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"END:VCARD"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="char">'\n'</span>;
+
+    <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>information(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Export Successful"</span>)<span class="operator">,</span>
+        tr(<span class="string">"\"%1\" has been exported as a vCard."</span>)<span class="operator">.</span>arg(name));
+}</pre></div>
+<p>In the end, a <a href="./qmessagebox.htm" translate="no">QMessageBox</a> is displayed to inform the user that the vCard has been successfully exported.</p>
+<p><i>vCard is a trademark of the <a href="http://www.imc.org" translate="no">Internet Mail Consortium</a></i>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/tutorials/addressbook/part7?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@tutorials/addressbook/part7 -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

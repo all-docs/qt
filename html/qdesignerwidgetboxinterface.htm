@@ -1,0 +1,142 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QDesignerWidgetBoxInterface | Qt Designer Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qdesignerwidgetboxinterface.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdesigner-manual.htm" translate="no">Qt Designer Manual</a></li>
+                            <li><a href="./qtdesigner-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QDesignerWidgetBoxInterface</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QDesignerWidgetBoxInterface Class</h1>
+<!-- $$$QDesignerWidgetBoxInterface-brief -->
+<p>The QDesignerWidgetBoxInterface class allows you to control the contents of Qt Designer's widget box. <a href="#details">More...</a></p>
+<!-- @@@QDesignerWidgetBoxInterface -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QDesignerWidgetBoxInterface&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += designer</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qwidget.htm" translate="no">QWidget</a></td></tr></tbody></table></div><ul>
+<li><a href="./qdesignerwidgetboxinterface-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qdesignerwidgetboxinterface.htm#QDesignerWidgetBoxInterface" translate="no">QDesignerWidgetBoxInterface</a></b>(QWidget *<i>parent</i> = nullptr, Qt::WindowFlags <i>flags</i> = Qt::WindowFlags())</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qdesignerwidgetboxinterface.htm#dtor.QDesignerWidgetBoxInterface" translate="no">~QDesignerWidgetBoxInterface</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QString </td><td class="memItemRight bottomAlign"><b><a href="./qdesignerwidgetboxinterface.htm#fileName" translate="no">fileName</a></b>() const = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual bool </td><td class="memItemRight bottomAlign"><b><a href="./qdesignerwidgetboxinterface.htm#load" translate="no">load</a></b>() = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual bool </td><td class="memItemRight bottomAlign"><b><a href="./qdesignerwidgetboxinterface.htm#save" translate="no">save</a></b>() = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="./qdesignerwidgetboxinterface.htm#setFileName" translate="no">setFileName</a></b>(const QString &amp;<i>fileName</i>) = 0</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QDesignerWidgetBoxInterface-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QDesignerWidgetBoxInterface contains a collection of functions that is typically used to manipulate the contents of <i>Qt Designer</i>'s widget box.</p>
+<p><i>Qt Designer</i> uses an XML file to populate its widget box. The name of that file is one of the widget box's properties, and you can retrieve it using the <a href="./qdesignerwidgetboxinterface.htm#fileName" translate="no">fileName</a>() function.</p>
+<p>QDesignerWidgetBoxInterface also provides the <a href="./qdesignerwidgetboxinterface.htm#save" translate="no">save</a>() function that saves the contents of the widget box in the file specified by the widget box's file name property. If you have made changes to the widget box, for example by dropping a widget into the widget box, without calling the <a href="./qdesignerwidgetboxinterface.htm#save" translate="no">save</a>() function, the original content can be restored by a simple invocation of the <a href="./qdesignerwidgetboxinterface.htm#load" translate="no">load</a>() function:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qdesignerwidgetboxinterface.htm#QDesignerWidgetBoxInterface" translate="no">QDesignerWidgetBoxInterface</a></span> <span class="operator">*</span>widgetBox <span class="operator">=</span> <span class="number">0</span>:
+        widgetBox <span class="operator">=</span> formEditor<span class="operator">-</span><span class="operator">&gt;</span>widgetBox();
+
+        widgetBox<span class="operator">-</span><span class="operator">&gt;</span>load();</pre></div>
+<p>The QDesignerWidgetBoxInterface class is not intended to be instantiated directly. You can retrieve an interface to Qt Designer's widget box using the <a href="./qdesignerformeditorinterface.htm#widgetBox" translate="no">QDesignerFormEditorInterface::widgetBox</a>() function. A pointer to <i>Qt Designer</i>'s current <a href="./qdesignerformeditorinterface.htm" translate="no">QDesignerFormEditorInterface</a> object (<code translate="no">formEditor</code> in the example above) is provided by the <a href="./qdesignercustomwidgetinterface.htm#initialize" translate="no">QDesignerCustomWidgetInterface::initialize</a>() function's parameter. When implementing a custom widget plugin, you must subclass the <a href="./qdesignercustomwidgetinterface.htm" translate="no">QDesignerCustomWidgetInterface</a> to expose your plugin to <i>Qt Designer</i>.</p>
+<p>If you want to save your changes, and at the same time preserve the original contents, you can use the <a href="./qdesignerwidgetboxinterface.htm#save" translate="no">save</a>() function combined with the <a href="./qdesignerwidgetboxinterface.htm#setFileName" translate="no">setFileName</a>() function to save your changes into another file. Remember to store the name of the original file first:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> originalFile <span class="operator">=</span> widgetBox<span class="operator">-</span><span class="operator">&gt;</span>fileName();
+
+        widgetBox<span class="operator">-</span><span class="operator">&gt;</span>setFileName(<span class="string">"myWidgetBox.xml"</span>);
+        widgetBox<span class="operator">-</span><span class="operator">&gt;</span>save();</pre></div>
+<p>Then you can restore the original contents of the widget box by resetting the file name to the original file and calling <a href="./qdesignerwidgetboxinterface.htm#load" translate="no">load</a>():</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        widgetBox<span class="operator">-</span><span class="operator">&gt;</span>setFileName(originalFile);
+        widgetBox<span class="operator">-</span><span class="operator">&gt;</span>load();</pre></div>
+<p>In a similar way, you can later use your customized XML file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="keyword">if</span> (widgetBox<span class="operator">-</span><span class="operator">&gt;</span>filename() <span class="operator">!</span><span class="operator">=</span> <span class="string">"myWidgetBox.xml"</span>) {
+            widgetBox<span class="operator">-</span><span class="operator">&gt;</span>setFileName(<span class="string">"myWidgetBox.xml"</span>);
+            widgetBox<span class="operator">-</span><span class="operator">&gt;</span>load();
+        }</pre></div>
+</div>
+<p><b>See also </b><a href="./qdesignerformeditorinterface.htm" translate="no">QDesignerFormEditorInterface</a>.</p>
+<!-- @@@QDesignerWidgetBoxInterface -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QDesignerWidgetBoxInterface[overload1]$$$QDesignerWidgetBoxInterfaceQWidget*Qt::WindowFlags -->
+<h3 class="fn" id="QDesignerWidgetBoxInterface" translate="no"><a name="QDesignerWidgetBoxInterface"></a>QDesignerWidgetBoxInterface::<span class="name">QDesignerWidgetBoxInterface</span>(<span class="type"><a href="./qwidget.htm#QWidget" translate="no">QWidget</a></span> *<i>parent</i> = nullptr, <span class="type"><a href="./qt.htm#WindowType-enum" translate="no">Qt::WindowFlags</a></span> <i>flags</i> = Qt::WindowFlags())<a class="plink" href="#QDesignerWidgetBoxInterface" title="Direct link to this headline"></a></h3>
+<p>Constructs a widget box interface with the given <i translate="no">parent</i> and the specified window <i translate="no">flags</i>.</p>
+<!-- @@@QDesignerWidgetBoxInterface -->
+<!-- $$$~QDesignerWidgetBoxInterface[overload1]$$$~QDesignerWidgetBoxInterface -->
+<h3 class="fn" id="dtor.QDesignerWidgetBoxInterface" translate="no"><a name="dtor.QDesignerWidgetBoxInterface"></a><code translate="no">[virtual] </code>QDesignerWidgetBoxInterface::<span class="name">~QDesignerWidgetBoxInterface</span>()<a class="plink" href="#dtor.QDesignerWidgetBoxInterface" title="Direct link to this headline"></a></h3>
+<p>Destroys the widget box interface.</p>
+<!-- @@@~QDesignerWidgetBoxInterface -->
+<!-- $$$fileName[overload1]$$$fileName -->
+<h3 class="fn" id="fileName" translate="no"><a name="fileName"></a><code translate="no">[pure virtual] </code><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> QDesignerWidgetBoxInterface::<span class="name">fileName</span>() const<a class="plink" href="#fileName" title="Direct link to this headline"></a></h3>
+<p>Returns the name of the XML file <i>Qt Designer</i> is currently using to populate its widget box.</p>
+<p><b>See also </b><a href="./qdesignerwidgetboxinterface.htm#setFileName" translate="no">setFileName</a>().</p>
+<!-- @@@fileName -->
+<!-- $$$load[overload1]$$$load -->
+<h3 class="fn" id="load" translate="no"><a name="load"></a><code translate="no">[pure virtual] </code><span class="type">bool</span> QDesignerWidgetBoxInterface::<span class="name">load</span>()<a class="plink" href="#load" title="Direct link to this headline"></a></h3>
+<p>Populates <i>Qt Designer</i>'s widget box by loading (or reloading) the currently specified XML file. Returns true if the file is successfully loaded; otherwise false.</p>
+<p><b>See also </b><a href="./qdesignerwidgetboxinterface.htm#setFileName" translate="no">setFileName</a>().</p>
+<!-- @@@load -->
+<!-- $$$save[overload1]$$$save -->
+<h3 class="fn" id="save" translate="no"><a name="save"></a><code translate="no">[pure virtual] </code><span class="type">bool</span> QDesignerWidgetBoxInterface::<span class="name">save</span>()<a class="plink" href="#save" title="Direct link to this headline"></a></h3>
+<p>Saves the contents of <i>Qt Designer</i>'s widget box in the file specified by the <a href="./qdesignerwidgetboxinterface.htm#fileName" translate="no">fileName</a>() function. Returns true if the content is successfully saved; otherwise false.</p>
+<p><b>See also </b><a href="./qdesignerwidgetboxinterface.htm#fileName" translate="no">fileName</a>() and <a href="./qdesignerwidgetboxinterface.htm#setFileName" translate="no">setFileName</a>().</p>
+<!-- @@@save -->
+<!-- $$$setFileName[overload1]$$$setFileNameconstQString& -->
+<h3 class="fn" id="setFileName" translate="no"><a name="setFileName"></a><code translate="no">[pure virtual] </code><span class="type">void</span> QDesignerWidgetBoxInterface::<span class="name">setFileName</span>(const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>fileName</i>)<a class="plink" href="#setFileName" title="Direct link to this headline"></a></h3>
+<p>Sets the XML file that <i>Qt Designer</i> will use to populate its widget box, to <i translate="no">fileName</i>. You must call <a href="./qdesignerwidgetboxinterface.htm#load" translate="no">load</a>() to update the widget box with the new XML file.</p>
+<p><b>See also </b><a href="./qdesignerwidgetboxinterface.htm#fileName" translate="no">fileName</a>() and <a href="./qdesignerwidgetboxinterface.htm#load" translate="no">load</a>().</p>
+<!-- @@@setFileName -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

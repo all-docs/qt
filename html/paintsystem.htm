@@ -1,0 +1,134 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paint System | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/paintsystem.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a>Paint System</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Paint System</h1>
+<span class="subtitle"></span>
+<!-- $$$paintsystem.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt's paint system enables painting on screen and print devices using the same API, and is primarily based on the <a href="./qpainter.htm" translate="no">QPainter</a>, <a href="./qpaintdevice.htm" translate="no">QPaintDevice</a>, and <a href="./qpaintengine.htm" translate="no">QPaintEngine</a> classes.</p>
+<p><a href="./qpainter.htm" translate="no">QPainter</a> is used to perform drawing operations, <a href="./qpaintdevice.htm" translate="no">QPaintDevice</a> is an abstraction of a two-dimensional space that can be painted on using a <a href="./qpainter.htm" translate="no">QPainter</a>, and <a href="./qpaintengine.htm" translate="no">QPaintEngine</a> provides the interface that the painter uses to draw onto different types of devices. The <a href="./qpaintengine.htm" translate="no">QPaintEngine</a> class is used internally by <a href="./qpainter.htm" translate="no">QPainter</a> and <a href="./qpaintdevice.htm" translate="no">QPaintDevice</a>, and is hidden from application programmers unless they create their own device type.</p>
+<p class="centerAlign"><img alt="" src="./images/paintsystem-core.png"></p><p>The main benefit of this approach is that all painting follows the same painting pipeline making it easy to add support for new features and providing default implementations for unsupported ones.</p>
+<a name="topics"></a>
+<h2 id="topics">Topics<a class="plink" href="#topics" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./paintsystem.htm#classes-for-painting" translate="no">Classes for Painting</a></li>
+<li><a href="./paintsystem-devices.htm" translate="no">Paint Devices and Backends</a></li>
+<li><a href="./paintsystem-drawing.htm" translate="no">Drawing and Filling</a></li>
+<li><a href="./coordsys.htm" translate="no">Coordinate System</a></li>
+<li><a href="./paintsystem-images.htm" translate="no">Reading and Writing Image Files</a></li>
+</ul>
+<a name="classes-for-painting"></a>
+<h2 id="classes-for-painting">Classes for Painting<a class="plink" href="#classes-for-painting" title="Direct link to this headline"></a></h2>
+<p>These classes provide support for painting onto a paint device.</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qbitmap.htm">QBitmap</a></p></td><td class="tblDescr"><p>Monochrome (1-bit depth) pixmaps</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qbrush.htm">QBrush</a></p></td><td class="tblDescr"><p>Defines the fill pattern of shapes drawn by QPainter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qcolor.htm">QColor</a></p></td><td class="tblDescr"><p>Colors based on RGB, HSV or CMYK values</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qcolorspace.htm">QColorSpace</a></p></td><td class="tblDescr"><p>Color space abstraction</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qcolortransform.htm">QColorTransform</a></p></td><td class="tblDescr"><p>Transformation between color spaces</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qcolormap.htm">QColormap</a></p></td><td class="tblDescr"><p>Maps device independent QColors to device dependent pixel values</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qconicalgradient.htm">QConicalGradient</a></p></td><td class="tblDescr"><p>Used in combination with QBrush to specify a conical gradient brush</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qfont.htm">QFont</a></p></td><td class="tblDescr"><p>Specifies a query for a font used for drawing text</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qfontmetrics.htm">QFontMetrics</a></p></td><td class="tblDescr"><p>Font metrics information</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qfontmetricsf.htm">QFontMetricsF</a></p></td><td class="tblDescr"><p>Font metrics information</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qgenericmatrix.htm">QGenericMatrix</a></p></td><td class="tblDescr"><p>Template class that represents a NxM transformation matrix with N columns and M rows</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qgradient.htm">QGradient</a></p></td><td class="tblDescr"><p>Used in combination with QBrush to specify gradient fills</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qicon.htm">QIcon</a></p></td><td class="tblDescr"><p>Scalable icons in different modes and states</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qiconengine.htm">QIconEngine</a></p></td><td class="tblDescr"><p>Abstract base class for QIcon renderers</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qimage.htm">QImage</a></p></td><td class="tblDescr"><p>Hardware-independent image representation that allows direct access to the pixel data, and can be used as a paint device</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qimagereader.htm">QImageReader</a></p></td><td class="tblDescr"><p>Format independent interface for reading images from files or other devices</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qimagewriter.htm">QImageWriter</a></p></td><td class="tblDescr"><p>Format independent interface for writing images to files or other devices</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qline.htm">QLine</a></p></td><td class="tblDescr"><p>Two-dimensional vector using integer precision</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qlinef.htm">QLineF</a></p></td><td class="tblDescr"><p>Two-dimensional vector using floating point precision</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qlineargradient.htm">QLinearGradient</a></p></td><td class="tblDescr"><p>Used in combination with QBrush to specify a linear gradient brush</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qmargins.htm">QMargins</a></p></td><td class="tblDescr"><p>Defines the four margins of a rectangle</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qmarginsf.htm">QMarginsF</a></p></td><td class="tblDescr"><p>Defines the four margins of a rectangle</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpagedpaintdevice.htm">QPagedPaintDevice</a></p></td><td class="tblDescr"><p>Represents a paint device that supports multiple pages</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qpaintdevice.htm">QPaintDevice</a></p></td><td class="tblDescr"><p>The base class of objects that can be painted on with QPainter</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpaintengine.htm">QPaintEngine</a></p></td><td class="tblDescr"><p>Abstract definition of how QPainter draws to a given device on a given platform</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qpainter.htm">QPainter</a></p></td><td class="tblDescr"><p>Performs low-level painting on widgets and other paint devices</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpainterpath.htm">QPainterPath</a></p></td><td class="tblDescr"><p>Container for painting operations, enabling graphical shapes to be constructed and reused</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qpainterpathstroker.htm">QPainterPathStroker</a></p></td><td class="tblDescr"><p>Used to generate fillable outlines for a given painter path</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpdfwriter.htm">QPdfWriter</a></p></td><td class="tblDescr"><p>Class to generate PDFs that can be used as a paint device</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qpen.htm">QPen</a></p></td><td class="tblDescr"><p>Defines how a QPainter should draw lines and outlines of shapes</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpixmap.htm">QPixmap</a></p></td><td class="tblDescr"><p>Off-screen image representation that can be used as a paint device</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qpoint.htm">QPoint</a></p></td><td class="tblDescr"><p>Defines a point in the plane using integer precision</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpointf.htm">QPointF</a></p></td><td class="tblDescr"><p>Defines a point in the plane using floating point precision</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qpolygon.htm">QPolygon</a></p></td><td class="tblDescr"><p>Vector of points using integer precision</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qpolygonf.htm">QPolygonF</a></p></td><td class="tblDescr"><p>Vector of points using floating point precision</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qradialgradient.htm">QRadialGradient</a></p></td><td class="tblDescr"><p>Used in combination with QBrush to specify a radial gradient brush</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qrect.htm">QRect</a></p></td><td class="tblDescr"><p>Defines a rectangle in the plane using integer precision</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qrectf.htm">QRectF</a></p></td><td class="tblDescr"><p>Defines a rectangle in the plane using floating point precision</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qregion.htm">QRegion</a></p></td><td class="tblDescr"><p>Specifies a clip region for a painter</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qrgba64.htm">QRgba64</a></p></td><td class="tblDescr"><p>Struct contains a 64-bit RGB color</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qsize.htm">QSize</a></p></td><td class="tblDescr"><p>Defines the size of a two-dimensional object using integer point precision</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qsizef.htm">QSizeF</a></p></td><td class="tblDescr"><p>Defines the size of a two-dimensional object using floating point precision</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qstylepainter.htm">QStylePainter</a></p></td><td class="tblDescr"><p>Convenience class for drawing QStyle elements inside a widget</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qsupportedwritingsystems.htm">QSupportedWritingSystems</a></p></td><td class="tblDescr"><p>Used when registering fonts with the internal Qt fontdatabase</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qsvggenerator.htm">QSvgGenerator</a></p></td><td class="tblDescr"><p>Paint device that is used to create SVG drawings</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qsvgrenderer.htm">QSvgRenderer</a></p></td><td class="tblDescr"><p>Used to draw the contents of SVG files onto paint devices</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qsvgwidget.htm">QSvgWidget</a></p></td><td class="tblDescr"><p>Widget that is used to display the contents of Scalable Vector Graphics (SVG) files</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qtransform.htm">QTransform</a></p></td><td class="tblDescr"><p>Specifies 2D transformations of a coordinate system</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qvector2d.htm">QVector2D</a></p></td><td class="tblDescr"><p>Represents a vector or vertex in 2D space</p></td></tr>
+</tbody></table></div>
+</div>
+<!-- @@@paintsystem.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

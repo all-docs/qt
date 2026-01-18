@@ -1,0 +1,143 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QAudioProbe | Qt Multimedia</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtmultimedia-index.htm" translate="no">Qt Multimedia</a></li>
+                            <li><a href="./qtmultimedia-modules.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QAudioProbe</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QAudioProbe Class</h1>
+<!-- $$$QAudioProbe-brief -->
+<p>The QAudioProbe class allows you to monitor audio being played or recorded. <a href="#details">More...</a></p>
+<!-- @@@QAudioProbe -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QAudioProbe&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += multimedia</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qobject.htm" translate="no">QObject</a></td></tr></tbody></table></div><ul>
+<li><a href="./qaudioprobe-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qaudioprobe.htm#QAudioProbe" translate="no">QAudioProbe</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qaudioprobe.htm#dtor.QAudioProbe" translate="no">~QAudioProbe</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qaudioprobe.htm#isActive" translate="no">isActive</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qaudioprobe.htm#setSource" translate="no">setSource</a></b>(QMediaObject *<i>source</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qaudioprobe.htm#setSource-1" translate="no">setSource</a></b>(QMediaRecorder *<i>mediaRecorder</i>)</td></tr>
+</tbody></table></div>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qaudioprobe.htm#audioBufferProbed" translate="no">audioBufferProbed</a></b>(const QAudioBuffer &amp;<i>buffer</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qaudioprobe.htm#flush" translate="no">flush</a></b>()</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QAudioProbe-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qaudiorecorder.htm" translate="no">QAudioRecorder</a></span> <span class="operator">*</span>recorder <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaudiorecorder.htm" translate="no">QAudioRecorder</a></span>();
+<span class="type"><a href="./qaudioprobe.htm#QAudioProbe" translate="no">QAudioProbe</a></span> <span class="operator">*</span>probe <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qaudioprobe.htm#QAudioProbe" translate="no">QAudioProbe</a></span>;
+
+<span class="comment">// ... configure the audio recorder (skipped)</span>
+
+connect(probe<span class="operator">,</span> SIGNAL(audioBufferProbed(<span class="type"><a href="./qaudiobuffer.htm" translate="no">QAudioBuffer</a></span>))<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> SLOT(processBuffer(<span class="type"><a href="./qaudiobuffer.htm" translate="no">QAudioBuffer</a></span>)));
+
+probe<span class="operator">-</span><span class="operator">&gt;</span>setSource(recorder); <span class="comment">// Returns true, hopefully.</span>
+
+recorder<span class="operator">-</span><span class="operator">&gt;</span>record(); <span class="comment">// Now we can do things like calculating levels or performing an FFT</span></pre></div>
+</div>
+<p><b>See also </b><a href="./qvideoprobe.htm" translate="no">QVideoProbe</a>, <a href="./qmediaplayer.htm" translate="no">QMediaPlayer</a>, and <a href="./qcamera.htm" translate="no">QCamera</a>.</p>
+<!-- @@@QAudioProbe -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QAudioProbe[overload1]$$$QAudioProbeQObject* -->
+<h3 class="fn" id="QAudioProbe" translate="no"><a name="QAudioProbe"></a>QAudioProbe::<span class="name">QAudioProbe</span>(<span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#QAudioProbe" title="Direct link to this headline"></a></h3>
+<p>Creates a new QAudioProbe class with a <i translate="no">parent</i>. After setting the source to monitor with <a href="./qaudioprobe.htm#setSource" translate="no">setSource</a>(), the <a href="./qaudioprobe.htm#audioBufferProbed" translate="no">audioBufferProbed</a>() signal will be emitted when audio buffers are flowing in the source media object.</p>
+<!-- @@@QAudioProbe -->
+<!-- $$$audioBufferProbed[overload1]$$$audioBufferProbedconstQAudioBuffer& -->
+<h3 class="fn" id="audioBufferProbed" translate="no"><a name="audioBufferProbed"></a><code translate="no">[signal] </code><span class="type">void</span> QAudioProbe::<span class="name">audioBufferProbed</span>(const <span class="type"><a href="./qaudiobuffer.htm" translate="no">QAudioBuffer</a></span> &amp;<i>buffer</i>)<a class="plink" href="#audioBufferProbed" title="Direct link to this headline"></a></h3>
+<p>This signal should be emitted when an audio <i translate="no">buffer</i> is processed in the media service.</p>
+<!-- @@@audioBufferProbed -->
+<!-- $$$flush[overload1]$$$flush -->
+<h3 class="fn" id="flush" translate="no"><a name="flush"></a><code translate="no">[signal] </code><span class="type">void</span> QAudioProbe::<span class="name">flush</span>()<a class="plink" href="#flush" title="Direct link to this headline"></a></h3>
+<p>This signal should be emitted when it is required to release all buffers. Application must release all outstanding references to audio buffers.</p>
+<!-- @@@flush -->
+<!-- $$$~QAudioProbe[overload1]$$$~QAudioProbe -->
+<h3 class="fn" id="dtor.QAudioProbe" translate="no"><a name="dtor.QAudioProbe"></a><code translate="no">[virtual] </code>QAudioProbe::<span class="name">~QAudioProbe</span>()<a class="plink" href="#dtor.QAudioProbe" title="Direct link to this headline"></a></h3>
+<p>Destroys this probe and disconnects from any media object.</p>
+<!-- @@@~QAudioProbe -->
+<!-- $$$isActive[overload1]$$$isActive -->
+<h3 class="fn" id="isActive" translate="no"><a name="isActive"></a><span class="type">bool</span> QAudioProbe::<span class="name">isActive</span>() const<a class="plink" href="#isActive" title="Direct link to this headline"></a></h3>
+<p>Returns true if this probe is monitoring something, or false otherwise.</p>
+<p>The source being monitored does not need to be active.</p>
+<!-- @@@isActive -->
+<!-- $$$setSource[overload1]$$$setSourceQMediaObject* -->
+<h3 class="fn" id="setSource" translate="no"><a name="setSource"></a><span class="type">bool</span> QAudioProbe::<span class="name">setSource</span>(<span class="type"><a href="./qmediaobject.htm" translate="no">QMediaObject</a></span> *<i>source</i>)<a class="plink" href="#setSource" title="Direct link to this headline"></a></h3>
+<p>Sets the media object to monitor to <i translate="no">source</i>.</p>
+<p>If <i translate="no">source</i> is zero, this probe will be deactivated and this function wil return true.</p>
+<p>If the media object does not support monitoring audio, this function will return false.</p>
+<p>The previous object will no longer be monitored. Passing in the same object will be ignored, but monitoring will continue.</p>
+<!-- @@@setSource -->
+<!-- $$$setSource$$$setSourceQMediaRecorder* -->
+<h3 class="fn" id="setSource-1" translate="no"><a name="setSource-1"></a><span class="type">bool</span> QAudioProbe::<span class="name">setSource</span>(<span class="type"><a href="./qmediarecorder.htm" translate="no">QMediaRecorder</a></span> *<i>mediaRecorder</i>)<a class="plink" href="#setSource-1" title="Direct link to this headline"></a></h3>
+<p>Starts monitoring the given <i translate="no">mediaRecorder</i>.</p>
+<p>Returns true on success.</p>
+<p>If there is no mediaObject associated with <i translate="no">mediaRecorder</i>, or if it is zero, this probe will be deactivated and this function wil return true.</p>
+<p>If the media recorder instance does not support monitoring audio, this function will return false.</p>
+<p>Any previously monitored objects will no longer be monitored. Passing in the same (valid) object will be ignored, but monitoring will continue.</p>
+<!-- @@@setSource -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

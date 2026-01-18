@@ -1,0 +1,214 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KeyNavigation QML Type | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtquick-keynavigation.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a href="./qtquick-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>KeyNavigation QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">KeyNavigation QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$KeyNavigation-brief -->
+<p>Supports key navigation by arrow keys. <a href="#details">More...</a></p>
+<!-- @@@KeyNavigation -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick 2.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-keynavigation-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-keynavigation.htm#backtab-prop" translate="no">backtab</a></b></b> : Item</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-keynavigation.htm#down-prop" translate="no">down</a></b></b> : Item</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-keynavigation.htm#left-prop" translate="no">left</a></b></b> : Item</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-keynavigation.htm#priority-prop" translate="no">priority</a></b></b> : enumeration</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-keynavigation.htm#right-prop" translate="no">right</a></b></b> : Item</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-keynavigation.htm#tab-prop" translate="no">tab</a></b></b> : Item</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-keynavigation.htm#up-prop" translate="no">up</a></b></b> : Item</li>
+</ul>
+<!-- $$$KeyNavigation-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Key-based user interfaces commonly allow the use of arrow keys to navigate between focusable items. The KeyNavigation attached property enables this behavior by providing a convenient way to specify the item that should gain focus when an arrow or tab key is pressed.</p>
+<p>The following example provides key navigation for a 2x2 grid of items:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-grid.htm" translate="no">Grid</a></span> {
+    <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>
+    <span class="name">columns</span>: <span class="number">2</span>
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">topLeft</span>
+        <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span>
+        <span class="name">color</span>: <span class="name">focus</span> ? <span class="string">"red"</span> : <span class="string">"lightgray"</span>
+        <span class="name">focus</span>: <span class="number">true</span>
+
+        <span class="name">KeyNavigation</span>.right: <span class="name">topRight</span>
+        <span class="name">KeyNavigation</span>.down: <span class="name">bottomLeft</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">topRight</span>
+        <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span>
+        <span class="name">color</span>: <span class="name">focus</span> ? <span class="string">"red"</span> : <span class="string">"lightgray"</span>
+
+        <span class="name">KeyNavigation</span>.left: <span class="name">topLeft</span>
+        <span class="name">KeyNavigation</span>.down: <span class="name">bottomRight</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">bottomLeft</span>
+        <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span>
+        <span class="name">color</span>: <span class="name">focus</span> ? <span class="string">"red"</span> : <span class="string">"lightgray"</span>
+
+        <span class="name">KeyNavigation</span>.right: <span class="name">bottomRight</span>
+        <span class="name">KeyNavigation</span>.up: <span class="name">topLeft</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">bottomRight</span>
+        <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span>
+        <span class="name">color</span>: <span class="name">focus</span> ? <span class="string">"red"</span> : <span class="string">"lightgray"</span>
+
+        <span class="name">KeyNavigation</span>.left: <span class="name">bottomLeft</span>
+        <span class="name">KeyNavigation</span>.up: <span class="name">topRight</span>
+    }
+}</pre></div>
+<p>The top-left item initially receives focus by setting <a href="./qml-qtquick-item.htm#focus-prop" translate="no">focus</a> to <code translate="no">true</code>. When an arrow key is pressed, the focus will move to the appropriate item, as defined by the value that has been set for the KeyNavigation <a href="./qml-qtquick-keynavigation.htm#left-prop" translate="no">left</a>, <a href="./qml-qtquick-keynavigation.htm#right-prop" translate="no">right</a>, <a href="./qml-qtquick-keynavigation.htm#up-prop" translate="no">up</a> or <a href="./qml-qtquick-keynavigation.htm#down-prop" translate="no">down</a> properties.</p>
+<p>Note that if a KeyNavigation attached property receives the key press and release events for a requested arrow or tab key, the event is accepted and does not propagate any further.</p>
+<p>By default, KeyNavigation receives key events after the item to which it is attached. If the item accepts the key event, the KeyNavigation attached property will not receive an event for that key. Setting the <a href="./qml-qtquick-keynavigation.htm#priority-prop" translate="no">priority</a> property to <code translate="no">KeyNavigation.BeforeItem</code> allows the event to be used for key navigation before the item, rather than after.</p>
+<p>If the item to which the focus is switching is not enabled or visible, an attempt will be made to skip this item and focus on the next. This is possible if there are a chain of items with the same KeyNavigation handler. If multiple items in a row are not enabled or visible, they will also be skipped.</p>
+<p>KeyNavigation will implicitly set the other direction to return focus to this item. So if you set <a href="./qml-qtquick-keynavigation.htm#left-prop" translate="no">left</a> to another item, <a href="./qml-qtquick-keynavigation.htm#right-prop" translate="no">right</a> will be set on that item's KeyNavigation to set focus back to this item. However, if that item's KeyNavigation has had right explicitly set then no change will occur. This means that the example above could achieve the same behavior without specifying KeyNavigation.right or KeyNavigation.down for any of the items.</p>
+<p><b>See also </b><a href="./qml-qtquick-keys.htm" translate="no">Keys attached property</a>.</p>
+<!-- @@@KeyNavigation -->
+<h2>Property Documentation</h2>
+<!-- $$$backtab -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="backtab-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="backtab-prop"></a><span class="name">backtab</span> : <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span><a class="plink" href="#backtab-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the item to assign focus to when the Shift+Tab key combination (Backtab) is pressed.</p>
+</div></div><!-- @@@backtab -->
+<br>
+<!-- $$$down -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="down-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="down-prop"></a><span class="name">down</span> : <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span><a class="plink" href="#down-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the item to assign focus to when the down cursor key is pressed.</p>
+</div></div><!-- @@@down -->
+<br>
+<!-- $$$left -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="left-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="left-prop"></a><span class="name">left</span> : <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span><a class="plink" href="#left-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the item to assign focus to when the left cursor key is pressed.</p>
+</div></div><!-- @@@left -->
+<br>
+<!-- $$$priority -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="priority-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="priority-prop"></a><span class="name">priority</span> : <span class="type"><a href="./qml-enumeration.htm" translate="no">enumeration</a></span><a class="plink" href="#priority-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property determines whether the keys are processed before or after the attached item's own key handling.</p>
+<ul>
+<li><a href="./qml-qtquick-keynavigation.htm" translate="no">KeyNavigation</a>.BeforeItem - process the key events before normal item key processing. If the event is used for key navigation, it will be accepted and will not be passed on to the item.</li>
+<li><a href="./qml-qtquick-keynavigation.htm" translate="no">KeyNavigation</a>.AfterItem (default) - process the key events after normal item key handling. If the item accepts the key event it will not be handled by the <a href="./qml-qtquick-keynavigation.htm" translate="no">KeyNavigation</a> attached property handler.</li>
+</ul>
+</div></div><!-- @@@priority -->
+<br>
+<!-- $$$right -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="right-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="right-prop"></a><span class="name">right</span> : <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span><a class="plink" href="#right-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the item to assign focus to when the right cursor key is pressed.</p>
+</div></div><!-- @@@right -->
+<br>
+<!-- $$$tab -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="tab-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="tab-prop"></a><span class="name">tab</span> : <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span><a class="plink" href="#tab-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the item to assign focus to when the Tab key is pressed.</p>
+</div></div><!-- @@@tab -->
+<br>
+<!-- $$$up -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="up-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="up-prop"></a><span class="name">up</span> : <span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span><a class="plink" href="#up-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the item to assign focus to when the up cursor key is pressed.</p>
+</div></div><!-- @@@up -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

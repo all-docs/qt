@@ -1,0 +1,132 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instantiating State Machines | Qt SCXML</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtscxml-instantiating-state-machines.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtscxml-index.htm" translate="no">Qt SCXML</a></li>
+                            <li><a>Instantiating State Machines</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Instantiating State Machines</h1>
+<span class="subtitle"></span>
+<!-- $$$qtscxml-instantiating-state-machines.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Both the dynamically created and the compiled state machines behave in the same way, have the same properties, states, data model, and so on. They only differ in the way they are instantiated. To dynamically create one in C++ from an SCXML file, you can use:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> <span class="operator">*</span>stateMachine <span class="operator">=</span> <span class="type"><a href="./qscxmlstatemachine.htm" translate="no">QScxmlStateMachine</a></span><span class="operator">::</span>fromFile(<span class="string">"MyStatemachine.scxml"</span>);</pre></div>
+<p>Or, in QML:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtScxml 5.8
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    property <span class="type">StateMachine</span> <span class="name">stateMachine</span>: <span class="name">scxmlLoader</span>.<span class="name">stateMachine</span>
+
+    <span class="type"><a href="./qml-qtscxml-statemachineloader.htm" translate="no">StateMachineLoader</a></span> {
+        <span class="name">id</span>: <span class="name">scxmlLoader</span>
+        <span class="name">source</span>: <span class="string">"statemachine.scxml"</span>
+    }
+}</pre></div>
+<p>A compiled state machine can be instantiated the same way as any C++ object:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> <span class="operator">*</span>stateMachine <span class="operator">=</span> <span class="keyword">new</span> MyStatemachine;</pre></div>
+<p>Or:</p>
+<div class="pre"><pre class="cpp" translate="no">MyStatemachine stateMachine;</pre></div>
+<p>To use a compiled state machine in QML, you can register it as a QML type:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">qmlRegisterType<span class="operator">&lt;</span>MyStateMachine<span class="operator">&gt;</span>(<span class="string">"MyStateMachine"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="string">"MyStateMachine"</span>);</pre></div>
+<p>Then you can instantiate it in QML, like this:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import MyStateMachine 1.0
+
+<span class="type">MyStateMachine</span> {
+    <span class="name">id</span>: <span class="name">stateMachine</span>
+}</pre></div>
+<p>To compile a state machine, the following lines have to be added to a .pro file:</p>
+<div class="pre"><pre class="cpp plain" translate="no">QT += scxml
+STATECHARTS = MyStatemachine.scxml</pre></div>
+<p>This will tell qmake to run <i>qscxmlc</i> which generates MyStatemachine.h and MyStatemachine.cpp, and adds them to <a href="./qmake-variable-reference.htm#headers" translate="no">HEADERS</a> and <a href="./qmake-variable-reference.htm#sources" translate="no">SOURCES</a> variables. By default, the generated files are saved in the build directory. The <i>QSCXMLC_DIR</i> variable can be set to specify another directory. The <i>QSCXMLC_NAMESPACE</i> variable can be set to put the state machine code into a C++ namespace.</p>
+<p>After instantiating a state machine, you can connect to any state's active property as follows. For example, if the state machine for a traffic light has a state indicating that the light is red (which has the convenient id "red" in the scxml file), you can write:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">stateMachine<span class="operator">-</span><span class="operator">&gt;</span>connectToState(<span class="string">"red"</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">]</span>(bool active) {
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> (active <span class="operator">?</span> <span class="string">"entered"</span> : <span class="string">"exited"</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"the red state"</span>;</pre></div>
+<p>And in QML:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">Light</span> {
+    <span class="name">id</span>: <span class="name">greenLight</span>
+    <span class="name">color</span>: <span class="string">"green"</span>
+    <span class="name">visible</span>: <span class="name">stateMachine</span>.<span class="name">green</span>
+}</pre></div>
+<p>If you want to be notified when a state machine sends out an event, you can connect to the corresponding signal. For example, for a media player state machine which indicates that playback has stopped by sending an event, you can write:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">stateMachine<span class="operator">-</span><span class="operator">&gt;</span>connectToEvent(<span class="string">"playbackStopped"</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">]</span>(<span class="keyword">const</span> <span class="type"><a href="./qscxmlevent.htm" translate="no">QScxmlEvent</a></span> <span class="operator">&amp;</span>){
+    <a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Stopped!"</span>;
+});</pre></div>
+<p>And in QML:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtScxml 5.8
+
+<span class="type"><a href="./qml-qtscxml-eventconnection.htm" translate="no">EventConnection</a></span> {
+    <span class="name">stateMachine</span>: <span class="name">stateMachine</span>
+    <span class="name">events</span>: [<span class="string">"playbackStopped"</span>]
+    <span class="name">onOccurred</span>: <span class="name">console</span>.<span class="name">log</span>(<span class="string">"Stopped!"</span>)
+}</pre></div>
+<p>Sending events to a state machine is equally simple:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">stateMachine<span class="operator">-</span><span class="operator">&gt;</span>submitEvent(<span class="string">"tap"</span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a></span>({
+    { <span class="string">"artist"</span><span class="operator">,</span> <span class="string">"Fatboy Slim"</span> }<span class="operator">,</span>
+    { <span class="string">"title"</span><span class="operator">,</span> <span class="string">"The Rockafeller Skank"</span> }
+});</pre></div>
+<p>This will generate a "tap" event with the map contents available in _event.data inside the state machine. In QML:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">stateMachine<span class="operator">.</span>submitEvent(<span class="string">"tap"</span><span class="operator">,</span> {
+    <span class="string">"artist"</span>: <span class="string">"Fatboy Slim"</span>
+    <span class="string">"title"</span>: <span class="string">"The Rockafeller Skank"</span>
+})</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>A state machine needs a <code translate="no">QEventLoop</code> to work correctly. The event loop is used to implement the <code translate="no">delay</code> attribute for events and to schedule the processing of a state machine when events are received from nested (or parent) state machines. A QML application or a widget application will always have an event loop running, so nothing extra is needed. For other applications, <code translate="no">QApplication::run</code> will have to be called to start the event loop processing.</p>
+</div>
+</div>
+<!-- @@@qtscxml-instantiating-state-machines.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

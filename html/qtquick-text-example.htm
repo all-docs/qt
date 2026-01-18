@@ -1,0 +1,125 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Examples - Text | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-text-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Qt Quick Examples - Text</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Examples - Text</h1>
+<span class="subtitle"></span>
+<!-- $$$text-brief -->
+<p>This is a collection of QML examples relating to text.</p>
+<!-- @@@text -->
+<!-- $$$text-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/qml-text-example.png"></p><p><i>Text</i> is a collection of small QML examples relating to text. Each example is a small QML file, usually containing or emphasizing a particular type or feature. You can run and observe the behavior of each example.</p>
+<a name="hello"></a>
+<h4 id="hello">Hello<a class="plink" href="#hello" title="Direct link to this headline"></a></h4>
+<p><i>Hello</i> shows how to change and animate the letter spacing of a <a href="./qml-qtquick-text.htm" translate="no">Text</a> type. It uses a sequential animation to first animate the font.letterSpacing property from <code translate="no">0</code> to <code translate="no">50</code> over three seconds and then move the text to a random position on screen:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">            SequentialAnimation on <span class="name">font</span>.letterSpacing {
+                <span class="name">loops</span>: <span class="name">Animation</span>.<span class="name">Infinite</span>;
+                <span class="type"><a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a></span> { <span class="name">from</span>: <span class="number">0</span>; <span class="name">to</span>: <span class="number">50</span>; <span class="name">easing</span>.type: <span class="name">Easing</span>.<span class="name">InQuad</span>; <span class="name">duration</span>: <span class="number">3000</span> }
+                <span class="type"><a href="./qml-qtquick-scriptaction.htm" translate="no">ScriptAction</a></span> {
+                    <span class="name">script</span>: {
+                        <span class="name">container</span>.<span class="name">y</span> <span class="operator">=</span> (<span class="name">screen</span>.<span class="name">height</span> <span class="operator">/</span> <span class="number">4</span>) <span class="operator">+</span> (<span class="name">Math</span>.<span class="name">random</span>() <span class="operator">*</span> <span class="name">screen</span>.<span class="name">height</span> <span class="operator">/</span> <span class="number">2</span>)
+                        <span class="name">container</span>.<span class="name">x</span> <span class="operator">=</span> (<span class="name">screen</span>.<span class="name">width</span> <span class="operator">/</span> <span class="number">4</span>) <span class="operator">+</span> (<span class="name">Math</span>.<span class="name">random</span>() <span class="operator">*</span> <span class="name">screen</span>.<span class="name">width</span> <span class="operator">/</span> <span class="number">2</span>)
+                    }
+                }
+            }</pre></div>
+<a name="fonts"></a>
+<h4 id="fonts">Fonts<a class="plink" href="#fonts" title="Direct link to this headline"></a></h4>
+<p><i>Fonts</i> shows different ways of using fonts with the <a href="./qml-qtquick-text.htm" translate="no">Text</a> type. Simply by name, using the font.family property directly:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">            <span class="name">font</span>.family: <span class="string">"Times"</span></pre></div>
+<p>or using a <a href="./qml-qtquick-fontloader.htm" translate="no">FontLoader</a> type:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-fontloader.htm" translate="no">FontLoader</a></span> { <span class="name">id</span>: <span class="name">fixedFont</span>; <span class="name">name</span>: <span class="string">"Courier"</span> }</pre></div>
+<p>or using a <a href="./qml-qtquick-fontloader.htm" translate="no">FontLoader</a> and specifying a local font file:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-fontloader.htm" translate="no">FontLoader</a></span> { <span class="name">id</span>: <span class="name">localFont</span>; <span class="name">source</span>: <span class="string">"content/fonts/tarzeau_ocr_a.ttf"</span> }</pre></div>
+<p>or finally using a <a href="./qml-qtquick-fontloader.htm" translate="no">FontLoader</a> and specifying a remote font file:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-fontloader.htm" translate="no">FontLoader</a></span> { <span class="name">id</span>: <span class="name">webFont</span>; <span class="name">source</span>: <span class="string">"http://www.princexml.com/fonts/steffmann/Starburst.ttf"</span> }</pre></div>
+<a name="available-fonts"></a>
+<h4 id="available-fonts">Available Fonts<a class="plink" href="#available-fonts" title="Direct link to this headline"></a></h4>
+<p><i>Available Fonts</i> shows how to use the <a href="./qml-qtqml-qt.htm" translate="no">Qt</a> global object and a list view to display all the fonts available on the system. The <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> type uses the list of fonts available as its model:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">        <span class="name">model</span>: <span class="name">Qt</span>.<span class="name">fontFamilies</span>()</pre></div>
+<p>Inside the delegate, the font family is set with the modelData:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">                <span class="name">font</span>.family: <span class="name">parent</span>.<span class="name">modelData</span></pre></div>
+<a name="banner"></a>
+<h4 id="banner">Banner<a class="plink" href="#banner" title="Direct link to this headline"></a></h4>
+<p><i>Banner</i> is a simple example showing how to create a banner using a row of text types and a <a href="./qml-qtquick-numberanimation.htm" translate="no">NumberAnimation</a>.</p>
+<a name="img-tag"></a>
+<h4 id="img-tag">Img Tag<a class="plink" href="#img-tag" title="Direct link to this headline"></a></h4>
+<p><i>Img tag</i> shows different ways of displaying images in text objects using the <code translate="no">&lt;img&gt;</code> tag.</p>
+<a name="text-layout"></a>
+<h4 id="text-layout">Text Layout<a class="plink" href="#text-layout" title="Direct link to this headline"></a></h4>
+<p><i>Text Layout</i> shows how to create a more complex layout for a text item. This example lays out the text in two columns using the onLineLaidOut handler that allows you to position and resize each line:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">        <span class="name">onLineLaidOut</span>: (<span class="keyword">line</span>) =&gt; {
+            line.width = width / 2  - main.margin
+
+            if (line.y + line.height &gt;= height) {
+                line.y -= height - main.margin
+                line.x = width / 2 + main.activeFocusmargin
+            }
+
+            if (line.isLast) {
+                lastLineMarker.x = line.x + line.implicitWidth
+                lastLineMarker.y = line.y + (line.height - lastLineMarker.height) / 2
+            }
+        }</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdeclarative.git/tree/examples/quick/text?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@text -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

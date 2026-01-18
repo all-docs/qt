@@ -1,0 +1,135 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Effect QML Type | Qt 3D</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qt3d-render-effect.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qt3d-index.htm" translate="no">Qt 3D</a></li>
+                            <li><a href="./qt3d-qml.htm" translate="no">QML Types</a></li>
+                            <li><a>Effect QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Effect QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Effect-brief -->
+<p>The base class for effects in a Qt 3D scene. <a href="#details">More...</a></p>
+<!-- @@@Effect -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import Qt3D.Render 2.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.7</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Instantiates:</td><td class="memItemRight bottomAlign"> <a href="./qml-qt3d-render-effect.htm" translate="no"></a><a href="./qt3drender-qeffect.htm" translate="no">QEffect</a></td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qt3d-core-node.htm" translate="no">Node</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qt3d-render-effect-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-effect.htm#parameters-prop" translate="no">parameters</a></b></b> : list&lt;Parameter&gt;</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt3d-render-effect.htm#techniques-prop" translate="no">techniques</a></b></b> : list&lt;Technique&gt;</li>
+</ul>
+<!-- $$$Effect-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The Effect type combines a set of techniques and parameters used by those techniques to produce a rendering effect for a material.</p>
+<p>An Effect instance should be shared among several Material instances when possible.</p>
+<p>A Parameter defined on a Effect overrides parameter (of the same name) defined in Technique and <a href="./qml-qt3d-render-renderpass.htm" translate="no">RenderPass</a>, but are overridden by parameter in <a href="./qml-qt3d-render-renderpassfilter.htm" translate="no">RenderPassFilter</a>, <a href="./qml-qt3d-render-techniquefilter.htm" translate="no">TechniqueFilter</a> and Material.</p>
+<div class="admonition note">
+<p><b>Note: </b>Effect node can not be disabled.</p>
+</div>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Effect {
+    id: effect
+
+    technique: <span class="operator">[</span>
+        Technique {
+            id: gl3Technique
+            graphicsApiFilter {
+                api: GraphicsApiFilter<span class="operator">.</span>OpenGL
+                profile: GraphicsApiFilter<span class="operator">.</span>CoreProfile
+                majorVersion: <span class="number">3</span>
+                minorVersion: <span class="number">1</span>
+            }
+            renderPasses: <span class="operator">[</span>
+                RenderPass {
+                    id: gl3Pass
+                    shaderProgram: ShaderProgram {
+                        <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+                    }
+                }
+            <span class="operator">]</span>
+        }
+    <span class="operator">]</span>
+}</pre></div>
+<p><b>See also </b><a href="./qml-qt3d-render-material.htm" translate="no">Material</a>, <a href="./qml-qt3d-render-technique.htm" translate="no">Technique</a>, and <a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a>.</p>
+<!-- @@@Effect -->
+<h2>Property Documentation</h2>
+<!-- $$$parameters -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="parameters-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="parameters-prop"></a><span class="name">parameters</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a></span>&gt;<a class="plink" href="#parameters-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds the list of parameters used by this effect. A parameter is used to set a corresponding uniform value in the shader used by this effect.</p>
+</div></div><!-- @@@parameters -->
+<br>
+<!-- $$$techniques -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="techniques-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="techniques-prop"></a><span class="name">techniques</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-qt3d-render-technique.htm" translate="no">Technique</a></span>&gt;<a class="plink" href="#techniques-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Holds the list of techniques used by this effect.</p>
+</div></div><!-- @@@techniques -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

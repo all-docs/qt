@@ -1,0 +1,425 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QGeoJson | Qt Location</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QGeoJson</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QGeoJson Class</h1>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QGeoJson&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += location</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.13</td></tr></tbody></table></div><p>This class was introduced in Qt 5.13.</p>
+<ul>
+<li><a href="./qgeojson-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="static-public-members"></a>
+<h2 id="static-public-members">Static Public Members<a class="plink" href="#static-public-members" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QJsonDocument </td><td class="memItemRight bottomAlign"><b><a href="./qgeojson.htm#exportGeoJson" translate="no">exportGeoJson</a></b>(const QVariantList &amp;<i>geoData</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVariantList </td><td class="memItemRight bottomAlign"><b><a href="./qgeojson.htm#importGeoJson" translate="no">importGeoJson</a></b>(const QJsonDocument &amp;<i>geoJson</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="./qgeojson.htm#toString" translate="no">toString</a></b>(const QVariantList &amp;<i>geoData</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QGeoJson-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>QGeoJson class can be used to convert between a GeoJSON document (see the <a href="https://en.wikipedia.org/wiki/GeoJSON" translate="no">Wikipedia page</a>, <a href="https://tools.ietf.org/html/rfc7946" translate="no">RFC</a>) and a <a href="http://doc.qt.io/qt-5/qvariant.html#QVariantList-typedef" translate="no">QVariantList</a> of <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> elements ready to be used as Model in a <a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a>. WARNING! This private class is part of Qt labs, thus not stable API, it is part of the experimental components of <a href="./qtlocation-module.htm" translate="no">QtLocation</a>. Until it is promoted to public API, it may be subject to source and binary-breaking changes.</p>
+<a name="importing-geojson"></a>
+<h4 id="importing-geojson">Importing GeoJSON<a class="plink" href="#importing-geojson" title="Direct link to this headline"></a></h4>
+<p>The <a href="./qgeojson.htm#importGeoJson" translate="no">importGeoJson</a>() method accepts a <a href="http://doc.qt.io/qt-5/qjsondocument.html" translate="no">QJsonDocument</a> from which it extracts a single <a href="https://tools.ietf.org/html/rfc7159" translate="no">JSON</a> object, since the GeoJSON RFC expects that a valid GeoJSON Document has in its root a single JSON object. This method doesn't perform any validation on the input. The importer returns a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> containing a single <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a>. This map has always at least 2 (key, value) pairs. The first one has <code translate="no">type</code> as key, and the corresponding value is a string identifying the GeoJSON type. This value can be one of the GeoJSON object types: <code translate="no">Point</code>, <code translate="no">MultiPoint</code>, <code translate="no">LineString</code>, <code translate="no">MultiLineString</code>, <code translate="no">Polygon</code>, <code translate="no">MultiPolygon</code>, <code translate="no">GeometryCollection</code>, <code translate="no">FeatureCollection</code>. The second pair has <code translate="no">data</code> as key, and the corresponding value can be either a <a href="./qgeoshape.htm" translate="no">QGeoShape</a> or a list, depending on the GeoJSON type. The next section provides details about this node. The <code translate="no">Feature</code> type is converted into the type of the geometry contained within, with an additional (key, value) pair, where the key is <code translate="no">properties</code> and the value is a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a>. Thus, a feature Map is distinguishable from the corresponding geometry, by looking for a <code translate="no">properties</code> member.</p>
+<a name="structure-of-the-data-node"></a>
+<h5 id="structure-of-the-data-node">Structure of the data node<a class="plink" href="#structure-of-the-data-node" title="Direct link to this headline"></a></h5>
+<p>For the single type geometry objects (<code translate="no">Point</code>, <code translate="no">LineString</code>, and <code translate="no">Polygon</code>), the value corresponding to the <code translate="no">data</code> key is a <a href="./qgeoshape.htm" translate="no">QGeoShape</a>:</p>
+<ul>
+<li>When the type is <code translate="no">Point</code>, the data is a <a href="./qgeocircle.htm" translate="no">QGeoCircle</a> with the point coordinates stored in the center property.<p>For example, the following GeoJSON document contains a <code translate="no">Point</code> geometry:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  <span class="string">"type"</span> : <span class="string">"Point"</span><span class="operator">,</span>
+  <span class="string">"data"</span> : <span class="operator">[</span><span class="number">60.0</span><span class="operator">,</span> <span class="number">11.0</span><span class="operator">]</span>
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : Point
+  data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">60.000</span><span class="operator">,</span> <span class="number">11.000</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+}</pre></div>
+</li>
+<li>When the type is <code translate="no">LineString</code> the data ia a <a href="./qgeopath.htm" translate="no">QGeoPath</a>.<p>For example, the following GeoJSON document contains a <code translate="no">LineString</code> geometry:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"LineString"</span><span class="operator">,</span>
+    <span class="string">"coordinates"</span> : <span class="operator">[</span><span class="operator">[</span><span class="number">13.5</span><span class="operator">,</span> <span class="number">43</span><span class="operator">]</span><span class="operator">,</span><span class="operator">[</span><span class="number">10.73</span><span class="operator">,</span> <span class="number">59.92</span><span class="operator">]</span><span class="operator">]</span>
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : LineString<span class="operator">,</span>
+  data : <span class="type"><a href="./qgeopath.htm" translate="no">QGeoPath</a></span>(<span class="operator">[</span>{<span class="number">43.000</span><span class="operator">,</span> <span class="number">13.500</span>}<span class="operator">,</span> {<span class="number">59.920</span><span class="operator">,</span> <span class="number">10.730</span>}<span class="operator">]</span>)
+}</pre></div>
+</li>
+<li>When the type is <code translate="no">Polygon</code>, the data is a <a href="./qgeopolygon.htm" translate="no">QGeoPolygon</a> (holes are supported).<p>For example, the following GeoJSON document contains a <code translate="no">Polygon</code> geometry:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"Polygon"</span><span class="operator">,</span>
+    <span class="string">"coordinates"</span> : <span class="operator">[</span>
+      <span class="operator">[</span><span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">,</span>
+       <span class="operator">[</span><span class="number">30.54</span><span class="operator">,</span> <span class="number">50.42</span><span class="operator">]</span><span class="operator">,</span>
+       <span class="operator">[</span><span class="number">26.70</span><span class="operator">,</span> <span class="number">58.36</span><span class="operator">]</span><span class="operator">,</span>
+       <span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">]</span>
+    <span class="operator">]</span><span class="operator">,</span>
+    <span class="string">"bbox"</span> : <span class="operator">[</span><span class="number">60</span><span class="operator">,</span> <span class="number">60</span><span class="operator">,</span> <span class="operator">-</span><span class="number">60</span><span class="operator">,</span> <span class="operator">-</span><span class="number">60</span><span class="operator">]</span>
+
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : Polygon
+  data : <span class="type"><a href="./qgeopolygon.htm" translate="no">QGeoPolygon</a></span>(<span class="operator">[</span>{<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>}<span class="operator">,</span> {<span class="number">50.420</span><span class="operator">,</span><span class="number">30.540</span>}<span class="operator">,</span> {<span class="number">58.360</span><span class="operator">,</span> <span class="number">26.700</span>}<span class="operator">,</span> {<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>}<span class="operator">]</span>)
+}</pre></div>
+</li>
+</ul>
+<p>For the homogeneously typed multipart geometry objects (<code translate="no">MultiPoint</code>, <code translate="no">MultiLineString</code>, <code translate="no">MultiPolygon</code>) the value corresponding to the <code translate="no">data</code> key is a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a>. Each element of the list is a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> of one of the above listed types. The elements in this list will be all of the same GeoJSON type:</p>
+<ul>
+<li>When the type is <code translate="no">MultiPoint</code>, the data is a List of Points.<p>For example, the following GeoJSON document contains a <code translate="no">MultiPoint</code> geometry:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"MultiPoint"</span><span class="operator">,</span>
+    <span class="string">"coordinates"</span> : <span class="operator">[</span>
+      <span class="operator">[</span><span class="number">11</span><span class="operator">,</span><span class="number">60</span><span class="operator">]</span><span class="operator">,</span>
+      <span class="operator">[</span><span class="number">5.5</span><span class="operator">,</span><span class="number">60.3</span><span class="operator">]</span><span class="operator">,</span>
+      <span class="operator">[</span><span class="number">5.7</span><span class="operator">,</span><span class="number">58.90</span><span class="operator">]</span>
+    <span class="operator">]</span>
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : MultiPoint
+  data : <span class="operator">[</span>
+    {
+      type : Point
+      data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">60.000</span><span class="operator">,</span> <span class="number">11.000</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+    }<span class="operator">,</span>
+    {
+      type : Point
+      data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">60.300</span><span class="operator">,</span> <span class="number">5.500</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+    }<span class="operator">,</span>
+    {
+      type : Point
+      data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">58.900</span><span class="operator">,</span> <span class="number">5.700</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+    }
+  <span class="operator">]</span>
+}</pre></div>
+</li>
+<li>When the type is <code translate="no">MultiLineString</code>, the data is a List of LineStrings.<p>For example, the following GeoJSON document contains a <code translate="no">MultiLineString</code> geometry:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"MultiLineString"</span><span class="operator">,</span>
+    <span class="string">"coordinates"</span> : <span class="operator">[</span>
+      <span class="operator">[</span><span class="operator">[</span><span class="number">13.5</span><span class="operator">,</span> <span class="number">43</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="number">10.73</span><span class="operator">,</span> <span class="number">59.92</span><span class="operator">]</span><span class="operator">]</span><span class="operator">,</span>
+      <span class="operator">[</span><span class="operator">[</span><span class="number">9.15</span><span class="operator">,</span> <span class="number">45</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">-</span><span class="number">3.15</span><span class="operator">,</span> <span class="number">58.90</span><span class="operator">]</span><span class="operator">]</span>
+    <span class="operator">]</span>
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : MultiLineString
+  data : <span class="operator">[</span>
+    {
+      type : LineString
+      data : <span class="type"><a href="./qgeopath.htm" translate="no">QGeoPath</a></span>(<span class="operator">[</span>{<span class="number">45.000</span><span class="operator">,</span> <span class="number">9.150</span>}<span class="operator">,</span> {<span class="number">58.900</span><span class="operator">,</span> <span class="operator">-</span><span class="number">3.150</span>}<span class="operator">]</span>)
+    }<span class="operator">,</span>
+    {
+      type : LineString
+      data : <span class="type"><a href="./qgeopath.htm" translate="no">QGeoPath</a></span>(<span class="operator">[</span>{<span class="number">43.000</span><span class="operator">,</span> <span class="number">13.500</span>}<span class="operator">,</span> {<span class="number">59.920</span><span class="operator">,</span> <span class="number">10.730</span>}<span class="operator">]</span>)
+    }
+  <span class="operator">]</span>
+}</pre></div>
+</li>
+<li>When the type is <code translate="no">MultiPolygon</code>, the data is a List of Polygons.<p>For example, the following GeoJSON document contains a <code translate="no">MultiPolygon</code> geometry:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"MultiPoint"</span><span class="operator">,</span>
+    <span class="string">"coordinates"</span> : <span class="operator">[</span>
+      <span class="operator">[</span><span class="number">11</span><span class="operator">,</span><span class="number">60</span><span class="operator">]</span><span class="operator">,</span>
+      <span class="operator">[</span><span class="number">5.5</span><span class="operator">,</span><span class="number">60.3</span><span class="operator">]</span><span class="operator">,</span>
+      <span class="operator">[</span><span class="number">5.7</span><span class="operator">,</span><span class="number">58.90</span><span class="operator">]</span>
+    <span class="operator">]</span>
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : MultiPoint
+  data : <span class="operator">[</span>
+    {
+      type : Point
+      data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">60.000</span><span class="operator">,</span> <span class="number">11.000</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+    }<span class="operator">,</span>
+    {
+      type : Point
+      data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">60.300</span><span class="operator">,</span> <span class="number">5.500</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+    }<span class="operator">,</span>
+    {
+      type : Point
+      data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">58.900</span><span class="operator">,</span> <span class="number">5.700</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+    }
+  <span class="operator">]</span>
+}</pre></div>
+</li>
+</ul>
+<p>The <code translate="no">GeometryCollection</code> is a heterogeneous composition of other geometry types. In the resulting <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a>, the value of the <code translate="no">data</code> member is a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> populated by QVariantMaps of various geometries, including the GeometryCollection itself.</p>
+<p>For example, the following <code translate="no">GeometryCollection</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"GeometryCollection"</span><span class="operator">,</span>
+    <span class="string">"geometries"</span> : <span class="operator">[</span>
+        {
+            <span class="string">"type"</span> : <span class="string">"MultiPoint"</span><span class="operator">,</span>
+            <span class="string">"coordinates"</span> : <span class="operator">[</span>
+              <span class="operator">[</span><span class="number">11</span><span class="operator">,</span><span class="number">60</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="number">5.5</span><span class="operator">,</span><span class="number">60.3</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="number">5.7</span><span class="operator">,</span><span class="number">58.90</span><span class="operator">]</span>
+            <span class="operator">]</span>
+        }<span class="operator">,</span>
+        {
+            <span class="string">"type"</span> : <span class="string">"MultiLineString"</span><span class="operator">,</span>
+            <span class="string">"coordinates"</span> : <span class="operator">[</span>
+              <span class="operator">[</span><span class="operator">[</span><span class="number">13.5</span><span class="operator">,</span> <span class="number">43</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="number">10.73</span><span class="operator">,</span> <span class="number">59.92</span><span class="operator">]</span><span class="operator">]</span><span class="operator">,</span>
+              <span class="operator">[</span><span class="operator">[</span><span class="number">9.15</span><span class="operator">,</span> <span class="number">45</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">-</span><span class="number">3.15</span><span class="operator">,</span> <span class="number">58.90</span><span class="operator">]</span><span class="operator">]</span>
+            <span class="operator">]</span>
+        }<span class="operator">,</span>
+        {
+            <span class="string">"type"</span> : <span class="string">"MultiPolygon"</span><span class="operator">,</span>
+            <span class="string">"coordinates"</span> : <span class="operator">[</span>
+                <span class="operator">[</span>
+                  <span class="operator">[</span><span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">30.54</span><span class="operator">,</span> <span class="number">50.42</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">26.74</span><span class="operator">,</span> <span class="number">58.36</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">]</span>
+                <span class="operator">]</span><span class="operator">,</span>
+                <span class="operator">[</span>
+                  <span class="operator">[</span><span class="operator">[</span><span class="number">19.84</span><span class="operator">,</span> <span class="number">41.33</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">30.45</span><span class="operator">,</span> <span class="number">49.26</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">17.07</span><span class="operator">,</span> <span class="number">50.10</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">19.84</span><span class="operator">,</span> <span class="number">41.33</span><span class="operator">]</span><span class="operator">]</span>
+                <span class="operator">]</span>
+            <span class="operator">]</span>
+        }
+    <span class="operator">]</span>
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : GeometryCollection
+  data : <span class="operator">[</span>
+    {
+      type : MultiPolygon
+      data : <span class="operator">[</span>
+        {
+          type : Polygon
+          data : <span class="type"><a href="./qgeopolygon.htm" translate="no">QGeoPolygon</a></span>(<span class="operator">[</span>{<span class="number">41.330</span><span class="operator">,</span> <span class="number">19.840</span>}<span class="operator">,</span> {<span class="number">49.260</span><span class="operator">,</span> <span class="number">30.450</span>}<span class="operator">,</span> {<span class="number">50.100</span><span class="operator">,</span> <span class="number">17.070</span>}<span class="operator">,</span> {<span class="number">41.330</span><span class="operator">,</span> <span class="number">19.840</span>}<span class="operator">]</span>)
+        }
+        {
+          type : Polygon
+          data : <span class="type"><a href="./qgeopolygon.htm" translate="no">QGeoPolygon</a></span>(<span class="operator">[</span>{<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>}<span class="operator">,</span> {<span class="number">50.420</span><span class="operator">,</span> <span class="number">30.540</span>}<span class="operator">,</span> {<span class="number">58.360</span><span class="operator">,</span> <span class="number">26.740</span>}<span class="operator">,</span> {<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>}<span class="operator">]</span>)
+        }
+      <span class="operator">]</span>
+    }
+    {
+      type : MultiLineString
+      data : <span class="operator">[</span>
+        {
+          type : LineString
+          data : <span class="type"><a href="./qgeopath.htm" translate="no">QGeoPath</a></span>(<span class="operator">[</span>{<span class="number">45.000</span><span class="operator">,</span> <span class="number">9.150</span>}<span class="operator">,</span> {<span class="number">58.900</span><span class="operator">,</span> <span class="operator">-</span><span class="number">3.150</span>}<span class="operator">]</span>)
+        }
+        {
+          type : LineString
+          data : <span class="type"><a href="./qgeopath.htm" translate="no">QGeoPath</a></span>(<span class="operator">[</span>{<span class="number">43.000</span><span class="operator">,</span> <span class="number">13.500</span>}<span class="operator">,</span> {<span class="number">59.920</span><span class="operator">,</span> <span class="number">10.730</span>}<span class="operator">]</span>)
+        }
+      <span class="operator">]</span>
+    }
+    {
+      type : MultiPoint
+      data : <span class="operator">[</span>
+        {
+          type : Point
+          data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">58.900</span><span class="operator">,</span> <span class="number">5.700</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+        }<span class="operator">,</span>
+        {
+          type : Point
+          data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">60.300</span><span class="operator">,</span> <span class="number">5.500</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+        }<span class="operator">,</span>
+        {
+          type : Point
+          data : <span class="type"><a href="./qgeocircle.htm" translate="no">QGeoCircle</a></span>({<span class="number">60.000</span><span class="operator">,</span> <span class="number">11.000</span>}<span class="operator">,</span> <span class="operator">-</span><span class="number">1</span>)
+        }
+      <span class="operator">]</span>
+    }
+  <span class="operator">]</span>
+}</pre></div>
+<p>The <code translate="no">Feature</code> object, which consists of one of the previous geometries together with related attributes, is structured like one of the 7 above mentioned geometry types, plus a <code translate="no">properties</code> member. The value of this member is a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a>. The only way to distinguish a Feature from the included geometry is to check if a <code translate="no">properties</code> node is present in the <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a>.</p>
+<p>For example, the following <code translate="no">Feature</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"Feature"</span><span class="operator">,</span>
+    <span class="string">"id"</span> : <span class="string">"Poly"</span><span class="operator">,</span>
+    <span class="string">"properties"</span> : {
+        <span class="string">"text"</span> : <span class="string">"This is a Feature with a Polygon"</span>
+    }<span class="operator">,</span>
+    <span class="string">"geometry"</span> : {
+        <span class="string">"type"</span> : <span class="string">"Polygon"</span><span class="operator">,</span>
+        <span class="string">"coordinates"</span> : <span class="operator">[</span>
+            <span class="operator">[</span><span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">,</span>
+             <span class="operator">[</span><span class="number">30.54</span><span class="operator">,</span> <span class="number">50.42</span><span class="operator">]</span><span class="operator">,</span>
+             <span class="operator">[</span><span class="number">26.70</span><span class="operator">,</span> <span class="number">58.36</span><span class="operator">]</span><span class="operator">,</span>
+             <span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">]</span><span class="operator">,</span>
+            <span class="operator">[</span><span class="operator">[</span><span class="number">23.46</span><span class="operator">,</span> <span class="number">54.36</span><span class="operator">]</span><span class="operator">,</span>
+             <span class="operator">[</span><span class="number">20.52</span><span class="operator">,</span> <span class="number">51.91</span><span class="operator">]</span><span class="operator">,</span>
+             <span class="operator">[</span><span class="number">28.25</span><span class="operator">,</span> <span class="number">51.50</span><span class="operator">]</span><span class="operator">,</span>
+             <span class="operator">[</span><span class="number">26.80</span><span class="operator">,</span> <span class="number">54.36</span><span class="operator">]</span><span class="operator">,</span>
+             <span class="operator">[</span><span class="number">23.46</span><span class="operator">,</span> <span class="number">54.36</span><span class="operator">]</span><span class="operator">]</span>
+        <span class="operator">]</span>
+    }
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : Polygon
+  data : <span class="type"><a href="./qgeopolygon.htm" translate="no">QGeoPolygon</a></span>(<span class="operator">[</span>{<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>}<span class="operator">,</span> {<span class="number">50.420</span><span class="operator">,</span><span class="number">30.540</span>}<span class="operator">,</span> {<span class="number">58.360</span><span class="operator">,</span> <span class="number">26.700</span>}<span class="operator">,</span> {<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>}<span class="operator">]</span>)
+  properties : {text : This is a Feature with a Polygon}
+}</pre></div>
+<p>The <code translate="no">FeatureCollection</code> is a composition of Feature objects. The value of the <code translate="no">data</code> member in a FeatureCollection is a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> populated by Feature type QVariantMaps.</p>
+<p>For example, the following <code translate="no">FeatureCollection</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="string">"type"</span> : <span class="string">"FeatureCollection"</span><span class="operator">,</span>
+    <span class="string">"features"</span> : <span class="operator">[</span>
+        {
+            <span class="string">"type"</span> : <span class="string">"Feature"</span><span class="operator">,</span>
+            <span class="string">"id"</span> : <span class="string">"Poly"</span><span class="operator">,</span>
+            <span class="string">"properties"</span> : {
+                <span class="string">"text"</span> : <span class="string">"This is a Feature with a Polygon"</span>
+            }<span class="operator">,</span>
+            <span class="string">"geometry"</span> : {
+               <span class="string">"type"</span> : <span class="string">"Polygon"</span><span class="operator">,</span>
+               <span class="string">"coordinates"</span> : <span class="operator">[</span>
+                  <span class="operator">[</span><span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">30.54</span><span class="operator">,</span> <span class="number">50.42</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">26.70</span><span class="operator">,</span> <span class="number">58.36</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">17.13</span><span class="operator">,</span> <span class="number">51.11</span><span class="operator">]</span><span class="operator">]</span><span class="operator">,</span>
+                  <span class="operator">[</span><span class="operator">[</span><span class="number">23.46</span><span class="operator">,</span> <span class="number">54.36</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">20.52</span><span class="operator">,</span> <span class="number">51.91</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">28.25</span><span class="operator">,</span> <span class="number">51.50</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">26.80</span><span class="operator">,</span> <span class="number">54.36</span><span class="operator">]</span><span class="operator">,</span>
+                   <span class="operator">[</span><span class="number">23.46</span><span class="operator">,</span> <span class="number">54.36</span><span class="operator">]</span><span class="operator">]</span>
+               <span class="operator">]</span>
+           }
+       }<span class="operator">,</span>
+       {
+           <span class="string">"type"</span> : <span class="string">"Feature"</span><span class="operator">,</span>
+           <span class="string">"id"</span> : <span class="string">"MultiLine"</span><span class="operator">,</span>
+           <span class="string">"properties"</span> : {
+               <span class="string">"text"</span> : <span class="string">"This is a Feature with a MultiLineString"</span>
+           }<span class="operator">,</span>
+           <span class="string">"geometry"</span> : {
+              <span class="string">"type"</span> : <span class="string">"MultiLineString"</span><span class="operator">,</span>
+              <span class="string">"coordinates"</span> : <span class="operator">[</span>
+                <span class="operator">[</span><span class="operator">[</span><span class="number">13.5</span><span class="operator">,</span> <span class="number">43</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="number">10.73</span><span class="operator">,</span> <span class="number">59.92</span><span class="operator">]</span><span class="operator">]</span><span class="operator">,</span>
+                <span class="operator">[</span><span class="operator">[</span><span class="number">9.15</span><span class="operator">,</span> <span class="number">45</span><span class="operator">]</span><span class="operator">,</span> <span class="operator">[</span><span class="operator">-</span><span class="number">3.15</span><span class="operator">,</span> <span class="number">58.90</span><span class="operator">]</span><span class="operator">]</span>
+              <span class="operator">]</span>
+           }
+       }
+    <span class="operator">]</span>
+}</pre></div>
+<p>it is converted to a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> with the following structure:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+  type : FeatureCollection
+  data : <span class="operator">[</span>
+    {
+      type : MultiLineString
+      data : <span class="operator">[</span>
+        {
+          type : LineString
+          data : <span class="type"><a href="./qgeopath.htm" translate="no">QGeoPath</a></span>(<span class="operator">[</span>{<span class="number">45.000</span><span class="operator">,</span> <span class="number">9.150</span>}<span class="operator">,</span> {<span class="number">58.900</span><span class="operator">,</span> <span class="operator">-</span><span class="number">3.150</span>}<span class="operator">]</span>)
+        }
+        {
+          type : LineString
+          data : <span class="type"><a href="./qgeopath.htm" translate="no">QGeoPath</a></span>(<span class="operator">[</span>{<span class="number">43.000</span><span class="operator">,</span> <span class="number">13.500</span>}<span class="operator">,</span> {<span class="number">59.920</span><span class="operator">,</span> <span class="number">10.730</span>}<span class="operator">]</span>)
+        }
+      <span class="operator">]</span>
+      properties : {text : This is a Feature with a MultiLineString}
+    }<span class="operator">,</span>
+    {
+      type : Polygon
+      data : <span class="type"><a href="./qgeopolygon.htm" translate="no">QGeoPolygon</a></span>({<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>}<span class="operator">,</span> {<span class="number">50.420</span><span class="operator">,</span> <span class="number">30.540</span>}<span class="operator">,</span> {<span class="number">58.360</span><span class="operator">,</span> <span class="number">26.700</span>}<span class="operator">,</span> {<span class="number">51.110</span><span class="operator">,</span> <span class="number">17.130</span>})
+      properties : {text : This is a Feature with a Polygon}
+    }
+  <span class="operator">]</span>
+}</pre></div>
+<a name="exporting-geojson"></a>
+<h4 id="exporting-geojson">Exporting GeoJSON<a class="plink" href="#exporting-geojson" title="Direct link to this headline"></a></h4>
+<p>The exporter accepts the <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> returned by the <a href="./qgeojson.htm#importing-geojson" translate="no">importer</a>, and returns a JSON document. The exporter is complementary to the importer because it executes the inverse action.</p>
+<a name="the-tostring-function"></a>
+<h4 id="the-tostring-function">The toString function<a class="plink" href="#the-tostring-function" title="Direct link to this headline"></a></h4>
+<p>The <a href="./qgeojson.htm#toString" translate="no">toString</a> outputs, for debugging purposes, the content of a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> structured like <a href="./qgeojson.htm#importGeoJson" translate="no">importGeoJson</a> does, to a <a href="./qstring.htm" translate="no">QString</a> using a prettyfied format.</p>
+</div>
+<!-- @@@QGeoJson -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$exportGeoJson[overload1]$$$exportGeoJsonconstQVariantList& -->
+<h3 class="fn" id="exportGeoJson" translate="no"><a name="exportGeoJson"></a><code translate="no">[static] </code><span class="type"><a href="./qjsondocument.htm" translate="no">QJsonDocument</a></span> QGeoJson::<span class="name">exportGeoJson</span>(const <span class="type"><a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a></span> &amp;<i>geoData</i>)<a class="plink" href="#exportGeoJson" title="Direct link to this headline"></a></h3>
+<p>This method exports the <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> <i translate="no">geoData</i>, expected to be structured like described in the section <a href="./qgeojson.htm#importing-geojson" translate="no">Importing GeoJSON</a>, to a <a href="./qjsondocument.htm" translate="no">QJsonDocument</a> containing the data converted to GeoJSON.</p>
+<div class="admonition note">
+<p><b>Note: </b>This method performs no validation on the input.</p>
+</div>
+<p><b>See also </b><a href="./qgeojson.htm#importGeoJson" translate="no">importGeoJson</a>.</p>
+<!-- @@@exportGeoJson -->
+<!-- $$$importGeoJson[overload1]$$$importGeoJsonconstQJsonDocument& -->
+<h3 class="fn" id="importGeoJson" translate="no"><a name="importGeoJson"></a><code translate="no">[static] </code><span class="type"><a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a></span> QGeoJson::<span class="name">importGeoJson</span>(const <span class="type"><a href="./qjsondocument.htm" translate="no">QJsonDocument</a></span> &amp;<i>geoJson</i>)<a class="plink" href="#importGeoJson" title="Direct link to this headline"></a></h3>
+<p>This method imports the <i translate="no">geoJson</i> document, expected to contain valid GeoJSON data, into a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> structured like described in the section <a href="./qgeojson.htm#importing-geojson" translate="no">Importing GeoJSON</a>.</p>
+<div class="admonition note">
+<p><b>Note: </b>This method performs no validation on the input.</p>
+</div>
+<p><b>See also </b><a href="./qgeojson.htm#exportGeoJson" translate="no">exportGeoJson</a>.</p>
+<!-- @@@importGeoJson -->
+<!-- $$$toString[overload1]$$$toStringconstQVariantList& -->
+<h3 class="fn" id="toString" translate="no"><a name="toString"></a><code translate="no">[static] </code><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> QGeoJson::<span class="name">toString</span>(const <span class="type"><a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a></span> &amp;<i>geoData</i>)<a class="plink" href="#toString" title="Direct link to this headline"></a></h3>
+<p>This method accepts the <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> <i translate="no">geoData</i>, structured as described in <a href="./qgeojson.htm#importing-geojson" translate="no">Importing GeoJSON</a>, and returns a string containing the same data in a readable form.</p>
+<!-- @@@toString -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

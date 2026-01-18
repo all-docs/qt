@@ -1,0 +1,183 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ExclusiveGroup QML Type | Qt Quick Controls 1</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquickcontrols1-index.htm" translate="no">Qt Quick Controls 1</a></li>
+                            <li><a href="./qtquick-controls-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>ExclusiveGroup QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">ExclusiveGroup QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$ExclusiveGroup-brief -->
+<p>ExclusiveGroup provides a way to declare several checkable controls as mutually exclusive. <a href="#details">More...</a></p>
+<!-- @@@ExclusiveGroup -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick.Controls 1.4</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick-controls-exclusivegroup-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick-controls-exclusivegroup.htm#current-prop" translate="no">current</a></b></b> : object</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-controls-exclusivegroup.htm#bindCheckable-method" translate="no">bindCheckable</a></b></b>(<i>object</i>)</li>
+<li class="fn" translate="no">void <b><b><a href="./qml-qtquick-controls-exclusivegroup.htm#unbindCheckable-method" translate="no">unbindCheckable</a></b></b>(<i>object</i>)</li>
+</ul>
+<!-- $$$ExclusiveGroup-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>ExclusiveGroup can contain several <a href="./qml-qtquick-controls-action.htm" translate="no">Action</a> items, and those will automatically get their <a href="./qml-qtquick-controls-action.htm#exclusiveGroup-prop" translate="no">Action::exclusiveGroup</a> property assigned.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ExclusiveGroup {
+    id: radioInputGroup
+
+    Action {
+        id: dabRadioInput
+        text: <span class="string">"DAB"</span>
+        checkable: <span class="keyword">true</span>
+    }
+
+    Action {
+        id: fmRadioInput
+        text: <span class="string">"FM"</span>
+        checkable: <span class="keyword">true</span>
+    }
+
+    Action {
+        id: amRadioInput
+        text: <span class="string">"AM"</span>
+        checkable: <span class="keyword">true</span>
+    }
+}</pre></div>
+<p>Several controls already support ExclusiveGroup, e.g. <a href="./qml-qtquick-controls-action.htm" translate="no">Action</a>, <a href="./qml-qtquick-controls-menuitem.htm" translate="no">MenuItem</a>, <a href="./qml-qtquick-controls-button.htm" translate="no">Button</a>, and <a href="./qml-qtquick-controls-radiobutton.htm" translate="no">RadioButton</a>.</p>
+<p>As ExclusiveGroup only supports <a href="./qml-qtquick-controls-action.htm" translate="no">Action</a> as child items, we need to manually assign the <code translate="no">exclusiveGroup</code> property for other objects.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">GroupBox {
+    id: group2
+    title: qsTr(<span class="string">"Tab Position"</span>)
+    Layout<span class="operator">.</span>fillWidth: <span class="keyword">true</span>
+    RowLayout {
+        ExclusiveGroup { id: tabPositionGroup }
+        RadioButton {
+            id: topButton
+            text: qsTr(<span class="string">"Top"</span>)
+            checked: <span class="keyword">true</span>
+            exclusiveGroup: tabPositionGroup
+            Layout<span class="operator">.</span>minimumWidth: <span class="number">100</span>
+        }
+        RadioButton {
+            id: bottomButton
+            text: qsTr(<span class="string">"Bottom"</span>)
+            exclusiveGroup: tabPositionGroup
+            Layout<span class="operator">.</span>minimumWidth: <span class="number">100</span>
+        }
+    }
+}</pre></div>
+<a name="adding-support-to-exclusivegroup"></a>
+<h2 id="adding-support-to-exclusivegroup">Adding support to ExclusiveGroup<a class="plink" href="#adding-support-to-exclusivegroup" title="Direct link to this headline"></a></h2>
+<p>It is possible to add support for ExclusiveGroup for an object or control. It should have a <code translate="no">checked</code> property, and either a <code translate="no">checkedChanged</code>, <code translate="no">toggled()</code>, or <code translate="no">toggled(bool)</code> signal. It also needs to be bound with <a href="./qml-qtquick-controls-exclusivegroup.htm#bindCheckable-method" translate="no">ExclusiveGroup::bindCheckable()</a> when its ExclusiveGroup typed property is set.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Item {
+    id: myItem
+
+    property bool checked: <span class="keyword">false</span>
+    property ExclusiveGroup exclusiveGroup: null
+
+    onExclusiveGroupChanged: {
+        <span class="keyword">if</span> (exclusiveGroup)
+            exclusiveGroup<span class="operator">.</span>bindCheckable(myItem)
+    }
+}</pre></div>
+<p>The example above shows the minimum code necessary to add ExclusiveGroup support to any item.</p>
+<!-- @@@ExclusiveGroup -->
+<h2>Property Documentation</h2>
+<!-- $$$current -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="current-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="current-prop"></a><span class="name">current</span> : <span class="type">object</span><a class="plink" href="#current-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>The currently selected object. Defaults to the first checked object bound to the <a href="./qml-qtquick-controls-exclusivegroup.htm" translate="no">ExclusiveGroup</a>. If there is none, then it defaults to <code translate="no">null</code>.</p>
+</div></div><!-- @@@current -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$bindCheckable[overload1]$$$bindCheckable -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="bindCheckable-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="bindCheckable-method"></a><span class="type">void</span> <span class="name">bindCheckable</span>(<i>object</i>)<a class="plink" href="#bindCheckable-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Registers <i translate="no">object</i> to the exclusive group.</p>
+<p>You should only need to call this function when creating a component you want to be compatible with <a href="./qml-qtquick-controls-exclusivegroup.htm" translate="no">ExclusiveGroup</a>.</p>
+<p><b>See also </b><a href="./qml-qtquick-controls-exclusivegroup.htm#unbindCheckable-method" translate="no">ExclusiveGroup::unbindCheckable()</a>.</p>
+</div></div><!-- @@@bindCheckable -->
+<br>
+<!-- $$$unbindCheckable[overload1]$$$unbindCheckable -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="unbindCheckable-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="unbindCheckable-method"></a><span class="type">void</span> <span class="name">unbindCheckable</span>(<i>object</i>)<a class="plink" href="#unbindCheckable-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Unregisters <i translate="no">object</i> from the exclusive group.</p>
+<p>You should only need to call this function when creating a component you want to be compatible with <a href="./qml-qtquick-controls-exclusivegroup.htm" translate="no">ExclusiveGroup</a>.</p>
+<p><b>See also </b><a href="./qml-qtquick-controls-exclusivegroup.htm#bindCheckable-method" translate="no">ExclusiveGroup::bindCheckable()</a>.</p>
+</div></div><!-- @@@unbindCheckable -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

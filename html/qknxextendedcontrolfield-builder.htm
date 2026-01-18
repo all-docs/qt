@@ -1,0 +1,113 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Builder | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>Builder</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Builder Class</h1>
+<span class="small-subtitle" translate="no">class <a href="./qknxextendedcontrolfield.htm" translate="no">QKnxExtendedControlField</a>::Builder</span>
+<!-- $$$Builder-brief -->
+<p>The <a href="./qknxextendedcontrolfield-builder.htm" translate="no">QKnxExtendedControlField::Builder</a> class creates a KNX extended control field with some default values set. <a href="#details">More...</a></p>
+<!-- @@@Builder -->
+<ul>
+<li><a href="./qknxextendedcontrolfield-builder-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QKnxExtendedControlField </td><td class="memItemRight bottomAlign"><b><a href="./qknxextendedcontrolfield-builder.htm#create" translate="no">create</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxextendedcontrolfield-builder.htm#setDestinationAddressType" translate="no">setDestinationAddressType</a></b>(QKnxAddress::Type <i>address</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxextendedcontrolfield-builder.htm#setFormat" translate="no">setFormat</a></b>(ExtendedFrameFormat <i>format</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxextendedcontrolfield-builder.htm#setHopCount" translate="no">setHopCount</a></b>(quint8 <i>hopCount</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$Builder-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The default values produce extended control fields that are suitable for multicast frames that read or write group values.</p>
+<p>By default, the address type is set to <a href="./qknxaddress.htm#Type-enum" translate="no">Group</a> to specify that the frame is sent to a group address. The hop count is set to 6 to limit the number of subnetworks the frame is allowed to pass to six. This prevents the endless circulation of messages in incorrectly configured installations. The frame format is mapped to the value of <a href="./qknxcontrolfield.htm#FrameFormat-enum" translate="no">QKnxControlField::FrameFormat</a>, which is set to <code translate="no">Standard</code> by default. That is the preferred format for short frames.</p>
+<p>The following sample code creates an extended control field using the default values:</p>
+<p>Example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> ctrl <span class="operator">=</span> <span class="type"><a href="./qknxextendedcontrolfield.htm#QKnxExtendedControlField" translate="no">QKnxExtendedControlField</a></span><span class="operator">::</span>builder<span class="operator">.</span>create();</pre></div>
+<p>Some flags can be modified for more advanced use, such as setting up an extended control field used for transmitting a <code translate="no">L_Data_Extended</code> frame to the individual address of a device:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> ctrl <span class="operator">=</span> <span class="type"><a href="./qknxcontrolfield.htm" translate="no">QKnxControlField</a></span><span class="operator">::</span>builder
+    <span class="operator">.</span>setDestinationAddressType(<span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Individual)
+    <span class="operator">.</span>create();</pre></div>
+</div>
+<!-- @@@Builder -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$create[overload1]$$$create -->
+<h3 class="fn" id="create" translate="no"><a name="create"></a><span class="type"><a href="./qknxextendedcontrolfield.htm#QKnxExtendedControlField" translate="no">QKnxExtendedControlField</a></span> Builder::<span class="name">create</span>() const<a class="plink" href="#create" title="Direct link to this headline"></a></h3>
+<p>Creates and returns a <a href="./qknxextendedcontrolfield.htm" translate="no">QKnxExtendedControlField</a>.</p>
+<!-- @@@create -->
+<!-- $$$setDestinationAddressType[overload1]$$$setDestinationAddressTypeQKnxAddress::Type -->
+<h3 class="fn" id="setDestinationAddressType" translate="no"><a name="setDestinationAddressType"></a><span class="type"><a href="./qknxextendedcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setDestinationAddressType</span>(<span class="type"><a href="./qknxaddress.htm#Type-enum" translate="no">QKnxAddress::Type</a></span> <i>address</i>)<a class="plink" href="#setDestinationAddressType" title="Direct link to this headline"></a></h3>
+<p>Sets the destination address type to <i translate="no">address</i> and returns a reference to the builder.</p>
+<!-- @@@setDestinationAddressType -->
+<!-- $$$setFormat[overload1]$$$setFormatExtendedFrameFormat -->
+<h3 class="fn" id="setFormat" translate="no"><a name="setFormat"></a><span class="type"><a href="./qknxextendedcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setFormat</span>(<span class="type"><a href="./qknxextendedcontrolfield.htm#ExtendedFrameFormat-enum" translate="no">ExtendedFrameFormat</a></span> <i>format</i>)<a class="plink" href="#setFormat" title="Direct link to this headline"></a></h3>
+<p>Sets the extended frame format to <i translate="no">format</i> and returns a reference to the builder.</p>
+<!-- @@@setFormat -->
+<!-- $$$setHopCount[overload1]$$$setHopCountquint8 -->
+<h3 class="fn" id="setHopCount" translate="no"><a name="setHopCount"></a><span class="type"><a href="./qknxextendedcontrolfield-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setHopCount</span>(<span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> <i>hopCount</i>)<a class="plink" href="#setHopCount" title="Direct link to this headline"></a></h3>
+<p>Sets the hop count to <i translate="no">hopCount</i> and returns a reference to the builder.</p>
+<!-- @@@setHopCount -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

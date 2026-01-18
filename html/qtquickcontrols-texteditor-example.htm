@@ -1,0 +1,197 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Controls - Text Editor | Qt Quick Controls</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquickcontrols-texteditor-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquickcontrols-index.htm" translate="no">Qt Quick Controls</a></li>
+                            <li><a href="./qtquickcontrols2-examples.htm" translate="no">Qt Quick Controls Examples</a></li>
+                            <li><a>Qt Quick Controls - Text Editor</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Controls - Text Editor</h1>
+<span class="subtitle"></span>
+<!-- $$$texteditor-brief -->
+<p>A QML app using Qt Quick Controls and a C++ class to provide a fully-functional rich-text editor application.</p>
+<!-- @@@texteditor -->
+<!-- $$$texteditor-description -->
+<div class="descr"> <a name="details"></a>
+<p>The <i>Text Editor Example</i> presents a sample HTML file using the <a href="./qml-qtquick-controls2-textarea.htm" translate="no">TextArea</a> control, preserving the HTML formatting. The application comes with two user interfaces; one for traditional desktop platforms with a mouse pointer, and another simpler, touch-oriented version.</p>
+<a name="desktop-user-interface"></a>
+<h4 id="desktop-user-interface">Desktop User Interface<a class="plink" href="#desktop-user-interface" title="Direct link to this headline"></a></h4>
+<p class="centerAlign"><img alt="" src="./images/qtquickcontrols2-texteditor-desktop.jpg"></p><p>The desktop version is a complete text editor with capabilities for formatting text, and opening and saving HTML and plain text files. It demonstrates the native-looking dialogs and menus using the <a href="./whatsnew512.htm#qt-labs-platform" translate="no">Qt Labs Platform</a> module. These types are mostly suitable for desktop platforms with support for multiple top-level windows, a mouse pointer, and moderate screen size.</p>
+<p>The desktop UI uses <a href="./qml-qtquick-dialogs-filedialog.htm" translate="no">FileDialog</a> for opening and saving files:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-dialogs-filedialog.htm" translate="no">FileDialog</a></span> {
+        <span class="name">id</span>: <span class="name">openDialog</span>
+        <span class="name">fileMode</span>: <span class="name">FileDialog</span>.<span class="name">OpenFile</span>
+        <span class="name">selectedNameFilter</span>.index: <span class="number">1</span>
+        <span class="name">nameFilters</span>: [<span class="string">"Text files (*.txt)"</span>, <span class="string">"HTML files (*.html *.htm)"</span>, <span class="string">"Markdown files (*.md *.markdown)"</span>]
+        <span class="name">folder</span>: <span class="name">StandardPaths</span>.<span class="name">writableLocation</span>(<span class="name">StandardPaths</span>.<span class="name">DocumentsLocation</span>)
+        <span class="name">onAccepted</span>: <span class="name">document</span>.<span class="name">load</span>(<span class="name">file</span>)
+    }
+
+    <span class="type"><a href="./qml-qtquick-dialogs-filedialog.htm" translate="no">FileDialog</a></span> {
+        <span class="name">id</span>: <span class="name">saveDialog</span>
+        <span class="name">fileMode</span>: <span class="name">FileDialog</span>.<span class="name">SaveFile</span>
+        <span class="name">defaultSuffix</span>: <span class="name">document</span>.<span class="name">fileType</span>
+        <span class="name">nameFilters</span>: <span class="name">openDialog</span>.<span class="name">nameFilters</span>
+        <span class="name">selectedNameFilter</span>.index: <span class="name">document</span>.<span class="name">fileType</span> <span class="operator">===</span> <span class="string">"txt"</span> ? <span class="number">0</span> : <span class="number">1</span>
+        <span class="name">folder</span>: <span class="name">StandardPaths</span>.<span class="name">writableLocation</span>(<span class="name">StandardPaths</span>.<span class="name">DocumentsLocation</span>)
+        <span class="name">onAccepted</span>: <span class="name">document</span>.<span class="name">saveAs</span>(<span class="name">file</span>)
+    }</pre></div>
+<p>It uses <a href="./qml-qtquick-dialogs-fontdialog.htm" translate="no">FontDialog</a> and <a href="./qml-qtquick-dialogs-colordialog.htm" translate="no">ColorDialog</a> for choosing fonts and colors:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-dialogs-fontdialog.htm" translate="no">FontDialog</a></span> {
+        <span class="name">id</span>: <span class="name">fontDialog</span>
+        <span class="name">onAccepted</span>: {
+            <span class="name">document</span>.<span class="name">fontFamily</span> <span class="operator">=</span> <span class="name">font</span>.<span class="name">family</span>;
+            <span class="name">document</span>.<span class="name">fontSize</span> <span class="operator">=</span> <span class="name">font</span>.<span class="name">pointSize</span>;
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-dialogs-colordialog.htm" translate="no">ColorDialog</a></span> {
+        <span class="name">id</span>: <span class="name">colorDialog</span>
+        <span class="name">currentColor</span>: <span class="string">"black"</span>
+    }</pre></div>
+<p>It also uses <a href="./qml-qt-labs-platform-menu.htm" translate="no">Menu</a> and <a href="./qml-qt-labs-platform-menuitem.htm" translate="no">MenuItem</a> that provide a context menu to format text within:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-controls2-menu.htm" translate="no">Menu</a></span> {
+        <span class="name">id</span>: <span class="name">contextMenu</span>
+
+        <span class="type"><a href="./qml-qtquick-controls2-menuitem.htm" translate="no">MenuItem</a></span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Copy"</span>)
+            <span class="name">enabled</span>: <span class="name">textArea</span>.<span class="name">selectedText</span>
+            <span class="name">onTriggered</span>: <span class="name">textArea</span>.<span class="name">copy</span>()
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-menuitem.htm" translate="no">MenuItem</a></span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Cut"</span>)
+            <span class="name">enabled</span>: <span class="name">textArea</span>.<span class="name">selectedText</span>
+            <span class="name">onTriggered</span>: <span class="name">textArea</span>.<span class="name">cut</span>()
+        }
+        <span class="type"><a href="./qml-qtquick-controls2-menuitem.htm" translate="no">MenuItem</a></span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Paste"</span>)
+            <span class="name">enabled</span>: <span class="name">textArea</span>.<span class="name">canPaste</span>
+            <span class="name">onTriggered</span>: <span class="name">textArea</span>.<span class="name">paste</span>()
+        }
+
+        <span class="type"><a href="./qml-qtquick-controls2-menuseparator.htm" translate="no">MenuSeparator</a></span> {}
+
+        <span class="type"><a href="./qml-qtquick-controls2-menuitem.htm" translate="no">MenuItem</a></span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Font..."</span>)
+            <span class="name">onTriggered</span>: <span class="name">fontDialog</span>.<span class="name">open</span>()
+        }
+
+        <span class="type"><a href="./qml-qtquick-controls2-menuitem.htm" translate="no">MenuItem</a></span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Color..."</span>)
+            <span class="name">onTriggered</span>: <span class="name">colorDialog</span>.<span class="name">open</span>()
+        }
+    }</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>There is also a standard menubar with more options than the context menu.</p>
+</div>
+<a name="touch-user-interface"></a>
+<h4 id="touch-user-interface">Touch User Interface<a class="plink" href="#touch-user-interface" title="Direct link to this headline"></a></h4>
+<p class="centerAlign"><img alt="" src="./images/qtquickcontrols2-texteditor-touch.jpg"></p><p>The touch user interface is a simplified version of the text editor. It is suitable for touch devices with limited screen size. The example uses <a href="./qtquickcontrols2-fileselectors.htm" translate="no">file selectors</a> to load the appropriate user interface automatically.</p>
+<p>Unlike the desktop version, which uses top-level dialogs, the touch version uses the QML <a href="./qml-qtquick-controls2-dialog.htm" translate="no">Dialog</a> type, which is not a top-level window. This type of dialog is fully supported on mobile and embedded platforms that do not support multiple top-level windows.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-controls2-dialog.htm" translate="no">Dialog</a></span> {
+        <span class="name">id</span>: <span class="name">aboutDialog</span>
+        <span class="name">standardButtons</span>: <span class="name">Dialog</span>.<span class="name">Ok</span>
+        <span class="name">modal</span>: <span class="number">true</span>
+        <span class="name">x</span>: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">/</span> <span class="number">2</span> <span class="operator">-</span> <span class="name">width</span> <span class="operator">/</span> <span class="number">2</span>
+        <span class="name">y</span>: <span class="name">parent</span>.<span class="name">height</span> <span class="operator">/</span> <span class="number">2</span> <span class="operator">-</span> <span class="name">height</span> <span class="operator">/</span> <span class="number">2</span>
+
+        <span class="name">contentItem</span>: <span class="name">Label</span> {
+            <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Qt Quick Controls 2 - Text Editor Example"</span>)
+        }
+    }</pre></div>
+<a name="c-backend"></a>
+<h4 id="c-backend">C++ Backend<a class="plink" href="#c-backend" title="Direct link to this headline"></a></h4>
+<p>Both user interfaces use the same C++ backend, which supports opening, formatting, and editing a document. The C++ class, <code translate="no">DocumentHandler</code>, extends <a href="./qobject.htm" translate="no">QObject</a> and is registered as a QML type under the namespace <code translate="no">io.qt.examples.texteditor 1.0</code>.</p>
+<p>The following snippets show how the type is registered under a namespace and later imported and instantiated by <i>main.qml</i>. For more information about registering C++ classes as QML types, see <a href="./qtqml-cppintegration-overview.htm#defining-qml-types-from-c" translate="no">Defining QML Types from C++</a>.</p>
+<p>QML type registration:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtQml/qqml.h&gt;</span>
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+qmlRegisterType<span class="operator">&lt;</span>DocumentHandler<span class="operator">&gt;</span>(<span class="string">"io.qt.examples.texteditor"</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="string">"DocumentHandler"</span>);
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span></pre></div>
+<p>QML namespace import:</p>
+<div class="pre"><pre class="cpp" translate="no">import io<span class="operator">.</span>qt<span class="operator">.</span>examples<span class="operator">.</span>texteditor <span class="number">1.0</span></pre></div>
+<p>QML instance:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">DocumentHandler</span> {
+        <span class="name">id</span>: <span class="name">document</span>
+        <span class="name">document</span>: <span class="name">textArea</span>.<span class="name">textDocument</span>
+        <span class="name">cursorPosition</span>: <span class="name">textArea</span>.<span class="name">cursorPosition</span>
+        <span class="name">selectionStart</span>: <span class="name">textArea</span>.<span class="name">selectionStart</span>
+        <span class="name">selectionEnd</span>: <span class="name">textArea</span>.<span class="name">selectionEnd</span>
+        <span class="name">textColor</span>: <span class="name">colorDialog</span>.<span class="name">color</span>
+        <span class="name">Component</span>.onCompleted: {
+            <span class="keyword">if</span> (<span class="name">Qt</span>.<span class="name">application</span>.<span class="name">arguments</span>.<span class="name">length</span> <span class="operator">===</span> <span class="number">2</span>)
+                <span class="name">document</span>.<span class="name">load</span>(<span class="string">"file:"</span> <span class="operator">+</span> <span class="name">Qt</span>.<span class="name">application</span>.<span class="name">arguments</span>[<span class="number">1</span>]);
+            <span class="keyword">else</span>
+                <span class="name">document</span>.<span class="name">load</span>(<span class="string">"qrc:/texteditor.html"</span>)
+        }
+        <span class="name">onLoaded</span>: {
+            <span class="name">textArea</span>.<span class="name">textFormat</span> <span class="operator">=</span> <span class="name">format</span>
+            <span class="name">textArea</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">text</span>
+        }
+        <span class="name">onError</span>: {
+            <span class="name">errorDialog</span>.<span class="name">text</span> <span class="operator">=</span> <span class="name">message</span>
+            <span class="name">errorDialog</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">true</span>
+        }
+    }</pre></div>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtquickcontrols2.git/tree/examples/quickcontrols2/texteditor?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@texteditor -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

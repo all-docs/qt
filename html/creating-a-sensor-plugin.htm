@@ -1,0 +1,93 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creating a sensor plugin | Qt Sensors</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/creating-a-sensor-plugin.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsensors-index.htm" translate="no">Qt Sensors</a></li>
+                            <li><a>Creating a sensor plugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Creating a sensor plugin</h1>
+<span class="subtitle"></span>
+<!-- $$$creating-a-sensor-plugin.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="how-a-sensor-plugin-is-loaded"></a>
+<h2 id="how-a-sensor-plugin-is-loaded">How a Sensor Plugin is Loaded<a class="plink" href="#how-a-sensor-plugin-is-loaded" title="Direct link to this headline"></a></h2>
+<p>Since sensor backends are created on demand, the sensor plugin is loaded and asked to register the sensor backends it handles. The plugin should implement <a href="./qsensorplugininterface.htm#registerSensors" translate="no">QSensorPluginInterface::registerSensors</a>() and call <a href="./qsensormanager.htm#registerBackend" translate="no">QSensorManager::registerBackend</a>() to register available backends. Typically the plugin will also inherit from <a href="./qsensorbackendfactory.htm" translate="no">QSensorBackendFactory</a> and implement <a href="./qsensorbackendfactory.htm#createBackend" translate="no">QSensorBackendFactory::createBackend</a>() in order to instantiate backends it has registered.</p>
+<p>The simplest plugin will have just once sensor backend although there is no reason that multiple sensor backends cannot be in a plugin.</p>
+<p>An example follows.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"> <span class="keyword">class</span> MyPluginClass : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">,</span> <span class="keyword">public</span> <span class="type"><a href="./qsensorplugininterface.htm" translate="no">QSensorPluginInterface</a></span><span class="operator">,</span> <span class="keyword">public</span> <span class="type"><a href="./qsensorbackendfactory.htm" translate="no">QSensorBackendFactory</a></span>
+ {
+     Q_OBJECT
+     <span class="comment">//Q_PLUGIN_METADATA(IID "com.qt-project.Qt.QSensorPluginInterface/1.0" FILE "plugin.json")</span>
+     Q_INTERFACES(<span class="type"><a href="./qsensorplugininterface.htm" translate="no">QSensorPluginInterface</a></span>)
+ <span class="keyword">public</span>:
+     <span class="type">void</span> registerSensors() override
+     {
+         <span class="type"><a href="./qsensormanager.htm" translate="no">QSensorManager</a></span><span class="operator">::</span>registerBackend(<span class="type"><a href="./qaccelerometer.htm" translate="no">QAccelerometer</a></span><span class="operator">::</span>type<span class="operator">,</span> MyBackend<span class="operator">::</span>id<span class="operator">,</span> <span class="keyword">this</span>);
+     }
+
+     <span class="type"><a href="./qsensorbackend.htm" translate="no">QSensorBackend</a></span> <span class="operator">*</span>createBackend(<span class="type"><a href="./qsensor.htm" translate="no">QSensor</a></span> <span class="operator">*</span>sensor) override
+     {
+         <span class="keyword">if</span> (sensor<span class="operator">-</span><span class="operator">&gt;</span>identifier() <span class="operator">=</span><span class="operator">=</span> MyBackend<span class="operator">::</span>id)
+             <span class="keyword">return</span> <span class="keyword">new</span> MyBackend(sensor);
+         <span class="keyword">return</span> <span class="number">0</span>;
+     }
+ };
+</pre></div>
+</div>
+<!-- @@@creating-a-sensor-plugin.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

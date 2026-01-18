@@ -1,0 +1,133 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Console CoAP Client Example | Qt CoAP</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcoap-index.htm" translate="no">Qt CoAP</a></li>
+                            <li><a href="./qtcoap-examples.htm" translate="no">Qt CoAP Examples</a></li>
+                            <li><a>Console CoAP Client Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Console CoAP Client Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 Witekio.
+** Copyright (C) 2018 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtCoap module.
+**
+** $QT_BEGIN_LICENSE:GPL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3 or (at your option) any later version
+** approved by the KDE Free Qt Foundation. The licenses are as published by
+** the Free Software Foundation and appearing in the file LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-3.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "coaphandler.h"</span>
+
+<span class="preprocessor">#include &lt;QCoreApplication&gt;</span>
+<span class="preprocessor">#include &lt;QCommandLineParser&gt;</span>
+<span class="preprocessor">#include &lt;QUrl&gt;</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span> a(argc<span class="operator">,</span> argv);
+
+    <span class="type"><a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a></span> parser;
+    parser<span class="operator">.</span>setApplicationDescription(<span class="string">"Qt CoAP test application"</span>);
+    parser<span class="operator">.</span>addHelpOption();
+    parser<span class="operator">.</span>addPositionalArgument(<span class="string">"url"</span><span class="operator">,</span>
+                                 <span class="string">"The targeted coap resource URL, e.g. 'coap://10.10.10.10/myresource'"</span>);
+    parser<span class="operator">.</span>addOption({<span class="string">"get"</span><span class="operator">,</span> <span class="string">"Use GET method for the request. This is the default method"</span>});
+    parser<span class="operator">.</span>addOption({<span class="string">"post"</span><span class="operator">,</span> <span class="string">"Use POST method for the request"</span>});
+    parser<span class="operator">.</span>addOption({<span class="string">"put"</span><span class="operator">,</span> <span class="string">"Use PUT method for the request"</span>});
+    parser<span class="operator">.</span>addOption({<span class="string">"delete"</span><span class="operator">,</span> <span class="string">"Use DELETE method for the request"</span>});
+    parser<span class="operator">.</span>addOption({<span class="string">"observe"</span><span class="operator">,</span> <span class="string">"Observe a resource"</span>});
+    parser<span class="operator">.</span>addOption({<span class="string">"discover"</span><span class="operator">,</span> <span class="string">"Discover available resources"</span>});
+
+    parser<span class="operator">.</span>process(a);
+
+    <span class="keyword">if</span> (parser<span class="operator">.</span>positionalArguments()<span class="operator">.</span>isEmpty()) {
+        <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>(<span class="string">"Please provide an url for the request"</span>);
+        parser<span class="operator">.</span>showHelp(<span class="number">1</span>);
+    }
+
+    <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> url <span class="operator">=</span> parser<span class="operator">.</span>positionalArguments()<span class="operator">.</span>first();
+    <span class="keyword">if</span> (<span class="operator">!</span>url<span class="operator">.</span>isValid()) {
+        <a href="./qtglobal.htm#qWarning" translate="no">qWarning</a>(<span class="string">"The url provided is not valid."</span>);
+        parser<span class="operator">.</span>showHelp(<span class="number">1</span>);
+    }
+
+    CoapHandler handler;
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"get"</span>))        handler<span class="operator">.</span>runGet(url);
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"post"</span>))       handler<span class="operator">.</span>runPost(url);
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"put"</span>))        handler<span class="operator">.</span>runPut(url);
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"delete"</span>))     handler<span class="operator">.</span>runDelete(url);
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"observe"</span>))    handler<span class="operator">.</span>runObserve(url);
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"discover"</span>))   handler<span class="operator">.</span>runDiscover(url);
+
+    <span class="keyword">return</span> a<span class="operator">.</span>exec();
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

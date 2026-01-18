@@ -1,0 +1,81 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt NFC on Android | Qt NFC</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/nfc-android.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtnfc-index.htm" translate="no">Qt NFC</a></li>
+                            <li><a>Qt NFC on Android</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt NFC on Android</h1>
+<span class="subtitle"></span>
+<!-- $$$nfc-android.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="automatically-launching-ndef-message-handlers-on-android"></a>
+<h2 id="automatically-launching-ndef-message-handlers-on-android">Automatically launching NDEF message handlers on Android<a class="plink" href="#automatically-launching-ndef-message-handlers-on-android" title="Direct link to this headline"></a></h2>
+<p>Android, the registration of NDEF message handlers is done via the <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html" translate="no">Android manifest file</a>. This means the application has to provide an AndroidManifest.xml file with proper <a href="http://developer.android.com/guide/topics/connectivity/nfc/nfc.html#manifest" translate="no">NFC intent-filter.</a></p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">&lt;</span>intent<span class="operator">-</span>filter<span class="operator">&gt;</span>
+    <span class="operator">&lt;</span>action android:name<span class="operator">=</span><span class="string">"android.nfc.action.NDEF_DISCOVERED"</span><span class="operator">/</span><span class="operator">&gt;</span>
+    <span class="operator">&lt;</span>category android:name<span class="operator">=</span><span class="string">"android.intent.category.DEFAULT"</span><span class="operator">/</span><span class="operator">&gt;</span>
+    <span class="operator">&lt;</span>data android:mimeType<span class="operator">=</span><span class="string">"text/plain"</span><span class="operator">/</span><span class="operator">&gt;</span>
+<span class="operator">&lt;</span><span class="operator">/</span>intent<span class="operator">-</span>filter<span class="operator">&gt;</span></pre></div>
+<p>When the application is started it has to register an message handler with <a href="./qnearfieldmanager.htm#registerNdefMessageHandler" translate="no">registerNdefMessageHandler()</a> The first NDEF message arriving in the handler is the message that started the application. See the <a href="./qtnfc-corkboard-example.htm" translate="no">CorkBoard</a> application for an example.</p>
+<a name="note"></a>
+<h3 id="note">Note:<a class="plink" href="#note" title="Direct link to this headline"></a></h3>
+<p>Supported tag types in Android are <a href="http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_NDEF_DISCOVERED" translate="no">NDEF_DISCOVERED</a> and <a href="http://developer.android.com/reference/android/nfc/NfcAdapter.html#ACTION_TECH_DISCOVERED" translate="no">ACTION_TAG_DISCOVERED</a> with <a href="http://developer.android.com/reference/android/nfc/tech/TagTechnology.html" translate="no">TagTechnology</a> NdefFormatable or Ndef. If the application register other types in the <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html" translate="no">Android manifest file</a> the application will be started, but the tag will never get delivered to the handler. The handler should be registered as early as possible. If the application has not registered a handler, the application will be started every time a new tag is in range and the Android device end up running multiple instances of the application.</p>
+</div>
+<!-- @@@nfc-android.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

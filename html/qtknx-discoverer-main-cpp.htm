@@ -1,0 +1,291 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discoverer Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>Discoverer Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Discoverer Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Knx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include &lt;QtCore/QDebug&gt;</span>
+<span class="preprocessor">#include &lt;QtCore/QCommandLineParser&gt;</span>
+<span class="preprocessor">#include &lt;QtCore/QCoreApplication&gt;</span>
+
+<span class="preprocessor">#include &lt;QtKnx/QKnxNetIpExtendedDeviceDibProxy&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnxNetIpServerDiscoveryAgent&gt;</span>
+<span class="preprocessor">#include &lt;QtKnx/QKnxNetIpSrpBuilder&gt;</span>
+
+<span class="keyword">static</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> familyToString(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily id)
+{
+    <span class="keyword">switch</span> (id) {
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>Core:
+            <span class="keyword">return</span> <span class="string">"Core"</span>;
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>DeviceManagement:
+            <span class="keyword">return</span> <span class="string">"Device Management"</span>;
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>IpTunneling:
+            <span class="keyword">return</span> <span class="string">"Tunnel"</span>;
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>IpRouting:
+            <span class="keyword">return</span> <span class="string">"Routing"</span>;
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>RemoteLogging:
+            <span class="keyword">return</span> <span class="string">"Remote Logging"</span>;
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>RemoteConfigAndDiagnosis:
+            <span class="keyword">return</span> <span class="string">"Remote Configuration"</span>;
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>ObjectServer:
+            <span class="keyword">return</span> <span class="string">"Object Server"</span>;
+        <span class="keyword">case</span> <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily<span class="operator">::</span>Security:
+            <span class="keyword">return</span> <span class="string">"Security"</span>;
+        <span class="keyword">default</span>:
+            <span class="keyword">break</span>;
+    }
+    <span class="keyword">return</span> <span class="string">"Unknown"</span>;
+}
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span> discoverer(argc<span class="operator">,</span> argv);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setApplicationVersion(<span class="string">"1.0"</span>);
+
+    <span class="type"><a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a></span> parser;
+    parser<span class="operator">.</span>addHelpOption();
+
+    parser<span class="operator">.</span>addOptions({
+        { { <span class="string">"t"</span><span class="operator">,</span> <span class="string">"timeout"</span> }<span class="operator">,</span> <span class="string">"Discovery response timeout in seconds."</span><span class="operator">,</span> <span class="string">"timeout"</span><span class="operator">,</span> <span class="string">"3"</span> }<span class="operator">,</span>
+        { { <span class="string">"n"</span><span class="operator">,</span> <span class="string">"nat"</span> }<span class="operator">,</span> <span class="string">"Use Network Address Translation to traverse across network routers."</span> }<span class="operator">,</span>
+        { { <span class="string">"u"</span><span class="operator">,</span> <span class="string">"unicast"</span> }<span class="operator">,</span> <span class="string">"Force unicast response. (defaults to multicast response)"</span> }<span class="operator">,</span>
+        { { <span class="string">"a"</span><span class="operator">,</span> <span class="string">"localAddress"</span> }<span class="operator">,</span> <span class="string">"The local IP address a response shall be sent to. "</span>
+                <span class="string">"Implies &lt;unicast&gt;"</span><span class="operator">,</span> <span class="string">"localAddress"</span><span class="operator">,</span> <span class="string">"127.0.0.1"</span> }<span class="operator">,</span>
+        { { <span class="string">"p"</span><span class="operator">,</span> <span class="string">"localPort"</span> }<span class="operator">,</span> <span class="string">"The local UDP port a response shall be sent to (defaults to "</span>
+                <span class="string">"system assigned). Implies &lt;unicast&gt;."</span><span class="operator">,</span> <span class="string">"localPort"</span><span class="operator">,</span> <span class="string">"0"</span> }<span class="operator">,</span>
+        { { <span class="string">"m"</span><span class="operator">,</span> <span class="string">"searchMode"</span> }<span class="operator">,</span> <span class="string">"Specifies the mode used to send search request. Possible "</span>
+                <span class="string">"values: (default, extended, both)."</span><span class="operator">,</span> <span class="string">"searchMode"</span><span class="operator">,</span> <span class="string">"default"</span> }<span class="operator">,</span>
+        { <span class="string">"filterProg"</span><span class="operator">,</span> <span class="string">"Limit search responses to devices in programming mode. Implies "</span>
+                <span class="string">"search mode extended or both."</span> }<span class="operator">,</span>
+        { <span class="string">"filterMAC"</span><span class="operator">,</span> <span class="string">"Limit search responses to the given MAC address. Implies search "</span>
+                <span class="string">"mode extended or both."</span><span class="operator">,</span> <span class="string">"MAC"</span> }<span class="operator">,</span>
+        { <span class="string">"filterService"</span><span class="operator">,</span> <span class="string">"Limit search responses to devices supporting the given "</span>
+                <span class="string">"KNXnet/IP service family in at least the given version (e.g. 0202). Implies "</span>
+                <span class="string">"search mode extended or both."</span><span class="operator">,</span> <span class="string">"Service"</span> }<span class="operator">,</span>
+        { <span class="string">"descriptionType"</span><span class="operator">,</span> <span class="string">"Force returning DIBs inside the search responses to "</span>
+                <span class="string">"to at least of the given set of IDs. (e.g. 010208). Implies search mode "</span>
+                <span class="string">"extended or both."</span><span class="operator">,</span> <span class="string">"Type"</span> }
+    });
+    parser<span class="operator">.</span>process(discoverer);
+
+    <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span> agent;
+    agent<span class="operator">.</span>setNatAware(parser<span class="operator">.</span>isSet(<span class="string">"nat"</span>));
+    agent<span class="operator">.</span>setLocalPort(parser<span class="operator">.</span>value(<span class="string">"localPort"</span>)<span class="operator">.</span>toUInt());
+    agent<span class="operator">.</span>setTimeout(parser<span class="operator">.</span>value(<span class="string">"timeout"</span>)<span class="operator">.</span>toInt() <span class="operator">*</span> <span class="number">1000</span>);
+
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"localAddress"</span>))
+        agent<span class="operator">.</span>setLocalAddress(<span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(parser<span class="operator">.</span>value(<span class="string">"localAddress"</span>)));
+
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"unicast"</span>))
+        agent<span class="operator">.</span>setResponseType(<span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>ResponseType<span class="operator">::</span>Unicast);
+
+    <span class="keyword">auto</span> value <span class="operator">=</span> parser<span class="operator">.</span>value(<span class="string">"searchMode"</span>);
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"searchMode"</span>) <span class="operator">&amp;</span><span class="operator">&amp;</span> value <span class="operator">!</span><span class="operator">=</span> <span class="string">"default"</span>) {
+        <span class="keyword">if</span> (value <span class="operator">=</span><span class="operator">=</span> <span class="string">"extended"</span>) {
+            agent<span class="operator">.</span>setDiscoveryMode(<span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV2);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (value <span class="operator">=</span><span class="operator">=</span> <span class="string">"both"</span>) {
+            agent<span class="operator">.</span>setDiscoveryMode(<span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV1
+                <span class="operator">|</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV2);
+        } <span class="keyword">else</span> {
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Wrong argument for option &lt;searchMode&gt;:"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> value;
+            <span class="keyword">return</span> EXIT_FAILURE;
+        }
+    }
+
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"filterProg"</span>)) {
+        agent<span class="operator">.</span>setDiscoveryMode(agent<span class="operator">.</span>discoveryMode()
+            <span class="operator">|</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV2);
+        agent<span class="operator">.</span>setExtendedSearchParameters({ <span class="type"><a href="./qknxnetipsrpproxy.htm" translate="no">QKnxNetIpSrpProxy</a></span><span class="operator">::</span>programmingModeBuilder()<span class="operator">.</span>create() });
+    }
+
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"filterMAC"</span>)) {
+        agent<span class="operator">.</span>setDiscoveryMode(agent<span class="operator">.</span>discoveryMode()
+            <span class="operator">|</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV2);
+        agent<span class="operator">.</span>setExtendedSearchParameters(<span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsrp.htm" translate="no">QKnxNetIpSrp</a></span><span class="operator">&gt;</span>({
+            <span class="type"><a href="./qknxnetipsrpproxy.htm" translate="no">QKnxNetIpSrpProxy</a></span><span class="operator">::</span>macAddressBuilder()
+                <span class="operator">.</span>setMac(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(parser<span class="operator">.</span>value(<span class="string">"filterMAC"</span>)<span class="operator">.</span>toLatin1()))
+                <span class="operator">.</span>create()
+        }) <span class="operator">+</span> agent<span class="operator">.</span>extendedSearchParameters());
+    }
+
+    <span class="keyword">if</span> (parser<span class="operator">.</span>isSet(<span class="string">"filterService"</span>)) {
+        <span class="keyword">auto</span> value <span class="operator">=</span> parser<span class="operator">.</span>value(<span class="string">"filterService"</span>);
+        <span class="keyword">if</span> (value<span class="operator">.</span>size() <span class="operator">=</span><span class="operator">=</span> <span class="number">4</span>) {
+            bool okLeft <span class="operator">=</span> <span class="keyword">false</span><span class="operator">,</span> okRight <span class="operator">=</span> <span class="keyword">false</span>;
+            <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> left <span class="operator">=</span> value<span class="operator">.</span>left(<span class="number">2</span>)<span class="operator">.</span>toUShort(<span class="operator">&amp;</span>okLeft<span class="operator">,</span> <span class="number">16</span>);
+            <span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> right <span class="operator">=</span> value<span class="operator">.</span>mid(<span class="number">2</span>)<span class="operator">.</span>toUShort(<span class="operator">&amp;</span>okRight<span class="operator">,</span> <span class="number">16</span>);
+            <span class="keyword">if</span> (<span class="operator">!</span>okLeft <span class="operator">|</span><span class="operator">|</span> <span class="operator">!</span>okRight) <span class="keyword">return</span> EXIT_FAILURE;
+
+            agent<span class="operator">.</span>setDiscoveryMode(agent<span class="operator">.</span>discoveryMode()
+                <span class="operator">|</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>DiscoveryMode<span class="operator">::</span>CoreV2);
+
+            agent<span class="operator">.</span>setExtendedSearchParameters(<span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsrp.htm" translate="no">QKnxNetIpSrp</a></span><span class="operator">&gt;</span>({
+                <span class="type"><a href="./qknxnetipsrpproxy.htm" translate="no">QKnxNetIpSrpProxy</a></span><span class="operator">::</span>supportedFamilyBuilder()
+                    <span class="operator">.</span>setServiceInfo({ <span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceFamily(left)<span class="operator">,</span> right })
+                    <span class="operator">.</span>create()
+            }) <span class="operator">+</span> agent<span class="operator">.</span>extendedSearchParameters());
+        }
+    }
+
+    <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span><span class="operator">::</span>connect(<span class="operator">&amp;</span>agent<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>finished<span class="operator">,</span> <span class="operator">&amp;</span>discoverer<span class="operator">,</span>
+        <span class="operator">&amp;</span><span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>quit);
+
+    <span class="keyword">if</span> (<span class="operator">!</span>parser<span class="operator">.</span>isSet(<span class="string">"localAddress"</span>)) {
+        agent<span class="operator">.</span>start(<span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>InterfaceType<span class="operator">::</span>Ethernet
+            <span class="operator">|</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>InterfaceType<span class="operator">::</span>Wifi);
+    } <span class="keyword">else</span> {
+        agent<span class="operator">.</span>start(<span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span><span class="operator">&gt;</span> { agent<span class="operator">.</span>localAddress() });
+    }
+
+    <span class="keyword">if</span> (agent<span class="operator">.</span>error() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>Error<span class="operator">::</span>None
+        <span class="operator">&amp;</span><span class="operator">&amp;</span> agent<span class="operator">.</span>state() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span><span class="operator">::</span>State<span class="operator">::</span>Running) {
+            discoverer<span class="operator">.</span>exec();
+    }
+
+    <span class="keyword">const</span> <span class="keyword">auto</span> servers <span class="operator">=</span> agent<span class="operator">.</span>discoveredServers();
+    <span class="keyword">if</span> (servers<span class="operator">.</span>size() <span class="operator">&gt;</span> <span class="number">0</span>) {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>endl <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"%1 server(s) found on the network."</span>)
+            <span class="operator">.</span>arg(servers<span class="operator">.</span>size());
+        <span class="keyword">for</span> (<span class="keyword">auto</span> server : servers) {
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"  Network interface: %1, address: %2"</span>)
+                <span class="operator">.</span>arg(server<span class="operator">.</span>networkInterface()<span class="operator">.</span>humanReadableName()<span class="operator">,</span> server<span class="operator">.</span>hostAddress()<span class="operator">.</span>toString());
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"  Server: %1"</span>)<span class="operator">.</span>arg(server<span class="operator">.</span>deviceName());
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Individual address: %1"</span>)<span class="operator">.</span>arg(server
+                <span class="operator">.</span>individualAddress()<span class="operator">.</span>toString());
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Server control endpoint: %1:%2"</span>)
+                <span class="operator">.</span>arg(server<span class="operator">.</span>controlEndpointAddress()<span class="operator">.</span>toString())<span class="operator">.</span>arg(server<span class="operator">.</span>controlEndpointPort());
+
+            <span class="keyword">const</span> <span class="keyword">auto</span> services <span class="operator">=</span> server<span class="operator">.</span>supportedServices();
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"    Supported services:"</span>);
+            <span class="keyword">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> service : services) {
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      KNXnet/IP %1, Version: %2"</span>)
+                    <span class="operator">.</span>arg(familyToString(service<span class="operator">.</span>ServiceFamily))<span class="operator">.</span>arg(service<span class="operator">.</span>ServiceFamilyVersion);
+            }
+
+            <span class="keyword">const</span> <span class="keyword">auto</span> dib <span class="operator">=</span> server<span class="operator">.</span>extendedHardware();
+            <span class="type"><a href="./qknxnetipextendeddevicedibproxy.htm" translate="no">QKnxNetIpExtendedDeviceDibProxy</a></span> hardware(dib);
+            <span class="keyword">if</span> (hardware<span class="operator">.</span>isValid()) {
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"    Extended hardware information:"</span>;
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Mask version: %1"</span>)<span class="operator">.</span>arg(hardware
+                    <span class="operator">.</span>deviceDescriptorType0()<span class="operator">,</span> <span class="number">4</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>));
+                <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromLatin1(<span class="string">"      Max. local APDU length: %1"</span>)
+                    <span class="operator">.</span>arg(hardware<span class="operator">.</span>maximumLocalApduLength());
+
+                <span class="keyword">auto</span> status <span class="operator">=</span> server<span class="operator">.</span>mediumStatus();
+                <span class="keyword">if</span> (status <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumStatus<span class="operator">::</span>CommunicationPossible)
+                    <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"      Medium status: Communication possible"</span>;
+                <span class="keyword">else</span> <span class="keyword">if</span> (status <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>MediumStatus<span class="operator">::</span>CommunicationImpossible)
+                    <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"      Medium status: Communication impossible"</span>;
+                <span class="keyword">else</span>
+                    <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"      Medium status: Unknown"</span>;
+            }
+            <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">""</span>;
+        }
+    } <span class="keyword">else</span> {
+        <a href="./qtglobal.htm#qInfo" translate="no">qInfo</a>()<span class="operator">.</span>noquote() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"No server(s) found on the network."</span>;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

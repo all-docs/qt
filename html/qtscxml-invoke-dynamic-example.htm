@@ -1,0 +1,121 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt SCXML Invoke Example (Dynamic) | Qt SCXML</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtscxml-index.htm" translate="no">Qt SCXML</a></li>
+                            <li><a href="./examples-qtscxml.htm" translate="no">Qt SCXML Examples</a></li>
+                            <li><a>Qt SCXML Invoke Example (Dynamic)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt SCXML Invoke Example (Dynamic)</h1>
+<span class="subtitle"></span>
+<!-- $$$invoke-dynamic-brief -->
+<p>Invokes a dynamically loaded nested state machine.</p>
+<!-- @@@invoke-dynamic -->
+<!-- $$$invoke-dynamic-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/invoke-dynamic.png"></p><p><i>Invoke Example (Dynamic)</i> demonstrates how to use the <code translate="no">&lt;invoke&gt;</code> element with generated nested state-machines, where the SCXML file is dynamically loaded. The <code translate="no">&lt;invoke&gt;</code> element is used to create an instance of an external service.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="https://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="invoking-the-state-machine"></a>
+<h4 id="invoking-the-state-machine">Invoking the State Machine<a class="plink" href="#invoking-the-state-machine" title="Direct link to this headline"></a></h4>
+<p>In <i>statemachine.scxml</i>, we specify a state machine with the name <i>Directions</i> of type <i>http://www.w3.org/TR/scxml/</i> to invoke:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;scxml
+    xmlns="http://www.w3.org/2005/07/scxml"
+    version="1.0"
+    name="Directions"
+    initial="anyplace"
+&gt;
+    &lt;state id="anyplace"&gt;
+        &lt;transition event="goNowhere" target="nowhere"/&gt;
+        &lt;transition event="goSomewhere" target="somewhere"/&gt;
+
+        &lt;state id="nowhere"/&gt;
+        &lt;state id="somewhere"&gt;
+            &lt;invoke type="http://www.w3.org/TR/scxml/"&gt;
+                &lt;content&gt;
+                    &lt;scxml name="anywhere" version="1.0"&gt;
+                        &lt;state id="here"&gt;
+                            &lt;transition event="goThere" target="there"/&gt;
+                        &lt;/state&gt;
+                        &lt;state id="there"&gt;
+                            &lt;transition event="goHere" target="here"/&gt;
+                        &lt;/state&gt;
+                    &lt;/scxml&gt;
+                &lt;/content&gt;
+            &lt;/invoke&gt;
+        &lt;/state&gt;
+    &lt;/state&gt;
+&lt;/scxml&gt;</pre></div>
+<a name="dynamically-loading-the-state-machine"></a>
+<h4 id="dynamically-loading-the-state-machine">Dynamically Loading the State Machine<a class="plink" href="#dynamically-loading-the-state-machine" title="Direct link to this headline"></a></h4>
+<p>We link against the Qt SCXML module by adding the following line to the <i>invoke-dynamic.pro</i> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">QT += qml scxml</pre></div>
+<p>We dynamically create the state machine, as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">import QtScxml 5.8
+
+<span class="type">MainView</span> {
+    <span class="name">stateMachine</span>: <span class="name">directions</span>.<span class="name">stateMachine</span>
+
+    <span class="type"><a href="./qml-qtscxml-statemachineloader.htm" translate="no">StateMachineLoader</a></span> {
+        <span class="name">id</span>: <span class="name">directions</span>
+        <span class="name">source</span>: <span class="string">"qrc:///statemachine.scxml"</span>
+    }</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtscxml.git/tree/examples/scxml/invoke-dynamic?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@invoke-dynamic -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,235 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebEngine Markdown Editor Example | Qt WebEngine</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a></li>
+                            <li><a href="./webengine-widgetexamples.htm" translate="no">Qt WebEngine Widgets Examples</a></li>
+                            <li><a>WebEngine Markdown Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">WebEngine Markdown Editor Example</h1>
+<span class="subtitle"></span>
+<!-- $$$webenginewidgets/markdowneditor-brief -->
+<p>Demonstrates how to integrate a web engine in a hybrid desktop application.</p>
+<!-- @@@webenginewidgets/markdowneditor -->
+<!-- $$$webenginewidgets/markdowneditor-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/markdowneditor-example.png"></p><p><i>Markdown Editor</i> demonstrates how to use <a href="./qwebchannel.htm" translate="no">QWebChannel</a> and JavaScript libraries to provide a rich text preview tool for a custom markup language.</p>
+<p><a href="http://daringfireball.net/projects/markdown/" translate="no">Markdown</a> is a lightweight markup language with a plain text formatting syntax. Some services, such as <a href="http://github.com" translate="no">github</a>, acknowledge the format, and render the content as rich text when viewed in a browser.</p>
+<p>The Markdown Editor main window is split into an editor and a preview area. The editor supports the Markdown syntax and is implemented by using <a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a>. The document is rendered as rich text in the preview area, which is implemented by using <a href="./qwebengineview.htm" translate="no">QWebEngineView</a>. To render the text, the Markdown text is converted to HTML format with the help of a JavaScript library inside the web engine. The preview is updated from the editor through <a href="./qwebchannel.htm" translate="no">QWebChannel</a>.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="exposing-document-text"></a>
+<h4 id="exposing-document-text">Exposing Document Text<a class="plink" href="#exposing-document-text" title="Direct link to this headline"></a></h4>
+<p>Because we expose the current Markdown text to be rendered to the web engine through <a href="./qwebchannel.htm" translate="no">QWebChannel</a>, we need to somehow make the current text available through the Qt metatype system. This is done by using a dedicated <code translate="no">Document</code> class that exposes the document text as a <code translate="no">Q_PROPERTY</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Document : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> text MEMBER m_text NOTIFY textChanged FINAL)
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> Document(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr) : <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>(parent) {}
+
+    <span class="type">void</span> setText(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text);
+
+<span class="keyword">signals</span>:
+    <span class="type">void</span> textChanged(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> m_text;
+};</pre></div>
+<p>The <code translate="no">Document</code> class wraps a <a href="./qstring.htm" translate="no">QString</a> to be set on the C++ side with the <code translate="no">setText()</code> method and exposes it at runtime as a <code translate="no">text</code> property with a <code translate="no">textChanged</code> signal.</p>
+<p>We define the <code translate="no">setText</code> method as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Document<span class="operator">::</span>setText(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>text)
+{
+    <span class="keyword">if</span> (text <span class="operator">=</span><span class="operator">=</span> m_text)
+        <span class="keyword">return</span>;
+    m_text <span class="operator">=</span> text;
+    <span class="keyword">emit</span> textChanged(m_text);
+}</pre></div>
+<a name="previewing-text"></a>
+<h4 id="previewing-text">Previewing Text<a class="plink" href="#previewing-text" title="Direct link to this headline"></a></h4>
+<p>We implement our own <code translate="no">PreviewPage</code> class that publicly inherits from <code translate="no">QWebEnginePage</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> PreviewPage : <span class="keyword">public</span> <span class="type"><a href="./qwebenginepage.htm" translate="no">QWebEnginePage</a></span>
+{
+    Q_OBJECT
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> PreviewPage(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr) : <span class="type"><a href="./qwebenginepage.htm" translate="no">QWebEnginePage</a></span>(parent) {}
+
+<span class="keyword">protected</span>:
+    bool acceptNavigationRequest(<span class="keyword">const</span> <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> <span class="operator">&amp;</span>url<span class="operator">,</span> NavigationType type<span class="operator">,</span> bool isMainFrame);
+};</pre></div>
+<p>We reimplement the virtual <code translate="no">acceptNavigationRequest</code> method to stop the page from navigating away from the current document. Instead, we redirect external links to the system browser:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">bool PreviewPage<span class="operator">::</span>acceptNavigationRequest(<span class="keyword">const</span> <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> <span class="operator">&amp;</span>url<span class="operator">,</span>
+                                          <span class="type"><a href="./qwebenginepage.htm" translate="no">QWebEnginePage</a></span><span class="operator">::</span>NavigationType <span class="comment">/*type*/</span><span class="operator">,</span>
+                                          bool <span class="comment">/*isMainFrame*/</span>)
+{
+    <span class="comment">// Only allow qrc:/index.html.</span>
+    <span class="keyword">if</span> (url<span class="operator">.</span>scheme() <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span>(<span class="string">"qrc"</span>))
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="type"><a href="./qdesktopservices.htm" translate="no">QDesktopServices</a></span><span class="operator">::</span>openUrl(url);
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+}</pre></div>
+<a name="creating-the-main-window"></a>
+<h4 id="creating-the-main-window">Creating the Main Window<a class="plink" href="#creating-the-main-window" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">MainWindow</code> class inherits the <a href="./qmainwindow.htm" translate="no">QMainWindow</a> class:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MainWindow : <span class="keyword">public</span> <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    <span class="operator">~</span>MainWindow();
+
+    <span class="type">void</span> openFile(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>path);
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> onFileNew();
+    <span class="type">void</span> onFileOpen();
+    <span class="type">void</span> onFileSave();
+    <span class="type">void</span> onFileSaveAs();
+    <span class="type">void</span> onExit();
+
+<span class="keyword">private</span>:
+    bool isModified() <span class="keyword">const</span>;
+
+    Ui<span class="operator">::</span>MainWindow <span class="operator">*</span>ui;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> m_filePath;
+    Document m_content;
+};</pre></div>
+<p>The class declares private slots that match the actions in the menu, as well as the <code translate="no">isModified()</code> helper method.</p>
+<p>The actual layout of the main window is specified in a <code translate="no">.ui</code> file. The widgets and actions are available at runtime in the <code translate="no">ui</code> member variable.</p>
+<p><code translate="no">m_filePath</code> holds the file path to the currently loaded document. <code translate="no">m_content</code> is an instance of the <code translate="no">Document</code> class.</p>
+<p>The actual setup of the different objects is done in the <code translate="no">MainWindow</code> constructor:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MainWindow<span class="operator">::</span>MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent) :
+    <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>(parent)<span class="operator">,</span>
+    ui(<span class="keyword">new</span> Ui<span class="operator">::</span>MainWindow)
+{
+    ui<span class="operator">-</span><span class="operator">&gt;</span>setupUi(<span class="keyword">this</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>editor<span class="operator">-</span><span class="operator">&gt;</span>setFont(<span class="type"><a href="./qfontdatabase.htm" translate="no">QFontDatabase</a></span><span class="operator">::</span>systemFont(<span class="type"><a href="./qfontdatabase.htm" translate="no">QFontDatabase</a></span><span class="operator">::</span>FixedFont));
+    ui<span class="operator">-</span><span class="operator">&gt;</span>preview<span class="operator">-</span><span class="operator">&gt;</span>setContextMenuPolicy(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>NoContextMenu);</pre></div>
+<p>The constructor first calls <code translate="no">setupUi</code> to construct the widgets and menu actions according to the UI file. The text editor font is set to one with a fixed character width, and the <a href="./qwebengineview.htm" translate="no">QWebEngineView</a> widget is told not to show a context menu.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    PreviewPage <span class="operator">*</span>page <span class="operator">=</span> <span class="keyword">new</span> PreviewPage(<span class="keyword">this</span>);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>preview<span class="operator">-</span><span class="operator">&gt;</span>setPage(page);</pre></div>
+<p>Here the constructor makes sure our custom <code translate="no">PreviewPage</code> is used by the <a href="./qwebengineview.htm" translate="no">QWebEngineView</a> instance in <code translate="no">ui-&gt;preview</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>editor<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qplaintextedit.htm" translate="no">QPlainTextEdit</a></span><span class="operator">::</span>textChanged<span class="operator">,</span>
+            <span class="operator">[</span><span class="keyword">this</span><span class="operator">]</span>() { m_content<span class="operator">.</span>setText(ui<span class="operator">-</span><span class="operator">&gt;</span>editor<span class="operator">-</span><span class="operator">&gt;</span>toPlainText()); });
+
+    <span class="type"><a href="./qwebchannel.htm" translate="no">QWebChannel</a></span> <span class="operator">*</span>channel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwebchannel.htm" translate="no">QWebChannel</a></span>(<span class="keyword">this</span>);
+    channel<span class="operator">-</span><span class="operator">&gt;</span>registerObject(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"content"</span>)<span class="operator">,</span> <span class="operator">&amp;</span>m_content);
+    page<span class="operator">-</span><span class="operator">&gt;</span>setWebChannel(channel);</pre></div>
+<p>Here the <code translate="no">textChanged</code> signal of the editor is connected to a lambda that updates the text in <code translate="no">m_content</code>. This object is then exposed to the JS side by <code translate="no">QWebChannel</code> under the name <code translate="no">content</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ui<span class="operator">-</span><span class="operator">&gt;</span>preview<span class="operator">-</span><span class="operator">&gt;</span>setUrl(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="string">"qrc:/index.html"</span>));</pre></div>
+<p>Now we can actually load the <i>index.html</i> file from the resources. For more information about the file, see <a href="./qtwebengine-webenginewidgets-markdowneditor-example.htm#creating-an-index-file" translate="no">Creating an Index File</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionNew<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFileNew);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionOpen<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFileOpen);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionSave<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFileSave);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionSaveAs<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onFileSaveAs);
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>actionExit<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>triggered<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>MainWindow<span class="operator">::</span>onExit);
+
+    connect(ui<span class="operator">-</span><span class="operator">&gt;</span>editor<span class="operator">-</span><span class="operator">&gt;</span>document()<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qtextdocument.htm" translate="no">QTextDocument</a></span><span class="operator">::</span>modificationChanged<span class="operator">,</span>
+            ui<span class="operator">-</span><span class="operator">&gt;</span>actionSave<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qaction.htm" translate="no">QAction</a></span><span class="operator">::</span>setEnabled);</pre></div>
+<p>The menu items are connected to the corresponding member slots. The <b translate="no">Save</b> item is activated or deactivated depending on whether the user has edited the content.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qfile.htm" translate="no">QFile</a></span> defaultTextFile(<span class="string">":/default.md"</span>);
+    defaultTextFile<span class="operator">.</span>open(<span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span><span class="operator">::</span>ReadOnly);
+    ui<span class="operator">-</span><span class="operator">&gt;</span>editor<span class="operator">-</span><span class="operator">&gt;</span>setPlainText(defaultTextFile<span class="operator">.</span>readAll());
+}</pre></div>
+<p>Finally, we load a default document <i>default.md</i> from the resources.</p>
+<a name="creating-an-index-file"></a>
+<h4 id="creating-an-index-file">Creating an Index File<a class="plink" href="#creating-an-index-file" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;head&gt;
+  &lt;link rel="stylesheet" type="text/css" href="3rdparty/markdown.css"&gt;
+  &lt;script src="3rdparty/marked.js"&gt;&lt;/script&gt;
+  &lt;script src="qrc:/qtwebchannel/qwebchannel.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="placeholder"&gt;&lt;/div&gt;
+  &lt;script&gt;
+  'use strict';
+
+  var placeholder = document.getElementById('placeholder');
+
+  var updateText = function(text) {
+      placeholder.innerHTML = marked(text);
+  }
+
+  new QWebChannel(qt.webChannelTransport,
+    function(channel) {
+      var content = channel.objects.content;
+      updateText(content.text);
+      content.textChanged.connect(updateText);
+    }
+  );
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+<p>In the <i>index.html</i>, we load a custom stylesheet and two JavaScript libraries. <a href="http://kevinburke.bitbucket.org/markdowncss/" translate="no">markdown.css</a> is a markdown-friendly stylesheet created by Kevin Burke. <a href="https://github.com/chjj/marked" translate="no">marked.js</a> is a markdown parser and compiler designed for speed written by Christopher Jeffrey and <i>qwebchannel.js</i> is part of the <a href="./qwebchannel.htm" translate="no">QWebChannel</a> module.</p>
+<p>In the <code translate="no">&lt;body&gt;</code> element we first define a <code translate="no">placeholder</code> element, and make it available as a JavaScript variable. We then define the <code translate="no">updateText</code> helper method that updates the content of <code translate="no">placeholder</code> with the HTML that the JavaScript method <code translate="no">marked()</code> returns.</p>
+<p>Finally, we set up the web channel to access the <code translate="no">content</code> proxy object and make sure that <code translate="no">updateText()</code> is called whenever <code translate="no">content.text</code> changes.</p>
+<a name="files-and-attributions"></a>
+<h4 id="files-and-attributions">Files and Attributions<a class="plink" href="#files-and-attributions" title="Direct link to this headline"></a></h4>
+<p>The example bundles the following code with third-party licenses:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./qtwebengine-attribution-markdowneditor-marked.htm#markdowneditor-marked" translate="no">Marked</a></td><td>MIT License</td></tr>
+<tr class="even" valign="top"><td><a href="./qtwebengine-attribution-markdowneditor-markdowncss.htm#markdowneditor-markdowncss" translate="no">Markdown.css</a></td><td>Apache License 2.0</td></tr>
+</tbody></table></div>
+<p><a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/examples/webenginewidgets/markdowneditor?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@webenginewidgets/markdowneditor -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

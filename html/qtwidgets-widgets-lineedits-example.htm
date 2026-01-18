@@ -1,0 +1,307 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Line Edits Example | Qt Widgets</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtwidgets-widgets-lineedits-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-widgets.htm" translate="no">Qt Widgets Examples</a></li>
+                            <li><a>Line Edits Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Line Edits Example</h1>
+<span class="subtitle"></span>
+<!-- $$$widgets/lineedits-brief -->
+<p>The Line Edits example demonstrates the many ways that <a href="./qlineedit.htm" translate="no">QLineEdit</a> can be used, and shows the effects of various properties and validators on the input and output supplied by the user.</p>
+<!-- @@@widgets/lineedits -->
+<!-- $$$widgets/lineedits-description -->
+<div class="descr"> <a name="details"></a>
+<div class="border"><p class="centerAlign"><img alt="" src="./images/lineedits-example.png"></p></div><p>The example consists of a single <code translate="no">Window</code> class, containing a selection of line edits with different input constraints and display properties that can be changed by selecting items from comboboxes. Presenting these together helps developers choose suitable properties to use with line edits, and makes it easy to compare the effects of each validator on user input.</p>
+<a name="window-class-definition"></a>
+<h4 id="window-class-definition">Window Class Definition<a class="plink" href="#window-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">Window</code> class inherits <a href="./qwidget.htm" translate="no">QWidget</a> and contains a constructor and several slots:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Window : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> echoChanged(<span class="type">int</span>);
+    <span class="type">void</span> validatorChanged(<span class="type">int</span>);
+    <span class="type">void</span> alignmentChanged(<span class="type">int</span>);
+    <span class="type">void</span> inputMaskChanged(<span class="type">int</span>);
+    <span class="type">void</span> accessChanged(<span class="type">int</span>);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>echoLineEdit;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>validatorLineEdit;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>alignmentLineEdit;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>inputMaskLineEdit;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>accessLineEdit;
+};</pre></div>
+<p>The slots are used to update the type of validator used for a given line edit when a new validator has been selected in the associated combobox. The line edits are stored in the window for use in these slots.</p>
+<a name="window-class-implementation"></a>
+<h4 id="window-class-implementation">Window Class Implementation<a class="plink" href="#window-class-implementation" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">Window</code> constructor is used to set up the line edits, validators, and comboboxes, connect signals from the comboboxes to slots in the <code translate="no">Window</code> class, and arrange the child widgets in layouts.</p>
+<p>We begin by constructing a <a href="./qgroupbox.htm" translate="no">group box</a> to hold a label, combobox, and line edit so that we can demonstrate the <a href="./qlineedit.htm#echoMode-prop" translate="no">QLineEdit::echoMode</a> property:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Window<span class="operator">::</span>Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+{
+    <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span> <span class="operator">*</span>echoGroup <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span>(tr(<span class="string">"Echo"</span>));
+
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>echoLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Mode:"</span>));
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>echoComboBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>;
+    echoComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Normal"</span>));
+    echoComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Password"</span>));
+    echoComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"PasswordEchoOnEdit"</span>));
+    echoComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"No Echo"</span>));
+
+    echoLineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    echoLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setPlaceholderText(<span class="string">"Placeholder Text"</span>);
+    echoLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setFocus();</pre></div>
+<p>At this point, none of these widgets have been arranged in layouts. Eventually, the <code translate="no">echoLabel</code>, <code translate="no">echoComboBox</code>, and <code translate="no">echoLineEdit</code> will be placed in a vertical layout inside the <code translate="no">echoGroup</code> group box.</p>
+<p>Similarly, we construct group boxes and collections of widgets to show the effects of <a href="./qintvalidator.htm" translate="no">QIntValidator</a> and <a href="./qdoublevalidator.htm" translate="no">QDoubleValidator</a> on a line edit's contents:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span> <span class="operator">*</span>validatorGroup <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span>(tr(<span class="string">"Validator"</span>));
+
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>validatorLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Type:"</span>));
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>validatorComboBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>;
+    validatorComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"No validator"</span>));
+    validatorComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Integer validator"</span>));
+    validatorComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Double validator"</span>));
+
+    validatorLineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    validatorLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setPlaceholderText(<span class="string">"Placeholder Text"</span>);</pre></div>
+<p>Text alignment is demonstrated by another group of widgets:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span> <span class="operator">*</span>alignmentGroup <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span>(tr(<span class="string">"Alignment"</span>));
+
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>alignmentLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Type:"</span>));
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>alignmentComboBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>;
+    alignmentComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Left"</span>));
+    alignmentComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Centered"</span>));
+    alignmentComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Right"</span>));
+
+    alignmentLineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    alignmentLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setPlaceholderText(<span class="string">"Placeholder Text"</span>);</pre></div>
+<p><a href="./qlineedit.htm" translate="no">QLineEdit</a> supports the use of <a href="./qlineedit.htm#inputMask-prop" translate="no">input masks</a>. These only allow the user to type characters into the line edit that follow a simple specification. We construct a group of widgets to demonstrate a selection of predefined masks:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span> <span class="operator">*</span>inputMaskGroup <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span>(tr(<span class="string">"Input mask"</span>));
+
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>inputMaskLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Type:"</span>));
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>inputMaskComboBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>;
+    inputMaskComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"No mask"</span>));
+    inputMaskComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"Phone number"</span>));
+    inputMaskComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"ISO date"</span>));
+    inputMaskComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"License key"</span>));
+
+    inputMaskLineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    inputMaskLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setPlaceholderText(<span class="string">"Placeholder Text"</span>);</pre></div>
+<p>Another useful feature of <a href="./qlineedit.htm" translate="no">QLineEdit</a> is its ability to make its contents read-only. This property is used to control access to a line edit in the following group of widgets:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span> <span class="operator">*</span>accessGroup <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span>(tr(<span class="string">"Access"</span>));
+
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>accessLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Read-only:"</span>));
+    <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>accessComboBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>;
+    accessComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"False"</span>));
+    accessComboBox<span class="operator">-</span><span class="operator">&gt;</span>addItem(tr(<span class="string">"True"</span>));
+
+    accessLineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    accessLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setPlaceholderText(<span class="string">"Placeholder Text"</span>);</pre></div>
+<p>Now that all the child widgets have been constructed, we connect signals from the comboboxes to slots in the <code translate="no">Window</code> object:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    connect(echoComboBox<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>activated)<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>echoChanged);
+    connect(validatorComboBox<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>activated)<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>validatorChanged);
+    connect(alignmentComboBox<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>activated)<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>alignmentChanged);
+    connect(inputMaskComboBox<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>activated)<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>inputMaskChanged);
+    connect(accessComboBox<span class="operator">,</span> <span class="type">QOverload</span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span><span class="operator">::</span>of(<span class="operator">&amp;</span><span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span><span class="operator">::</span>activated)<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>accessChanged);</pre></div>
+<p>Each of these connections use the <a href="./qcombobox.htm#activated" translate="no">QComboBox::activated</a>() signal that supplies an integer to the slot. This will be used to efficiently make changes to the appropriate line edit in each slot.</p>
+<p>We place each combobox, line edit, and label in a layout for each group box, beginning with the layout for the <code translate="no">echoGroup</code> group box:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>echoLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    echoLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(echoLabel<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    echoLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(echoComboBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    echoLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(echoLineEdit<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    echoGroup<span class="operator">-</span><span class="operator">&gt;</span>setLayout(echoLayout);</pre></div>
+<p>The other layouts are constructed in the same way:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>validatorLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    validatorLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(validatorLabel<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    validatorLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(validatorComboBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    validatorLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(validatorLineEdit<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    validatorGroup<span class="operator">-</span><span class="operator">&gt;</span>setLayout(validatorLayout);
+
+    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>alignmentLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    alignmentLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(alignmentLabel<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    alignmentLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(alignmentComboBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    alignmentLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(alignmentLineEdit<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    alignmentGroup<span class="operator">-</span><span class="operator">&gt;</span> setLayout(alignmentLayout);
+
+    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>inputMaskLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    inputMaskLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(inputMaskLabel<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    inputMaskLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(inputMaskComboBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    inputMaskLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(inputMaskLineEdit<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    inputMaskGroup<span class="operator">-</span><span class="operator">&gt;</span>setLayout(inputMaskLayout);
+
+    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>accessLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    accessLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(accessLabel<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    accessLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(accessComboBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    accessLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(accessLineEdit<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    accessGroup<span class="operator">-</span><span class="operator">&gt;</span>setLayout(accessLayout);</pre></div>
+<p>Finally, we place each group box in a grid layout for the <code translate="no">Window</code> object and set the window title:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>layout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(echoGroup<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(validatorGroup<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(alignmentGroup<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">0</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(inputMaskGroup<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(accessGroup<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    setLayout(layout);
+
+    setWindowTitle(tr(<span class="string">"Line Edits"</span>));
+}</pre></div>
+<p>The slots respond to signals emitted when the comboboxes are changed by the user.</p>
+<p>When the combobox for the <b translate="no">Echo</b> group box is changed, the <code translate="no">echoChanged()</code> slot is called:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>echoChanged(<span class="type">int</span> index)
+{
+    <span class="keyword">switch</span> (index) {
+    <span class="keyword">case</span> <span class="number">0</span>:
+        echoLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setEchoMode(<span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>Normal);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">1</span>:
+        echoLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setEchoMode(<span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>Password);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        echoLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setEchoMode(<span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>PasswordEchoOnEdit);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">3</span>:
+        echoLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setEchoMode(<span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span><span class="operator">::</span>NoEcho);
+        <span class="keyword">break</span>;
+    }
+}</pre></div>
+<p>The slot updates the line edit in the same group box to use an echo mode that corresponds to the entry described in the combobox.</p>
+<p>When the combobox for the <b translate="no">Validator</b> group box is changed, the <code translate="no">validatorChanged()</code> slot is called:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>validatorChanged(<span class="type">int</span> index)
+{
+    <span class="keyword">switch</span> (index) {
+    <span class="keyword">case</span> <span class="number">0</span>:
+        validatorLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setValidator(nullptr);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">1</span>:
+        validatorLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> <span class="type"><a href="./qintvalidator.htm" translate="no">QIntValidator</a></span>(
+            validatorLineEdit));
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        validatorLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setValidator(<span class="keyword">new</span> <span class="type"><a href="./qdoublevalidator.htm" translate="no">QDoubleValidator</a></span>(<span class="operator">-</span><span class="number">999.0</span><span class="operator">,</span>
+            <span class="number">999.0</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> validatorLineEdit));
+        <span class="keyword">break</span>;
+    }
+
+    validatorLineEdit<span class="operator">-</span><span class="operator">&gt;</span>clear();
+}</pre></div>
+<p>The slot either creates a new validator for the line edit to use, or it removes the validator in use by calling <a href="./qlineedit.htm#setValidator" translate="no">QLineEdit::setValidator</a>() with a zero pointer. We clear the line edit in this case to ensure that the new validator is initially given valid input to work with.</p>
+<p>When the combobox for the <b translate="no">Alignment</b> group box is changed, the <code translate="no">alignmentChanged()</code> slot is called:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>alignmentChanged(<span class="type">int</span> index)
+{
+    <span class="keyword">switch</span> (index) {
+    <span class="keyword">case</span> <span class="number">0</span>:
+        alignmentLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignLeft);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">1</span>:
+        alignmentLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignCenter);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        alignmentLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignRight);
+        <span class="keyword">break</span>;
+    }
+}</pre></div>
+<p>This changes the way that text is displayed in the line edit to correspond with the description selected in the combobox.</p>
+<p>The <code translate="no">inputMaskChanged()</code> slot handles changes to the combobox in the <b translate="no">Input Mask</b> group box:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>inputMaskChanged(<span class="type">int</span> index)
+{
+    <span class="keyword">switch</span> (index) {
+    <span class="keyword">case</span> <span class="number">0</span>:
+        inputMaskLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setInputMask(<span class="string">""</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">1</span>:
+        inputMaskLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setInputMask(<span class="string">"+99 99 99 99 99;_"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>:
+        inputMaskLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setInputMask(<span class="string">"0000-00-00"</span>);
+        inputMaskLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="string">"00000000"</span>);
+        inputMaskLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setCursorPosition(<span class="number">0</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">3</span>:
+        inputMaskLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setInputMask(<span class="string">"&gt;AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#"</span>);
+        <span class="keyword">break</span>;
+    }
+}</pre></div>
+<p>Each entry in the relevant combobox is associated with an input mask. We set a new mask by calling the <a href="./qlineedit.htm#inputMask-prop" translate="no">QLineEdit::setInputMask</a>() function with a suitable string; the mask is disabled if an empty string is used.</p>
+<p>The <code translate="no">accessChanged()</code> slot handles changes to the combobox in the <b translate="no">Access</b> group box:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>accessChanged(<span class="type">int</span> index)
+{
+    <span class="keyword">switch</span> (index) {
+    <span class="keyword">case</span> <span class="number">0</span>:
+        accessLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">false</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">1</span>:
+        accessLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">true</span>);
+        <span class="keyword">break</span>;
+    }
+}</pre></div>
+<p>Here, we simply associate the <b translate="no">False</b> and <b translate="no">True</b> entries in the combobox with <code translate="no">false</code> and <code translate="no">true</code> values to be passed to <a href="./qlineedit.htm#readOnly-prop" translate="no">QLineEdit::setReadOnly</a>(). This allows the user to enable and disable input to the line edit.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/widgets/lineedits?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@widgets/lineedits -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

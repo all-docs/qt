@@ -1,0 +1,211 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick 2 Bars Example | Qt Data Visualization</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdatavisualization-index.htm" translate="no">Qt Data Visualization</a></li>
+                            <li class="last"><a>Qt Quick 2 Bars Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick 2 Bars Example</h1>
+<span class="subtitle"></span>
+<!-- $$$qmlbars-brief -->
+<p>Using <a href="./qml-qtdatavisualization-bars3d.htm" translate="no">Bars3D</a> in a QML application.</p>
+<!-- @@@qmlbars -->
+<!-- $$$qmlbars-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Qt Quick 2 bars example shows how to make a simple 3D bar graph using <a href="./qml-qtdatavisualization-bars3d.htm" translate="no">Bars3D</a> and Qt Quick 2.</p>
+<p class="centerAlign"><img alt="" src="./images/qmlbars-example.png"></p><p>The interesting thing about this example is switching series and displaying more than one series at once. We'll concentrate on those and skip explaining the basic <a href="./qml-qtdatavisualization-bars3d.htm" translate="no">Bars3D</a> functionality - for more detailed QML example documentation, see <a href="./qtdatavisualization-qmlscatter-example.htm" translate="no">Qt Quick 2 Scatter Example</a>.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="data"></a>
+<h4 id="data">Data<a class="plink" href="#data" title="Direct link to this headline"></a></h4>
+<p>The example data is monthly income and expenses of a fictional company over several years. The data is defined in a list model in <code translate="no">Data.qml</code> like this:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">ListModel</span> {
+    <span class="name">id</span>: <span class="name">dataModel</span>
+    <span class="type">ListElement</span>{ <span class="name">timestamp</span>: <span class="string">"2006-01"</span>; <span class="name">expenses</span>: <span class="string">"-4"</span>;  <span class="name">income</span>: <span class="string">"5"</span> }
+    <span class="type">ListElement</span>{ <span class="name">timestamp</span>: <span class="string">"2006-02"</span>; <span class="name">expenses</span>: <span class="string">"-5"</span>;  <span class="name">income</span>: <span class="string">"6"</span> }
+    <span class="type">ListElement</span>{ <span class="name">timestamp</span>: <span class="string">"2006-03"</span>; <span class="name">expenses</span>: <span class="string">"-7"</span>;  <span class="name">income</span>: <span class="string">"4"</span> }
+    ...</pre></div>
+<p>Each data item has three roles: timestamp, income, and expenses. The timestamp value is in format: <code translate="no">&lt;four digit year&gt;-&lt;two digit month&gt;</code>. Years and months are natural to map to rows and columns of a bar chart, but we can only show either income or expenses as the value.</p>
+<p>Now we need to add the data to the <a href="./qml-qtdatavisualization-bars3d.htm" translate="no">Bars3D</a> graph. We will create two <a href="./qml-qtdatavisualization-bar3dseries.htm" translate="no">Bar3DSeries</a> inside it, starting with a series for the income:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-bar3dseries.htm" translate="no">Bar3DSeries</a></span> {
+    <span class="name">id</span>: <span class="name">barSeries</span>
+    <span class="name">itemLabelFormat</span>: <span class="string">"Income, @colLabel, @rowLabel: @valueLabel"</span>
+    <span class="name">baseGradient</span>: <span class="name">barGradient</span>
+
+    <span class="type"><a href="./qml-qtdatavisualization-itemmodelbardataproxy.htm" translate="no">ItemModelBarDataProxy</a></span> {
+        <span class="name">id</span>: <span class="name">modelProxy</span>
+        <span class="name">itemModel</span>: <span class="name">graphData</span>.<span class="name">model</span>
+        <span class="name">rowRole</span>: <span class="string">"timestamp"</span>
+        <span class="name">columnRole</span>: <span class="string">"timestamp"</span>
+        <span class="name">valueRole</span>: <span class="string">"income"</span>
+        <span class="name">rowRolePattern</span>: /^(\d\d\d\d).*$/
+        <span class="name">columnRolePattern</span>: /^.*-(\d\d)$/
+        <span class="name">rowRoleReplace</span>: <span class="string">"\\1"</span>
+        <span class="name">columnRoleReplace</span>: <span class="string">"\\1"</span>
+        <span class="name">multiMatchBehavior</span>: <span class="name">ItemModelBarDataProxy</span>.<span class="name">MMBCumulative</span>
+    }
+    ...</pre></div>
+<p>The data is attached to the <code translate="no">itemModel</code> property of the <a href="./qml-qtdatavisualization-itemmodelbardataproxy.htm" translate="no">ItemModelBarDataProxy</a> inside the series. For <code translate="no">valueRole</code> we simply specify the <code translate="no">income</code> field, as it contains the value we want, but getting the years and months is a bit more complicated, since they are both found in the same field. To extract those values, we specify the <code translate="no">timestamp</code> field for both <code translate="no">rowRole</code> and <code translate="no">columnRole</code>, and additionally specify a search pattern and a replace rule for those roles to extract the correct portion of the field contents for each role. The search pattern is a normal JavaScript regular expression and the replace rule specifies what the field content that matches the regular expression is replaced with. In this case we want to replace the entire field content with just the year or the month, which is the first captured substring for both rows and columns. For more information how the replace using regular expressions works, see <a href="./qstring.htm#replace" translate="no">QString::replace</a>(const <a href="./qregexp.htm" translate="no">QRegExp</a> &amp;rx, const <a href="./qstring.htm" translate="no">QString</a> &amp;after) function documentation.</p>
+<p>The <code translate="no">multiMatchBehavior</code> property specifies what to do in case multiple item model items match the same row/column combination. In this case we want to add their values together. This property has no effect when we are showing values for each month, as there are no duplicate months in our item model, but it becomes relevant later when we want to show the yearly totals.</p>
+<p>Then we add another series for the expenses:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-bar3dseries.htm" translate="no">Bar3DSeries</a></span> {
+    <span class="name">id</span>: <span class="name">secondarySeries</span>
+    <span class="name">visible</span>: <span class="number">false</span>
+    <span class="name">itemLabelFormat</span>: <span class="string">"Expenses, @colLabel, @rowLabel: -@valueLabel"</span>
+    <span class="name">baseGradient</span>: <span class="name">secondaryGradient</span>
+
+    <span class="type"><a href="./qml-qtdatavisualization-itemmodelbardataproxy.htm" translate="no">ItemModelBarDataProxy</a></span> {
+        <span class="name">id</span>: <span class="name">secondaryProxy</span>
+        <span class="name">itemModel</span>: <span class="name">graphData</span>.<span class="name">model</span>
+        <span class="name">rowRole</span>: <span class="string">"timestamp"</span>
+        <span class="name">columnRole</span>: <span class="string">"timestamp"</span>
+        <span class="name">valueRole</span>: <span class="string">"expenses"</span>
+        <span class="name">rowRolePattern</span>: /^(\d\d\d\d).*$/
+        <span class="name">columnRolePattern</span>: /^.*-(\d\d)$/
+        <span class="name">valueRolePattern</span>: /-/
+        <span class="name">rowRoleReplace</span>: <span class="string">"\\1"</span>
+        <span class="name">columnRoleReplace</span>: <span class="string">"\\1"</span>
+        <span class="name">multiMatchBehavior</span>: <span class="name">ItemModelBarDataProxy</span>.<span class="name">MMBCumulative</span>
+    }
+    ...</pre></div>
+<p>The model contains expenses as negative values, but we want to show them as positive bars, so that we can easily compare them to income bars. We use <code translate="no">valueRolePattern</code> to remove the minus sign to achieve this. No replacement string needs to be specified as the default replacement is an empty string.</p>
+<p>We use the <code translate="no">visible</code> property of the series to hide the second series for now.</p>
+<a name="custom-axis-labels"></a>
+<h4 id="custom-axis-labels">Custom Axis Labels<a class="plink" href="#custom-axis-labels" title="Direct link to this headline"></a></h4>
+<p>One interesting tidbit about axes is that we redefine the category labels for column axis in <code translate="no">Axes.qml</code>. This is done because the data contains numbers for months, which we don't want to use for our column labels:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtdatavisualization-categoryaxis3d.htm" translate="no">CategoryAxis3D</a></span> {
+    <span class="name">id</span>: <span class="name">columnAxis</span>
+    <span class="name">labels</span>: [<span class="string">"January"</span>, <span class="string">"February"</span>, <span class="string">"March"</span>, <span class="string">"April"</span>, <span class="string">"May"</span>, <span class="string">"June"</span>,
+        <span class="string">"July"</span>, <span class="string">"August"</span>, <span class="string">"September"</span>, <span class="string">"October"</span>, <span class="string">"November"</span>, <span class="string">"December"</span>]
+    <span class="name">labelAutoRotation</span>: <span class="number">30</span>
+}</pre></div>
+<p>We also set automatic axis label rotation to make axis labels more readable at low camera angles.</p>
+<a name="switching-series"></a>
+<h4 id="switching-series">Switching Series<a class="plink" href="#switching-series" title="Direct link to this headline"></a></h4>
+<p>In the <code translate="no">main.qml</code>, we set up the graph and various UI elements. There are three interesting code blocks we want to highlight here. The first one shows how to change the visualized data between income, expenses, and both, by simply changing visibility of the two series:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">onClicked</span>: {
+    <span class="keyword">if</span> (<span class="name">text</span> <span class="operator">===</span> <span class="string">"Show Expenses"</span>) {
+        <span class="name">barSeries</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">false</span>
+        <span class="name">secondarySeries</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">true</span>
+        <span class="name">barGraph</span>.<span class="name">valueAxis</span>.<span class="name">labelFormat</span> <span class="operator">=</span> <span class="string">"-%.2f M\u20AC"</span>
+        <span class="name">secondarySeries</span>.<span class="name">itemLabelFormat</span> <span class="operator">=</span> <span class="string">"Expenses, @colLabel, @rowLabel: @valueLabel"</span>
+        <span class="name">text</span> <span class="operator">=</span> <span class="string">"Show Both"</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="name">text</span> <span class="operator">===</span> <span class="string">"Show Both"</span>) {
+        <span class="name">barSeries</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">true</span>
+        <span class="name">barGraph</span>.<span class="name">valueAxis</span>.<span class="name">labelFormat</span> <span class="operator">=</span> <span class="string">"%.2f M\u20AC"</span>
+        <span class="name">secondarySeries</span>.<span class="name">itemLabelFormat</span> <span class="operator">=</span> <span class="string">"Expenses, @colLabel, @rowLabel: -@valueLabel"</span>
+        <span class="name">text</span> <span class="operator">=</span> <span class="string">"Show Income"</span>
+    } <span class="keyword">else</span> { <span class="comment">// text === "Show Income"</span>
+        <span class="name">secondarySeries</span>.<span class="name">visible</span> <span class="operator">=</span> <span class="number">false</span>
+        <span class="name">text</span> <span class="operator">=</span> <span class="string">"Show Expenses"</span>
+    }
+}</pre></div>
+<p>The axis label format and item selection label formats are tweaked to get the negative sign showing properly for expenses, which were actually resolved as positive values.</p>
+<p>The second interesting block is where we change the visualized data by adjusting the proxy propertes:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">onClicked</span>: {
+    <span class="keyword">if</span> (<span class="name">text</span> <span class="operator">===</span> <span class="string">"Show yearly totals"</span>) {
+        <span class="name">modelProxy</span>.<span class="name">autoRowCategories</span> <span class="operator">=</span> <span class="number">true</span>
+        <span class="name">secondaryProxy</span>.<span class="name">autoRowCategories</span> <span class="operator">=</span> <span class="number">true</span>
+        <span class="name">modelProxy</span>.<span class="name">columnRolePattern</span> <span class="operator">=</span> /^.*$/
+        <span class="name">secondaryProxy</span>.<span class="name">columnRolePattern</span> <span class="operator">=</span> /^.*$/
+        <span class="name">graphAxes</span>.<span class="name">value</span>.<span class="name">autoAdjustRange</span> <span class="operator">=</span> <span class="number">true</span>
+        <span class="name">barGraph</span>.<span class="name">columnAxis</span> <span class="operator">=</span> <span class="name">graphAxes</span>.<span class="name">total</span>
+        <span class="name">text</span> <span class="operator">=</span> <span class="string">"Show all years"</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="name">text</span> <span class="operator">===</span> <span class="string">"Show all years"</span>) {
+        <span class="name">modelProxy</span>.<span class="name">autoRowCategories</span> <span class="operator">=</span> <span class="number">true</span>
+        <span class="name">secondaryProxy</span>.<span class="name">autoRowCategories</span> <span class="operator">=</span> <span class="number">true</span>
+        <span class="name">modelProxy</span>.<span class="name">columnRolePattern</span> <span class="operator">=</span> /^.*-(\d\d)$/
+        <span class="name">secondaryProxy</span>.<span class="name">columnRolePattern</span> <span class="operator">=</span> /^.*-(\d\d)$/
+        <span class="name">graphAxes</span>.<span class="name">value</span>.<span class="name">min</span> <span class="operator">=</span> <span class="number">0</span>
+        <span class="name">graphAxes</span>.<span class="name">value</span>.<span class="name">max</span> <span class="operator">=</span> <span class="number">35</span>
+        <span class="name">barGraph</span>.<span class="name">columnAxis</span> <span class="operator">=</span> <span class="name">graphAxes</span>.<span class="name">column</span>
+        <span class="name">text</span> <span class="operator">=</span> <span class="string">"Show 2010 - 2012"</span>
+    } <span class="keyword">else</span> { <span class="comment">// text === "Show 2010 - 2012"</span>
+        <span class="comment">// Explicitly defining row categories, since we do not want to show data for</span>
+        <span class="comment">// all years in the model, just for the selected ones.</span>
+        <span class="name">modelProxy</span>.<span class="name">autoRowCategories</span> <span class="operator">=</span> <span class="number">false</span>
+        <span class="name">secondaryProxy</span>.<span class="name">autoRowCategories</span> <span class="operator">=</span> <span class="number">false</span>
+        <span class="name">modelProxy</span>.<span class="name">rowCategories</span> <span class="operator">=</span> [<span class="string">"2010"</span>, <span class="string">"2011"</span>, <span class="string">"2012"</span>]
+        <span class="name">secondaryProxy</span>.<span class="name">rowCategories</span> <span class="operator">=</span> [<span class="string">"2010"</span>, <span class="string">"2011"</span>, <span class="string">"2012"</span>]
+        <span class="name">text</span> <span class="operator">=</span> <span class="string">"Show yearly totals"</span>
+    }
+}</pre></div>
+<p>To show yearly totals, we need to combine the twelve months of each year into a single bar. We achieve this by specifying a <code translate="no">columnRolePattern</code> that matches all model items. That way the data proxy will only have a single column. The cumulative <code translate="no">multiMatchBehavior</code> we specified earlier for the proxy becomes relevant now, causing the values of all twelve months of each year to be added up into a single bar.</p>
+<p>To show just a subset of years, we set <code translate="no">autoRowCategories</code> to false on the <a href="./qml-qtdatavisualization-itemmodelbardataproxy.htm" translate="no">ItemModelBarDataProxy</a> item and define the row categories explicitly. This way, only the items in specified row categories are visualized.</p>
+<p>The third interesting block shows how to get the row and column index of an item if you know the row and column values by using <a href="./qml-qtdatavisualization-itemmodelbardataproxy.htm" translate="no">ItemModelBarDataProxy</a> methods <code translate="no">rowCategoryIndex()</code> and <code translate="no">columnCategoryIndex()</code>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">onCurrentRowChanged</span>: {
+    var timestamp = <span class="name">graphData</span>.<span class="name">model</span>.<span class="name">get</span>(<span class="name">currentRow</span>).<span class="name">timestamp</span>
+    var pattern = /(\d\d\d\d)-(\d\d)/
+    var matches = <span class="name">pattern</span>.<span class="name">exec</span>(<span class="name">timestamp</span>)
+    var rowIndex = <span class="name">modelProxy</span>.<span class="name">rowCategoryIndex</span>(<span class="name">matches</span>[<span class="number">1</span>])
+    var colIndex
+    <span class="keyword">if</span> (<span class="name">barGraph</span>.<span class="name">columnAxis</span> <span class="operator">===</span> <span class="name">graphAxes</span>.<span class="name">total</span>)
+        <span class="name">colIndex</span> <span class="operator">=</span> <span class="number">0</span> <span class="comment">// Just one column when showing yearly totals</span>
+    <span class="keyword">else</span>
+        <span class="name">colIndex</span> <span class="operator">=</span> <span class="name">modelProxy</span>.<span class="name">columnCategoryIndex</span>(<span class="name">matches</span>[<span class="number">2</span>])
+    <span class="keyword">if</span> (<span class="name">selectedSeries</span>.<span class="name">visible</span>)
+        <span class="name">mainview</span>.<span class="name">selectedSeries</span>.<span class="name">selectedBar</span> <span class="operator">=</span> <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">rowIndex</span>, <span class="name">colIndex</span>)
+    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="name">barSeries</span>.<span class="name">visible</span>)
+        <span class="name">barSeries</span>.<span class="name">selectedBar</span> <span class="operator">=</span> <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">rowIndex</span>, <span class="name">colIndex</span>)
+    <span class="keyword">else</span>
+        <span class="name">secondarySeries</span>.<span class="name">selectedBar</span> <span class="operator">=</span> <span class="name">Qt</span>.<span class="name">point</span>(<span class="name">rowIndex</span>, <span class="name">colIndex</span>)
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdatavis3d.git/tree/examples/datavisualization/qmlbars?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@qmlbars -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

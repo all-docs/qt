@@ -1,0 +1,156 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QTextList | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtextlist.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a href="./qtgui-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QTextList</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QTextList Class</h1>
+<!-- $$$QTextList-brief -->
+<p>The QTextList class provides a decorated list of items in a <a href="./qtextdocument.htm" translate="no">QTextDocument</a>. <a href="#details">More...</a></p>
+<!-- @@@QTextList -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QTextList&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += gui</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qtextblockgroup.htm" translate="no">QTextBlockGroup</a></td></tr></tbody></table></div><ul>
+<li><a href="./qtextlist-members.htm">List of all members, including inherited members</a></li>
+<li><a href="./qtextlist-obsolete.htm">Obsolete members</a></li>
+</ul>
+<p><b>Note:</b> All functions in this class are <a href="./threads-reentrancy.htm" translate="no">reentrant</a>.</p>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#add" translate="no">add</a></b>(const QTextBlock &amp;<i>block</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#count" translate="no">count</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QTextListFormat </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#format" translate="no">format</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QTextBlock </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#item" translate="no">item</a></b>(int <i>i</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#itemNumber" translate="no">itemNumber</a></b>(const QTextBlock &amp;<i>block</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#itemText" translate="no">itemText</a></b>(const QTextBlock &amp;<i>block</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#remove" translate="no">remove</a></b>(const QTextBlock &amp;<i>block</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#removeItem" translate="no">removeItem</a></b>(int <i>i</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qtextlist.htm#setFormat" translate="no">setFormat</a></b>(const QTextListFormat &amp;<i>format</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QTextList-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A list contains a sequence of text blocks, each of which is marked with a bullet point or other symbol. Multiple levels of lists can be used, and the automatic numbering feature provides support for ordered numeric and alphabetical lists.</p>
+<p>Lists are created by using a text cursor to insert an empty list at the current position or by moving existing text into a new list. The <a href="./qtextcursor.htm#insertList" translate="no">QTextCursor::insertList</a>() function inserts an empty block into the document at the cursor position, and makes it the first item in a list.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qtextlistformat.htm" translate="no">QTextListFormat</a></span> listFormat;
+    <span class="keyword">if</span> (list) {
+        listFormat <span class="operator">=</span> list<span class="operator">-</span><span class="operator">&gt;</span>format();
+        listFormat<span class="operator">.</span>setIndent(listFormat<span class="operator">.</span>indent() <span class="operator">+</span> <span class="number">1</span>);
+    }
+
+    listFormat<span class="operator">.</span>setStyle(<span class="type"><a href="./qtextlistformat.htm" translate="no">QTextListFormat</a></span><span class="operator">::</span>ListDisc);
+    cursor<span class="operator">.</span>insertList(listFormat);</pre></div>
+<p>The <a href="./qtextcursor.htm#createList" translate="no">QTextCursor::createList</a>() function takes the contents of the cursor's current block and turns it into the first item of a new list.</p>
+<p>The cursor's current list is found with <a href="./qtextcursor.htm#currentList" translate="no">QTextCursor::currentList</a>().</p>
+<p>The number of items in a list is given by <a href="./qtextlist.htm#count" translate="no">count</a>(). Each item can be obtained by its index in the list with the <a href="./qtextlist.htm#item" translate="no">item</a>() function. Similarly, the index of a given item can be found with <a href="./qtextlist.htm#itemNumber" translate="no">itemNumber</a>(). The text of each item can be found with the <a href="./qtextlist.htm#itemText" translate="no">itemText</a>() function.</p>
+<p>Note that the items in the list may not be adjacent elements in the document. For example, the top-level items in a multi-level list will be separated by the items in lower levels of the list.</p>
+<p>List items can be deleted by index with the <a href="./qtextlist.htm#removeItem" translate="no">removeItem</a>() function. <a href="./qtextlist.htm#remove" translate="no">remove</a>() deletes the specified item in the list.</p>
+<p>The list's format is set with <a href="./qtextlist.htm#setFormat" translate="no">setFormat</a>() and read with <a href="./qtextlist.htm#format" translate="no">format</a>(). The format describes the decoration of the list itself, and not the individual items.</p>
+</div>
+<p><b>See also </b><a href="./qtextblock.htm" translate="no">QTextBlock</a>, <a href="./qtextlistformat.htm" translate="no">QTextListFormat</a>, and <a href="./qtextcursor.htm" translate="no">QTextCursor</a>.</p>
+<!-- @@@QTextList -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$add[overload1]$$$addconstQTextBlock& -->
+<h3 class="fn" id="add" translate="no"><a name="add"></a><span class="type">void</span> QTextList::<span class="name">add</span>(const <span class="type"><a href="./qtextblock.htm" translate="no">QTextBlock</a></span> &amp;<i>block</i>)<a class="plink" href="#add" title="Direct link to this headline"></a></h3>
+<p>Makes the given <i translate="no">block</i> part of the list.</p>
+<p><b>See also </b><a href="./qtextlist.htm#remove" translate="no">remove</a>() and <a href="./qtextlist.htm#removeItem" translate="no">removeItem</a>().</p>
+<!-- @@@add -->
+<!-- $$$count[overload1]$$$count -->
+<h3 class="fn" id="count" translate="no"><a name="count"></a><span class="type">int</span> QTextList::<span class="name">count</span>() const<a class="plink" href="#count" title="Direct link to this headline"></a></h3>
+<p>Returns the number of items in the list.</p>
+<!-- @@@count -->
+<!-- $$$format[overload1]$$$format -->
+<h3 class="fn" id="format" translate="no"><a name="format"></a><span class="type"><a href="./qtextlistformat.htm" translate="no">QTextListFormat</a></span> QTextList::<span class="name">format</span>() const<a class="plink" href="#format" title="Direct link to this headline"></a></h3>
+<p>Returns the list's format.</p>
+<p><b>See also </b><a href="./qtextlist.htm#setFormat" translate="no">setFormat</a>().</p>
+<!-- @@@format -->
+<!-- $$$item[overload1]$$$itemint -->
+<h3 class="fn" id="item" translate="no"><a name="item"></a><span class="type"><a href="./qtextblock.htm" translate="no">QTextBlock</a></span> QTextList::<span class="name">item</span>(<span class="type">int</span> <i>i</i>) const<a class="plink" href="#item" title="Direct link to this headline"></a></h3>
+<p>Returns the <i translate="no">i</i>-th text block in the list.</p>
+<p><b>See also </b><a href="./qtextlist.htm#count" translate="no">count</a>() and <a href="./qtextlist.htm#itemText" translate="no">itemText</a>().</p>
+<!-- @@@item -->
+<!-- $$$itemNumber[overload1]$$$itemNumberconstQTextBlock& -->
+<h3 class="fn" id="itemNumber" translate="no"><a name="itemNumber"></a><span class="type">int</span> QTextList::<span class="name">itemNumber</span>(const <span class="type"><a href="./qtextblock.htm" translate="no">QTextBlock</a></span> &amp;<i>block</i>) const<a class="plink" href="#itemNumber" title="Direct link to this headline"></a></h3>
+<p>Returns the index of the list item that corresponds to the given <i translate="no">block</i>. Returns -1 if the block was not present in the list.</p>
+<!-- @@@itemNumber -->
+<!-- $$$itemText[overload1]$$$itemTextconstQTextBlock& -->
+<h3 class="fn" id="itemText" translate="no"><a name="itemText"></a><span class="type"><a href="./qstring.htm" translate="no">QString</a></span> QTextList::<span class="name">itemText</span>(const <span class="type"><a href="./qtextblock.htm" translate="no">QTextBlock</a></span> &amp;<i>block</i>) const<a class="plink" href="#itemText" title="Direct link to this headline"></a></h3>
+<p>Returns the text of the list item that corresponds to the given <i translate="no">block</i>.</p>
+<!-- @@@itemText -->
+<!-- $$$remove[overload1]$$$removeconstQTextBlock& -->
+<h3 class="fn" id="remove" translate="no"><a name="remove"></a><span class="type">void</span> QTextList::<span class="name">remove</span>(const <span class="type"><a href="./qtextblock.htm" translate="no">QTextBlock</a></span> &amp;<i>block</i>)<a class="plink" href="#remove" title="Direct link to this headline"></a></h3>
+<p>Removes the given <i translate="no">block</i> from the list.</p>
+<p><b>See also </b><a href="./qtextlist.htm#add" translate="no">add</a>() and <a href="./qtextlist.htm#removeItem" translate="no">removeItem</a>().</p>
+<!-- @@@remove -->
+<!-- $$$removeItem[overload1]$$$removeItemint -->
+<h3 class="fn" id="removeItem" translate="no"><a name="removeItem"></a><span class="type">void</span> QTextList::<span class="name">removeItem</span>(<span class="type">int</span> <i>i</i>)<a class="plink" href="#removeItem" title="Direct link to this headline"></a></h3>
+<p>Removes the item at item position <i translate="no">i</i> from the list. When the last item in the list is removed, the list is automatically deleted by the <a href="./qtextdocument.htm" translate="no">QTextDocument</a> that owns it.</p>
+<p><b>See also </b><a href="./qtextlist.htm#add" translate="no">add</a>() and <a href="./qtextlist.htm#remove" translate="no">remove</a>().</p>
+<!-- @@@removeItem -->
+<!-- $$$setFormat[overload1]$$$setFormatconstQTextListFormat& -->
+<h3 class="fn" id="setFormat" translate="no"><a name="setFormat"></a><span class="type">void</span> QTextList::<span class="name">setFormat</span>(const <span class="type"><a href="./qtextlistformat.htm" translate="no">QTextListFormat</a></span> &amp;<i>format</i>)<a class="plink" href="#setFormat" title="Direct link to this headline"></a></h3>
+<p>Sets the list's format to <i translate="no">format</i>.</p>
+<p><b>See also </b><a href="./qtextlist.htm#format" translate="no">format</a>().</p>
+<!-- @@@setFormat -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

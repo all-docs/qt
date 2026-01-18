@@ -1,0 +1,297 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glow QML Type | Qt Graphical Effects</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgraphicaleffects-index.htm" translate="no">Qt Graphical Effects</a></li>
+                            <li><a href="./graphicaleffects.htm" translate="no">QML Types</a></li>
+                            <li><a>Glow QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Glow QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Glow-brief -->
+<p>Generates a halo like glow around the source item. <a href="#details">More...</a></p>
+<!-- @@@Glow -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtGraphicalEffects 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtGraphicalEffects 1.0</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick-item.htm" translate="no">Item</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtgraphicaleffects-glow-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-glow.htm#cached-prop" translate="no">cached</a></b></b> : alias</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-glow.htm#color-prop" translate="no">color</a></b></b> : alias</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a></b></b> : alias</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a></b></b> : alias</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-glow.htm#source-prop" translate="no">source</a></b></b> : alias</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a></b></b> : alias</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtgraphicaleffects-glow.htm#transparentBorder-prop" translate="no">transparentBorder</a></b></b> : alias</li>
+</ul>
+<!-- $$$Glow-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The Glow effect blurs the alpha channel of the source and colorizes it with <a href="./qml-qtgraphicaleffects-glow.htm#color-prop" translate="no">color</a> and places it behind the source, resulting in a halo or glow around the object. The quality of the blurred edge can be controlled using <a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a> and <a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a> and the strength of the glow can be changed using <a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Source</th><th>Effect applied</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/Original_butterfly_black.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/Glow_butterfly.png"></p></td></tr>
+</tbody></table></div>
+<p>The glow is created by blurring the image live using a gaussian blur. Performing blur live is a costly operation. Fullscreen gaussian blur with even a moderate number of samples will only run at 60 fps on highend graphics hardware.</p>
+<div class="admonition note">
+<p><b>Note: </b>This effect is available when running with OpenGL.</p>
+</div>
+<a name="example"></a>
+<h2 id="example">Example<a class="plink" href="#example" title="Direct link to this headline"></a></h2>
+<p>The following example shows how to apply the effect.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.12
+import QtGraphicalEffects 1.12
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">300</span>
+    <span class="name">height</span>: <span class="number">300</span>
+
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">color</span>: <span class="string">"black"</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">butterfly</span>
+        <span class="name">source</span>: <span class="string">"images/butterfly.png"</span>
+        <span class="name">sourceSize</span>: <span class="name">Qt</span>.<span class="name">size</span>(<span class="name">parent</span>.<span class="name">width</span>, <span class="name">parent</span>.<span class="name">height</span>)
+        <span class="name">smooth</span>: <span class="number">true</span>
+        <span class="name">visible</span>: <span class="number">false</span>
+    }
+
+    <span class="type"><a href="./qml-qtgraphicaleffects-glow.htm" translate="no">Glow</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">butterfly</span>
+        <span class="name">radius</span>: <span class="number">8</span>
+        <span class="name">samples</span>: <span class="number">17</span>
+        <span class="name">color</span>: <span class="string">"white"</span>
+        <span class="name">source</span>: <span class="name">butterfly</span>
+    }
+}</pre></div>
+<!-- @@@Glow -->
+<h2>Property Documentation</h2>
+<!-- $$$cached -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="cached-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="cached-prop"></a><span class="name">cached</span> : <span class="type">alias</span><a class="plink" href="#cached-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property allows the effect output pixels to be cached in order to improve the rendering performance.</p>
+<p>Every time the source or effect properties are changed, the pixels in the cache must be updated. Memory consumption is increased, because an extra buffer of memory is required for storing the effect output.</p>
+<p>It is recommended to disable the cache when the source or the effect properties are animated.</p>
+<p>By default, the property is set to <code translate="no">false</code>.</p>
+</div></div><!-- @@@cached -->
+<br>
+<!-- $$$color -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="color-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="color-prop"></a><span class="name">color</span> : <span class="type">alias</span><a class="plink" href="#color-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the RGBA color value which is used for the glow.</p>
+<p>By default, the property is set to <code translate="no">"white"</code>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different color values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/Glow_color1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/Glow_color2.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/Glow_color3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> color: #ffffff </b></td><td><b> color: #00ff00 </b></td><td><b> color: #aa00ff00 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a>: 8</td><td><a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a>: 8</td><td><a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a>: 8</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 17</td><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 17</td><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 17</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a>: 0.5</td><td><a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a>: 0.5</td><td><a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a>: 0.5</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@color -->
+<br>
+<!-- $$$radius -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="radius-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="radius-prop"></a><span class="name">radius</span> : <span class="type">alias</span><a class="plink" href="#radius-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Radius defines the softness of the glow. A larger radius causes the edges of the glow to appear more blurry.</p>
+<p>Depending on the radius value, value of the <a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a> should be set to sufficiently large to ensure the visual quality.</p>
+<p>The ideal blur is achieved by selecting <code translate="no">samples</code> and <code translate="no">radius</code> such that <code translate="no">samples = 1 + radius * 2</code>, such as:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Radius</th><th>Samples</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>0 <i>(no blur)</i></td><td>1</td></tr>
+<tr class="even" valign="top"><td>1</td><td>3</td></tr>
+<tr class="odd" valign="top"><td>2</td><td>5</td></tr>
+<tr class="even" valign="top"><td>3</td><td>7</td></tr>
+</tbody></table></div>
+<p>By default, the property is set to <code translate="no">floor(samples/2)</code>.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different radius values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/Glow_radius1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/Glow_radius2.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/Glow_radius3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> radius: 0 </b></td><td><b> radius: 6 </b></td><td><b> radius: 12 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 25</td><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 25</td><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 25</td></tr>
+<tr class="even" valign="top"><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a>: 0</td><td><a href="./qml-qtgraphicaleffects-glow.htm#spread-prop" translate="no">spread</a>: 0</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@radius -->
+<br>
+<!-- $$$samples -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="samples-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="samples-prop"></a><span class="name">samples</span> : <span class="type">alias</span><a class="plink" href="#samples-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines how many samples are taken per pixel when edge softening blur calculation is done. Larger value produces better quality, but is slower to render.</p>
+<p>Ideally, this value should be twice as large as the highest required radius value plus one, such as:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Radius</th><th>Samples</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>0 <i>(no blur)</i></td><td>1</td></tr>
+<tr class="even" valign="top"><td>1</td><td>3</td></tr>
+<tr class="odd" valign="top"><td>2</td><td>5</td></tr>
+<tr class="even" valign="top"><td>3</td><td>7</td></tr>
+</tbody></table></div>
+<p>By default, the property is set to <code translate="no">9</code>.</p>
+<p>This property is not intended to be animated. Changing this property will cause the underlying OpenGL shaders to be recompiled.</p>
+</div></div><!-- @@@samples -->
+<br>
+<!-- $$$source -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="source-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="source-prop"></a><span class="name">source</span> : <span class="type">alias</span><a class="plink" href="#source-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines the source item that is going to be used as source for the generated glow.</p>
+<div class="admonition note">
+<p><b>Note: </b>It is not supported to let the effect include itself, for instance by setting source to the effect's parent.</p>
+</div>
+</div></div><!-- @@@source -->
+<br>
+<!-- $$$spread -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="spread-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="spread-prop"></a><span class="name">spread</span> : <span class="type">alias</span><a class="plink" href="#spread-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property defines how large part of the glow color is strengthened near the source edges.</p>
+<p>The values range from 0.0 to 1.0. By default, the property is set to <code translate="no">0.5</code>.</p>
+<div class="admonition note">
+<p><b>Note: </b>The implementation is optimized for medium and low spread values. Depending on the source, spread values closer to 1.0 may yield visually asymmetrical results.</p>
+</div>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Output examples with different spread values</th><th></th><th></th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/Glow_spread1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/Glow_color1.png"></p></td><td><p class="centerAlign"><img alt="" src="./images/Glow_spread3.png"></p></td></tr>
+<tr class="even" valign="top"><td><b> spread: 0.0 </b></td><td><b> spread: 0.5 </b></td><td><b> spread: 1.0 </b></td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a>: 8</td><td><a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a>: 8</td><td><a href="./qml-qtgraphicaleffects-glow.htm#radius-prop" translate="no">radius</a>: 8</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 17</td><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 17</td><td><a href="./qml-qtgraphicaleffects-glow.htm#samples-prop" translate="no">samples</a>: 17</td></tr>
+<tr class="odd" valign="top"><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td><td><a href="./graphicaleffects.htm#color" translate="no">color</a>: #ffffff</td></tr>
+</tbody></table></div>
+</div></div><!-- @@@spread -->
+<br>
+<!-- $$$transparentBorder -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="transparentBorder-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="transparentBorder-prop"></a><span class="name">transparentBorder</span> : <span class="type">alias</span><a class="plink" href="#transparentBorder-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property determines whether or not the effect has a transparent border.</p>
+<p>When set to <code translate="no">true</code>, the exterior of the item is padded with a transparent edge, making sampling outside the source texture use transparency instead of the edge pixels. Without this property, an image which has opaque edges will not get a blurred edge.</p>
+<p>By default, the property is set to <code translate="no">true</code>. Set it to false if the source already has a transparent edge to make the blurring a tiny bit faster.</p>
+<p>In the snippet below, the Rectangle on the left has transparent borders and has blurred edges, whereas the Rectangle on the right does not.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.12
+import QtGraphicalEffects 1.12
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">180</span>
+    <span class="name">height</span>: <span class="number">100</span>
+
+    <span class="type"><a href="./qml-qtquick-row.htm" translate="no">Row</a></span> {
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">spacing</span>: <span class="number">16</span>
+
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">id</span>: <span class="name">normalRect</span>
+            <span class="name">width</span>: <span class="number">60</span>
+            <span class="name">height</span>: <span class="number">60</span>
+            <span class="name">color</span>: <span class="string">"black"</span>
+            <span class="name">radius</span>: <span class="number">10</span>
+            <span class="name">layer</span>.enabled: <span class="number">true</span>
+            <span class="name">layer</span>.effect: <span class="name">Glow</span> {
+                <span class="name">samples</span>: <span class="number">15</span>
+                <span class="name">color</span>: <span class="string">"blue"</span>
+                <span class="name">transparentBorder</span>: <span class="number">false</span>
+            }
+        }
+
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+            <span class="name">id</span>: <span class="name">transparentBorderRect</span>
+            <span class="name">width</span>: <span class="number">60</span>
+            <span class="name">height</span>: <span class="number">60</span>
+            <span class="name">color</span>: <span class="string">"black"</span>
+            <span class="name">radius</span>: <span class="number">10</span>
+            <span class="name">layer</span>.enabled: <span class="number">true</span>
+            <span class="name">layer</span>.effect: <span class="name">Glow</span> {
+                <span class="name">samples</span>: <span class="number">15</span>
+                <span class="name">color</span>: <span class="string">"blue"</span>
+                <span class="name">transparentBorder</span>: <span class="number">true</span>
+            }
+        }
+    }
+}</pre></div>
+<p class="centerAlign"><img alt="" src="./images/Glow-transparentBorder.png"></p></div></div><!-- @@@transparentBorder -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,135 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QKnxNetIpConnectionStateResponseProxy | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QKnxNetIpConnectionStateResponseProxy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QKnxNetIpConnectionStateResponseProxy Class</h1>
+<!-- $$$QKnxNetIpConnectionStateResponseProxy-brief -->
+<p>The QKnxNetIpConnectionStateResponseProxy class provides the means to read a KNXnet/IP connection state response from the generic <a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a> class and to create a connection state response frame based on the information. <a href="#details">More...</a></p>
+<!-- @@@QKnxNetIpConnectionStateResponseProxy -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QKnxNetIpConnectionStateResponseProxy&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += knx</td></tr></tbody></table></div><ul>
+<li><a href="./qknxnetipconnectionstateresponseproxy-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> class </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipconnectionstateresponseproxy-builder.htm" translate="no">Builder</a></b></td></tr>
+</tbody></table></div>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipconnectionstateresponseproxy.htm#QKnxNetIpConnectionStateResponseProxy-2" translate="no">QKnxNetIpConnectionStateResponseProxy</a></b>(const QKnxNetIpFrame &amp;<i>frame</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> quint8 </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipconnectionstateresponseproxy.htm#channelId" translate="no">channelId</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipconnectionstateresponseproxy.htm#isValid" translate="no">isValid</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIp::Error </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipconnectionstateresponseproxy.htm#status" translate="no">status</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="static-public-members"></a>
+<h2 id="static-public-members">Static Public Members<a class="plink" href="#static-public-members" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIpConnectionStateResponseProxy::Builder </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipconnectionstateresponseproxy.htm#builder" translate="no">builder</a></b>()</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QKnxNetIpConnectionStateResponseProxy-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A KNXnet/IP client reqularly sends a connection state request frame, <a href="./qknxnetipconnectionstaterequestproxy.htm" translate="no">QKnxNetIpConnectionStateRequestProxy</a>, to the KNXnet/IP server's control endpoint to check the state of a connection established to the server. The server responds immediately with a connection state response frame.</p>
+<p>In most programs, this class will not be used directly. Instead, the <a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a> or <a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a> class is used to establish a functional connection to a KNXnet/IP server.</p>
+<div class="admonition note">
+<p><b>Note: </b>When using QKnxNetIpConnectionStateResponseProxy, care must be taken to ensure that the referenced KNXnet/IP frame outlives the proxy on all code paths, lest the proxy ends up referencing deleted data.</p>
+</div>
+<p>The following code sample illustrates how to read the connection state response information sent by a KNXnet/IP server:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> netIpFrame <span class="operator">=</span> <span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span><span class="operator">::</span>fromBytes(<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>);
+
+<span class="keyword">const</span> <span class="type">QKnxNetIpConnectionStateResponseProxy</span> proxy(netIpFrame);
+<span class="keyword">if</span> (<span class="operator">!</span>proxy<span class="operator">.</span>isValid())
+    <span class="keyword">return</span>;
+
+<span class="keyword">auto</span> chanId <span class="operator">=</span> proxy<span class="operator">.</span>channelId();
+<span class="keyword">auto</span> status <span class="operator">=</span> proxy<span class="operator">.</span>status();</pre></div>
+</div>
+<p><b>See also </b><a href="./qknxnetipconnectionstateresponseproxy.htm#builder" translate="no">builder</a>(), <a href="./qknxnetipconnectionstaterequestproxy.htm" translate="no">QKnxNetIpConnectionStateRequestProxy</a>, and <a href="./qtknx-netip.htm" translate="no">Qt KNXnet/IP Connection Classes</a>.</p>
+<!-- @@@QKnxNetIpConnectionStateResponseProxy -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QKnxNetIpConnectionStateResponseProxy$$$QKnxNetIpConnectionStateResponseProxyconstQKnxNetIpFrame& -->
+<h3 class="fn" id="QKnxNetIpConnectionStateResponseProxy-2" translate="no"><a name="QKnxNetIpConnectionStateResponseProxy-2"></a>QKnxNetIpConnectionStateResponseProxy::<span class="name">QKnxNetIpConnectionStateResponseProxy</span>(const <span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> &amp;<i>frame</i>)<a class="plink" href="#QKnxNetIpConnectionStateResponseProxy-2" title="Direct link to this headline"></a></h3>
+<p>Constructs a proxy object to read the connection state response information carried by the specified KNXnet/IP frame <i translate="no">frame</i>.</p>
+<!-- @@@QKnxNetIpConnectionStateResponseProxy -->
+<!-- $$$builder[overload1]$$$builder -->
+<h3 class="fn" id="builder" translate="no"><a name="builder"></a><code translate="no">[static] </code><span class="type"><a href="./qknxnetipconnectionstateresponseproxy-builder.htm" translate="no">QKnxNetIpConnectionStateResponseProxy::Builder</a></span> QKnxNetIpConnectionStateResponseProxy::<span class="name">builder</span>()<a class="plink" href="#builder" title="Direct link to this headline"></a></h3>
+<p>Returns a builder object to create a KNXnet/IP connection state response frame.</p>
+<!-- @@@builder -->
+<!-- $$$channelId[overload1]$$$channelId -->
+<h3 class="fn" id="channelId" translate="no"><a name="channelId"></a><span class="type"><a href="./qtglobal.htm#quint8-typedef" translate="no">quint8</a></span> QKnxNetIpConnectionStateResponseProxy::<span class="name">channelId</span>() const<a class="plink" href="#channelId" title="Direct link to this headline"></a></h3>
+<p>Returns the ID of the communication channel prepared by the KNXnet/IP server.</p>
+<!-- @@@channelId -->
+<!-- $$$isValid[overload1]$$$isValid -->
+<h3 class="fn" id="isValid" translate="no"><a name="isValid"></a><span class="type">bool</span> QKnxNetIpConnectionStateResponseProxy::<span class="name">isValid</span>() const<a class="plink" href="#isValid" title="Direct link to this headline"></a></h3>
+<p>Returns <code translate="no">true</code> if the frame contains initialized values and is in itself valid, otherwise returns <code translate="no">false</code>. A valid KNXnet/IP frame consists of at least a valid header and a size in bytes corresponding to the total size of the KNXnet/IP frame header.</p>
+<p><b>See also </b><a href="./qknxnetipframeheader.htm#totalSize" translate="no">QKnxNetIpFrameHeader::totalSize</a>().</p>
+<!-- @@@isValid -->
+<!-- $$$status[overload1]$$$status -->
+<h3 class="fn" id="status" translate="no"><a name="status"></a><span class="type">QKnxNetIp::Error</span> QKnxNetIpConnectionStateResponseProxy::<span class="name">status</span>() const<a class="plink" href="#status" title="Direct link to this headline"></a></h3>
+<p>Returns the state of the connection channel established to a KNXnet/IP server.</p>
+<!-- @@@status -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

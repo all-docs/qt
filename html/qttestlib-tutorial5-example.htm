@@ -1,0 +1,133 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter 5: Writing a Benchmark | Qt Test</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qttestlib-tutorial5-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qttest-index.htm" translate="no">Qt Test</a></li>
+                            <li><a>Chapter 5: Writing a Benchmark</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qttestlib-tutorial4-example.html" rel="prev">
+<link href="qttestlib-tutorial6.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qttestlib-tutorial4-example.htm">Chapter 4</a>
+<a class="" href="./qttestlib-tutorial6.htm">Chapter 6</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Chapter 5: Writing a Benchmark</h1>
+<span class="subtitle"></span>
+<!-- $$$tutorial5-brief -->
+<p>How to write a benchmark.</p>
+<!-- @@@tutorial5 -->
+<!-- $$$tutorial5-description -->
+<div class="descr"> <a name="details"></a>
+<p>In this final chapter we will demonstrate how to write benchmarks using Qt Test.</p>
+<a name="writing-a-benchmark"></a>
+<h4 id="writing-a-benchmark">Writing a Benchmark<a class="plink" href="#writing-a-benchmark" title="Direct link to this headline"></a></h4>
+<p>To create a benchmark we extend a test function with a QBENCHMARK macro. A benchmark test function will then typically consist of setup code and a QBENCHMARK macro that contains the code to be measured. This test function benchmarks <a href="./qstring.htm#localeAwareCompare" translate="no">QString::localeAwareCompare</a>().</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TestBenchmark<span class="operator">::</span>simple()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> str1 <span class="operator">=</span> QLatin1String(<span class="string">"This is a test string"</span>);
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> str2 <span class="operator">=</span> QLatin1String(<span class="string">"This is a test string"</span>);
+
+    QCOMPARE(str1<span class="operator">.</span>localeAwareCompare(str2)<span class="operator">,</span> <span class="number">0</span>);
+
+    QBENCHMARK {
+        str1<span class="operator">.</span>localeAwareCompare(str2);
+    }
+}</pre></div>
+<p>Setup can be done at the beginning of the function, the clock is not running at this point. The code inside the QBENCHMARK macro will be measured, and possibly repeated several times in order to get an accurate measurement.</p>
+<p>Several <a href="./qtest-overview.htm#testlib-benchmarking-measurement" translate="no">back-ends</a> are available and can be selected on the command line.</p>
+<a name="data-functions"></a>
+<h4 id="data-functions">Data Functions<a class="plink" href="#data-functions" title="Direct link to this headline"></a></h4>
+<p>Data functions are useful for creating benchmarks that compare multiple data inputs, for example locale aware compare against standard compare.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TestBenchmark<span class="operator">::</span>multiple_data()
+{
+    <span class="type"><a href="./qtest.htm" translate="no">QTest</a></span><span class="operator">::</span>addColumn<span class="operator">&lt;</span>bool<span class="operator">&gt;</span>(<span class="string">"useLocaleCompare"</span>);
+    <span class="type"><a href="./qtest.htm" translate="no">QTest</a></span><span class="operator">::</span>newRow(<span class="string">"locale aware compare"</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="keyword">true</span>;
+    <span class="type"><a href="./qtest.htm" translate="no">QTest</a></span><span class="operator">::</span>newRow(<span class="string">"standard compare"</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="keyword">false</span>;
+}</pre></div>
+<p>The test function then uses the data to determine what to benchmark.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TestBenchmark<span class="operator">::</span>multiple()
+{
+    QFETCH(bool<span class="operator">,</span> useLocaleCompare);
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> str1 <span class="operator">=</span> QLatin1String(<span class="string">"This is a test string"</span>);
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> str2 <span class="operator">=</span> QLatin1String(<span class="string">"This is a test string"</span>);
+
+    <span class="type">int</span> result;
+    <span class="keyword">if</span> (useLocaleCompare) {
+        QBENCHMARK {
+            result <span class="operator">=</span> str1<span class="operator">.</span>localeAwareCompare(str2);
+        }
+    } <span class="keyword">else</span> {
+        QBENCHMARK {
+            result <span class="operator">=</span> (str1 <span class="operator">=</span><span class="operator">=</span> str2);
+        }
+    }
+    Q_UNUSED(result);
+}</pre></div>
+<p>The "if (useLocaleCompare)" switch is placed outside the QBENCHMARK macro to avoid measuring its overhead. Each benchmark test function can have one active QBENCHMARK macro.</p>
+<a name="external-tools"></a>
+<h4 id="external-tools">External Tools<a class="plink" href="#external-tools" title="Direct link to this headline"></a></h4>
+<p>Tools for handling and visualizing test data are available as part of the <a href="https://code.qt.io/cgit/%7Bnon-gerrit%7D/qt-labs/qtestlib-tools.git/" translate="no">qtestlib-tools</a> project. These include a tool for comparing performance data obtained from test runs and a utility to generate Web-based graphs of performance data.</p>
+<p>See the <a href="https://blog.qt.io/blog/2008/12/05/qtestlib-now-with-nice-graphs-pointing-upwards/" translate="no">qtestlib-tools announcement</a> for more information on these tools and a simple graphing example.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/qtestlib/tutorial5?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@tutorial5 -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./qttestlib-tutorial4-example.htm">Chapter 4</a>
+<a class="nextPage" href="./qttestlib-tutorial6.htm">Chapter 6</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

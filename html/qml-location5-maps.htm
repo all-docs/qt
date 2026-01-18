@@ -1,0 +1,264 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML Maps | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-location5-maps.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a>QML Maps</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">QML Maps</h1>
+<span class="subtitle"></span>
+<!-- $$$qml-location5-maps.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview"></a>
+<h2 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qml-qtlocation-map.htm" translate="no">Map</a> type allows the display of a map and placing objects within the map. Various points of interest can be defined and added to the map for display. Also the <a href="./qml-qtlocation-map.htm" translate="no">Map</a> has features to control how the map is displayed. With the Map item you can center the map, zoom, pinch and make the item flickable.</p>
+<p>The places to be added to the map are <a href="./location-maps-qml.htm#putting-objects-on-a-map-map-overlay-objects" translate="no">MapItems</a>. The item's position is defined by a <a href="./qml-coordinate.htm" translate="no">coordinate</a> which includes latitude, longitude and altitude. The item is then displayed automatically after it is added to the <a href="./qml-qtlocation-map.htm" translate="no">Map</a>.</p>
+<a name="position-on-map"></a>
+<h3 id="position-on-map">Position on map<a class="plink" href="#position-on-map" title="Direct link to this headline"></a></h3>
+<p>All position APIs are part of the <a href="./qml-qtpositioning-qtpositioning.htm" translate="no">QtPositioning</a> module. The basic piece of position information is the <a href="./qml-coordinate.htm" translate="no">coordinate</a>. A coordinate encapsulates data for the latitude, longitude and altitude of the location. Altitude is in meters. It also has a method to determine distance to another <a href="./qml-coordinate.htm" translate="no">coordinate</a>. The <a href="./qml-coordinate.htm" translate="no">coordinate</a> type may also be held within a <a href="./qml-qtpositioning-location.htm" translate="no">Location</a> element, this will also have information on a bounding box size to determine sufficient proximity to the location and a location address.</p>
+<p>Here is an example of a client that uses a <a href="./qml-qtpositioning-positionsource.htm" translate="no">position source</a> to center a <a href="./qml-qtlocation-map.htm" translate="no">map</a> on the current position:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Rectangle {
+
+    import <span class="type"><a href="./qml-qtpositioning-qtpositioning.htm" translate="no">QtPositioning</a></span> <span class="number">5.2</span>
+    import <span class="type"><a href="./qtlocation-module.htm" translate="no">QtLocation</a></span> <span class="number">5.3</span>
+    <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+
+    Map {
+        id: map
+        <span class="comment">// initialize map</span>
+        <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+    }
+
+    PositionSource {
+        onPositionChanged: {
+            <span class="comment">// center the map on the current position</span>
+            map<span class="operator">.</span>center <span class="operator">=</span> position<span class="operator">.</span>coordinate
+        }
+    }
+}</pre></div>
+<a name="geocoding"></a>
+<h3 id="geocoding">Geocoding<a class="plink" href="#geocoding" title="Direct link to this headline"></a></h3>
+<p><a href="http://en.wikipedia.org/wiki/Geocoding" translate="no">Geocoding</a> is the derivation of geographical coordinates (latitude and longitude) from other geographical references to the locations. For example, this can be a street address. Reverse geocoding is also possible with a street address being used to determine a geographical coordinate. Geocoding is performed by using the <a href="./qml-qtlocation-geocodemodel.htm" translate="no">GeocodeModel</a> type.</p>
+<p>The following code examples are a small part of the <code translate="no">map</code> component in the <a href="./qtlocation-mapviewer-example.htm" translate="no">Map Viewer (QML)</a> example. The snippets demonstrate the declaration of the <a href="./qml-qtlocation-geocodemodel.htm" translate="no">GeocodeModel</a> component.</p>
+<p>In the snippet we see that the [QML]{<a href="./qml-qtlocation-geocodemodel.htm" translate="no">GeocodeModel</a>} contains the plugin and two signal handlers. One for changes in status <a href="./qml-qtlocation-geocodemodel.htm#status-prop" translate="no"><code translate="no">onStatusChanged</code></a> and the other to update the centering of the Map object <a href="./qml-qtlocation-geocodemodel.htm#locationsChanged-signal" translate="no"><code translate="no">onLocationsChanged</code></a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-geocodemodel.htm" translate="no">GeocodeModel</a></span> {
+    <span class="name">id</span>: <span class="name">geocodeModel</span>
+    <span class="name">plugin</span>: <span class="name">map</span>.<span class="name">plugin</span>
+    <span class="name">onStatusChanged</span>: {
+        <span class="keyword">if</span> ((<span class="name">status</span> <span class="operator">==</span> <span class="name">GeocodeModel</span>.<span class="name">Ready</span>) <span class="operator">||</span> (<span class="name">status</span> <span class="operator">==</span> <span class="name">GeocodeModel</span>.<span class="name">Error</span>))
+            <span class="name">map</span>.<span class="name">geocodeFinished</span>()
+    }
+    <span class="name">onLocationsChanged</span>:
+    {
+        <span class="keyword">if</span> (<span class="name">count</span> <span class="operator">==</span> <span class="number">1</span>) {
+            <span class="name">map</span>.<span class="name">center</span>.<span class="name">latitude</span> <span class="operator">=</span> <span class="name">get</span>(<span class="number">0</span>).<span class="name">coordinate</span>.<span class="name">latitude</span>
+            <span class="name">map</span>.<span class="name">center</span>.<span class="name">longitude</span> <span class="operator">=</span> <span class="name">get</span>(<span class="number">0</span>).<span class="name">coordinate</span>.<span class="name">longitude</span>
+        }
+    }
+}
+
+<span class="type"><a href="./qml-qtlocation-mapitemview.htm" translate="no">MapItemView</a></span> {
+    <span class="name">model</span>: <span class="name">geocodeModel</span>
+    <span class="name">delegate</span>: <span class="name">pointDelegate</span>
+}</pre></div>
+<p>The geocoding features are called from a higher level piece of code. In this snippet we see an <a href="./qml-qtpositioning-address.htm" translate="no">Address</a> object filled with the desired parameters.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtpositioning-address.htm" translate="no">Address</a></span> {
+    <span class="name">id</span> :<span class="name">fromAddress</span>
+    <span class="name">street</span>: <span class="string">"Sandakerveien 116"</span>
+    <span class="name">city</span>: <span class="string">"Oslo"</span>
+    <span class="name">country</span>: <span class="string">"Norway"</span>
+    <span class="name">state</span> : <span class="string">""</span>
+    <span class="name">postalCode</span>: <span class="string">"0484"</span>
+}</pre></div>
+<p>The <a href="./qml-qtpositioning-address.htm" translate="no">Address</a> is later used in a query for the <a href="./qml-qtlocation-geocodemodel.htm" translate="no">GeocodeModel</a> to process and determine the geographical <a href="./qml-coordinate.htm" translate="no">coordinates</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// send the geocode request</span>
+<span class="name">geocodeModel</span>.<span class="name">query</span> <span class="operator">=</span> <span class="name">fromAddress</span>
+<span class="name">geocodeModel</span>.<span class="name">update</span>()</pre></div>
+<a name="navigation"></a>
+<h3 id="navigation">Navigation<a class="plink" href="#navigation" title="Direct link to this headline"></a></h3>
+<p>A very important function of the <a href="./qml-qtlocation-map.htm" translate="no">Map</a> type is navigation from one place to a destination with possible waypoints along the route. The route will be divided up into a series of segments. At the end of each segment is a vertex called a <i>maneuver</i>. The <i>segments</i> contain information about the time and distance to the end of the segment. The <i>maneuvers</i> contain information about what to do next, how to get onto the next segment, if there is one. So a <i>maneuver</i> contains navigational information, for example "turn right now".</p>
+<p>To find a suitable route we will need to use a <a href="./qml-qtlocation-routequery.htm" translate="no">RouteQuery</a> to define the selection criteria and adding any required waypoints. The <a href="./qml-qtlocation-routemodel.htm" translate="no">RouteModel</a> should return a list of <a href="./qml-qtlocation-routesegment.htm" translate="no">RouteSegment</a>s that defines the route to the destination complete with navigation advice at the joins between segments, called <a href="./qml-qtlocation-routemaneuver.htm" translate="no">RouteManeuver</a>s</p>
+<p>There are many options that you can add to the query to narrow the criteria. The <a href="./qml-qtlocation-routequery.htm" translate="no">RouteQuery</a> properties can include</p>
+<div class="table"><table class="generic" width="60%">
+<tbody><tr class="odd" valign="top"><td><a href="./qml-qtlocation-routequery.htm#numberAlternativeRoutes-prop" translate="no">numberAlternativeRoutes</a></td><td>The number of alternative routes</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtlocation-routequery.htm#travelModes-prop" translate="no">travelModes</a></td><td>Travel modes</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtlocation-routequery.htm#routeOptimizations-prop" translate="no">routeOptimizations</a></td><td>Required route optimizations</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtlocation-routequery.htm#segmentDetail-prop" translate="no">segmentDetail</a></td><td>Level of detail in segments</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtlocation-routequery.htm#maneuverDetail-prop" translate="no">maneuverDetail</a></td><td>Level of detail in maneuvers between segments</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtlocation-routequery.htm#waypoints-prop" translate="no">waypoints</a></td><td>A list of waypoints</td></tr>
+<tr class="odd" valign="top"><td><a href="./qml-qtlocation-routequery.htm#excludedAreas-prop" translate="no">excludedAreas</a></td><td>A list of excluded areas that the route must not cross</td></tr>
+<tr class="even" valign="top"><td><a href="./qml-qtlocation-routequery.htm#featureTypes-prop" translate="no">featureTypes</a></td><td>Relevant map features, for example highway, ferry</td></tr>
+</tbody></table></div>
+<p>In the following example a default <a href="./qml-qtlocation-routequery.htm" translate="no">RouteQuery</a> is declared within <a href="./qml-qtlocation-routemodel.htm" translate="no">RouteModel</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-routemodel.htm" translate="no">RouteModel</a></span> {
+    <span class="name">id</span>: <span class="name">routeModel</span>
+    <span class="name">plugin</span> : <span class="name">map</span>.<span class="name">plugin</span>
+    <span class="name">query</span>:  <span class="name">RouteQuery</span> {
+        <span class="name">id</span>: <span class="name">routeQuery</span>
+    }
+    <span class="name">onStatusChanged</span>: {
+        <span class="keyword">if</span> (<span class="name">status</span> <span class="operator">==</span> <span class="name">RouteModel</span>.<span class="name">Ready</span>) {
+            <span class="keyword">switch</span> (<span class="name">count</span>) {
+            <span class="keyword">case</span> <span class="number">0</span>:
+                <span class="comment">// technically not an error</span>
+                <span class="name">map</span>.<span class="name">routeError</span>()
+                <span class="keyword">break</span>
+            <span class="keyword">case</span> <span class="number">1</span>:
+                <span class="name">map</span>.<span class="name">showRouteList</span>()
+                <span class="keyword">break</span>
+            }
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="name">status</span> <span class="operator">==</span> <span class="name">RouteModel</span>.<span class="name">Error</span>) {
+            <span class="name">map</span>.<span class="name">routeError</span>()
+        }
+    }
+}</pre></div>
+<p>The user enters some information such as the starting point of the route, some waypoints and the destination. All of these locations are waypoints so the locations from start to finish will be entered as a sequence of waypoints. Then other query properties can be set that may be specific to this trip.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// clear away any old data in the query</span>
+<span class="name">routeQuery</span>.<span class="name">clearWaypoints</span>();
+
+<span class="comment">// add the start and end coords as waypoints on the route</span>
+<span class="name">routeQuery</span>.<span class="name">addWaypoint</span>(<span class="name">startCoordinate</span>)
+<span class="name">routeQuery</span>.<span class="name">addWaypoint</span>(<span class="name">endCoordinate</span>)
+<span class="name">routeQuery</span>.<span class="name">travelModes</span> <span class="operator">=</span> <span class="name">RouteQuery</span>.<span class="name">CarTravel</span>
+<span class="name">routeQuery</span>.<span class="name">routeOptimizations</span> <span class="operator">=</span> <span class="name">RouteQuery</span>.<span class="name">FastestRoute</span>
+
+<span class="name">routeModel</span>.<span class="name">update</span>();</pre></div>
+<p>The <code translate="no">routeInfoModel</code> <a href="./qtquick-modelviewsdata-modelview.htm#models" translate="no">ListModel</a> is used to grab the results of the query and construct a suitable list for display.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">interactive</span>: <span class="number">true</span>
+    <span class="name">model</span>: <span class="name">ListModel</span> { <span class="name">id</span>: <span class="name">routeInfoModel</span> }
+    <span class="name">header</span>: <span class="name">RouteListHeader</span> {}
+    <span class="name">delegate</span>:  <span class="name">RouteListDelegate</span>{
+        <span class="name">routeIndex</span>.text: <span class="name">index</span> <span class="operator">+</span> <span class="number">1</span>
+        <span class="name">routeInstruction</span>.text: <span class="name">instruction</span>
+        <span class="name">routeDistance</span>.text: <span class="name">distance</span>
+    }
+}</pre></div>
+<p>The <a href="./qtquick-modelviewsdata-modelview.htm#models" translate="no">ListModel</a> <code translate="no">routeInfoModel</code> can be filled with values using a code, that loops through the segments extracting the segment length, instruction text and distance to the next instruction. The extracted data is formatted for display as it is retrieved.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="name">routeInfoModel</span>.<span class="name">clear</span>()
+<span class="keyword">if</span> (<span class="name">routeModel</span>.<span class="name">count</span> <span class="operator">&gt;</span> <span class="number">0</span>) {
+    <span class="keyword">for</span> (var i = 0; <span class="name">i</span> <span class="operator">&lt;</span> <span class="name">routeModel</span>.<span class="name">get</span>(<span class="number">0</span>).<span class="name">segments</span>.<span class="name">length</span>; i++) {
+        <span class="name">routeInfoModel</span>.<span class="name">append</span>({
+            "instruction": <span class="name">routeModel</span>.<span class="name">get</span>(<span class="number">0</span>).<span class="name">segments</span>[<span class="name">i</span>].<span class="name">maneuver</span>.<span class="name">instructionText</span>,
+             "distance": <span class="name">Helper</span>.<span class="name">formatDistance</span>(<span class="name">routeModel</span>.<span class="name">get</span>(<span class="number">0</span>).<span class="name">segments</span>[<span class="name">i</span>].<span class="name">maneuver</span>.<span class="name">distanceToNextInstruction</span>)
+        });
+    }
+}</pre></div>
+<p>For more information on the example see the <a href="./qtlocation-mapviewer-example.htm" translate="no">Map Viewer (QML)</a> example.</p>
+<a name="zoom-pinch-and-flickable"></a>
+<h3 id="zoom-pinch-and-flickable">Zoom, Pinch and Flickable<a class="plink" href="#zoom-pinch-and-flickable" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qml-qtlocation-map.htm" translate="no">Map</a> item also supports user interface interactions with the map using tactile and mouse gestures. That is features such as swiping to pan, pinching to zoom.</p>
+<p>Enabling and configuring pinch and flickable is easy within the <a href="./qml-qtlocation-map.htm" translate="no">Map</a> type.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtlocation-map.htm" translate="no">Map</a></span> {
+    <span class="name">id</span>: <span class="name">map</span>
+    <span class="comment">// Enable pan, flick, and pinch gestures to zoom in and out</span>
+    <span class="name">gesture</span>.acceptedGestures: <span class="name">MapGestureArea</span>.<span class="name">PanGesture</span> <span class="operator">|</span> <span class="name">MapGestureArea</span>.<span class="name">FlickGesture</span> <span class="operator">|</span> <span class="name">MapGestureArea</span>.<span class="name">PinchGesture</span> <span class="operator">|</span> <span class="name">MapGestureArea</span>.<span class="name">RotationGesture</span> <span class="operator">|</span> <span class="name">MapGestureArea</span>.<span class="name">TiltGesture</span>
+    <span class="name">gesture</span>.flickDeceleration: <span class="number">3000</span>
+    <span class="name">gesture</span>.enabled: <span class="number">true</span>
+}</pre></div>
+<p>Zoom can also be controlled by other objects like sliders, with binding to the Map <a href="./qml-qtlocation-map.htm#zoomLevel-prop" translate="no">zoomLevel</a>.</p>
+<a name="qml-types"></a>
+<h2 id="qml-types">QML Types<a class="plink" href="#qml-types" title="Direct link to this headline"></a></h2>
+<a name="maps"></a>
+<h4 id="maps">Maps<a class="plink" href="#maps" title="Direct link to this headline"></a></h4>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-cameracapabilities.htm">CameraCapabilities</a></p></td><td class="tblDescr"><p>Type holds information about the camera capabilities for a specific map type</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-dynamicparameter.htm">DynamicParameter</a></p></td><td class="tblDescr"><p>(previously MapParameter ) type represents a parameter for a Map element, or other elements used in a Map (such as map items, etc.). This type provides a mean to specify plugin-dependent optional dynamic parameters that allow a plugin to extend the runtime API of the module</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-map.htm">Map</a></p></td><td class="tblDescr"><p>Type displays a map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapcircle.htm">MapCircle</a></p></td><td class="tblDescr"><p>Type displays a geographic circle on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mapcircleobject.htm">MapCircleObject</a></p></td><td class="tblDescr"><p>Displays a circle on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapcopyrightnotice.htm">MapCopyrightNotice</a></p></td><td class="tblDescr"><p>Item displays the current valid copyright notice for a Map element</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapgesturearea.htm">MapGestureArea</a></p></td><td class="tblDescr"><p>Type provides Map gesture interaction</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mapiconobject.htm">MapIconObject</a></p></td><td class="tblDescr"><p>Displays an icon on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapitemgroup.htm">MapItemGroup</a></p></td><td class="tblDescr"><p>Type is a container for map items</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapitemview.htm">MapItemView</a></p></td><td class="tblDescr"><p>Used to populate Map from a model</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mapobjectview.htm">MapObjectView</a></p></td><td class="tblDescr"><p>Used to populate Map with map objects from a model</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappinchevent.htm">MapPinchEvent</a></p></td><td class="tblDescr"><p>Type provides basic information about pinch event</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappolygon.htm">MapPolygon</a></p></td><td class="tblDescr"><p>Type displays a polygon on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mappolygonobject.htm">MapPolygonObject</a></p></td><td class="tblDescr"><p>Displays a polygon on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mappolyline.htm">MapPolyline</a></p></td><td class="tblDescr"><p>Type displays a polyline on a map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-mappolylineobject.htm">MapPolylineObject</a></p></td><td class="tblDescr"><p>Displays a polyline on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-mapquickitem.htm">MapQuickItem</a></p></td><td class="tblDescr"><p>Type displays an arbitrary Qt Quick object on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maprectangle.htm">MapRectangle</a></p></td><td class="tblDescr"><p>Type displays a rectangle on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maproute.htm">MapRoute</a></p></td><td class="tblDescr"><p>Type displays a Route on a Map</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-maprouteobject.htm">MapRouteObject</a></p></td><td class="tblDescr"><p>Displays a geographical route on a Map</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-maptype.htm">MapType</a></p></td><td class="tblDescr"><p>Type holds information about a map type</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qt-labs-location-navigator.htm">Navigator</a></p></td><td class="tblDescr"><p>Type offers functionalities to perform turn-by-turn navigation</p></td></tr>
+</tbody></table></div>
+<a name="geocoding"></a>
+<h4 id="geocoding">Geocoding<a class="plink" href="#geocoding" title="Direct link to this headline"></a></h4>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-geocodemodel.htm">GeocodeModel</a></p></td><td class="tblDescr"><p>Type provides support for searching operations related to geographic information</p></td></tr>
+</tbody></table></div>
+<a name="routing"></a>
+<h4 id="routing">Routing<a class="plink" href="#routing" title="Direct link to this headline"></a></h4>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-route.htm">Route</a></p></td><td class="tblDescr"><p>Type represents one geographical route</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routeleg.htm">RouteLeg</a></p></td><td class="tblDescr"><p>Type represents a leg of a Route, that is the portion of a route between one waypoint and the next</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routemaneuver.htm">RouteManeuver</a></p></td><td class="tblDescr"><p>Type represents the information relevant to the point at which two RouteSegments meet</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routemodel.htm">RouteModel</a></p></td><td class="tblDescr"><p>Type provides access to routes</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routequery.htm">RouteQuery</a></p></td><td class="tblDescr"><p>Type is used to provide query parameters to a RouteModel</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-routesegment.htm">RouteSegment</a></p></td><td class="tblDescr"><p>Type represents a segment of a Route</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtlocation-waypoint.htm">Waypoint</a></p></td><td class="tblDescr"><p>Type provides a mean to specify a waypoint in a RouteQuery in a more detailed way than by using a simple coordinate</p></td></tr>
+</tbody></table></div>
+<a name="example"></a>
+<h2 id="example">Example<a class="plink" href="#example" title="Direct link to this headline"></a></h2>
+<p>The above snippets are taken from the <a href="./qtlocation-mapviewer-example.htm" translate="no">Map Viewer (QML)</a> example.</p>
+</div>
+<!-- @@@qml-location5-maps.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

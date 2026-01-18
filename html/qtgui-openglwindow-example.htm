@@ -1,0 +1,312 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenGL Window Example | Qt GUI</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a>OpenGL Window Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">OpenGL Window Example</h1>
+<span class="subtitle"></span>
+<!-- $$$openglwindow-brief -->
+<p>This example shows how to create a minimal <a href="./qwindow.htm" translate="no">QWindow</a> based application for the purpose of using OpenGL.</p>
+<!-- @@@openglwindow -->
+<!-- $$$openglwindow-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="Screenshot of the OpenGLWindow example" src="./images/openglwindow-example.png"></p><div class="admonition note">
+<p><b>Note: </b>This is a low level example of how to use <a href="./qwindow.htm" translate="no">QWindow</a> with OpenGL. In practice you should consider using the higher level <a href="./qopenglwindow.htm" translate="no">QOpenGLWindow</a> class.</p>
+</div>
+<a name="openglwindow-super-class"></a>
+<h4 id="openglwindow-super-class">OpenGLWindow Super Class<a class="plink" href="#openglwindow-super-class" title="Direct link to this headline"></a></h4>
+<p>Our OpenGLWindow class acts as an API which is then subclassed to do the actual rendering. It has functions to make a request for render() to be called, either immediately with renderNow() or as soon as the event loop has finished processing the current batch of events with renderLater(). The OpenGLWindow subclass can either reimplement render() for OpenGL based rendering, or render(<a href="./qpainter.htm" translate="no">QPainter</a> *) for rendering with a <a href="./qpainter.htm" translate="no">QPainter</a>. Use OpenGLWindow::setAnimating(true) for render() to be called at the vertical refresh rate, assuming vertical sync is enabled in the underlying OpenGL drivers.</p>
+<p>In the class that does the OpenGL rendering you will typically want to inherit from <a href="./qopenglfunctions.htm" translate="no">QOpenGLFunctions</a>, as our OpenGLWindow does, in order to get platform independent access to OpenGL ES 2.0 functions. By inheriting from <a href="./qopenglfunctions.htm" translate="no">QOpenGLFunctions</a> the OpenGL functions it contains will get precedence, and you will not have to worry about resolving those functions if you want your application to work with OpenGL as well as OpenGL ES 2.0.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> OpenGLWindow : <span class="keyword">public</span> <span class="type"><a href="./qwindow.htm" translate="no">QWindow</a></span><span class="operator">,</span> <span class="keyword">protected</span> <span class="type"><a href="./qopenglfunctions.htm" translate="no">QOpenGLFunctions</a></span>
+{
+    Q_OBJECT
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> OpenGLWindow(<span class="type"><a href="./qwindow.htm" translate="no">QWindow</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+    <span class="operator">~</span>OpenGLWindow();
+
+    <span class="keyword">virtual</span> <span class="type">void</span> render(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">*</span>painter);
+    <span class="keyword">virtual</span> <span class="type">void</span> render();
+
+    <span class="keyword">virtual</span> <span class="type">void</span> initialize();
+
+    <span class="type">void</span> setAnimating(bool animating);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> renderLater();
+    <span class="type">void</span> renderNow();
+
+<span class="keyword">protected</span>:
+    bool event(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> <span class="operator">*</span>event) override;
+
+    <span class="type">void</span> exposeEvent(<span class="type"><a href="./qexposeevent.htm" translate="no">QExposeEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">private</span>:
+    bool m_animating <span class="operator">=</span> <span class="keyword">false</span>;
+
+    <span class="type"><a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a></span> <span class="operator">*</span>m_context <span class="operator">=</span> nullptr;
+    <span class="type"><a href="./qopenglpaintdevice.htm" translate="no">QOpenGLPaintDevice</a></span> <span class="operator">*</span>m_device <span class="operator">=</span> nullptr;
+};</pre></div>
+<p>The window's surface type must be set to <a href="./qsurface.htm#SurfaceType-enum" translate="no">QSurface::OpenGLSurface</a> to indicate that the window is to be used for OpenGL rendering and not for rendering raster content with <a href="./qpainter.htm" translate="no">QPainter</a> using a <a href="./qbackingstore.htm" translate="no">QBackingStore</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">OpenGLWindow<span class="operator">::</span>OpenGLWindow(<span class="type"><a href="./qwindow.htm" translate="no">QWindow</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwindow.htm" translate="no">QWindow</a></span>(parent)
+{
+    setSurfaceType(<span class="type"><a href="./qwindow.htm" translate="no">QWindow</a></span><span class="operator">::</span>OpenGLSurface);
+}</pre></div>
+<p>Any OpenGL initialization needed can be done by overriding the initialize() function, which is called once before the first call to render(), with a valid current <a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a>. As can be seen in the following code snippet, the default render(<a href="./qpainter.htm" translate="no">QPainter</a> *) and initialize() implementations are empty, whereas the default render() implementation initializes a <a href="./qopenglpaintdevice.htm" translate="no">QOpenGLPaintDevice</a> and then calls into render(<a href="./qpainter.htm" translate="no">QPainter</a> *).</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> OpenGLWindow<span class="operator">::</span>render(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">*</span>painter)
+{
+    Q_UNUSED(painter);
+}
+
+<span class="type">void</span> OpenGLWindow<span class="operator">::</span>initialize()
+{
+}
+
+<span class="type">void</span> OpenGLWindow<span class="operator">::</span>render()
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>m_device)
+        m_device <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qopenglpaintdevice.htm" translate="no">QOpenGLPaintDevice</a></span>;
+
+    glClear(GL_COLOR_BUFFER_BIT <span class="operator">|</span> GL_DEPTH_BUFFER_BIT <span class="operator">|</span> GL_STENCIL_BUFFER_BIT);
+
+    m_device<span class="operator">-</span><span class="operator">&gt;</span>setSize(size() <span class="operator">*</span> devicePixelRatio());
+    m_device<span class="operator">-</span><span class="operator">&gt;</span>setDevicePixelRatio(devicePixelRatio());
+
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter(m_device);
+    render(<span class="operator">&amp;</span>painter);
+}</pre></div>
+<p>The renderLater() function simply calls <a href="./qwindow.htm#requestUpdate" translate="no">QWindow::requestUpdate</a>() to schedule an update for when the system is ready to repaint.</p>
+<p>We also call renderNow() when we get an expose event. The exposeEvent() is the notification to the window that its exposure, meaning visibility, on the screen has changed. When the expose event is received you can query <a href="./qwindow.htm#isExposed" translate="no">QWindow::isExposed</a>() to find out whether or not the window is currently exposed. Do not render to or call <a href="./qopenglcontext.htm#swapBuffers" translate="no">QOpenGLContext::swapBuffers</a>() on a window before it has received its first expose event, as before then its final size might be unknown, and in addition what is rendered might not even end up on the screen.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> OpenGLWindow<span class="operator">::</span>renderLater()
+{
+    requestUpdate();
+}
+
+bool OpenGLWindow<span class="operator">::</span>event(<span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">switch</span> (event<span class="operator">-</span><span class="operator">&gt;</span>type()) {
+    <span class="keyword">case</span> <span class="type"><a href="./qevent.htm" translate="no">QEvent</a></span><span class="operator">::</span>UpdateRequest:
+        renderNow();
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="keyword">default</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qwindow.htm" translate="no">QWindow</a></span><span class="operator">::</span>event(event);
+    }
+}
+
+<span class="type">void</span> OpenGLWindow<span class="operator">::</span>exposeEvent(<span class="type"><a href="./qexposeevent.htm" translate="no">QExposeEvent</a></span> <span class="operator">*</span>event)
+{
+    Q_UNUSED(event);
+
+    <span class="keyword">if</span> (isExposed())
+        renderNow();
+}</pre></div>
+<p>In renderNow() we return if we are not currently exposed, in which case rendering is delayed until we actually get an expose event. If we have not yet done so, we create the <a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a> with the same <a href="./qsurfaceformat.htm" translate="no">QSurfaceFormat</a> as was set on the OpenGLWindow, and call initialize() for the sake of the sub class, and initializeOpenGLFunctions() in order for the <a href="./qopenglfunctions.htm" translate="no">QOpenGLFunctions</a> super class to be associated with the correct <a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a>. In any case we make the context current by calling <a href="./qopenglcontext.htm#makeCurrent" translate="no">QOpenGLContext::makeCurrent</a>(), call render() to do the actual rendering, and finally we schedule for the rendered contents to be made visible by calling <a href="./qopenglcontext.htm#swapBuffers" translate="no">QOpenGLContext::swapBuffers</a>() with the OpenGLWindow as parameter.</p>
+<p>Once the rendering of a frame using an OpenGL context is initiated by calling <a href="./qopenglcontext.htm#makeCurrent" translate="no">QOpenGLContext::makeCurrent</a>(), giving the surface on which to render as a parameter, OpenGL commands can be issued. The commands can be issued either directly by including &lt;qopengl.h&gt;, which also includes the system's OpenGL headers, or as by using <a href="./qopenglfunctions.htm" translate="no">QOpenGLFunctions</a>, which can either be inherited from for convenience, or accessed using <a href="./qopenglcontext.htm#functions" translate="no">QOpenGLContext::functions</a>(). <a href="./qopenglfunctions.htm" translate="no">QOpenGLFunctions</a> gives access to all the OpenGL ES 2.0 level OpenGL calls that are not already standard in both OpenGL ES 2.0 and desktop OpenGL. For more information about the OpenGL and OpenGL ES APIs, refer to the official <a href="http://www.opengl.org/registry/" translate="no">OpenGL Registry</a> and <a href="http://www.khronos.org/registry/gles/" translate="no">Khronos OpenGL ES API Registry</a>.</p>
+<p>If animation has been enabled with OpenGLWindow::setAnimating(true), we call renderLater() to schedule another update request.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> OpenGLWindow<span class="operator">::</span>renderNow()
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>isExposed())
+        <span class="keyword">return</span>;
+
+    bool needsInitialize <span class="operator">=</span> <span class="keyword">false</span>;
+
+    <span class="keyword">if</span> (<span class="operator">!</span>m_context) {
+        m_context <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a></span>(<span class="keyword">this</span>);
+        m_context<span class="operator">-</span><span class="operator">&gt;</span>setFormat(requestedFormat());
+        m_context<span class="operator">-</span><span class="operator">&gt;</span>create();
+
+        needsInitialize <span class="operator">=</span> <span class="keyword">true</span>;
+    }
+
+    m_context<span class="operator">-</span><span class="operator">&gt;</span>makeCurrent(<span class="keyword">this</span>);
+
+    <span class="keyword">if</span> (needsInitialize) {
+        initializeOpenGLFunctions();
+        initialize();
+    }
+
+    render();
+
+    m_context<span class="operator">-</span><span class="operator">&gt;</span>swapBuffers(<span class="keyword">this</span>);
+
+    <span class="keyword">if</span> (m_animating)
+        renderLater();
+}</pre></div>
+<p>Enabling animation also schedules an update request as shown in the following code snippet.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> OpenGLWindow<span class="operator">::</span>setAnimating(bool animating)
+{
+    m_animating <span class="operator">=</span> animating;
+
+    <span class="keyword">if</span> (animating)
+        renderLater();
+}</pre></div>
+<a name="example-opengl-rendering-sub-class"></a>
+<h4 id="example-opengl-rendering-sub-class">Example OpenGL Rendering Sub Class<a class="plink" href="#example-opengl-rendering-sub-class" title="Direct link to this headline"></a></h4>
+<p>Here we sub class OpenGLWindow to show how to do OpenGL to render a rotating triangle. By indirectly sub classing <a href="./qopenglfunctions.htm" translate="no">QOpenGLFunctions</a> we gain access to all OpenGL ES 2.0 level functionality.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> TriangleWindow : <span class="keyword">public</span> OpenGLWindow
+{
+<span class="keyword">public</span>:
+    <span class="keyword">using</span> OpenGLWindow<span class="operator">::</span>OpenGLWindow;
+
+    <span class="type">void</span> initialize() override;
+    <span class="type">void</span> render() override;
+
+<span class="keyword">private</span>:
+    GLint m_posAttr <span class="operator">=</span> <span class="number">0</span>;
+    GLint m_colAttr <span class="operator">=</span> <span class="number">0</span>;
+    GLint m_matrixUniform <span class="operator">=</span> <span class="number">0</span>;
+
+    <span class="type"><a href="./qopenglshaderprogram.htm" translate="no">QOpenGLShaderProgram</a></span> <span class="operator">*</span>m_program <span class="operator">=</span> nullptr;
+    <span class="type">int</span> m_frame <span class="operator">=</span> <span class="number">0</span>;
+};</pre></div>
+<p>In our main function we initialize <a href="./qguiapplication.htm" translate="no">QGuiApplication</a> and instantiate our TriangleOpenGLWindow. We give it a <a href="./qsurfaceformat.htm" translate="no">QSurfaceFormat</a> specifying that we want four samples of multisample antialiasing, as well as a default geometry. Since we want to have animation we call the above mentioned setAnimating() function with an argument of true.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span><span class="operator">*</span>argv)
+{
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span> app(argc<span class="operator">,</span> argv);
+
+    <span class="type"><a href="./qsurfaceformat.htm" translate="no">QSurfaceFormat</a></span> format;
+    format<span class="operator">.</span>setSamples(<span class="number">16</span>);
+
+    TriangleWindow window;
+    window<span class="operator">.</span>setFormat(format);
+    window<span class="operator">.</span>resize(<span class="number">640</span><span class="operator">,</span> <span class="number">480</span>);
+    window<span class="operator">.</span>show();
+
+    window<span class="operator">.</span>setAnimating(<span class="keyword">true</span>);
+
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>The following code snippet shows the OpenGL shader program used in this example. The vertex and fragment shaders are relatively simple, doing vertex transformation and interpolated vertex coloring.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">static</span> <span class="keyword">const</span> <span class="type">char</span> <span class="operator">*</span>vertexShaderSource <span class="operator">=</span>
+    <span class="string">"attribute highp vec4 posAttr;\n"</span>
+    <span class="string">"attribute lowp vec4 colAttr;\n"</span>
+    <span class="string">"varying lowp vec4 col;\n"</span>
+    <span class="string">"uniform highp mat4 matrix;\n"</span>
+    <span class="string">"void main() {\n"</span>
+    <span class="string">"   col = colAttr;\n"</span>
+    <span class="string">"   gl_Position = matrix * posAttr;\n"</span>
+    <span class="string">"}\n"</span>;
+
+<span class="keyword">static</span> <span class="keyword">const</span> <span class="type">char</span> <span class="operator">*</span>fragmentShaderSource <span class="operator">=</span>
+    <span class="string">"varying lowp vec4 col;\n"</span>
+    <span class="string">"void main() {\n"</span>
+    <span class="string">"   gl_FragColor = col;\n"</span>
+    <span class="string">"}\n"</span>;</pre></div>
+<p>Here is the code that loads the shaders and initializes the shader program By using <a href="./qopenglshaderprogram.htm" translate="no">QOpenGLShaderProgram</a> instead of raw OpenGL we get the convenience that strips out the highp, mediump, and lowp qualifiers on desktop OpenGL, where they are not part of the standard. We store the attribute and uniform locations in member variables to avoid having to do the location lookup each frame.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TriangleWindow<span class="operator">::</span>initialize()
+{
+    m_program <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qopenglshaderprogram.htm" translate="no">QOpenGLShaderProgram</a></span>(<span class="keyword">this</span>);
+    m_program<span class="operator">-</span><span class="operator">&gt;</span>addShaderFromSourceCode(<span class="type"><a href="./qopenglshader.htm" translate="no">QOpenGLShader</a></span><span class="operator">::</span>Vertex<span class="operator">,</span> vertexShaderSource);
+    m_program<span class="operator">-</span><span class="operator">&gt;</span>addShaderFromSourceCode(<span class="type"><a href="./qopenglshader.htm" translate="no">QOpenGLShader</a></span><span class="operator">::</span>Fragment<span class="operator">,</span> fragmentShaderSource);
+    m_program<span class="operator">-</span><span class="operator">&gt;</span>link();
+    m_posAttr <span class="operator">=</span> m_program<span class="operator">-</span><span class="operator">&gt;</span>attributeLocation(<span class="string">"posAttr"</span>);
+    Q_ASSERT(m_posAttr <span class="operator">!</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+    m_colAttr <span class="operator">=</span> m_program<span class="operator">-</span><span class="operator">&gt;</span>attributeLocation(<span class="string">"colAttr"</span>);
+    Q_ASSERT(m_colAttr <span class="operator">!</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+    m_matrixUniform <span class="operator">=</span> m_program<span class="operator">-</span><span class="operator">&gt;</span>uniformLocation(<span class="string">"matrix"</span>);
+    Q_ASSERT(m_matrixUniform <span class="operator">!</span><span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+}</pre></div>
+<p>Finally, here is our render() function, where we use OpenGL to set up the viewport, clear the background, and render a rotating triangle.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TriangleWindow<span class="operator">::</span>render()
+{
+    <span class="keyword">const</span> <span class="type"><a href="./qtglobal.htm#qreal-typedef" translate="no">qreal</a></span> retinaScale <span class="operator">=</span> devicePixelRatio();
+    glViewport(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> width() <span class="operator">*</span> retinaScale<span class="operator">,</span> height() <span class="operator">*</span> retinaScale);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    m_program<span class="operator">-</span><span class="operator">&gt;</span>bind();
+
+    QMatrix4x4 matrix;
+    matrix<span class="operator">.</span>perspective(<span class="number">60.0f</span><span class="operator">,</span> <span class="number">4.0f</span> <span class="operator">/</span> <span class="number">3.0f</span><span class="operator">,</span> <span class="number">0.1f</span><span class="operator">,</span> <span class="number">100.0f</span>);
+    matrix<span class="operator">.</span>translate(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="operator">-</span><span class="number">2</span>);
+    matrix<span class="operator">.</span>rotate(<span class="number">100.0f</span> <span class="operator">*</span> m_frame <span class="operator">/</span> screen()<span class="operator">-</span><span class="operator">&gt;</span>refreshRate()<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span>);
+
+    m_program<span class="operator">-</span><span class="operator">&gt;</span>setUniformValue(m_matrixUniform<span class="operator">,</span> matrix);
+
+    <span class="keyword">static</span> <span class="keyword">const</span> GLfloat vertices<span class="operator">[</span><span class="operator">]</span> <span class="operator">=</span> {
+         <span class="number">0.0f</span><span class="operator">,</span>  <span class="number">0.707f</span><span class="operator">,</span>
+        <span class="operator">-</span><span class="number">0.5f</span><span class="operator">,</span> <span class="operator">-</span><span class="number">0.5f</span><span class="operator">,</span>
+         <span class="number">0.5f</span><span class="operator">,</span> <span class="operator">-</span><span class="number">0.5f</span>
+    };
+
+    <span class="keyword">static</span> <span class="keyword">const</span> GLfloat colors<span class="operator">[</span><span class="operator">]</span> <span class="operator">=</span> {
+        <span class="number">1.0f</span><span class="operator">,</span> <span class="number">0.0f</span><span class="operator">,</span> <span class="number">0.0f</span><span class="operator">,</span>
+        <span class="number">0.0f</span><span class="operator">,</span> <span class="number">1.0f</span><span class="operator">,</span> <span class="number">0.0f</span><span class="operator">,</span>
+        <span class="number">0.0f</span><span class="operator">,</span> <span class="number">0.0f</span><span class="operator">,</span> <span class="number">1.0f</span>
+    };
+
+    glVertexAttribPointer(m_posAttr<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> GL_FLOAT<span class="operator">,</span> GL_FALSE<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> vertices);
+    glVertexAttribPointer(m_colAttr<span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> GL_FLOAT<span class="operator">,</span> GL_FALSE<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> colors);
+
+    glEnableVertexAttribArray(m_posAttr);
+    glEnableVertexAttribArray(m_colAttr);
+
+    glDrawArrays(GL_TRIANGLES<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">3</span>);
+
+    glDisableVertexAttribArray(m_colAttr);
+    glDisableVertexAttribArray(m_posAttr);
+
+    m_program<span class="operator">-</span><span class="operator">&gt;</span>release();
+
+    <span class="operator">+</span><span class="operator">+</span>m_frame;
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/gui/openglwindow?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@openglwindow -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

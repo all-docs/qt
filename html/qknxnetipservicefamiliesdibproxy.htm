@@ -1,0 +1,132 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QKnxNetIpServiceFamiliesDibProxy | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QKnxNetIpServiceFamiliesDibProxy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QKnxNetIpServiceFamiliesDibProxy Class</h1>
+<!-- $$$QKnxNetIpServiceFamiliesDibProxy-brief -->
+<p>The QKnxNetIpServiceFamiliesDibProxy class provides the means to read the supported service families and versions from the generic <a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a> class and to create a KNXnet/IP device information block (DIB) structure based on the information. <a href="#details">More...</a></p>
+<!-- @@@QKnxNetIpServiceFamiliesDibProxy -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QKnxNetIpServiceFamiliesDibProxy&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += knx</td></tr></tbody></table></div><ul>
+<li><a href="./qknxnetipservicefamiliesdibproxy-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> class </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipservicefamiliesdibproxy-builder.htm" translate="no">Builder</a></b></td></tr>
+</tbody></table></div>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipservicefamiliesdibproxy.htm#QKnxNetIpServiceFamiliesDibProxy-2" translate="no">QKnxNetIpServiceFamiliesDibProxy</a></b>(const QKnxNetIpDib &amp;<i>dib</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIp::DescriptionType </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipservicefamiliesdibproxy.htm#descriptionType" translate="no">descriptionType</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipservicefamiliesdibproxy.htm#isValid" translate="no">isValid</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVector&lt;QKnxServiceInfo&gt; </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipservicefamiliesdibproxy.htm#serviceInfos" translate="no">serviceInfos</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="static-public-members"></a>
+<h2 id="static-public-members">Static Public Members<a class="plink" href="#static-public-members" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIpServiceFamiliesDibProxy::Builder </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipservicefamiliesdibproxy.htm#builder" translate="no">builder</a></b>()</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QKnxNetIpServiceFamiliesDibProxy-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A KNXnet/IP supported service families DIB structure contains a set of supported services and their corresponding versions. The service family is the high octet of the service type ID and the service family version is an integer representing the service family version. It refers to the version of the corresponding KNXnet/IP document, not to the manufacturer's implemented version.</p>
+<div class="admonition note">
+<p><b>Note: </b>When using QKnxNetIpServiceFamiliesDibProxy, care must be taken to ensure that the referenced KNXnet/IP DIB structure outlives the proxy on all code paths, lest the proxy ends up referencing deleted data.</p>
+</div>
+<p>Reading the supported service families can be achieved like this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> dib <span class="operator">=</span> <span class="type"><a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a></span><span class="operator">::</span>fromBytes(<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>);
+
+<span class="type">QKnxNetIpServiceFamiliesDibProxy</span> proxy(dib);
+<span class="keyword">if</span> (<span class="operator">!</span>proxy<span class="operator">.</span>isValid())
+    <span class="keyword">return</span>;
+
+<span class="keyword">auto</span> infos <span class="operator">=</span> proxy<span class="operator">.</span>serviceInfos();</pre></div>
+</div>
+<p><b>See also </b><a href="./qknxnetipservicefamiliesdibproxy.htm#builder" translate="no">builder</a>() and <a href="./qtknx-netip.htm" translate="no">Qt KNXnet/IP Connection Classes</a>.</p>
+<!-- @@@QKnxNetIpServiceFamiliesDibProxy -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QKnxNetIpServiceFamiliesDibProxy$$$QKnxNetIpServiceFamiliesDibProxyconstQKnxNetIpDib& -->
+<h3 class="fn" id="QKnxNetIpServiceFamiliesDibProxy-2" translate="no"><a name="QKnxNetIpServiceFamiliesDibProxy-2"></a>QKnxNetIpServiceFamiliesDibProxy::<span class="name">QKnxNetIpServiceFamiliesDibProxy</span>(const <span class="type"><a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a></span> &amp;<i>dib</i>)<a class="plink" href="#QKnxNetIpServiceFamiliesDibProxy-2" title="Direct link to this headline"></a></h3>
+<p>Constructs a proxy object with the specified KNXnet/IP DIB structure <i translate="no">dib</i> to read the supported service families and versions.</p>
+<!-- @@@QKnxNetIpServiceFamiliesDibProxy -->
+<!-- $$$builder[overload1]$$$builder -->
+<h3 class="fn" id="builder" translate="no"><a name="builder"></a><code translate="no">[static] </code><span class="type"><a href="./qknxnetipservicefamiliesdibproxy-builder.htm" translate="no">QKnxNetIpServiceFamiliesDibProxy::Builder</a></span> QKnxNetIpServiceFamiliesDibProxy::<span class="name">builder</span>()<a class="plink" href="#builder" title="Direct link to this headline"></a></h3>
+<p>Returns a builder object to create a KNXnet/IP service families DIB structure.</p>
+<!-- @@@builder -->
+<!-- $$$descriptionType[overload1]$$$descriptionType -->
+<h3 class="fn" id="descriptionType" translate="no"><a name="descriptionType"></a><span class="type">QKnxNetIp::DescriptionType</span> QKnxNetIpServiceFamiliesDibProxy::<span class="name">descriptionType</span>() const<a class="plink" href="#descriptionType" title="Direct link to this headline"></a></h3>
+<p>Returns the description type of this KNXnet/IP structure if the object that was passed during construction was valid; otherwise returns <a href="./qknx-netip.htm#HostProtocol-enum" translate="no">QKnx::NetIp::Unknown</a>.</p>
+<!-- @@@descriptionType -->
+<!-- $$$isValid[overload1]$$$isValid -->
+<h3 class="fn" id="isValid" translate="no"><a name="isValid"></a><span class="type">bool</span> QKnxNetIpServiceFamiliesDibProxy::<span class="name">isValid</span>() const<a class="plink" href="#isValid" title="Direct link to this headline"></a></h3>
+<p>Returns <code translate="no">true</code> if the KNXnet/IP structure to create the object is a valid KNXnet/IP DIB structure; otherwise returns <code translate="no">false</code>.</p>
+<!-- @@@isValid -->
+<!-- $$$serviceInfos[overload1]$$$serviceInfos -->
+<h3 class="fn" id="serviceInfos" translate="no"><a name="serviceInfos"></a><span class="type"><a href="./qvector.htm" translate="no">QVector</a></span>&lt;<span class="type"><a href="./qknxserviceinfo.htm" translate="no">QKnxServiceInfo</a></span>&gt; QKnxNetIpServiceFamiliesDibProxy::<span class="name">serviceInfos</span>() const<a class="plink" href="#serviceInfos" title="Direct link to this headline"></a></h3>
+<p>Returns a vector of the <a href="./qknxserviceinfo.htm" translate="no">QKnxServiceInfo</a> carried by this KNXnet/IP DIB structure if the object that was passed during construction was valid; otherwise returns an empty vector.</p>
+<!-- @@@serviceInfos -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,186 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relating Things | QDoc Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/18-qdoc-commands-relating.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qdoc-index.htm" translate="no">QDoc Manual</a></li>
+                            <li><a>Relating Things</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="17-qdoc-commands-thread.html" rel="prev">
+<link href="19-qdoc-commands-grouping.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./17-qdoc-commands-thread.htm">Thread Support</a>
+<a class="" href="./19-qdoc-commands-grouping.htm">Grouping Things</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Relating Things</h1>
+<span class="subtitle"></span>
+<!-- $$$18-qdoc-commands-relating.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>The relating commands are for specifying how one documented element relates to another documented element. Some examples:</p>
+<ul>
+<li>This function is an overload of another function.</li>
+<li>This function is a reimplementation of another function.</li>
+<li>This typedef is <i>related</i> to some class or header file.</li>
+</ul>
+<p>There is also a command for documenting that a QML type inherits some other QML type.</p>
+<a name="commands"></a>
+<h2 id="commands">Commands<a class="plink" href="#commands" title="Direct link to this headline"></a></h2>
+<a name="inherits-command"></a><a name="inherits"></a>
+<h3 id="inherits">\inherits<a class="plink" href="#inherits" title="Direct link to this headline"></a></h3>
+<p>The \inherits command is for documenting that one QML type inherits some other QML type. It must be included in the inheriting element's <a href="./13-qdoc-commands-topics.htm#qmltype-command" translate="no">\qmltype</a> comment. The argument is the name of the inherited QML type.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \qmltype PauseAnimation
+    \instantiates <span class="type">QDeclarativePauseAnimation</span>
+    \ingroup qml<span class="operator">-</span>animation<span class="operator">-</span>transition
+    \since <span class="number">4.7</span>
+    \inherits Animation
+    \brief The PauseAnimation element provides a pause <span class="keyword">for</span> an animation<span class="operator">.</span>
+
+    When used in a SequentialAnimation<span class="operator">,</span> PauseAnimation is a step
+    when nothing happens<span class="operator">,</span> <span class="keyword">for</span> a specified duration<span class="operator">.</span>
+
+    A <span class="number">500ms</span> animation sequence<span class="operator">,</span> with a <span class="number">100ms</span> pause between two animations:
+
+    SequentialAnimation {
+        NumberAnimation { <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> duration: <span class="number">200</span> }
+        PauseAnimation { duration: <span class="number">100</span> }
+        NumberAnimation { <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> duration: <span class="number">200</span> }
+    }
+
+    \sa {QML Animation and Transitions}<span class="operator">,</span> {declarative<span class="operator">/</span>animation<span class="operator">/</span>basics}{Animation basics example}
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>QDoc includes this line on the reference page for the <a href="./qml-qtquick-pauseanimation.htm" translate="no">PauseAnimation</a> element:</p>
+<blockquote><p>Inherits <a href="./qml-qtquick-animation.htm" translate="no">Animation</a></p>
+</blockquote>
+<a name="overload-command"></a><a name="overload"></a>
+<h3 id="overload">\overload<a class="plink" href="#overload" title="Direct link to this headline"></a></h3>
+<p>The \overload command is for indicating that a function is a secondary overload of its name.</p>
+<p>The command must stand on its own line.</p>
+<p>For a function name that is overloaded (except constructors), QDoc expects one primary version of the function, and all the others marked with the <b>\overload command</b>. The primary version should be fully documented. Each overload can have whatever extra documentation you want to add for just that overloaded version.</p>
+<p>You can include the function name plus '()' as a parameter to the <b>\overload</b> command, which will include a standard <i>This function overloads...</i> line of text with a link to the documentation for the primary version of the function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \overload addAction()
+
+    This convenience function creates a <span class="keyword">new</span> action with an
+    \a icon and some \a text<span class="operator">.</span> The function adds the newly
+    created action to the menu<span class="char">'s list of actions, and
+    returns it.
+
+    \sa QWidget::addAction()
+* /
+QAction *QMenu::addAction(const QIcon &amp;icon, const QString &amp;text)
+{
+    QAction *ret = new QAction(icon, text, this);
+    addAction(ret);
+    return ret;
+}
+</span></pre></div>
+<p>QDoc renders this as:</p>
+<blockquote> <h3><a href="http://doc.qt.io/qt-5/qaction.html">QAction</a>
+        * QMenu::addAction ( const QIcon &amp; <i>icon</i>,
+        const QString &amp; <i>text</i> )
+        </h3>
+<p>This function overloads <a href="./qmenu.htm#addAction" translate="no">addAction()</a></p>
+<p>This convenience function creates a new action with an <i>icon</i> and some <i>text</i>. The function adds the newly created action to the menu's list of actions, and returns it.</p>
+<p>See also <a href="./qwidget.htm#addAction" translate="no">QWidget::addAction</a>().</p>
+</blockquote>
+<p>If you don't include the function name with the <b>\overload</b> command, then instead of the "This function overloads..." line with the link to the documentation for the primary version, you get the old standard line:</p>
+<blockquote><p>This is an overloaded member function, provided for convenience.</p>
+</blockquote>
+<p>.</p>
+<a name="reimp-command"></a><a name="reimp"></a>
+<h3 id="reimp">\reimp<a class="plink" href="#reimp" title="Direct link to this headline"></a></h3>
+<p>The \reimp command is for indicating that a function is a reimplementation of a virtual function.</p>
+<p>The command must stand on its own line.</p>
+<p>QDoc will omit the reimplemented function from the class reference.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \reimp
+<span class="operator">*</span> <span class="operator">/</span>
+<span class="type">void</span> <span class="type"><a href="./qtoolbutton.htm" translate="no">QToolButton</a></span><span class="operator">::</span>nextCheckState()
+{
+    Q_D(<span class="type"><a href="./qtoolbutton.htm" translate="no">QToolButton</a></span>);
+    <span class="keyword">if</span> (<span class="operator">!</span>d<span class="operator">-</span><span class="operator">&gt;</span>defaultAction)
+        <span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>nextCheckState();
+    <span class="keyword">else</span>
+        d<span class="operator">-</span><span class="operator">&gt;</span>defaultAction<span class="operator">-</span><span class="operator">&gt;</span>trigger();
+}</pre></div>
+<p>This function will not be included in the documentation. Instead, a link to the base function <a href="./qabstractbutton.htm#nextCheckState" translate="no">QAbstractButton::nextCheckState</a>() will appear in the documentation.</p>
+<a name="relates-command"></a><a name="relates"></a>
+<h3 id="relates">\relates<a class="plink" href="#relates" title="Direct link to this headline"></a></h3>
+<p>The \relates command is for including the documentation of a global element to some class or header file. The argument is a class name or header file.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+    \relates <span class="type"><a href="./qchar.htm" translate="no">QChar</a></span>
+
+    Reads a <span class="type">char</span> from the stream \a in into <span class="type">char</span> \a chr<span class="operator">.</span>
+
+    \sa {Format of the <span class="type"><a href="./qdatastream.htm" translate="no">QDataStream</a></span> operators}
+<span class="operator">*</span> <span class="operator">/</span>
+<span class="type"><a href="./qdatastream.htm" translate="no">QDataStream</a></span> <span class="operator">&amp;</span><span class="keyword">operator</span><span class="operator">&gt;</span><span class="operator">&gt;</span>(<span class="type"><a href="./qdatastream.htm" translate="no">QDataStream</a></span> <span class="operator">&amp;</span>in<span class="operator">,</span> <span class="type"><a href="./qchar.htm" translate="no">QChar</a></span> <span class="operator">&amp;</span>chr)
+{
+    <span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span> u;
+    in <span class="operator">&gt;</span><span class="operator">&gt;</span> u;
+    chr<span class="operator">.</span>unicode() <span class="operator">=</span> <span class="type"><a href="./qtglobal.htm#ushort-typedef" translate="no">ushort</a></span>(u);
+    <span class="keyword">return</span> in;
+}</pre></div>
+<p>The documentation for this function will be included on the reference page for class <a href="./qchar.htm" translate="no">QChar</a>.</p>
+</div>
+<!-- @@@18-qdoc-commands-relating.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./17-qdoc-commands-thread.htm">Thread Support</a>
+<a class="nextPage" href="./19-qdoc-commands-grouping.htm">Grouping Things</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

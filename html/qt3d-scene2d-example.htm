@@ -1,0 +1,195 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt 3D: Scene2D QML Example | Qt 3D</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qt3d-index.htm" translate="no">Qt 3D</a></li>
+                            <li><a>Qt 3D: Scene2D QML Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt 3D: Scene2D QML Example</h1>
+<span class="subtitle"></span>
+<!-- $$$scene2d-brief -->
+<p>A QML application that demonstrates using Qt Quick 2 within a Qt 3D scene.</p>
+<!-- @@@scene2d -->
+<!-- $$$scene2d-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/scene2d.png"></p><p><i><a href="./qt3dscene2d-module.htm#scene2d" translate="no">Scene2D</a></i> demonstrates rendering a Qt Quick 2 scene into a texture and utilising the texture within a Qt 3D application including handling mouse events. The 3D scene contains a single active camera and renders a 3D Qt logo along with some controls declared with Qt Quick Controls.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="setting-up-the-3d-scene"></a>
+<h4 id="setting-up-the-3d-scene">Setting up the 3D Scene<a class="plink" href="#setting-up-the-3d-scene" title="Direct link to this headline"></a></h4>
+<p>We set up the 3D scene in an Entity that acts as the root of the object tree. The virtual camera is specified in <i>main.qml</i>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qt3d-render-camera.htm" translate="no">Camera</a></span> {
+        <span class="name">id</span>: <span class="name">camera</span>
+        <span class="name">projectionType</span>: <span class="name">CameraLens</span>.<span class="name">PerspectiveProjection</span>
+        <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>( <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">20</span> )
+    }</pre></div>
+<p>The <a href="./qml-qt3d-render-rendersettings.htm" translate="no">RenderSettings</a> specify the rendering algorithm used and also enable triangle based picking which is needed to properly handle mouse events when projecting a Qt Quick scene onto 3D geometry:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qt3d-render-rendersettings.htm" translate="no">RenderSettings</a></span> {
+            <span class="name">activeFrameGraph</span>: <span class="name">ForwardRenderer</span> {
+                <span class="name">camera</span>: <span class="name">camera</span>
+                <span class="name">clearColor</span>: <span class="string">"white"</span>
+            }
+            <span class="name">pickingSettings</span>.pickMethod: <span class="name">PickingSettings</span>.<span class="name">TrianglePicking</span>
+        },</pre></div>
+<p>The 3D Qt logo that will be controlled by the controls in the Qt Quick scene is declared with:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qt3d-core-entity.htm" translate="no">Entity</a></span> {
+        <span class="name">id</span>: <span class="name">logoEntity</span>
+
+        <span class="type"><a href="./qml-qt3d-core-transform.htm" translate="no">Transform</a></span> {
+            <span class="name">id</span>: <span class="name">logoTransform</span>
+            <span class="name">scale</span>: <span class="number">1</span>
+            <span class="name">translation</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>( <span class="number">0</span>, <span class="number">0</span>, <span class="name">logoControls</span>.<span class="name">logoCentreZ</span> )
+            <span class="name">rotation</span>: <span class="name">fromEulerAngles</span>( <span class="name">logoControls</span>.<span class="name">rotationX</span>,
+                                       <span class="name">logoControls</span>.<span class="name">rotationY</span>,
+                                       <span class="name">logoControls</span>.<span class="name">rotationZ</span> )
+        }
+
+        <span class="type"><a href="./qml-qt3d-render-mesh.htm" translate="no">Mesh</a></span> {
+            <span class="name">id</span>: <span class="name">logoMesh</span>
+            <span class="name">source</span>: <span class="string">"Qt_logo.obj"</span>
+        }
+
+        <span class="type"><a href="./qml-qt3d-extras-phongmaterial.htm" translate="no">PhongMaterial</a></span> {
+            <span class="name">id</span>: <span class="name">logoMaterial</span>
+            <span class="name">diffuse</span>: <span class="name">Qt</span>.<span class="name">rgba</span>( <span class="name">logoControls</span>.<span class="name">colorR</span><span class="operator">/</span><span class="number">255</span>,
+                              <span class="name">logoControls</span>.<span class="name">colorG</span><span class="operator">/</span><span class="number">255</span>,
+                              <span class="name">logoControls</span>.<span class="name">colorB</span><span class="operator">/</span><span class="number">255</span>, <span class="number">1.0</span> )
+            <span class="name">ambient</span>: <span class="name">Qt</span>.<span class="name">rgba</span>( <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">1.0</span> )
+            <span class="name">shininess</span>: <span class="name">logoControls</span>.<span class="name">shininess</span>
+        }
+
+        <span class="name">components</span>: [ <span class="name">logoTransform</span>, <span class="name">logoMesh</span>, <span class="name">logoMaterial</span> ]
+    }</pre></div>
+<p>It simply consists of a Mesh component to load the geometry; a PhongMaterial component to give it a surface appearance, and a Transform component to specify its postion, orientation, and scale. The properties of these components are bound to properties on the logoControls element which we will discuss next.</p>
+<a name="rendering-qt-quick-into-a-texture"></a>
+<h4 id="rendering-qt-quick-into-a-texture">Rendering Qt Quick into a Texture<a class="plink" href="#rendering-qt-quick-into-a-texture" title="Direct link to this headline"></a></h4>
+<p>We begin by declaring the Entity that will become our control panel. It consists of a <a href="./qml-qt3d-extras-cuboidmesh.htm" translate="no">CuboidMesh</a> onto which we will place the texture containing a rendering of the Qt Quick scene. In this case we are using a simple cube for the geometry, but we could use any valid 3D geometry as long as it has texture coordinates. The texture coordinates are used for projecting the texture onto the 3D surface, and also for calculating the coordinates of mouse events to be passed to the originating Qt Quick scene.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qt3d-core-entity.htm" translate="no">Entity</a></span> {
+        <span class="name">id</span>: <span class="name">cube</span>
+
+        <span class="name">components</span>: [<span class="name">cubeTransform</span>, <span class="name">cubeMaterial</span>, <span class="name">cubeMesh</span>, <span class="name">cubePicker</span>]
+
+        property <span class="type">real</span> <span class="name">rotationAngle</span>: <span class="number">0</span>
+
+        <span class="type"><a href="./qml-qt3d-core-transform.htm" translate="no">Transform</a></span> {
+            <span class="name">id</span>: <span class="name">cubeTransform</span>
+            <span class="name">translation</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">2</span>, <span class="number">0</span>, <span class="number">10</span>)
+            <span class="name">scale3D</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>)
+            <span class="name">rotation</span>: <span class="name">fromAxisAndAngle</span>(<span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>), <span class="name">cube</span>.<span class="name">rotationAngle</span>)
+        }
+
+        <span class="type"><a href="./qml-qt3d-extras-cuboidmesh.htm" translate="no">CuboidMesh</a></span> {
+            <span class="name">id</span>: <span class="name">cubeMesh</span>
+        }</pre></div>
+<p>We also include an <a href="./qml-qt3d-render-objectpicker.htm" translate="no">ObjectPicker</a> component so that we can interact with the controls using the mouse:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qt3d-render-objectpicker.htm" translate="no">ObjectPicker</a></span> {
+            <span class="name">id</span>: <span class="name">cubePicker</span>
+            <span class="name">hoverEnabled</span>: <span class="number">true</span>
+            <span class="name">dragEnabled</span>: <span class="number">true</span>
+
+            <span class="comment">// Explicitly require a middle click to have the Scene2D grab the mouse</span>
+            <span class="comment">// events from the picker</span>
+            <span class="name">onPressed</span>: {
+                <span class="keyword">if</span> (<span class="name">pick</span>.<span class="name">button</span> <span class="operator">===</span> <span class="name">PickEvent</span>.<span class="name">MiddleButton</span>) {
+                    <span class="name">qmlTexture</span>.<span class="name">mouseEnabled</span> <span class="operator">=</span> !<span class="name">qmlTexture</span>.<span class="name">mouseEnabled</span>
+                    <span class="name">logoControls</span>.<span class="name">enabled</span> <span class="operator">=</span> !<span class="name">logoControls</span>.<span class="name">enabled</span>
+                }
+            }
+        }</pre></div>
+<p>For this example we have chosen to use an interaction mechanism whereby you must explicitly middle-click the controls to enable them.</p>
+<p>To apply the texture to the mesh, we make use of the built in TextureMaterial:</p>
+<div class="pre"><pre class="cpp" translate="no">        <span class="type">TextureMaterial</span> {
+            <span class="name">id</span>: <span class="name">cubeMaterial</span>
+            <span class="name">texture</span>: <span class="name">offscreenTexture</span>
+        }</pre></div>
+<p>The final remaining piece is how to render the above texture from a Qt Quick scene. This is done with the <a href="./qt3dscene2d-module.htm#scene2d" translate="no">Scene2D</a> element:</p>
+<div class="pre"><pre class="cpp" translate="no">        <span class="type"><a href="./qml-qtquick-scene2d-scene2d.htm" translate="no">Scene2D</a></span> {
+            <span class="name">id</span>: <span class="name">qmlTexture</span>
+            <span class="name">output</span>: <span class="name">RenderTargetOutput</span> {
+                <span class="name">attachmentPoint</span>: <span class="name">RenderTargetOutput</span>.<span class="name">Color0</span>
+                <span class="name">texture</span>: <span class="name">Texture2D</span> {
+                    <span class="name">id</span>: <span class="name">offscreenTexture</span>
+                    <span class="name">width</span>: <span class="number">256</span>
+                    <span class="name">height</span>: <span class="number">1024</span>
+                    <span class="name">format</span>: <span class="name">Texture</span>.<span class="name">RGBA8_UNorm</span>
+                    <span class="name">generateMipMaps</span>: <span class="number">true</span>
+                    <span class="name">magnificationFilter</span>: <span class="name">Texture</span>.<span class="name">Linear</span>
+                    <span class="name">minificationFilter</span>: <span class="name">Texture</span>.<span class="name">LinearMipMapLinear</span>
+                    <span class="type">wrapMode</span> {
+                        <span class="name">x</span>: <span class="name">WrapMode</span>.<span class="name">ClampToEdge</span>
+                        <span class="name">y</span>: <span class="name">WrapMode</span>.<span class="name">ClampToEdge</span></pre></div>
+<p>where we have made use of the <a href="./qml-qt3d-render-texture2d.htm" translate="no">Texture2D</a> and <a href="./qml-qt3d-render-rendertargetoutput.htm" translate="no">RenderTargetOutput</a> types to create a destination texture and attach it as the output of the <a href="./qt3dscene2d-module.htm#scene2d" translate="no">Scene2D</a> renderer.</p>
+<p>Next, we tell the <a href="./qt3dscene2d-module.htm#scene2d" translate="no">Scene2D</a> object which entities may feed it input events and we initially disable the handling of mouse events:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                    }
+                }
+            }
+
+            <span class="name">entities</span>: [ <span class="name">cube</span> ]</pre></div>
+<p>Finally, we can specify the Qt Quick scene to render by adding a custom QML component as a child to the <a href="./qt3dscene2d-module.htm#scene2d" translate="no">Scene2D</a> element:</p>
+<div class="pre"><pre class="cpp" translate="no">            <span class="type">LogoControls</span> {
+                <span class="name">id</span>: <span class="name">logoControls</span>
+                <span class="name">width</span>: <span class="name">offscreenTexture</span>.<span class="name">width</span>
+                <span class="name">height</span>: <span class="name">offscreenTexture</span>.<span class="name">height</span>
+            }
+        }</pre></div>
+<p>When the mouseEnabled property is set to true by the <a href="./qml-qt3d-render-objectpicker.htm" translate="no">ObjectPicker</a>, then the <a href="./qt3dscene2d-module.htm#scene2d" translate="no">Scene2D</a> object will process mouse events from any ObjectPickers attached to the listed entities. In this way, you have the freedom to use the texture generated by the <a href="./qt3dscene2d-module.htm#scene2d" translate="no">Scene2D</a> object in any way you wish, even on more than one Entity.</p>
+<p>The <i>LogoControls.qml</i> file is just a regular Qt Quick 2 scene which in this case also makes use of the Qt Quick Controls components.</p>
+<p><a href="https://code.qt.io/cgit/qt/qt3d.git/tree/examples/qt3d/scene2d?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@scene2d -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,154 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QWebEngineUrlRequestJob | Qt WebEngine</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qwebengineurlrequestjob.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a></li>
+                            <li><a href="./qtwebengine-modules.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QWebEngineUrlRequestJob</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QWebEngineUrlRequestJob Class</h1>
+<!-- $$$QWebEngineUrlRequestJob-brief -->
+<p>The QWebEngineUrlRequestJob class represents a custom URL request. <a href="#details">More...</a></p>
+<!-- @@@QWebEngineUrlRequestJob -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QWebEngineUrlRequestJob&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.6</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qobject.htm" translate="no">QObject</a></td></tr></tbody></table></div><p>This class was introduced in Qt 5.6.</p>
+<ul>
+<li><a href="./qwebengineurlrequestjob-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#Error-enum" translate="no">Error</a></b> { NoError, UrlNotFound, UrlInvalid, RequestAborted, RequestDenied, RequestFailed }</td></tr>
+</tbody></table></div>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#fail" translate="no">fail</a></b>(QWebEngineUrlRequestJob::Error <i>r</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QUrl </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#initiator" translate="no">initiator</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#redirect" translate="no">redirect</a></b>(const QUrl &amp;<i>url</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#reply" translate="no">reply</a></b>(const QByteArray &amp;<i>contentType</i>, QIODevice *<i>device</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QMap&lt;QByteArray, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#requestHeaders" translate="no">requestHeaders</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QByteArray </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#requestMethod" translate="no">requestMethod</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QUrl </td><td class="memItemRight bottomAlign"><b><a href="./qwebengineurlrequestjob.htm#requestUrl" translate="no">requestUrl</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QWebEngineUrlRequestJob-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A QWebEngineUrlRequestJob is given to <a href="./qwebengineurlschemehandler.htm#requestStarted" translate="no">QWebEngineUrlSchemeHandler::requestStarted</a>() and must be handled by the derived implementations of the class. The job can be handled by calling either <a href="./qwebengineurlrequestjob.htm#reply" translate="no">reply</a>(), <a href="./qwebengineurlrequestjob.htm#redirect" translate="no">redirect</a>(), or <a href="./qwebengineurlrequestjob.htm#fail" translate="no">fail</a>().</p>
+<p>The class is owned by the web engine and does not need to be deleted. However, the web engine may delete the job when it is no longer needed, and therefore the signal <a href="./qobject.htm#destroyed" translate="no">QObject::destroyed</a>() must be monitored if a pointer to the object is stored.</p>
+</div>
+<!-- @@@QWebEngineUrlRequestJob -->
+<div class="types">
+<h2>Member Type Documentation</h2>
+<!-- $$$Error$$$NoError$$$UrlNotFound$$$UrlInvalid$$$RequestAborted$$$RequestDenied$$$RequestFailed -->
+<h3 class="fn" id="Error-enum" translate="no"><a name="Error-enum"></a>enum QWebEngineUrlRequestJob::<span class="name">Error</span><a class="plink" href="#Error-enum" title="Direct link to this headline"></a></h3>
+<p>This enum type holds the type of the error that occurred:</p>
+<div class="table"><table class="valuelist"><tbody><tr class="odd" valign="top"><th class="tblConst">Constant</th><th class="tblval">Value</th><th class="tbldscr">Description</th></tr>
+<tr><td class="topAlign"><code translate="no">QWebEngineUrlRequestJob::NoError</code></td><td class="topAlign tblval"><code translate="no">0</code></td><td class="topAlign">The request was successful.</td></tr>
+<tr><td class="topAlign"><code translate="no">QWebEngineUrlRequestJob::UrlNotFound</code></td><td class="topAlign tblval"><code translate="no">1</code></td><td class="topAlign">The requested URL was not found.</td></tr>
+<tr><td class="topAlign"><code translate="no">QWebEngineUrlRequestJob::UrlInvalid</code></td><td class="topAlign tblval"><code translate="no">2</code></td><td class="topAlign">The requested URL is invalid.</td></tr>
+<tr><td class="topAlign"><code translate="no">QWebEngineUrlRequestJob::RequestAborted</code></td><td class="topAlign tblval"><code translate="no">3</code></td><td class="topAlign">The request was canceled.</td></tr>
+<tr><td class="topAlign"><code translate="no">QWebEngineUrlRequestJob::RequestDenied</code></td><td class="topAlign tblval"><code translate="no">4</code></td><td class="topAlign">The request was denied.</td></tr>
+<tr><td class="topAlign"><code translate="no">QWebEngineUrlRequestJob::RequestFailed</code></td><td class="topAlign tblval"><code translate="no">5</code></td><td class="topAlign">The request failed.</td></tr>
+</tbody></table></div>
+<!-- @@@Error -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$fail[overload1]$$$failQWebEngineUrlRequestJob::Error -->
+<h3 class="fn" id="fail" translate="no"><a name="fail"></a><span class="type">void</span> QWebEngineUrlRequestJob::<span class="name">fail</span>(<span class="type"><a href="./qwebengineurlrequestjob.htm#Error-enum" translate="no">QWebEngineUrlRequestJob::Error</a></span> <i>r</i>)<a class="plink" href="#fail" title="Direct link to this headline"></a></h3>
+<p>Fails the request with the error <i translate="no">r</i>.</p>
+<p><b>See also </b><a href="./qwebengineurlrequestjob.htm#Error-enum" translate="no">Error</a>.</p>
+<!-- @@@fail -->
+<!-- $$$initiator[overload1]$$$initiator -->
+<h3 class="fn" id="initiator" translate="no"><a name="initiator"></a><span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> QWebEngineUrlRequestJob::<span class="name">initiator</span>() const<a class="plink" href="#initiator" title="Direct link to this headline"></a></h3>
+<p>Returns the serialized origin of the content that initiated the request.</p>
+<p>Generally, the origin consists of a scheme, hostname, and port. For example, <code translate="no">"http://localhost:8080"</code> would be a valid origin. The port is omitted if it is the scheme's default port (80 for <code translate="no">http</code>, 443 for <code translate="no">https</code>). The hostname is omitted for non-network schemes such as <code translate="no">file</code> and <code translate="no">qrc</code>.</p>
+<p>However, there is also the special value <code translate="no">"null"</code> representing a unique origin. It is, for example, the origin of a sandboxed iframe. The purpose of this special origin is to be always different from all other origins in the same-origin check. In other words, content with a unique origin should never have privileged access to any other content.</p>
+<p>Finally, if the request was not initiated by web content, the function will return an empty <a href="./qurl.htm" translate="no">QUrl</a>. This happens, for example, when you call <a href="./qwebenginepage.htm#url-prop" translate="no">QWebEnginePage::setUrl</a>().</p>
+<p>This value can be used for implementing secure cross-origin checks.</p>
+<p>This function was introduced in Qt 5.11.</p>
+<!-- @@@initiator -->
+<!-- $$$redirect[overload1]$$$redirectconstQUrl& -->
+<h3 class="fn" id="redirect" translate="no"><a name="redirect"></a><span class="type">void</span> QWebEngineUrlRequestJob::<span class="name">redirect</span>(const <span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> &amp;<i>url</i>)<a class="plink" href="#redirect" title="Direct link to this headline"></a></h3>
+<p>Redirects the request to <i translate="no">url</i>.</p>
+<!-- @@@redirect -->
+<!-- $$$reply[overload1]$$$replyconstQByteArray&QIODevice* -->
+<h3 class="fn" id="reply" translate="no"><a name="reply"></a><span class="type">void</span> QWebEngineUrlRequestJob::<span class="name">reply</span>(const <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> &amp;<i>contentType</i>, <span class="type"><a href="./qiodevice.htm" translate="no">QIODevice</a></span> *<i>device</i>)<a class="plink" href="#reply" title="Direct link to this headline"></a></h3>
+<p>Replies to the request with <i translate="no">device</i> and the MIME type <i translate="no">contentType</i>.</p>
+<p>The user has to be aware that <i translate="no">device</i> will be used on another thread until the job is deleted. In case simultaneous access from the main thread is desired, the user is reponsible for making access to <i translate="no">device</i> thread-safe for example by using <a href="./qmutex.htm" translate="no">QMutex</a>. Note that the <i translate="no">device</i> object is not owned by the web engine. Therefore, the signal <a href="./qobject.htm#destroyed" translate="no">QObject::destroyed</a>() of <a href="./qwebengineurlrequestjob.htm" translate="no">QWebEngineUrlRequestJob</a> must be monitored.</p>
+<p>The device should remain available at least as long as the job exists. When calling this method with a newly constructed device, one solution is to make the device as a child of the job or delete itself when job is deleted, like this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">connect(job<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span><span class="operator">::</span>destroyed<span class="operator">,</span> device<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span><span class="operator">::</span>deleteLater);</pre></div>
+<!-- @@@reply -->
+<!-- $$$requestHeaders[overload1]$$$requestHeaders -->
+<h3 class="fn" id="requestHeaders" translate="no"><a name="requestHeaders"></a><span class="type"><a href="./qmap.htm" translate="no">QMap</a></span>&lt;<span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span>, <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span>&gt; QWebEngineUrlRequestJob::<span class="name">requestHeaders</span>() const<a class="plink" href="#requestHeaders" title="Direct link to this headline"></a></h3>
+<p>Returns any HTTP headers added to the request.</p>
+<p>This function was introduced in Qt 5.13.</p>
+<!-- @@@requestHeaders -->
+<!-- $$$requestMethod[overload1]$$$requestMethod -->
+<h3 class="fn" id="requestMethod" translate="no"><a name="requestMethod"></a><span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> QWebEngineUrlRequestJob::<span class="name">requestMethod</span>() const<a class="plink" href="#requestMethod" title="Direct link to this headline"></a></h3>
+<p>Returns the HTTP method of the request (for example, GET or POST).</p>
+<!-- @@@requestMethod -->
+<!-- $$$requestUrl[overload1]$$$requestUrl -->
+<h3 class="fn" id="requestUrl" translate="no"><a name="requestUrl"></a><span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span> QWebEngineUrlRequestJob::<span class="name">requestUrl</span>() const<a class="plink" href="#requestUrl" title="Direct link to this headline"></a></h3>
+<p>Returns the requested URL.</p>
+<!-- @@@requestUrl -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

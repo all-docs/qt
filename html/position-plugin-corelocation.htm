@@ -1,0 +1,117 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Positioning Core Location plugin | Qt Positioning</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtpositioning-index.htm" translate="no">Qt Positioning</a></li>
+                            <li><a>Qt Positioning Core Location plugin</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Positioning Core Location plugin</h1>
+<span class="subtitle"></span>
+<!-- $$$position-plugin-corelocation.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="overview"></a>
+<h2 id="overview">Overview<a class="plink" href="#overview" title="Direct link to this headline"></a></h2>
+<p>The plugin wraps iOS and macOS positioning subsystems. It is only available on Apple platforms that support corelocation. The plugin provides only positioning information.</p>
+<p>This plugin can be loaded by using the provider name <b>corelocation</b>.</p>
+<a name="parameters"></a>
+<h2 id="parameters">Parameters<a class="plink" href="#parameters" title="Direct link to this headline"></a></h2>
+<p>The following table lists parameters that <i>can</i> be passed to the corelocation plugin.</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Parameter</th><th>Description</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>RequestAlwaysPermission</td><td>Ask permissions for using location not only while using the application, but also in background. The parameter is a <code translate="no">bool</code>, so it accepts either <code translate="no">true</code> or <code translate="no">false</code>. If the parameter is not specified, it is considered to be <code translate="no">false</code>.</td></tr>
+</tbody></table></div>
+<p>On iOS, the application can ask for two levels of location permissions:</p>
+<ul>
+<li><b>When In Use</b> - makes location updates available only when someone uses your app.</li>
+<li><b>Always</b> - makes location updates available at any time, and lets the system launch your app quietly to handle some updates.</li>
+</ul>
+<p>By default, only the <b>When In Use</b> permission is requested. The <code translate="no">RequestAlwaysPermission</code> parameter is used to explicitly reqeust for <b>Always</b> permission.</p>
+<a name="position-source-usage-example"></a>
+<h2 id="position-source-usage-example">Position source usage example<a class="plink" href="#position-source-usage-example" title="Direct link to this headline"></a></h2>
+<p>The following examples show how to create a <b>corelocation</b> <a href="./qml-qtpositioning-positionsource.htm" translate="no">PositionSource</a> using different permission levels.</p>
+<a name="qml"></a>
+<h3 id="qml">QML<a class="plink" href="#qml" title="Direct link to this headline"></a></h3>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// default - When In Use permission.</span>
+PositionSource {
+    name: <span class="string">"corelocation"</span>
+}
+<span class="comment">// RequestAlwaysPermission = false. Same as default.</span>
+PositionSource {
+    name: <span class="string">"corelocation"</span>
+    PluginParameter { name: <span class="string">"RequestAlwaysPermission"</span>; value: <span class="keyword">false</span> }
+}
+<span class="comment">// RequestAlwaysPermission = true. Request Always permission.</span>
+PositionSource {
+    name: <span class="string">"corelocation"</span>
+    PluginParameter { name: <span class="string">"RequestAlwaysPermission"</span>; value: <span class="keyword">true</span> }
+}</pre></div>
+<a name="c"></a>
+<h3 id="c">C++<a class="plink" href="#c" title="Direct link to this headline"></a></h3>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// default - When In Use permission.</span>
+<span class="type"><a href="./qgeopositioninfosource.htm" translate="no">QGeoPositionInfoSource</a></span> <span class="operator">*</span>defaultSource
+                <span class="operator">=</span> <span class="type"><a href="./qgeopositioninfosource.htm" translate="no">QGeoPositionInfoSource</a></span><span class="operator">::</span>createSource(<span class="string">"corelocation"</span><span class="operator">,</span> <span class="keyword">this</span>);
+<span class="comment">// RequestAlwaysPermission = false. Same as default.</span>
+params<span class="operator">[</span><span class="string">"RequestAlwaysPermission"</span><span class="operator">]</span> <span class="operator">=</span> <span class="keyword">false</span>;
+<span class="type"><a href="./qgeopositioninfosource.htm" translate="no">QGeoPositionInfoSource</a></span> <span class="operator">*</span>whenInUseSource
+                <span class="operator">=</span> <span class="type"><a href="./qgeopositioninfosource.htm" translate="no">QGeoPositionInfoSource</a></span><span class="operator">::</span>createSource(<span class="string">"corelocation"</span><span class="operator">,</span> params<span class="operator">,</span> <span class="keyword">this</span>);
+<span class="comment">// RequestAlwaysPermission = true. Request Always permission.</span>
+params<span class="operator">[</span><span class="string">"RequestAlwaysPermission"</span><span class="operator">]</span> <span class="operator">=</span> <span class="keyword">true</span>;
+<span class="type"><a href="./qgeopositioninfosource.htm" translate="no">QGeoPositionInfoSource</a></span> <span class="operator">*</span>alwaysSource
+                <span class="operator">=</span> <span class="type"><a href="./qgeopositioninfosource.htm" translate="no">QGeoPositionInfoSource</a></span><span class="operator">::</span>createSource(<span class="string">"corelocation"</span><span class="operator">,</span> params<span class="operator">,</span> <span class="keyword">this</span>);</pre></div>
+</div>
+<!-- @@@position-plugin-corelocation.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

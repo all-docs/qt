@@ -1,0 +1,190 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qtgui.qdocconf with notes | QDoc Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtgui-qdocconf.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qdoc-index.htm" translate="no">QDoc Manual</a></li>
+                            <li><a>Qtgui.qdocconf with notes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qtgui.qdocconf with notes</h1>
+<span class="subtitle"></span>
+<!-- $$$qtgui-qdocconf.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>This document goes through a typical Qt 5 qdocconf file. The contents is taken from Qt GUI's <i>qtgui.qdocconf</i> file.</p>
+<p>Below you will find the full contents of <code translate="no">qtgui.qdocconf</code>. The subsequent section will discuss every statement in the qdocconf file.</p>
+<div class="pre"><pre class="cpp plain" translate="no">include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)
+
+project                 = QtGui
+description             = Qt GUI Reference Documentation
+url                     = http://doc.qt.io/qt-5
+version                 = $QT_VERSION
+
+examplesinstallpath     = gui
+
+qhp.projects            = QtGui
+
+qhp.QtGui.file         = qtgui.qhp
+qhp.QtGui.namespace           = org.qt-project.qtgui.$QT_VERSION_TAG
+qhp.QtGui.virtualFolder       = qtgui
+qhp.QtGui.indexTitle          = Qt GUI
+qhp.QtGui.indexRoot           =
+
+qhp.QtGui.subprojects         = classes
+qhp.QtGui.subprojects.classes.title = C++ Classes
+qhp.QtGui.subprojects.classes.indexTitle = Qt GUI C++ Classes
+qhp.QtGui.subprojects.classes.selectors = class fake:headerfile
+qhp.QtGui.subprojects.classes.sortPages = true
+
+tagfile                 = ../../../doc/qtgui/qtgui.tags
+
+depends += \
+    qtcore \
+    qtnetwork \
+    qtopengl \
+    qtsvg \
+    qtqml \
+    qtquick \
+    qtwidgets \
+    qtdoc
+
+headerdirs  += ..
+
+sourcedirs  += .. \
+               ../../../examples/gui/doc/src
+
+excludedirs  = ../../../examples/gui/doc/src/tmp
+
+exampledirs += ../../../examples/gui \
+               snippets
+
+imagedirs   += images \
+               ../../../examples/gui/doc/images \
+               ../../../doc/src/images \</pre></div>
+<div class="pre"><pre class="cpp plain" translate="no">include($QT_INSTALL_DOCS/global/qt-module-defaults.qdocconf)</pre></div>
+<p>QDoc inherits the default templates, macros, and settings from the directory specified from the <code translate="no">$QT_INSTALL_DOCS</code> variable. <code translate="no">qmake</code> prints the value of the variable.</p>
+<div class="pre"><pre class="cpp plain" translate="no">qmake -query</pre></div>
+<p><b>See also</b>: <a href="./12-0-qdoc-commands-miscellaneous.htm#include" translate="no">include</a>.</p>
+<div class="pre"><pre class="cpp plain" translate="no">project                 = QtGui</pre></div>
+<p>The <code translate="no">project</code> variable sets the name of the QDoc build. This name is also used to form the index file, which, in this case, will be <i>qtgui.index</i>. The name of the index file doesn't adopt the uppercase letters of the project name.</p>
+<p><b>See also</b>: <a href="./25-qdoc-configuration-derivedprojects.htm#project" translate="no">project</a>.</p>
+<div class="pre"><pre class="cpp plain" translate="no">description             = Qt GUI Reference Documentation</pre></div>
+<p>A short description of the project concerned.</p>
+<div class="pre"><pre class="cpp plain" translate="no">url                     = http://doc.qt.io/qt-5</pre></div>
+<p>The <code translate="no">url</code> variable holds the base url of the project.</p>
+<p>The URL is stored in the generated index file for the project. QDoc will use this as the base URL when constructing external links to content listed in the index.</p>
+<div class="admonition note">
+<p><b>Note: </b>QDoc omits this value when the -installdir argument is specified when running QDoc.</p>
+</div>
+<a name="examplesinstallpath"></a><div class="pre"><pre class="cpp plain" translate="no">examplesinstallpath     = gui</pre></div>
+<p>This <code translate="no">examplesinstallpath</code> variable indicates that the examples will be installed in the <i>gui</i> directory under the parent examples directory (for Qt, this is $QT_INSTALL_EXAMPLES).</p>
+<div class="admonition note">
+<p><b>Note: </b>The examplepath variable has to match the example directory specified in <code translate="no">exampledirs</code>.</p>
+</div>
+<div class="admonition note">
+<p><b>Note: </b>It is possible to override the <code translate="no">exampleinstallpath</code> for a specific <a href="./13-qdoc-commands-topics.htm#example-command" translate="no">\example</a> using the <a href="./12-0-qdoc-commands-miscellaneous.htm#meta-command" translate="no">\meta</a> command.</p>
+</div>
+<p><b>See also</b>: <a href="./22-qdoc-configuration-generalvariables.htm#exampledirs" translate="no">exampledirs</a> and <a href="./12-0-qdoc-commands-miscellaneous.htm#meta-command" translate="no">\meta</a>.</p>
+<div class="pre"><pre class="cpp plain" translate="no">qhp.projects    = QtGui
+qhp.QtGui.file  = qtgui.qhp</pre></div>
+<p>The following parameters are for creating a QHP file (<i>.qhp</i>). The <i>qhelpgenerator</i> program can convert the QHP file into a QCH file (<i>.qch</i>), which can be opened in Qt Assistant or Qt Creator.</p>
+<div class="pre"><pre class="cpp plain" translate="no">qhp.QtGui.namespace           = org.qt-project.qtgui.$QT_VERSION_TAG</pre></div>
+<p>A unique identifier which enables <a href="./qhelpengine.htm" translate="no">QHelpEngine</a> to retrieve the helpfile from a given link. This namespace is also used as a base url for links to the helpfile.</p>
+<div class="pre"><pre class="cpp plain" translate="no">qhp.QtGui.virtualFolder       = qtgui</pre></div>
+<p>Virtual folders group documentation together into a single location. A virtual folder will become the root directory of all files referenced in a compressed help file.</p>
+<p>When two manuals are located in the same virtual folder, it is possible to refer to sections of the other manual using relative paths. The virtual folder tag is mandatory and the folder must not contain any '/'.</p>
+<div class="pre"><pre class="cpp plain" translate="no">qhp.QtGui.indexTitle          = Qt GUI</pre></div>
+<p>This is the title of the page that has the contents.</p>
+<div class="pre"><pre class="cpp plain" translate="no">qhp.QtGui.indexRoot           =</pre></div>
+<p>Specifies the title of the root (namespace) page to generate the documentation for. Typically defined as an empty string.</p>
+<div class="pre"><pre class="cpp plain" translate="no">qhp.QtGui.subprojects         = classes
+qhp.QtGui.subprojects.classes.title = C++ Classes
+qhp.QtGui.subprojects.classes.indexTitle = Qt GUI C++ Classes</pre></div>
+<p>The subprojects specify the sections that are displayed in the table of contents for this project. In this example, the subproject, which is displayed in the Assistant's sidebar, is named "C++ Classes" and its index is the page titled "QT GUI C++ Classes".</p>
+<div class="pre"><pre class="cpp plain" translate="no">qhp.QtGui.subprojects.classes.selectors = class fake:headerfile</pre></div>
+<p>Lists all C++ classes and header files.</p>
+<p>See <a href="./22-creating-help-project-files.htm" translate="no">Creating Help Project Files</a> for more information.</p>
+<div class="pre"><pre class="cpp plain" translate="no">tagfile                 = ../../../doc/qtgui/qtgui.tags</pre></div>
+<p>This specifies the Doxygen tag file that needs to be written when the html is generated by QDoc.</p>
+<div class="pre"><pre class="cpp plain" translate="no">depends += \
+   qtcore \
+   qtnetwork \
+   qtopengl \
+   qtsvg \
+   qtqml \
+   qtquick \
+   qtwidgets \
+   qtdoc</pre></div>
+<p>Specifies the modules QDoc needs to load for generating output for Qt GUI. QDoc loads the index files for all modules listed in the depends statement in order to enable linking to pages in these modules.</p>
+<div class="pre"><pre class="cpp plain" translate="no">headerdirs  += ..</pre></div>
+<p>Add the parent directory to the list of directories containing the header files associated with the <i>.cpp</i> source files.</p>
+<div class="pre"><pre class="cpp plain" translate="no">sourcedirs  += .. \
+               ../../../examples/gui/doc/src</pre></div>
+<p>Add the specified directories to the list of directories containing the <i>.cpp</i> and <i>.qdoc</i> files used in the documentation.</p>
+<div class="pre"><pre class="cpp plain" translate="no">excludedirs  = ../../../examples/gui/doc/src/tmp</pre></div>
+<p>The <code translate="no">excludedirs</code> variable is for listing directories that should not be processed by QDoc, even if the same directories are included by the <code translate="no">sourcedirs</code> or <code translate="no">headerdirs</code> variables.</p>
+<p>When executed, QDoc will ignore the directories listed. <b>See also</b>: <a href="./22-qdoc-configuration-generalvariables.htm#excludefiles" translate="no">excludefiles</a>.</p>
+<div class="pre"><pre class="cpp plain" translate="no">exampledirs += ../../../examples/gui \
+               snippets</pre></div>
+<p><b>See also</b>: <a href="./22-qdoc-configuration-generalvariables.htm#examples-variable" translate="no">examples</a>, <a href="./qtgui-qdocconf.htm#examplesinstallpath" translate="no">examplesinstallpath</a>.</p>
+<p>Add the two directories specified to the list of directories containing the source code of the example files.</p>
+<p>If QDoc encounters both <code translate="no">exampledirs</code> and <code translate="no">examples</code>, it will look first in the <code translate="no">examples</code> directory. QDoc will accept the first matching file it finds. QDoc will search in the directories specified, not in their subdirectories.</p>
+<div class="pre"><pre class="cpp plain" translate="no">imagedirs   += images \
+               ../../../examples/gui/doc/images \
+               ../../../doc/src/images \</pre></div>
+<p>Add the directories specified above to the list of directories where the images can be found.</p>
+</div>
+<!-- @@@qtgui-qdocconf.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

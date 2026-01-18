@@ -1,0 +1,165 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QTouchEvent | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtouchevent.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a href="./qtgui-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QTouchEvent</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QTouchEvent Class</h1>
+<!-- $$$QTouchEvent-brief -->
+<p>The QTouchEvent class contains parameters that describe a touch event. <a href="#details">More...</a></p>
+<!-- @@@QTouchEvent -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QTouchEvent&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += gui</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 4.6</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qinputevent.htm" translate="no">QInputEvent</a></td></tr></tbody></table></div><p>This class was introduced in Qt 4.6.</p>
+<ul>
+<li><a href="./qtouchevent-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2 id="public-types">Public Types<a class="plink" href="#public-types" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> class </td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent-touchpoint.htm" translate="no">TouchPoint</a></b></td></tr>
+</tbody></table></div>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent.htm#QTouchEvent" translate="no">QTouchEvent</a></b>(QEvent::Type <i>eventType</i>, QTouchDevice *<i>device</i> = nullptr, Qt::KeyboardModifiers <i>modifiers</i> = Qt::NoModifier, Qt::TouchPointStates <i>touchPointStates</i> = Qt::TouchPointStates(), const QList&lt;QTouchEvent::TouchPoint&gt; &amp;<i>touchPoints</i> = QList&lt;QTouchEvent::TouchPoint&gt;())</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent.htm#dtor.QTouchEvent" translate="no">~QTouchEvent</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QTouchDevice *</td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent.htm#device" translate="no">device</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QObject *</td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent.htm#target" translate="no">target</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Qt::TouchPointStates </td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent.htm#touchPointStates" translate="no">touchPointStates</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> const QList&lt;QTouchEvent::TouchPoint&gt; &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent.htm#touchPoints" translate="no">touchPoints</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QWindow *</td><td class="memItemRight bottomAlign"><b><a href="./qtouchevent.htm#window" translate="no">window</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QTouchEvent-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<a name="enabling-touch-events"></a>
+<h3 id="enabling-touch-events">Enabling Touch Events<a class="plink" href="#enabling-touch-events" title="Direct link to this headline"></a></h3>
+<p>Touch events occur when pressing, releasing, or moving one or more touch points on a touch device (such as a touch-screen or track-pad). To receive touch events, widgets have to have the <a href="./qt.htm#WidgetAttribute-enum" translate="no">Qt::WA_AcceptTouchEvents</a> attribute set and graphics items need to have the <a href="./qgraphicsitem.htm#setAcceptTouchEvents" translate="no">acceptTouchEvents</a> attribute set to true.</p>
+<p>When using <a href="./qabstractscrollarea.htm" translate="no">QAbstractScrollArea</a> based widgets, you should enable the <a href="./qt.htm#WidgetAttribute-enum" translate="no">Qt::WA_AcceptTouchEvents</a> attribute on the scroll area's <a href="./qabstractscrollarea.htm#viewport" translate="no">viewport</a>.</p>
+<p>Similarly to <a href="./qmouseevent.htm" translate="no">QMouseEvent</a>, Qt automatically grabs each touch point on the first press inside a widget, and the widget will receive all updates for the touch point until it is released. Note that it is possible for a widget to receive events for numerous touch points, and that multiple widgets may be receiving touch events at the same time.</p>
+<a name="event-handling"></a>
+<h3 id="event-handling">Event Handling<a class="plink" href="#event-handling" title="Direct link to this headline"></a></h3>
+<p>All touch events are of type <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a>, <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchUpdate</a>, <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchEnd</a> or <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchCancel</a>. Reimplement <a href="./qwidget.htm#event" translate="no">QWidget::event</a>() or <a href="./qabstractscrollarea.htm#viewportEvent" translate="no">QAbstractScrollArea::viewportEvent</a>() for widgets and <a href="./qgraphicsitem.htm#sceneEvent" translate="no">QGraphicsItem::sceneEvent</a>() for items in a graphics view to receive touch events.</p>
+<p>Unlike widgets, QWindows receive touch events always, there is no need to opt in. When working directly with a <a href="./qwindow.htm" translate="no">QWindow</a>, it is enough to reimplement <a href="./qwindow.htm#touchEvent" translate="no">QWindow::touchEvent</a>().</p>
+<p>The <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchUpdate</a> and <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchEnd</a> events are sent to the widget or item that accepted the <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> event. If the <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> event is not accepted and not filtered by an event filter, then no further touch events are sent until the next <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a>.</p>
+<p>Some systems may send an event of type <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchCancel</a>. Upon receiving this event applications are requested to ignore the entire active touch sequence. For example in a composited system the compositor may decide to treat certain gestures as system-wide gestures. Whenever such a decision is made (the gesture is recognized), the clients will be notified with a <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchCancel</a> event so they can update their state accordingly.</p>
+<p>The <a href="./qtouchevent.htm#touchPoints" translate="no">touchPoints</a>() function returns a list of all touch points contained in the event. Note that this list may be empty, for example in case of a <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchCancel</a> event. Information about each touch point can be retrieved using the <a href="./qtouchevent-touchpoint.htm" translate="no">QTouchEvent::TouchPoint</a> class. The <a href="./qt.htm#TouchPointState-enum" translate="no">Qt::TouchPointState</a> enum describes the different states that a touch point may have.</p>
+<div class="admonition note">
+<p><b>Note: </b>The list of <a href="./qtouchevent.htm#touchPoints" translate="no">touchPoints</a>() will never be partial: A touch event will always contain a touch point for each existing physical touch contacts targetting the window or widget to which the event is sent. For instance, assuming that all touches target the same window or widget, an event with a condition of <a href="./qtouchevent.htm#touchPoints" translate="no">touchPoints</a>().count()==2 is guaranteed to imply that the number of fingers touching the touchscreen or touchpad is exactly two.</p>
+</div>
+<a name="event-delivery-and-propagation"></a>
+<h3 id="event-delivery-and-propagation">Event Delivery and Propagation<a class="plink" href="#event-delivery-and-propagation" title="Direct link to this headline"></a></h3>
+<p>By default, <a href="./qguiapplication.htm" translate="no">QGuiApplication</a> translates the first touch point in a QTouchEvent into a <a href="./qmouseevent.htm" translate="no">QMouseEvent</a>. This makes it possible to enable touch events on existing widgets that do not normally handle QTouchEvent. See below for information on some special considerations needed when doing this.</p>
+<p><a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> is the first touch event sent to a widget. The <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> event contains a special accept flag that indicates whether the receiver wants the event. By default, the event is accepted. You should call <a href="./qevent.htm#ignore" translate="no">ignore</a>() if the touch event is not handled by your widget. The <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> event is propagated up the parent widget chain until a widget accepts it with <a href="./qevent.htm#accept" translate="no">accept</a>(), or an event filter consumes it. For QGraphicsItems, the <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> event is propagated to items under the mouse (similar to mouse event propagation for QGraphicsItems).</p>
+<a name="touch-point-grouping"></a>
+<h3 id="touch-point-grouping">Touch Point Grouping<a class="plink" href="#touch-point-grouping" title="Direct link to this headline"></a></h3>
+<p>As mentioned above, it is possible that several widgets can be receiving QTouchEvents at the same time. However, Qt makes sure to never send duplicate <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> events to the same widget, which could theoretically happen during propagation if, for example, the user touched 2 separate widgets in a <a href="./qgroupbox.htm" translate="no">QGroupBox</a> and both widgets ignored the <a href="./qevent.htm#Type-enum" translate="no">QEvent::TouchBegin</a> event.</p>
+<p>To avoid this, Qt will group new touch points together using the following rules:</p>
+<ul>
+<li>When the first touch point is detected, the destination widget is determined firstly by the location on screen and secondly by the propagation rules.</li>
+<li>When additional touch points are detected, Qt first looks to see if there are any active touch points on any ancestor or descendent of the widget under the new touch point. If there are, the new touch point is grouped with the first, and the new touch point will be sent in a single QTouchEvent to the widget that handled the first touch point. (The widget under the new touch point will not receive an event).</li>
+</ul>
+<p>This makes it possible for sibling widgets to handle touch events independently while making sure that the sequence of QTouchEvents is always correct.</p>
+<a name="mouse-events-and-touch-event-synthesizing"></a>
+<h3 id="mouse-events-and-touch-event-synthesizing">Mouse Events and Touch Event Synthesizing<a class="plink" href="#mouse-events-and-touch-event-synthesizing" title="Direct link to this headline"></a></h3>
+<p>QTouchEvent delivery is independent from that of <a href="./qmouseevent.htm" translate="no">QMouseEvent</a>. The application flags <a href="./qt.htm#ApplicationAttribute-enum" translate="no">Qt::AA_SynthesizeTouchForUnhandledMouseEvents</a> and <a href="./qt.htm#ApplicationAttribute-enum" translate="no">Qt::AA_SynthesizeMouseForUnhandledTouchEvents</a> can be used to enable or disable automatic synthesizing of touch events to mouse events and mouse events to touch events.</p>
+<a name="caveats"></a>
+<h3 id="caveats">Caveats<a class="plink" href="#caveats" title="Direct link to this headline"></a></h3>
+<ul>
+<li>As mentioned above, enabling touch events means multiple widgets can be receiving touch events simultaneously. Combined with the default <a href="./qwidget.htm#event" translate="no">QWidget::event</a>() handling for QTouchEvents, this gives you great flexibility in designing touch user interfaces. Be aware of the implications. For example, it is possible that the user is moving a <a href="./qslider.htm" translate="no">QSlider</a> with one finger and pressing a <a href="./qpushbutton.htm" translate="no">QPushButton</a> with another. The signals emitted by these widgets will be interleaved.</li>
+<li>Recursion into the event loop using one of the exec() methods (e.g., <a href="./qdialog.htm#exec" translate="no">QDialog::exec</a>() or <a href="./qmenu.htm#exec" translate="no">QMenu::exec</a>()) in a QTouchEvent event handler is not supported. Since there are multiple event recipients, recursion may cause problems, including but not limited to lost events and unexpected infinite recursion.</li>
+<li>QTouchEvents are not affected by a <a href="./qwidget.htm#grabMouse" translate="no">mouse grab</a> or an <a href="./qapplication.htm#activePopupWidget" translate="no">active pop-up widget</a>. The behavior of QTouchEvents is undefined when opening a pop-up or grabbing the mouse while there are more than one active touch points.</li>
+</ul>
+</div>
+<p><b>See also </b><a href="./qtouchevent-touchpoint.htm" translate="no">QTouchEvent::TouchPoint</a>, <a href="./qt.htm#TouchPointState-enum" translate="no">Qt::TouchPointState</a>, <a href="./qt.htm#WidgetAttribute-enum" translate="no">Qt::WA_AcceptTouchEvents</a>, and <a href="./qgraphicsitem.htm#acceptTouchEvents" translate="no">QGraphicsItem::acceptTouchEvents</a>().</p>
+<!-- @@@QTouchEvent -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QTouchEvent[overload1]$$$QTouchEventQEvent::TypeQTouchDevice*Qt::KeyboardModifiersQt::TouchPointStatesconstQList<QTouchEvent::TouchPoint>& -->
+<h3 class="fn" id="QTouchEvent" translate="no"><a name="QTouchEvent"></a>QTouchEvent::<span class="name">QTouchEvent</span>(<span class="type"><a href="./qevent.htm#Type-enum" translate="no">QEvent::Type</a></span> <i>eventType</i>, <span class="type"><a href="./qtouchdevice.htm" translate="no">QTouchDevice</a></span> *<i>device</i> = nullptr, <span class="type"><a href="./qt.htm#KeyboardModifier-enum" translate="no">Qt::KeyboardModifiers</a></span> <i>modifiers</i> = Qt::NoModifier, <span class="type"><a href="./qt.htm#TouchPointState-enum" translate="no">Qt::TouchPointStates</a></span> <i>touchPointStates</i> = Qt::TouchPointStates(), const <span class="type">QList</span>&lt;<span class="type"><a href="./qtouchevent-touchpoint.htm" translate="no">QTouchEvent::TouchPoint</a></span>&gt; &amp;<i>touchPoints</i> = QList&lt;QTouchEvent::TouchPoint&gt;())<a class="plink" href="#QTouchEvent" title="Direct link to this headline"></a></h3>
+<p>Constructs a QTouchEvent with the given <i translate="no">eventType</i>, <i translate="no">device</i>, and <i translate="no">touchPoints</i>. The <i translate="no">touchPointStates</i> and <i translate="no">modifiers</i> are the current touch point states and keyboard modifiers at the time of the event.</p>
+<!-- @@@QTouchEvent -->
+<!-- $$$~QTouchEvent[overload1]$$$~QTouchEvent -->
+<h3 class="fn" id="dtor.QTouchEvent" translate="no"><a name="dtor.QTouchEvent"></a><code translate="no">[virtual] </code>QTouchEvent::<span class="name">~QTouchEvent</span>()<a class="plink" href="#dtor.QTouchEvent" title="Direct link to this headline"></a></h3>
+<p>Destroys the <a href="./qtouchevent.htm" translate="no">QTouchEvent</a>.</p>
+<!-- @@@~QTouchEvent -->
+<!-- $$$device[overload1]$$$device -->
+<h3 class="fn" id="device" translate="no"><a name="device"></a><span class="type"><a href="./qtouchdevice.htm" translate="no">QTouchDevice</a></span> *QTouchEvent::<span class="name">device</span>() const<a class="plink" href="#device" title="Direct link to this headline"></a></h3>
+<p>Returns the touch device from which this touch event originates.</p>
+<!-- @@@device -->
+<!-- $$$target[overload1]$$$target -->
+<h3 class="fn" id="target" translate="no"><a name="target"></a><span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> *QTouchEvent::<span class="name">target</span>() const<a class="plink" href="#target" title="Direct link to this headline"></a></h3>
+<p>Returns the target object within the window on which the event occurred. This is typically a <a href="./qwidget.htm" translate="no">QWidget</a> or a <a href="./qquickitem.htm" translate="no">QQuickItem</a>. May be 0 when no specific target is available.</p>
+<!-- @@@target -->
+<!-- $$$touchPointStates[overload1]$$$touchPointStates -->
+<h3 class="fn" id="touchPointStates" translate="no"><a name="touchPointStates"></a><span class="type"><a href="./qt.htm#TouchPointState-enum" translate="no">Qt::TouchPointStates</a></span> QTouchEvent::<span class="name">touchPointStates</span>() const<a class="plink" href="#touchPointStates" title="Direct link to this headline"></a></h3>
+<p>Returns a bitwise OR of all the touch point states for this event.</p>
+<!-- @@@touchPointStates -->
+<!-- $$$touchPoints[overload1]$$$touchPoints -->
+<h3 class="fn" id="touchPoints" translate="no"><a name="touchPoints"></a>const <span class="type">QList</span>&lt;<span class="type"><a href="./qtouchevent-touchpoint.htm" translate="no">QTouchEvent::TouchPoint</a></span>&gt; &amp;QTouchEvent::<span class="name">touchPoints</span>() const<a class="plink" href="#touchPoints" title="Direct link to this headline"></a></h3>
+<p>Returns the list of touch points contained in the touch event.</p>
+<!-- @@@touchPoints -->
+<!-- $$$window[overload1]$$$window -->
+<h3 class="fn" id="window" translate="no"><a name="window"></a><span class="type"><a href="./qwindow.htm" translate="no">QWindow</a></span> *QTouchEvent::<span class="name">window</span>() const<a class="plink" href="#window" title="Direct link to this headline"></a></h3>
+<p>Returns the window on which the event occurred. Useful for doing global-local mapping on data like rawScreenPositions() which, for performance reasons, only stores the global positions in the touch event.</p>
+<!-- @@@window -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

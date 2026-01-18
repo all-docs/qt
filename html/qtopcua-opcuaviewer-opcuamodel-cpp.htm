@@ -1,0 +1,233 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt OPC UA Viewer Example | Qt OPC UA</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtopcua-opcuaviewer-opcuamodel-cpp.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtopcua-index.htm" translate="no">Qt OPC UA</a></li>
+                            <li><a href="./qtopcua-examples.htm" translate="no">Qt OPC UA Examples</a></li>
+                            <li><a>Qt OPC UA Viewer Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt OPC UA Viewer Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2018 The Qt Company Ltd.
+** Contact: http://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt OPC UA module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#include "opcuamodel.h"</span>
+<span class="preprocessor">#include "treeitem.h"</span>
+<span class="preprocessor">#include &lt;QOpcUaClient&gt;</span>
+<span class="preprocessor">#include &lt;QOpcUaNode&gt;</span>
+<span class="preprocessor">#include &lt;QIcon&gt;</span>
+
+OpcUaModel<span class="operator">::</span>OpcUaModel(<span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="operator">*</span>parent) : <span class="type"><a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a></span>(parent)
+{
+}
+
+<span class="type">void</span> OpcUaModel<span class="operator">::</span>setOpcUaClient(<span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span> <span class="operator">*</span>client)
+{
+    beginResetModel();
+    mOpcUaClient <span class="operator">=</span> client;
+    <span class="keyword">if</span> (mOpcUaClient)
+        mRootItem<span class="operator">.</span>reset(<span class="keyword">new</span> TreeItem(client<span class="operator">-</span><span class="operator">&gt;</span>node(<span class="string">"ns=0;i=84"</span>)<span class="operator">,</span> <span class="keyword">this</span> <span class="comment">/* model */</span><span class="operator">,</span> nullptr <span class="comment">/* parent */</span>));
+    <span class="keyword">else</span>
+        mRootItem<span class="operator">.</span>reset(nullptr);
+    endResetModel();
+}
+
+<span class="type"><a href="./qopcuaclient.htm" translate="no">QOpcUaClient</a></span> <span class="operator">*</span>OpcUaModel<span class="operator">::</span>opcUaClient() <span class="keyword">const</span>
+{
+    <span class="keyword">return</span> mOpcUaClient;
+}
+
+<span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> OpcUaModel<span class="operator">::</span>data(<span class="keyword">const</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span> <span class="operator">&amp;</span>index<span class="operator">,</span> <span class="type">int</span> role) <span class="keyword">const</span>
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>index<span class="operator">.</span>isValid())
+        <span class="keyword">return</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>();
+
+    <span class="keyword">auto</span> item <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>TreeItem <span class="operator">*</span><span class="operator">&gt;</span>(index<span class="operator">.</span>internalPointer());
+
+    <span class="keyword">switch</span> (role) {
+    <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>DisplayRole:
+        <span class="keyword">return</span> item<span class="operator">-</span><span class="operator">&gt;</span>data(index<span class="operator">.</span>column());
+    <span class="keyword">case</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>DecorationRole:
+        <span class="keyword">if</span> (index<span class="operator">.</span>column() <span class="operator">=</span><span class="operator">=</span> <span class="number">0</span>)
+            <span class="keyword">return</span> item<span class="operator">-</span><span class="operator">&gt;</span>icon(index<span class="operator">.</span>column());
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        <span class="keyword">break</span>;
+    }
+
+    <span class="keyword">return</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>();
+}
+
+<span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> OpcUaModel<span class="operator">::</span>headerData(<span class="type">int</span> section<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Orientation orientation<span class="operator">,</span> <span class="type">int</span> role) <span class="keyword">const</span>
+{
+    <span class="keyword">if</span> (role <span class="operator">!</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>DisplayRole)
+        <span class="keyword">return</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>();
+
+    <span class="keyword">if</span> (orientation <span class="operator">=</span><span class="operator">=</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Vertical)
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Row %1"</span>)<span class="operator">.</span>arg(section);
+
+    <span class="keyword">switch</span> (section) {
+    <span class="keyword">case</span> <span class="number">0</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"BrowseName"</span>);
+    <span class="keyword">case</span> <span class="number">1</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Value"</span>);
+    <span class="keyword">case</span> <span class="number">2</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"NodeClass"</span>);
+    <span class="keyword">case</span> <span class="number">3</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"DataType"</span>);
+    <span class="keyword">case</span> <span class="number">4</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"NodeId"</span>);
+    <span class="keyword">case</span> <span class="number">5</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"DisplayName"</span>);
+    <span class="keyword">case</span> <span class="number">6</span>:
+        <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Description"</span>);
+    <span class="keyword">default</span>:
+        <span class="keyword">break</span>;
+    }
+    <span class="keyword">return</span> <span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Column %1"</span>)<span class="operator">.</span>arg(section);
+}
+
+<span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span> OpcUaModel<span class="operator">::</span>index(<span class="type">int</span> row<span class="operator">,</span> <span class="type">int</span> column<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span> <span class="operator">&amp;</span>parent) <span class="keyword">const</span>
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>hasIndex(row<span class="operator">,</span> column<span class="operator">,</span> parent))
+        <span class="keyword">return</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span>();
+
+    TreeItem <span class="operator">*</span>item <span class="operator">=</span> parent<span class="operator">.</span>isValid()
+        <span class="operator">?</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>TreeItem<span class="operator">*</span><span class="operator">&gt;</span>(parent<span class="operator">.</span>internalPointer())<span class="operator">-</span><span class="operator">&gt;</span>child(row)
+        : mRootItem<span class="operator">.</span>get();
+
+    <span class="keyword">return</span> item <span class="operator">?</span> createIndex(row<span class="operator">,</span> column<span class="operator">,</span> item) : <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span>();
+}
+
+<span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span> OpcUaModel<span class="operator">::</span>parent(<span class="keyword">const</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span> <span class="operator">&amp;</span>index) <span class="keyword">const</span>
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>index<span class="operator">.</span>isValid())
+        <span class="keyword">return</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span>();
+
+    <span class="keyword">auto</span> childItem <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>TreeItem<span class="operator">*</span><span class="operator">&gt;</span>(index<span class="operator">.</span>internalPointer());
+    <span class="keyword">auto</span> parentItem <span class="operator">=</span> childItem<span class="operator">-</span><span class="operator">&gt;</span>parentItem();
+
+    <span class="keyword">if</span> (childItem <span class="operator">=</span><span class="operator">=</span> mRootItem<span class="operator">.</span>get() <span class="operator">|</span><span class="operator">|</span> <span class="operator">!</span>parentItem)
+        <span class="keyword">return</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span>();
+
+    <span class="keyword">return</span> createIndex(parentItem<span class="operator">-</span><span class="operator">&gt;</span>row()<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> parentItem);
+}
+
+<span class="type">int</span> OpcUaModel<span class="operator">::</span>rowCount(<span class="keyword">const</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span> <span class="operator">&amp;</span>parent) <span class="keyword">const</span>
+{
+
+    <span class="keyword">if</span> (<span class="operator">!</span>mOpcUaClient)
+        <span class="keyword">return</span> <span class="number">0</span>;
+
+    <span class="keyword">if</span> (parent<span class="operator">.</span>column() <span class="operator">&gt;</span> <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="number">0</span>;
+
+    <span class="keyword">if</span> (<span class="operator">!</span>parent<span class="operator">.</span>isValid())
+        <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// only one root item</span>
+
+    <span class="keyword">auto</span> parentItem <span class="operator">=</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>TreeItem<span class="operator">*</span><span class="operator">&gt;</span>(parent<span class="operator">.</span>internalPointer());
+    <span class="keyword">return</span> parentItem <span class="operator">?</span> parentItem<span class="operator">-</span><span class="operator">&gt;</span>childCount() : <span class="number">0</span>;
+}
+
+<span class="type">int</span> OpcUaModel<span class="operator">::</span>columnCount(<span class="keyword">const</span> <span class="type"><a href="./qmodelindex.htm" translate="no">QModelIndex</a></span> <span class="operator">&amp;</span>parent) <span class="keyword">const</span>
+{
+    <span class="keyword">if</span> (parent<span class="operator">.</span>isValid())
+        <span class="keyword">return</span> <span class="keyword">static_cast</span><span class="operator">&lt;</span>TreeItem<span class="operator">*</span><span class="operator">&gt;</span>(parent<span class="operator">.</span>internalPointer())<span class="operator">-</span><span class="operator">&gt;</span>columnCount();
+    <span class="keyword">return</span> mRootItem <span class="operator">?</span> mRootItem<span class="operator">-</span><span class="operator">&gt;</span>columnCount() : <span class="number">0</span>;
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

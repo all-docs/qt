@@ -1,0 +1,75 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Implementing Atomic Operations</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Implementing Atomic Operations</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Implementing Atomic Operations</h1>
+<span class="subtitle"></span>
+<!-- $$$atomic-operations.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt uses an optimization called <a href="./implicit-sharing.htm#implicitly-shared-classes" translate="no">implicit sharing</a> for many of its value classes.</p>
+<p>Starting with Qt 4, all of Qt's implicitly shared classes can safely be copied across threads like any other value classes, i.e., they are fully <a href="./threads-reentrancy.htm" translate="no">reentrant</a>. This is accomplished by implementing reference counting operations using atomic hardware instructions on all the different platforms supported by Qt.</p>
+<p>To support a new architecture, it is important to ensure that these platform-specific atomic operations are implemented in a corresponding header file (<code translate="no">qatomic_ARCH.h</code>), and that this file is located in Qt's <code translate="no">src/corelib/arch</code> directory. For example, the Intel 80386 implementation is located in <code translate="no">src/corelib/arch/qatomic_i386.h</code>.</p>
+<p>Currently, Qt provides two classes providing several atomic operations, <a href="./qatomicint.htm" translate="no">QAtomicInt</a> and <a href="./qatomicpointer.htm" translate="no">QAtomicPointer</a>. These classes inherit from QBasicAtomicInt and <a href="https://doc.qt.io/archives/qt-5.15/qbasicatomicpointer.html" translate="no">QBasicAtomicPointer</a>, respectively.</p>
+<p>When porting Qt to a new architecture, the QBasicAtomicInt and <a href="https://doc.qt.io/archives/qt-5.15/qbasicatomicpointer.html" translate="no">QBasicAtomicPointer</a> classes must be implemented, <i>not</i> <a href="./qatomicint.htm" translate="no">QAtomicInt</a> and <a href="./qatomicpointer.htm" translate="no">QAtomicPointer</a>. The former classes do not have constructors, which makes them POD (plain-old-data). Both classes only have a single member variable called <code translate="no">_q_value</code>, which stores the value. This is the value that all of the atomic operations read and modify.</p>
+<p>All of the member functions mentioned in the <a href="./qatomicint.htm" translate="no">QAtomicInt</a> and <a href="./qatomicpointer.htm" translate="no">QAtomicPointer</a> API documentation must be implemented. Note that these the implementations of the atomic operations in these classes must be atomic with respect to both interrupts and multiple processors.</p>
+<div class="admonition warning">
+<p><b>Warning: </b>The QBasicAtomicInt and <a href="https://doc.qt.io/archives/qt-5.15/qbasicatomicpointer.html" translate="no">QBasicAtomicPointer</a> classes mentioned in this document are used internally by Qt and are not part of the public API. They may change in future versions of Qt. The purpose of this document is to aid people interested in porting Qt to a new architecture.</p>
+</div>
+</div>
+<!-- @@@atomic-operations.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

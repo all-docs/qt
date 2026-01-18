@@ -1,0 +1,159 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TouchEventSequence QML Type | Qt Quick Test</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qttest-toucheventsequence.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquicktest-index.htm" translate="no">Qt Quick Test</a></li>
+                            <li><a href="./qttest-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>TouchEventSequence QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">TouchEventSequence QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$TouchEventSequence-brief -->
+<p>TouchEventSequence is used to build and dispatch touch events for testing. <a href="#details">More...</a></p>
+<!-- @@@TouchEventSequence -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtTest 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.9</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qttest-toucheventsequence-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">TouchEventSequence <b><b><a href="./qml-qttest-toucheventsequence.htm#commit-method" translate="no">commit</a></b></b>()</li>
+<li class="fn" translate="no">TouchEventSequence <b><b><a href="./qml-qttest-toucheventsequence.htm#move-method" translate="no">move</a></b></b>(int <i>touchId</i>, object <i>item</i>, real <i>x</i>, real <i>y</i>)</li>
+<li class="fn" translate="no">TouchEventSequence <b><b><a href="./qml-qttest-toucheventsequence.htm#press-method" translate="no">press</a></b></b>(int <i>touchId</i>, object <i>item</i>, real <i>x</i>, real <i>y</i>)</li>
+<li class="fn" translate="no">TouchEventSequence <b><b><a href="./qml-qttest-toucheventsequence.htm#release-method" translate="no">release</a></b></b>(int <i>touchId</i>, object <i>item</i>, real <i>x</i>, real <i>y</i>)</li>
+<li class="fn" translate="no">TouchEventSequence <b><b><a href="./qml-qttest-toucheventsequence.htm#stationary-method" translate="no">stationary</a></b></b>(int <i>touchId</i>)</li>
+</ul>
+<!-- $$$TouchEventSequence-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A TouchEventSequence is created by calling <a href="./qml-qttest-testcase.htm#touchEvent-method" translate="no">TestCase.touchEvent()</a>. The type can not be directly instantiated. Each method provided by the type returns the same object, allowing chained calls.</p>
+<p>For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">touchEvent(item)<span class="operator">.</span>press(<span class="number">0</span>)<span class="operator">.</span>commit();</pre></div>
+<p>is equivalent to:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">var sequence <span class="operator">=</span> touchEvent(item);
+sequence<span class="operator">.</span>press(<span class="number">0</span>);
+sequence<span class="operator">.</span>commit();</pre></div>
+<p>Events are delivered to the window which contains the item specified in touchEvent.</p>
+<p><b>See also </b><a href="./qml-qttest-testcase.htm#touchEvent-method" translate="no">TestCase::touchEvent()</a>.</p>
+<!-- @@@TouchEventSequence -->
+<h2>Method Documentation</h2>
+<!-- $$$commit[overload1]$$$commit -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="commit-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="commit-method"></a><span class="type"><a href="./qml-qttest-toucheventsequence.htm" translate="no">TouchEventSequence</a></span> <span class="name">commit</span>()<a class="plink" href="#commit-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Sends the touch event composed by prior use of <a href="./qml-qttest-toucheventsequence.htm#press-method" translate="no">press()</a>, <a href="./qml-qttest-toucheventsequence.htm#move-method" translate="no">move()</a>, <a href="./qml-qttest-toucheventsequence.htm#release-method" translate="no">release()</a>, and <a href="./qml-qttest-toucheventsequence.htm#stationary-method" translate="no">stationary()</a>. Following commit's return, the <a href="./qml-qttest-toucheventsequence.htm" translate="no">TouchEventSequence</a> can be used to compose a new event.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">var sequence <span class="operator">=</span> touchEvent(target);
+<span class="comment">// Touch the middle of target with 1 point</span>
+sequence<span class="operator">.</span>press(<span class="number">1</span>);
+sequence<span class="operator">.</span>commit();
+
+<span class="comment">// Begin a new event</span>
+<span class="comment">// Move the point to target's upper left corner</span>
+sequence<span class="operator">.</span>move(<span class="number">1</span><span class="operator">,</span> target<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+sequence<span class="operator">.</span>commit();</pre></div>
+<p>Commit is automatically invoked when the <a href="./qml-qttest-toucheventsequence.htm" translate="no">TouchEventSequence</a> object is destroyed.</p>
+</div></div><!-- @@@commit -->
+<br>
+<!-- $$$move[overload1]$$$moveintobjectrealreal -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="move-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="move-method"></a><span class="type"><a href="./qml-qttest-toucheventsequence.htm" translate="no">TouchEventSequence</a></span> <span class="name">move</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>touchId</i>, <span class="type">object</span> <i>item</i>, <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <i>x</i> = item.width / 2, <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <i>y</i> = item.height / 2)<a class="plink" href="#move-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Moves <i translate="no">touchId</i> to the point indicated by <i>x</i> and <i>y</i> relative to <i translate="no">item</i>.</p>
+<p>Item defaults to the value provided via touchEvent(). X and y default to the midpoint of the item.</p>
+</div></div><!-- @@@move -->
+<br>
+<!-- $$$press[overload1]$$$pressintobjectrealreal -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="press-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="press-method"></a><span class="type"><a href="./qml-qttest-toucheventsequence.htm" translate="no">TouchEventSequence</a></span> <span class="name">press</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>touchId</i>, <span class="type">object</span> <i>item</i>, <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <i>x</i> = item.width / 2, <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <i>y</i> = item.height / 2)<a class="plink" href="#press-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Creates a new point identified as <i translate="no">touchId</i>, at the point indicated by <i>x</i> and <i>y</i> relative to <i translate="no">item</i>. Further use of the same touch point should maintain the same touchId.</p>
+<p>Item defaults to the value provided via touchEvent(). X and y default to the midpoint of the item.</p>
+</div></div><!-- @@@press -->
+<br>
+<!-- $$$release[overload1]$$$releaseintobjectrealreal -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="release-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="release-method"></a><span class="type"><a href="./qml-qttest-toucheventsequence.htm" translate="no">TouchEventSequence</a></span> <span class="name">release</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>touchId</i>, <span class="type">object</span> <i>item</i>, <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <i>x</i> = item.width / 2, <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <i>y</i> = item.height / 2)<a class="plink" href="#release-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Removes <i translate="no">touchId</i> at the point indicated by <i>x</i> and <i>y</i> relative to <i translate="no">item</i>.</p>
+<p>Item defaults to the value provided via touchEvent(). X and y default to the midpoint of the item.</p>
+</div></div><!-- @@@release -->
+<br>
+<!-- $$$stationary[overload1]$$$stationaryint -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="stationary-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="stationary-method"></a><span class="type"><a href="./qml-qttest-toucheventsequence.htm" translate="no">TouchEventSequence</a></span> <span class="name">stationary</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>touchId</i>)<a class="plink" href="#stationary-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Indicates that <i translate="no">touchId</i> is present but otherwise unchanged from prior events.</p>
+</div></div><!-- @@@stationary -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

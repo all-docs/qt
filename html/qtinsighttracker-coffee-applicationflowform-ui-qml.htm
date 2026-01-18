@@ -1,0 +1,214 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Insight - Qt Quick Application | Qt Insight Tracker</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtinsighttracker-index.htm" translate="no">Qt Insight Tracker</a></li>
+                            <li class="last"><a>Qt Insight - Qt Quick Application</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Insight - Qt Quick Application</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// Copyright (C) 2017 The Qt Company Ltd.</span>
+<span class="comment">// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause</span>
+import QtQuick 2.4
+import Coffee 1.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">root</span>
+    <span class="name">width</span>: <span class="name">Constants</span>.<span class="name">width</span>
+    <span class="name">height</span>: <span class="name">Constants</span>.<span class="name">height</span>
+    property <span class="type">alias</span> <span class="name">choosingCoffee</span>: <span class="name">choosingCoffee</span>
+    property <span class="type">alias</span> <span class="name">brewing</span>: <span class="name">brewing</span>
+    property <span class="type">alias</span> <span class="name">emptyCup</span>: <span class="name">emptyCup</span>
+
+    <span class="name">color</span>: <span class="name">Constants</span>.<span class="name">backgroundColor</span>
+
+    <span class="name">state</span>: <span class="name">intital</span>
+
+    <span class="type">EmptyCupForm</span> {
+        <span class="name">id</span>: <span class="name">emptyCup</span>
+        <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">width</span>
+        <span class="name">y</span>: <span class="number">0</span>
+    }
+
+    <span class="type">Brewing</span> {
+        <span class="name">id</span>: <span class="name">brewing</span>
+        <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">2</span>
+        <span class="name">y</span>: <span class="number">0</span>
+    }
+
+    <span class="type">ChoosingCoffee</span> {
+        <span class="name">id</span>: <span class="name">choosingCoffee</span>
+    }
+
+    <span class="name">states</span>: [
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"initial"</span>
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">choosingCoffee</span>
+                <span class="name">selected</span>: <span class="number">false</span>
+                <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">defaultX</span>
+            }
+        },
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"selection"</span>
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">choosingCoffee</span>
+                <span class="name">selected</span>: <span class="number">true</span>
+                <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">defaultX</span>
+            }
+        },
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"settings"</span>
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">choosingCoffee</span>
+                <span class="name">x</span>: -<span class="name">Constants</span>.<span class="name">leftSideBarWidth</span>
+                <span class="name">selected</span>: <span class="number">false</span>
+                <span class="name">inSettings</span>: <span class="number">true</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">emptyCup</span>
+                <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">width</span>
+                <span class="name">y</span>: <span class="number">0</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">brewing</span>
+                <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">2</span>
+                <span class="name">y</span>: <span class="number">0</span>
+            }
+        },
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"empty cup"</span>
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">emptyCup</span>
+                <span class="name">x</span>: <span class="number">0</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">choosingCoffee</span>
+                <span class="name">x</span>: -<span class="name">Constants</span>.<span class="name">width</span> <span class="operator">-</span> <span class="name">Constants</span>.<span class="name">leftSideBarWidth</span>
+                <span class="name">inSettings</span>: <span class="number">true</span>
+                <span class="name">selected</span>: <span class="number">false</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">brewing</span>
+                <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">width</span>
+            }
+        },
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"brewing"</span>
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">emptyCup</span>
+                <span class="name">x</span>: -<span class="name">Constants</span>.<span class="name">width</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">brewing</span>
+                <span class="name">x</span>: <span class="number">0</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">choosingCoffee</span>
+                <span class="name">x</span>: -<span class="name">Constants</span>.<span class="name">width</span> <span class="operator">*</span> <span class="number">2</span> <span class="operator">-</span> <span class="name">Constants</span>.<span class="name">leftSideBarWidth</span>
+            }
+        },
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"finished"</span>
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">emptyCup</span>
+                <span class="name">x</span>: -<span class="name">Constants</span>.<span class="name">width</span>
+                <span class="name">y</span>: <span class="number">0</span>
+                <span class="name">visible</span>: <span class="number">false</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">brewing</span>
+                <span class="name">x</span>: <span class="number">0</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">choosingCoffee</span>
+                <span class="name">x</span>: -<span class="name">Constants</span>.<span class="name">leftSideBarWidth</span> <span class="operator">-</span> <span class="name">Constants</span>.<span class="name">width</span>
+                <span class="name">questionVisible</span>: <span class="number">true</span>
+                <span class="name">inSettings</span>: <span class="number">true</span>
+            }
+        },
+        <span class="type"><a href="./qml-qtquick-state.htm" translate="no">State</a></span> {
+            <span class="name">name</span>: <span class="string">"start"</span>
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">emptyCup</span>
+                <span class="name">x</span>: <span class="number">0</span>
+                <span class="name">visible</span>: <span class="number">false</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">brewing</span>
+                <span class="name">x</span>: <span class="name">Constants</span>.<span class="name">width</span>
+                <span class="name">y</span>: <span class="number">0</span>
+            }
+
+            <span class="type"><a href="./qml-qtquick-propertychanges.htm" translate="no">PropertyChanges</a></span> {
+                <span class="name">target</span>: <span class="name">choosingCoffee</span>
+                <span class="name">x</span>: <span class="number">0</span>
+                <span class="name">inSettings</span>: <span class="number">true</span>
+            }
+        }
+    ]
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

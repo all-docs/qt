@@ -1,0 +1,119 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt 3D: Multi Viewport QML Example | Qt 3D</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qt3d-multiviewport-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qt3d-index.htm" translate="no">Qt 3D</a></li>
+                            <li><a>Qt 3D: Multi Viewport QML Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt 3D: Multi Viewport QML Example</h1>
+<span class="subtitle"></span>
+<!-- $$$multiviewport-brief -->
+<p>A QML example that demonstrates rendering a Scenegraph from multiple viewports.</p>
+<!-- @@@multiviewport -->
+<!-- $$$multiviewport-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/multiviewport-qml-example.jpg"></p><p><i>Multi Viewport</i> renders a Scenegraph from the point of view of four virtual cameras into the four quadrants of a window. This is a common configuration for 3D CAD or modelling tools or could be adjusted to help with rendering a rear-view mirror in a car racing game or a CCTV camera display.</p>
+<p>For more information, see <a href="./qt3drender-framegraph.htm#a-multi-viewport-framegraph" translate="no">A Multi Viewport FrameGraph</a>.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-multiple-renderviews"></a>
+<h4 id="creating-multiple-renderviews">Creating Multiple RenderViews<a class="plink" href="#creating-multiple-renderviews" title="Direct link to this headline"></a></h4>
+<p>Using the rules defined in <a href="./qt3drender-framegraph.htm#framegraph-rules" translate="no">Framegraph Rules</a>, we construct five RenderView objects from the FrameGraph:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qt3d-render-viewport.htm" translate="no">Viewport</a></span> {
+            <span class="name">id</span>: <span class="name">mainViewport</span>
+            <span class="name">normalizedRect</span>: <span class="name">Qt</span>.<span class="name">rect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>)
+
+            <span class="type"><a href="./qml-qt3d-render-clearbuffers.htm" translate="no">ClearBuffers</a></span> {
+                <span class="name">buffers</span>: <span class="name">ClearBuffers</span>.<span class="name">ColorDepthBuffer</span>
+                <span class="name">clearColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.6</span>, <span class="number">0.6</span>, <span class="number">0.6</span>, <span class="number">1.0</span>)
+            }
+
+            <span class="type"><a href="./qml-qt3d-render-viewport.htm" translate="no">Viewport</a></span> {
+                <span class="name">id</span>: <span class="name">topLeftViewport</span>
+                <span class="name">normalizedRect</span>: <span class="name">Qt</span>.<span class="name">rect</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)
+                <span class="type"><a href="./qml-qt3d-render-cameraselector.htm" translate="no">CameraSelector</a></span> { <span class="name">id</span>: <span class="name">cameraSelectorTopLeftViewport</span> }
+            }
+
+            <span class="type"><a href="./qml-qt3d-render-viewport.htm" translate="no">Viewport</a></span> {
+                <span class="name">id</span>: <span class="name">topRightViewport</span>
+                <span class="name">normalizedRect</span>: <span class="name">Qt</span>.<span class="name">rect</span>(<span class="number">0.5</span>, <span class="number">0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)
+                <span class="type"><a href="./qml-qt3d-render-cameraselector.htm" translate="no">CameraSelector</a></span> { <span class="name">id</span>: <span class="name">cameraSelectorTopRightViewport</span> }
+            }
+
+            <span class="type"><a href="./qml-qt3d-render-viewport.htm" translate="no">Viewport</a></span> {
+                <span class="name">id</span>: <span class="name">bottomLeftViewport</span>
+                <span class="name">normalizedRect</span>: <span class="name">Qt</span>.<span class="name">rect</span>(<span class="number">0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)
+                <span class="type"><a href="./qml-qt3d-render-cameraselector.htm" translate="no">CameraSelector</a></span> { <span class="name">id</span>: <span class="name">cameraSelectorBottomLeftViewport</span> }
+            }
+
+            <span class="type"><a href="./qml-qt3d-render-viewport.htm" translate="no">Viewport</a></span> {
+                <span class="name">id</span>: <span class="name">bottomRightViewport</span>
+                <span class="name">normalizedRect</span>: <span class="name">Qt</span>.<span class="name">rect</span>(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>)
+                <span class="type"><a href="./qml-qt3d-render-cameraselector.htm" translate="no">CameraSelector</a></span> { <span class="name">id</span>: <span class="name">cameraSelectorBottomRightViewport</span> }
+            }
+        }
+    }
+}</pre></div>
+<p>The <i>order is important</i>. If the <a href="./qml-qt3d-render-clearbuffers.htm" translate="no">ClearBuffers</a> node were to be the last instead of the first, this would result in a black screen for the simple reason that everything would be cleared right after having been so carefully rendered. For a similar reason, it could not be used as the root of the FrameGraph as that would result in a call to clear the whole screen for each of our viewports.</p>
+<p>Although the declaration order of the FrameGraph is important, Qt 3D is able to process each RenderView in parallel as each RenderView is independent of the others for the purposes of generating a set of RenderCommands to be submitted whilst the RenderView's state is in effect.</p>
+<p>Qt 3D uses a task-based approach to parallelism which naturally scales up with the number of available cores. The RenderCommands for the RenderViews can be generated in parallel across many cores, and as long as we take care to submit the RenderViews in the correct order on the dedicated OpenGL submission thread, the resulting scene will be rendered correctly.</p>
+<p><a href="https://code.qt.io/cgit/qt/qt3d.git/tree/examples/qt3d/multiviewport?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@multiviewport -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

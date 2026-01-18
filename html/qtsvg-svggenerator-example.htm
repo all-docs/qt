@@ -1,0 +1,213 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SVG Generator Example | Qt SVG</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtsvg-index.htm" translate="no">Qt SVG</a></li>
+                            <li><a>SVG Generator Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">SVG Generator Example</h1>
+<span class="subtitle"></span>
+<!-- $$$svggenerator-description -->
+<div class="descr"> <a name="details"></a>
+<p>The SVG Generator example shows how to add SVG file export to applications.</p>
+<p class="centerAlign"><img alt="" src="./images/svggenerator-example.png"></p><p>Scalable Vector Graphics (SVG) is an XML-based language for describing two-dimensional vector graphics. Qt provides classes for rendering and generating SVG drawings. This example allows the user to create a simple picture and save it to an SVG file.</p>
+<p>The example consists of two classes: <code translate="no">Window</code> and <code translate="no">DisplayWidget</code>.</p>
+<p>The <code translate="no">Window</code> class contains the application logic and constructs the user interface from a Qt Designer UI file as described in the <a href="./designer-using-a-ui-file.htm#the-multiple-inheritance-approach" translate="no">Qt Designer manual</a>. It also contains the code to write an SVG file.</p>
+<p>The <code translate="no">DisplayWidget</code> class performs all the work of painting a picture on screen. Since we want the SVG to resemble this picture as closely as possible, we make this code available to the <code translate="no">Window</code> class so that it can be used to generate SVG files.</p>
+<a name="the-displaywidget-class"></a>
+<h4 id="the-displaywidget-class">The DisplayWidget Class<a class="plink" href="#the-displaywidget-class" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">DisplayWidget</code> class displays a drawing consisting of a selection of elements chosen by the user. These are defined using <code translate="no">Shape</code> and <code translate="no">Background</code> enums that are included within the class definition:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> DisplayWidget : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">enum</span> Shape { House <span class="operator">=</span> <span class="number">0</span><span class="operator">,</span> Car <span class="operator">=</span> <span class="number">1</span> };
+    <span class="keyword">enum</span> Background { Sky <span class="operator">=</span> <span class="number">0</span><span class="operator">,</span> Trees <span class="operator">=</span> <span class="number">1</span><span class="operator">,</span> Road <span class="operator">=</span> <span class="number">2</span> };
+
+    DisplayWidget(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> <span class="number">0</span>);
+    <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> color() <span class="keyword">const</span>;
+    <span class="type">void</span> paint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">&amp;</span>painter);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> setBackground(Background background);
+    <span class="type">void</span> setColor(<span class="keyword">const</span> <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> <span class="operator">&amp;</span>color);
+    <span class="type">void</span> setShape(Shape shape);
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">private</span>:
+    Background background;
+    <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span> shapeColor;
+    Shape shape;
+    <span class="type"><a href="./qhash.htm" translate="no">QHash</a></span><span class="operator">&lt;</span>Shape<span class="operator">,</span><span class="type"><a href="./qpainterpath.htm" translate="no">QPainterPath</a></span><span class="operator">&gt;</span> shapeMap;
+    <span class="type"><a href="./qpainterpath.htm" translate="no">QPainterPath</a></span> moon;
+    <span class="type"><a href="./qpainterpath.htm" translate="no">QPainterPath</a></span> tree;
+};</pre></div>
+<p>Much of this class is used to configure the appearance of the drawing. The <code translate="no">paintEvent()</code> and <code translate="no">paint()</code> functions are most relevant to the purpose of this example, so we will describe these here and leave the reader to look at the source code for the example to see how shapes and colors are handled.</p>
+<p>We reimplement the <a href="./qwidget.htm#paintEvent" translate="no">QWidget::paintEvent</a>() function to display the drawing on screen:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DisplayWidget<span class="operator">::</span>paintEvent(<span class="type"><a href="./qpaintevent.htm" translate="no">QPaintEvent</a></span> <span class="operator">*</span> <span class="comment">/* event */</span>)
+{
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter;
+    painter<span class="operator">.</span>begin(<span class="keyword">this</span>);
+    painter<span class="operator">.</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);
+    paint(painter);
+    painter<span class="operator">.</span>end();
+}</pre></div>
+<p>Here, we only construct a <a href="./qpainter.htm" translate="no">QPainter</a> object, begin painting on the device and set a render hint for improved output quality before calling the <code translate="no">paint()</code> function to perform the painting itself. When this returns, we close the painter and return.</p>
+<p>The <code translate="no">paint()</code> function is designed to be used for different painting tasks. In this example, we use it to draw on a <code translate="no">DisplayWidget</code> instance and on a <a href="./qsvggenerator.htm" translate="no">QSvgGenerator</a> object. We show how the painting is performed to demonstrate that there is nothing device-specific about the process:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DisplayWidget<span class="operator">::</span>paint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">&amp;</span>painter)
+{
+    painter<span class="operator">.</span>setClipRect(<span class="type"><a href="./qrect.htm" translate="no">QRect</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="number">200</span>));
+    painter<span class="operator">.</span>setPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>NoPen);
+
+    <span class="keyword">switch</span> (background) {
+    <span class="keyword">case</span> Sky:
+    <span class="keyword">default</span>:
+        painter<span class="operator">.</span>fillRect(<span class="type"><a href="./qrect.htm" translate="no">QRect</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="number">200</span>)<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>darkBlue);
+        painter<span class="operator">.</span>translate(<span class="number">145</span><span class="operator">,</span> <span class="number">10</span>);
+        painter<span class="operator">.</span>setBrush(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>white);
+        painter<span class="operator">.</span>drawPath(moon);
+        painter<span class="operator">.</span>translate(<span class="operator">-</span><span class="number">145</span><span class="operator">,</span> <span class="operator">-</span><span class="number">10</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> Trees:
+    {
+        painter<span class="operator">.</span>fillRect(<span class="type"><a href="./qrect.htm" translate="no">QRect</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="number">200</span>)<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>darkGreen);
+        painter<span class="operator">.</span>setBrush(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>green);
+        painter<span class="operator">.</span>setPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>black);
+        <span class="keyword">for</span> (<span class="type">int</span> y <span class="operator">=</span> <span class="operator">-</span><span class="number">55</span><span class="operator">,</span> row <span class="operator">=</span> <span class="number">0</span>; y <span class="operator">&lt;</span> <span class="number">200</span>; y <span class="operator">+</span><span class="operator">=</span> <span class="number">50</span><span class="operator">,</span> <span class="operator">+</span><span class="operator">+</span>row) {
+            <span class="type">int</span> xs;
+            <span class="keyword">if</span> (row <span class="operator">=</span><span class="operator">=</span> <span class="number">2</span> <span class="operator">|</span><span class="operator">|</span> row <span class="operator">=</span><span class="operator">=</span> <span class="number">3</span>)
+                xs <span class="operator">=</span> <span class="number">150</span>;
+            <span class="keyword">else</span>
+                xs <span class="operator">=</span> <span class="number">50</span>;
+            <span class="keyword">for</span> (<span class="type">int</span> x <span class="operator">=</span> <span class="number">0</span>; x <span class="operator">&lt;</span> <span class="number">200</span>; x <span class="operator">+</span><span class="operator">=</span> xs) {
+                painter<span class="operator">.</span>save();
+                painter<span class="operator">.</span>translate(x<span class="operator">,</span> y);
+                painter<span class="operator">.</span>drawPath(tree);
+                painter<span class="operator">.</span>restore();
+            }
+        }
+        <span class="keyword">break</span>;
+    }
+    <span class="keyword">case</span> Road:
+        painter<span class="operator">.</span>fillRect(<span class="type"><a href="./qrect.htm" translate="no">QRect</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="number">200</span>)<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>gray);
+        painter<span class="operator">.</span>setPen(<span class="type"><a href="./qpen.htm" translate="no">QPen</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>white<span class="operator">,</span> <span class="number">4</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>DashLine));
+        painter<span class="operator">.</span>drawLine(<span class="type"><a href="./qline.htm" translate="no">QLine</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">35</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="number">35</span>));
+        painter<span class="operator">.</span>drawLine(<span class="type"><a href="./qline.htm" translate="no">QLine</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">165</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="number">165</span>));
+        <span class="keyword">break</span>;
+    }
+
+    painter<span class="operator">.</span>setBrush(shapeColor);
+    painter<span class="operator">.</span>setPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>black);
+    painter<span class="operator">.</span>translate(<span class="number">100</span><span class="operator">,</span> <span class="number">100</span>);
+    painter<span class="operator">.</span>drawPath(shapeMap<span class="operator">[</span>shape<span class="operator">]</span>);
+}</pre></div>
+<a name="the-window-class"></a>
+<h4 id="the-window-class">The Window Class<a class="plink" href="#the-window-class" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">Window</code> class represents the example's window, containing the user interface, which has been created using Qt Designer:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Window : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">,</span> <span class="keyword">private</span> Ui<span class="operator">::</span>Window
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> <span class="number">0</span>);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> saveSvg();
+    <span class="type">void</span> updateBackground(<span class="type">int</span> background);
+    <span class="type">void</span> updateColor();
+    <span class="type">void</span> updateShape(<span class="type">int</span> shape);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> path;
+};</pre></div>
+<p>As with the <code translate="no">DisplayWidget</code> class, we concentrate on the parts of the code which are concerned with painting and SVG generation. In the <code translate="no">Window</code> class, the <code translate="no">saveSvg()</code> function is called whenever the <b>Save As...</b> button is clicked; this connection was defined in the <code translate="no">window.ui</code> file using Qt Designer.</p>
+<p>The start of the <code translate="no">saveSvg()</code> function performs the task of showing a file dialog so that the user can specify a SVG file to save the drawing to.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>saveSvg()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> newPath <span class="operator">=</span> <span class="type"><a href="./qfiledialog.htm" translate="no">QFileDialog</a></span><span class="operator">::</span>getSaveFileName(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Save SVG"</span>)<span class="operator">,</span>
+        path<span class="operator">,</span> tr(<span class="string">"SVG files (*.svg)"</span>));
+
+    <span class="keyword">if</span> (newPath<span class="operator">.</span>isEmpty())
+        <span class="keyword">return</span>;
+
+    path <span class="operator">=</span> newPath;
+
+    <span class="type"><a href="./qsvggenerator.htm" translate="no">QSvgGenerator</a></span> generator;
+    generator<span class="operator">.</span>setFileName(path);
+    generator<span class="operator">.</span>setSize(<span class="type"><a href="./qsize.htm" translate="no">QSize</a></span>(<span class="number">200</span><span class="operator">,</span> <span class="number">200</span>));
+    generator<span class="operator">.</span>setViewBox(<span class="type"><a href="./qrect.htm" translate="no">QRect</a></span>(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">200</span><span class="operator">,</span> <span class="number">200</span>));
+    generator<span class="operator">.</span>setTitle(tr(<span class="string">"SVG Generator Example Drawing"</span>));
+    generator<span class="operator">.</span>setDescription(tr(<span class="string">"An SVG drawing created by the SVG Generator "</span>
+                                <span class="string">"Example provided with Qt."</span>));
+    <span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter;
+    painter<span class="operator">.</span>begin(<span class="operator">&amp;</span>generator);
+    displayWidget<span class="operator">-</span><span class="operator">&gt;</span>paint(painter);
+    painter<span class="operator">.</span>end();
+}</pre></div>
+<p>In the rest of the function, we set up the generator and configure it to generate output with the appropriate dimensions and write to the user-specified file. We paint on the <a href="./qsvggenerator.htm" translate="no">QSvgGenerator</a> object in the same way that we paint on a widget, calling the <code translate="no">DisplayWidget::paint()</code> function so that we use exactly the same code that we used to display the drawing.</p>
+<p>The generation process itself begins with the call to the painter's <a href="./qpainter.htm#begin" translate="no">begin()</a> function and ends with call to its <a href="./qpainter.htm#end" translate="no">end()</a> function. The <a href="./qsvggenerator.htm" translate="no">QSvgGenerator</a> paint device relies on the explicit use of these functions to ensure that output is written to the file.</p>
+<a name="further-reading"></a>
+<h4 id="further-reading">Further Reading<a class="plink" href="#further-reading" title="Direct link to this headline"></a></h4>
+<p>The <a href="./qtsvg-svgviewer-example.htm" translate="no">SVG Viewer Example</a> shows how to display SVG drawings in an application, and can be used to show the contents of SVG files created by this example.</p>
+<p>See the Qt SVG module documentation for more information about SVG and Qt's SVG classes.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtsvg.git/tree/examples/svg/svggenerator?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@svggenerator -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,573 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Editor Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Editor Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;ui version="4.0"&gt;
+ &lt;class&gt;LocalDeviceManagement&lt;/class&gt;
+ &lt;widget class="QWidget" name="LocalDeviceManagement"&gt;
+  &lt;property name="geometry"&gt;
+   &lt;rect&gt;
+    &lt;x&gt;0&lt;/x&gt;
+    &lt;y&gt;0&lt;/y&gt;
+    &lt;width&gt;856&lt;/width&gt;
+    &lt;height&gt;385&lt;/height&gt;
+   &lt;/rect&gt;
+  &lt;/property&gt;
+  &lt;property name="windowTitle"&gt;
+   &lt;string&gt;Form&lt;/string&gt;
+  &lt;/property&gt;
+  &lt;layout class="QVBoxLayout" name="verticalLayout"&gt;
+   &lt;item&gt;
+    &lt;layout class="QHBoxLayout" name="horizontalLayout_4"&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label_2"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;MC:&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QComboBox" name="mc"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Fixed"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label_3"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Type:&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QComboBox" name="objectType"/&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label_4"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Instance:&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QSpinBox" name="objectInstance"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Fixed"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="minimum"&gt;
+        &lt;number&gt;1&lt;/number&gt;
+       &lt;/property&gt;
+       &lt;property name="maximum"&gt;
+        &lt;number&gt;255&lt;/number&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label_5"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Property:&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QComboBox" name="property"/&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label_6"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;NoE:&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QSpinBox" name="noe"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Fixed"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="minimum"&gt;
+        &lt;number&gt;1&lt;/number&gt;
+       &lt;/property&gt;
+       &lt;property name="maximum"&gt;
+        &lt;number&gt;15&lt;/number&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label_7"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Index:&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QSpinBox" name="startIndex"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Fixed"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="maximum"&gt;
+        &lt;number&gt;4095&lt;/number&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+    &lt;/layout&gt;
+   &lt;/item&gt;
+   &lt;item&gt;
+    &lt;layout class="QHBoxLayout" name="horizontalLayout_7"&gt;
+     &lt;item&gt;
+      &lt;widget class="QCheckBox" name="manualInput"&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Manual input&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;spacer name="horizontalSpacer_2"&gt;
+       &lt;property name="orientation"&gt;
+        &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+       &lt;/property&gt;
+       &lt;property name="sizeType"&gt;
+        &lt;enum&gt;QSizePolicy::Fixed&lt;/enum&gt;
+       &lt;/property&gt;
+       &lt;property name="sizeHint" stdset="0"&gt;
+        &lt;size&gt;
+         &lt;width&gt;40&lt;/width&gt;
+         &lt;height&gt;20&lt;/height&gt;
+        &lt;/size&gt;
+       &lt;/property&gt;
+      &lt;/spacer&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label_9"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;cEmi frame (HEX):&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLineEdit" name="cemiFrame"&gt;
+       &lt;property name="enabled"&gt;
+        &lt;bool&gt;true&lt;/bool&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;fc000001001000&lt;/string&gt;
+       &lt;/property&gt;
+       &lt;property name="readOnly"&gt;
+        &lt;bool&gt;true&lt;/bool&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLabel" name="label"&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Maximum" vsizetype="Preferred"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Data:&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QLineEdit" name="cemiData"&gt;
+       &lt;property name="enabled"&gt;
+        &lt;bool&gt;false&lt;/bool&gt;
+       &lt;/property&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="Fixed" vsizetype="Fixed"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QPushButton" name="deviceManagementSendRequest"&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Send Request&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+    &lt;/layout&gt;
+   &lt;/item&gt;
+   &lt;item&gt;
+    &lt;widget class="QTextEdit" name="textOuputDeviceManagement"&gt;
+     &lt;property name="focusPolicy"&gt;
+      &lt;enum&gt;Qt::StrongFocus&lt;/enum&gt;
+     &lt;/property&gt;
+     &lt;property name="contextMenuPolicy"&gt;
+      &lt;enum&gt;Qt::DefaultContextMenu&lt;/enum&gt;
+     &lt;/property&gt;
+     &lt;property name="acceptDrops"&gt;
+      &lt;bool&gt;false&lt;/bool&gt;
+     &lt;/property&gt;
+     &lt;property name="undoRedoEnabled"&gt;
+      &lt;bool&gt;false&lt;/bool&gt;
+     &lt;/property&gt;
+     &lt;property name="readOnly"&gt;
+      &lt;bool&gt;true&lt;/bool&gt;
+     &lt;/property&gt;
+    &lt;/widget&gt;
+   &lt;/item&gt;
+   &lt;item&gt;
+    &lt;layout class="QHBoxLayout" name="horizontalLayout_3"&gt;
+     &lt;item&gt;
+      &lt;widget class="QCheckBox" name="secureSessionCheckBox"&gt;
+       &lt;property name="enabled"&gt;
+        &lt;bool&gt;false&lt;/bool&gt;
+       &lt;/property&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Use secure session&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QComboBox" name="secureSessionCb"&gt;
+       &lt;property name="enabled"&gt;
+        &lt;bool&gt;false&lt;/bool&gt;
+       &lt;/property&gt;
+       &lt;property name="sizePolicy"&gt;
+        &lt;sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed"&gt;
+         &lt;horstretch&gt;0&lt;/horstretch&gt;
+         &lt;verstretch&gt;0&lt;/verstretch&gt;
+        &lt;/sizepolicy&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;spacer name="horizontalSpacer"&gt;
+       &lt;property name="orientation"&gt;
+        &lt;enum&gt;Qt::Horizontal&lt;/enum&gt;
+       &lt;/property&gt;
+       &lt;property name="sizeHint" stdset="0"&gt;
+        &lt;size&gt;
+         &lt;width&gt;40&lt;/width&gt;
+         &lt;height&gt;20&lt;/height&gt;
+        &lt;/size&gt;
+       &lt;/property&gt;
+      &lt;/spacer&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QPushButton" name="connectRequestDeviceManagement"&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Connect&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+     &lt;item&gt;
+      &lt;widget class="QPushButton" name="disconnectRequestDeviceManagement"&gt;
+       &lt;property name="text"&gt;
+        &lt;string&gt;Disconnect&lt;/string&gt;
+       &lt;/property&gt;
+      &lt;/widget&gt;
+     &lt;/item&gt;
+    &lt;/layout&gt;
+   &lt;/item&gt;
+  &lt;/layout&gt;
+ &lt;/widget&gt;
+ &lt;tabstops&gt;
+  &lt;tabstop&gt;mc&lt;/tabstop&gt;
+  &lt;tabstop&gt;objectType&lt;/tabstop&gt;
+  &lt;tabstop&gt;objectInstance&lt;/tabstop&gt;
+  &lt;tabstop&gt;property&lt;/tabstop&gt;
+  &lt;tabstop&gt;noe&lt;/tabstop&gt;
+  &lt;tabstop&gt;startIndex&lt;/tabstop&gt;
+  &lt;tabstop&gt;manualInput&lt;/tabstop&gt;
+  &lt;tabstop&gt;cemiFrame&lt;/tabstop&gt;
+  &lt;tabstop&gt;cemiData&lt;/tabstop&gt;
+  &lt;tabstop&gt;deviceManagementSendRequest&lt;/tabstop&gt;
+  &lt;tabstop&gt;textOuputDeviceManagement&lt;/tabstop&gt;
+  &lt;tabstop&gt;connectRequestDeviceManagement&lt;/tabstop&gt;
+  &lt;tabstop&gt;disconnectRequestDeviceManagement&lt;/tabstop&gt;
+ &lt;/tabstops&gt;
+ &lt;resources/&gt;
+ &lt;connections&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;toggled(bool)&lt;/signal&gt;
+   &lt;receiver&gt;label_2&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;44&lt;/x&gt;
+     &lt;y&gt;47&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;20&lt;/x&gt;
+     &lt;y&gt;21&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;mc&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;93&lt;/x&gt;
+     &lt;y&gt;41&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;93&lt;/x&gt;
+     &lt;y&gt;24&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;label_3&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;64&lt;/x&gt;
+     &lt;y&gt;53&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;126&lt;/x&gt;
+     &lt;y&gt;19&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;objectType&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;18&lt;/x&gt;
+     &lt;y&gt;51&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;172&lt;/x&gt;
+     &lt;y&gt;23&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;label_4&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;30&lt;/x&gt;
+     &lt;y&gt;45&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;384&lt;/x&gt;
+     &lt;y&gt;26&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;label_5&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;72&lt;/x&gt;
+     &lt;y&gt;42&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;485&lt;/x&gt;
+     &lt;y&gt;29&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;startIndex&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;51&lt;/x&gt;
+     &lt;y&gt;49&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;845&lt;/x&gt;
+     &lt;y&gt;29&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;property&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;51&lt;/x&gt;
+     &lt;y&gt;49&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;535&lt;/x&gt;
+     &lt;y&gt;19&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;noe&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;51&lt;/x&gt;
+     &lt;y&gt;49&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;752&lt;/x&gt;
+     &lt;y&gt;29&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;manualInput&lt;/sender&gt;
+   &lt;signal&gt;clicked(bool)&lt;/signal&gt;
+   &lt;receiver&gt;objectInstance&lt;/receiver&gt;
+   &lt;slot&gt;setDisabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;51&lt;/x&gt;
+     &lt;y&gt;49&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;433&lt;/x&gt;
+     &lt;y&gt;29&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+  &lt;connection&gt;
+   &lt;sender&gt;secureSessionCheckBox&lt;/sender&gt;
+   &lt;signal&gt;toggled(bool)&lt;/signal&gt;
+   &lt;receiver&gt;secureSessionCb&lt;/receiver&gt;
+   &lt;slot&gt;setEnabled(bool)&lt;/slot&gt;
+   &lt;hints&gt;
+    &lt;hint type="sourcelabel"&gt;
+     &lt;x&gt;16&lt;/x&gt;
+     &lt;y&gt;368&lt;/y&gt;
+    &lt;/hint&gt;
+    &lt;hint type="destinationlabel"&gt;
+     &lt;x&gt;147&lt;/x&gt;
+     &lt;y&gt;369&lt;/y&gt;
+    &lt;/hint&gt;
+   &lt;/hints&gt;
+  &lt;/connection&gt;
+ &lt;/connections&gt;
+&lt;/ui&gt;</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

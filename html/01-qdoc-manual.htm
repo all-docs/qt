@@ -1,0 +1,197 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction to QDoc | QDoc Manual</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/01-qdoc-manual.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qdoc-index.htm" translate="no">QDoc Manual</a></li>
+                            <li><a>Introduction to QDoc</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qdoc-index.html" rel="prev">
+<link href="27-qdoc-commands-alphabetical.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qdoc-index.htm">QDoc Manual</a>
+<a class="" href="./27-qdoc-commands-alphabetical.htm">Command Index</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Introduction to QDoc</h1>
+<span class="subtitle"></span>
+<!-- $$$01-qdoc-manual.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>QDoc is a tool used by Qt Developers to generate documentation for software projects. It works by extracting <i>QDoc comments</i> from project source files and then formatting these comments as HTML pages or DITA XML documents. QDoc finds QDoc comments in <code translate="no">.cpp</code> files and in <code translate="no">.qdoc</code> files. QDoc does not look for QDoc comments in <code translate="no">.h</code> files. A QDoc comment always begins with an exclamation mark (<b>!</b>)). For example:</p>
+<div class="pre"><pre class="cpp" translate="no">    <span class="operator">/</span> <span class="operator">*</span><span class="operator">!</span>
+        \<span class="keyword">class</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+        \brief The <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> <span class="keyword">class</span> is the base <span class="keyword">class</span> of all <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> objects<span class="operator">.</span>
+
+        \ingroup objectmodel
+
+        \reentrant
+
+        <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> is the heart of the <span class="type"><a href="./qt.htm" translate="no">Qt</a></span> \l{Object Model}<span class="operator">.</span> The
+        central feature in <span class="keyword">this</span> model is a very powerful mechanism
+        <span class="keyword">for</span> seamless object communication called \l{<span class="keyword">signals</span> and
+        <span class="keyword">slots</span>}<span class="operator">.</span> You can connect a signal to a slot with connect()
+        and destroy the connection with disconnect()<span class="operator">.</span> To avoid
+        never ending notification loops you can temporarily block
+        <span class="keyword">signals</span> with blockSignals()<span class="operator">.</span> The <span class="keyword">protected</span> functions
+        connectNotify() and disconnectNotify() make it possible to
+        track connections<span class="operator">.</span>
+
+        <span class="type">QObjects</span> organize themselves in \l {Object Trees <span class="operator">&amp;</span>
+        Ownership} {object trees}<span class="operator">.</span> When you create a <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span> with
+        another object as parent<span class="operator">,</span> the object will automatically
+        add itself to the parent<span class="char">'s \c children() list. The parent
+        takes ownership of the object. It will automatically
+        delete its children in its destructor. You can look for an
+        object by name and optionally type using findChild() or
+        findChildren().
+
+        Every object has an objectName() and its class name can be
+        found via the corresponding metaObject() (see
+        QMetaObject::className()). You can determine whether the
+        object'</span>s <span class="keyword">class</span> inherits another <span class="keyword">class</span> in the <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+        inheritance hierarchy by <span class="keyword">using</span> the \c inherits() function<span class="operator">.</span>
+
+    <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="operator">*</span> <span class="operator">/</span></pre></div>
+<p>From the QDoc comment above, QDoc generates the HTML <a href="./qobject.htm" translate="no">QObject class reference</a> page.</p>
+<p>This manual explains how to use the QDoc commands in QDoc comments to embed good documentation in your source files. It also explains how to make a <a href="./21-0-qdoc-configuration.htm" translate="no">QDoc configuration file</a>, which you will pass to QDoc on the command line.</p>
+<a name="running-qdoc"></a>
+<h2 id="running-qdoc">Running QDoc<a class="plink" href="#running-qdoc" title="Direct link to this headline"></a></h2>
+<p>The name of the QDoc program is <code translate="no">qdoc</code>. To run QDoc from the command line, give it the name of a configuration file:</p>
+<blockquote><p><code translate="no">$ ../../bin/qdoc ./config.qdocconf</code></p>
+</blockquote>
+<p>QDoc recognizes the <code translate="no">.qdocconf</code> suffix as a <a href="./21-0-qdoc-configuration.htm" translate="no">QDoc configuration file</a>. The configuration file is where you tell QDoc where to find the project source files, header files, and <code translate="no">.qdoc</code> files. It is also where you tell QDoc what kind of output to generate (HTML, DITA XML,...), and where to put the generated documentation. The configuration file also contains other information for QDoc.</p>
+<p>See <a href="./21-0-qdoc-configuration.htm" translate="no">The QDoc Configuration File</a> for instructions on how to set up a QDoc configuration file.</p>
+<a name="running-qdoc-in-single-execution-mode"></a>
+<h3 id="running-qdoc-in-single-execution-mode">Running QDoc in Single Execution Mode<a class="plink" href="#running-qdoc-in-single-execution-mode" title="Direct link to this headline"></a></h3>
+<p>Beginning with Qt 5.5, a new way to run QDoc is available that reduces the time it takes to generate the Qt5 documentation by as much as 90%. The new way to run QDoc is <i>single execution</i> mode. Single execution mode is not currently available in the Qt5 build system, which still uses the <i>standard</i> mode. Single execution mode is only available when you run QDoc yourself, which you will want to do often as you document your module and integrate your documentation with the other Qt modules.</p>
+<p>To run QDoc in single execution mode, add <code translate="no">-single-exec</code> to the command line and pass QDoc a master <code translate="no">qdocconf</code> file that is simply a list of file paths for qdocconf files of all the Qt5 modules. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">/</span>Users<span class="operator">/</span>me<span class="operator">/</span>qt5<span class="operator">/</span>qtbase<span class="operator">/</span>bin<span class="operator">/</span>qdoc <span class="operator">-</span>outputdir <span class="operator">/</span>Users<span class="operator">/</span>me<span class="operator">/</span>qt5<span class="operator">/</span>qtbase<span class="operator">/</span>doc <span class="operator">-</span>installdir <span class="operator">/</span>Users<span class="operator">/</span>me<span class="operator">/</span>qt5<span class="operator">/</span>qtbase<span class="operator">/</span>doc <span class="operator">/</span>Users<span class="operator">/</span>me<span class="operator">/</span>qt5<span class="operator">/</span>master<span class="operator">.</span>qdocconf <span class="operator">-</span>single<span class="operator">-</span>exec</pre></div>
+<p>The qdocconf file, <code translate="no">master.qdocconf</code>, just lists the qdocconf files for all the Qt5 modules to be processed:</p>
+<div class="pre"><pre class="cpp plain" translate="no">/Users/me/qt5/qtbase/src/corelib/doc/qtcore.qdocconf
+/Users/me/qt5/qtbase/src/network/doc/qtnetwork.qdocconf
+/Users/me/qt5/qtbase/src/sql/doc/qtsql.qdocconf
+/Users/me/qt5/qtbase/src/xml/doc/qtxml.qdocconf
+/Users/me/qt5/qtbase/src/testlib/doc/qttestlib.qdocconf
+/Users/me/qt5/qtbase/src/concurrent/doc/qtconcurrent.qdocconf
+/Users/me/qt5/qtbase/src/gui/doc/qtgui.qdocconf
+/Users/me/qt5/qtbase/src/platformheaders/doc/qtplatformheaders.qdocconf
+/Users/me/qt5/qtbase/src/widgets/doc/qtwidgets.qdocconf
+/Users/me/qt5/qtbase/src/opengl/doc/qtopengl.qdocconf
+/Users/me/qt5/qtbase/src/printsupport/doc/qtprintsupport.qdocconf
+/Users/me/qt5/qtbase/src/tools/qdoc/doc/config/qdoc.qdocconf
+/Users/me/qt5/qtbase/qmake/doc/qmake.qdocconf
+/Users/me/qt5/qtsvg/src/svg/doc/qtsvg.qdocconf
+/Users/me/qt5/qtxmlpatterns/src/xmlpatterns/doc/qtxmlpatterns.qdocconf
+/Users/me/qt5/qtdeclarative/src/qml/doc/qtqml.qdocconf
+/Users/me/qt5/qtdeclarative/src/quick/doc/qtquick.qdocconf
+/Users/me/qt5/qtquickcontrols/src/controls/doc/qtquickcontrols.qdocconf
+/Users/me/qt5/qtquickcontrols/src/layouts/doc/qtquicklayouts.qdocconf
+/Users/me/qt5/qtquickcontrols/src/dialogs/doc/qtquickdialogs.qdocconf
+/Users/me/qt5/qtmultimedia/src/multimedia/doc/qtmultimedia.qdocconf
+/Users/me/qt5/qtmultimedia/src/multimediawidgets/doc/qtmultimediawidgets.qdocconf
+/Users/me/qt5/qtactiveqt/src/activeqt/doc/activeqt.qdocconf
+/Users/me/qt5/qtsensors/src/sensors/doc/qtsensors.qdocconf
+/Users/me/qt5/qtwebkit/Source/qtwebkit.qdocconf
+/Users/me/qt5/qttools/src/assistant/help/doc/qthelp.qdocconf
+/Users/me/qt5/qttools/src/assistant/assistant/doc/qtassistant.qdocconf
+/Users/me/qt5/qttools/src/designer/src/uitools/doc/qtuitools.qdocconf
+/Users/me/qt5/qttools/src/designer/src/designer/doc/qtdesigner.qdocconf
+/Users/me/qt5/qttools/src/linguist/linguist/doc/qtlinguist.qdocconf
+/Users/me/qt5/qtwebkit-examples/doc/qtwebkitexamples.qdocconf
+/Users/me/qt5/qtimageformats/src/imageformats/doc/qtimageformats.qdocconf
+/Users/me/qt5/qtgraphicaleffects/src/effects/doc/qtgraphicaleffects.qdocconf
+/Users/me/qt5/qtscript/src/script/doc/qtscript.qdocconf
+/Users/me/qt5/qtscript/src/scripttools/doc/qtscripttools.qdocconf
+/Users/me/qt5/qtserialport/src/serialport/doc/qtserialport.qdocconf
+/Users/me/qt5/qtdoc/doc/config/qtdoc.qdocconf</pre></div>
+<a name="why-standard-mode-is-slow"></a>
+<h4 id="why-standard-mode-is-slow">Why Standard Mode Is Slow<a class="plink" href="#why-standard-mode-is-slow" title="Direct link to this headline"></a></h4>
+<p>Currently, the Qt5 build system does not use QDoc's <i>single execution</i> mode for generating the Qt5 documentation. It runs QDoc in the <i>standard</i> mode. The standard mode was came about because it was the easiest way to get convert the Qt4 QDoc to handle the modularization of Qt in Qt5. In Qt4, QDoc ran once over all the Qt4 sources to generate the HTML documentation for Qt. While generating the Qt documentation, Qt4 QDoc also generated an <i>index file</i> for Qt. That index file was meant to be used as input to subsequent QDoc runs for generating HTML documentation for other software libraries/products that were based on Qt. The Qt index file allowed QDoc to link documentation written for those other libraries/products to the Qt4 documentation.</p>
+<p>When Qt5 came along, Qt was divided into modules. Since then, many new modules have been added to Qt. As of version 5.5, there are over 40 separate modules in Qt5, each with its own documentation that links to (depends on) the documentation of other Qt modules.</p>
+<p>In <i>standard mode</i>, QDoc runs twice for each module. The first QDoc run for a particular Qt module, parses all the module's source files and then uses the information to generate the module's index file. It is called the <i>prepare phase</i> because it <i>prepares</i> the module's index file. The second QDoc run for the module also parses all the module's source files and then generates the module's documentation pages. This is called the <i>generate phase</i> because it generates the module's documentation.</p>
+<p>The module's documentation will likely contain HTML links to the documentation of one or more of the other Qt modules. For example, most Qt5 modules contain links to documentation in <a href="./qtcore-module.htm" translate="no">QtCore</a>. When a Qt module contains links into the documentation of other Qt module's, that module is said to depend on those other Qt modules. Hence when QDoc runs the <i>generate phase</i> for that module, it must also load the index files for those modules so it can create those links.</p>
+<p>Hence, when the Qt build system generates the Qt documentation, it first runs QDoc once for each module to perform the <i>prepare phase</i> to generate all the index files. Then it runs QDoc once for each module to perform the <i>generate phase</i>, where it uses the dependent index files to generate the module's documentation, including any cross-module links it finds. Each execution of QDoc, both <i>prepare phase</i> and <i>generate phase</i>, parses all the source files that are included in the module, and in the <i>generate phase</i> also parses the index files for the dependent modules. Nothing is retained or retainable between QDoc runs.</p>
+<a name="why-single-execution-mode-is-much-faster"></a>
+<h4 id="why-single-execution-mode-is-much-faster">Why Single Execution Mode Is Much Faster<a class="plink" href="#why-single-execution-mode-is-much-faster" title="Direct link to this headline"></a></h4>
+<p>As the name implies, single execution mode uses a single QDoc process to generate all the Qt5 documentation. The single QDoc process still performs a <i>prepare phase</i> for each module and then a <i>generate phase</i> for each module, but there are a few differences. It begins by reading the master qdocconf file. Then it reads each qdocconf file in the master list and performs the <i>prepare phase</i> for each module. During the <i>prepare phase</i>, all the source files for the module are parsed to build a syntax tree for the module. The module's index file is then generated, although QDoc will not re-read the index files in the <i>generate phase</i>. The important difference here is that the module's syntax tree is retained after the index file is generated, so that after the <i>prepare phase</i> has been run for all the modules, QDoc still has all the syntax trees it built.</p>
+<p>QDoc then processes each module again for the <i>generate phase</i>. But now QDoc doesn't need to re-parse each module's source files, because the module's syntax tree is still in memory. Nor does QDoc need to re-read the index files for the dependent modules, again because it still has the syntax trees for those modules in memory. It remains only to traverse each module's syntax tree to generate the documentation pages.</p>
+<p>Hence, QDoc parses each source file once and only once and doesn't need to read index files. This is what makes single execution mode much faster than the standard mode. It is anticipated that the Qt build system will eventually run QDoc in single execution mode. However, changes to the master qdocconf file might be required, so the method described above for running QDoc in single execution mode might have to change, watch this space for updates.</p>
+<a name="how-qdoc-works"></a>
+<h2 id="how-qdoc-works">How QDoc Works<a class="plink" href="#how-qdoc-works" title="Direct link to this headline"></a></h2>
+<p>QDoc begins by reading the configuration file you specified on the command line. It stores all the variables from the configuration file for later use. One of the first variables it uses is <code translate="no">outputformats</code>. This variable tells QDoc which output generators it will run. The default value is <i>HTML</i>, so if you don't set <code translate="no">outputformats</code> in your configuration file, QDoc will generate HTML output. That's usually what you will want anyway, but you can also specify <i>DITAXML</i> to get DITA XML output instead.</p>
+<p>Next, QDoc uses the values of the <a href="./22-qdoc-configuration-generalvariables.htm#headerdirs-variable" translate="no">headerdirs</a> variable and/or the <a href="./22-qdoc-configuration-generalvariables.htm#headers-variable" translate="no">headers</a> variable to find and parse all the header files for your project. QDoc does <i>not</i> scan header files for QDoc comments. It parses the header files to build a master tree of all the items that should be documented, in other words, the items that QDoc should find QDoc comments for.</p>
+<p>After parsing all the header files and building the master tree of items to be documented, QDoc uses the value of the <a href="./22-qdoc-configuration-generalvariables.htm#sourcedirs-variable" translate="no">sourcedirs</a> variable and/or the value of the <a href="./22-qdoc-configuration-generalvariables.htm#sources-variable" translate="no">sources</a> variable to find and parse all the <code translate="no">.cpp</code> and <code translate="no">.qdoc</code> files for your project. These are the files QDoc scans for <i>QDoc comments</i>. Remember that a QDoc comment begins with an exclamation mark: <b>/*!</b> .</p>
+<p>For each QDoc comment it finds, it searches the master tree for the item where the documentation belongs. Then it interprets the QDoc commands in the comment and stores the interpreted commands and the comment text in the tree node for the item.</p>
+<p>Finally, QDoc traverses the master tree. For each node, if the node has stored documentation, QDoc calls the output generator specified by the <code translate="no">outputformats</code> variable to format and write the documentation in the directory specified in the configuration file in the <a href="./22-qdoc-configuration-generalvariables.htm#outputdir-variable" translate="no">outputdir</a> variable.</p>
+<a name="command-types"></a>
+<h2 id="command-types">Command Types<a class="plink" href="#command-types" title="Direct link to this headline"></a></h2>
+<p>QDoc interprets three types of commands:</p>
+<ul>
+<li><a href="./13-qdoc-commands-topics.htm" translate="no">Topic Commands</a></li>
+<li><a href="./14-qdoc-commands-contextcommands.htm" translate="no">Context Commands</a></li>
+<li><a href="./03-qdoc-commands-markup.htm" translate="no">Markup Commands</a></li>
+</ul>
+<p>Topic commands identify the element you are documenting, for example a C++ class, function, type, or an extra page of text that doesn't map to an underlying C++ element.</p>
+<p>Context commands tell QDoc how the element being documented relates to other documented elements, for example, next and previous page links, inclusion in page groups, or library modules. Context commands can also provide information about the documented element that QDoc can't get from the source files, for example, whether the element is thread-safe, whether it is an overloaded or reimplemented function, or whether it has been deprecated.</p>
+<p>Markup commands tell QDoc how text and image elements in the document should be rendered, or about the document's outline structure.</p>
+</div>
+<!-- @@@01-qdoc-manual.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./qdoc-index.htm">QDoc Manual</a>
+<a class="nextPage" href="./27-qdoc-commands-alphabetical.htm">Command Index</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,132 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QEnableSharedFromThis | Qt Core</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qenablesharedfromthis.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcore-index.htm" translate="no">Qt Core</a></li>
+                            <li><a href="./qtcore-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QEnableSharedFromThis</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QEnableSharedFromThis Class</h1>
+<span class="small-subtitle" translate="no">template &lt;typename T&gt; class QEnableSharedFromThis</span>
+<!-- $$$QEnableSharedFromThis-brief -->
+<p>A base class that allows obtaining a <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a> for an object already managed by a shared pointer. <a href="#details">More...</a></p>
+<!-- @@@QEnableSharedFromThis -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QEnableSharedFromThis&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += core</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.4</td></tr></tbody></table></div><p>This class was introduced in Qt 5.4.</p>
+<ul>
+<li><a href="./qenablesharedfromthis-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QSharedPointer&lt;T&gt; </td><td class="memItemRight bottomAlign"><b><a href="./qenablesharedfromthis.htm#sharedFromThis" translate="no">sharedFromThis</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QSharedPointer&lt;const T&gt; </td><td class="memItemRight bottomAlign"><b><a href="./qenablesharedfromthis.htm#sharedFromThis-1" translate="no">sharedFromThis</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QEnableSharedFromThis-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>You can inherit this class when you need to create a <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a> from any instance of a class; for instance, from within the object itself. The key point is that the technique of just returning <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>&lt;T&gt;(this) cannot be used, because this winds up creating multiple distinct <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a> objects with separate reference counts. For this reason you must never create more than one <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a> from the same raw pointer.</p>
+<p>QEnableSharedFromThis defines two member functions called <a href="./qenablesharedfromthis.htm#sharedFromThis" translate="no">sharedFromThis</a>() that return a <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>&lt;T&gt; and <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>&lt;const T&gt;, depending on constness, to <code translate="no">this</code>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">class</span> Y: <span class="keyword">public</span> <span class="type"><a href="./qenablesharedfromthis.htm" translate="no">QEnableSharedFromThis</a></span><span class="operator">&lt;</span>Y<span class="operator">&gt;</span>
+    {
+    <span class="keyword">public</span>:
+        <span class="type"><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a></span><span class="operator">&lt;</span>Y<span class="operator">&gt;</span> f()
+        {
+            <span class="keyword">return</span> sharedFromThis();
+        }
+    };
+
+    <span class="type">int</span> main()
+    {
+        <span class="type"><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a></span><span class="operator">&lt;</span>Y<span class="operator">&gt;</span> p(<span class="keyword">new</span> Y());
+        <span class="type"><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a></span><span class="operator">&lt;</span>Y<span class="operator">&gt;</span> y <span class="operator">=</span> p<span class="operator">-</span><span class="operator">&gt;</span>f();
+        Q_ASSERT(p <span class="operator">=</span><span class="operator">=</span> y); <span class="comment">// p and q must share ownership</span>
+    }</pre></div>
+<p>It is also possible to get a shared pointer from an object outside of the class itself. This is especially useful in code that provides an interface to scripts, where it is currently not possible to use shared pointers. For example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">class</span> ScriptInterface : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+    {
+        Q_OBJECT
+
+        <span class="comment">// ...</span>
+
+    <span class="keyword">public</span> <span class="keyword">slots</span>:
+        <span class="type">void</span> slotCalledByScript(Y <span class="operator">*</span>managedBySharedPointer)
+        {
+            <span class="type"><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a></span><span class="operator">&lt;</span>Y<span class="operator">&gt;</span> yPtr <span class="operator">=</span> managedBySharedPointer<span class="operator">-</span><span class="operator">&gt;</span>sharedFromThis();
+            <span class="comment">// Some other code unrelated to scripts that expects a QSharedPointer&lt;Y&gt; ...</span>
+        }
+    };</pre></div>
+</div>
+<!-- @@@QEnableSharedFromThis -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$sharedFromThis[overload1]$$$sharedFromThis -->
+<h3 class="fn" id="sharedFromThis" translate="no"><a name="sharedFromThis"></a><span class="type"><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a></span>&lt;<span class="type">T</span>&gt; QEnableSharedFromThis::<span class="name">sharedFromThis</span>()<a class="plink" href="#sharedFromThis" title="Direct link to this headline"></a></h3>
+<p>If <code translate="no">this</code> (that is, the subclass instance invoking this method) is being managed by a <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>, returns a shared pointer instance pointing to <code translate="no">this</code>; otherwise returns a null <a href="./qsharedpointer.htm" translate="no">QSharedPointer</a>.</p>
+<p>This function was introduced in Qt 5.4.</p>
+<!-- @@@sharedFromThis -->
+<!-- $$$sharedFromThis$$$sharedFromThis -->
+<h3 class="fn" id="sharedFromThis-1" translate="no"><a name="sharedFromThis-1"></a><span class="type"><a href="./qsharedpointer.htm" translate="no">QSharedPointer</a></span>&lt;const <span class="type">T</span>&gt; QEnableSharedFromThis::<span class="name">sharedFromThis</span>() const<a class="plink" href="#sharedFromThis-1" title="Direct link to this headline"></a></h3>
+<p>This is an overloaded function.</p>
+<p>Const overload of sharedFromThis().</p>
+<p>This function was introduced in Qt 5.4.</p>
+<!-- @@@sharedFromThis -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

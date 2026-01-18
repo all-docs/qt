@@ -1,0 +1,122 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QDesktopWidget | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./qtwidgets-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QDesktopWidget</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QDesktopWidget Class</h1>
+<!-- $$$QDesktopWidget-brief -->
+<p>The QDesktopWidget class provides access to screen information on multi-head systems. <a href="#details">More...</a></p>
+<!-- @@@QDesktopWidget -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QDesktopWidget&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += widgets</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qwidget.htm" translate="no">QWidget</a></td></tr></tbody></table></div><p><b>This class is obsolete.</b> It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<ul>
+<li><a href="./qdesktopwidget-members.htm">List of all members, including inherited members</a></li>
+<li><a href="./qdesktopwidget-obsolete.htm">Obsolete members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> const QRect </td><td class="memItemRight bottomAlign"><b><a href="./qdesktopwidget.htm#availableGeometry-1" translate="no">availableGeometry</a></b>(const QWidget *<i>widget</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> const QRect </td><td class="memItemRight bottomAlign"><b><a href="./qdesktopwidget.htm#screenGeometry-1" translate="no">screenGeometry</a></b>(const QWidget *<i>widget</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="./qdesktopwidget.htm#screenNumber" translate="no">screenNumber</a></b>(const QWidget *<i>widget</i> = nullptr) const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QDesktopWidget-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>Systems with more than one graphics card and monitor can manage the physical screen space available either as multiple desktops, or as a large virtual desktop.</p>
+<p>This class provides information about the user's desktop, such as its total size, number of screens, the geometry of each screen, and whether they are configured as separate desktops or a single virtual desktop.</p>
+<p>Widgets provided by Qt use this class to place tooltips, menus and dialog boxes on the correct screen for their parent or application widgets. Applications can use this class to obtain information that can be used to save window positions, or to place child widgets and dialogs on one particular screen.</p>
+<a name="obtaining-a-desktop-widget"></a>
+<h3 id="obtaining-a-desktop-widget">Obtaining a Desktop Widget<a class="plink" href="#obtaining-a-desktop-widget" title="Direct link to this headline"></a></h3>
+<p>The <a href="./qapplication-obsolete.htm#desktop" translate="no">QApplication::desktop</a>() function is used to get an instance of QDesktopWidget.</p>
+<p>The widget's <a href="./qdesktopwidget-obsolete.htm#screenGeometry" translate="no">screenGeometry</a>() function provides information about the geometry of the available screens with. The number of screens available is returned by <a class="obsolete" href="./qdesktopwidget-obsolete.htm#screenCount-prop" translate="no">screenCount</a>, and the <a href="./qdesktopwidget-obsolete.htm#screenCountChanged" translate="no">screenCountChanged</a>() signal is emitted when screens are added or removed. The screen number that a particular point or widget is located in is returned by <a href="./qdesktopwidget.htm#screenNumber" translate="no">screenNumber</a>().</p>
+<a name="screen-geometry"></a>
+<h3 id="screen-geometry">Screen Geometry<a class="plink" href="#screen-geometry" title="Direct link to this headline"></a></h3>
+<p>To obtain the dimensions of a particular screen, call the <a href="./qdesktopwidget-obsolete.htm#screenGeometry" translate="no">screenGeometry</a>() function. On some desktop environments, not all of the screen is available for applications to use; for example, an application dock or menu bar may take up some space. Use the <a href="./qdesktopwidget-obsolete.htm#availableGeometry" translate="no">availableGeometry</a>() function to obtain the available area for applications.</p>
+<p>QDesktopWidget also inherits the <a href="./qwidget.htm" translate="no">QWidget</a> properties, <a href="./qwidget.htm#width-prop" translate="no">width</a>() and <a href="./qwidget.htm#height-prop" translate="no">height</a>(), which specify the size of the desktop. However, for desktops with multiple screens, the size of the desktop is the union of all the screen sizes, so <a href="./qwidget.htm#width-prop" translate="no">width</a>() and <a href="./qwidget.htm#height-prop" translate="no">height</a>() should <i>not</i> be used for computing the size of a widget to be placed on one of the screens.</p>
+<p>On systems that are configured to use the available screens as a single, large virtual desktop, the <a href="./qdesktopwidget-obsolete.htm#virtualDesktop-prop" translate="no">virtualDesktop</a> property will be set to true. In this case, the widget's size is usually the size of the bounding rectangle of all the screens.</p>
+<a name="use-of-the-primary-screen"></a>
+<h3 id="use-of-the-primary-screen">Use of the Primary Screen<a class="plink" href="#use-of-the-primary-screen" title="Direct link to this headline"></a></h3>
+<p>For an application, the screen where the main widget resides is the primary screen. This is stored in the <a class="obsolete" href="./qdesktopwidget-obsolete.htm#primaryScreen-prop" translate="no">primaryScreen</a> property. All windows opened in the context of the application should be constrained to the boundaries of the primary screen; for example, it would be inconvenient if a dialog box popped up on a different screen, or split over two screens.</p>
+<p class="centerAlign"><img alt="Managing Multiple Screens" src="./images/qdesktopwidget.png"></p><p>In the illustration above, Application One's primary screen is screen 0, and App Two's primary screen is screen 1.</p>
+</div>
+<p><b>See also </b><a href="./qapplication.htm" translate="no">QApplication</a> and <a href="./qapplication-obsolete.htm#desktop" translate="no">QApplication::desktop</a>().</p>
+<!-- @@@QDesktopWidget -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$availableGeometry$$$availableGeometryconstQWidget* -->
+<h3 class="fn" id="availableGeometry-1" translate="no"><a name="availableGeometry-1"></a>const <span class="type"><a href="./qrect.htm" translate="no">QRect</a></span> QDesktopWidget::<span class="name">availableGeometry</span>(const <span class="type"><a href="./qwidget.htm#QWidget" translate="no">QWidget</a></span> *<i>widget</i>) const<a class="plink" href="#availableGeometry-1" title="Direct link to this headline"></a></h3>
+<p>This is an overloaded function.</p>
+<p>Returns the available geometry of the screen which contains <i translate="no">widget</i>.</p>
+<p><b>See also </b><a href="./qdesktopwidget-obsolete.htm#screenGeometry" translate="no">screenGeometry</a>().</p>
+<!-- @@@availableGeometry -->
+<!-- $$$screenGeometry$$$screenGeometryconstQWidget* -->
+<h3 class="fn" id="screenGeometry-1" translate="no"><a name="screenGeometry-1"></a>const <span class="type"><a href="./qrect.htm" translate="no">QRect</a></span> QDesktopWidget::<span class="name">screenGeometry</span>(const <span class="type"><a href="./qwidget.htm#QWidget" translate="no">QWidget</a></span> *<i>widget</i>) const<a class="plink" href="#screenGeometry-1" title="Direct link to this headline"></a></h3>
+<p>This is an overloaded function.</p>
+<p>Returns the geometry of the screen which contains <i translate="no">widget</i>.</p>
+<!-- @@@screenGeometry -->
+<!-- $$$screenNumber[overload1]$$$screenNumberconstQWidget* -->
+<h3 class="fn" id="screenNumber" translate="no"><a name="screenNumber"></a><span class="type">int</span> QDesktopWidget::<span class="name">screenNumber</span>(const <span class="type"><a href="./qwidget.htm#QWidget" translate="no">QWidget</a></span> *<i>widget</i> = nullptr) const<a class="plink" href="#screenNumber" title="Direct link to this headline"></a></h3>
+<p>Returns the index of the screen that contains the largest part of <i translate="no">widget</i>, or -1 if the widget not on a screen.</p>
+<p><b>See also </b><a href="./qdesktopwidget-obsolete.htm#primaryScreen-prop" translate="no">primaryScreen</a>.</p>
+<!-- @@@screenNumber -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

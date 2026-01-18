@@ -1,0 +1,161 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Test</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquicktest-index.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Test</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Quick Test</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquicktest-index.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="introduction-to-qt-quick-test"></a><a name="introduction"></a>
+<h2 id="introduction">Introduction<a class="plink" href="#introduction" title="Direct link to this headline"></a></h2>
+<p><a href="./qttest-qmlmodule.htm" translate="no">Qt Quick Test</a> is a unit test framework for QML applications. Test cases are written as JavaScript functions within a <a href="./qml-qttest-testcase.htm" translate="no">TestCase</a> type:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.3
+import QtTest 1.0
+
+<span class="type"><a href="./qml-qttest-testcase.htm" translate="no">TestCase</a></span> {
+    <span class="name">name</span>: <span class="string">"MathTests"</span>
+
+    <span class="keyword">function </span><span class="name">test_math</span>() {
+        <span class="name">compare</span>(<span class="number">2</span> <span class="operator">+</span> <span class="number">2</span>, <span class="number">4</span>, <span class="string">"2 + 2 = 4"</span>)
+    }
+
+    <span class="keyword">function </span><span class="name">test_fail</span>() {
+        <span class="name">compare</span>(<span class="number">2</span> <span class="operator">+</span> <span class="number">2</span>, <span class="number">5</span>, <span class="string">"2 + 2 = 5"</span>)
+    }
+}</pre></div>
+<p>Functions whose names start with <code translate="no">test_</code> are treated as test cases to be executed. See the documentation for the <a href="./qml-qttest-testcase.htm" translate="no">TestCase</a> and <a href="./qml-qttest-signalspy.htm" translate="no">SignalSpy</a> types for more information on writing test cases.</p>
+<div class="admonition note">
+<p><b>Note: </b>There is no binary compatibility guarantee for the Qt Quick Test module. This means that an application that uses Qt Quick Test is only guaranteed to work with the Qt version it was developed against. However, source compatibility is guaranteed.</p>
+</div>
+<a name="running-qt-quick-tests"></a><a name="running-tests"></a>
+<h2 id="running-tests">Running Tests<a class="plink" href="#running-tests" title="Direct link to this headline"></a></h2>
+<p>Test cases are launched by a C++ harness that consists of the following code:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QtQuickTest&gt;</span>
+QUICK_TEST_MAIN(example)</pre></div>
+<p>Where "example" is the identifier to use to uniquely identify this set of tests. Finally, add <code translate="no">CONFIG += qmltestcase</code> to the project file:</p>
+<div class="pre"><pre class="cpp plain" translate="no">TEMPLATE = app
+TARGET = tst_example
+CONFIG += warn_on qmltestcase
+SOURCES += tst_example.cpp</pre></div>
+<p>The test harness scans the specified source directory recursively for "tst_*.qml" files. If <code translate="no">QUICK_TEST_SOURCE_DIR</code> is not defined, then the current directory will be scanned when the harness is run. Other *.qml files may appear for auxillary QML components that are used by the test.</p>
+<p>The <code translate="no">-input</code> command-line option can be set at runtime to run test cases from a different directory. This may be needed to run tests on a target device where the compiled-in directory name refers to a host. For example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">tst_example -input /mnt/SDCard/qmltests</pre></div>
+<p>It is also possible to run a single file using the <code translate="no">-input</code> option. For example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">tst_example -input data/test.qml</pre></div>
+<div class="pre"><pre class="cpp plain" translate="no">tst_example -input &lt;full_path&gt;/test.qml</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>Specifying the full path to the qml test file is for example needed for shadow builds.</p>
+</div>
+<p>If your test case needs QML imports, then you can add them as <code translate="no">-import</code> options to the test program command-line.</p>
+<p>If <code translate="no">IMPORTPATH</code> is specified in your .pro file, each import path added to <code translate="no">IMPORTPATH</code> will be passed as a command-line argument when the test is run using "make check":</p>
+<div class="pre"><pre class="cpp plain" translate="no">IMPORTPATH += $$PWD/../imports/my_module1 $$PWD/../imports/my_module2</pre></div>
+<p>The <code translate="no">-functions</code> command-line option will return a list of the current tests functions. It is possible to run a single test function using the name of the test function as an argument. For example:</p>
+<div class="pre"><pre class="cpp plain" translate="no">tst_example Test_Name::function1</pre></div>
+<p>The <code translate="no">-help</code> command-line option will return all the options available.</p>
+<div class="pre"><pre class="cpp plain" translate="no">tst_example -help</pre></div>
+<a name="executing-c-before-qml-tests"></a>
+<h2 id="executing-c-before-qml-tests">Executing C++ Before QML Tests<a class="plink" href="#executing-c-before-qml-tests" title="Direct link to this headline"></a></h2>
+<p>To execute C++ code before any of the QML tests are run, the <a href="./qquicktest.htm#QUICK_TEST_MAIN_WITH_SETUP" translate="no">QUICK_TEST_MAIN_WITH_SETUP</a> macro can be used. This can be useful for setting context properties on the QML engine, amongst other things.</p>
+<p>The macro is identical to <code translate="no">QUICK_TEST_MAIN</code>, except that it takes an additional <code translate="no">QObject*</code> argument. The test framework will call slots and invokable functions with the following names:</p>
+<div class="table"><table class="generic">
+<thead><tr class="qt-style"><th>Name</th><th>Purpose</th><th>Since</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><code translate="no">void applicationAvailable()</code></td><td>Called right after the QApplication object was instantiated. Use this function to perform setup that does not require a <a href="./qqmlengine.htm" translate="no">QQmlEngine</a> instance.</td><td>Qt 5.12</td></tr>
+<tr class="even" valign="top"><td><code translate="no">void qmlEngineAvailable(QQmlEngine *)</code></td><td>Called when the QML engine is available. Any <a href="./qqmlengine.htm#addImportPath" translate="no">import paths</a>, <a href="./qqmlengine.htm#addPluginPath" translate="no">plugin paths</a>, and <a href="./qqmlfileselector.htm#setExtraSelectors" translate="no">extra file selectors</a> will have been set on the engine by this point.<p>This function is called once for each QML test file, so any arguments are unique to that test. For example, this means that each QML test file will have its own QML engine.</p>
+<p>This function can be used to <a href="./qtqml-cppintegration-overview.htm#choosing-the-correct-integration-method-between-c-and-qml" translate="no">register QML types</a> and <a href="./qqmlengine.htm#addImportPath" translate="no">add import paths</a>, amongst other things.</p>
+</td><td>Qt 5.11</td></tr>
+<tr class="odd" valign="top"><td><code translate="no">void cleanupTestCase()</code></td><td>Called right after the test execution has finished. Use this function to clean up before everything will start to be destructed.</td><td>Qt 5.12</td></tr>
+</tbody></table></div>
+<p>The following example demonstrates how the macro can be used to set context properties on the QML engine:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// tst_mytest.cpp</span>
+<span class="preprocessor">#include &lt;QtQuickTest&gt;</span>
+<span class="preprocessor">#include &lt;QQmlEngine&gt;</span>
+<span class="preprocessor">#include &lt;QQmlContext&gt;</span>
+
+<span class="keyword">class</span> Setup : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    Setup() {}
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> qmlEngineAvailable(<span class="type"><a href="./qqmlengine.htm" translate="no">QQmlEngine</a></span> <span class="operator">*</span>engine)
+    {
+        engine<span class="operator">-</span><span class="operator">&gt;</span>rootContext()<span class="operator">-</span><span class="operator">&gt;</span>setContextProperty(<span class="string">"myContextProperty"</span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>(<span class="keyword">true</span>));
+    }
+};
+
+QUICK_TEST_MAIN_WITH_SETUP(mytest<span class="operator">,</span> Setup)
+
+<span class="preprocessor">#include "tst_mytest.moc"</span></pre></div>
+<p>The <code translate="no">.moc</code> include is based on the file name of the <code translate="no">.cpp</code> file. For example, in the example above, the <code translate="no">.cpp</code> file is named <code translate="no">tst_mytest.cpp</code>. If the file was named <code translate="no">MyTest.cpp</code>, the include would be:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include "MyTest.moc"</span></pre></div>
+<a name="reference"></a>
+<h2 id="reference">Reference<a class="plink" href="#reference" title="Direct link to this headline"></a></h2>
+<ul>
+<li><a href="./qttest-qmlmodule.htm" translate="no">QML Types</a></li>
+<li><a href="./qtquicktest-module.htm" translate="no">C++ API</a></li>
+</ul>
+<a name="licenses"></a>
+<h2 id="licenses">Licenses<a class="plink" href="#licenses" title="Direct link to this headline"></a></h2>
+<p>Qt Quick Tests is available under commercial licenses from <a href="http://www.qt.io/about-us/" translate="no">The Qt Company</a>. In addition, it is available under free software licenses. Since Qt 5.4, these free software licenses are <a href="http://www.gnu.org/licenses/lgpl-3.0.html" translate="no">GNU Lesser General Public License, version 3</a>, or the <a href="http://www.gnu.org/licenses/gpl-2.0.html" translate="no">GNU General Public License, version 2</a>. See <a href="./licensing.htm" translate="no">Qt Licensing</a> for further details.</p>
+</div>
+<!-- @@@qtquicktest-index.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

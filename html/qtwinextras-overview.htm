@@ -1,0 +1,148 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Windows Extras Overview | Qt Windows Extras</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwinextras-index.htm" translate="no">Qt Windows Extras</a></li>
+                            <li><a>Qt Windows Extras Overview</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Windows Extras Overview</h1>
+<span class="subtitle"></span>
+<!-- $$$qtwinextras-Overview.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Qt Windows Extras provide classes and functions that enable you to use miscellaneous Windows-specific functions. For example, you can convert Qt objects to Windows object handles and manipulate DWM glass frames.</p>
+<p>In addition, you can use features introduced with Windows 7, such as Aero Peek, Jump Lists, a progress indicator on a taskbar button, or a thumbnail toolbar.</p>
+<a name="type-conversion"></a>
+<h2 id="type-conversion">Type Conversion<a class="plink" href="#type-conversion" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qtwin.htm" translate="no">QtWin</a> namespace provides functions to convert Qt objects of classes such as <a href="./qpixmap.htm" translate="no">QPixmap</a> or <a href="./qimage.htm" translate="no">QImage</a> to Windows HBITMAP or HICON handles, and vice versa.</p>
+<a name="dwm-and-glass-frame"></a>
+<h2 id="dwm-and-glass-frame">DWM and Glass Frame<a class="plink" href="#dwm-and-glass-frame" title="Direct link to this headline"></a></h2>
+<p>You can determine whether a window is included in the DWM Flip3D rendering.</p>
+<p>The glass frame that was first introduced with Windows Vista can be easily manipulated using the QtWin::extendFrameIntoClientArea() and QtWin::enableBlurBehindWindow() functions. Windows 8 lost the glass effect, but applications can still integrate their windows into the system frame to visually separate window controls from the rest of the window or to focus the user's attention on window content.</p>
+<p class="centerAlign"><img alt="&quot;Glass frame extended into client area of a window&quot;" src="./images/glass.png"></p><a name="aero-peek"></a>
+<h2 id="aero-peek">Aero Peek<a class="plink" href="#aero-peek" title="Direct link to this headline"></a></h2>
+<p>The Windows 7 <b>Aero Peek</b> feature gives the users the powers of X-ray vision that enable them to peek past all open windows straight at the desktop and the gadgets placed there. They can view the contents of a window without actually switching to it. You can enable Aero Peek for a gadget-like window or for a window that constantly displays monitoring data.</p>
+<p>You can use the QtWin::setWindowExcludedFromPeek() function to exclude an application window from Aero Peek.</p>
+<div class="admonition note">
+<p><b>Note: </b>Aero Peek is disabled in Windows 8 by default but can be enabled by the user.</p>
+</div>
+<p class="centerAlign"><img alt="&quot;A window excluded from Aero Peek&quot;" src="./images/peek-on.png"></p><a name="taskbar"></a>
+<h2 id="taskbar">Taskbar<a class="plink" href="#taskbar" title="Direct link to this headline"></a></h2>
+<p>The taskbar provides users with access to applications that are open on the desktop. Windows automatically creates buttons on the taskbar for accessing application windows. Windows 7 adds new features to the taskbar buttons that are discussed in the following sections.</p>
+<a name="overlay-icons-and-progress-indicators"></a>
+<h3 id="overlay-icons-and-progress-indicators">Overlay Icons and Progress Indicators<a class="plink" href="#overlay-icons-and-progress-indicators" title="Direct link to this headline"></a></h3>
+<p>You can use the QWinTaskbarButton class to set an overlay icon and the QWinTaskbarProgress class to display a progress indicator on a taskbar button. An overlay icon indicates change in the state of the application. A progress indicator shows how time-consuming tasks are progressing.</p>
+<p class="centerAlign"><img alt="Taskbar Button" src="./images/taskbar-button.png"></p><a name="taskbar-example"></a>
+<h4 id="taskbar-example">Taskbar Example<a class="plink" href="#taskbar-example" title="Direct link to this headline"></a></h4>
+<p>The following example code illustrates how to use the QWinTaskbarButton and QWinTaskbarProgress classes to adjust the look of the taskbar button:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qwintaskbarbutton.htm" translate="no">QWinTaskbarButton</a></span> <span class="operator">*</span>button <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwintaskbarbutton.htm" translate="no">QWinTaskbarButton</a></span>(widget);
+    button<span class="operator">-</span><span class="operator">&gt;</span>setWindow(widget<span class="operator">-</span><span class="operator">&gt;</span>windowHandle());
+    button<span class="operator">-</span><span class="operator">&gt;</span>setOverlayIcon(<span class="type"><a href="./qicon.htm" translate="no">QIcon</a></span>(<span class="string">":/loading.png"</span>));
+
+    <span class="type"><a href="./qwintaskbarprogress.htm" translate="no">QWinTaskbarProgress</a></span> <span class="operator">*</span>progress <span class="operator">=</span> button<span class="operator">-</span><span class="operator">&gt;</span>progress();
+    progress<span class="operator">-</span><span class="operator">&gt;</span>setVisible(<span class="keyword">true</span>);
+    progress<span class="operator">-</span><span class="operator">&gt;</span>setValue(<span class="number">50</span>);</pre></div>
+<a name="jump-lists"></a>
+<h3 id="jump-lists">Jump Lists<a class="plink" href="#jump-lists" title="Direct link to this headline"></a></h3>
+<p>An application can use Jump Lists to provide users with faster access to files or to display shortcuts to tasks or commands.</p>
+<p class="centerAlign"><img alt="Jump List" src="./images/jumplist.png"></p><ul>
+<li><b>Destinations</b> — categorized shortcuts to files and URLs that the application can handle and even links to other applications. Windows provides two standard categories that can be added to the custom Jump List, in addition to the ones that the application can create itself.</li>
+<li><b>Recent</b> and <b>Frequent</b> — so called <i>known</i> categories that are populated automatically by Windows when the application uses the <a href="./qfiledialog.htm#getOpenFileName" translate="no">QFileDialog::getOpenFileName</a>() function or when the application is launched to open a file from the Windows shell.</li>
+<li><b>Tasks</b> — shortcuts to application functionality. An application can display its most frequently used context-independent functions on task lists.</li>
+</ul>
+<div class="admonition note">
+<p><b>Note: </b>To be able to add destinations to its Jump Lists, the application should associate itself with the file types it can handle.</p>
+</div>
+<a name="jump-list-example"></a>
+<h4 id="jump-list-example">Jump List Example<a class="plink" href="#jump-list-example" title="Direct link to this headline"></a></h4>
+<p>The following example code illustrates how to use the classes in the QWinJumpList and QWinJumpListItem classes to implement Jump Lists:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qwinjumplist.htm" translate="no">QWinJumpList</a></span> jumplist;
+
+    <span class="type"><a href="./qwinjumplistcategory.htm" translate="no">QWinJumpListCategory</a></span> <span class="operator">*</span>tasks <span class="operator">=</span> jumplist<span class="operator">.</span>tasks();
+    <span class="type"><a href="./qwinjumplistitem.htm" translate="no">QWinJumpListItem</a></span> <span class="operator">*</span>newProject <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwinjumplistitem.htm" translate="no">QWinJumpListItem</a></span>(<span class="type"><a href="./qwinjumplistitem.htm" translate="no">QWinJumpListItem</a></span><span class="operator">::</span>Link);
+    newProject<span class="operator">-</span><span class="operator">&gt;</span>setTitle(tr(<span class="string">"Create new project"</span>));
+    newProject<span class="operator">-</span><span class="operator">&gt;</span>setFilePath(<span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(<span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationFilePath()));
+    newProject<span class="operator">-</span><span class="operator">&gt;</span>setArguments(<span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span>(<span class="string">"--new-project"</span>));
+    tasks<span class="operator">-</span><span class="operator">&gt;</span>addItem(newProject);
+
+    tasks<span class="operator">-</span><span class="operator">&gt;</span>addLink(tr(<span class="string">"Launch SDK Manager"</span>)<span class="operator">,</span> <span class="type"><a href="./qdir.htm" translate="no">QDir</a></span><span class="operator">::</span>toNativeSeparators(<span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationDirPath()) <span class="operator">+</span> <span class="string">"\\sdk-manager.exe"</span>);
+
+    tasks<span class="operator">-</span><span class="operator">&gt;</span>setVisible(<span class="keyword">true</span>);</pre></div>
+<a name="thumbnail-toolbar"></a>
+<h3 id="thumbnail-toolbar">Thumbnail Toolbar<a class="plink" href="#thumbnail-toolbar" title="Direct link to this headline"></a></h3>
+<p>Applications can embed a toolbar in the thumbnail of a window, which is shown when hovering over its taskbar icon. A thumbnail toolbar may provide quick access to the window's commands without requiring the user to restore or activate the window.</p>
+<p class="centerAlign"><img alt="Media player thumbnail toolbar" src="./images/thumbbar.png"></p><a name="thumbnail-toolbar-example"></a>
+<h4 id="thumbnail-toolbar-example">Thumbnail Toolbar Example<a class="plink" href="#thumbnail-toolbar-example" title="Direct link to this headline"></a></h4>
+<p>The following example code illustrates how to use the functions in the QWinThumbnailToolBar and QWinThumbnailToolButton class to implement a thumbnail toolbar:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qwinthumbnailtoolbar.htm" translate="no">QWinThumbnailToolBar</a></span> <span class="operator">*</span>thumbbar <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwinthumbnailtoolbar.htm" translate="no">QWinThumbnailToolBar</a></span>(widget);
+    thumbbar<span class="operator">-</span><span class="operator">&gt;</span>setWindow(widget<span class="operator">-</span><span class="operator">&gt;</span>windowHandle());
+
+    <span class="type"><a href="./qwinthumbnailtoolbutton.htm" translate="no">QWinThumbnailToolButton</a></span> <span class="operator">*</span>settings <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwinthumbnailtoolbutton.htm" translate="no">QWinThumbnailToolButton</a></span>(thumbbar);
+    settings<span class="operator">-</span><span class="operator">&gt;</span>setToolTip(<span class="string">"Settings"</span>);
+    settings<span class="operator">-</span><span class="operator">&gt;</span>setIcon(<span class="string">":/settings.png"</span>);
+    settings<span class="operator">-</span><span class="operator">&gt;</span>setDismissOnClick(<span class="keyword">true</span>);
+    connect(settings<span class="operator">,</span> SIGNAL(clicked())<span class="operator">,</span> settingsPage<span class="operator">,</span> SLOT(show()));
+
+    <span class="type"><a href="./qwinthumbnailtoolbutton.htm" translate="no">QWinThumbnailToolButton</a></span> <span class="operator">*</span>playPause <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwinthumbnailtoolbutton.htm" translate="no">QWinThumbnailToolButton</a></span>(thumbbar);
+    playPause<span class="operator">-</span><span class="operator">&gt;</span>setToolTip(<span class="string">"Play/Pause"</span>);
+    playPause<span class="operator">-</span><span class="operator">&gt;</span>setIcon(<span class="string">":/play.png"</span>);
+    connect(playPause<span class="operator">,</span> SIGNAL(clicked())<span class="operator">,</span> mediaPlayer<span class="operator">,</span> SLOT(play()));
+
+    thumbbar<span class="operator">-</span><span class="operator">&gt;</span>addButton(settings);
+    thumbbar<span class="operator">-</span><span class="operator">&gt;</span>addButton(playPause);</pre></div>
+</div>
+<!-- @@@qtwinextras-Overview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

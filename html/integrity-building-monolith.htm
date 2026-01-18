@@ -1,0 +1,278 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building Monolith Project</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/integrity-building-monolith.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Building Monolith Project</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="integrity-building-qt-for-imx6quad-board.html" rel="prev">
+<link href="integrity-building-u-boot-image.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./integrity-building-qt-for-imx6quad-board.htm">Building Qt for i.MX6 Quad Board</a>
+<a class="" href="./integrity-building-u-boot-image.htm">Building U-Boot Image</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Building Monolith Project</h1>
+<span class="subtitle"></span>
+<!-- $$$integrity-building-monolith.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>In this tutorial, we build a monolith INTEGRITY project for a Qt example application. You can select any Qt example application that uses the <a href="./integrity.htm#supported-qt-modules" translate="no">supported Qt modules</a>.</p>
+<p>Before you can build a monolith INTEGRITY project, you need to prepare your build environment for the <code translate="no">qmake</code> build tool. You can do this by running the script <i>~/setEnvironment.sh</i> that you created in <a href="./integrity-building-qt-for-imx6quad-board.htm#creating-script-for-running-exports" translate="no">Creating Script for Running Exports</a>.</p>
+<p>Run the following commands in a terminal:</p>
+<div class="pre"><pre class="cpp plain" translate="no">source ~/setEnvironment.sh
+&lt;Qt installation path&gt;/qtbase/bin/qmake &lt;Qt example application path&gt;/&lt;projectname&gt;.pro
+make</pre></div>
+<p>The <code translate="no">qmake</code> tool must be called under the Qt installation path (&lt;Qt installation path&gt;), where you installed the Qt sources in <a href="./integrity-building-qt-for-imx6quad-board.htm#getting-qt-source-code" translate="no">Getting Qt Source Code</a>.</p>
+<p>&lt;Qt example application path&gt;/&lt;projectname&gt;.pro is the installation path of the Qt example application project file that the monolith INTEGRITY project will be built for.</p>
+<a name="building-monolith-project"></a>
+<h2 id="building-monolith-project">Building Monolith Project<a class="plink" href="#building-monolith-project" title="Direct link to this headline"></a></h2>
+<p>To build a monolith INTEGRITY project, create an empty directory for your project in your home folder. In the steps below, we use the directory name <i>mymonolith</i>.</p>
+<a name="defining-project-with-project-wizard"></a>
+<h3 id="defining-project-with-project-wizard">Defining Project with Project Wizard<a class="plink" href="#defining-project-with-project-wizard" title="Direct link to this headline"></a></h3>
+<p>Launch MULTI Launcher and select <b translate="no">File</b> &gt; <b translate="no">Create New Project</b>. Define your monolith project with Project Wizard:</p>
+<ol class="1" type="1"><li>In the <b translate="no">Project name</b> tab, fill in the <b translate="no">Directory</b> field with the directory you just created.</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Operating System</b> tab, select <i>INTEGRITY</i> from the <b translate="no">Operating System</b> list.<div class="admonition note">
+<p><b>Note: </b>The <b translate="no">OS Distribution Directory</b> field must contain your INTEGRITY installation directory (in our example, <i>mymonolith</i>).</p>
+</div>
+</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Processor Family</b> tab, select <b translate="no">ARM</b>.</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Target Board</b> tab, select <b translate="no">ARM Cortex-A9 Platform </b> from the target board list.</li>
+<li>Select <b translate="no">Finish</b>.</li>
+</ol>
+<p class="centerAlign"><img alt="" src="./images/project-wizard.png"></p><p>After selecting <b translate="no">Finish</b> in Project Wizard, Project Manager is opened.</p>
+<a name="project-manager-settings"></a>
+<h3 id="project-manager-settings">Project Manager Settings<a class="plink" href="#project-manager-settings" title="Direct link to this headline"></a></h3>
+<p>With Project Manager you can define the settings for the monolith project:</p>
+<ol class="1" type="1"><li>In the <b translate="no">Select Item to Add</b> dialog page, select <b translate="no">Monolith</b> from the <b translate="no">Create New</b> list.<p class="centerAlign"><img alt="" src="./images/select-item-to-add.png"></p></li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Settings for Monolith</b> dialog, define the settings:<ul>
+<li><b translate="no">Source Code Directory</b> is your project directory (in our example, <i>mymonolith</i>).</li>
+<li><b translate="no">Project Name</b> is the name of your project. In our example, we use the name <i>myproject</i>.</li>
+<li><b translate="no">Language</b> must be <b translate="no">C</b>. The Qt projects are C++ projects, but this will be configured later.</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li><b translate="no">Use Shared Libraries</b> should not be selected.</li>
+<li>Select <b translate="no">Next</b>.</li>
+</ul>
+</li>
+<li>In the <b translate="no">Configure number of Virtual AddressSpaces</b> dialog page, select the checkbox <b translate="no">Names of Virtual Address Spaces</b> and type <i>galcore</i>.</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Settings for Kernel</b> dialog page, type the name of your kernel.</li>
+<li>Select <b translate="no">Debugging</b>, <b translate="no">Dynamic Load</b> and <b translate="no">ResourceManager</b> from the <b translate="no">Kernel Libraries</b> list.<p class="centerAlign"><img alt="" src="./images/kernel-settings.png"></p></li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Settings for OS Module Selection</b> dialog page, select <b translate="no">File System (User Configured)</b> and <b translate="no">GHnet IPv4 Stack (Virtual)</b> from the <b translate="no">OS Module</b> list.</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>In the <b translate="no">Settings for File System (User Configured)</b> dialog page, select a filesystem that your monolith project supports.<p>In our example, we have selected <b translate="no">MSDOS FAT</b> from the <b translate="no">Libraries</b> list.</p>
+</li>
+<li>Select <b translate="no">Finish</b>.</li>
+<li>In the <b translate="no">Settings for Add File System Clients</b> dialog page, select <b translate="no">Finish</b>.</li>
+</ol>
+<a name="adding-file-system-mount-point"></a>
+<h3 id="adding-file-system-mount-point">Adding File System Mount Point<a class="plink" href="#adding-file-system-mount-point" title="Direct link to this headline"></a></h3>
+<p>You need to configure the file system to use the first partition of the micro SD card. In the MULTI Project Manager view, you see a tree structure of your monolith project:</p>
+<ol class="1" type="1"><li>Right-click the file <i>mounttable.c</i> to open the context menu.</li>
+<li>Select <b translate="no">Modify Project</b> &gt; <b translate="no">Add INTEGRITY File System Mount Point</b>.</li>
+<li>In the <b translate="no">Settings for FS MountPoint</b> dialog, define the settings:<ul>
+<li>Type <i>/</i> to <b translate="no">Mount Directory</b>.</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li><b translate="no">File System Type</b> is <i>MSDOS FAT</i>.</li>
+<li>Select <b translate="no">Next</b>.</li>
+<li>Select the <b translate="no">Use Physical Device</b> radio button.</li>
+<li>Type <i>SDCardDev1</i> to the <b translate="no">Device</b> field.</li>
+<li><b translate="no">Slice</b> is <i>a</i>.</li>
+<li>Select <b translate="no">Finish</b>.</li>
+</ul>
+</li>
+</ol>
+<a name="galcore-vas-settings"></a>
+<h3 id="galcore-vas-settings">Galcore VAS Settings<a class="plink" href="#galcore-vas-settings" title="Direct link to this headline"></a></h3>
+<p>Next, define the virtual address space (VAS) settings for your project.</p>
+<p>In the MULTI Project Manager view, you see a tree structure of your monolith project:</p>
+<ol class="1" type="1"><li>Double-click the .int file in your project (1) (in the steps below, <i>myproject.int</i>).</li>
+<li>In the opened window, double-click the galcore virtual address space (VAS) area (2).<p class="centerAlign"><img alt="" src="./images/project-view.png"></p></li>
+<li><b translate="no">VirtualAddressSpace Options</b> dialog is opened.</li>
+<li>In the <b translate="no">Attributes</b> tab, select the values defined in <a href="./integrity-building-monolith.htm#values-in-attributes-tab" translate="no">Values in Attributes Tab</a>.</li>
+<li>Select <b translate="no">OK</b>.</li>
+<li>In the galcore virtual address space area, double-click the <b translate="no">Task Initial</b> area (3).<p class="centerAlign"><img alt="" src="./images/project-view-2.png"></p></li>
+<li>Select the <b translate="no">Start Automatically</b> check box.</li>
+<li>Select <b translate="no">OK</b>.</li>
+</ol>
+<a name="values-in-attributes-tab"></a>
+<h4 id="values-in-attributes-tab">Values in Attributes Tab<a class="plink" href="#values-in-attributes-tab" title="Direct link to this headline"></a></h4>
+<p>Add the following attribute values for the virtual address space:</p>
+<div class="table"><table class="generic" width="80%">
+<thead><tr class="qt-style"><th>Attribute</th><th>Value</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>Maximum Priority</td><td>255</td></tr>
+<tr class="even" valign="top"><td>Maximum Weight</td><td>255</td></tr>
+<tr class="odd" valign="top"><td>Memory Pool Size</td><td>2000P</td></tr>
+<tr class="even" valign="top"><td>Heap Size</td><td>0X2000000</td></tr>
+<tr class="odd" valign="top"><td>Heap Extension Reserved Size</td><td>0x20000</td></tr>
+<tr class="even" valign="top"><td>Arguments</td><td>Leave blank.</td></tr>
+</tbody><thead><tr class="qt-style"><th>Checkbox</th><th>Value</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td>Create Extra Virtual Memory Regions</td><td>Select the checkbox.</td></tr>
+</tbody></table></div>
+<a name="editing-galcore-project"></a>
+<h3 id="editing-galcore-project">Editing Galcore Project<a class="plink" href="#editing-galcore-project" title="Direct link to this headline"></a></h3>
+<p>You need to edit a number of files in the monolith project.</p>
+<a name="file-galcore-c"></a>
+<h4 id="file-galcore-c">File galcore.c<a class="plink" href="#file-galcore-c" title="Direct link to this headline"></a></h4>
+<ol class="1" type="1"><li>Select <i>galcore.c</i> from the tree structure in the MULTI Project Manager view.</li>
+<li>Double-click the file to open it for editing.</li>
+<li>Add the following code to <i>galcore.c</i>:<div class="pre"><pre class="cpp plain" translate="no">#include &lt;INTEGRITY.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+extern Error GalCore_TaskInit(void);
+int main(void) {
+    Error E;
+    E = GalCore_TaskInit();
+    if (E != Success) {
+        printf("Failed to start GalCore tasks\n");
+    }
+    Exit(0);
+}</pre></div>
+</li>
+</ol>
+<a name="file-galcore-gpj"></a>
+<h4 id="file-galcore-gpj">File galcore.gpj<a class="plink" href="#file-galcore-gpj" title="Direct link to this headline"></a></h4>
+<ol class="1" type="1"><li>Select <i>galcore.gpj</i> from the tree structure in the MULTI Project Manager view.</li>
+<li>Right-click the file to open the context menu.</li>
+<li>Select <b translate="no">Edit</b>.</li>
+<li>Add the file <i>libgalcore.a</i> to <i>galcore.gpj</i>.</li>
+</ol>
+<p>Contents of <i>galcore.gpj</i> should be as follows:</p>
+<div class="pre"><pre class="cpp plain" translate="no">#!gbuild
+#component integrity_virtual_address_space
+[Program]
+    -lgalcore
+tgt/INTEGRITY.ld
+galcore.c</pre></div>
+<a name="file-kernel-gpj"></a>
+<h4 id="file-kernel-gpj">File kernel.gpj<a class="plink" href="#file-kernel-gpj" title="Direct link to this headline"></a></h4>
+<ol class="1" type="1"><li>Select <i>kernel.gpj</i> from the tree structure in the MULTI Project Manager view.</li>
+<li>Right-click the file to open the context menu.</li>
+<li>Select <b translate="no">Edit</b>.</li>
+<li>Add the file <i>libgalcore-iod.a</i> to <i>kernel.gpj</i>.</li>
+</ol>
+<p>Contents of <i>kernel.gpj</i> should be as follows:</p>
+<div class="pre"><pre class="cpp plain" translate="no">#!gbuild
+#component integrity_kernel_monolith
+[Program]
+    -kernel
+    -ldebug
+    -lload
+    -lres
+    -lgalcore-iod
+tgt/default.ld
+myproject_kernel.c
+global_table.c</pre></div>
+<a name="file-monolith-gpj"></a>
+<h4 id="file-monolith-gpj">File monolith.gpj<a class="plink" href="#file-monolith-gpj" title="Direct link to this headline"></a></h4>
+<ol class="1" type="1"><li>Select <i>monolith.gpj</i> from the tree structure in the MULTI Project Manager view.</li>
+<li>Righ-click the file to open the context menu.</li>
+<li>Select <b translate="no">Edit</b>.</li>
+<li>Add the additional library directory <i>$(__LIBS_DIR_BASE)/Vivante</i>.</li>
+</ol>
+<p>Contents of <i>monolith.gpj</i> should be as follows:</p>
+<div class="pre"><pre class="cpp plain" translate="no">#!gbuild
+#component integrity_monolith
+[INTEGRITY Application]
+    -non_shared
+   -I$__OS_DIR/modules/ghs/ghnet2/source/kernel/integrity/ip4server :sourceDir=$__OS_DIR/modules/ghs/ghnet2/source/kernel/integrity/ip4server
+   -L$(__LIBS_DIR_BASE)/Vivante
+tgt/default.bsp
+myproject.int
+galcore.gpj [Program]
+myproject_kernel.gpj [Program]
+my_ivfsserver_module.gpj [Program]
+ip4server_module.gpj [Program]</pre></div>
+<a name="int-file"></a>
+<h4 id="int-file">.int File<a class="plink" href="#int-file" title="Direct link to this headline"></a></h4>
+<ol class="1" type="1"><li>Select the <i>.int</i> file of your project from the tree structure in the MULTI Project Manager view.</li>
+<li>Right-click the file to open the context menu.</li>
+<li>Select <b translate="no">Edit</b>.</li>
+<li>Add the following lines at the end of the file.<div class="admonition note">
+<p><b>Note: </b>Replace &lt;/path/to/your/app/executable&gt; with a path to your application executable.</p>
+</div>
+<div class="pre"><pre class="cpp plain" translate="no">AddressSpace
+    Name    myappname
+    Filename    /path/to/your/app/executable
+    MemoryPoolSize 0x2000000
+    Language    C++
+    HeapSize    0x6000000
+
+    Task Initial
+        StackSize    0x30000
+        StartIt    true
+    EndTask
+    HeapExtensionReservedSize    0x2000000
+EndAddressSpace</pre></div>
+</li>
+</ol>
+<a name="building-monolith-gpj"></a>
+<h3 id="building-monolith-gpj">Building monolith.gpj<a class="plink" href="#building-monolith-gpj" title="Direct link to this headline"></a></h3>
+<p>Open <i>monolith.gpj</i> from the tree structure in the MULTI Project Manager view. To build the project:</p>
+<ol class="1" type="1"><li>Right-click <i>monolith.gpj</i> to open the context menu.</li>
+<li>Select <b translate="no">Build</b>.</li>
+</ol>
+<p>Your monolith project is now ready to be packaged for U-Boot.</p>
+</div>
+<!-- @@@integrity-building-monolith.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./integrity-building-qt-for-imx6quad-board.htm">Building Qt for i.MX6 Quad Board</a>
+<a class="nextPage" href="./integrity-building-u-boot-image.htm">Building U-Boot Image</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

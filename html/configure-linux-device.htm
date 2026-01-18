@@ -1,0 +1,76 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configure an Embedded Linux Device</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/configure-linux-device.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Configure an Embedded Linux Device</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Configure an Embedded Linux Device</h1>
+<span class="subtitle"></span>
+<!-- $$$configure-linux-device.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Building Qt for a given device requires a toolchain and a <code translate="no">sysroot</code>. Additionally, some devices require vendor-specific adaptation code for EGL and OpenGL ES 2.0 support. This is not relevant for non-accelerated platforms, such as those that use the <a href="./embedded-linux.htm#linuxfb" translate="no">LinuxFB</a> plugin, which is meant for software-based rendering only.</p>
+<p>The <i>qtbase/mkspecs/devices</i> directory contains configuration and graphics adaptation code for a number of devices. For example, the <code translate="no">linux-rasp-pi2-g++</code> mkspec contains build settings such as the optimal compiler and linker flags for the <a href="http://www.raspberrypi.org" translate="no">Raspberry Pi 2</a> device. The mkspec also contains information about either an implementation of the <i>eglfs</i> hooks (vendor-specific adaptation code), or a reference to the suitable <i>eglfs</i> device integration plugin. The device is selected through the <a href="./configure-options.htm" translate="no">configure</a> tool's <code translate="no">-device</code> parameter. The name that follows after this argument must, at least partially, match one of the subdirectories under <i>devices</i>.</p>
+<p>The following is an example configuration for the Raspberry Pi 2. For most Embedded Linux boards, the configure command looks similar:</p>
+<div class="pre"><pre class="cpp plain" translate="no">./configure -release -opengl es2 -device linux-rasp-pi2-g++ -device-option CROSS_COMPILE=$TOOLCHAIN/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf- -sysroot $ROOTFS -prefix /usr/local/qt5</pre></div>
+<p>The most important parameters are <code translate="no">-device</code> and <code translate="no">-sysroot</code>. By specifying <code translate="no">-sysroot</code>, the include files and libraries used by <code translate="no">configure</code>'s feature detection tests, as well as Qt itself, are taken from the specified location, instead of the host PC's standard locations. Consequently, installing development packages on the host machine has no relevance. For example, to get <code translate="no">libinput</code> support, it is not sufficient or necessary to have the <code translate="no">libinput</code> development headers and libraries installed on the host environment. Instead, the headers and the libraries for the target architecture, such as ARM, must be present in the <code translate="no">sysroot</code>.</p>
+<p><code translate="no">pkg-config</code> is supported also when performing cross-compilation. <code translate="no">configure</code> automatically sets <code translate="no">PKG_CONFIG_LIBDIR</code> to make <code translate="no">pkg-config</code> report compiler and linker settings based on the <code translate="no">sysroot</code> instead of the host machine. This usually functions well without any further adjustments. However, environment variables such as <code translate="no">PKG_CONFIG_PATH</code> must be unset for the host machine before running <code translate="no">configure</code>. Otherwise, the Qt build may attempt to use inappropriate headers and libraries from the host system.</p>
+<p>Specifying <code translate="no">-sysroot</code> results in automatically setting the <code translate="no">--sysroot</code> argument when invoking the compiler. In some cases this is not desirable and can be disabled by passing <code translate="no">-no-gcc-sysroot</code> to <code translate="no">configure</code>.</p>
+<p><code translate="no">-prefix</code>, <code translate="no">-extprefix</code>, and <code translate="no">-hostprefix</code> control the intended destination directory of the Qt build. In the above example the ARM build of Qt is expected to be placed in <code translate="no">/usr/local/qt5</code> on the target device. Note that running <code translate="no">make install</code> does not deploy anything to the device. Instead, the <code translate="no">install</code> step targets the directory specified by <code translate="no">extprefix</code> which defaults to <code translate="no">sysroot</code> + <code translate="no">prefix</code> and is therefore optional. However, in many cases "polluting" the sysroot is not desirable and thus specifying <code translate="no">-extprefix</code> becomes important. Finally, <code translate="no">-hostprefix</code> allows separating host tools like qmake, rcc, uic from the binaries for the target. When given, such tools will be installed under the specified directory instead of <code translate="no">extprefix</code>.</p>
+<p>For more information, see <a href="./configure-options.htm" translate="no">Qt Configure Options</a>.</p>
+</div>
+<!-- @@@configure-linux-device.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

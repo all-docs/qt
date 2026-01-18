@@ -1,0 +1,117 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Graphics</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/topics-graphics.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Graphics</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Graphics</h1>
+<span class="subtitle"></span>
+<!-- $$$topics-graphics.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Graphics in Qt 5 is primarily done either through the imperative <a href="./qpainter.htm" translate="no">QPainter</a> API, or through Qt’s declarative UI language, Qt Quick, and its scene graph back-end. Qt 5's graphics capabilities also includes support for printing, as well as the loading and saving of various image formats.</p>
+<a name="2d-graphics-with-qpainter"></a>
+<h2 id="2d-graphics-with-qpainter">2D Graphics with QPainter<a class="plink" href="#2d-graphics-with-qpainter" title="Direct link to this headline"></a></h2>
+<p><a href="./qpainter.htm" translate="no">QPainter</a> provides API for drawing vector graphics, text and images onto different surfaces, or <a href="./qpaintdevice.htm" translate="no">QPaintDevice</a> instances, such as <a href="./qimage.htm" translate="no">QImage</a>, <a href="./whatsnew50.htm#qopenglpaintdevice" translate="no">QOpenGLPaintDevice</a>, <a href="./qwidget.htm" translate="no">QWidget</a>, and <a href="./qprinter.htm" translate="no">QPrinter</a>. The actual drawing happens in the <a href="./qpaintdevice.htm" translate="no">QPaintDevice</a>'s <a href="./qpaintengine.htm" translate="no">QPaintEngine</a>. The software rasterizer and the OpenGL (ES) 2.0 back-ends are the two most important <a href="./qpaintengine.htm" translate="no">QPaintEngine</a> implementations. The raster paint engine is Qt’s software rasterizer, and is used when drawing on a <a href="./qimage.htm" translate="no">QImage</a> or <a href="./qwidget.htm" translate="no">QWidget</a>. Its strength over the OpenGL paint engine is its high quality when antialiasing is enabled, and a complete feature set.</p>
+<ul>
+<li><a href="./paintsystem.htm" translate="no">Paint System</a> - Overview over the <a href="./qpainter.htm" translate="no">QPainter</a> classes and architecture.</li>
+<li><a href="./coordsys.htm" translate="no">Coordinate System</a> - Explains how <a href="./qpainter.htm" translate="no">QPainter</a>'s coordinate system works.</li>
+<li><a href="./paintsystem-drawing.htm" translate="no">Drawing and Filling</a> - Explains how <a href="./qpainter.htm" translate="no">QPainter</a> performs filling and outlining of vector shapes.</li>
+</ul>
+<p>The most important rendering targets for <a href="./qpainter.htm" translate="no">QPainter</a> are:</p>
+<ul>
+<li><a href="./qimage.htm" translate="no">QImage</a> - A hardware-independent image representation with direct pixel access. <a href="./qpainter.htm" translate="no">QPainter</a> will use the software rasterizer to draw to <a href="./qimage.htm" translate="no">QImage</a> instances.</li>
+<li><a href="./qpixmap.htm" translate="no">QPixmap</a> - A image representation suited for display on screen. <a href="./qpainter.htm" translate="no">QPainter</a> will primarily use the software rasterizer to draw to <a href="./qpixmap.htm" translate="no">QPixmap</a> instances.</li>
+<li><a href="./whatsnew50.htm#qopenglpaintdevice" translate="no">QOpenGLPaintDevice</a> - A paint device to render to the current OpenGL (ES) 2.0 context. <a href="./qpainter.htm" translate="no">QPainter</a> will use hardware accellerated OpenGL calls to draw to <a href="./whatsnew50.htm#qopenglpaintdevice" translate="no">QOpenGLPaintDevice</a> instances.</li>
+<li><a href="./qbackingstore.htm" translate="no">QBackingStore</a> - A backbuffer for top-level windows. <a href="./qpainter.htm" translate="no">QPainter</a> will primarily use the software rasterizer to draw to <a href="./qbackingstore.htm" translate="no">QBackingStore</a> instances.</li>
+<li><a href="./qwidget.htm" translate="no">QWidget</a> - A baseclass for pre-Qt Quick user interface classes. <a href="./qpainter.htm" translate="no">QPainter</a> will render widgets using a <a href="./qbackingstore.htm" translate="no">QBackingStore</a>.</li>
+<li><a href="./qopenglwidget.htm" translate="no">QOpenGLWidget</a> - A painter can also be opened on a <a href="./qopenglwidget.htm" translate="no">QOpenGLWidget</a>. This is provided as a convenience, since technically this is no different than using <a href="./whatsnew50.htm#qopenglpaintdevice" translate="no">QOpenGLPaintDevice</a>.</li>
+</ul>
+<p><a href="./qpainter.htm" translate="no">QPainter</a> and related classes are part of the <a href="./qtgui-index.htm" translate="no">Qt GUI</a> module.</p>
+<a name="opengl-and-3d"></a>
+<h2 id="opengl-and-3d">OpenGL and 3D<a class="plink" href="#opengl-and-3d" title="Direct link to this headline"></a></h2>
+<p>OpenGL is the most widely adopted graphics API for hardware accelerated and 3D graphics, implemented on all desktop platforms and almost every mobile and embedded platform. The Qt library contains a number of classes that help users integrate graphics driven by OpenGL or other graphics API calls into their applications, as well as add-on modules for displaying 3D content.</p>
+<ul>
+<li><a href="./qtgui-index.htm" translate="no">OpenGL in Qt GUI</a> - An overview of how OpenGL integrates with the <a href="./qtgui-index.htm" translate="no">Qt GUI</a> module.</li>
+<li><a href="./qopenglwidget.htm" translate="no">QOpenGLWidget</a> is a widget that allows adding OpenGL scenes into <a href="./qwidget.htm" translate="no">QWidget</a>-based user interfaces.</li>
+<li><a href="./qtquick-visualcanvas-scenegraph.htm#mixing-scene-graph-and-the-native-graphics-api" translate="no">OpenGL and Qt Quick 2.0</a> - How to integrate application-provided graphics commands (OpenGL, Vulkan, Direct3D, etc.) into a Qt Quick scene graph.</li>
+<li><a href="http://www.khronos.org/opengl" translate="no">www.khronos.org/opengl</a> - The official OpenGL pages.</li>
+<li><a href="./qtquick3d-index.htm" translate="no">Qt Quick 3D</a> - An add-on module that provides a high-level API for creating 3D content or UIs based on Qt Quick.</li>
+<li><a href="./qt3d-index.htm" translate="no">Qt 3D</a> - An add-on module that provides functionality for near-realtime simulation systems with support for 2D and 3D rendering, in both Qt C++ and Qt Quick applications.</li>
+</ul>
+<p>Prior to Qt 5.0, OpenGL support in Qt was handled by the <a href="./qtopengl-index.htm" translate="no">Qt OpenGL</a> module. This module is still present, but new code should aim to use the new classes in the <a href="./qtgui-index.htm" translate="no">Qt GUI</a> module. The classes are easily distinguisible based on their names: Classes with the <code translate="no">QGL</code> prefix should not be used. Instead, prefer the ones starting with <code translate="no">QOpenGL</code>.</p>
+<a name="qt-quick-scene-graph"></a>
+<h2 id="qt-quick-scene-graph">Qt Quick Scene Graph<a class="plink" href="#qt-quick-scene-graph" title="Direct link to this headline"></a></h2>
+<p>Qt Quick 2 introduces an OpenGL (ES) 2.0 scene graph for rendering. It generally improves the performance of Qt Quick 2 significantly compared to the <a href="./qgraphicsview.htm" translate="no">QGraphicsView</a>/<a href="./qpainter.htm" translate="no">QPainter</a>-based approach used in earlier versions.</p>
+<p>The scene graph is a graphical representation of the Item scene. It can be thought of as a graphical deep copy, an independent structure that contains enough information to render all the items. Once it has been set up, it can be manipulated and rendered independently of the state of the items. On many platforms, the scene graph will even be rendered on a dedicated render thread while the GUI thread is preparing the next frame's state.</p>
+<p>The scene graph is used when you import <a href="./qtquick-module.htm" translate="no">QtQuick</a> 2.x in your QML file, and use <a href="./qquickview.htm" translate="no">QQuickView</a> to run it.</p>
+<ul>
+<li><a href="./qtquick-visualcanvas-scenegraph.htm" translate="no">Qt Quick Scene Graph</a> - Overview of the Qt Quick Scene Graph architecture.</li>
+<li><a href="./qtquick-visualcanvas-scenegraph.htm#scene-graph-and-rendering" translate="no">Scene Graph and Rendering</a> - Breakdown of the rendering of each frame.</li>
+</ul>
+<p>Qt Quick can be mixed with raw OpenGL rendering by connecting to the signals <a href="./qquickwindow.htm#beforeRendering" translate="no">QQuickWindow::beforeRendering</a>() or <a href="./qquickwindow.htm#afterRendering" translate="no">QQuickWindow::afterRendering</a>() which are emitted before and after the Qt Quick scene graph is rendered, respectively. There signals are emitted from the render thread (when applicable), and the connections need to be direct.</p>
+<p>Qt Quick can also be rendered using <a href="http://doc.qt.io/QtQuick2DRenderer" translate="no">Qt Quick 2D Renderer</a>. This raster paint engine enables rendering Qt Quick applications on platforms that do not have OpenGL.</p>
+<a name="printing"></a>
+<h2 id="printing">Printing<a class="plink" href="#printing" title="Direct link to this headline"></a></h2>
+<p>Qt supports printing both directly to actual printers, locally or on the network, as well as producing PDF output. How to do printing with Qt is described in detail on the <a href="./qtprintsupport-index.htm" translate="no">Qt Print Support</a> page.</p>
+<a name="images"></a>
+<h2 id="images">Images<a class="plink" href="#images" title="Direct link to this headline"></a></h2>
+<p>Qt supports convenient reading, writing, and manipulating of images through the <a href="./qimage.htm" translate="no">QImage</a> class. In addition, for more fine grained control of how images are loaded or saved, you can use the <a href="./qimagereader.htm" translate="no">QImageReader</a> and <a href="./qimagewriter.htm" translate="no">QImageWriter</a> classes respectively. To add support for additional image formats, outside of the ones provided by Qt, you can create image format plugins by using <a href="./qimageiohandler.htm" translate="no">QImageIOHandler</a> and <a href="./qimageioplugin.htm" translate="no">QImageIOPlugin</a>.</p>
+<p>See the <a href="./qpixmap.htm#reading-and-writing-image-files" translate="no">Reading and Writing Image Files</a> page for more information.</p>
+</div>
+<p><b>See also </b><a href="./paintsystem.htm" translate="no">Paint System</a>.</p>
+<!-- @@@topics-graphics.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,91 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsolete Members for QGLWidget | Qt OpenGL</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtopengl-index.htm" translate="no">Qt OpenGL</a></li>
+                            <li><a href="./qtopengl-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QGLWidget</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Obsolete Members for QGLWidget</h1>
+<p><b>The following members of class <a href="./qglwidget.htm" translate="no">QGLWidget</a> are obsolete.</b> They are provided to keep old source code working. We strongly advise against using them in new code.</p>
+<h2>Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>void </td><td class="memItemRight bottomAlign"><b><a href="./qglwidget-obsolete.htm#setContext" translate="no">setContext</a></b>(QGLContext *<i>context</i>, const QGLContext *<i>shareContext</i> = nullptr, bool <i>deleteOldContext</i> = true)</td></tr>
+<tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>void </td><td class="memItemRight bottomAlign"><b><a href="./qglwidget-obsolete.htm#setFormat" translate="no">setFormat</a></b>(const QGLFormat &amp;<i>format</i>)</td></tr>
+</tbody></table></div>
+<h2>Member Function Documentation</h2>
+<!-- $$$setContext[overload1]$$$setContextQGLContext*constQGLContext*bool -->
+<h3 class="fn" id="setContext" translate="no"><a name="setContext"></a><span class="type">void</span> QGLWidget::<span class="name">setContext</span>(<span class="type"><a href="./qglcontext.htm" translate="no">QGLContext</a></span> *<i>context</i>, const <span class="type"><a href="./qglcontext.htm" translate="no">QGLContext</a></span> *<i>shareContext</i> = nullptr, <span class="type">bool</span> <i>deleteOldContext</i> = true)<a class="plink" href="#setContext" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Sets a new context for this widget. The <a href="./qglcontext.htm" translate="no">QGLContext</a> <i translate="no">context</i> must be created using <i>new</i>. <a href="./qglwidget.htm" translate="no">QGLWidget</a> will delete <i translate="no">context</i> when another context is set or when the widget is destroyed.</p>
+<p>If <i translate="no">context</i> is invalid, <a href="./qglcontext.htm#create" translate="no">QGLContext::create</a>() is performed on it. The <a href="./qglwidget.htm#initializeGL" translate="no">initializeGL</a>() function will then be executed for the new context before the first <a href="./qglwidget.htm#resizeGL" translate="no">resizeGL</a>() or <a href="./qglwidget.htm#paintGL" translate="no">paintGL</a>().</p>
+<p>If <i translate="no">context</i> is invalid, this method will try to keep display list and texture object sharing in effect, or (if <i translate="no">shareContext</i> points to a valid context) start display list and texture object sharing with that context, but sharing might be impossible if the two contexts have different <a href="./qglwidget.htm#format" translate="no">formats</a>. Use <a href="./qglwidget.htm#isSharing" translate="no">isSharing</a>() to see whether sharing is in effect.</p>
+<p>If <i translate="no">deleteOldContext</i> is true (the default), the existing context will be deleted. You may use false here if you have kept a pointer to the old context (as returned by <a href="./qglwidget.htm#context" translate="no">context</a>()), and want to restore that context later.</p>
+<div class="admonition note">
+<p><b>Note: </b>This function is obsolete and should no longer be used. If you were using it to recreate the context for a <a href="./qglwidget.htm" translate="no">QGLWidget</a>, you should instead create a new <a href="./qglwidget.htm" translate="no">QGLWidget</a> or use the <a href="./qopenglcontext.htm" translate="no">QOpenGLContext</a> API in conjunction with <a href="./qwindow.htm" translate="no">QWindow</a>. There is currently no officially supported way to substitute <a href="./qglwidget.htm" translate="no">QGLWidget</a>'s context with your own implementation of <a href="./qglcontext.htm" translate="no">QGLContext</a>.</p>
+</div>
+<p><b>See also </b><a href="./qglwidget.htm#context" translate="no">context</a>() and <a href="./qglwidget.htm#isSharing" translate="no">isSharing</a>().</p>
+<!-- @@@setContext -->
+<!-- $$$setFormat[overload1]$$$setFormatconstQGLFormat& -->
+<h3 class="fn" id="setFormat" translate="no"><a name="setFormat"></a><span class="type">void</span> QGLWidget::<span class="name">setFormat</span>(const <span class="type"><a href="./qglformat.htm" translate="no">QGLFormat</a></span> &amp;<i>format</i>)<a class="plink" href="#setFormat" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Sets a new format for this widget.</p>
+<p>If the underlying OpenGL/Window system cannot satisfy all the features requested in <i translate="no">format</i>, the nearest subset of features will be used. After creation, the <a href="./qglwidget.htm#format" translate="no">format</a>() method will return the actual rendering context format obtained.</p>
+<p>The widget will be assigned a new <a href="./qglcontext.htm" translate="no">QGLContext</a>, and the <a href="./qglwidget.htm#initializeGL" translate="no">initializeGL</a>() function will be executed for this new context before the first <a href="./qglwidget.htm#resizeGL" translate="no">resizeGL</a>() or <a href="./qglwidget.htm#paintGL" translate="no">paintGL</a>().</p>
+<p>This method will try to keep display list and texture object sharing in effect with other <a href="./qglwidget.htm" translate="no">QGLWidget</a> objects, but changing the format might make sharing impossible. Use <a href="./qglwidget.htm#isSharing" translate="no">isSharing</a>() to see if sharing is still in effect.</p>
+<p><b>See also </b><a href="./qglwidget.htm#format" translate="no">format</a>(), <a href="./qglwidget.htm#isSharing" translate="no">isSharing</a>(), and <a href="./qglwidget.htm#isValid" translate="no">isValid</a>().</p>
+<!-- @@@setFormat -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

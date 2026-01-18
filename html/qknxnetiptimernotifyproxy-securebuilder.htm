@@ -1,0 +1,151 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SecureBuilder | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>SecureBuilder</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">SecureBuilder Class</h1>
+<span class="small-subtitle" translate="no">class <a href="./qknxnetiptimernotifyproxy.htm" translate="no">QKnxNetIpTimerNotifyProxy</a>::SecureBuilder</span>
+<!-- $$$SecureBuilder-brief -->
+<p>The <a href="./qknxnetiptimernotifyproxy-securebuilder.htm" translate="no">QKnxNetIpTimerNotifyProxy::SecureBuilder</a> class provides the means to create a KNXnet/IP timer notify frame. <a href="#details">More...</a></p>
+<!-- @@@SecureBuilder -->
+<ul>
+<li><a href="./qknxnetiptimernotifyproxy-securebuilder-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder-1" translate="no">SecureBuilder</a></b>(const SecureBuilder &amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder" translate="no">SecureBuilder</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> SecureBuilder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#operator-eq" translate="no">operator=</a></b>(const SecureBuilder &amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#dtor.SecureBuilder" translate="no">~SecureBuilder</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIpFrame </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#create" translate="no">create</a></b>(const QKnxByteArray &amp;<i>backboneKey</i>, quint16 <i>ssid</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> SecureBuilder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#setMessageTag" translate="no">setMessageTag</a></b>(quint16 <i>tag</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> SecureBuilder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#setSerialNumber" translate="no">setSerialNumber</a></b>(const QKnxByteArray &amp;<i>serialNumber</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> SecureBuilder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#setTimerValue" translate="no">setTimerValue</a></b>(quint48 <i>timerValue</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$SecureBuilder-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>This class is part of the Qt KNX module and currently available as a Technology Preview, and therefore the API and functionality provided by the class may be subject to change at any time without prior notice.</p>
+<div class="admonition note">
+<p><b>Note: </b>To use this class OpenSSL must be supported on your target system.</p>
+</div>
+<p>This frame will be sent during secure KNXnet/IP multicast group communication to keep the multicast group member's timer values synchronized. The frame is therefore sent to the KNXnet/IP routing endpoint on port <code translate="no">3671</code> of the configured routing multicast address.</p>
+<p>The common way to create a timer notify frame is:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">auto</span> sessionId <span class="operator">=</span> <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="keyword">auto</span> backboneKey <span class="operator">=</span> <span class="operator">.</span><span class="operator">.</span><span class="operator">.</span> <span class="comment">// the backbone key used</span>
+
+<span class="keyword">auto</span> netIpFrame <span class="operator">=</span> <span class="type">QKnxNetIpTimerNotifyProxy</span><span class="operator">::</span>builder()
+    <span class="operator">.</span>setTimerValue(<span class="number">15021976</span>)
+    <span class="operator">.</span>setSerialNumber(<span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span><span class="operator">::</span>fromHex(<span class="string">"0123456789AB"</span>))
+    <span class="operator">.</span>setMessageTag(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span>(<span class="type"><a href="./qrandomgenerator.htm" translate="no">QRandomGenerator</a></span><span class="operator">::</span>global()<span class="operator">-</span><span class="operator">&gt;</span>generate())
+    <span class="operator">.</span>create(backboneKey<span class="operator">,</span> sessionId);</pre></div>
+</div>
+<p><b>See also </b><a href="./qknxcryptographicengine.htm" translate="no">QKnxCryptographicEngine</a>.</p>
+<!-- @@@SecureBuilder -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$SecureBuilder$$$SecureBuilderconstSecureBuilder& -->
+<h3 class="fn" id="SecureBuilder-1" translate="no"><a name="SecureBuilder-1"></a>SecureBuilder::<span class="name">SecureBuilder</span>(const <span class="type"><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder" translate="no">SecureBuilder</a></span> &amp;<i>other</i>)<a class="plink" href="#SecureBuilder-1" title="Direct link to this headline"></a></h3>
+<p>Constructs a copy of <i translate="no">other</i>.</p>
+<!-- @@@SecureBuilder -->
+<!-- $$$SecureBuilder[overload1]$$$SecureBuilder -->
+<h3 class="fn" id="SecureBuilder" translate="no"><a name="SecureBuilder"></a>SecureBuilder::<span class="name">SecureBuilder</span>()<a class="plink" href="#SecureBuilder" title="Direct link to this headline"></a></h3>
+<p>Creates a new empty timer notify frame builder object.</p>
+<!-- @@@SecureBuilder -->
+<!-- $$$operator=[overload1]$$$operator=constSecureBuilder& -->
+<h3 class="fn" id="operator-eq" translate="no"><a name="operator-eq"></a><span class="type"><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder" translate="no">SecureBuilder</a></span> &amp;SecureBuilder::<span class="name">operator=</span>(const <span class="type"><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder" translate="no">SecureBuilder</a></span> &amp;<i>other</i>)<a class="plink" href="#operator-eq" title="Direct link to this headline"></a></h3>
+<p>Assigns the specified <i translate="no">other</i> to this object.</p>
+<!-- @@@operator= -->
+<!-- $$$~SecureBuilder[overload1]$$$~SecureBuilder -->
+<h3 class="fn" id="dtor.SecureBuilder" translate="no"><a name="dtor.SecureBuilder"></a>SecureBuilder::<span class="name">~SecureBuilder</span>()<a class="plink" href="#dtor.SecureBuilder" title="Direct link to this headline"></a></h3>
+<p>Destroys the object and frees any allocated resources.</p>
+<!-- @@@~SecureBuilder -->
+<!-- $$$create[overload1]$$$createconstQKnxByteArray&quint16 -->
+<h3 class="fn" id="create" translate="no"><a name="create"></a><span class="type"><a href="./qknxnetipframe.htm" translate="no">QKnxNetIpFrame</a></span> SecureBuilder::<span class="name">create</span>(const <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> &amp;<i>backboneKey</i>, <span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span> <i>ssid</i>) const<a class="plink" href="#create" title="Direct link to this headline"></a></h3>
+<p>Creates and returns a KNXnet/IP timer notify frame.</p>
+<p>The function computes the AES128 CCM message authentication code (MAC) with the given backbone key <i translate="no">backboneKey</i> and the session ID <i translate="no">ssid</i> and appends it to the newly created frame.</p>
+<div class="admonition note">
+<p><b>Note: </b>The returned frame may be invalid depending on the values used during setup.</p>
+</div>
+<p><b>See also </b><a href="./qknxnetiptimernotifyproxy.htm#isValid" translate="no">isValid</a>().</p>
+<!-- @@@create -->
+<!-- $$$setMessageTag[overload1]$$$setMessageTagquint16 -->
+<h3 class="fn" id="setMessageTag" translate="no"><a name="setMessageTag"></a><span class="type"><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder" translate="no">SecureBuilder</a></span> &amp;SecureBuilder::<span class="name">setMessageTag</span>(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span> <i>tag</i>)<a class="plink" href="#setMessageTag" title="Direct link to this headline"></a></h3>
+<p>Sets the message tag of the generic KNXnet/IP timer notify frame to <i translate="no">tag</i> and returns a reference to the builder.</p>
+<p>In case of a periodic or initial notify the tag contains a random value. In case of an update notify this is the value of the outdated frame triggering the update.</p>
+<!-- @@@setMessageTag -->
+<!-- $$$setSerialNumber[overload1]$$$setSerialNumberconstQKnxByteArray& -->
+<h3 class="fn" id="setSerialNumber" translate="no"><a name="setSerialNumber"></a><span class="type"><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder" translate="no">SecureBuilder</a></span> &amp;SecureBuilder::<span class="name">setSerialNumber</span>(const <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> &amp;<i>serialNumber</i>)<a class="plink" href="#setSerialNumber" title="Direct link to this headline"></a></h3>
+<p>Sets the serial number to <i translate="no">serialNumber</i> and returns a reference to the builder.</p>
+<div class="admonition note">
+<p><b>Note: </b>The serial number must contain exactly 6 bytes.</p>
+</div>
+<!-- @@@setSerialNumber -->
+<!-- $$$setTimerValue[overload1]$$$setTimerValuequint48 -->
+<h3 class="fn" id="setTimerValue" translate="no"><a name="setTimerValue"></a><span class="type"><a href="./qknxnetiptimernotifyproxy-securebuilder.htm#SecureBuilder" translate="no">SecureBuilder</a></span> &amp;SecureBuilder::<span class="name">setTimerValue</span>(<span class="type">quint48</span> <i>timerValue</i>)<a class="plink" href="#setTimerValue" title="Direct link to this headline"></a></h3>
+<p>Sets the timer value to <i translate="no">timerValue</i> and returns a reference to the builder.</p>
+<div class="admonition note">
+<p><b>Note: </b>The size of a timer value is limited to 48 bits, so the maximum number can be <code translate="no">281474976710655</code>. Passing a larger value will result in creating an invalid frame.</p>
+</div>
+<!-- @@@setTimerValue -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

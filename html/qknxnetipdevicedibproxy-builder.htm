@@ -1,0 +1,156 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Builder | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>Builder</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Builder Class</h1>
+<span class="small-subtitle" translate="no">class <a href="./qknxnetipdevicedibproxy.htm" translate="no">QKnxNetIpDeviceDibProxy</a>::Builder</span>
+<!-- $$$Builder-brief -->
+<p>The <a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">QKnxNetIpDeviceDibProxy::Builder</a> class creates a KNXnet/IP device information DIB structure. <a href="#details">More...</a></p>
+<!-- @@@Builder -->
+<ul>
+<li><a href="./qknxnetipdevicedibproxy-builder-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> QKnxNetIpDib </td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#create" translate="no">create</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setDeviceName" translate="no">setDeviceName</a></b>(const QByteArray &amp;<i>deviceName</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setDeviceStatus" translate="no">setDeviceStatus</a></b>(QKnxNetIp::ProgrammingMode <i>mode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setIndividualAddress" translate="no">setIndividualAddress</a></b>(const QKnxAddress &amp;<i>address</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setMacAddress" translate="no">setMacAddress</a></b>(const QKnxByteArray &amp;<i>macAddress</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setMediumType" translate="no">setMediumType</a></b>(QKnx::MediumType <i>mediumType</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setMulticastAddress" translate="no">setMulticastAddress</a></b>(const QHostAddress &amp;<i>multicastAddress</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setProjectInstallationId" translate="no">setProjectInstallationId</a></b>(quint16 <i>projectId</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Builder &amp;</td><td class="memItemRight bottomAlign"><b><a href="./qknxnetipdevicedibproxy-builder.htm#setSerialNumber" translate="no">setSerialNumber</a></b>(const QKnxByteArray &amp;<i>serialNumber</i>)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$Builder-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A KNXnet/IP device information DIB structure contains specific information about a KNXnet/IP device.</p>
+<p>The common way to create such a DIB structure is:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// setup the device information</span>
+
+<span class="keyword">auto</span> dib <span class="operator">=</span> <span class="type">QKnxNetIpDeviceDibProxy</span><span class="operator">::</span>builder()
+   <span class="operator">.</span>setMediumType(mediumType)
+   <span class="operator">.</span>setDeviceStatus(programmingMode);
+   <span class="operator">.</span>setIndividualAddress(individualAddress)
+   <span class="operator">.</span>setProjectInstallationId(projectId)
+   <span class="operator">.</span>setSerialNumber(serialNumber)
+   <span class="operator">.</span>setMulticastAddress(multicastAddress)
+   <span class="operator">.</span>setMacAddress(macAddress)
+   <span class="operator">.</span>setDeviceName(deviceName)
+   <span class="operator">.</span>create();</pre></div>
+</div>
+<!-- @@@Builder -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$create[overload1]$$$create -->
+<h3 class="fn" id="create" translate="no"><a name="create"></a><span class="type"><a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a></span> Builder::<span class="name">create</span>() const<a class="plink" href="#create" title="Direct link to this headline"></a></h3>
+<p>Creates and returns a generic <a href="./qknxnetipdib.htm" translate="no">QKnxNetIpDib</a> containing the specific device information of a KNXnet/IP device.</p>
+<div class="admonition note">
+<p><b>Note: </b>The returned structure may be invalid depending on the values used during setup.</p>
+</div>
+<p><b>See also </b><a href="./qknxnetipdevicedibproxy.htm#isValid" translate="no">isValid</a>().</p>
+<!-- @@@create -->
+<!-- $$$setDeviceName[overload1]$$$setDeviceNameconstQByteArray& -->
+<h3 class="fn" id="setDeviceName" translate="no"><a name="setDeviceName"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setDeviceName</span>(const <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> &amp;<i>deviceName</i>)<a class="plink" href="#setDeviceName" title="Direct link to this headline"></a></h3>
+<p>Sets the device name to <i translate="no">deviceName</i> and returns a reference to the builder.</p>
+<div class="admonition note">
+<p><b>Note: </b>The size of the device name may not contain more than 30 characters.</p>
+</div>
+<!-- @@@setDeviceName -->
+<!-- $$$setDeviceStatus[overload1]$$$setDeviceStatusQKnxNetIp::ProgrammingMode -->
+<h3 class="fn" id="setDeviceStatus" translate="no"><a name="setDeviceStatus"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setDeviceStatus</span>(<span class="type">QKnxNetIp::ProgrammingMode</span> <i>mode</i>)<a class="plink" href="#setDeviceStatus" title="Direct link to this headline"></a></h3>
+<p>Sets the device status to <i translate="no">mode</i> if the passed argument is a valid <a href="./qknx-netip.htm#ProgrammingMode-enum" translate="no">QKnx::NetIp::ProgrammingMode</a> and returns a reference to the builder.</p>
+<!-- @@@setDeviceStatus -->
+<!-- $$$setIndividualAddress[overload1]$$$setIndividualAddressconstQKnxAddress& -->
+<h3 class="fn" id="setIndividualAddress" translate="no"><a name="setIndividualAddress"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setIndividualAddress</span>(const <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span> &amp;<i>address</i>)<a class="plink" href="#setIndividualAddress" title="Direct link to this headline"></a></h3>
+<p>Sets the individual address to <i translate="no">address</i> if the passed argument is a valid <a href="./qknxaddress.htm" translate="no">QKnxAddress</a> and of type <a href="./qknxaddress.htm#Type-enum" translate="no">QKnxAddress::Individual</a> and returns a reference to the builder.</p>
+<!-- @@@setIndividualAddress -->
+<!-- $$$setMacAddress[overload1]$$$setMacAddressconstQKnxByteArray& -->
+<h3 class="fn" id="setMacAddress" translate="no"><a name="setMacAddress"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setMacAddress</span>(const <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> &amp;<i>macAddress</i>)<a class="plink" href="#setMacAddress" title="Direct link to this headline"></a></h3>
+<p>Sets the MAC address to <i translate="no">macAddress</i> and returns a reference to the builder. By default it is set to the KNXnet/IP System Setup Multicast Address.</p>
+<div class="admonition note">
+<p><b>Note: </b>The MAC address must contain exactly 6 bytes.</p>
+</div>
+<!-- @@@setMacAddress -->
+<!-- $$$setMediumType[overload1]$$$setMediumTypeQKnx::MediumType -->
+<h3 class="fn" id="setMediumType" translate="no"><a name="setMediumType"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setMediumType</span>(<span class="type"><a href="./qknx.htm#MediumType-enum" translate="no">QKnx::MediumType</a></span> <i>mediumType</i>)<a class="plink" href="#setMediumType" title="Direct link to this headline"></a></h3>
+<p>Sets the medium type to <i translate="no">mediumType</i> if the passed argument is a valid <a href="./qknx.htm#MediumType-enum" translate="no">QKnx::MediumType</a> and returns a reference to the builder.</p>
+<!-- @@@setMediumType -->
+<!-- $$$setMulticastAddress[overload1]$$$setMulticastAddressconstQHostAddress& -->
+<h3 class="fn" id="setMulticastAddress" translate="no"><a name="setMulticastAddress"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setMulticastAddress</span>(const <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span> &amp;<i>multicastAddress</i>)<a class="plink" href="#setMulticastAddress" title="Direct link to this headline"></a></h3>
+<p>Sets the multicast address to <i translate="no">multicastAddress</i> if the passed argument is a valid <a href="./qhostaddress.htm" translate="no">QHostAddress</a> and returns a reference to the builder.</p>
+<!-- @@@setMulticastAddress -->
+<!-- $$$setProjectInstallationId[overload1]$$$setProjectInstallationIdquint16 -->
+<h3 class="fn" id="setProjectInstallationId" translate="no"><a name="setProjectInstallationId"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setProjectInstallationId</span>(<span class="type"><a href="./qtglobal.htm#quint16-typedef" translate="no">quint16</a></span> <i>projectId</i>)<a class="plink" href="#setProjectInstallationId" title="Direct link to this headline"></a></h3>
+<p>Sets the KNX project installation ID to <i translate="no">projectId</i> and returns a reference to the builder.</p>
+<!-- @@@setProjectInstallationId -->
+<!-- $$$setSerialNumber[overload1]$$$setSerialNumberconstQKnxByteArray& -->
+<h3 class="fn" id="setSerialNumber" translate="no"><a name="setSerialNumber"></a><span class="type"><a href="./qknxnetipdevicedibproxy-builder.htm" translate="no">Builder</a></span> &amp;Builder::<span class="name">setSerialNumber</span>(const <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> &amp;<i>serialNumber</i>)<a class="plink" href="#setSerialNumber" title="Direct link to this headline"></a></h3>
+<p>Sets the serial number to <i translate="no">serialNumber</i> and returns a reference to the builder.</p>
+<div class="admonition note">
+<p><b>Note: </b>The serial number must contain exactly 6 bytes.</p>
+</div>
+<!-- @@@setSerialNumber -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,168 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Tunneling Features Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Tunneling Features Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Tunneling Features Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2019 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtKnx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+******************************************************************************/</span></div>
+
+<span class="preprocessor">#ifndef MAINWINDOW_H</span>
+<span class="preprocessor">#define MAINWINDOW_H</span>
+
+<span class="preprocessor">#include &lt;QtKnx&gt;</span>
+<span class="preprocessor">#include &lt;QtWidgets&gt;</span>
+
+<span class="keyword">namespace</span> Ui {
+    <span class="keyword">class</span> MainWindow;
+}
+
+
+<span class="keyword">class</span> DeviceItem;
+<span class="keyword">class</span> MainWindow : <span class="keyword">public</span> <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> MainWindow(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> <span class="number">0</span>);
+    <span class="operator">~</span>MainWindow();
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> onConnected();
+    <span class="type">void</span> onDisconnected();
+    <span class="type">void</span> onDeviceDiscovered(<span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> info);
+    <span class="type">void</span> onErrorOccurred(<span class="type"><a href="./qknxnetipendpointconnection.htm" translate="no">QKnxNetIpEndpointConnection</a></span><span class="operator">::</span>Error error<span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> errorString);
+
+    <span class="type">void</span> on_actionImport_triggered();
+    <span class="type">void</span> on_devices_currentIndexChanged(<span class="type">int</span> index);
+    <span class="type">void</span> on_serviceTypes_currentIndexChanged(<span class="type">int</span> index);
+
+    <span class="type">void</span> on_sendRead_clicked();
+    <span class="type">void</span> on_sendWrite_clicked();
+    <span class="type">void</span> on_connection_clicked();
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> setupInterfaces();
+    <span class="type">void</span> toggleUi(bool enable);
+    <span class="type">void</span> populateServiceTypesComboBox();
+    <span class="type">void</span> populateInterfaceFeaturesComboBox();
+
+    <span class="type">void</span> setText(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value);
+    <span class="type">void</span> populateFrame(<span class="type">QKnxNetIp</span><span class="operator">::</span>ServiceType type<span class="operator">,</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span>
+        <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value<span class="operator">,</span> <span class="type">int</span> returnCode <span class="operator">=</span> <span class="operator">-</span><span class="number">1</span>);
+    <span class="type">void</span> onFeatureResponseReceived(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>ReturnCode code<span class="operator">,</span>
+        <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value);
+    <span class="type">void</span> onFeatureInfoReceived(<span class="type"><a href="./qknx.htm" translate="no">QKnx</a></span><span class="operator">::</span>InterfaceFeature feature<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a></span> <span class="operator">&amp;</span>value);
+
+<span class="keyword">private</span>:
+    Ui<span class="operator">::</span>MainWindow <span class="operator">*</span>ui { nullptr };
+
+    DeviceItem <span class="operator">*</span>m_device { nullptr };
+    <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>m_last { nullptr };
+    <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>m_current { nullptr };
+
+    <span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span> m_tunnel;
+    <span class="type"><a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a></span> m_discoveryAgent;
+    <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">&gt;</span> m_secureConfigs;
+};
+
+<span class="preprocessor">#endif // MAINWINDOW_H</span></pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

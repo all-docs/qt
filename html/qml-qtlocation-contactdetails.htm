@@ -1,0 +1,149 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ContactDetails QML Type | Qt Location</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qtlocation-contactdetails.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>ContactDetails QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">ContactDetails QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$ContactDetails-brief -->
+<p>The ContactDetails type holds contact details for a <a href="./qml-qtlocation-place.htm" translate="no">Place</a>. <a href="#details">More...</a></p>
+<!-- @@@ContactDetails -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtLocation 5.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtLocation 5.5</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtlocation-contactdetails-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no">variant <b><b><a href="./qml-qtlocation-contactdetails.htm#keys-method" translate="no">keys</a></b></b>()</li>
+</ul>
+<!-- $$$ContactDetails-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The ContactDetails type is a map of <a href="./qml-qtlocation-contactdetail.htm" translate="no">ContactDetail</a> objects. To access contact details in the map use the <a href="./qml-qtlocation-contactdetails.htm#keys-method" translate="no">keys()</a> method to get the list of keys stored in the map and then use the <code translate="no">[]</code> operator to access the <a href="./qml-qtlocation-contactdetail.htm" translate="no">ContactDetail</a> items.</p>
+<p>The following keys are defined in the API. <a href="./location-places-qml.htm#plugin" translate="no">Plugin</a> implementations are free to define additional keys.</p>
+<ul>
+<li>phone</li>
+<li>fax</li>
+<li>email</li>
+<li>website</li>
+</ul>
+<p>ContactDetails instances are only ever used in the context of <a href="./qml-qtlocation-place.htm" translate="no">Places</a>. It is not possible to create a ContactDetails instance directly or re-assign ContactDetails instances to <a href="./qml-qtlocation-place.htm" translate="no">Places</a>. Modification of ContactDetails can only be accomplished via Javascript.</p>
+<a name="examples"></a>
+<h2 id="examples">Examples<a class="plink" href="#examples" title="Direct link to this headline"></a></h2>
+<p>The following example shows how to access all <a href="./qml-qtlocation-contactdetail.htm" translate="no">ContactDetails</a> and print them to the console:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtPositioning 5.5
+import QtLocation 5.6
+
+<span class="keyword">function </span><span class="name">printContactDetails</span>(contactDetails) {
+    var keys = <span class="name">contactDetails</span>.<span class="name">keys</span>();
+    <span class="keyword">for</span> (var i = 0; <span class="name">i</span> <span class="operator">&lt;</span> <span class="name">keys</span>.<span class="name">length</span>; ++<span class="name">i</span>) {
+        var contactList = <span class="name">contactDetails</span>[<span class="name">keys</span>[<span class="name">i</span>]];
+        <span class="keyword">for</span> (var j = 0; <span class="name">j</span> <span class="operator">&lt;</span> <span class="name">contactList</span>.<span class="name">length</span>; ++<span class="name">j</span>) {
+            <span class="name">console</span>.<span class="name">log</span>(<span class="name">contactList</span>[<span class="name">j</span>].<span class="name">label</span> <span class="operator">+</span> <span class="string">": "</span> <span class="operator">+</span> <span class="name">contactList</span>[<span class="name">j</span>].<span class="name">value</span>);
+        }
+    }
+}</pre></div>
+<p>The returned list of contact details is an <a href="./qtquick-modelviewsdata-cppmodels.htm#qobjectlist-based-model" translate="no">object list</a> and so can be used directly as a data model. For example, the following demonstrates how to display a list of contact phone numbers in a list view:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+import QtPositioning 5.5
+import QtLocation 5.6
+
+<span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">model</span>: <span class="name">place</span>.<span class="name">contactDetails</span>.<span class="name">phone</span>;
+    <span class="name">delegate</span>: <span class="name">Text</span> { <span class="name">text</span>: <span class="name">modelData</span>.<span class="name">label</span> <span class="operator">+</span> <span class="string">": "</span> <span class="operator">+</span> <span class="name">modelData</span>.<span class="name">value</span> }
+}</pre></div>
+<p>The following example demonstrates how to assign a single phone number to a place in JavaScript:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="keyword">function </span><span class="name">writeSingle</span>() {
+    var phoneNumber = <span class="name">Qt</span>.<span class="name">createQmlObject</span>(<span class="string">'import QtLocation 5.3; ContactDetail {}'</span>, <span class="name">place</span>);
+    <span class="name">phoneNumber</span>.<span class="name">label</span> <span class="operator">=</span> <span class="string">"Phone"</span>;
+    <span class="name">phoneNumber</span>.<span class="name">value</span> <span class="operator">=</span> <span class="string">"555-5555"</span>
+    <span class="name">place</span>.<span class="name">contactDetails</span>.<span class="name">phone</span> <span class="operator">=</span> <span class="name">phoneNumber</span>;
+}</pre></div>
+<p>The following demonstrates how to assign multiple phone numbers to a place in JavaScript:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="keyword">function </span><span class="name">writeMultiple</span>() {
+    var bob = <span class="name">Qt</span>.<span class="name">createQmlObject</span>(<span class="string">'import QtLocation 5.3; ContactDetail {}'</span>, <span class="name">place</span>);
+    <span class="name">bob</span>.<span class="name">label</span> <span class="operator">=</span> <span class="string">"Bob"</span>;
+    <span class="name">bob</span>.<span class="name">value</span> <span class="operator">=</span> <span class="string">"555-5555"</span>
+
+    var alice = <span class="name">Qt</span>.<span class="name">createQmlObject</span>(<span class="string">'import QtLocation 5.3; ContactDetail {}'</span>, <span class="name">place</span>);
+    <span class="name">alice</span>.<span class="name">label</span> <span class="operator">=</span> <span class="string">"Alice"</span>;
+    <span class="name">alice</span>.<span class="name">value</span> <span class="operator">=</span> <span class="string">"555-8745"</span>
+
+    var numbers = new <span class="name">Array</span>();
+    <span class="name">numbers</span>.<span class="name">push</span>(<span class="name">bob</span>);
+    <span class="name">numbers</span>.<span class="name">push</span>(<span class="name">alice</span>);
+
+    <span class="name">place</span>.<span class="name">contactDetails</span>.<span class="name">phone</span> <span class="operator">=</span> <span class="name">numbers</span>;
+}</pre></div>
+<!-- @@@ContactDetails -->
+<h2>Method Documentation</h2>
+<!-- $$$keys[overload1]$$$keys -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="keys-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="keys-method"></a><span class="type"><a href="./qml-variant.htm" translate="no">variant</a></span> <span class="name">keys</span>()<a class="plink" href="#keys-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Returns an array of contact detail keys currently stored in the map.</p>
+</div></div><!-- @@@keys -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

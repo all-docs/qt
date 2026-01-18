@@ -1,0 +1,108 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scene Graph Adaptations | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-visualcanvas-adaptations.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Scene Graph Adaptations</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Scene Graph Adaptations</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-visualcanvas-adaptations.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="scene-graph-adaptations-in-qt-quick"></a>
+<h2 id="scene-graph-adaptations-in-qt-quick">Scene Graph Adaptations in Qt Quick<a class="plink" href="#scene-graph-adaptations-in-qt-quick" title="Direct link to this headline"></a></h2>
+<p>Originally, Qt Quick always relied on OpenGL (OpenGL ES 2.0 or OpenGL 2.0) to parse the scene graph and render the results to a render target</p>
+<p>From Qt 5.8 onwards, Qt Quick also supports rendering in software, with <a href="./qtquick-visualcanvas-adaptations.htm#openvg" translate="no">OpenVG</a>, and with Direct3D 12. This is realized by having additional scene graph adaptations, either in form of plugins (d3d12, openvg) or built-in to the Qt Quick library (software). The default adaptation continues to rely directly on OpenGL.</p>
+<p>From Qt 5.14 onwards, the default adaptation gains the option of rendering via a graphics abstraction layer, the Qt Rendering Hardware Interface (RHI), provided by the <a href="./qtgui-module.htm" translate="no">QtGui</a> module. When enabled, no direct OpenGL calls are made. Rather, the scene graph renders by using the APIs provided by the abstraction layer, which is then translated into OpenGL, Vulkan, Metal, or Direct 3D calls. Shader handling is also unified by writing shader code once, compiling to <a href="https://www.khronos.org/spir/" translate="no">SPIR-V</a>, and then translating to the language appropriate for the various graphics APIs.</p>
+<a name="switching-between-the-adaptation-used-by-the-application"></a><a name="switch-between-adaptations-in-your-application"></a>
+<h2 id="switch-between-adaptations-in-your-application">Switch Between Adaptations in Your Application<a class="plink" href="#switch-between-adaptations-in-your-application" title="Direct link to this headline"></a></h2>
+<p>Unlike <code translate="no">software</code> or <code translate="no">d3d12</code>, the RHI-based renderer is not an additional adaptation, and is always built-in. As of Qt 5.14 it can be enabled by setting the environment variable <code translate="no">QSG_RHI</code> to a non-zero value before starting the application, or via <a href="./qquickwindow.htm#setSceneGraphBackend" translate="no">QQuickWindow::setSceneGraphBackend</a>() in combination with <a href="./qsgrendererinterface.htm#GraphicsApi-enum" translate="no">QSGRendererInterface::GraphicsApi</a>. When none of this is done, OpenGL is used directly like in previous versions.</p>
+<p>Switching to a different adaptation can be achieved in two ways:</p>
+<ul>
+<li>Use an environment variable - Set the <code translate="no">QT_QUICK_BACKEND</code> or the legacy <code translate="no">QMLSCENE_DEVICE</code> environment variable before launching applications.</li>
+<li>Use a C++ API - Call <a href="./qquickwindow.htm#setSceneGraphBackend" translate="no">QQuickWindow::setSceneGraphBackend</a>() early on in the application's main() function.</li>
+</ul>
+<p>The following backends are supported:</p>
+<ul>
+<li>Default - Request with the <code translate="no">""</code> string or a <a href="./qsgrendererinterface.htm#GraphicsApi-enum" translate="no">QSGRendererInterface::GraphicsApi</a> enum value different than the ones listed below.</li>
+<li>Software - Request with the <code translate="no">"software"</code> string or the <a href="./qsgrendererinterface.htm#GraphicsApi-enum" translate="no">QSGRendererInterface::Software</a> enum value.</li>
+<li>Direct3D 12 - Request with the <code translate="no">"d3d12"</code> string or the <a href="./qsgrendererinterface.htm#GraphicsApi-enum" translate="no">QSGRendererInterface::Direct3D12</a> enum value.</li>
+<li><a href="./qtquick-visualcanvas-adaptations.htm#openvg" translate="no">OpenVG</a> - Request with the <code translate="no">"openvg"</code> string or the <a href="./qsgrendererinterface.htm#GraphicsApi-enum" translate="no">QSGRendererInterface::OpenVG</a> enum value.</li>
+</ul>
+<p>To find out which backend is in use, you can enable basic scene graph information logging via the <code translate="no">QSG_INFO</code> environment variable or the <code translate="no">qt.scenegraph.general</code> logging category. This results in some information being printed onto the debug output, during application startup.</p>
+<div class="admonition note">
+<p><b>Note: </b>In Qt builds with OpenGL disabled, the default adaptation is <code translate="no">software</code>. This may change in future releases.</p>
+</div>
+<div class="admonition note">
+<p><b>Note: </b>Typically, adaptations other than the default one come with a set of limitations as they are unlikely to provide a feature set that's 100% compatible with OpenGL. However, these adaptations may provide their own specific advantages in certain areas. For more information on the various adaptations, refer to the sections below.</p>
+</div>
+<a name="default-adaptation"></a>
+<h2 id="default-adaptation">Default Adaptation<a class="plink" href="#default-adaptation" title="Direct link to this headline"></a></h2>
+<p>When using OpenGL directly, the default adaptation is capable of providing the full Qt Quick 2 feature set. For more details, see <a href="./qtquick-visualcanvas-scenegraph-renderer.htm" translate="no">Default Adaptation</a>.</p>
+<p>When using OpenGL, Vulkan, Metal, or Direct 3D via the RHI, the default adaptation is capable of providing most features, including the full batching renderer described in <a href="./qtquick-visualcanvas-scenegraph-renderer.htm" translate="no">Default Adaptation</a>, but some additional features may not be available as of Qt 5.14.</p>
+<a name="software-adaptation"></a>
+<h2 id="software-adaptation">Software Adaptation<a class="plink" href="#software-adaptation" title="Direct link to this headline"></a></h2>
+<p>The Software adaptation is an alternative renderer for <a href="./qtquick-index.htm" translate="no">Qt Quick</a> 2 that uses the raster paint engine to render the contents of the scene graph. For more details, see <a href="./qtquick-visualcanvas-adaptations-software.htm" translate="no">Software Adaptation</a>.</p>
+<a name="direct3d-12-experimental"></a>
+<h2 id="direct3d-12-experimental">Direct3D 12 (experimental)<a class="plink" href="#direct3d-12-experimental" title="Direct link to this headline"></a></h2>
+<p>The Direct3D 12 adaptation is an alternative renderer for <a href="./qtquick-index.htm" translate="no">Qt Quick</a> 2 when running on Windows 10, both for Win32 and UWP applications. For more details, see <a href="./qtquick-visualcanvas-adaptations-d3d12.htm" translate="no">Direct3D 12 Adaptation</a>.</p>
+<a name="openvg"></a>
+<h2 id="openvg">OpenVG<a class="plink" href="#openvg" title="Direct link to this headline"></a></h2>
+<p>The <a href="./qtquick-visualcanvas-adaptations.htm#openvg" translate="no">OpenVG</a> adaptation is an alternative renderer for <a href="./qtquick-index.htm" translate="no">Qt Quick</a> 2 that renders the contents of the scene graph using <a href="./qtquick-visualcanvas-adaptations.htm#openvg" translate="no">OpenVG</a> commands to provide hardware-accelerated 2D vector and raster graphics. For more details, see <a href="./qtquick-visualcanvas-adaptations-openvg.htm" translate="no">OpenVG Adaptation</a>.</p>
+</div>
+<!-- @@@qtquick-visualcanvas-adaptations.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

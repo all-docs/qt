@@ -1,0 +1,174 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KNX Editor Example | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a href="./qtknx-examples.htm" translate="no">Qt KNX Examples</a></li>
+                            <li><a>KNX Editor Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">KNX Editor Example</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtKnx module.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+
+<span class="preprocessor">#ifndef LOCALDEVICEMANAGEMENT_H</span>
+<span class="preprocessor">#define LOCALDEVICEMANAGEMENT_H</span>
+
+<span class="preprocessor">#include &lt;QKnxNetIpDeviceManagement&gt;</span>
+<span class="preprocessor">#include &lt;QKnxNetIpServerInfo&gt;</span>
+<span class="preprocessor">#include &lt;QWidget&gt;</span>
+
+<span class="keyword">namespace</span> Ui {
+    <span class="keyword">class</span> LocalDeviceManagement;
+}
+
+<span class="keyword">class</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span>;
+<span class="keyword">class</span> <span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span>;
+<span class="keyword">class</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span>;
+
+<span class="keyword">class</span> LocalDeviceManagement : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+    Q_DISABLE_COPY(LocalDeviceManagement)
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> LocalDeviceManagement(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">*</span> parent <span class="operator">=</span> nullptr);
+    <span class="operator">~</span>LocalDeviceManagement();
+
+    <span class="type">void</span> setNatAware(bool isNatAware);
+    <span class="type">void</span> setLocalAddress(<span class="keyword">const</span> <span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span> <span class="operator">&amp;</span>address);
+    <span class="type">void</span> setKnxNetIpServer(<span class="keyword">const</span> <span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> <span class="operator">&amp;</span>server);
+    <span class="type">void</span> setTcpEnable(bool value);
+    <span class="type">void</span> onKeyringChanged(<span class="keyword">const</span> <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">&gt;</span> <span class="operator">&amp;</span>configs);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> clearLogging();
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> on_mc_currentIndexChanged(<span class="type">int</span> index);
+    <span class="type">void</span> on_objectType_currentTextChanged(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>type);
+    <span class="type">void</span> on_property_currentTextChanged(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>property);
+
+    <span class="type">void</span> on_noe_valueChanged(<span class="type">int</span> value);
+    <span class="type">void</span> on_startIndex_valueChanged(<span class="type">int</span> value);
+    <span class="type">void</span> on_objectInstance_valueChanged(<span class="type">int</span> value);
+
+    <span class="type">void</span> on_manualInput_clicked(bool checked);
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> setupMessageCodeComboBox();
+    <span class="type">void</span> updatePropertyTypeCombobox(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>type);
+    <span class="type">void</span> handleIoListResponse(<span class="keyword">const</span> <span class="type"><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a></span> <span class="operator">&amp;</span>frame);
+    <span class="type">int</span> keyToValue(<span class="keyword">const</span> <span class="type"><a href="./qmetaobject.htm" translate="no">QMetaObject</a></span> <span class="operator">&amp;</span>object<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>key<span class="operator">,</span> bool <span class="operator">*</span>ok);
+    <span class="type">void</span> setupComboBox(<span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>comboBox<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qmetaobject.htm" translate="no">QMetaObject</a></span> <span class="operator">&amp;</span>object<span class="operator">,</span> <span class="keyword">const</span> <span class="type"><a href="./qset.htm" translate="no">QSet</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">&gt;</span> <span class="operator">&amp;</span>values <span class="operator">=</span> {});
+    <span class="type">void</span> selectFirstSubitem(<span class="type"><a href="./qtreewidget.htm" translate="no">QTreeWidget</a></span> <span class="operator">*</span>treeView<span class="operator">,</span> <span class="type"><a href="./qtreewidgetitem.htm" translate="no">QTreeWidgetItem</a></span> <span class="operator">*</span>rootItem<span class="operator">,</span> <span class="type"><a href="./qcombobox.htm" translate="no">QComboBox</a></span> <span class="operator">*</span>comboBox);
+    <span class="type">void</span> updateSecureConfigCombo();
+
+<span class="keyword">private</span>:
+    Ui<span class="operator">::</span>LocalDeviceManagement <span class="operator">*</span>ui { nullptr };
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> m_fullCemiFrame;
+    bool m_awaitIoListResponse { <span class="keyword">true</span> };
+
+    <span class="type"><a href="./qknxnetipserverinfo.htm" translate="no">QKnxNetIpServerInfo</a></span> m_server;
+    <span class="type"><a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a></span> m_management;
+    <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol m_proto { <span class="type">QKnxNetIp</span><span class="operator">::</span>HostProtocol<span class="operator">::</span>UDP_IPv4 };
+    <span class="type"><a href="./qvector.htm" translate="no">QVector</a></span><span class="operator">&lt;</span><span class="type"><a href="./qknxnetipsecureconfiguration.htm" translate="no">QKnxNetIpSecureConfiguration</a></span><span class="operator">&gt;</span> m_configs;
+};
+
+<span class="preprocessor">#endif</span></pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

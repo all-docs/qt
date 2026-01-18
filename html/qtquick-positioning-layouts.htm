@@ -1,0 +1,192 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Item Positioners | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-positioning-layouts.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Item Positioners</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Item Positioners</h1>
+<span class="subtitle"></span>
+<!-- $$$qtquick-positioning-layouts.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>Positioner items are container items that manage the positions of items in a declarative user interface. Positioners behave in a similar way to the <a href="./qtwidgets-index.htm" translate="no">layout managers</a> used with standard Qt widgets, except that they are also containers in their own right.</p>
+<p>Positioners make it easier to work with many items when they need to be arranged in a regular layout.</p>
+<p><a href="./qtquicklayouts-index.htm" translate="no">Qt Quick Layouts</a> can also be used to arrange Qt Quick items in a user interface. They manage both the positions and the sizes of items on a declarative user interface, and are well suited for resizable user interfaces.</p>
+<a name="positioners"></a>
+<h2 id="positioners">Positioners<a class="plink" href="#positioners" title="Direct link to this headline"></a></h2>
+<p>A set of standard positioners are provided in the basic set of Qt Quick graphical types:</p>
+<div class="table"><table class="annotated">
+<tbody><tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtquick-column.htm">Column</a></p></td><td class="tblDescr"><p>Positions its children in a column</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtquick-flow.htm">Flow</a></p></td><td class="tblDescr"><p>Positions its children side by side, wrapping as necessary</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtquick-grid.htm">Grid</a></p></td><td class="tblDescr"><p>Positions its children in grid formation</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtquick-layoutmirroring.htm">LayoutMirroring</a></p></td><td class="tblDescr"><p>Property used to mirror layout behavior</p></td></tr>
+<tr class="odd topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtquick-positioner.htm">Positioner</a></p></td><td class="tblDescr"><p>Provides attached properties that contain details on where an item exists in a positioner</p></td></tr>
+<tr class="even topAlign"><td class="tblName" translate="no"><p><a href="./qml-qtquick-row.htm">Row</a></p></td><td class="tblDescr"><p>Positions its children in a row</p></td></tr>
+</tbody></table></div>
+<a name="column-items"></a>
+<h3 id="column-items">Column Items<a class="plink" href="#column-items" title="Direct link to this headline"></a></h3>
+<div class="float-right"><p><img alt="" src="./images/qml-column.png"></p>
+</div><p><a href="./qml-qtquick-column.htm" translate="no">Column</a> items are used to vertically arrange items. The following example uses a Column item to arrange three <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> items in an area defined by an outer <a href="./qml-qtquick-item.htm" translate="no">Item</a>. The <a href="./qml-qtquick-column.htm#spacing-prop" translate="no">spacing</a> property is set to include a small amount of space between the rectangles.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">310</span>; <span class="name">height</span>: <span class="number">170</span>
+
+    <span class="type"><a href="./qml-qtquick-column.htm" translate="no">Column</a></span> {
+        <span class="name">anchors</span>.horizontalCenter: <span class="name">parent</span>.<span class="name">horizontalCenter</span>
+        <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+
+        <span class="name">spacing</span>: <span class="number">5</span>
+
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">color</span>: <span class="string">"lightblue"</span>; <span class="name">radius</span>: <span class="number">10.0</span>
+                    <span class="name">width</span>: <span class="number">300</span>; <span class="name">height</span>: <span class="number">50</span>
+                    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                           <span class="name">font</span>.pointSize: <span class="number">24</span>; <span class="name">text</span>: <span class="string">"Books"</span> } }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">color</span>: <span class="string">"gold"</span>; <span class="name">radius</span>: <span class="number">10.0</span>
+                    <span class="name">width</span>: <span class="number">300</span>; <span class="name">height</span>: <span class="number">50</span>
+                    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                           <span class="name">font</span>.pointSize: <span class="number">24</span>; <span class="name">text</span>: <span class="string">"Music"</span> } }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">color</span>: <span class="string">"lightgreen"</span>; <span class="name">radius</span>: <span class="number">10.0</span>
+                    <span class="name">width</span>: <span class="number">300</span>; <span class="name">height</span>: <span class="number">50</span>
+                    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                           <span class="name">font</span>.pointSize: <span class="number">24</span>; <span class="name">text</span>: <span class="string">"Movies"</span> } }
+    }
+}</pre></div>
+<p>Note that, since Column inherits directly from Item, any background color must be added to a parent Rectangle, if desired.</p>
+<a name="row-items"></a>
+<h3 id="row-items">Row Items<a class="plink" href="#row-items" title="Direct link to this headline"></a></h3>
+<div class="float-right"><p><img alt="" src="./images/qml-row.png"></p>
+</div><p><a href="./qml-qtquick-row.htm" translate="no">Row</a> items are used to horizontally arrange items. The following example uses a Row item to arrange three rounded <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> items in an area defined by an outer colored Rectangle. The <a href="./qml-qtquick-row.htm#spacing-prop" translate="no">spacing</a> property is set to include a small amount of space between the rectangles.</p>
+<p>We ensure that the parent Rectangle is large enough so that there is some space left around the edges of the horizontally centered Row item.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">320</span>; <span class="name">height</span>: <span class="number">110</span>
+    <span class="name">color</span>: <span class="string">"#c0c0c0"</span>
+
+    <span class="type"><a href="./qml-qtquick-row.htm" translate="no">Row</a></span> {
+        <span class="name">anchors</span>.horizontalCenter: <span class="name">parent</span>.<span class="name">horizontalCenter</span>
+        <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+
+        <span class="name">spacing</span>: <span class="number">5</span>
+
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>; <span class="name">radius</span>: <span class="number">20.0</span>
+                    <span class="name">color</span>: <span class="string">"#024c1c"</span> }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>; <span class="name">radius</span>: <span class="number">20.0</span>
+                    <span class="name">color</span>: <span class="string">"#42a51c"</span> }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">width</span>: <span class="number">100</span>; <span class="name">height</span>: <span class="number">100</span>; <span class="name">radius</span>: <span class="number">20.0</span>
+                    <span class="name">color</span>: <span class="string">"white"</span> }
+    }
+}</pre></div>
+<a name="grid-items"></a>
+<h3 id="grid-items">Grid Items<a class="plink" href="#grid-items" title="Direct link to this headline"></a></h3>
+<div class="float-right"><p><img alt="" src="./images/qml-grid-spacing.png"></p>
+</div><p><a href="./qml-qtquick-grid.htm" translate="no">Grid</a> items are used to place items in a grid or table arrangement. The following example uses a Grid item to place four <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> items in a 2-by-2 grid. As with the other positioners, the spacing between items can be specified using the <a href="./qml-qtquick-grid.htm#spacing-prop" translate="no">spacing</a> property.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">width</span>: <span class="number">112</span>; <span class="name">height</span>: <span class="number">112</span>
+    <span class="name">color</span>: <span class="string">"#303030"</span>
+
+    <span class="type"><a href="./qml-qtquick-grid.htm" translate="no">Grid</a></span> {
+        <span class="name">anchors</span>.horizontalCenter: <span class="name">parent</span>.<span class="name">horizontalCenter</span>
+        <span class="name">anchors</span>.verticalCenter: <span class="name">parent</span>.<span class="name">verticalCenter</span>
+        <span class="name">columns</span>: <span class="number">2</span>
+        <span class="name">spacing</span>: <span class="number">6</span>
+
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">color</span>: <span class="string">"#aa6666"</span>; <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span> }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">color</span>: <span class="string">"#aaaa66"</span>; <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span> }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">color</span>: <span class="string">"#9999aa"</span>; <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span> }
+        <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> { <span class="name">color</span>: <span class="string">"#6666aa"</span>; <span class="name">width</span>: <span class="number">50</span>; <span class="name">height</span>: <span class="number">50</span> }
+    }
+}</pre></div>
+<p>There is no difference between horizontal and vertical spacing inserted between items, so any additional space must be added within the items themselves.</p>
+<p>Any empty cells in the grid must be created by defining placeholder items at the appropriate places in the Grid definition.</p>
+<a name="flow-items"></a>
+<h3 id="flow-items">Flow Items<a class="plink" href="#flow-items" title="Direct link to this headline"></a></h3>
+<div class="float-right"><p><img alt="" src="./images/qml-flow-text1.png"> <img alt="" src="./images/qml-flow-text2.png"></p>
+</div><p><a href="./qml-qtquick-flow.htm" translate="no">Flow</a> items are used to place items like words on a page, with rows or columns of non-overlapping items.</p>
+<p>Flow items arrange items in a similar way to <a href="./qml-qtquick-grid.htm" translate="no">Grid</a> items, with items arranged in lines along one axis (the minor axis), and lines of items placed next to each other along another axis (the major axis). The direction of flow, as well as the spacing between items, are controlled by the <a href="./qml-qtquick-flow.htm#flow-prop" translate="no">flow</a> and <a href="./qml-qtquick-flow.htm#spacing-prop" translate="no">spacing</a> properties.</p>
+<p>The following example shows a Flow item containing a number of <a href="./qml-qtquick-text.htm" translate="no">Text</a> child items. These are arranged in a similar way to those shown in the screenshots.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">color</span>: <span class="string">"lightblue"</span>
+    <span class="name">width</span>: <span class="number">300</span>; <span class="name">height</span>: <span class="number">200</span>
+
+    <span class="type"><a href="./qml-qtquick-flow.htm" translate="no">Flow</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">anchors</span>.margins: <span class="number">4</span>
+        <span class="name">spacing</span>: <span class="number">10</span>
+
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"Text"</span>; <span class="name">font</span>.pixelSize: <span class="number">40</span> }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"items"</span>; <span class="name">font</span>.pixelSize: <span class="number">40</span> }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"flowing"</span>; <span class="name">font</span>.pixelSize: <span class="number">40</span> }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"inside"</span>; <span class="name">font</span>.pixelSize: <span class="number">40</span> }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"a"</span>; <span class="name">font</span>.pixelSize: <span class="number">40</span> }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"Flow"</span>; <span class="name">font</span>.pixelSize: <span class="number">40</span> }
+        <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> { <span class="name">text</span>: <span class="string">"item"</span>; <span class="name">font</span>.pixelSize: <span class="number">40</span> }
+    }
+}</pre></div>
+<p>The main differences between the Grid and Flow positioners are that items inside a Flow will wrap when they run out of space on the minor axis, and items on one line may not be aligned with items on another line if the items do not have uniform sizes. As with Grid items, there is no independent control of spacing between items and between lines of items.</p>
+<a name="other-ways-to-position-items"></a>
+<h2 id="other-ways-to-position-items">Other Ways to Position Items<a class="plink" href="#other-ways-to-position-items" title="Direct link to this headline"></a></h2>
+<p>There are several other ways to position items in a user interface. In addition to the basic technique of specifying their coordinates directly, they can be positioned relative to other items with <a href="./qtquick-positioning-anchors.htm" translate="no">anchors</a>, or used with <a href="./qtquick-modelviewsdata-modelview.htm#qml-data-models" translate="no">QML Data Models</a> such as <a href="./qtquick-modelviewsdata-modelview.htm#object-model" translate="no">Object Model</a>.</p>
+</div>
+<!-- @@@qtquick-positioning-layouts.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

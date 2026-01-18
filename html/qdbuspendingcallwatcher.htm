@@ -1,0 +1,142 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QDBusPendingCallWatcher | Qt D-Bus</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qdbuspendingcallwatcher.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdbus-index.htm" translate="no">Qt D-Bus</a></li>
+                            <li><a href="./qtdbus-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QDBusPendingCallWatcher</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QDBusPendingCallWatcher Class</h1>
+<!-- $$$QDBusPendingCallWatcher-brief -->
+<p>The QDBusPendingCallWatcher class provides a convenient way for waiting for asynchronous replies. <a href="#details">More...</a></p>
+<!-- @@@QDBusPendingCallWatcher -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QDBusPendingCallWatcher&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += dbus</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 4.5</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <a href="./qobject.htm" translate="no">QObject</a> and <a href="./qdbuspendingcall.htm" translate="no">QDBusPendingCall</a></td></tr></tbody></table></div><p>This class was introduced in Qt 4.5.</p>
+<ul>
+<li><a href="./qdbuspendingcallwatcher-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qdbuspendingcallwatcher.htm#QDBusPendingCallWatcher" translate="no">QDBusPendingCallWatcher</a></b>(const QDBusPendingCall &amp;<i>call</i>, QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="./qdbuspendingcallwatcher.htm#dtor.QDBusPendingCallWatcher" translate="no">~QDBusPendingCallWatcher</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="./qdbuspendingcallwatcher.htm#isFinished" translate="no">isFinished</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qdbuspendingcallwatcher.htm#waitForFinished" translate="no">waitForFinished</a></b>()</td></tr>
+</tbody></table></div>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qdbuspendingcallwatcher.htm#finished" translate="no">finished</a></b>(QDBusPendingCallWatcher *<i>self</i> = nullptr)</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QDBusPendingCallWatcher-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The QDBusPendingCallWatcher provides the <a href="./qdbuspendingcallwatcher.htm#finished" translate="no">finished</a>() signal that will be emitted when a reply arrives.</p>
+<p>It is usually used like the following example:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qdbuspendingcall.htm#QDBusPendingCall" translate="no">QDBusPendingCall</a></span> async <span class="operator">=</span> iface<span class="operator">-</span><span class="operator">&gt;</span>asyncCall(<span class="string">"RemoteMethod"</span><span class="operator">,</span> value1<span class="operator">,</span> value2);
+    <span class="type"><a href="./qdbuspendingcallwatcher.htm#QDBusPendingCallWatcher" translate="no">QDBusPendingCallWatcher</a></span> <span class="operator">*</span>watcher <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qdbuspendingcallwatcher.htm#QDBusPendingCallWatcher" translate="no">QDBusPendingCallWatcher</a></span>(async<span class="operator">,</span> <span class="keyword">this</span>);
+
+    <span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span><span class="operator">::</span>connect(watcher<span class="operator">,</span> SIGNAL(finished(<span class="type"><a href="./qdbuspendingcallwatcher.htm#QDBusPendingCallWatcher" translate="no">QDBusPendingCallWatcher</a></span><span class="operator">*</span>))<span class="operator">,</span>
+                     <span class="keyword">this</span><span class="operator">,</span> SLOT(callFinishedSlot(<span class="type"><a href="./qdbuspendingcallwatcher.htm#QDBusPendingCallWatcher" translate="no">QDBusPendingCallWatcher</a></span><span class="operator">*</span>)));</pre></div>
+<p>Note that it is not necessary to keep the original <a href="./qdbuspendingcall.htm" translate="no">QDBusPendingCall</a> object around since QDBusPendingCallWatcher inherits from that class too.</p>
+<p>The slot connected to by the above code could be something similar to the following:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyClass<span class="operator">::</span>callFinishedSlot(<span class="type"><a href="./qdbuspendingcallwatcher.htm#QDBusPendingCallWatcher" translate="no">QDBusPendingCallWatcher</a></span> <span class="operator">*</span>call)
+{
+    <span class="type"><a href="./qdbuspendingreply.htm" translate="no">QDBusPendingReply</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span><span class="operator">&gt;</span> reply <span class="operator">=</span> <span class="operator">*</span>call;
+    <span class="keyword">if</span> (reply<span class="operator">.</span>isError()) {
+        showError();
+    } <span class="keyword">else</span> {
+        <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> text <span class="operator">=</span> reply<span class="operator">.</span>argumentAt<span class="operator">&lt;</span><span class="number">0</span><span class="operator">&gt;</span>();
+        <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> data <span class="operator">=</span> reply<span class="operator">.</span>argumentAt<span class="operator">&lt;</span><span class="number">1</span><span class="operator">&gt;</span>();
+        showReply(text<span class="operator">,</span> data);
+    }
+    call<span class="operator">-</span><span class="operator">&gt;</span>deleteLater();
+}</pre></div>
+<p>Note the use of <a href="./qdbuspendingreply.htm" translate="no">QDBusPendingReply</a> to validate the argument types in the reply. If the reply did not contain exactly two arguments (one string and one <a href="./qbytearray.htm" translate="no">QByteArray</a>), <a href="./qdbuspendingreply.htm#isError" translate="no">QDBusPendingReply::isError</a>() will return true.</p>
+</div>
+<p><b>See also </b><a href="./qdbuspendingreply.htm" translate="no">QDBusPendingReply</a>.</p>
+<!-- @@@QDBusPendingCallWatcher -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QDBusPendingCallWatcher[overload1]$$$QDBusPendingCallWatcherconstQDBusPendingCall&QObject* -->
+<h3 class="fn" id="QDBusPendingCallWatcher" translate="no"><a name="QDBusPendingCallWatcher"></a>QDBusPendingCallWatcher::<span class="name">QDBusPendingCallWatcher</span>(const <span class="type"><a href="./qdbuspendingcall.htm#QDBusPendingCall" translate="no">QDBusPendingCall</a></span> &amp;<i>call</i>, <span class="type"><a href="./qobject.htm#QObject" translate="no">QObject</a></span> *<i>parent</i> = nullptr)<a class="plink" href="#QDBusPendingCallWatcher" title="Direct link to this headline"></a></h3>
+<p>Creates a QDBusPendingCallWatcher object to watch for replies on the asynchronous pending call <i translate="no">call</i> and sets this object's parent to <i translate="no">parent</i>.</p>
+<!-- @@@QDBusPendingCallWatcher -->
+<!-- $$$finished[overload1]$$$finishedQDBusPendingCallWatcher* -->
+<h3 class="fn" id="finished" translate="no"><a name="finished"></a><code translate="no">[signal] </code><span class="type">void</span> QDBusPendingCallWatcher::<span class="name">finished</span>(<span class="type"><a href="./qdbuspendingcallwatcher.htm#QDBusPendingCallWatcher" translate="no">QDBusPendingCallWatcher</a></span> *<i>self</i> = nullptr)<a class="plink" href="#finished" title="Direct link to this headline"></a></h3>
+<p>This signal is emitted when the pending call has finished and its reply is available. The <i translate="no">self</i> parameter is a pointer to the object itself, passed for convenience so that the slot can access the properties and determine the contents of the reply.</p>
+<!-- @@@finished -->
+<!-- $$$~QDBusPendingCallWatcher[overload1]$$$~QDBusPendingCallWatcher -->
+<h3 class="fn" id="dtor.QDBusPendingCallWatcher" translate="no"><a name="dtor.QDBusPendingCallWatcher"></a><code translate="no">[virtual] </code>QDBusPendingCallWatcher::<span class="name">~QDBusPendingCallWatcher</span>()<a class="plink" href="#dtor.QDBusPendingCallWatcher" title="Direct link to this headline"></a></h3>
+<p>Destroys this object. If this <a href="./qdbuspendingcallwatcher.htm" translate="no">QDBusPendingCallWatcher</a> object was the last reference to the unfinished pending call, the call will be canceled.</p>
+<!-- @@@~QDBusPendingCallWatcher -->
+<!-- $$$isFinished[overload1]$$$isFinished -->
+<h3 class="fn" id="isFinished" translate="no"><a name="isFinished"></a><span class="type">bool</span> QDBusPendingCallWatcher::<span class="name">isFinished</span>() const<a class="plink" href="#isFinished" title="Direct link to this headline"></a></h3>
+<p>Returns <code translate="no">true</code> if the pending call has finished processing and the reply has been received.</p>
+<p>Note that this function only changes state if you call <a href="./qdbuspendingcallwatcher.htm#waitForFinished" translate="no">waitForFinished</a>() or if an external D-Bus event happens, which in general only happens if you return to the event loop execution.</p>
+<p><b>See also </b><a href="./qdbuspendingreply.htm#isFinished" translate="no">QDBusPendingReply::isFinished</a>().</p>
+<!-- @@@isFinished -->
+<!-- $$$waitForFinished[overload1]$$$waitForFinished -->
+<h3 class="fn" id="waitForFinished" translate="no"><a name="waitForFinished"></a><span class="type">void</span> QDBusPendingCallWatcher::<span class="name">waitForFinished</span>()<a class="plink" href="#waitForFinished" title="Direct link to this headline"></a></h3>
+<p>Suspends the execution of the calling thread until the reply is received and processed. After this function returns, <a href="./qdbuspendingcallwatcher.htm#isFinished" translate="no">isFinished</a>() should return true, indicating the reply's contents are ready to be processed.</p>
+<p><b>See also </b><a href="./qdbuspendingreply.htm#waitForFinished" translate="no">QDBusPendingReply::waitForFinished</a>().</p>
+<!-- @@@waitForFinished -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

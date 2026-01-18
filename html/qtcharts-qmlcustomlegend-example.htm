@@ -1,0 +1,165 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qml Custom Legend | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-qmlcustomlegend-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>Qml Custom Legend</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qml Custom Legend</h1>
+<span class="subtitle"></span>
+<!-- $$$qmlcustomlegend-brief -->
+<p>This example shows you how to create your own custom legend.</p>
+<!-- @@@qmlcustomlegend -->
+<!-- $$$qmlcustomlegend-description -->
+<div class="descr"> <a name="details"></a>
+<p>This application shows you how to create your own custom legend instead of using the built-in legend of <a href="./qml-qtcharts-chartview.htm" translate="no">ChartView</a> API.</p>
+<p>The main view of the application shows a stacked area chart. This is how one of the stacked areas is created. See ChartViewStacked.qml and AnimatedAreaSeries.qml.</p>
+<p class="centerAlign"><img alt="" src="./images/examples_qmlcustomlegend1.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="customizing-legends"></a>
+<h4 id="customizing-legends">Customizing Legends<a class="plink" href="#customizing-legends" title="Direct link to this headline"></a></h4>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">AnimatedAreaSeries</span> {
+    <span class="name">id</span>: <span class="name">municipalSeries</span>
+    <span class="name">name</span>: <span class="string">"municipal"</span>
+    <span class="name">axisX</span>: <span class="name">axisX</span>
+    <span class="name">axisY</span>: <span class="name">axisY</span>
+    <span class="name">borderWidth</span>: <span class="number">0</span>
+    <span class="name">upperSeries</span>: <span class="name">LineSeries</span> {
+        <span class="name">id</span>: <span class="name">municipalUpper</span>
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2006</span>; <span class="name">y</span>: <span class="number">33119</span> <span class="operator">+</span> <span class="number">13443</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2007</span>; <span class="name">y</span>: <span class="number">37941</span> <span class="operator">+</span> <span class="number">15311</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2008</span>; <span class="name">y</span>: <span class="number">40122</span> <span class="operator">+</span> <span class="number">16552</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2009</span>; <span class="name">y</span>: <span class="number">38991</span> <span class="operator">+</span> <span class="number">17904</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2010</span>; <span class="name">y</span>: <span class="number">34055</span> <span class="operator">+</span> <span class="number">17599</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2011</span>; <span class="name">y</span>: <span class="number">34555</span> <span class="operator">+</span> <span class="number">19002</span> }
+        <span class="type"><a href="./qml-qtcharts-xypoint.htm" translate="no">XYPoint</a></span> { <span class="name">x</span>: <span class="number">2012</span>; <span class="name">y</span>: <span class="number">38991</span> <span class="operator">+</span> <span class="number">19177</span> }
+    }
+    <span class="name">lowerSeries</span>: <span class="name">stateUpper</span>
+}</pre></div>
+<p>Hovering with mouse on top of the legend will highlight the hovered series. (see CustomLegend.qml).</p>
+<p class="centerAlign"><img alt="" src="./images/examples_qmlcustomlegend2.png"></p><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-row.htm" translate="no">Row</a></span> {
+    <span class="name">id</span>: <span class="name">legendRow</span>
+    <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+    <span class="name">spacing</span>: <span class="number">10</span>
+
+    <span class="type"><a href="./qml-qtquick-repeater.htm" translate="no">Repeater</a></span> {
+        <span class="name">id</span>: <span class="name">legendRepeater</span>
+        <span class="name">model</span>: <span class="name">seriesCount</span>
+        <span class="name">delegate</span>: <span class="name">legendDelegate</span>
+    }
+}
+<span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+    <span class="name">id</span>: <span class="name">legendDelegate</span>
+    <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+        <span class="name">id</span>: <span class="name">rect</span>
+    ...
+        <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+            <span class="name">id</span>: <span class="name">mouseArea</span>
+            <span class="name">anchors</span>.fill: <span class="name">parent</span>
+            <span class="name">hoverEnabled</span>: <span class="number">true</span>
+            <span class="name">onEntered</span>: {
+                <span class="name">rect</span>.<span class="name">gradient</span> <span class="operator">=</span> <span class="name">buttonGradientHovered</span>;
+                <span class="name">legend</span>.<span class="name">entered</span>(<span class="name">label</span>.<span class="name">text</span>);
+            }
+            <span class="name">onExited</span>: {
+                <span class="name">rect</span>.<span class="name">gradient</span> <span class="operator">=</span> <span class="name">buttonGradient</span>;
+                <span class="name">legend</span>.<span class="name">exited</span>(<span class="name">label</span>.<span class="name">text</span>);
+                <span class="name">marker</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">0.3</span>;
+                <span class="name">marker</span>.<span class="name">height</span> <span class="operator">=</span> <span class="number">10</span>;
+            }
+            <span class="name">onClicked</span>: {
+                <span class="name">legend</span>.<span class="name">selected</span>(<span class="name">label</span>.<span class="name">text</span>);
+                <span class="name">marker</span>.<span class="name">opacity</span> <span class="operator">=</span> <span class="number">1.0</span>;
+                <span class="name">marker</span>.<span class="name">height</span> <span class="operator">=</span> <span class="number">12</span>;
+            }
+        }</pre></div>
+<p>You can also select one of the stacked areas for a closer look as a line series by a mouse click (see ChartViewHighlighted.qml).</p>
+<p class="centerAlign"><img alt="" src="./images/examples_qmlcustomlegend3.png"></p><div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtcharts-chartview.htm" translate="no">ChartView</a></span> {
+    <span class="name">id</span>: <span class="name">chartViewHighlighted</span>
+    <span class="name">title</span>: <span class="string">""</span>
+    property <span class="type"><a href="./qml-variant.htm" translate="no">variant</a></span> <span class="name">selectedSeries</span>
+    signal <span class="type">clicked</span>
+    <span class="name">legend</span>.visible: <span class="number">false</span>
+    <span class="name">margins</span>.top: <span class="number">10</span>
+    <span class="name">margins</span>.bottom: <span class="number">0</span>
+    <span class="name">antialiasing</span>: <span class="number">true</span>
+
+    <span class="type"><a href="./qml-qtcharts-lineseries.htm" translate="no">LineSeries</a></span> {
+        <span class="name">id</span>: <span class="name">lineSeries</span>
+
+        <span class="name">axisX</span>: <span class="name">ValueAxis</span> {
+            <span class="name">min</span>: <span class="number">2006</span>
+            <span class="name">max</span>: <span class="number">2012</span>
+            <span class="name">labelFormat</span>: <span class="string">"%.0f"</span>
+            <span class="name">tickCount</span>: <span class="number">7</span>
+        }
+        <span class="name">axisY</span>: <span class="name">ValueAxis</span> {
+            <span class="name">id</span>: <span class="name">axisY</span>
+            <span class="name">titleText</span>: <span class="string">"EUR"</span>
+            <span class="name">min</span>: <span class="number">0</span>
+            <span class="name">max</span>: <span class="number">40000</span>
+            <span class="name">labelFormat</span>: <span class="string">"%.0f"</span>
+            <span class="name">tickCount</span>: <span class="number">5</span>
+        }
+    }</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/qmlcustomlegend?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@qmlcustomlegend -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

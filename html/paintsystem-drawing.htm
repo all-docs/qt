@@ -1,0 +1,106 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drawing and Filling | Qt GUI</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/paintsystem-drawing.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtgui-index.htm" translate="no">Qt GUI</a></li>
+                            <li><a>Drawing and Filling</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="paintsystem-devices.html" rel="prev">
+<link href="coordsys.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./paintsystem-devices.htm">Paint Devices and Backends</a>
+<a class="" href="./coordsys.htm">Coordinate System</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">Drawing and Filling</h1>
+<span class="subtitle"></span>
+<!-- $$$paintsystem-drawing.html-description -->
+<div class="descr"> <a name="details"></a>
+<a name="drawing"></a>
+<h2 id="drawing">Drawing<a class="plink" href="#drawing" title="Direct link to this headline"></a></h2>
+<p><a href="./qpainter.htm" translate="no">QPainter</a> provides highly optimized functions to do most of the drawing GUI programs require. It can draw everything from simple graphical primitives (represented by the <a href="./qpoint.htm" translate="no">QPoint</a>, <a href="./qline.htm" translate="no">QLine</a>, <a href="./qrect.htm" translate="no">QRect</a>, <a href="./qregion.htm" translate="no">QRegion</a> and <a href="./qpolygon.htm" translate="no">QPolygon</a> classes) to complex shapes like vector paths. In Qt vector paths are represented by the <a href="./qpainterpath.htm" translate="no">QPainterPath</a> class. <a href="./qpainterpath.htm" translate="no">QPainterPath</a> provides a container for painting operations, enabling graphical shapes to be constructed and reused.</p>
+<div class="table"><table class="generic" width="100%">
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/paintsystem-painterpath.png"></p></td><td><b>QPainterPath</b><p>A painter path is an object composed of lines and curves. For example, a rectangle is composed by lines and an ellipse is composed by curves.</p>
+<p>The main advantage of painter paths over normal drawing operations is that complex shapes only need to be created once; then they can be drawn many times using only calls to the <a href="./qpainter.htm#drawPath" translate="no">QPainter::drawPath</a>() function.</p>
+<p>A <a href="./qpainterpath.htm" translate="no">QPainterPath</a> object can be used for filling, outlining, and clipping. To generate fillable outlines for a given painter path, use the <a href="./qpainterpathstroker.htm" translate="no">QPainterPathStroker</a> class.</p>
+</td></tr>
+</tbody></table></div>
+<p>Lines and outlines are drawn using the <a href="./qpen.htm" translate="no">QPen</a> class. A pen is defined by its style (i.e. its line-type), width, brush, how the endpoints are drawn (cap-style) and how joins between two connected lines are drawn (join-style). The pen's brush is a <a href="./qbrush.htm" translate="no">QBrush</a> object used to fill strokes generated with the pen, i.e. the <a href="./qbrush.htm" translate="no">QBrush</a> class defines the fill pattern.</p>
+<p><a href="./qpainter.htm" translate="no">QPainter</a> can also draw aligned text and pixmaps.</p>
+<p>When drawing text, the font is specified using the <a href="./qfont.htm" translate="no">QFont</a> class. Qt will use the font with the specified attributes, or if no matching font exists, Qt will use the closest matching installed font. The attributes of the font that is actually used can be retrieved using the <a href="./qfontinfo.htm" translate="no">QFontInfo</a> class. In addition, the <a href="./qfontmetrics.htm" translate="no">QFontMetrics</a> class provides the font measurements, and the <a href="./qfontdatabase.htm" translate="no">QFontDatabase</a> class provides information about the fonts available in the underlying window system.</p>
+<p>Normally, <a href="./qpainter.htm" translate="no">QPainter</a> draws in a "natural" coordinate system, but it is able to perform view and world transformations using the <a href="./qtransform.htm" translate="no">QTransform</a> class. For more information, see <a href="./coordsys.htm" translate="no">Coordinate System</a>, which also describes the rendering process, i.e. the relation between the logical representation and the rendered pixels, and the benefits of anti-aliased painting.</p>
+<div class="table"><table class="generic" width="100%">
+<tbody><tr class="odd" valign="top"><td><b>Anti-Aliased Painting</b><p>When drawing, the pixel rendering is controlled by the <a href="./qpainter.htm#RenderHint-enum" translate="no">QPainter::Antialiasing</a> render hint. The <a href="./qpainter.htm#RenderHint-enum" translate="no">QPainter::RenderHint</a> enum is used to specify flags to <a href="./qpainter.htm" translate="no">QPainter</a> that may or may not be respected by any given engine.</p>
+<p>The <a href="./qpainter.htm#RenderHint-enum" translate="no">QPainter::Antialiasing</a> value indicates that the engine should antialias edges of primitives if possible, i.e. smoothing the edges by using different color intensities.</p>
+</td><td><p class="centerAlign"><img alt="" src="./images/paintsystem-antialiasing.png"></p></td></tr>
+</tbody></table></div>
+<a name="filling"></a>
+<h2 id="filling">Filling<a class="plink" href="#filling" title="Direct link to this headline"></a></h2>
+<p>Shapes are filled using the <a href="./qbrush.htm" translate="no">QBrush</a> class. A brush is defined by its color and its style (i.e. its fill pattern).</p>
+<p>Any color in Qt is represented by the <a href="./qcolor.htm" translate="no">QColor</a> class which supports the RGB, HSV and CMYK color models. <a href="./qcolor.htm" translate="no">QColor</a> also support alpha-blended outlining and filling (specifying the transparency effect), and the class is platform and device independent (the colors are mapped to hardware using the <a href="./qcolormap.htm" translate="no">QColormap</a> class). For more information, see the <a href="./qcolor.htm" translate="no">QColor</a> class documentation.</p>
+<p>The available fill patterns are described by the <a href="./qt.htm#BrushStyle-enum" translate="no">Qt::BrushStyle</a> enum. These include basic patterns spanning from uniform color to very sparse pattern, various line combinations, gradient fills and textures. Qt provides the <a href="./qgradient.htm" translate="no">QGradient</a> class to define custom gradient fills, while texture patterns are specified using the <a href="./qpixmap.htm" translate="no">QPixmap</a> class.</p>
+<div class="table"><table class="generic" width="100%">
+<tbody><tr class="odd" valign="top"><td><p class="centerAlign"><img alt="" src="./images/paintsystem-fancygradient.png"></p></td><td><b>QGradient</b><p>The <a href="./qgradient.htm" translate="no">QGradient</a> class is used in combination with <a href="./qbrush.htm" translate="no">QBrush</a> to specify gradient fills.</p>
+<p class="centerAlign"><img alt="" src="./images/paintsystem-gradients.png"></p><p>Qt currently supports three types of gradient fills: Linear gradients interpolate colors between start and end points, radial gradients interpolate colors between a focal point and end points on a circle surrounding it, and conical gradients interpolate colors around a center point.</p>
+</td></tr>
+</tbody></table></div>
+</div>
+<!-- @@@paintsystem-drawing.html -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./paintsystem-devices.htm">Paint Devices and Backends</a>
+<a class="nextPage" href="./coordsys.htm">Coordinate System</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

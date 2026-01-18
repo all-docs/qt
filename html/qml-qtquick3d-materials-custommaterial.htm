@@ -1,0 +1,249 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CustomMaterial QML Type | Qt Quick 3D</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick3d-index.htm" translate="no">Qt Quick 3D</a></li>
+                            <li><a href="./qtquick3d-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li class="last"><a>CustomMaterial QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">CustomMaterial QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$CustomMaterial-brief -->
+<p>Base component for creating custom materials used to shade models. <a href="#details">More...</a></p>
+<!-- @@@CustomMaterial -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick3D.Materials 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick3d-material.htm" translate="no">Material</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick3d-materials-custommaterial-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick3d-materials-custommaterial.htm#alwaysDirty-prop" translate="no">alwaysDirty</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick3d-materials-custommaterial.htm#hasRefraction-prop" translate="no">hasRefraction</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick3d-materials-custommaterial.htm#hasTransparency-prop" translate="no">hasTransparency</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick3d-materials-custommaterial.htm#passes-prop" translate="no">passes</a></b></b> : list</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick3d-materials-custommaterial.htm#shaderInfo-prop" translate="no">shaderInfo</a></b></b> : ShaderInfo</li>
+</ul>
+<!-- $$$CustomMaterial-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The custom material allows the user of <a href="./qtquick3d-qmlmodule.htm" translate="no">QtQuick3D</a> to access its material library and implement own materials. There are two types of custom materials, which differ on how they are using the material library. First one uses the custom material interface provided by the library to implement materials similarly to many of the materials in the material library without implementing it's own main function. This type of material must implement all the required functions of the material. The second type implements it's own main function, but can still use functionality from the material library. See <a href="./custom-material-reference.htm" translate="no">reference</a> on how to implement the material using the material interface.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick3d-materials-custommaterial.htm" translate="no">CustomMaterial</a></span> {
+    <span class="comment">// These properties names need to match the ones in the shader code!</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">uEnvironmentMappingEnabled</span>: <span class="number">false</span>
+    property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">uShadowMappingEnabled</span>: <span class="number">false</span>
+    property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">roughness</span>: <span class="number">0.0</span>
+    property <span class="type"><a href="./qml-vector3d.htm" translate="no">vector3d</a></span> <span class="name">metal_color</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.805</span>, <span class="number">0.395</span>, <span class="number">0.305</span>)
+
+    <span class="name">shaderInfo</span>: <span class="name">ShaderInfo</span> {
+        <span class="name">version</span>: <span class="string">"330"</span>
+        <span class="name">type</span>: <span class="string">"GLSL"</span>
+        <span class="name">shaderKey</span>: <span class="name">ShaderInfo</span>.<span class="name">Glossy</span>
+    }
+
+    property <span class="type"><a href="./qml-qtquick3d-textureinput.htm" translate="no">TextureInput</a></span> <span class="name">uEnvironmentTexture</span>: <span class="name">TextureInput</span> {
+            <span class="name">enabled</span>: <span class="name">uEnvironmentMappingEnabled</span>
+            <span class="name">texture</span>: <span class="name">Texture</span> {
+                <span class="name">id</span>: <span class="name">envImage</span>
+                <span class="name">source</span>: <span class="string">"maps/spherical_checker.png"</span>
+            }
+    }
+    property <span class="type"><a href="./qml-qtquick3d-textureinput.htm" translate="no">TextureInput</a></span> <span class="name">uBakedShadowTexture</span>: <span class="name">TextureInput</span> {
+            <span class="name">enabled</span>: <span class="name">uShadowMappingEnabled</span>
+            <span class="name">texture</span>: <span class="name">Texture</span> {
+                <span class="name">id</span>: <span class="name">shadowImage</span>
+                <span class="name">source</span>: <span class="string">"maps/shadow.png"</span>
+            }
+    }
+
+    <span class="type"><a href="./qml-qtquick3d-shader.htm" translate="no">Shader</a></span> {
+        <span class="name">id</span>: <span class="name">copperFragShader</span>
+        <span class="name">stage</span>: <span class="name">Shader</span>.<span class="name">Fragment</span>
+        <span class="name">shader</span>: <span class="string">"shaders/copper.frag"</span>
+    }
+
+    <span class="name">passes</span>: [ <span class="type"><a href="./qml-qtquick3d-pass.htm" translate="no">Pass</a></span> {
+            <span class="name">shaders</span>: <span class="name">copperFragShader</span>
+        }
+    ]
+}</pre></div>
+<p>The example here from <a href="./qml-qtquick3d-materials-coppermaterial.htm" translate="no">CopperMaterial</a> shows how the material is built. First, the shader parameters are specified as properties. The names and types must match the names in the shader code. Textures use <a href="./qml-qtquick3d-textureinput.htm" translate="no">TextureInput</a> to assign <a href="./qml-qtquick3d-texture.htm" translate="no">texture</a> into the shader variable. The <a href="./qml-qtquick3d-materials-custommaterial.htm#shaderInfo-prop" translate="no">shaderInfo</a> property specifies more information about the shader and also configures some of its features on or off when the custom material is built by <a href="./qtquick3d-qmlmodule.htm" translate="no">QtQuick3D</a> shader generator. Then the material can use Shader type to specify shader source and shader stage. These are used with <a href="./qml-qtquick3d-pass.htm" translate="no">passes</a> to create the resulting material. The passes can contain multiple rendering passes and also other commands. Normally only the fragment shader needs to be passed to a pass. The material library generates the vertex shader for the material. The material can also create <a href="./qml-qtquick3d-buffer.htm" translate="no">buffers</a> to store intermediate rendering results. Here is an example from <a href="./qml-qtquick3d-materials-glassrefractivematerial.htm" translate="no">GlassRefractiveMaterial</a>:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">Buffer {
+    id: tempBuffer
+    name: "temp_buffer"
+    format: Buffer.Unknown
+    textureFilterOperation: Buffer.Linear
+    textureCoordOperation: Buffer.ClampToEdge
+    sizeMultiplier: 1.0
+    bufferFlags: Buffer.None // aka frame
+}
+
+passes: [ Pass {
+        shaders: simpleGlassRefractiveFragShader
+        commands: [ BufferBlit {
+                destination: tempBuffer
+            }, BufferInput {
+                buffer: tempBuffer
+                param: "refractiveTexture"
+            }, Blending {
+                srcBlending: Blending.SrcAlpha
+                destBlending: Blending.OneMinusSrcAlpha
+            }
+        ]
+    }
+]</pre></div>
+<p>Multiple passes can also be specified to create advanced materials. Here is an example from <a href="./qml-qtquick3d-materials-frostedglassmaterial.htm" translate="no">FrostedGlassMaterial</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">passes: [ Pass {
+        shaders: noopShader
+        output: dummyBuffer
+        commands: [ BufferBlit {
+                destination: frameBuffer
+            }
+        ]
+    }, Pass {
+        shaders: preBlurShader
+        output: tempBuffer
+        commands: [ BufferInput {
+                buffer: frameBuffer
+                param: "OriginBuffer"
+            }
+        ]
+    }, Pass {
+        shaders: blurXShader
+        output: blurXBuffer
+        commands: [ BufferInput {
+                buffer: tempBuffer
+                param: "BlurBuffer"
+            }
+        ]
+    }, Pass {
+        shaders: blurYShader
+        output: blurYBuffer
+        commands: [ BufferInput {
+                buffer: blurXBuffer
+                param: "BlurBuffer"
+            }, BufferInput {
+                buffer: tempBuffer
+                param: "OriginBuffer"
+            }
+        ]
+    }, Pass {
+        shaders: mainShader
+        commands: [BufferInput {
+                buffer: blurYBuffer
+                param: "refractiveTexture"
+            }, Blending {
+                srcBlending: Blending.SrcAlpha
+                destBlending: Blending.OneMinusSrcAlpha
+            }
+        ]
+    }
+]</pre></div>
+<!-- @@@CustomMaterial -->
+<h2>Property Documentation</h2>
+<!-- $$$alwaysDirty -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="alwaysDirty-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="alwaysDirty-prop"></a><span class="name">alwaysDirty</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#alwaysDirty-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Specifies that the material state is always dirty, which indicates that the material needs to be refreshed every time it is used by the <a href="./qtquick3d-qmlmodule.htm" translate="no">QtQuick3D</a>.</p>
+</div></div><!-- @@@alwaysDirty -->
+<br>
+<!-- $$$hasRefraction -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="hasRefraction-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="hasRefraction-prop"></a><span class="name">hasRefraction</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#hasRefraction-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Specifies that the material has refraction.</p>
+</div></div><!-- @@@hasRefraction -->
+<br>
+<!-- $$$hasTransparency -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="hasTransparency-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="hasTransparency-prop"></a><span class="name">hasTransparency</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#hasTransparency-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Specifies that the material has transparency.</p>
+</div></div><!-- @@@hasTransparency -->
+<br>
+<!-- $$$passes -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="passes-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="passes-prop"></a><span class="name">passes</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span><a class="plink" href="#passes-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Contains a list of render <a href="./qml-qtquick3d-pass.htm" translate="no">passes</a> implemented by the material.</p>
+</div></div><!-- @@@passes -->
+<br>
+<!-- $$$shaderInfo -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="shaderInfo-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="shaderInfo-prop"></a><span class="name">shaderInfo</span> : <span class="type"><a href="./qml-qtquick3d-shaderinfo.htm" translate="no">ShaderInfo</a></span><a class="plink" href="#shaderInfo-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Specifies the <a href="./qml-qtquick3d-shaderinfo.htm" translate="no">ShaderInfo</a> of the material.</p>
+</div></div><!-- @@@shaderInfo -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,140 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ScatterChart Example | Qt Charts</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtcharts-scatterchart-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtcharts-index.htm" translate="no">Qt Charts</a></li>
+                            <li><a href="./qtcharts-examples.htm" translate="no">Qt Charts Examples</a></li>
+                            <li class="last"><a>ScatterChart Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">ScatterChart Example</h1>
+<span class="subtitle"></span>
+<!-- $$$scatterchart-brief -->
+<p>The example shows how to create a simple scatter chart.</p>
+<!-- @@@scatterchart -->
+<!-- $$$scatterchart-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/examples_scatterchart.png"></p><a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="creating-scatter-charts"></a>
+<h4 id="creating-scatter-charts">Creating Scatter Charts<a class="plink" href="#creating-scatter-charts" title="Direct link to this headline"></a></h4>
+<p>To create scatter charts, a <a href="./qscatterseries.htm" translate="no">QScatterSeries</a> instance is needed. Here we create a scatter series instance, and set the type and width of outline for the scatter points.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span> <span class="operator">*</span>series0 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span>();
+series0<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"scatter1"</span>);
+series0<span class="operator">-</span><span class="operator">&gt;</span>setMarkerShape(<span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span><span class="operator">::</span>MarkerShapeCircle);
+series0<span class="operator">-</span><span class="operator">&gt;</span>setMarkerSize(<span class="number">15.0</span>);
+
+<span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span> <span class="operator">*</span>series1 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span>();
+series1<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"scatter2"</span>);
+series1<span class="operator">-</span><span class="operator">&gt;</span>setMarkerShape(<span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span><span class="operator">::</span>MarkerShapeRectangle);
+series1<span class="operator">-</span><span class="operator">&gt;</span>setMarkerSize(<span class="number">20.0</span>);
+
+<span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span> <span class="operator">*</span>series2 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span>();
+series2<span class="operator">-</span><span class="operator">&gt;</span>setName(<span class="string">"scatter3"</span>);
+series2<span class="operator">-</span><span class="operator">&gt;</span>setMarkerShape(<span class="type"><a href="./qscatterseries.htm" translate="no">QScatterSeries</a></span><span class="operator">::</span>MarkerShapeRectangle);
+series2<span class="operator">-</span><span class="operator">&gt;</span>setMarkerSize(<span class="number">30.0</span>);</pre></div>
+<p>We add the data to be shown. We can use the append() member function or use the stream operator.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">series0<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">0</span><span class="operator">,</span> <span class="number">6</span>);
+series0<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">2</span><span class="operator">,</span> <span class="number">4</span>);
+series0<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">3</span><span class="operator">,</span> <span class="number">8</span>);
+series0<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">7</span><span class="operator">,</span> <span class="number">4</span>);
+series0<span class="operator">-</span><span class="operator">&gt;</span>append(<span class="number">10</span><span class="operator">,</span> <span class="number">5</span>);
+
+<span class="operator">*</span>series1 <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">1</span><span class="operator">,</span> <span class="number">1</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">3</span><span class="operator">,</span> <span class="number">3</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">7</span><span class="operator">,</span> <span class="number">6</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">8</span><span class="operator">,</span> <span class="number">3</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">10</span><span class="operator">,</span> <span class="number">2</span>);
+<span class="operator">*</span>series2 <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">1</span><span class="operator">,</span> <span class="number">5</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">4</span><span class="operator">,</span> <span class="number">6</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">6</span><span class="operator">,</span> <span class="number">3</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">9</span><span class="operator">,</span> <span class="number">5</span>);</pre></div>
+<p>We can define the brush of the scatter series to be an image. Here the image is a star created using <a href="./qpainterpath.htm" translate="no">QPainterPath</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qpainterpath.htm" translate="no">QPainterPath</a></span> starPath;
+starPath<span class="operator">.</span>moveTo(<span class="number">28</span><span class="operator">,</span> <span class="number">15</span>);
+<span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">1</span>; i <span class="operator">&lt;</span> <span class="number">5</span>; <span class="operator">+</span><span class="operator">+</span>i) {
+    starPath<span class="operator">.</span>lineTo(<span class="number">14</span> <span class="operator">+</span> <span class="number">14</span> <span class="operator">*</span> <a href="./qtmath.htm#qCos" translate="no">qCos</a>(<span class="number">0.8</span> <span class="operator">*</span> i <span class="operator">*</span> M_PI)<span class="operator">,</span>
+                    <span class="number">15</span> <span class="operator">+</span> <span class="number">14</span> <span class="operator">*</span> <a href="./qtmath.htm#qSin" translate="no">qSin</a>(<span class="number">0.8</span> <span class="operator">*</span> i <span class="operator">*</span> M_PI));
+}
+starPath<span class="operator">.</span>closeSubpath();
+
+<span class="type"><a href="./qimage.htm" translate="no">QImage</a></span> star(<span class="number">30</span><span class="operator">,</span> <span class="number">30</span><span class="operator">,</span> <span class="type"><a href="./qimage.htm" translate="no">QImage</a></span><span class="operator">::</span>Format_ARGB32);
+star<span class="operator">.</span>fill(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>transparent);
+
+<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> painter(<span class="operator">&amp;</span>star);
+painter<span class="operator">.</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);
+painter<span class="operator">.</span>setPen(<span class="type"><a href="./qcolor.htm#QRgb-typedef" translate="no">QRgb</a></span>(<span class="number">0xf6a625</span>));
+painter<span class="operator">.</span>setBrush(painter<span class="operator">.</span>pen()<span class="operator">.</span>color());
+painter<span class="operator">.</span>drawPath(starPath);
+
+series2<span class="operator">-</span><span class="operator">&gt;</span>setBrush(star);
+series2<span class="operator">-</span><span class="operator">&gt;</span>setPen(<span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>transparent));</pre></div>
+<p>In the end we enable anti-aliasing, set the chart title, and add the scatter series onto the chart. We also disable drop shadow, because it would not look good on an application with only chart view shown.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);
+chart()<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series0);
+chart()<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series1);
+chart()<span class="operator">-</span><span class="operator">&gt;</span>addSeries(series2);
+
+chart()<span class="operator">-</span><span class="operator">&gt;</span>setTitle(<span class="string">"Simple scatterchart example"</span>);
+chart()<span class="operator">-</span><span class="operator">&gt;</span>createDefaultAxes();
+chart()<span class="operator">-</span><span class="operator">&gt;</span>setDropShadowEnabled(<span class="keyword">false</span>);</pre></div>
+<p>We can also use the scatter points as legend markers.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">chart()<span class="operator">-</span><span class="operator">&gt;</span>legend()<span class="operator">-</span><span class="operator">&gt;</span>setMarkerShape(<span class="type"><a href="./qlegend.htm" translate="no">QLegend</a></span><span class="operator">::</span>MarkerShapeFromSeries);</pre></div>
+<p>The chart is ready to be shown.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ChartView <span class="operator">*</span>chartView <span class="operator">=</span> <span class="keyword">new</span> ChartView();
+    <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span> window;
+    window<span class="operator">.</span>setCentralWidget(chartView);
+    window<span class="operator">.</span>resize(<span class="number">400</span><span class="operator">,</span> <span class="number">300</span>);
+    window<span class="operator">.</span>show();</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtcharts.git/tree/examples/charts/scatterchart?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@scatterchart -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

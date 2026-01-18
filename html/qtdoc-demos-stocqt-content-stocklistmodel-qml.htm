@@ -1,0 +1,185 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Quick Demo - StocQt</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a>Qt Quick Demo - StocQt</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left nosidebar">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<div class="context">
+<h1 class="title">Qt Quick Demo - StocQt</h1>
+<span class="subtitle"></span>
+<div class="pre"><pre class="qml prettyprint" translate="no"><input id="ec_toggle" type="checkbox"><label for="ec_toggle"></label><div id="ec_expand"><span class="comment">/****************************************************************************
+**
+** Copyright (C) 2017 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the examples of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:BSD$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
+**
+** "Redistribution and use in source and binary forms, with or without
+** modification, are permitted provided that the following conditions are
+** met:
+**   * Redistributions of source code must retain the above copyright
+**     notice, this list of conditions and the following disclaimer.
+**   * Redistributions in binary form must reproduce the above copyright
+**     notice, this list of conditions and the following disclaimer in
+**     the documentation and/or other materials provided with the
+**     distribution.
+**   * Neither the name of The Qt Company Ltd nor the names of its
+**     contributors may be used to endorse or promote products derived
+**     from this software without specific prior written permission.
+**
+**
+** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+** "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+** LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+** A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+** OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+** SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+** LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+** DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+** THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+** OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/</span></div>
+import QtQuick 2.0
+
+<span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+    <span class="name">id</span>: <span class="name">stocks</span>
+
+    <span class="comment">// pre-fetch data for all entries</span>
+    <span class="name">Component</span>.onCompleted: {
+        <span class="keyword">for</span> (var idx = 0; <span class="name">idx</span> <span class="operator">&lt;</span> <span class="name">count</span>; ++<span class="name">idx</span>) {
+            <span class="name">getCloseValue</span>(<span class="name">idx</span>)
+        }
+    }
+
+    <span class="keyword">function </span><span class="name">getCloseValue</span>(index) {
+
+        var endDate = new <span class="name">Date</span>(); <span class="comment">// today</span>
+        var startDate = new <span class="name">Date</span>();
+        <span class="name">endDate</span>.<span class="name">setDate</span>(<span class="name">startDate</span>.<span class="name">getDate</span>() <span class="operator">-</span> <span class="number">1</span>);
+        <span class="name">startDate</span>.<span class="name">setDate</span>(<span class="name">endDate</span>.<span class="name">getDate</span>() <span class="operator">-</span> <span class="number">7</span>);
+
+        var req = <span class="string">"data/"</span> <span class="operator">+</span> <span class="name">get</span>(<span class="name">index</span>).<span class="name">stockId</span> <span class="operator">+</span> <span class="string">".csv"</span>
+
+        var xhr = new <span class="name">XMLHttpRequest</span>;
+
+        <span class="name">xhr</span>.<span class="name">open</span>(<span class="string">"GET"</span>, <span class="name">req</span>, <span class="number">true</span>);
+
+        <span class="name">xhr</span>.<span class="name">onreadystatechange</span> <span class="operator">=</span> <span class="keyword">function</span>() {
+            <span class="keyword">if</span> (<span class="name">xhr</span>.<span class="name">readyState</span> <span class="operator">===</span> <span class="name">XMLHttpRequest</span>.<span class="name">LOADING</span> <span class="operator">||</span> <span class="name">xhr</span>.<span class="name">readyState</span> <span class="operator">===</span> <span class="name">XMLHttpRequest</span>.<span class="name">DONE</span>) {
+                var records = <span class="name">xhr</span>.<span class="name">responseText</span>.<span class="name">split</span>(<span class="string">'\n'</span>);
+                var unknown = <span class="string">"n/a"</span>;
+                <span class="name">set</span>(<span class="name">index</span>, {"value": <span class="name">unknown</span>, "change": <span class="name">unknown</span>, "changePercentage": <span class="name">unknown</span>});
+                <span class="keyword">if</span> (<span class="name">records</span>.<span class="name">length</span> <span class="operator">&gt;</span> <span class="number">0</span> <span class="operator">&amp;&amp;</span> <span class="name">xhr</span>.<span class="name">status</span> <span class="operator">==</span> <span class="number">200</span>) {
+                    var r = <span class="name">records</span>[<span class="number">1</span>].<span class="name">split</span>(<span class="string">','</span>);
+                    var today = <span class="name">parseFloat</span>(<span class="name">r</span>[<span class="number">4</span>]);
+
+                    <span class="keyword">if</span> (!<span class="name">isNaN</span>(<span class="name">today</span>))
+                        <span class="name">setProperty</span>(<span class="name">index</span>, <span class="string">"value"</span>, <span class="name">today</span>.<span class="name">toFixed</span>(<span class="number">2</span>));
+                    <span class="keyword">if</span> (<span class="name">records</span>.<span class="name">length</span> <span class="operator">&gt;</span> <span class="number">2</span>) {
+                        <span class="name">r</span> <span class="operator">=</span> <span class="name">records</span>[<span class="number">2</span>].<span class="name">split</span>(<span class="string">','</span>);
+                        var yesterday = <span class="name">parseFloat</span>(<span class="name">r</span>[<span class="number">4</span>]);
+                        var change = <span class="name">today</span> <span class="operator">-</span> <span class="name">yesterday</span>;
+
+                        <span class="keyword">if</span> (<span class="name">change</span> <span class="operator">&gt;=</span> <span class="number">0.0</span>)
+                            <span class="name">setProperty</span>(<span class="name">index</span>, <span class="string">"change"</span>, <span class="string">"+"</span> <span class="operator">+</span> <span class="name">change</span>.<span class="name">toFixed</span>(<span class="number">2</span>));
+                        <span class="keyword">else</span>
+                            <span class="name">setProperty</span>(<span class="name">index</span>, <span class="string">"change"</span>, <span class="name">change</span>.<span class="name">toFixed</span>(<span class="number">2</span>));
+
+                        var changePercentage = (<span class="name">change</span> <span class="operator">/</span> <span class="name">yesterday</span>) <span class="operator">*</span> <span class="number">100.0</span>;
+                        <span class="keyword">if</span> (<span class="name">changePercentage</span> <span class="operator">&gt;=</span> <span class="number">0.0</span>)
+                            <span class="name">setProperty</span>(<span class="name">index</span>, <span class="string">"changePercentage"</span>, <span class="string">"+"</span> <span class="operator">+</span> <span class="name">changePercentage</span>.<span class="name">toFixed</span>(<span class="number">2</span>) <span class="operator">+</span> <span class="string">"%"</span>);
+                        <span class="keyword">else</span>
+                            <span class="name">setProperty</span>(<span class="name">index</span>, <span class="string">"changePercentage"</span>, <span class="name">changePercentage</span>.<span class="name">toFixed</span>(<span class="number">2</span>) <span class="operator">+</span> <span class="string">"%"</span>);
+                    }
+                }
+            }
+        }
+        <span class="name">xhr</span>.<span class="name">send</span>()
+    }
+    <span class="comment">// Uncomment to test invalid entries</span>
+    <span class="comment">// ListElement {name: "The Qt Company"; stockId: "TQTC"; value: "999.0"; change: "0.0"; changePercentage: "0.0"}</span>
+
+    <span class="comment">// Offline data downloaded using the url, https://www.quandl.com/api/v3/datasets/WIKI/&lt;stockId&gt;.csv.</span>
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Advanced Micro Devices Inc."</span>; <span class="name">stockId</span>: <span class="string">"AMD"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Amazon.com Inc."</span>; <span class="name">stockId</span>: <span class="string">"AMZN"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Apple Inc."</span>; <span class="name">stockId</span>: <span class="string">"AAPL"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Autodesk Inc."</span>; <span class="name">stockId</span>: <span class="string">"ADSK"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Cisco Systems Inc."</span>; <span class="name">stockId</span>: <span class="string">"CSCO"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"eBay Inc."</span>; <span class="name">stockId</span>: <span class="string">"EBAY"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Electronic Arts Inc."</span>; <span class="name">stockId</span>: <span class="string">"EA"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Intel Corp."</span>; <span class="name">stockId</span>: <span class="string">"INTC"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Microsoft Corp."</span>; <span class="name">stockId</span>: <span class="string">"MSFT"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"NetApp Inc."</span>; <span class="name">stockId</span>: <span class="string">"NTAP"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Netflix Inc."</span>; <span class="name">stockId</span>: <span class="string">"NFLX"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Norwegian Cruise Line Holdings Ltd."</span>; <span class="name">stockId</span>: <span class="string">"NCLH"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"NVIDIA Corp."</span>; <span class="name">stockId</span>: <span class="string">"NVDA"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"PayPal Holdings Inc."</span>; <span class="name">stockId</span>: <span class="string">"PYPL"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"QUALCOMM Inc."</span>; <span class="name">stockId</span>: <span class="string">"QCOM"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Tesla Motors Inc."</span>; <span class="name">stockId</span>: <span class="string">"TSLA"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Texas Instruments Inc."</span>; <span class="name">stockId</span>: <span class="string">"TXN"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {<span class="name">name</span>: <span class="string">"Facebook Inc."</span>; <span class="name">stockId</span>: <span class="string">"FB"</span>; <span class="name">value</span>: <span class="string">"0.0"</span>; <span class="name">change</span>: <span class="string">"0.0"</span>; <span class="name">changePercentage</span>: <span class="string">"0.0"</span>}
+}</pre></div>
+</div>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,128 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QDBusVariant | Qt D-Bus</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qdbusvariant.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtdbus-index.htm" translate="no">Qt D-Bus</a></li>
+                            <li><a href="./qtdbus-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QDBusVariant</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">QDBusVariant Class</h1>
+<!-- $$$QDBusVariant-brief -->
+<p>The QDBusVariant class enables the programmer to identify the variant type provided by the D-Bus typesystem. <a href="#details">More...</a></p>
+<!-- @@@QDBusVariant -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;QDBusVariant&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> qmake:</td><td class="memItemRight bottomAlign"> QT += dbus</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 4.2</td></tr></tbody></table></div><p>This class was introduced in Qt 4.2.</p>
+<ul>
+<li><a href="./qdbusvariant-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions<a class="plink" href="#public-functions" title="Direct link to this headline"></a></h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qdbusvariant.htm#QDBusVariant-1" translate="no">QDBusVariant</a></b>(const QVariant &amp;<i>variant</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="./qdbusvariant.htm#QDBusVariant" translate="no">QDBusVariant</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qdbusvariant.htm#setVariant" translate="no">setVariant</a></b>(const QVariant &amp;<i>variant</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="./qdbusvariant.htm#swap" translate="no">swap</a></b>(QDBusVariant &amp;<i>other</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVariant </td><td class="memItemRight bottomAlign"><b><a href="./qdbusvariant.htm#variant" translate="no">variant</a></b>() const</td></tr>
+</tbody></table></div>
+<a name="details"></a>
+<!-- $$$QDBusVariant-description -->
+<div class="descr">
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>A D-Bus function that takes an integer, a D-Bus variant and a string as parameters can be called with the following argument list (see <a href="./qdbusmessage.htm#setArguments" translate="no">QDBusMessage::setArguments</a>()):</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">&gt;</span> arguments;
+    arguments <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>(<span class="number">42</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(<span class="type"><a href="./qdbusvariant.htm#QDBusVariant" translate="no">QDBusVariant</a></span>(<span class="number">43</span>)) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span>(<span class="string">"hello"</span>);
+    myDBusMessage<span class="operator">.</span>setArguments(arguments);</pre></div>
+<p>When a D-Bus function returns a D-Bus variant, it can be retrieved as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// call a D-Bus function that returns a D-Bus variant</span>
+    <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> v <span class="operator">=</span> callMyDBusFunction();
+    <span class="comment">// retrieve the D-Bus variant</span>
+    <span class="type"><a href="./qdbusvariant.htm#QDBusVariant" translate="no">QDBusVariant</a></span> dbusVariant <span class="operator">=</span> qvariant_cast<span class="operator">&lt;</span><span class="type"><a href="./qdbusvariant.htm#QDBusVariant" translate="no">QDBusVariant</a></span><span class="operator">&gt;</span>(v);
+    <span class="comment">// retrieve the actual value stored in the D-Bus variant</span>
+    <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> result <span class="operator">=</span> dbusVariant<span class="operator">.</span>variant();</pre></div>
+<p>The <a href="./qvariant.htm" translate="no">QVariant</a> within a QDBusVariant is required to distinguish between a normal D-Bus value and a value within a D-Bus variant.</p>
+</div>
+<p><b>See also </b><a href="./qdbustypesystem.htm" translate="no">The Qt D-Bus Type System</a>.</p>
+<!-- @@@QDBusVariant -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$QDBusVariant$$$QDBusVariantconstQVariant& -->
+<h3 class="fn" id="QDBusVariant-1" translate="no"><a name="QDBusVariant-1"></a>QDBusVariant::<span class="name">QDBusVariant</span>(const <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> &amp;<i>variant</i>)<a class="plink" href="#QDBusVariant-1" title="Direct link to this headline"></a></h3>
+<p>Constructs a new D-Bus variant from the given Qt <i translate="no">variant</i>.</p>
+<p><b>See also </b><a href="./qdbusvariant.htm#setVariant" translate="no">setVariant</a>().</p>
+<!-- @@@QDBusVariant -->
+<!-- $$$QDBusVariant[overload1]$$$QDBusVariant -->
+<h3 class="fn" id="QDBusVariant" translate="no"><a name="QDBusVariant"></a>QDBusVariant::<span class="name">QDBusVariant</span>()<a class="plink" href="#QDBusVariant" title="Direct link to this headline"></a></h3>
+<p>Constructs a new D-Bus variant.</p>
+<!-- @@@QDBusVariant -->
+<!-- $$$setVariant[overload1]$$$setVariantconstQVariant& -->
+<h3 class="fn" id="setVariant" translate="no"><a name="setVariant"></a><span class="type">void</span> QDBusVariant::<span class="name">setVariant</span>(const <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> &amp;<i>variant</i>)<a class="plink" href="#setVariant" title="Direct link to this headline"></a></h3>
+<p>Assigns the value of the given Qt <i translate="no">variant</i> to this D-Bus variant.</p>
+<p><b>See also </b><a href="./qdbusvariant.htm#variant" translate="no">variant</a>().</p>
+<!-- @@@setVariant -->
+<!-- $$$swap[overload1]$$$swapQDBusVariant& -->
+<h3 class="fn" id="swap" translate="no"><a name="swap"></a><span class="type">void</span> QDBusVariant::<span class="name">swap</span>(<span class="type"><a href="./qdbusvariant.htm#QDBusVariant" translate="no">QDBusVariant</a></span> &amp;<i>other</i>)<a class="plink" href="#swap" title="Direct link to this headline"></a></h3>
+<p>Swaps this <a href="./qdbusvariant.htm" translate="no">QDBusVariant</a> instance with <i translate="no">other</i>.</p>
+<!-- @@@swap -->
+<!-- $$$variant[overload1]$$$variant -->
+<h3 class="fn" id="variant" translate="no"><a name="variant"></a><span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span> QDBusVariant::<span class="name">variant</span>() const<a class="plink" href="#variant" title="Direct link to this headline"></a></h3>
+<p>Returns this D-Bus variant as a <a href="./qvariant.htm" translate="no">QVariant</a> object.</p>
+<p><b>See also </b><a href="./qdbusvariant.htm#setVariant" translate="no">setVariant</a>().</p>
+<!-- @@@variant -->
+</div>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

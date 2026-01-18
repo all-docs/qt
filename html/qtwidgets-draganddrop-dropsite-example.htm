@@ -1,0 +1,318 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drop Site Example | Qt Widgets</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtwidgets-draganddrop-dropsite-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Drop Site Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Drop Site Example</h1>
+<span class="subtitle"></span>
+<!-- $$$draganddrop/dropsite-brief -->
+<p>The example shows how to distinguish the various MIME formats available in a drag and drop operation.</p>
+<!-- @@@draganddrop/dropsite -->
+<!-- $$$draganddrop/dropsite-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="Screenshot of the Drop Site example" src="./images/dropsite-example.png"></p><p>The Drop Site example accepts drops from other applications, and displays the MIME formats provided by the drag object.</p>
+<p>There are two classes, <code translate="no">DropArea</code> and <code translate="no">DropSiteWindow</code>, and a <code translate="no">main()</code> function in this example. A <code translate="no">DropArea</code> object is instantiated in <code translate="no">DropSiteWindow</code>; a <code translate="no">DropSiteWindow</code> object is then invoked in the <code translate="no">main()</code> function.</p>
+<a name="droparea-class-definition"></a>
+<h4 id="droparea-class-definition">DropArea Class Definition<a class="plink" href="#droparea-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">DropArea</code> class is a subclass of <a href="./qlabel.htm" translate="no">QLabel</a> with a public slot, <code translate="no">clear()</code>, and a <code translate="no">changed()</code> signal.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> DropArea : <span class="keyword">public</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    <span class="keyword">explicit</span> DropArea(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> clear();
+
+<span class="keyword">signals</span>:
+    <span class="type">void</span> changed(<span class="keyword">const</span> <span class="type"><a href="./qmimedata.htm" translate="no">QMimeData</a></span> <span class="operator">*</span>mimeData <span class="operator">=</span> nullptr);</pre></div>
+<p>In addition, <code translate="no">DropArea</code> also contains a private instance of <a href="./qlabel.htm" translate="no">QLabel</a> and reimplementations of four <a href="./qwidget.htm" translate="no">QWidget</a> event handlers:</p>
+<ol class="1" type="1"><li><a href="./qwidget.htm#dragEnterEvent" translate="no">dragEnterEvent()</a></li>
+<li><a href="./qwidget.htm#dragMoveEvent" translate="no">dragMoveEvent()</a></li>
+<li><a href="./qwidget.htm#dragLeaveEvent" translate="no">dragLeaveEvent()</a></li>
+<li><a href="./qwidget.htm#dropEvent" translate="no">dropEvent()</a></li>
+</ol>
+<p>These event handlers are further explained in the implementation of the <code translate="no">DropArea</code> class.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">protected</span>:
+    <span class="type">void</span> dragEnterEvent(<span class="type"><a href="./qdragenterevent.htm" translate="no">QDragEnterEvent</a></span> <span class="operator">*</span>event) override;
+    <span class="type">void</span> dragMoveEvent(<span class="type"><a href="./qdragmoveevent.htm" translate="no">QDragMoveEvent</a></span> <span class="operator">*</span>event) override;
+    <span class="type">void</span> dragLeaveEvent(<span class="type"><a href="./qdragleaveevent.htm" translate="no">QDragLeaveEvent</a></span> <span class="operator">*</span>event) override;
+    <span class="type">void</span> dropEvent(<span class="type"><a href="./qdropevent.htm" translate="no">QDropEvent</a></span> <span class="operator">*</span>event) override;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>label;
+};</pre></div>
+<a name="droparea-class-implementation"></a>
+<h4 id="droparea-class-implementation">DropArea Class Implementation<a class="plink" href="#droparea-class-implementation" title="Direct link to this headline"></a></h4>
+<p>In the <code translate="no">DropArea</code> constructor, we set the <a href="./qwidget.htm#minimumSize-prop" translate="no">minimum size</a> to 200x200 pixels, the <a href="./qframe.htm#setFrameStyle" translate="no">frame style</a> to both <a href="./qframe.htm#Shadow-enum" translate="no">QFrame::Sunken</a> and <a href="./qframe.htm#Shape-enum" translate="no">QFrame::StyledPanel</a>, and we align its contents to the center.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">DropArea<span class="operator">::</span>DropArea(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(parent)
+{
+    setMinimumSize(<span class="number">200</span><span class="operator">,</span> <span class="number">200</span>);
+    setFrameStyle(<span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span><span class="operator">::</span>Sunken <span class="operator">|</span> <span class="type"><a href="./qframe.htm" translate="no">QFrame</a></span><span class="operator">::</span>StyledPanel);
+    setAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignCenter);
+    setAcceptDrops(<span class="keyword">true</span>);
+    setAutoFillBackground(<span class="keyword">true</span>);
+    clear();
+}</pre></div>
+<p>Also, we enable drop events in <code translate="no">DropArea</code> by setting the <a href="./qwidget.htm#acceptDrops-prop" translate="no">acceptDrops</a> property to <code translate="no">true</code>. Then, we enable the <a href="./qwidget.htm#autoFillBackground-prop" translate="no">autoFillBackground</a> property and invoke the <code translate="no">clear()</code> function.</p>
+<p>The <a href="./qwidget.htm#dragEnterEvent" translate="no">dragEnterEvent()</a> event handler is called when a drag is in progress and the mouse enters the <code translate="no">DropArea</code> object. For the <code translate="no">DropSite</code> example, when the mouse enters <code translate="no">DropArea</code>, we set its text to "&lt;drop content&gt;" and highlight its background.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DropArea<span class="operator">::</span>dragEnterEvent(<span class="type"><a href="./qdragenterevent.htm" translate="no">QDragEnterEvent</a></span> <span class="operator">*</span>event)
+{
+    setText(tr(<span class="string">"&lt;drop content&gt;"</span>));
+    setBackgroundRole(<span class="type"><a href="./qpalette.htm" translate="no">QPalette</a></span><span class="operator">::</span>Highlight);
+
+    event<span class="operator">-</span><span class="operator">&gt;</span>acceptProposedAction();
+    <span class="keyword">emit</span> changed(event<span class="operator">-</span><span class="operator">&gt;</span>mimeData());
+}</pre></div>
+<p>Then, we invoke <a href="./qdropevent.htm#acceptProposedAction" translate="no">acceptProposedAction()</a> on <i translate="no">event</i>, setting the drop action to the one proposed. Lastly, we emit the <code translate="no">changed()</code> signal, with the data that was dropped and its MIME type information as a parameter.</p>
+<p>For <a href="./qwidget.htm#dragMoveEvent" translate="no">dragMoveEvent()</a>, we just accept the proposed <a href="./qdragmoveevent.htm" translate="no">QDragMoveEvent</a> object, <i translate="no">event</i>, with <a href="./qdropevent.htm#acceptProposedAction" translate="no">acceptProposedAction()</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DropArea<span class="operator">::</span>dragMoveEvent(<span class="type"><a href="./qdragmoveevent.htm" translate="no">QDragMoveEvent</a></span> <span class="operator">*</span>event)
+{
+    event<span class="operator">-</span><span class="operator">&gt;</span>acceptProposedAction();
+}</pre></div>
+<p>The <code translate="no">DropArea</code> class's implementation of <a href="./qwidget.htm#dropEvent" translate="no">dropEvent()</a> extracts the <i translate="no">event</i>'s mime data and displays it accordingly.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DropArea<span class="operator">::</span>dropEvent(<span class="type"><a href="./qdropevent.htm" translate="no">QDropEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="keyword">const</span> <span class="type"><a href="./qmimedata.htm" translate="no">QMimeData</a></span> <span class="operator">*</span>mimeData <span class="operator">=</span> event<span class="operator">-</span><span class="operator">&gt;</span>mimeData();</pre></div>
+<p>The <code translate="no">mimeData</code> object can contain one of the following objects: an image, HTML text, plain text, or a list of URLs.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">if</span> (mimeData<span class="operator">-</span><span class="operator">&gt;</span>hasImage()) {
+        setPixmap(qvariant_cast<span class="operator">&lt;</span><span class="type"><a href="./qpixmap.htm" translate="no">QPixmap</a></span><span class="operator">&gt;</span>(mimeData<span class="operator">-</span><span class="operator">&gt;</span>imageData()));
+    } <span class="keyword">else</span> <span class="keyword">if</span> (mimeData<span class="operator">-</span><span class="operator">&gt;</span>hasFormat(QLatin1String(<span class="string">"text/markdown"</span>))) {
+        setText(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromUtf8(mimeData<span class="operator">-</span><span class="operator">&gt;</span>data(QLatin1String(<span class="string">"text/markdown"</span>))));
+        setTextFormat(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>MarkdownText);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (mimeData<span class="operator">-</span><span class="operator">&gt;</span>hasHtml()) {
+        setText(mimeData<span class="operator">-</span><span class="operator">&gt;</span>html());
+        setTextFormat(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>RichText);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (mimeData<span class="operator">-</span><span class="operator">&gt;</span>hasText()) {
+        setText(mimeData<span class="operator">-</span><span class="operator">&gt;</span>text());
+        setTextFormat(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>PlainText);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (mimeData<span class="operator">-</span><span class="operator">&gt;</span>hasUrls()) {
+        <span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span><span class="operator">&gt;</span> urlList <span class="operator">=</span> mimeData<span class="operator">-</span><span class="operator">&gt;</span>urls();
+        <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> text;
+        <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> urlList<span class="operator">.</span>size() <span class="operator">&amp;</span><span class="operator">&amp;</span> i <span class="operator">&lt;</span> <span class="number">32</span>; <span class="operator">+</span><span class="operator">+</span>i)
+            text <span class="operator">+</span><span class="operator">=</span> urlList<span class="operator">.</span>at(i)<span class="operator">.</span>path() <span class="operator">+</span> QLatin1Char(<span class="char">'\n'</span>);
+        setText(text);
+    } <span class="keyword">else</span> {
+        setText(tr(<span class="string">"Cannot display data"</span>));
+    }</pre></div>
+<ul>
+<li>If <code translate="no">mimeData</code> contains an image, we display it in <code translate="no">DropArea</code> with <a href="./qlabel.htm#pixmap-prop" translate="no">setPixmap()</a>.</li>
+<li>If <code translate="no">mimeData</code> contains HTML, we display it with <a href="./qlabel.htm#text-prop" translate="no">setText()</a> and set <code translate="no">DropArea</code>'s text format as <a href="./qt.htm#TextFormat-enum" translate="no">Qt::RichText</a>.</li>
+<li>If <code translate="no">mimeData</code> contains plain text, we display it with <a href="./qlabel.htm#text-prop" translate="no">setText()</a> and set <code translate="no">DropArea</code>'s text format as <a href="./qt.htm#TextFormat-enum" translate="no">Qt::PlainText</a>. In the event that <code translate="no">mimeData</code> contains URLs, we iterate through the list of URLs to display them on individual lines.</li>
+<li>If <code translate="no">mimeData</code> contains other types of objects, we set <code translate="no">DropArea</code>'s text, with <a href="./qlabel.htm#text-prop" translate="no">setText()</a> to "Cannot display data" to inform the user.</li>
+</ul>
+<p>We then set <code translate="no">DropArea</code>'s <a href="./qwidget.htm#backgroundRole" translate="no">backgroundRole</a> to <a href="./qpalette.htm#ColorRole-enum" translate="no">QPalette::Dark</a> and we accept <code translate="no">event</code>'s proposed action.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    setBackgroundRole(<span class="type"><a href="./qpalette.htm" translate="no">QPalette</a></span><span class="operator">::</span>Dark);
+    event<span class="operator">-</span><span class="operator">&gt;</span>acceptProposedAction();
+}</pre></div>
+<p>The <a href="./qwidget.htm#dragLeaveEvent" translate="no">dragLeaveEvent()</a> event handler is called when a drag is in progress and the mouse leaves the widget.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DropArea<span class="operator">::</span>dragLeaveEvent(<span class="type"><a href="./qdragleaveevent.htm" translate="no">QDragLeaveEvent</a></span> <span class="operator">*</span>event)
+{
+    clear();
+    event<span class="operator">-</span><span class="operator">&gt;</span>accept();
+}</pre></div>
+<p>For <code translate="no">DropArea</code>'s implementation, we clear invoke <code translate="no">clear()</code> and then accept the proposed event.</p>
+<p>The <code translate="no">clear()</code> function sets the text in <code translate="no">DropArea</code> to "&lt;drop content&gt;" and sets the <a href="./qwidget.htm#backgroundRole" translate="no">backgroundRole</a> to <a href="./qpalette.htm#ColorRole-enum" translate="no">QPalette::Dark</a>. Lastly, it emits the <code translate="no">changed()</code> signal.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DropArea<span class="operator">::</span>clear()
+{
+    setText(tr(<span class="string">"&lt;drop content&gt;"</span>));
+    setBackgroundRole(<span class="type"><a href="./qpalette.htm" translate="no">QPalette</a></span><span class="operator">::</span>Dark);
+
+    <span class="keyword">emit</span> changed();
+}</pre></div>
+<a name="dropsitewindow-class-definition"></a>
+<h4 id="dropsitewindow-class-definition">DropSiteWindow Class Definition<a class="plink" href="#dropsitewindow-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">DropSiteWindow</code> class contains a constructor and a public slot, <code translate="no">updateFormatsTable()</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> DropSiteWindow : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    DropSiteWindow();
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> updateFormatsTable(<span class="keyword">const</span> <span class="type"><a href="./qmimedata.htm" translate="no">QMimeData</a></span> <span class="operator">*</span>mimeData);
+    <span class="type">void</span> copy();
+
+<span class="keyword">private</span>:
+    DropArea <span class="operator">*</span>dropArea;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>abstractLabel;
+    <span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span> <span class="operator">*</span>formatsTable;
+
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>clearButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>copyButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>quitButton;
+    <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span> <span class="operator">*</span>buttonBox;
+};</pre></div>
+<p>The class also contains a private instance of <code translate="no">DropArea</code>, <code translate="no">dropArea</code>, <a href="./qlabel.htm" translate="no">QLabel</a>, <code translate="no">abstractLabel</code>, <a href="./qtablewidget.htm" translate="no">QTableWidget</a>, <code translate="no">formatsTable</code>, <a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a>, <code translate="no">buttonBox</code>, and two <a href="./qpushbutton.htm" translate="no">QPushButton</a> objects, <code translate="no">clearButton</code> and <code translate="no">quitButton</code>.</p>
+<a name="dropsitewindow-class-implementation"></a>
+<h4 id="dropsitewindow-class-implementation">DropSiteWindow Class Implementation<a class="plink" href="#dropsitewindow-class-implementation" title="Direct link to this headline"></a></h4>
+<p>In the constructor of <code translate="no">DropSiteWindow</code>, we instantiate <code translate="no">abstractLabel</code> and set its <a href="./qlabel.htm#wordWrap-prop" translate="no">wordWrap</a> property to <code translate="no">true</code>. We also call the <a href="./qwidget.htm#adjustSize" translate="no">adjustSize()</a> function to adjust <code translate="no">abstractLabel</code>'s size according to its contents.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">DropSiteWindow<span class="operator">::</span>DropSiteWindow()
+{
+    abstractLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"This example accepts drags from other "</span>
+                                  <span class="string">"applications and displays the MIME types "</span>
+                                  <span class="string">"provided by the drag object."</span>));
+    abstractLabel<span class="operator">-</span><span class="operator">&gt;</span>setWordWrap(<span class="keyword">true</span>);
+    abstractLabel<span class="operator">-</span><span class="operator">&gt;</span>adjustSize();</pre></div>
+<p>Then we instantiate <code translate="no">dropArea</code> and connect its <code translate="no">changed()</code> signal to <code translate="no">DropSiteWindow</code>'s <code translate="no">updateFormatsTable()</code> slot.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    dropArea <span class="operator">=</span> <span class="keyword">new</span> DropArea;
+    connect(dropArea<span class="operator">,</span> <span class="operator">&amp;</span>DropArea<span class="operator">::</span>changed<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>DropSiteWindow<span class="operator">::</span>updateFormatsTable);</pre></div>
+<p>We now set up the <a href="./qtablewidget.htm" translate="no">QTableWidget</a> object, <code translate="no">formatsTable</code>. Its horizontal header is set using a <a href="./qstringlist.htm" translate="no">QStringList</a> object, <code translate="no">labels</code>. The number of columms are set to two and the table is not editable. Also, the <code translate="no">formatTable</code>'s horizontal header is formatted to ensure that its second column stretches to occupy additional space available.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> labels;
+    labels <span class="operator">&lt;</span><span class="operator">&lt;</span> tr(<span class="string">"Format"</span>) <span class="operator">&lt;</span><span class="operator">&lt;</span> tr(<span class="string">"Content"</span>);
+
+    formatsTable <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtablewidget.htm" translate="no">QTableWidget</a></span>;
+    formatsTable<span class="operator">-</span><span class="operator">&gt;</span>setColumnCount(<span class="number">2</span>);
+    formatsTable<span class="operator">-</span><span class="operator">&gt;</span>setEditTriggers(<span class="type"><a href="./qabstractitemview.htm" translate="no">QAbstractItemView</a></span><span class="operator">::</span>NoEditTriggers);
+    formatsTable<span class="operator">-</span><span class="operator">&gt;</span>setHorizontalHeaderLabels(labels);
+    formatsTable<span class="operator">-</span><span class="operator">&gt;</span>horizontalHeader()<span class="operator">-</span><span class="operator">&gt;</span>setStretchLastSection(<span class="keyword">true</span>);</pre></div>
+<p>Three <a href="./qpushbutton.htm" translate="no">QPushButton</a> objects, <code translate="no">clearButton</code>, <code translate="no">copyButton</code>, and <code translate="no">quitButton</code>, are instantiated and added to <code translate="no">buttonBox</code> - a <a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a> object. We use <a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a> here to ensure that the push buttons are presented in a layout that conforms to the platform's style.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    clearButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"Clear"</span>));
+    copyButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"Copy"</span>));
+    quitButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"Quit"</span>));
+
+    buttonBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span>;
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(clearButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>ActionRole);
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(copyButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>ActionRole);
+<span class="preprocessor">#if !QT_CONFIG(clipboard)</span>
+    copyButton<span class="operator">-</span><span class="operator">&gt;</span>setVisible(<span class="keyword">false</span>);
+<span class="preprocessor">#endif</span>
+
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(quitButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>RejectRole);
+
+    connect(quitButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">::</span>close);
+    connect(clearButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> dropArea<span class="operator">,</span> <span class="operator">&amp;</span>DropArea<span class="operator">::</span>clear);
+    connect(copyButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>DropSiteWindow<span class="operator">::</span>copy);</pre></div>
+<p>The <a href="./qabstractbutton.htm#clicked" translate="no">clicked()</a> signals for <code translate="no">copyButton</code>, <code translate="no">clearButton</code>, and <code translate="no">quitButton</code> are connected to <code translate="no">copy()</code>, <code translate="no">clear()</code> and <a href="./qwidget.htm#close" translate="no">close()</a>, respectively.</p>
+<p>For the layout, we use a <a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a>, <code translate="no">mainLayout</code>, to arrange our widgets vertically. We also set the window title to "Drop Site" and the minimum size to 350x500 pixels.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>mainLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>(<span class="keyword">this</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(abstractLabel);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(dropArea);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(formatsTable);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(buttonBox);
+
+    setWindowTitle(tr(<span class="string">"Drop Site"</span>));
+    setMinimumSize(<span class="number">350</span><span class="operator">,</span> <span class="number">500</span>);
+}</pre></div>
+<p>We move on to the <code translate="no">updateFormatsTable()</code> function. This function updates the <code translate="no">formatsTable</code>, displaying the MIME formats of the object dropped onto the <code translate="no">DropArea</code> object. First, we set <a href="./qtablewidget.htm" translate="no">QTableWidget</a>'s <a href="./qtablewidget.htm#setRowCount" translate="no">rowCount</a> property to 0. Then, we validate to ensure that the <a href="./qmimedata.htm" translate="no">QMimeData</a> object passed in is a valid object.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> DropSiteWindow<span class="operator">::</span>updateFormatsTable(<span class="keyword">const</span> <span class="type"><a href="./qmimedata.htm" translate="no">QMimeData</a></span> <span class="operator">*</span>mimeData)
+{
+    formatsTable<span class="operator">-</span><span class="operator">&gt;</span>setRowCount(<span class="number">0</span>);
+    copyButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    <span class="keyword">if</span> (<span class="operator">!</span>mimeData)
+        <span class="keyword">return</span>;</pre></div>
+<p>Once we are sure that <code translate="no">mimeData</code> is valid, we iterate through its supported formats.</p>
+<div class="admonition note">
+<p><b>Note: </b>The <a href="./qmimedata.htm#formats" translate="no">formats()</a> function returns a <a href="./qstringlist.htm" translate="no">QStringList</a> object, containing all the formats supported by the <code translate="no">mimeData</code>.</p>
+</div>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">const</span> <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> formats <span class="operator">=</span> mimeData<span class="operator">-</span><span class="operator">&gt;</span>formats();
+    <span class="keyword">for</span> (<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>format : formats) {
+        <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span> <span class="operator">*</span>formatItem <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span>(format);
+        formatItem<span class="operator">-</span><span class="operator">&gt;</span>setFlags(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>ItemIsEnabled);
+        formatItem<span class="operator">-</span><span class="operator">&gt;</span>setTextAlignment(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop <span class="operator">|</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignLeft);</pre></div>
+<p>Within each iteration, we create a <a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a>, <code translate="no">formatItem</code> and we set its <a href="./qtablewidgetitem.htm#setFlags" translate="no">flags</a> to <a href="./qt.htm#ItemFlag-enum" translate="no">Qt::ItemIsEnabled</a>, and its <a href="./qtablewidgetitem.htm#setTextAlignment" translate="no">text alignment</a> to <a href="./qt.htm#AlignmentFlag-enum" translate="no">Qt::AlignTop</a> and <a href="./qt.htm#AlignmentFlag-enum" translate="no">Qt::AlignLeft</a>.</p>
+<p>A <a href="./qstring.htm" translate="no">QString</a> object, <code translate="no">text</code>, is customized to display data according to the contents of <code translate="no">format</code>. We invoke <a href="./qstring.htm" translate="no">QString</a>'s <a href="./qstring.htm#simplified" translate="no">simplified()</a> function on <code translate="no">text</code>, to obtain a string that has no additional space before, after or in between words.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> text;
+        <span class="keyword">if</span> (format <span class="operator">=</span><span class="operator">=</span> QLatin1String(<span class="string">"text/plain"</span>)) {
+            text <span class="operator">=</span> mimeData<span class="operator">-</span><span class="operator">&gt;</span>text()<span class="operator">.</span>simplified();
+        } <span class="keyword">else</span> <span class="keyword">if</span> (format <span class="operator">=</span><span class="operator">=</span> QLatin1String(<span class="string">"text/markdown"</span>)) {
+            text <span class="operator">=</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">::</span>fromUtf8(mimeData<span class="operator">-</span><span class="operator">&gt;</span>data(QLatin1String(<span class="string">"text/markdown"</span>)));
+        } <span class="keyword">else</span> <span class="keyword">if</span> (format <span class="operator">=</span><span class="operator">=</span> QLatin1String(<span class="string">"text/html"</span>)) {
+            text <span class="operator">=</span> mimeData<span class="operator">-</span><span class="operator">&gt;</span>html()<span class="operator">.</span>simplified();
+        } <span class="keyword">else</span> <span class="keyword">if</span> (format <span class="operator">=</span><span class="operator">=</span> QLatin1String(<span class="string">"text/uri-list"</span>)) {
+            <span class="type"><a href="./qlist.htm" translate="no">QList</a></span><span class="operator">&lt;</span><span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span><span class="operator">&gt;</span> urlList <span class="operator">=</span> mimeData<span class="operator">-</span><span class="operator">&gt;</span>urls();
+            <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> urlList<span class="operator">.</span>size() <span class="operator">&amp;</span><span class="operator">&amp;</span> i <span class="operator">&lt;</span> <span class="number">32</span>; <span class="operator">+</span><span class="operator">+</span>i)
+                text<span class="operator">.</span>append(urlList<span class="operator">.</span>at(i)<span class="operator">.</span>toString() <span class="operator">+</span> QLatin1Char(<span class="char">' '</span>));
+        } <span class="keyword">else</span> {
+            <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> data <span class="operator">=</span> mimeData<span class="operator">-</span><span class="operator">&gt;</span>data(format);
+            <span class="keyword">for</span> (<span class="type">int</span> i <span class="operator">=</span> <span class="number">0</span>; i <span class="operator">&lt;</span> data<span class="operator">.</span>size() <span class="operator">&amp;</span><span class="operator">&amp;</span> i <span class="operator">&lt;</span> <span class="number">32</span>; <span class="operator">+</span><span class="operator">+</span>i)
+                text<span class="operator">.</span>append(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"%1 "</span>)<span class="operator">.</span>arg(<span class="type"><a href="./qtglobal.htm#uchar-typedef" translate="no">uchar</a></span>(data<span class="operator">[</span>i<span class="operator">]</span>)<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">16</span><span class="operator">,</span> QLatin1Char(<span class="char">'0'</span>))<span class="operator">.</span>toUpper());
+        }</pre></div>
+<p>If <code translate="no">format</code> contains a list of URLs, we iterate through them, using spaces to separate them. On the other hand, if <code translate="no">format</code> contains an image, we display the data by converting the text to hexadecimal.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type">int</span> row <span class="operator">=</span> formatsTable<span class="operator">-</span><span class="operator">&gt;</span>rowCount();
+        formatsTable<span class="operator">-</span><span class="operator">&gt;</span>insertRow(row);
+        formatsTable<span class="operator">-</span><span class="operator">&gt;</span>setItem(row<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="keyword">new</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span>(format));
+        formatsTable<span class="operator">-</span><span class="operator">&gt;</span>setItem(row<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="keyword">new</span> <span class="type"><a href="./qtablewidgetitem.htm" translate="no">QTableWidgetItem</a></span>(text));
+    }
+
+    formatsTable<span class="operator">-</span><span class="operator">&gt;</span>resizeColumnToContents(<span class="number">0</span>);
+<span class="preprocessor">#if QT_CONFIG(clipboard)</span>
+    copyButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(formatsTable<span class="operator">-</span><span class="operator">&gt;</span>rowCount() <span class="operator">&gt;</span> <span class="number">0</span>);
+<span class="preprocessor">#endif</span>
+}</pre></div>
+<p>Once <code translate="no">text</code> has been customized to contain the appropriate data, we insert both <code translate="no">format</code> and <code translate="no">text</code> into <code translate="no">formatsTable</code> with <a href="./qtablewidget.htm#setItem" translate="no">setItem()</a>. Lastly, we invoke <a href="./qtableview.htm#resizeColumnToContents" translate="no">resizeColumnToContents()</a> on <code translate="no">formatsTable</code>'s first column.</p>
+<a name="the-main-function"></a>
+<h4 id="the-main-function">The main() Function<a class="plink" href="#the-main-function" title="Direct link to this headline"></a></h4>
+<p>Within the <code translate="no">main()</code> function, we instantiate <code translate="no">DropSiteWindow</code> and invoke its <a href="./qwidget.htm#show" translate="no">show()</a> function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    DropSiteWindow window;
+    window<span class="operator">.</span>show();
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/draganddrop/dropsite?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@draganddrop/dropsite -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

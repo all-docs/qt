@@ -1,0 +1,283 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Class Wizard Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-dialogs.htm" translate="no">Dialog Examples</a></li>
+                            <li><a>Class Wizard Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Class Wizard Example</h1>
+<span class="subtitle"></span>
+<!-- $$$dialogs/classwizard-brief -->
+<p>The Class Wizard example shows how to implement linear wizards using <a href="./qwizard.htm" translate="no">QWizard</a>.</p>
+<!-- @@@dialogs/classwizard -->
+<!-- $$$dialogs/classwizard-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="Screenshot of the Class Wizard example" src="./images/classwizard.png"></p><p>Most wizards have a linear structure, with page 1 followed by page 2 and so on until the last page. Some wizards are more complex in that they allow different traversal paths based on the information provided by the user. The <a href="./qtwidgets-dialogs-licensewizard-example.htm" translate="no">License Wizard</a> example shows how to create such wizards.</p>
+<p>The Class Wizard example consists of the following classes:</p>
+<ul>
+<li><code translate="no">ClassWizard</code> inherits <a href="./qwizard.htm" translate="no">QWizard</a> and provides a three-step wizard that generates the skeleton of a C++ class based on the user's input.</li>
+<li><code translate="no">IntroPage</code>, <code translate="no">ClassInfoPage</code>, <code translate="no">CodeStylePage</code>, <code translate="no">OutputFilesPage</code>, and <code translate="no">ConclusionPage</code> are <a href="./qwizardpage.htm" translate="no">QWizardPage</a> subclasses that implement the wizard pages.</li>
+</ul>
+<a name="classwizard-class-definition"></a>
+<h4 id="classwizard-class-definition">ClassWizard Class Definition<a class="plink" href="#classwizard-class-definition" title="Direct link to this headline"></a></h4>
+<p class="centerAlign"><img alt="The Class Wizard pages" src="./images/classwizard-flow.png"></p><p>We will see how to subclass <a href="./qwizard.htm" translate="no">QWizard</a> to implement our own wizard. The concrete wizard class is called <code translate="no">ClassWizard</code> and provides five pages:</p>
+<ul>
+<li>The first page is an introduction page, telling the user what the wizard is going to do.</li>
+<li>The second page asks for a class name and a base class, and allows the user to specify whether the class should have a <code translate="no">Q_OBJECT</code> macro and what constructors it should provide.</li>
+<li>The third page allows the user to set some options related to the code style, such as the macro used to protect the header file from multiple inclusion (e.g., <code translate="no">MYDIALOG_H</code>).</li>
+<li>The fourth page allows the user to specify the names of the output files.</li>
+<li>The fifth page is a conclusion page.</li>
+</ul>
+<p>Although the program is just an example, if you press <b translate="no">Finish</b> (<b translate="no">Done</b> on macOS), actual C++ source files will actually be generated.</p>
+<a name="the-classwizard-class"></a>
+<h4 id="the-classwizard-class">The ClassWizard Class<a class="plink" href="#the-classwizard-class" title="Direct link to this headline"></a></h4>
+<p>Here's the <code translate="no">ClassWizard</code> definition:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> ClassWizard : <span class="keyword">public</span> <span class="type"><a href="./qwizard.htm" translate="no">QWizard</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    ClassWizard(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+    <span class="type">void</span> accept() override;
+};</pre></div>
+<p>The class reimplements <a href="./qdialog.htm" translate="no">QDialog</a>'s <a href="./qdialog.htm#accept" translate="no">accept()</a> slot. This slot is called when the user clicks <b translate="no">Finish</b>.</p>
+<p>Here's the constructor:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">ClassWizard<span class="operator">::</span>ClassWizard(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwizard.htm" translate="no">QWizard</a></span>(parent)
+{
+    addPage(<span class="keyword">new</span> IntroPage);
+    addPage(<span class="keyword">new</span> ClassInfoPage);
+    addPage(<span class="keyword">new</span> CodeStylePage);
+    addPage(<span class="keyword">new</span> OutputFilesPage);
+    addPage(<span class="keyword">new</span> ConclusionPage);
+
+    setPixmap(<span class="type"><a href="./qwizard.htm" translate="no">QWizard</a></span><span class="operator">::</span>BannerPixmap<span class="operator">,</span> <span class="type"><a href="./qpixmap.htm" translate="no">QPixmap</a></span>(<span class="string">":/images/banner.png"</span>));
+    setPixmap(<span class="type"><a href="./qwizard.htm" translate="no">QWizard</a></span><span class="operator">::</span>BackgroundPixmap<span class="operator">,</span> <span class="type"><a href="./qpixmap.htm" translate="no">QPixmap</a></span>(<span class="string">":/images/background.png"</span>));
+
+    setWindowTitle(tr(<span class="string">"Class Wizard"</span>));
+}</pre></div>
+<p>We instantiate the five pages and insert them into the wizard using <a href="./qwizard.htm#addPage" translate="no">QWizard::addPage</a>(). The order in which they are inserted is also the order in which they will be shown later on.</p>
+<p>We call <a href="./qwizard.htm#setPixmap" translate="no">QWizard::setPixmap</a>() to set the banner and the background pixmaps for all pages. The banner is used as a background for the page header when the wizard's style is <a href="./qwizard.htm#WizardStyle-enum" translate="no">ModernStyle</a>; the background is used as the dialog's background in <a href="./qwizard.htm#WizardStyle-enum" translate="no">MacStyle</a>. (See <a href="./qwizard.htm#elements-of-a-wizard-page" translate="no">Elements of a Wizard Page</a> for more information.)</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> ClassWizard<span class="operator">::</span>accept()
+{
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> className <span class="operator">=</span> field(<span class="string">"className"</span>)<span class="operator">.</span>toByteArray();
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> baseClass <span class="operator">=</span> field(<span class="string">"baseClass"</span>)<span class="operator">.</span>toByteArray();
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> macroName <span class="operator">=</span> field(<span class="string">"macroName"</span>)<span class="operator">.</span>toByteArray();
+    <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> baseInclude <span class="operator">=</span> field(<span class="string">"baseInclude"</span>)<span class="operator">.</span>toByteArray();
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> outputDir <span class="operator">=</span> field(<span class="string">"outputDir"</span>)<span class="operator">.</span>toString();
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> header <span class="operator">=</span> field(<span class="string">"header"</span>)<span class="operator">.</span>toString();
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> implementation <span class="operator">=</span> field(<span class="string">"implementation"</span>)<span class="operator">.</span>toString();
+    ...
+    <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span><span class="operator">::</span>accept();
+}</pre></div>
+<p>If the user clicks <b translate="no">Finish</b>, we extract the information from the various pages using <a href="./qwizard.htm#field" translate="no">QWizard::field</a>() and generate the files. The code is long and tedious (and has barely anything to do with noble art of designing wizards), so most of it is skipped here. See the actual example in the Qt distribution for the details if you're curious.</p>
+<a name="the-intropage-class"></a>
+<h4 id="the-intropage-class">The IntroPage Class<a class="plink" href="#the-intropage-class" title="Direct link to this headline"></a></h4>
+<p>The pages are defined in <code translate="no">classwizard.h</code> and implemented in <code translate="no">classwizard.cpp</code>, together with <code translate="no">ClassWizard</code>. We will start with the easiest page:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> IntroPage : <span class="keyword">public</span> <span class="type"><a href="./qwizardpage.htm" translate="no">QWizardPage</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    IntroPage(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>label;
+};
+
+IntroPage<span class="operator">::</span>IntroPage(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwizardpage.htm" translate="no">QWizardPage</a></span>(parent)
+{
+    setTitle(tr(<span class="string">"Introduction"</span>));
+    setPixmap(<span class="type"><a href="./qwizard.htm" translate="no">QWizard</a></span><span class="operator">::</span>WatermarkPixmap<span class="operator">,</span> <span class="type"><a href="./qpixmap.htm" translate="no">QPixmap</a></span>(<span class="string">":/images/watermark1.png"</span>));
+
+    label <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"This wizard will generate a skeleton C++ class "</span>
+                          <span class="string">"definition, including a few functions. You simply "</span>
+                          <span class="string">"need to specify the class name and set a few "</span>
+                          <span class="string">"options to produce a header file and an "</span>
+                          <span class="string">"implementation file for your new C++ class."</span>));
+    label<span class="operator">-</span><span class="operator">&gt;</span>setWordWrap(<span class="keyword">true</span>);
+
+    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>layout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>;
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(label);
+    setLayout(layout);
+}</pre></div>
+<p>A page inherits from <a href="./qwizardpage.htm" translate="no">QWizardPage</a>. We set a <a href="./qwizardpage.htm#title-prop" translate="no">title</a> and a <a href="./qwizard.htm#WizardPixmap-enum" translate="no">watermark pixmap</a>. By not setting any <a href="./qwizardpage.htm#subTitle-prop" translate="no">subTitle</a>, we ensure that no header is displayed for this page. (On Windows, it is customary for wizards to display a watermark pixmap on the first and last pages, and to have a header on the other pages.)</p>
+<p>Then we create a <a href="./qlabel.htm" translate="no">QLabel</a> and add it to a layout.</p>
+<a name="the-classinfopage-class"></a>
+<h4 id="the-classinfopage-class">The ClassInfoPage Class<a class="plink" href="#the-classinfopage-class" title="Direct link to this headline"></a></h4>
+<p>The second page is defined and implemented as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> ClassInfoPage : <span class="keyword">public</span> <span class="type"><a href="./qwizardpage.htm" translate="no">QWizardPage</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    ClassInfoPage(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>classNameLabel;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>baseClassLabel;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>classNameLineEdit;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>baseClassLineEdit;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>qobjectMacroCheckBox;
+    <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span> <span class="operator">*</span>groupBox;
+    <span class="type"><a href="./qradiobutton.htm" translate="no">QRadioButton</a></span> <span class="operator">*</span>qobjectCtorRadioButton;
+    <span class="type"><a href="./qradiobutton.htm" translate="no">QRadioButton</a></span> <span class="operator">*</span>qwidgetCtorRadioButton;
+    <span class="type"><a href="./qradiobutton.htm" translate="no">QRadioButton</a></span> <span class="operator">*</span>defaultCtorRadioButton;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>copyCtorCheckBox;
+};
+
+ClassInfoPage<span class="operator">::</span>ClassInfoPage(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwizardpage.htm" translate="no">QWizardPage</a></span>(parent)
+{
+    setTitle(tr(<span class="string">"Class Information"</span>));
+    setSubTitle(tr(<span class="string">"Specify basic information about the class for which you "</span>
+                   <span class="string">"want to generate skeleton source code files."</span>));
+    setPixmap(<span class="type"><a href="./qwizard.htm" translate="no">QWizard</a></span><span class="operator">::</span>LogoPixmap<span class="operator">,</span> <span class="type"><a href="./qpixmap.htm" translate="no">QPixmap</a></span>(<span class="string">":/images/logo1.png"</span>));
+
+    classNameLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"&amp;Class name:"</span>));
+    classNameLineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    classNameLabel<span class="operator">-</span><span class="operator">&gt;</span>setBuddy(classNameLineEdit);
+
+    baseClassLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"B&amp;ase class:"</span>));
+    baseClassLineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    baseClassLabel<span class="operator">-</span><span class="operator">&gt;</span>setBuddy(baseClassLineEdit);
+
+    qobjectMacroCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(tr(<span class="string">"Generate Q_OBJECT &amp;macro"</span>));
+
+    groupBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgroupbox.htm" translate="no">QGroupBox</a></span>(tr(<span class="string">"C&amp;onstructor"</span>));
+    ...
+    registerField(<span class="string">"className*"</span><span class="operator">,</span> classNameLineEdit);
+    registerField(<span class="string">"baseClass"</span><span class="operator">,</span> baseClassLineEdit);
+    registerField(<span class="string">"qobjectMacro"</span><span class="operator">,</span> qobjectMacroCheckBox);
+    registerField(<span class="string">"qobjectCtor"</span><span class="operator">,</span> qobjectCtorRadioButton);
+    registerField(<span class="string">"qwidgetCtor"</span><span class="operator">,</span> qwidgetCtorRadioButton);
+    registerField(<span class="string">"defaultCtor"</span><span class="operator">,</span> defaultCtorRadioButton);
+    registerField(<span class="string">"copyCtor"</span><span class="operator">,</span> copyCtorCheckBox);
+
+    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>groupBoxLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>;
+    ...
+}</pre></div>
+<p>First, we set the page's <a href="./qwizardpage.htm#title-prop" translate="no">title</a>, <a href="./qwizardpage.htm#subTitle-prop" translate="no">subTitle</a>, and <a href="./qwizard.htm#WizardPixmap-enum" translate="no">logo pixmap</a>. The logo pixmap is displayed in the page's header in <a href="./qwizard.htm#WizardStyle-enum" translate="no">ClassicStyle</a> and <a href="./qwizard.htm#WizardStyle-enum" translate="no">ModernStyle</a>.</p>
+<p>Then we create the child widgets, create <a href="./qwizard.htm#registering-and-using-fields" translate="no">wizard fields</a> associated with them, and put them into layouts. The <code translate="no">className</code> field is created with an asterisk (<code translate="no">*</code>) next to its name. This makes it a <a href="./qwizard.htm#mandatory-fields" translate="no">mandatory field</a>, that is, a field that must be filled before the user can press the <b translate="no">Next</b> button (<b translate="no">Continue</b> on macOS). The fields' values can be accessed from any other page using <a href="./qwizardpage.htm#field" translate="no">QWizardPage::field</a>(), or from the wizard code using <a href="./qwizard.htm#field" translate="no">QWizard::field</a>().</p>
+<a name="the-codestylepage-class"></a>
+<h4 id="the-codestylepage-class">The CodeStylePage Class<a class="plink" href="#the-codestylepage-class" title="Direct link to this headline"></a></h4>
+<p>The third page is defined and implemented as follows:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> CodeStylePage : <span class="keyword">public</span> <span class="type"><a href="./qwizardpage.htm" translate="no">QWizardPage</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    CodeStylePage(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">protected</span>:
+    <span class="type">void</span> initializePage() override;
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>commentCheckBox;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>protectCheckBox;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>includeBaseCheckBox;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>macroNameLabel;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>baseIncludeLabel;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>macroNameLineEdit;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>baseIncludeLineEdit;
+};
+
+CodeStylePage<span class="operator">::</span>CodeStylePage(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwizardpage.htm" translate="no">QWizardPage</a></span>(parent)
+{
+    setTitle(tr(<span class="string">"Code Style Options"</span>));
+    setSubTitle(tr(<span class="string">"Choose the formatting of the generated code."</span>));
+    setPixmap(<span class="type"><a href="./qwizard.htm" translate="no">QWizard</a></span><span class="operator">::</span>LogoPixmap<span class="operator">,</span> <span class="type"><a href="./qpixmap.htm" translate="no">QPixmap</a></span>(<span class="string">":/images/logo2.png"</span>));
+
+    commentCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(tr(<span class="string">"&amp;Start generated files with a "</span>
+    ...
+    setLayout(layout);
+}
+
+<span class="type">void</span> CodeStylePage<span class="operator">::</span>initializePage()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> className <span class="operator">=</span> field(<span class="string">"className"</span>)<span class="operator">.</span>toString();
+    macroNameLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setText(className<span class="operator">.</span>toUpper() <span class="operator">+</span> <span class="string">"_H"</span>);
+
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> baseClass <span class="operator">=</span> field(<span class="string">"baseClass"</span>)<span class="operator">.</span>toString();
+
+    includeBaseCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(<span class="operator">!</span>baseClass<span class="operator">.</span>isEmpty());
+    includeBaseCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="operator">!</span>baseClass<span class="operator">.</span>isEmpty());
+    baseIncludeLabel<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="operator">!</span>baseClass<span class="operator">.</span>isEmpty());
+    baseIncludeLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="operator">!</span>baseClass<span class="operator">.</span>isEmpty());
+
+    <span class="type"><a href="./qregularexpression.htm" translate="no">QRegularExpression</a></span> rx(<span class="string">"Q[A-Z].*"</span>);
+    <span class="keyword">if</span> (baseClass<span class="operator">.</span>isEmpty()) {
+        baseIncludeLineEdit<span class="operator">-</span><span class="operator">&gt;</span>clear();
+    } <span class="keyword">else</span> <span class="keyword">if</span> (rx<span class="operator">.</span>match(baseClass)<span class="operator">.</span>hasMatch()) {
+        baseIncludeLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="char">'&lt;'</span> <span class="operator">+</span> baseClass <span class="operator">+</span> <span class="char">'&gt;'</span>);
+    } <span class="keyword">else</span> {
+        baseIncludeLineEdit<span class="operator">-</span><span class="operator">&gt;</span>setText(<span class="char">'"'</span> <span class="operator">+</span> baseClass<span class="operator">.</span>toLower() <span class="operator">+</span> <span class="string">".h\""</span>);
+    }
+}</pre></div>
+<p>The code in the constructor is very similar to what we did for <code translate="no">ClassInfoPage</code>, so we skipped most of it.</p>
+<p>The <code translate="no">initializePage()</code> function is what makes this class interesting. It is reimplemented from <a href="./qwizardpage.htm" translate="no">QWizardPage</a> and is used to initialize some of the page's fields with values from the previous page (namely, <code translate="no">className</code> and <code translate="no">baseClass</code>). For example, if the class name on page 2 is <code translate="no">SuperDuperWidget</code>, the default macro name on page 3 is <code translate="no">SUPERDUPERWIDGET_H</code>.</p>
+<p>The <code translate="no">OutputFilesPage</code> and <code translate="no">ConclusionPage</code> classes are very similar to <code translate="no">CodeStylePage</code>, so we won't review them here.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/dialogs/classwizard?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<p><b>See also </b><a href="./qwizard.htm" translate="no">QWizard</a>, <a href="./qtwidgets-dialogs-licensewizard-example.htm" translate="no">License Wizard Example</a>, and <a href="./qtwidgets-dialogs-trivialwizard-example.htm" translate="no">Trivial Wizard Example</a>.</p>
+<!-- @@@dialogs/classwizard -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

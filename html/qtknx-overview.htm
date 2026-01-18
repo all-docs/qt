@@ -1,0 +1,126 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt KNX Overview | Qt KNX</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="http://doc.qt.io/QtForAutomation/index.html" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtknx-index.htm" translate="no">Qt KNX</a></li>
+                            <li><a>Qt KNX Overview</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt KNX Overview</h1>
+<span class="subtitle"></span>
+<!-- $$$qtknx-overview.html-description -->
+<div class="descr"> <a name="details"></a>
+<p><a href="http://www.knx.org" translate="no">KNX</a> is a standard for controlling home and building management equipment, such as: lighting, blinds and shutters, security systems, energy management, heating, ventilation and air-conditioning systems, signaling and monitoring systems, interfaces to service and building control systems, remote control, metering, audio and video control.</p>
+<p>Qt KNX implements the client side of a connection between a client and a KNXnet/IP server. This connection enables sending messages to the KNX bus and controlling the functionalities of the KNX devices. Only local device management procedures and KNX application services working with group addressing are fully supported.</p>
+<a name="knxnet-ip-server-communication"></a>
+<h2 id="knxnet-ip-server-communication">KNXnet/IP Server Communication<a class="plink" href="#knxnet-ip-server-communication" title="Direct link to this headline"></a></h2>
+<p>The first step in the communication process between a client and a KNXnet/IP server is to discover the KNXnet/IP server. This can be done using the class <a href="./qknxnetipserverdiscoveryagent.htm" translate="no">QKnxNetIpServerDiscoveryAgent</a>. If the description of the server during the discovery is not enough, it is possible to learn more about a particular server using the class <a href="./qknxnetipserverdescriptionagent.htm" translate="no">QKnxNetIpServerDescriptionAgent</a>.</p>
+<a name="creating-connections"></a>
+<h3 id="creating-connections">Creating Connections<a class="plink" href="#creating-connections" title="Direct link to this headline"></a></h3>
+<p>Once the server is discovered, in order to send messages to the KNX devices, a connection must be established with the server data endpoints. The client requests this connection by using the server's control endpoint.</p>
+<p>Depending on the client's goal, different connections have to be opened. If the client wants to access the management functionalities of the KNXnet/IP server, the class <a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a> takes care of opening and maintaining the connection. If the client wants to access the functionalities of a KNX device on the bus behind the KNXnet/IP server, the class <a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a> takes care of the connection.</p>
+<p>For more information, see <a href="./qtknx-device-management.htm" translate="no">Qt KNX Device Management Classes</a> and <a href="./qtknx-tunneling.htm" translate="no">Qt KNX Tunneling Classes</a>.</p>
+<a name="sending-frames"></a>
+<h3 id="sending-frames">Sending Frames<a class="plink" href="#sending-frames" title="Direct link to this headline"></a></h3>
+<p>Frames can be sent to the KNXnet/IP server by using <a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a> or <a href="./qknxnetipdevicemanagement.htm" translate="no">QKnxNetIpDeviceManagement</a>. With the former, <a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a> objects are sent and with the latter, <a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a> objects are sent.</p>
+<p>To help build the frames, the following classes are provided:</p>
+<ul>
+<li><a href="./qknxlinklayerframe-builder.htm" translate="no">QKnxLinkLayerFrame::Builder</a></li>
+<li><a href="./qknxdevicemanagementframe-builder.htm" translate="no">QKnxDeviceManagementFrame::Builder</a></li>
+<li><a href="./qknxdevicemanagementframe-propertyreadbuilder.htm" translate="no">QKnxDeviceManagementFrame::PropertyReadBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-propertywritebuilder.htm" translate="no">QKnxDeviceManagementFrame::PropertyWriteBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-propertyinfobuilder.htm" translate="no">QKnxDeviceManagementFrame::PropertyInfoBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-functionpropertycommandbuilder.htm" translate="no">QKnxDeviceManagementFrame::FunctionPropertyCommandBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-functionpropertystatereadbuilder.htm" translate="no">QKnxDeviceManagementFrame::FunctionPropertyStateReadBuilder</a></li>
+<li><a href="./qknxdevicemanagementframe-resetbuilder.htm" translate="no">QKnxDeviceManagementFrame::ResetBuilder</a></li>
+</ul>
+<p><a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a> objects are dedicated to the KNXnet/IP device management. Sending those frames allows access to the server's interface objects. The <a href="./qknxinterfaceobjecttype.htm" translate="no">QKnxInterfaceObjectType</a> holds the type of an interface object. The objects themselves hold the properties and functionalities of the server. The client can use <a href="./qknxdevicemanagementframe.htm" translate="no">QKnxDeviceManagementFrame</a> to read and write the values in the server's interface objects.</p>
+<p><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a> objects are sent to the KNX devices on the bus, behind the KNXnet/IP server. To build the frames, the following are needed:</p>
+<ul>
+<li>The address that the frame has to be sent to, represented by <a href="./qknxaddress.htm" translate="no">QKnxAddress</a>.</li>
+<li>The KNX application service the client wants to use. For a list of available services, see <a href="./qknxtpdu.htm#ApplicationControlField-enum" translate="no">QKnxTpdu::ApplicationControlField</a>.</li>
+<li>The data. Needed if a write service is being triggered.</li>
+</ul>
+<a name="link-layer-frame-addresses"></a>
+<h4 id="link-layer-frame-addresses">Link Layer Frame Addresses<a class="plink" href="#link-layer-frame-addresses" title="Direct link to this headline"></a></h4>
+<p>The link layer frame destination address <a href="./qknxaddress.htm" translate="no">QKnxAddress</a> can be individual or a group (see <a href="./qknxaddress.htm#Type-enum" translate="no">QKnxAddress::Type</a>). An individual address targets a specific device on the bus. A group address targets one or several instances of a datapoint.</p>
+<p>A datapoint represents a device functionality. Datapoint types are held by <a href="./qknxdatapointtype.htm" translate="no">QKnxDatapointType</a>. To be grouped under the same group address, datapoint instances, also called group objects, must be of the same type. The group addresses and the group objects they represent are defined in the KNX project file.</p>
+<a name="knx-application-service"></a>
+<h4 id="knx-application-service">KNX Application Service<a class="plink" href="#knx-application-service" title="Direct link to this headline"></a></h4>
+<p>The KNX application service and data are encapsulated in the <a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a> part of <a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a>.</p>
+<a name="datapoints"></a>
+<h4 id="datapoints">Datapoints<a class="plink" href="#datapoints" title="Direct link to this headline"></a></h4>
+<p>The data is the representation of the device functionality. It is the bits corresponding to a given group object or interface object property.</p>
+<p>If the client is addressing a group object, the <a href="./qknxbytearray.htm" translate="no">QKnxByteArray</a> data is easily built using the appropriate <a href="./qknxdatapointtype.htm" translate="no">QKnxDatapointType</a> type. The group object is a realization of a datapoint at the level of the device. To create data corresponding to a given datapoint, one must know the type of the datapoint.</p>
+<p>The datapoint type is found in the KNX project file where the group address is described. The main and sub-number of the datapoint indicate its type. The class <a href="./qknxdatapointtypefactory.htm" translate="no">QKnxDatapointTypeFactory</a> can create the <a href="./qknxdatapointtype.htm" translate="no">QKnxDatapointType</a> corresponding to those two numbers.</p>
+<a name="example"></a>
+<h3 id="example">Example<a class="plink" href="#example" title="Direct link to this headline"></a></h3>
+<p>For example, a client has a tunnel connection in place and wants to turn on a lamp. From the KNX project file, the client knows the switch of the lamp is linked to the group address 2/6/4 and that the main- and sub-number of the corresponding datapoint type are 1.1.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qknxnetiptunnel.htm" translate="no">QKnxNetIpTunnel</a></span> connection;
+connection<span class="operator">.</span>connectToHost(<span class="type"><a href="./qhostaddress.htm" translate="no">QHostAddress</a></span>(<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>)<span class="operator">,</span> port);
+
+<span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span> frame <span class="operator">=</span> <span class="type"><a href="./qknxlinklayerframe.htm" translate="no">QKnxLinkLayerFrame</a></span><span class="operator">::</span>builder()
+    <span class="operator">.</span>setDestinationAddress({ <span class="type"><a href="./qknxaddress.htm" translate="no">QKnxAddress</a></span><span class="operator">::</span>Type<span class="operator">::</span>Group<span class="operator">,</span> QLatin1String(<span class="string">"2/6/4"</span>) })
+    <span class="operator">.</span>setTpdu({
+        <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>TransportControlField<span class="operator">::</span>DataGroup<span class="operator">,</span>
+        <span class="type"><a href="./qknxtpdu.htm" translate="no">QKnxTpdu</a></span><span class="operator">::</span>ApplicationControlField<span class="operator">::</span>GroupValueWrite<span class="operator">,</span>
+        <span class="type">QKnxSwitch</span>(<span class="type">QKnxSwitch</span><span class="operator">::</span>State<span class="operator">::</span>On)<span class="operator">.</span>bytes()
+    })<span class="operator">.</span>create();
+
+connection<span class="operator">.</span>sendFrame(frame);</pre></div>
+</div>
+<!-- @@@qtknx-overview.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

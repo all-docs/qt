@@ -1,0 +1,520 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TableModel QML Type</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qml-qt-labs-qmlmodels-tablemodel.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtqml-models-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>TableModel QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">TableModel QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$TableModel-brief -->
+<p>Encapsulates a simple table model. <a href="#details">More...</a></p>
+<!-- @@@TableModel -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import Qt.labs.qmlmodels 1.0</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> Qt 5.14</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qt-labs-qmlmodels-tablemodel-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#columnCount-prop" translate="no">columnCount</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rowCount-prop" translate="no">rowCount</a></b></b> : int</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rows-prop" translate="no">rows</a></b></b> : object</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow</a></b></b>(object <i>row</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#clear-method" translate="no">clear</a></b></b>()</li>
+<li class="fn" translate="no">variant <b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#data-method" translate="no">data</a></b></b>(QModelIndex <i>index</i>, string <i>role</i>)</li>
+<li class="fn" translate="no">object <b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#getRow-method" translate="no">getRow</a></b></b>(int <i>rowIndex</i>)</li>
+<li class="fn" translate="no">QModelIndex <b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#index-method" translate="no">index</a></b></b>(int <i>row</i>, int <i>column</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#insertRow-method" translate="no">insertRow</a></b></b>(int <i>rowIndex</i>, object <i>row</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#moveRow-method" translate="no">moveRow</a></b></b>(int <i>fromRowIndex</i>, int <i>toRowIndex</i>, int <i>rows</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow</a></b></b>(int <i>rowIndex</i>, int <i>rows</i>)</li>
+<li class="fn" translate="no">bool <b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setData-method" translate="no">setData</a></b></b>(QModelIndex <i>index</i>, string <i>role</i>, variant <i>value</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setRow-method" translate="no">setRow</a></b></b>(int <i>rowIndex</i>, object <i>row</i>)</li>
+</ul>
+<!-- $$$TableModel-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The TableModel type stores JavaScript/JSON objects as data for a table model that can be used with <a href="./qml-qtquick-tableview.htm" translate="no">TableView</a>. It is intended to support very simple models without requiring the creation of a custom <a href="./qabstracttablemodel.htm" translate="no">QAbstractTableModel</a> subclass in C++.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.12
+import QtQuick.Window 2.12
+import Qt.labs.qmlmodels 1.0
+
+<span class="type"><a href="./qml-qtquick-window-window.htm" translate="no">Window</a></span> {
+    <span class="name">width</span>: <span class="number">400</span>
+    <span class="name">height</span>: <span class="number">400</span>
+    <span class="name">visible</span>: <span class="number">true</span>
+
+    <span class="type"><a href="./qml-qtquick-tableview.htm" translate="no">TableView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">columnSpacing</span>: <span class="number">1</span>
+        <span class="name">rowSpacing</span>: <span class="number">1</span>
+        <span class="name">boundsBehavior</span>: <span class="name">Flickable</span>.<span class="name">StopAtBounds</span>
+
+        <span class="name">model</span>: <span class="name">TableModel</span> {
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"checked"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"amount"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"fruitType"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"fruitName"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"fruitPrice"</span> }
+
+            <span class="comment">// Each row is one type of fruit that can be ordered</span>
+            <span class="name">rows</span>: [
+                {
+                    <span class="comment">// Each property is one cell/column.</span>
+                    checked: <span class="number">false</span>,
+                    amount: <span class="number">1</span>,
+                    fruitType: <span class="string">"Apple"</span>,
+                    fruitName: <span class="string">"Granny Smith"</span>,
+                    fruitPrice: <span class="number">1.50</span>
+                },
+                {
+                    checked: <span class="number">true</span>,
+                    amount: <span class="number">4</span>,
+                    fruitType: <span class="string">"Orange"</span>,
+                    fruitName: <span class="string">"Navel"</span>,
+                    fruitPrice: <span class="number">2.50</span>
+                },
+                {
+                    checked: <span class="number">false</span>,
+                    amount: <span class="number">1</span>,
+                    fruitType: <span class="string">"Banana"</span>,
+                    fruitName: <span class="string">"Cavendish"</span>,
+                    fruitPrice: <span class="number">3.50</span>
+                }
+            ]
+        }
+        <span class="name">delegate</span>:  <span class="name">TextInput</span> {
+            <span class="name">text</span>: <span class="name">model</span>.<span class="name">display</span>
+            <span class="name">padding</span>: <span class="number">12</span>
+            <span class="name">selectByMouse</span>: <span class="number">true</span>
+
+            <span class="name">onAccepted</span>: <span class="name">model</span>.<span class="name">display</span> <span class="operator">=</span> <span class="name">text</span>
+
+            <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="name">color</span>: <span class="string">"#efefef"</span>
+                <span class="name">z</span>: -<span class="number">1</span>
+            }
+        }
+    }
+}</pre></div>
+<p>The model's initial row data is set with either the <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rows-prop" translate="no">rows</a> property or by calling <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>. Each column in the model is specified by declaring a <a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a> instance, where the order of each instance determines its column index. Once the model's <a href="./qml-qtqml-component.htm#completed-signal" translate="no">Component::completed()</a> signal has been emitted, the columns and roles will have been established and are then fixed for the lifetime of the model.</p>
+<p>To access a specific row, the <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#getRow-method" translate="no">getRow()</a> function can be used. It's also possible to access the model's JavaScript data directly via the <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rows-prop" translate="no">rows</a> property, but it is not possible to modify the model data this way.</p>
+<p>To add new rows, use <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a> and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#insertRow-method" translate="no">insertRow()</a>. To modify existing rows, use <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setRow-method" translate="no">setRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#moveRow-method" translate="no">moveRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow()</a>, and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#clear-method" translate="no">clear()</a>.</p>
+<p>It is also possible to modify the model's data via the delegate, as shown in the example above:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">        <span class="name">delegate</span>:  <span class="name">TextInput</span> {
+            <span class="name">text</span>: <span class="name">model</span>.<span class="name">display</span>
+            <span class="name">padding</span>: <span class="number">12</span>
+            <span class="name">selectByMouse</span>: <span class="number">true</span>
+
+            <span class="name">onAccepted</span>: <span class="name">model</span>.<span class="name">display</span> <span class="operator">=</span> <span class="name">text</span>
+
+            <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="name">color</span>: <span class="string">"#efefef"</span>
+                <span class="name">z</span>: -<span class="number">1</span>
+            }
+        }</pre></div>
+<p>If the type of the data at the modified role does not match the type of the data that is set, it will be automatically converted via <a href="./qvariant.htm#canConvert-1" translate="no">QVariant</a>.</p>
+<a name="supported-row-data-structures"></a>
+<h2 id="supported-row-data-structures">Supported Row Data Structures<a class="plink" href="#supported-row-data-structures" title="Direct link to this headline"></a></h2>
+<p>TableModel is designed to work with JavaScript/JSON data, where each row is a simple key-pair object:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">{
+    <span class="comment">// Each property is one cell/column.</span>
+    checked: <span class="keyword">false</span><span class="operator">,</span>
+    amount: <span class="number">1</span><span class="operator">,</span>
+    fruitType: <span class="string">"Apple"</span><span class="operator">,</span>
+    fruitName: <span class="string">"Granny Smith"</span><span class="operator">,</span>
+    fruitPrice: <span class="number">1.50</span>
+}<span class="operator">,</span>
+<span class="comment">// ...</span></pre></div>
+<p>As model manipulation in Qt is done via row and column indices, and because object keys are unordered, each column must be specified via <a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a>. This allows mapping Qt's built-in roles to any property in each row object.</p>
+<p>Complex row structures are supported, but with limited functionality. As TableModel has no way of knowing how each row is structured, it cannot manipulate it. As a consequence of this, the copy of the model data that TableModel has stored in <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rows-prop" translate="no">rows</a> is not kept in sync with the source data that was set in QML. For these reasons, TableModel relies on the user to handle simple data manipulation.</p>
+<p>For example, suppose you wanted to have several roles per column. One way of doing this is to use a data source where each row is an array and each cell is an object. To use this data source with TableModel, define a getter and setter:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">TableModel {
+    TableModelColumn {
+        display: function(modelIndex) { <span class="keyword">return</span> rows<span class="operator">[</span>modelIndex<span class="operator">.</span>row<span class="operator">]</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">.</span>checked }
+        setDisplay: function(modelIndex<span class="operator">,</span> cellData) { rows<span class="operator">[</span>modelIndex<span class="operator">.</span>row<span class="operator">]</span><span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">.</span>checked <span class="operator">=</span> cellData }
+    }
+    <span class="comment">// ...</span>
+
+    rows: <span class="operator">[</span>
+        <span class="operator">[</span>
+            { checked: <span class="keyword">false</span><span class="operator">,</span> checkable: <span class="keyword">true</span> }<span class="operator">,</span>
+            { amount: <span class="number">1</span> }<span class="operator">,</span>
+            { fruitType: <span class="string">"Apple"</span> }<span class="operator">,</span>
+            { fruitName: <span class="string">"Granny Smith"</span> }<span class="operator">,</span>
+            { fruitPrice: <span class="number">1.50</span> }
+        <span class="operator">]</span>
+        <span class="comment">// ...</span>
+    <span class="operator">]</span>
+}</pre></div>
+<p>The row above is one example of a complex row.</p>
+<div class="admonition note">
+<p><b>Note: </b>Row manipulation functions such as <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow()</a>, etc. are not supported when using complex rows.</p>
+</div>
+<a name="using-delegatechooser-with-tablemodel"></a>
+<h2 id="using-delegatechooser-with-tablemodel">Using DelegateChooser with TableModel<a class="plink" href="#using-delegatechooser-with-tablemodel" title="Direct link to this headline"></a></h2>
+<p>For most real world use cases, it is recommended to use <a href="./qml-qt-labs-qmlmodels-delegatechooser.htm" translate="no">DelegateChooser</a> as the delegate of a <a href="./qml-qtquick-tableview.htm" translate="no">TableView</a> that uses TableModel. This allows you to use specific roles in the relevant delegates. For example, the snippet above can be rewritten to use <a href="./qml-qt-labs-qmlmodels-delegatechooser.htm" translate="no">DelegateChooser</a> like so:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">import QtQuick 2.12
+import QtQuick.Controls 2.5
+import Qt.labs.qmlmodels 1.0
+
+<span class="type"><a href="./qml-qtquick-controls2-applicationwindow.htm" translate="no">ApplicationWindow</a></span> {
+    <span class="name">width</span>: <span class="number">400</span>
+    <span class="name">height</span>: <span class="number">400</span>
+    <span class="name">visible</span>: <span class="number">true</span>
+
+    <span class="type"><a href="./qml-qtquick-tableview.htm" translate="no">TableView</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">columnSpacing</span>: <span class="number">1</span>
+        <span class="name">rowSpacing</span>: <span class="number">1</span>
+        <span class="name">boundsBehavior</span>: <span class="name">Flickable</span>.<span class="name">StopAtBounds</span>
+
+        <span class="name">model</span>: <span class="name">TableModel</span> {
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"checked"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"amount"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"fruitType"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"fruitName"</span> }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a></span> { <span class="name">display</span>: <span class="string">"fruitPrice"</span> }
+
+            <span class="comment">// Each row is one type of fruit that can be ordered</span>
+            <span class="name">rows</span>: [
+                {
+                    <span class="comment">// Each property is one cell/column.</span>
+                    checked: <span class="number">false</span>,
+                    amount: <span class="number">1</span>,
+                    fruitType: <span class="string">"Apple"</span>,
+                    fruitName: <span class="string">"Granny Smith"</span>,
+                    fruitPrice: <span class="number">1.50</span>
+                },
+                {
+                    checked: <span class="number">true</span>,
+                    amount: <span class="number">4</span>,
+                    fruitType: <span class="string">"Orange"</span>,
+                    fruitName: <span class="string">"Navel"</span>,
+                    fruitPrice: <span class="number">2.50</span>
+                },
+                {
+                    checked: <span class="number">false</span>,
+                    amount: <span class="number">1</span>,
+                    fruitType: <span class="string">"Banana"</span>,
+                    fruitName: <span class="string">"Cavendish"</span>,
+                    fruitPrice: <span class="number">3.50</span>
+                }
+            ]
+        }
+        <span class="name">delegate</span>: <span class="name">DelegateChooser</span> {
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a></span> {
+                <span class="name">column</span>: <span class="number">0</span>
+                <span class="name">delegate</span>: <span class="name">CheckBox</span> {
+                    <span class="name">checked</span>: <span class="name">model</span>.<span class="name">display</span>
+                    <span class="name">onToggled</span>: <span class="name">model</span>.<span class="name">display</span> <span class="operator">=</span> <span class="name">checked</span>
+                }
+            }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a></span> {
+                <span class="name">column</span>: <span class="number">1</span>
+                <span class="name">delegate</span>: <span class="name">SpinBox</span> {
+                    <span class="name">value</span>: <span class="name">model</span>.<span class="name">display</span>
+                    <span class="name">onValueModified</span>: <span class="name">model</span>.<span class="name">display</span> <span class="operator">=</span> <span class="name">value</span>
+                }
+            }
+            <span class="type"><a href="./qml-qt-labs-qmlmodels-delegatechoice.htm" translate="no">DelegateChoice</a></span> {
+                <span class="name">delegate</span>: <span class="name">TextField</span> {
+                    <span class="name">text</span>: <span class="name">model</span>.<span class="name">display</span>
+                    <span class="name">selectByMouse</span>: <span class="number">true</span>
+                    <span class="name">implicitWidth</span>: <span class="number">140</span>
+                    <span class="name">onAccepted</span>: <span class="name">model</span>.<span class="name">display</span> <span class="operator">=</span> <span class="name">text</span>
+                }
+            }
+        }
+    }
+}</pre></div>
+<p>The most specific delegates are declared first: the columns at index <code translate="no">0</code> and <code translate="no">1</code> have <code translate="no">bool</code> and <code translate="no">integer</code> data types, so they use a <a href="./qml-qtquick-controls2-checkbox.htm" translate="no">CheckBox</a> and <a href="./qml-qtquick-controls2-spinbox.htm" translate="no">SpinBox</a>, respectively. The remaining columns can simply use a <a href="./qml-qtquick-controls2-textfield.htm" translate="no">TextField</a>, and so that delegate is declared last as a fallback.</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodelcolumn.htm" translate="no">TableModelColumn</a>, <a href="./qml-qtquick-tableview.htm" translate="no">TableView</a>, and <a href="./qabstracttablemodel.htm" translate="no">QAbstractTableModel</a>.</p>
+<!-- @@@TableModel -->
+<h2>Property Documentation</h2>
+<!-- $$$columnCount -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="columnCount-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="columnCount-prop"></a><span class="qmlreadonly">[read-only] </span><span class="name">columnCount</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#columnCount-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This read-only property holds the number of columns in the model.</p>
+<p>The number of columns is fixed for the lifetime of the model after the <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rows-prop" translate="no">rows</a> property is set or <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a> is called for the first time.</p>
+</div></div><!-- @@@columnCount -->
+<br>
+<!-- $$$rowCount -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="rowCount-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="rowCount-prop"></a><span class="qmlreadonly">[read-only] </span><span class="name">rowCount</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#rowCount-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This read-only property holds the number of rows in the model.</p>
+<p>This value changes whenever rows are added or removed from the model.</p>
+</div></div><!-- @@@rowCount -->
+<br>
+<!-- $$$rows -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="rows-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="rows-prop"></a><span class="name">rows</span> : <span class="type">object</span><a class="plink" href="#rows-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the model data in the form of an array of rows:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">            <span class="name">rows</span>: [
+                {
+                    <span class="comment">// Each property is one cell/column.</span>
+                    checked: <span class="number">false</span>,
+                    amount: <span class="number">1</span>,
+                    fruitType: <span class="string">"Apple"</span>,
+                    fruitName: <span class="string">"Granny Smith"</span>,
+                    fruitPrice: <span class="number">1.50</span>
+                },
+                {
+                    checked: <span class="number">true</span>,
+                    amount: <span class="number">4</span>,
+                    fruitType: <span class="string">"Orange"</span>,
+                    fruitName: <span class="string">"Navel"</span>,
+                    fruitPrice: <span class="number">2.50</span>
+                },
+                {
+                    checked: <span class="number">false</span>,
+                    amount: <span class="number">1</span>,
+                    fruitType: <span class="string">"Banana"</span>,
+                    fruitName: <span class="string">"Cavendish"</span>,
+                    fruitPrice: <span class="number">3.50</span>
+                }
+            ]</pre></div>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#getRow-method" translate="no">getRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setRow-method" translate="no">setRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#moveRow-method" translate="no">moveRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#insertRow-method" translate="no">insertRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#clear-method" translate="no">clear()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rowCount-prop" translate="no">rowCount</a>, and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#columnCount-prop" translate="no">columnCount</a>.</p>
+</div></div><!-- @@@rows -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$appendRow[overload1]$$$appendRowobject -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="appendRow-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="appendRow-method"></a><span class="name">appendRow</span>(<span class="type">object</span> <i>row</i>)<a class="plink" href="#appendRow-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Adds a new row to the end of the model, with the values (cells) in <i translate="no">row</i>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">model<span class="operator">.</span>appendRow({
+    checkable: <span class="keyword">true</span><span class="operator">,</span>
+    amount: <span class="number">1</span><span class="operator">,</span>
+    fruitType: <span class="string">"Pear"</span><span class="operator">,</span>
+    fruitName: <span class="string">"Williams"</span><span class="operator">,</span>
+    fruitPrice: <span class="number">1.50</span><span class="operator">,</span>
+})</pre></div>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#insertRow-method" translate="no">insertRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setRow-method" translate="no">setRow()</a>, and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow()</a>.</p>
+</div></div><!-- @@@appendRow -->
+<br>
+<!-- $$$clear[overload1]$$$clear -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="clear-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="clear-method"></a><span class="name">clear</span>()<a class="plink" href="#clear-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Removes all rows from the model.</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow()</a>.</p>
+</div></div><!-- @@@clear -->
+<br>
+<!-- $$$data[overload1]$$$dataQModelIndexstring -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="data-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="data-method"></a><span class="type"><a href="./qml-variant.htm" translate="no">variant</a></span> <span class="name">data</span>(<span class="type">QModelIndex</span> <i>index</i>, <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <i>role</i>)<a class="plink" href="#data-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Returns the data from the table cell at the given <i translate="no">index</i> belonging to the given <i translate="no">role</i>.</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setData-method" translate="no">setData()</a> and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#index-method" translate="no">index()</a>.</p>
+</div></div><!-- @@@data -->
+<br>
+<!-- $$$getRow[overload1]$$$getRowint -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="getRow-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="getRow-method"></a><span class="type">object</span> <span class="name">getRow</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>rowIndex</i>)<a class="plink" href="#getRow-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Returns the row at <i translate="no">rowIndex</i> in the model.</p>
+<p>Note that this equivalent to accessing the row directly through the <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rows-prop" translate="no">rows</a> property:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Component<span class="operator">.</span>onCompleted: {
+    <span class="comment">// These two lines are equivalent.</span>
+    console<span class="operator">.</span>log(model<span class="operator">.</span>getRow(<span class="number">0</span>)<span class="operator">.</span>display);
+    console<span class="operator">.</span>log(model<span class="operator">.</span>rows<span class="operator">[</span><span class="number">0</span><span class="operator">]</span><span class="operator">.</span>fruitName);
+}</pre></div>
+<div class="admonition note">
+<p><b>Note: </b>the returned object cannot be used to modify the contents of the model; use <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setRow-method" translate="no">setRow()</a> instead.</p>
+</div>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setRow-method" translate="no">setRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#insertRow-method" translate="no">insertRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow()</a>, and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#moveRow-method" translate="no">moveRow()</a>.</p>
+</div></div><!-- @@@getRow -->
+<br>
+<!-- $$$index[overload1]$$$indexintint -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="index-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="index-method"></a><span class="type">QModelIndex</span> <span class="name">index</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>row</i>, <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>column</i>)<a class="plink" href="#index-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Returns a <a href="./qmodelindex.htm" translate="no">QModelIndex</a> object referencing the given <i translate="no">row</i> and <i translate="no">column</i>, which can be passed to the <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#data-method" translate="no">data()</a> function to get the data from that cell, or to <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setData-method" translate="no">setData()</a> to edit the contents of that cell.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">import <span class="type">QtQml</span> <span class="number">2.14</span>
+import <span class="type"><a href="./qml-qtqml-qt.htm" translate="no">Qt</a></span><span class="operator">.</span>labs<span class="operator">.</span>qmlmodels <span class="number">1.0</span>
+
+TableModel {
+    id: model
+
+    TableModelColumn { display: <span class="string">"fruitType"</span> }
+    TableModelColumn { display: <span class="string">"fruitPrice"</span> }
+
+    rows: <span class="operator">[</span>
+        { fruitType: <span class="string">"Apple"</span><span class="operator">,</span> fruitPrice: <span class="number">1.50</span> }<span class="operator">,</span>
+        { fruitType: <span class="string">"Orange"</span><span class="operator">,</span> fruitPrice: <span class="number">2.50</span> }
+    <span class="operator">]</span>
+
+    Component<span class="operator">.</span>onCompleted: {
+        <span class="keyword">for</span> (var r <span class="operator">=</span> <span class="number">0</span>; r <span class="operator">&lt;</span> model<span class="operator">.</span>rowCount; <span class="operator">+</span><span class="operator">+</span>r) {
+            console<span class="operator">.</span>log(<span class="string">"An "</span> <span class="operator">+</span> model<span class="operator">.</span>data(model<span class="operator">.</span>index(r<span class="operator">,</span> <span class="number">0</span>))<span class="operator">.</span>display <span class="operator">+</span>
+                        <span class="string">" costs "</span> <span class="operator">+</span> model<span class="operator">.</span>data(model<span class="operator">.</span>index(r<span class="operator">,</span> <span class="number">1</span>))<span class="operator">.</span>display<span class="operator">.</span>toFixed(<span class="number">2</span>))
+        }
+    }
+}</pre></div>
+<p><b>See also </b><a href="./qmodelindex-and-related-classes-in-qml.htm" translate="no">QModelIndex and related Classes in QML</a> and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#data-method" translate="no">data()</a>.</p>
+</div></div><!-- @@@index -->
+<br>
+<!-- $$$insertRow[overload1]$$$insertRowintobject -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="insertRow-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="insertRow-method"></a><span class="name">insertRow</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>rowIndex</i>, <span class="type">object</span> <i>row</i>)<a class="plink" href="#insertRow-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Adds a new row to the list model at position <i translate="no">rowIndex</i>, with the values (cells) in <i translate="no">row</i>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">model<span class="operator">.</span>insertRow(<span class="number">2</span><span class="operator">,</span> {
+    checkable: <span class="keyword">true</span><span class="operator">,</span> checked: <span class="keyword">false</span><span class="operator">,</span>
+    amount: <span class="number">1</span><span class="operator">,</span>
+    fruitType: <span class="string">"Pear"</span><span class="operator">,</span>
+    fruitName: <span class="string">"Williams"</span><span class="operator">,</span>
+    fruitPrice: <span class="number">1.50</span><span class="operator">,</span>
+})</pre></div>
+<p>The <i translate="no">rowIndex</i> must be to an existing item in the list, or one past the end of the list (equivalent to <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>).</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#setRow-method" translate="no">setRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow()</a>, and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rowCount-prop" translate="no">rowCount</a>.</p>
+</div></div><!-- @@@insertRow -->
+<br>
+<!-- $$$moveRow[overload1]$$$moveRowintintint -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="moveRow-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="moveRow-method"></a><span class="name">moveRow</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>fromRowIndex</i>, <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>toRowIndex</i>, <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>rows</i>)<a class="plink" href="#moveRow-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Moves <i translate="no">rows</i> from the index at <i translate="no">fromRowIndex</i> to the index at <i translate="no">toRowIndex</i>.</p>
+<p>The from and to ranges must exist; for example, to move the first 3 items to the end of the list:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">model<span class="operator">.</span>moveRow(<span class="number">0</span><span class="operator">,</span> model<span class="operator">.</span>rowCount <span class="operator">-</span> <span class="number">3</span><span class="operator">,</span> <span class="number">3</span>)</pre></div>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#insertRow-method" translate="no">insertRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#removeRow-method" translate="no">removeRow()</a>, and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rowCount-prop" translate="no">rowCount</a>.</p>
+</div></div><!-- @@@moveRow -->
+<br>
+<!-- $$$removeRow[overload1]$$$removeRowintint -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="removeRow-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="removeRow-method"></a><span class="name">removeRow</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>rowIndex</i>, <span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>rows</i> = 1)<a class="plink" href="#removeRow-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Removes the row at <i translate="no">rowIndex</i> from the model.</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#clear-method" translate="no">clear()</a> and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rowCount-prop" translate="no">rowCount</a>.</p>
+</div></div><!-- @@@removeRow -->
+<br>
+<!-- $$$setData[overload1]$$$setDataQModelIndexstringvariant -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="setData-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="setData-method"></a><span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">setData</span>(<span class="type">QModelIndex</span> <i>index</i>, <span class="type"><a href="./qml-string.htm" translate="no">string</a></span> <i>role</i>, <span class="type"><a href="./qml-variant.htm" translate="no">variant</a></span> <i>value</i>)<a class="plink" href="#setData-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Inserts or updates the data field named by <i translate="no">role</i> in the table cell at the given <i translate="no">index</i> with <i translate="no">value</i>. Returns true if sucessful, false if not.</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#data-method" translate="no">data()</a> and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#index-method" translate="no">index()</a>.</p>
+</div></div><!-- @@@setData -->
+<br>
+<!-- $$$setRow[overload1]$$$setRowintobject -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="setRow-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="setRow-method"></a><span class="name">setRow</span>(<span class="type"><a href="./qml-int.htm" translate="no">int</a></span> <i>rowIndex</i>, <span class="type">object</span> <i>row</i>)<a class="plink" href="#setRow-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Changes the row at <i translate="no">rowIndex</i> in the model with <i translate="no">row</i>.</p>
+<p>All columns/cells must be present in <code translate="no">row</code>, and in the correct order.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">model<span class="operator">.</span>setRow(<span class="number">0</span><span class="operator">,</span> {
+    checkable: <span class="keyword">true</span><span class="operator">,</span>
+    amount: <span class="number">1</span><span class="operator">,</span>
+    fruitType: <span class="string">"Pear"</span><span class="operator">,</span>
+    fruitName: <span class="string">"Williams"</span><span class="operator">,</span>
+    fruitPrice: <span class="number">1.50</span><span class="operator">,</span>
+})</pre></div>
+<p>If <i translate="no">rowIndex</i> is equal to <code translate="no">rowCount()</code>, then a new row is appended to the model. Otherwise, <i translate="no">rowIndex</i> must point to an existing row in the model.</p>
+<p><b>See also </b><a href="./qml-qt-labs-qmlmodels-tablemodel.htm#appendRow-method" translate="no">appendRow()</a>, <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#insertRow-method" translate="no">insertRow()</a>, and <a href="./qml-qt-labs-qmlmodels-tablemodel.htm#rowCount-prop" translate="no">rowCount</a>.</p>
+</div></div><!-- @@@setRow -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

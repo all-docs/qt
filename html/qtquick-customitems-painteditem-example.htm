@@ -1,0 +1,205 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scene Graph - Painted Item | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-customitems-painteditem-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>Scene Graph - Painted Item</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Scene Graph - Painted Item</h1>
+<span class="subtitle"></span>
+<!-- $$$customitems/painteditem-brief -->
+<p>Shows how to implement <a href="./qpainter.htm" translate="no">QPainter</a>-based custom scenegraph items.</p>
+<!-- @@@customitems/painteditem -->
+<!-- $$$customitems/painteditem-description -->
+<div class="descr"> <a name="details"></a>
+<p>The Painted Item example shows how to use the QML Scene Graph framework to implement custom scenegraph items using <a href="./qpainter.htm" translate="no">QPainter</a>.</p>
+<p class="centerAlign"><img alt="" src="./images/declarative-textballoons_example.png"></p><p>The <a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a> class is a class derived from <a href="./qquickitem.htm" translate="no">QQuickItem</a> for implementing custom QML Scene Graph items using the <a href="./qpainter.htm" translate="no">QPainter</a> interfaces.</p>
+<p>The example consists of an item class, a plugin class and a QML file to use this plugin. The <code translate="no">TextBalloon</code> class represents the individual text balloons extending <a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a>, the <code translate="no">TextBalloonPlugin</code> class represents the skeleton code for a <a href="./qtquick-index.htm" translate="no">Qt Quick</a> plugin and the <code translate="no">textballoons.qml</code> file is used to load the plugin and display the text balloons.</p>
+<p>We will focus on the <code translate="no">TextBalloon</code> class first and continue with the <code translate="no">textballoons.qml</code> file. For an example on how to implement a <a href="./qtquick-index.htm" translate="no">Qt Quick</a> plugin please look at <a href="./qtqml-tutorials-extending-qml-example.htm#chapter-6-writing-an-extension-plugin" translate="no">Writing an Extension Plugin</a></p>
+<a name="textballoon-class-declaration"></a>
+<h4 id="textballoon-class-declaration">TextBalloon Class Declaration<a class="plink" href="#textballoon-class-declaration" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">TextBalloon</code> class inherits from <a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a>. <a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a> is the base class for all <a href="./qpainter.htm" translate="no">QPainter</a> based items in the QML Scene Graph framework.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> TextBalloon : <span class="keyword">public</span> <span class="type"><a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a></span>
+{
+    Q_OBJECT
+    Q_PROPERTY(bool rightAligned READ isRightAligned WRITE setRightAligned NOTIFY rightAlignedChanged)
+    QML_ELEMENT
+
+    <span class="keyword">public</span>:
+        TextBalloon(<span class="type"><a href="./qquickitem.htm" translate="no">QQuickItem</a></span> <span class="operator">*</span>parent <span class="operator">=</span> <span class="number">0</span>);
+        <span class="type">void</span> paint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">*</span>painter);
+
+        bool isRightAligned();
+        <span class="type">void</span> setRightAligned(bool rightAligned);
+
+    <span class="keyword">private</span>:
+        bool rightAligned;
+
+    <span class="keyword">signals</span>:
+        <span class="type">void</span> rightAlignedChanged();
+};</pre></div>
+<p>To implement a <a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a> you must implement QQuickPaintedIem's pure virtual function <a href="./qquickpainteditem.htm#paint" translate="no">paint()</a> which implements the painting of the type.</p>
+<a name="textballoon-class-definition"></a>
+<h4 id="textballoon-class-definition">TextBalloon Class Definition<a class="plink" href="#textballoon-class-definition" title="Direct link to this headline"></a></h4>
+<p>We have to be sure to initialize the rightAligned property for a TextBalloon item.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">TextBalloon<span class="operator">::</span>TextBalloon(<span class="type"><a href="./qquickitem.htm" translate="no">QQuickItem</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qquickpainteditem.htm" translate="no">QQuickPaintedItem</a></span>(parent)
+    <span class="operator">,</span> rightAligned(<span class="keyword">false</span>)
+{
+}</pre></div>
+<p>Then we implement the <code translate="no">paint()</code> function which is automatically called by the Scene Graph framework to paint the contents of the item. The function paints the item in local coordinates.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> TextBalloon<span class="operator">::</span>paint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span> <span class="operator">*</span>painter)
+{
+    <span class="type"><a href="./qbrush.htm" translate="no">QBrush</a></span> brush(<span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span>(<span class="string">"#007430"</span>));
+
+    painter<span class="operator">-</span><span class="operator">&gt;</span>setBrush(brush);
+    painter<span class="operator">-</span><span class="operator">&gt;</span>setPen(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>NoPen);
+    painter<span class="operator">-</span><span class="operator">&gt;</span>setRenderHint(<span class="type"><a href="./qpainter.htm" translate="no">QPainter</a></span><span class="operator">::</span>Antialiasing);
+
+    <span class="type"><a href="./qsizef.htm" translate="no">QSizeF</a></span> itemSize <span class="operator">=</span> size();
+    painter<span class="operator">-</span><span class="operator">&gt;</span>drawRoundedRect(<span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> itemSize<span class="operator">.</span>width()<span class="operator">,</span> itemSize<span class="operator">.</span>height() <span class="operator">-</span> <span class="number">10</span><span class="operator">,</span> <span class="number">10</span><span class="operator">,</span> <span class="number">10</span>);
+
+    <span class="keyword">if</span> (rightAligned)
+    {
+        <span class="keyword">const</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span> points<span class="operator">[</span><span class="number">3</span><span class="operator">]</span> <span class="operator">=</span> {
+            <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(itemSize<span class="operator">.</span>width() <span class="operator">-</span> <span class="number">10.0</span><span class="operator">,</span> itemSize<span class="operator">.</span>height() <span class="operator">-</span> <span class="number">10.0</span>)<span class="operator">,</span>
+            <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(itemSize<span class="operator">.</span>width() <span class="operator">-</span> <span class="number">20.0</span><span class="operator">,</span> itemSize<span class="operator">.</span>height())<span class="operator">,</span>
+            <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(itemSize<span class="operator">.</span>width() <span class="operator">-</span> <span class="number">30.0</span><span class="operator">,</span> itemSize<span class="operator">.</span>height() <span class="operator">-</span> <span class="number">10.0</span>)<span class="operator">,</span>
+        };
+        painter<span class="operator">-</span><span class="operator">&gt;</span>drawConvexPolygon(points<span class="operator">,</span> <span class="number">3</span>);
+    }
+    <span class="keyword">else</span>
+    {
+        <span class="keyword">const</span> <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span> points<span class="operator">[</span><span class="number">3</span><span class="operator">]</span> <span class="operator">=</span> {
+            <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">10.0</span><span class="operator">,</span> itemSize<span class="operator">.</span>height() <span class="operator">-</span> <span class="number">10.0</span>)<span class="operator">,</span>
+            <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">20.0</span><span class="operator">,</span> itemSize<span class="operator">.</span>height())<span class="operator">,</span>
+            <span class="type"><a href="./qpointf.htm" translate="no">QPointF</a></span>(<span class="number">30.0</span><span class="operator">,</span> itemSize<span class="operator">.</span>height() <span class="operator">-</span> <span class="number">10.0</span>)<span class="operator">,</span>
+        };
+        painter<span class="operator">-</span><span class="operator">&gt;</span>drawConvexPolygon(points<span class="operator">,</span> <span class="number">3</span>);
+    }
+}</pre></div>
+<p>We start with setting the pen and brush on the item to define the look of the item. After that we start drawing. Note that the <a href="./qquickpainteditem-obsolete.htm#contentsBoundingRect" translate="no">contentsBoundingRect()</a> item is called to draw depending on the size of the item. The rectangle returned by the <a href="./qquickpainteditem-obsolete.htm#contentsBoundingRect" translate="no">contentsBoundingRect()</a> function is the size of the item as defined in the QML file.</p>
+<a name="textballoons-qml-file"></a>
+<h4 id="textballoons-qml-file">Textballoons.qml File<a class="plink" href="#textballoons-qml-file" title="Direct link to this headline"></a></h4>
+<p>The Interface consists of two main parts. The scrollable area with the textballoons and the controls button to add new balloons.</p>
+<a name="balloonview"></a>
+<h5 id="balloonview">BalloonView<a class="plink" href="#balloonview" title="Direct link to this headline"></a></h5>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtqml-models-listmodel.htm" translate="no">ListModel</a></span> {
+    <span class="name">id</span>: <span class="name">balloonModel</span>
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+        <span class="name">balloonWidth</span>: <span class="number">200</span>
+    }
+    <span class="type"><a href="./qml-qtqml-models-listelement.htm" translate="no">ListElement</a></span> {
+        <span class="name">balloonWidth</span>: <span class="number">120</span>
+    }
+}
+
+<span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+    <span class="name">anchors</span>.bottom: <span class="name">controls</span>.<span class="name">top</span>
+    <span class="name">anchors</span>.bottomMargin: <span class="number">2</span>
+    <span class="name">anchors</span>.top: <span class="name">parent</span>.<span class="name">top</span>
+    <span class="name">id</span>: <span class="name">balloonView</span>
+    <span class="name">delegate</span>: <span class="name">TextBalloon</span> {
+        <span class="name">anchors</span>.right: <span class="name">index</span> <span class="operator">%</span> <span class="number">2</span> <span class="operator">==</span> <span class="number">0</span> ? <span class="name">undefined</span> : <span class="name">parent</span>.<span class="name">right</span>
+        <span class="name">height</span>: <span class="number">60</span>
+        <span class="name">rightAligned</span>: <span class="name">index</span> <span class="operator">%</span> <span class="number">2</span> <span class="operator">==</span> <span class="number">0</span> ? <span class="number">false</span> : <span class="number">true</span>
+        <span class="name">width</span>: <span class="name">balloonWidth</span>
+    }
+    <span class="name">model</span>: <span class="name">balloonModel</span>
+    <span class="name">spacing</span>: <span class="number">5</span>
+    <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+}</pre></div>
+<p>The balloonModel contains two types at application start which will be displayed by the <a href="./qtquick-customitems-painteditem-example.htm#balloonview" translate="no">balloonView</a>. The <a href="./qtquick-customitems-painteditem-example.htm#balloonview" translate="no">balloonView</a> alernates the TextBalloon delegate items between left-aligned and right-aligned.</p>
+<a name="controls"></a>
+<h5 id="controls">Controls<a class="plink" href="#controls" title="Direct link to this headline"></a></h5>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">controls</span>
+
+    <span class="name">anchors</span>.bottom: <span class="name">parent</span>.<span class="name">bottom</span>
+    <span class="name">anchors</span>.left: <span class="name">parent</span>.<span class="name">left</span>
+    <span class="name">anchors</span>.margins: <span class="number">1</span>
+    <span class="name">anchors</span>.right: <span class="name">parent</span>.<span class="name">right</span>
+    <span class="name">border</span>.width: <span class="number">2</span>
+    <span class="name">color</span>: <span class="string">"white"</span>
+    <span class="name">height</span>: <span class="name">parent</span>.<span class="name">height</span> <span class="operator">*</span> <span class="number">0.15</span>
+
+    <span class="type"><a href="./qml-qtquick-text.htm" translate="no">Text</a></span> {
+        <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+        <span class="name">text</span>: <span class="string">"Add another balloon"</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">hoverEnabled</span>: <span class="number">true</span>
+        <span class="name">onClicked</span>: {
+            <span class="name">balloonModel</span>.<span class="name">append</span>({"balloonWidth": <span class="name">Math</span>.<span class="name">floor</span>(<span class="name">Math</span>.<span class="name">random</span>() <span class="operator">*</span> <span class="number">200</span> <span class="operator">+</span> <span class="number">100</span>)})
+            <span class="name">balloonView</span>.<span class="name">positionViewAtIndex</span>(<span class="name">balloonView</span>.<span class="name">count</span> <span class="operator">-</span><span class="number">1</span>, <span class="name">ListView</span>.<span class="name">End</span>)
+        }
+        <span class="name">onEntered</span>: {
+            <span class="name">parent</span>.<span class="name">color</span> <span class="operator">=</span> <span class="string">"#8ac953"</span>
+        }
+        <span class="name">onExited</span>: {
+            <span class="name">parent</span>.<span class="name">color</span> <span class="operator">=</span> <span class="string">"white"</span>
+        }
+    }
+}</pre></div>
+<p>The controls part of the UI contains a rectangle with a <a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a> which changes color when the mouse hovers over it. This control 'button' adds a new object to the end of the model with a random width.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtdeclarative.git/tree/examples/quick/customitems/painteditem?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@customitems/painteditem -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

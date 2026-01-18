@@ -1,0 +1,148 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Effect QML Type | Qt Quick 3D</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick3d-index.htm" translate="no">Qt Quick 3D</a></li>
+                            <li><a href="./qtquick3d-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li class="last"><a>Effect QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Effect QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$Effect-brief -->
+<p>Base component for creating a post-processing effect. <a href="#details">More...</a></p>
+<!-- @@@Effect -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtQuick3D.Effects 1.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherits:</td><td class="memItemRight bottomAlign"> <p><a href="./qml-qtquick3d-object3d.htm" translate="no">Object3D</a></p>
+</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtquick3d-effects-effect-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtquick3d-effects-effect.htm#passes-prop" translate="no">passes</a></b></b> : list</li>
+</ul>
+<!-- $$$Effect-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>The Effect type allows the user to implement their own post-processing effects for <a href="./qtquick3d-qmlmodule.htm" translate="no">QtQuick3D</a>. This is how to create your own effect, using <a href="./qml-qtquick3d-effects-gaussianblur.htm" translate="no">GaussianBlur</a> as an example:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick3d-effects-effect.htm" translate="no">Effect</a></span> {
+    <span class="comment">// The property name is generated as a uniform to the shader code, so it must match</span>
+    <span class="comment">// the name and type used in shader code.</span>
+    property <span class="type"><a href="./qml-real.htm" translate="no">real</a></span> <span class="name">amount</span>: <span class="number">2</span> <span class="comment">// 0 - 10</span>
+
+    <span class="comment">// The vertex shaders are defined with the Shader type.</span>
+    <span class="type"><a href="./qml-qtquick3d-shader.htm" translate="no">Shader</a></span> {
+        <span class="name">id</span>: <span class="name">vertical</span>
+        <span class="name">stage</span>: <span class="name">Shader</span>.<span class="name">Vertex</span>
+        <span class="name">shader</span>: <span class="string">"shaders/blurvertical.vert"</span>
+    }
+    <span class="type"><a href="./qml-qtquick3d-shader.htm" translate="no">Shader</a></span> {
+        <span class="name">id</span>: <span class="name">horizontal</span>
+        <span class="name">stage</span>: <span class="name">Shader</span>.<span class="name">Vertex</span>
+        <span class="name">shader</span>: <span class="string">"shaders/blurhorizontal.vert"</span>
+    }
+
+    <span class="comment">// The fragment shader is defined with the Shader type.</span>
+    <span class="type"><a href="./qml-qtquick3d-shader.htm" translate="no">Shader</a></span> {
+        <span class="name">id</span>: <span class="name">gaussianblur</span>
+        <span class="name">stage</span>: <span class="name">Shader</span>.<span class="name">Fragment</span>
+        <span class="name">shader</span>: <span class="string">"shaders/gaussianblur.frag"</span>
+    }
+
+    <span class="comment">// In this shader we need a temporary buffer to store the output of the first blur pass.</span>
+    <span class="type"><a href="./qml-qtquick3d-buffer.htm" translate="no">Buffer</a></span> {
+        <span class="name">id</span>: <span class="name">tempBuffer</span>
+        <span class="name">name</span>: <span class="string">"tempBuffer"</span>
+        <span class="name">format</span>: <span class="name">Buffer</span>.<span class="name">RGBA8</span>
+        <span class="name">textureFilterOperation</span>: <span class="name">Buffer</span>.<span class="name">Linear</span>
+        <span class="name">textureCoordOperation</span>: <span class="name">Buffer</span>.<span class="name">ClampToEdge</span>
+        <span class="name">bufferFlags</span>: <span class="name">Buffer</span>.<span class="name">None</span> <span class="comment">// Lifetime of the buffer is one frame</span>
+    }
+
+    <span class="comment">// GaussianBlur needs two passes; a horizontal blur and a vertical blur.</span>
+    <span class="comment">// Only the vertex shader is different in this case, so we can use the same fragment</span>
+    <span class="comment">// shader for both passes.</span>
+    <span class="name">passes</span>: [
+        <span class="type"><a href="./qml-qtquick3d-pass.htm" translate="no">Pass</a></span> {
+            <span class="name">shaders</span>: [ <span class="name">horizontal</span>, <span class="name">gaussianblur</span> ]
+            <span class="name">output</span>: <span class="name">tempBuffer</span>
+        },
+        <span class="type"><a href="./qml-qtquick3d-pass.htm" translate="no">Pass</a></span> {
+            <span class="name">shaders</span>: [ <span class="name">vertical</span>, <span class="name">gaussianblur</span> ]
+            <span class="name">commands</span>: [
+                <span class="comment">// We feed the output of the first pass as an input for the second pass.</span>
+                <span class="type"><a href="./qml-qtquick3d-bufferinput.htm" translate="no">BufferInput</a></span> {
+                    <span class="name">buffer</span>: <span class="name">tempBuffer</span>
+                }
+            ]
+        }
+    ]
+}</pre></div>
+<p><b>See also </b><a href="./qml-qtquick3d-shader.htm" translate="no">Shader</a>, <a href="./qml-qtquick3d-buffer.htm" translate="no">Buffer</a>, and <a href="./qml-qtquick3d-pass.htm" translate="no">Pass</a>.</p>
+<!-- @@@Effect -->
+<h2>Property Documentation</h2>
+<!-- $$$passes -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="passes-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="passes-prop"></a><span class="name">passes</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span><a class="plink" href="#passes-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Contains a list of render <a href="./qml-qtquick3d-pass.htm" translate="no">passes</a> implemented by the effect.</p>
+</div></div><!-- @@@passes -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

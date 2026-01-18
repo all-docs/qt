@@ -1,0 +1,160 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Media Player Example (ActiveQt) | Active Qt</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./activeqt-index.htm" translate="no">Active Qt</a></li>
+                            <li><a>Media Player Example (ActiveQt)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Media Player Example (ActiveQt)</h1>
+<span class="subtitle"></span>
+<!-- $$$activeqt/mediaplayer-brief -->
+<p>The Media Player example uses the Microsoft Media Player ActiveX control to implement a functional media player application.</p>
+<!-- @@@activeqt/mediaplayer -->
+<!-- $$$activeqt/mediaplayer-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/activeqt-mediaplayer-example.jpg"></p><p><i>Media Player</i> demonstrates how a Qt application can communicate with embedded ActiveX controls using signals, slots, and the <code translate="no">dynamicCall()</code> function.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> MainWindow : <span class="keyword">public</span> <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span>
+{
+    Q_OBJECT
+<span class="keyword">public</span>:
+    MainWindow();
+    <span class="operator">~</span>MainWindow();
+    <span class="type">void</span> openMedia(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>mediaUrl);
+
+<span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> on_mediaPlayer_PlayStateChange(<span class="type">int</span> newState);
+    <span class="type">void</span> on_actionOpen_triggered();
+    <span class="type">void</span> on_actionExit_triggered();
+    <span class="type">void</span> on_actionAbout_triggered();
+    <span class="type">void</span> on_actionAboutQt_triggered();
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> updateWindowTitle(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>state);
+    Ui<span class="operator">::</span>MainWindow m_ui;
+};</pre></div>
+<p>The <code translate="no">MainWindow</code> class declares a <code translate="no">QMainWindow</code> based user interface, using the <code translate="no">Ui::MainWindow</code> class created by Qt Designer. A number of slots are implemented to handle events from user interface elements, including the <code translate="no">mediaPlayer</code> object, which is a <a href="./qaxwidget.htm" translate="no">QAxWidget</a> hosting the Microsoft Media Player ActiveX control.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MainWindow<span class="operator">::</span>MainWindow()
+{
+    m_ui<span class="operator">.</span>setupUi(<span class="keyword">this</span>);
+
+    <span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span> settings(<span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span><span class="operator">::</span>IniFormat<span class="operator">,</span> <span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span><span class="operator">::</span>UserScope<span class="operator">,</span>
+                       <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>organizationName()<span class="operator">,</span> <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationName());
+
+    <span class="keyword">const</span> <span class="type"><a href="./qbytearray.htm" translate="no">QByteArray</a></span> restoredGeometry <span class="operator">=</span> settings<span class="operator">.</span>value(QLatin1String(geometryKey))<span class="operator">.</span>toByteArray();
+    <span class="keyword">if</span> (restoredGeometry<span class="operator">.</span>isEmpty() <span class="operator">|</span><span class="operator">|</span> <span class="operator">!</span>restoreGeometry(restoredGeometry)) {
+        <span class="keyword">const</span> <span class="type"><a href="./qrect.htm" translate="no">QRect</a></span> availableGeometry <span class="operator">=</span> screen()<span class="operator">-</span><span class="operator">&gt;</span>availableGeometry();
+        <span class="keyword">const</span> <span class="type"><a href="./qsize.htm" translate="no">QSize</a></span> size <span class="operator">=</span> (availableGeometry<span class="operator">.</span>size() <span class="operator">*</span> <span class="number">4</span>) <span class="operator">/</span> <span class="number">5</span>;
+        resize(size);
+        move(availableGeometry<span class="operator">.</span>center() <span class="operator">-</span> <span class="type"><a href="./qpoint.htm" translate="no">QPoint</a></span>(size<span class="operator">.</span>width()<span class="operator">,</span> size<span class="operator">.</span>height()) <span class="operator">/</span> <span class="number">2</span>);
+    }
+
+    m_ui<span class="operator">.</span>mediaPlayer<span class="operator">-</span><span class="operator">&gt;</span>dynamicCall(<span class="string">"enableContextMenu"</span><span class="operator">,</span> <span class="keyword">false</span>);
+    m_ui<span class="operator">.</span>mediaPlayer<span class="operator">-</span><span class="operator">&gt;</span>dynamicCall(<span class="string">"stretchToFit"</span><span class="operator">,</span> <span class="keyword">true</span>);
+    updateWindowTitle(<span class="string">""</span>);
+}</pre></div>
+<p>The constructor initializes the user interface, restores a previously saved window geometry, and uses the <code translate="no">dynamicCall()</code> function to invoke the APIs implemented by the Microsoft Media Player ActiveX control, to set initial configuration parameters.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>on_mediaPlayer_PlayStateChange(<span class="type">int</span> newState)
+{
+    <span class="keyword">static</span> <span class="keyword">const</span> <span class="type"><a href="./qhash.htm" translate="no">QHash</a></span><span class="operator">&lt;</span><span class="type">int</span><span class="operator">,</span> <span class="keyword">const</span> <span class="type">char</span> <span class="operator">*</span><span class="operator">&gt;</span> stateMapping {
+        {<span class="number">1</span><span class="operator">,</span>  <span class="string">"Stopped"</span>}<span class="operator">,</span>
+        {<span class="number">2</span><span class="operator">,</span>  <span class="string">"Paused"</span>}<span class="operator">,</span>
+        {<span class="number">3</span><span class="operator">,</span>  <span class="string">"Playing"</span>}<span class="operator">,</span>
+        {<span class="number">4</span><span class="operator">,</span>  <span class="string">"Scanning Forwards"</span>}<span class="operator">,</span>
+        {<span class="number">5</span><span class="operator">,</span>  <span class="string">"Scanning Backwards"</span>}<span class="operator">,</span>
+        {<span class="number">6</span><span class="operator">,</span>  <span class="string">"Buffering"</span>}<span class="operator">,</span>
+        {<span class="number">7</span><span class="operator">,</span>  <span class="string">"Waiting"</span>}<span class="operator">,</span>
+        {<span class="number">8</span><span class="operator">,</span>  <span class="string">"Media Ended"</span>}<span class="operator">,</span>
+        {<span class="number">9</span><span class="operator">,</span>  <span class="string">"Transitioning"</span>}<span class="operator">,</span>
+        {<span class="number">10</span><span class="operator">,</span> <span class="string">"Ready"</span>}<span class="operator">,</span>
+        {<span class="number">11</span><span class="operator">,</span> <span class="string">"Reconnecting"</span>}<span class="operator">,</span>
+    };
+    <span class="keyword">const</span> <span class="type">char</span> <span class="operator">*</span>stateStr <span class="operator">=</span> stateMapping<span class="operator">.</span>value(newState<span class="operator">,</span> <span class="string">""</span>);
+    updateWindowTitle(tr(stateStr));
+}</pre></div>
+<p>The <code translate="no">on_mediaPlayer_PlayStateChange</code> slot handles the signal emitted by the <code translate="no">mediaPlayer</code> object when its state changes.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MainWindow<span class="operator">::</span>openMedia(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>mediaUrl)
+{
+    <span class="keyword">if</span> (<span class="operator">!</span>mediaUrl<span class="operator">.</span>isEmpty())
+        m_ui<span class="operator">.</span>mediaPlayer<span class="operator">-</span><span class="operator">&gt;</span>dynamicCall(<span class="string">"URL"</span><span class="operator">,</span> mediaUrl);
+}</pre></div>
+<p>The <code translate="no">openMedia()</code> function allows a media file to be opened by using the <code translate="no">dynamicCall()</code> function to set the URL property in the ActiveX control, which causes the media file to be loaded and played.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span><span class="operator">::</span>setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AA_EnableHighDpiScaling);
+    <span class="type"><a href="./qapplication.htm" translate="no">QApplication</a></span> app(argc<span class="operator">,</span> argv);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setApplicationVersion(QT_VERSION_STR);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setApplicationName(QLatin1String(<span class="string">"Active Qt Media Player"</span>));
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setOrganizationName(QLatin1String(<span class="string">"QtProject"</span>));
+
+    MainWindow w;
+    <span class="type"><a href="./qcommandlineparser.htm" translate="no">QCommandLineParser</a></span> parser;
+    parser<span class="operator">.</span>setApplicationDescription(<span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>applicationName());
+    parser<span class="operator">.</span>addHelpOption();
+    parser<span class="operator">.</span>addVersionOption();
+    parser<span class="operator">.</span>addPositionalArgument(<span class="string">"file"</span><span class="operator">,</span> <span class="string">"The media file to open."</span>);
+    parser<span class="operator">.</span>process(app);
+    <span class="keyword">if</span> (<span class="operator">!</span>parser<span class="operator">.</span>positionalArguments()<span class="operator">.</span>isEmpty())
+        w<span class="operator">.</span>openMedia(parser<span class="operator">.</span>positionalArguments()<span class="operator">.</span>constFirst());
+    w<span class="operator">.</span>show();
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<p>The <code translate="no">main()</code> function starts the application using standard Qt APIs and uses an optional command line argument as the name of a media file to be loaded by the player.</p>
+<p>To build the example, you must first build the <a href="./qaxcontainer-module.htm" translate="no">QAxContainer</a> library. Then run your make tool in <code translate="no">examples/activeqt/mediaplayer</code> and run the resulting <code translate="no">mediaplayer.exe</code>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtactiveqt.git/tree/examples/activeqt/mediaplayer?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@activeqt/mediaplayer -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

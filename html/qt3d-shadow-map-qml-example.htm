@@ -1,0 +1,311 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt 3D: Shadow Map QML Example | Qt 3D</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qt3d-index.htm" translate="no">Qt 3D</a></li>
+                            <li><a>Qt 3D: Shadow Map QML Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt 3D: Shadow Map QML Example</h1>
+<span class="subtitle"></span>
+<!-- $$$shadow-map-qml-brief -->
+<p>A Qt 3D QML application that illustrates how to render a scene in Qt 3D with shadows.</p>
+<!-- @@@shadow-map-qml -->
+<!-- $$$shadow-map-qml-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/shadowmapping-qt3d.png"></p><p><i>Qt 3D Shadow Map</i> illustrates how to configure the renderer in order to accommodate custom rendering techniques. The example application displays a self-shadowed plane and trefoil knot.</p>
+<p>We implement <a href="./qt3d-overview.htm#shadow-mapping" translate="no">shadow mapping</a> using a two pass rendering. In the first pass, we generate the shadow information. In the second pass, we generate the scene using the forward rendering technique with Phong shading, while at the same time using the information gathered in the first pass to draw the shadows.</p>
+<p>The entire rendering is configured using QML, but it is possible to use C++ to achieve the very same result.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="setting-up-the-scene"></a>
+<h4 id="setting-up-the-scene">Setting Up the Scene<a class="plink" href="#setting-up-the-scene" title="Direct link to this headline"></a></h4>
+<p>We set up the entire scene in the <i>main.qml</i> file.</p>
+<p>To be able to use the types in the Q3D and Q3D Renderer modules, we must import the modules:</p>
+<div class="pre"><pre class="cpp" translate="no">import Qt3D.Core 2.0
+import Qt3D.Render 2.0</pre></div>
+<p>The first entities we create are a <a href="./qml-qt3d-render-camera.htm" translate="no">Camera</a>, which represents the camera used for the final rendering, and a <a href="./qvulkaninstance.htm#configuration" translate="no">Configuration</a>, which allows us to control this camera using the keyboard or the mouse:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">import Qt3D.Input 2.0
+import Qt3D.Extras 2.0
+
+<span class="type"><a href="./qml-qt3d-core-entity.htm" translate="no">Entity</a></span> {
+    <span class="name">id</span>: <span class="name">sceneRoot</span>
+
+    <span class="type"><a href="./qml-qt3d-render-camera.htm" translate="no">Camera</a></span> {
+        <span class="name">id</span>: <span class="name">camera</span>
+        <span class="name">projectionType</span>: <span class="name">CameraLens</span>.<span class="name">PerspectiveProjection</span>
+        <span class="name">fieldOfView</span>: <span class="number">45</span>
+        <span class="name">aspectRatio</span>: <span class="name">_window</span>.<span class="name">width</span> <span class="operator">/</span> <span class="name">_window</span>.<span class="name">height</span>
+        <span class="name">nearPlane</span>: <span class="number">0.1</span>
+        <span class="name">farPlane</span>: <span class="number">1000.0</span>
+        <span class="name">position</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.0</span>, <span class="number">10.0</span>, <span class="number">20.0</span>)
+        <span class="name">viewCenter</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>)
+        <span class="name">upVector</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>)
+    }
+
+    <span class="type"><a href="./qml-qt3d-extras-firstpersoncameracontroller.htm" translate="no">FirstPersonCameraController</a></span> { <span class="name">camera</span>: <span class="name">camera</span> }</pre></div>
+<p>We then create a Light custom entity, which represents our light. It is a directional spotlight, placed somewhere above the plane and looking down at the scene’s origin:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">ShadowMapLight</span> {
+        <span class="name">id</span>: <span class="name">light</span>
+    }</pre></div>
+<p>This light entity is used by our custom frame graph, ShadowMapFrameGraph, and our rendering effect, AdsEffect, whose instances are created just after the light:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="name">components</span>: [
+        <span class="type">ShadowMapFrameGraph</span> {
+            <span class="name">id</span>: <span class="name">framegraph</span>
+            <span class="name">viewCamera</span>: <span class="name">camera</span>
+            <span class="name">lightCamera</span>: <span class="name">light</span>.<span class="name">lightCamera</span>
+        },
+        <span class="comment">// Event Source will be set by the Qt3DQuickWindow</span>
+        <span class="type"><a href="./qml-qt3d-input-inputsettings.htm" translate="no">InputSettings</a></span> { }
+    ]
+
+    <span class="type">AdsEffect</span> {
+        <span class="name">id</span>: <span class="name">shadowMapEffect</span>
+
+        <span class="name">shadowTexture</span>: <span class="name">framegraph</span>.<span class="name">shadowTexture</span>
+        <span class="name">light</span>: <span class="name">light</span>
+    }</pre></div>
+<p>Last, we create three entities for the meshes in the scene: a trefoil knot, a toy plane, and a ground plane. They aggregate a mesh, a transformation, and a material that uses the AdsEffect. The toy plane and the trefoil knot transformations are animated:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="comment">// Trefoil knot entity</span>
+    <span class="type">Trefoil</span> {
+        <span class="name">material</span>: <span class="name">AdsMaterial</span> {
+            <span class="name">effect</span>: <span class="name">shadowMapEffect</span>
+            <span class="name">specularColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1.0</span>)
+        }
+    }
+
+    <span class="comment">// Toyplane entity</span>
+    <span class="type">Toyplane</span> {
+        <span class="name">material</span>: <span class="name">AdsMaterial</span> {
+            <span class="name">effect</span>: <span class="name">shadowMapEffect</span>
+            <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.9</span>, <span class="number">0.5</span>, <span class="number">0.3</span>, <span class="number">1.0</span>)
+            <span class="name">shininess</span>: <span class="number">75</span>
+        }
+    }
+
+    <span class="comment">// Plane entity</span>
+    <span class="type">GroundPlane</span> {
+        <span class="name">material</span>: <span class="name">AdsMaterial</span> {
+            <span class="name">effect</span>: <span class="name">shadowMapEffect</span>
+            <span class="name">diffuseColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.2</span>, <span class="number">0.5</span>, <span class="number">0.3</span>, <span class="number">1.0</span>)
+            <span class="name">specularColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1.0</span>)
+        }
+    }
+}</pre></div>
+<a name="specifying-the-light"></a>
+<h4 id="specifying-the-light">Specifying the Light<a class="plink" href="#specifying-the-light" title="Direct link to this headline"></a></h4>
+<p>We specify the Light custom entity in <i>ShadowMapLight.qml</i>.</p>
+<p>Again, we import the necessary modules:</p>
+<div class="pre"><pre class="cpp" translate="no">import Qt3D.Core 2.0
+import Qt3D.Render 2.0</pre></div>
+<p>We then use an <a href="./qml-qt3d-core-entity.htm" translate="no">Entity</a> type as the root element of the custom QML type. The light is a directional spotlight that exposes as properties a position, intensity, and a 4×4 transformation matrix:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="type"><a href="./qml-qt3d-core-entity.htm" translate="no">Entity</a></span> {
+    <span class="name">id</span>: <span class="name">root</span>
+
+    property <span class="type">vector3d</span> <span class="name">lightPosition</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">30.0</span>, <span class="number">30.0</span>, <span class="number">0.0</span>)
+    property <span class="type">vector3d</span> <span class="name">lightIntensity</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>)
+
+    readonly property <span class="type"><a href="./qml-qt3d-render-camera.htm" translate="no">Camera</a></span> <span class="name">lightCamera</span>: <span class="name">lightCamera</span>
+    readonly property <span class="type">matrix4x4</span> <span class="name">lightViewProjection</span>: <span class="name">lightCamera</span>.<span class="name">projectionMatrix</span>.<span class="name">times</span>(<span class="name">lightCamera</span>.<span class="name">viewMatrix</span>)</pre></div>
+<p>In the first rendering pass, we use the light as a camera, and therefore we use a <a href="./qml-qt3d-render-camera.htm" translate="no">Camera</a> entity within the light and expose it as a property:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qt3d-render-camera.htm" translate="no">Camera</a></span> {
+        <span class="name">id</span>: <span class="name">lightCamera</span>
+        <span class="name">objectName</span>: <span class="string">"lightCameraLens"</span>
+        <span class="name">projectionType</span>: <span class="name">CameraLens</span>.<span class="name">PerspectiveProjection</span>
+        <span class="name">fieldOfView</span>: <span class="number">45</span>
+        <span class="name">aspectRatio</span>: <span class="number">1</span>
+        <span class="name">nearPlane</span> : <span class="number">0.1</span>
+        <span class="name">farPlane</span> : <span class="number">200.0</span>
+        <span class="name">position</span>: <span class="name">root</span>.<span class="name">lightPosition</span>
+        <span class="name">viewCenter</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>)
+        <span class="name">upVector</span>: <span class="name">Qt</span>.<span class="name">vector3d</span>(<span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>)
+    }
+}</pre></div>
+<a name="configuring-the-framegraph"></a>
+<h4 id="configuring-the-framegraph">Configuring the Framegraph<a class="plink" href="#configuring-the-framegraph" title="Direct link to this headline"></a></h4>
+<p>In Qt 3D, the frame graph is the data-driven configuration for the rendering. We implement the frame graph in the <i>ShadowMapFrameGraph.qml</i> file.</p>
+<p>In addition to the Qt 3D and Qt 3D Render modules, we also import the Qt Quick module:</p>
+<div class="pre"><pre class="cpp" translate="no">import QtQuick 2.2 as QQ2
+import Qt3D.Core 2.0
+import Qt3D.Render 2.0</pre></div>
+<p>The code defines a <a href="./qml-qt3d-render-rendersettings.htm" translate="no">RenderSettings</a> node that has a tree of nodes as the active frame graph:</p>
+<div class="pre"><pre class="cpp plain" translate="no">RenderSettings {
+    activeFrameGraph: Viewport {...}
+}</pre></div>
+<p>Any path from the leaves of this tree to the root is a viable frame graph configuration. Filter entities can enable or disable such paths, and selector entities can alter the configuration.</p>
+<p>In our case, the tree looks like this:</p>
+<div class="pre"><pre class="cpp plain" translate="no">Viewport
+    RenderSurfaceSelector
+        RenderPassFilter
+            RenderTargetSelector
+                ClearBuffers
+                    CameraSelector
+        RenderPassFilter
+            ClearBuffers
+                CameraSelector</pre></div>
+<p>So we have two paths from the topmost <a href="./qml-qt3d-render-viewport.htm" translate="no">Viewport</a> entity. Each path corresponds to a pass, or phase, of the shadow map technique. The paths are enabled and disabled using a <a href="./qml-qt3d-render-renderpassfilter.htm" translate="no">RenderPassFilter</a>, a node that can filter depending on arbitrary values defined in a given render pass. In this example, it is a string:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="type"><a href="./qml-qt3d-render-renderpassfilter.htm" translate="no">RenderPassFilter</a></span> {
+                <span class="name">matchAny</span>: [ <span class="type"><a href="./qml-qt3d-render-filterkey.htm" translate="no">FilterKey</a></span> { <span class="name">name</span>: <span class="string">"pass"</span>; <span class="name">value</span>: <span class="string">"shadowmap"</span> } ]</pre></div>
+<p>The actual passes are not defined within the frame graph. Instead the available passes are declared in the Materials used in the scene graph. The frame graph is only used to select which passes are used when rendering.</p>
+<a name="generating-the-shadow-map"></a>
+<h4 id="generating-the-shadow-map">Generating the Shadow Map<a class="plink" href="#generating-the-shadow-map" title="Direct link to this headline"></a></h4>
+<p>In the shadow map generation pass, we must render to an offscreen surface (Framebuffer Object) which has a depth texture attachment. In Qt 3D, it is represented by the <a href="./qml-qt3d-render-rendertarget.htm" translate="no">RenderTarget</a> entity, which has a number of attachments.</p>
+<p>In this example, we need only a depth attachment. We define it as a RenderAttachment entity using the RenderAttachment.DepthAttachment <code translate="no">type</code> that stores the depth and a <a href="./qml-qt3d-render-texture2d.htm" translate="no">Texture2D</a> entity that actually configures the exture storage used to store the depth information:</p>
+<div class="pre"><pre class="cpp" translate="no">                <span class="type"><a href="./qml-qt3d-render-rendertargetselector.htm" translate="no">RenderTargetSelector</a></span> {
+                    <span class="name">target</span>: <span class="name">RenderTarget</span> {
+                        <span class="name">attachments</span>: [
+                            <span class="type"><a href="./qml-qt3d-render-rendertargetoutput.htm" translate="no">RenderTargetOutput</a></span> {
+                                <span class="name">objectName</span>: <span class="string">"depth"</span>
+                                <span class="name">attachmentPoint</span>: <span class="name">RenderTargetOutput</span>.<span class="name">Depth</span>
+                                <span class="name">texture</span>: <span class="name">Texture2D</span> {
+                                    <span class="name">id</span>: <span class="name">depthTexture</span>
+                                    <span class="name">width</span>: <span class="number">1024</span>
+                                    <span class="name">height</span>: <span class="number">1024</span>
+                                    <span class="name">format</span>: <span class="name">Texture</span>.<span class="name">DepthFormat</span>
+                                    <span class="name">generateMipMaps</span>: <span class="number">false</span>
+                                    <span class="name">magnificationFilter</span>: <span class="name">Texture</span>.<span class="name">Linear</span>
+                                    <span class="name">minificationFilter</span>: <span class="name">Texture</span>.<span class="name">Linear</span>
+                                    <span class="type">wrapMode</span> {
+                                        <span class="name">x</span>: <span class="name">WrapMode</span>.<span class="name">ClampToEdge</span>
+                                        <span class="name">y</span>: <span class="name">WrapMode</span>.<span class="name">ClampToEdge</span>
+                                    }
+                                    <span class="name">comparisonFunction</span>: <span class="name">Texture</span>.<span class="name">CompareLessEqual</span>
+                                    <span class="name">comparisonMode</span>: <span class="name">Texture</span>.<span class="name">CompareRefToTexture</span>
+                                }
+                            }
+                        ]
+                    }</pre></div>
+<p>Moreover, in this first pass, we must render using the light’s camera. Therefore, we have a <a href="./qml-qt3d-render-cameraselector.htm" translate="no">CameraSelector</a> entity that sets the camera to the one exported by the Light:</p>
+<div class="pre"><pre class="cpp" translate="no">                        <span class="type"><a href="./qml-qt3d-render-cameraselector.htm" translate="no">CameraSelector</a></span> {
+                            <span class="name">id</span>: <span class="name">lightCameraSelector</span>
+                        }</pre></div>
+<p>The second pass is more straightforward, because we simply render to the screen using the main camera:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="type"><a href="./qml-qt3d-render-renderpassfilter.htm" translate="no">RenderPassFilter</a></span> {
+                <span class="name">matchAny</span>: [ <span class="type"><a href="./qml-qt3d-render-filterkey.htm" translate="no">FilterKey</a></span> { <span class="name">name</span>: <span class="string">"pass"</span>; <span class="name">value</span>: <span class="string">"forward"</span> } ]
+
+                <span class="type"><a href="./qml-qt3d-render-clearbuffers.htm" translate="no">ClearBuffers</a></span> {
+                    <span class="name">clearColor</span>: <span class="name">Qt</span>.<span class="name">rgba</span>(<span class="number">0.0</span>, <span class="number">0.4</span>, <span class="number">0.7</span>, <span class="number">1.0</span>)
+                    <span class="name">buffers</span>: <span class="name">ClearBuffers</span>.<span class="name">ColorDepthBuffer</span>
+
+                    <span class="type"><a href="./qml-qt3d-render-cameraselector.htm" translate="no">CameraSelector</a></span> {
+                        <span class="name">id</span>: <span class="name">viewCameraSelector</span>
+                    }
+                }
+            }</pre></div>
+<a name="using-effects"></a>
+<h4 id="using-effects">Using Effects<a class="plink" href="#using-effects" title="Direct link to this headline"></a></h4>
+<p>The bulk of the magic happens in the <i>AdsEffect.qml</i> file, where our main <a href="./qml-qt3d-render-effect.htm" translate="no">Effect</a> is defined. It implements the Ambient, Diffuse and Specular (ADS) Lighting Model using Phong shading with the addition of shadow mapping.</p>
+<p>An effect contains the implementation of a particular rendering strategy. In this example, shadow mapping using two passes:</p>
+<div class="pre"><pre class="cpp" translate="no"><span class="type"><a href="./qml-qt3d-render-effect.htm" translate="no">Effect</a></span> {
+    <span class="name">id</span>: <span class="name">root</span>
+
+    property <span class="type"><a href="./qml-qt3d-render-texture2d.htm" translate="no">Texture2D</a></span> <span class="name">shadowTexture</span>
+    property <span class="type">ShadowMapLight</span> <span class="name">light</span></pre></div>
+<p>The <code translate="no">parameters</code> list defines some default values for the effect. The values will get mapped to shader program uniform variables, so that in the shaders we can access their values. In this example, we expose some information from the Light entity (position, intensity, view or projection matrix defined by the internal camera) and the shadow map texture exposed by the frame graph:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="name">parameters</span>: [
+        <span class="type"><a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a></span> { <span class="name">name</span>: <span class="string">"lightViewProjection"</span>; <span class="name">value</span>: <span class="name">root</span>.<span class="name">light</span>.<span class="name">lightViewProjection</span> },
+        <span class="type"><a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a></span> { <span class="name">name</span>: <span class="string">"lightPosition"</span>;  <span class="name">value</span>: <span class="name">root</span>.<span class="name">light</span>.<span class="name">lightPosition</span> },
+        <span class="type"><a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a></span> { <span class="name">name</span>: <span class="string">"lightIntensity"</span>; <span class="name">value</span>: <span class="name">root</span>.<span class="name">light</span>.<span class="name">lightIntensity</span> },
+        <span class="type"><a href="./qml-qt3d-render-parameter.htm" translate="no">Parameter</a></span> { <span class="name">name</span>: <span class="string">"shadowMapTexture"</span>; <span class="name">value</span>: <span class="name">root</span>.<span class="name">shadowTexture</span> }
+    ]</pre></div>
+<p>It is possible to put such parameters all the way down, from a <a href="./qml-qt3d-render-material.htm" translate="no">Material</a>, to its <a href="./qml-qt3d-render-effect.htm" translate="no">Effect</a>, to one of the effect’s <a href="./qml-qt3d-render-technique.htm" translate="no">Techniques</a> and a <a href="./qml-qt3d-render-renderpass.htm" translate="no">RenderPass</a> within a <a href="./qml-qt3d-render-technique.htm" translate="no">Technique</a>. This allows a <a href="./qml-qt3d-render-material.htm" translate="no">Material</a> instance to override defaults in an <a href="./qml-qt3d-render-effect.htm" translate="no">Effect</a>, <a href="./qml-qt3d-render-technique.htm" translate="no">Technique</a> or <a href="./qml-qt3d-render-renderpass.htm" translate="no">RenderPass</a>.</p>
+<p>To adapt the implementation to different hardware or OpenGL versions, we could use one or more <a href="./qml-qt3d-render-technique.htm" translate="no">Technique</a> elements. In this example, only one technique is provided, targeting OpenGL 3.2 Core, or later:</p>
+<div class="pre"><pre class="cpp" translate="no">    <span class="name">techniques</span>: [
+        <span class="type"><a href="./qml-qt3d-render-technique.htm" translate="no">Technique</a></span> {
+            <span class="type">graphicsApiFilter</span> {
+                <span class="name">api</span>: <span class="name">GraphicsApiFilter</span>.<span class="name">OpenGL</span>
+                <span class="name">profile</span>: <span class="name">GraphicsApiFilter</span>.<span class="name">CoreProfile</span>
+                <span class="name">majorVersion</span>: <span class="number">3</span>
+                <span class="name">minorVersion</span>: <span class="number">2</span>
+            }</pre></div>
+<p>Inside the technique, we finally have the definition of our two rendering passes. We <i>tag</i> each pass with a <a href="./qml-qt3d-render-filterkey.htm" translate="no">FilterKey</a> object, matching the ones we specified in the frame graph configuration, so that each pass will have different rendering settings:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="name">renderPasses</span>: [
+                <span class="type"><a href="./qml-qt3d-render-renderpass.htm" translate="no">RenderPass</a></span> {
+                    <span class="name">filterKeys</span>: [ <span class="type"><a href="./qml-qt3d-render-filterkey.htm" translate="no">FilterKey</a></span> { <span class="name">name</span>: <span class="string">"pass"</span>; <span class="name">value</span>: <span class="string">"shadowmap"</span> } ]</pre></div>
+<p>The first pass is the shadow map generation. We load a suitable set of GLSL shaders, which are actually extremely simple. They do only MVP (Model, View, Projection) to bring meshes from their model space into clip space (and, remember, in this first pass, the light is the camera). The fragment shader is totally empty, because there is no color to be generated, and the depth will be automatically captured for us by OpenGL:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                    <span class="name">shaderProgram</span>: <span class="name">ShaderProgram</span> {
+                        <span class="name">vertexShaderCode</span>:   <span class="name">loadSource</span>(<span class="string">"qrc:/shaders/shadowmap.vert"</span>)
+                        <span class="name">fragmentShaderCode</span>: <span class="name">loadSource</span>(<span class="string">"qrc:/shaders/shadowmap.frag"</span>)
+                    }</pre></div>
+<p>In this first pass, we also set some custom OpenGL state in the form of a polygon offset and depth testing mode:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">                    <span class="name">renderStates</span>: [
+                        <span class="type"><a href="./qml-qt3d-render-polygonoffset.htm" translate="no">PolygonOffset</a></span> { <span class="name">scaleFactor</span>: <span class="number">4</span>; <span class="name">depthSteps</span>: <span class="number">4</span> },
+                        <span class="type"><a href="./qml-qt3d-render-depthtest.htm" translate="no">DepthTest</a></span> { <span class="name">depthFunction</span>: <span class="name">DepthTest</span>.<span class="name">Less</span> }
+                    ]</pre></div>
+<a name="rendering-using-phong-shading"></a>
+<h4 id="rendering-using-phong-shading">Rendering Using Phong Shading<a class="plink" href="#rendering-using-phong-shading" title="Direct link to this headline"></a></h4>
+<p>The second pass is a normal forward rendering using Phong shading. The code in the effect entity is extremely simple. We simply configure some parameters and load a pair of shaders which will be used when drawing.</p>
+<p>The first part of the shadow mapping happens in the vertex shader defined in <i>ads.vert</i> file, where we output towards the fragment shader the coordinates of each vertex in light space:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    positionInLightSpace = shadowMatrix * lightViewProjection * modelMatrix * vec4(vertexPosition, 1.0);</pre></div>
+<p>Actually, the coordinates get adjusted a little to allow us to easily sample the shadow map texture.</p>
+<p>The second part happens in the fragment shader defined in the <i>ads.frag</i> file, where we sample the shadow map. If the currently processed fragment is behind the one closest to the light, then the current fragment is in shadow (and only gets ambient contribution). Otherwise, it gets full Phong shading:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">void main()
+{
+    float shadowMapSample = textureProj(shadowMapTexture, positionInLightSpace);
+
+    vec3 ambient = lightIntensity * ka;
+
+    vec3 result = ambient;
+    if (shadowMapSample &gt; 0)
+        result += dsModel(position, normalize(normal));
+
+    fragColor = vec4(result, 1.0);
+}</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qt3d.git/tree/examples/qt3d/shadow-map-qml?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@shadow-map-qml -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

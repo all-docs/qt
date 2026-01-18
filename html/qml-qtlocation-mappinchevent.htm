@@ -1,0 +1,157 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MapPinchEvent QML Type | Qt Location</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtlocation-index.htm" translate="no">Qt Location</a></li>
+                            <li><a href="./qtlocation-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>MapPinchEvent QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">MapPinchEvent QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$MapPinchEvent-brief -->
+<p>MapPinchEvent type provides basic information about pinch event. <a href="#details">More...</a></p>
+<!-- @@@MapPinchEvent -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtLocation 5.15</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Since:</td><td class="memItemRight bottomAlign"> QtLocation 5.0</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtlocation-mappinchevent-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-mappinchevent.htm#accepted-prop" translate="no">accepted</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-mappinchevent.htm#angle-prop" translate="no">angle</a></b></b> : real</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-mappinchevent.htm#center-prop" translate="no">center</a></b></b> : QPoint</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-mappinchevent.htm#point1-prop" translate="no">point1</a></b></b> : QPoint</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-mappinchevent.htm#point2-prop" translate="no">point2</a></b></b> : QPoint</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtlocation-mappinchevent.htm#pointCount-prop" translate="no">pointCount</a></b></b> : int</li>
+</ul>
+<!-- $$$MapPinchEvent-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>MapPinchEvent type provides basic information about pinch event. They are present in handlers of MapPinch (for example pinchStarted/pinchUpdated). Events are only guaranteed to be valid for the duration of the handler.</p>
+<p>Except for the <a href="./qml-qtlocation-mappinchevent.htm#accepted-prop" translate="no">accepted</a> property, all properties are read-only.</p>
+<a name="example-usage"></a>
+<h3 id="example-usage">Example Usage<a class="plink" href="#example-usage" title="Direct link to this headline"></a></h3>
+<p>The following example enables the pinch gesture on a map and reacts to the finished event.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Map {
+    id: map
+    gesture<span class="operator">.</span>enabled: <span class="keyword">true</span>
+    gesture<span class="operator">.</span>onPinchFinished:{
+        var coordinate1 <span class="operator">=</span> map<span class="operator">.</span>toCoordinate(gesture<span class="operator">.</span>point1)
+        var coordinate2 <span class="operator">=</span> map<span class="operator">.</span>toCoordinate(gesture<span class="operator">.</span>point2)
+        console<span class="operator">.</span>log(<span class="string">"Pinch started at:"</span>)
+        console<span class="operator">.</span>log(<span class="string">"        Points ("</span> <span class="operator">+</span> gesture<span class="operator">.</span>point1<span class="operator">.</span>x <span class="operator">+</span> <span class="string">", "</span> <span class="operator">+</span> gesture<span class="operator">.</span>point1<span class="operator">.</span>y <span class="operator">+</span> <span class="string">") - ("</span> <span class="operator">+</span> gesture<span class="operator">.</span>point2<span class="operator">.</span>x <span class="operator">+</span> <span class="string">", "</span> <span class="operator">+</span> gesture<span class="operator">.</span>point2<span class="operator">.</span>y <span class="operator">+</span> <span class="string">")"</span>)
+        console<span class="operator">.</span>log(<span class="string">"   Coordinates ("</span> <span class="operator">+</span> coordinate1<span class="operator">.</span>latitude <span class="operator">+</span> <span class="string">", "</span> <span class="operator">+</span> coordinate1<span class="operator">.</span>longitude <span class="operator">+</span> <span class="string">") - ("</span> <span class="operator">+</span> coordinate2<span class="operator">.</span>latitude <span class="operator">+</span> <span class="string">", "</span> <span class="operator">+</span> coordinate2<span class="operator">.</span>longitude <span class="operator">+</span> <span class="string">")"</span>)
+    }
+}</pre></div>
+<!-- @@@MapPinchEvent -->
+<h2>Property Documentation</h2>
+<!-- $$$ -->
+<div class="qmlitem"><div class="fngroup">
+<div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="point1-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="point1-prop"></a><span class="name">point1</span> : <span class="type">QPoint</span><a class="plink" href="#point1-prop" title="Direct link to this headline"></a></p></td></tr>
+<tr class="odd" id="point2-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="point2-prop"></a><span class="name">point2</span> : <span class="type">QPoint</span><a class="plink" href="#point2-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+</div><div class="qmldoc"><p>These read-only properties hold the actual touch points generating the pinch. The points are not in any particular order.</p>
+</div></div><!-- @@@ -->
+<br>
+<!-- $$$accepted -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="accepted-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="accepted-prop"></a><span class="name">accepted</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#accepted-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Setting this property to false in the <code translate="no">MapPinch::onPinchStarted</code> handler will result in no further pinch events being generated, and the gesture ignored.</p>
+</div></div><!-- @@@accepted -->
+<br>
+<!-- $$$angle -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="angle-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="angle-prop"></a><span class="name">angle</span> : <span class="type"><a href="./qml-real.htm" translate="no">real</a></span><a class="plink" href="#angle-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This read-only property holds the current angle between the two points in the range -180 to 180. Positive values for the angles mean counter-clockwise while negative values mean the clockwise direction. Zero degrees is at the 3 o'clock position.</p>
+</div></div><!-- @@@angle -->
+<br>
+<!-- $$$center -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="center-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="center-prop"></a><span class="name">center</span> : <span class="type">QPoint</span><a class="plink" href="#center-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This read-only property holds the current center point.</p>
+</div></div><!-- @@@center -->
+<br>
+<!-- $$$pointCount -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="pointCount-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="pointCount-prop"></a><span class="name">pointCount</span> : <span class="type"><a href="./qml-int.htm" translate="no">int</a></span><a class="plink" href="#pointCount-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This read-only property holds the number of points currently touched. The MapPinch will not react until two touch points have initiated a gesture, but will remain active until all touch points have been released.</p>
+</div></div><!-- @@@pointCount -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

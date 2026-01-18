@@ -1,0 +1,200 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Part 2 - Adding Addresses | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Part 2 - Adding Addresses</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Part 2 - Adding Addresses</h1>
+<span class="subtitle"></span>
+<!-- $$$tutorials/addressbook/part2-brief -->
+<p>Describes the code for inserting records in the Address Book Example.</p>
+<!-- @@@tutorials/addressbook/part2 -->
+<!-- $$$tutorials/addressbook/part2-description -->
+<div class="descr"> <a name="details"></a>
+<p>The next step in creating the address book is to implement some user interactions.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part2-add-contact.png"></p><p>We will provide a push button that the user can click to add a new contact. Also, some form of data structure is needed to store these contacts in an organized way.</p>
+<a name="defining-the-addressbook-class"></a>
+<h4 id="defining-the-addressbook-class">Defining the AddressBook Class<a class="plink" href="#defining-the-addressbook-class" title="Direct link to this headline"></a></h4>
+<p>Now that we have the labels and input fields set up, we add push buttons to complete the process of adding a contact. This means that our <code translate="no">addressbook.h</code> file now has three <a href="./qpushbutton.htm" translate="no">QPushButton</a> objects declared and three corresponding public slots.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">public</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> addContact();
+    <span class="type">void</span> submitContact();
+    <span class="type">void</span> cancel();</pre></div>
+<p>A slot is a function that responds to a particular signal. We will discuss this concept in further detail when implementing the <code translate="no">AddressBook</code> class. However, for an overview of Qt's signals and slots concept, you can refer to the <a href="./signalsandslots.htm" translate="no">Signals and Slots</a> document.</p>
+<p>Three <a href="./qpushbutton.htm" translate="no">QPushButton</a> objects (<code translate="no">addButton</code>, <code translate="no">submitButton</code>, and <code translate="no">cancelButton</code>) are now included in our private variable declarations, along with <code translate="no">nameLine</code> and <code translate="no">addressText</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">private</span>:
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>addButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>submitButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>cancelButton;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>nameLine;
+    <span class="type"><a href="./qtextedit.htm" translate="no">QTextEdit</a></span> <span class="operator">*</span>addressText;</pre></div>
+<p>We need a container to store our address book contacts, so that we can traverse and display them. A <a href="./qmap.htm" translate="no">QMap</a> object, <code translate="no">contacts</code>, is used for this purpose as it holds a key-value pair: the contact's name as the <i>key</i>, and the contact's address as the <i>value</i>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qmap.htm" translate="no">QMap</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">&gt;</span> contacts;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> oldName;
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> oldAddress;
+};</pre></div>
+<p>We also declare two private <a href="./qstring.htm" translate="no">QString</a> objects, <code translate="no">oldName</code> and <code translate="no">oldAddress</code>. These objects are needed to hold the name and address of the contact that was last displayed, before the user clicked <b translate="no">Add</b>. So, when the user clicks <b translate="no">Cancel</b>, we can revert to displaying the details of the last contact.</p>
+<a name="implementing-the-addressbook-class"></a>
+<h4 id="implementing-the-addressbook-class">Implementing the AddressBook Class<a class="plink" href="#implementing-the-addressbook-class" title="Direct link to this headline"></a></h4>
+<p>Within the constructor of <code translate="no">AddressBook</code>, we set the <code translate="no">nameLine</code> and <code translate="no">addressText</code> to read-only, so that we can only display but not edit existing contact details.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    ...
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">true</span>);
+    ...
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">true</span>);</pre></div>
+<p>Then, we instantiate our push buttons: <code translate="no">addButton</code>, <code translate="no">submitButton</code>, and <code translate="no">cancelButton</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    addButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Add"</span>));
+    addButton<span class="operator">-</span><span class="operator">&gt;</span>show();
+    submitButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Submit"</span>));
+    submitButton<span class="operator">-</span><span class="operator">&gt;</span>hide();
+    cancelButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Cancel"</span>));
+    cancelButton<span class="operator">-</span><span class="operator">&gt;</span>hide();</pre></div>
+<p>The <code translate="no">addButton</code> is displayed by invoking the <a href="./qwidget.htm#show" translate="no">show()</a> function, while the <code translate="no">submitButton</code> and <code translate="no">cancelButton</code> are hidden by invoking <a href="./qwidget.htm#hide" translate="no">hide()</a>. These two push buttons will only be displayed when the user clicks <b translate="no">Add</b> and this is handled by the <code translate="no">addContact()</code> function discussed below.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    connect(addButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>AddressBook<span class="operator">::</span>addContact);
+    connect(submitButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>AddressBook<span class="operator">::</span>submitContact);
+    connect(cancelButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>AddressBook<span class="operator">::</span>cancel);</pre></div>
+<p>We connect the push buttons' <a href="./qabstractbutton.htm#clicked" translate="no">clicked()</a> signal to their respective slots. The figure below illustrates this.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part2-signals-and-slots.png"></p><p>Next, we arrange our push buttons neatly to the right of our address book widget, using a <a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a> to line them up vertically.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>buttonLayout1 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>;
+    buttonLayout1<span class="operator">-</span><span class="operator">&gt;</span>addWidget(addButton<span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);
+    buttonLayout1<span class="operator">-</span><span class="operator">&gt;</span>addWidget(submitButton);
+    buttonLayout1<span class="operator">-</span><span class="operator">&gt;</span>addWidget(cancelButton);
+    buttonLayout1<span class="operator">-</span><span class="operator">&gt;</span>addStretch();</pre></div>
+<p>The <a href="./qboxlayout.htm#addStretch" translate="no">addStretch()</a> function is used to ensure the push buttons are not evenly spaced, but arranged closer to the top of the widget. The figure below shows the difference between using <a href="./qboxlayout.htm#addStretch" translate="no">addStretch()</a> and not using it.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part2-stretch-effects.png"></p><p>We then add <code translate="no">buttonLayout1</code> to <code translate="no">mainLayout</code>, using <a href="./qgridlayout.htm#addLayout" translate="no">addLayout()</a>. This gives us nested layouts as <code translate="no">buttonLayout1</code> is now a child of <code translate="no">mainLayout</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>mainLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(nameLabel<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(nameLine<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(addressLabel<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AlignTop);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(addressText<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addLayout(buttonLayout1<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);</pre></div>
+<p>Our layout coordinates now look like this:</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part2-labeled-layout.png"></p><p>In the <code translate="no">addContact()</code> function, we store the last displayed contact details in <code translate="no">oldName</code> and <code translate="no">oldAddress</code>. Then we clear these input fields and turn off the read-only mode. The focus is set on <code translate="no">nameLine</code> and we display <code translate="no">submitButton</code> and <code translate="no">cancelButton</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> AddressBook<span class="operator">::</span>addContact()
+{
+    oldName <span class="operator">=</span> nameLine<span class="operator">-</span><span class="operator">&gt;</span>text();
+    oldAddress <span class="operator">=</span> addressText<span class="operator">-</span><span class="operator">&gt;</span>toPlainText();
+
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>clear();
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>clear();
+
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">false</span>);
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setFocus(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>OtherFocusReason);
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">false</span>);
+
+    addButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    submitButton<span class="operator">-</span><span class="operator">&gt;</span>show();
+    cancelButton<span class="operator">-</span><span class="operator">&gt;</span>show();
+}</pre></div>
+<p>The <code translate="no">submitContact()</code> function can be divided into three parts:</p>
+<ol class="1" type="1"><li>We extract the contact's details from <code translate="no">nameLine</code> and <code translate="no">addressText</code> and store them in <a href="./qstring.htm" translate="no">QString</a> objects. We also validate to make sure that the user did not click <b translate="no">Submit</b> with empty input fields; otherwise, a <a href="./qmessagebox.htm" translate="no">QMessageBox</a> is displayed to remind the user for a name and address.<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> AddressBook<span class="operator">::</span>submitContact()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name <span class="operator">=</span> nameLine<span class="operator">-</span><span class="operator">&gt;</span>text();
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> address <span class="operator">=</span> addressText<span class="operator">-</span><span class="operator">&gt;</span>toPlainText();
+
+    <span class="keyword">if</span> (name<span class="operator">.</span>isEmpty() <span class="operator">|</span><span class="operator">|</span> address<span class="operator">.</span>isEmpty()) {
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>information(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Empty Field"</span>)<span class="operator">,</span>
+            tr(<span class="string">"Please enter a name and address."</span>));
+        <span class="keyword">return</span>;
+    }</pre></div>
+</li>
+<li>We then proceed to check if the contact already exists. If it does not exist, we add the contact to <code translate="no">contacts</code> and we display a <a href="./qmessagebox.htm" translate="no">QMessageBox</a> to inform the user that the contact has been added.<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">if</span> (<span class="operator">!</span>contacts<span class="operator">.</span>contains(name)) {
+        contacts<span class="operator">.</span>insert(name<span class="operator">,</span> address);
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>information(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Add Successful"</span>)<span class="operator">,</span>
+            tr(<span class="string">"\"%1\" has been added to your address book."</span>)<span class="operator">.</span>arg(name));
+    } <span class="keyword">else</span> {
+        <span class="type"><a href="./qmessagebox.htm" translate="no">QMessageBox</a></span><span class="operator">::</span>information(<span class="keyword">this</span><span class="operator">,</span> tr(<span class="string">"Add Unsuccessful"</span>)<span class="operator">,</span>
+            tr(<span class="string">"Sorry, \"%1\" is already in your address book."</span>)<span class="operator">.</span>arg(name));
+        <span class="keyword">return</span>;
+    }</pre></div>
+<p>If the contact already exists, again, we display a <a href="./qmessagebox.htm" translate="no">QMessageBox</a> to inform the user about this, preventing the user from adding duplicate contacts. Our <code translate="no">contacts</code> object is based on key-value pairs of name and address, hence, we want to ensure that <i>key</i> is unique.</p>
+</li>
+<li>Once we have handled both cases mentioned above, we restore the push buttons to their normal state with the following code:<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="keyword">if</span> (contacts<span class="operator">.</span>isEmpty()) {
+        nameLine<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        addressText<span class="operator">-</span><span class="operator">&gt;</span>clear();
+    }
+
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">true</span>);
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">true</span>);
+    addButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+    submitButton<span class="operator">-</span><span class="operator">&gt;</span>hide();
+    cancelButton<span class="operator">-</span><span class="operator">&gt;</span>hide();
+}</pre></div>
+</li>
+</ol>
+<p>The screenshot below shows the <a href="./qmessagebox.htm" translate="no">QMessageBox</a> object we use to display information messages to the user.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part2-add-successful.png"></p><p>The <code translate="no">cancel()</code> function restores the last displayed contact details and enables <code translate="no">addButton</code>, as well as hides <code translate="no">submitButton</code> and <code translate="no">cancelButton</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> AddressBook<span class="operator">::</span>cancel()
+{
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setText(oldName);
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">true</span>);
+
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>setText(oldAddress);
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>setReadOnly(<span class="keyword">true</span>);
+
+    addButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">true</span>);
+    submitButton<span class="operator">-</span><span class="operator">&gt;</span>hide();
+    cancelButton<span class="operator">-</span><span class="operator">&gt;</span>hide();
+}</pre></div>
+<p>The general idea behind adding a contact is to give the user the flexibility to click <b translate="no">Submit</b> or <b translate="no">Cancel</b> at any time. The flowchart below further explains this concept:</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part2-add-flowchart.png"></p><p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/tutorials/addressbook/part2?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@tutorials/addressbook/part2 -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

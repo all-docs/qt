@@ -1,0 +1,288 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CameraCapture QML Type | Qt Multimedia</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtmultimedia-index.htm" translate="no">Qt Multimedia</a></li>
+                            <li><a href="./qtmultimedia-qmlmodule.htm" translate="no">QML Types</a></li>
+                            <li><a>CameraCapture QML Type</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">CameraCapture QML Type</h1>
+<span class="subtitle" translate="no"></span>
+<!-- $$$CameraCapture-brief -->
+<p>An interface for capturing camera images. <a href="#details">More...</a></p>
+<!-- @@@CameraCapture -->
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft rightAlign topAlign"> Import Statement:</td><td class="memItemRight bottomAlign"> import QtMultimedia 5.15</td></tr></tbody></table></div><ul>
+<li><a href="./qml-qtmultimedia-cameracapture-members.htm">List of all members, including inherited members</a></li>
+</ul>
+<a name="properties"></a>
+<h2 id="properties">Properties<a class="plink" href="#properties" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#capturedImagePath-prop" translate="no">capturedImagePath</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#errorString-prop" translate="no">errorString</a></b></b> : string</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#ready-prop" translate="no">ready</a></b></b> : bool</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#resolution-prop" translate="no">resolution</a></b></b> : size</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#supportedResolutions-prop" translate="no">supportedResolutions</a></b></b> : list&lt;size&gt;</li>
+</ul>
+<a name="signals"></a>
+<h2 id="signals">Signals<a class="plink" href="#signals" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#captureFailed-signal" translate="no">captureFailed</a></b></b>(<i>requestId</i>, <i>message</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#imageCaptured-signal" translate="no">imageCaptured</a></b></b>(<i>requestId</i>, <i>preview</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#imageMetadataAvailable-signal" translate="no">imageMetadataAvailable</a></b></b>(<i>requestId</i>, <i>key</i>, <i>value</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#imageSaved-signal" translate="no">imageSaved</a></b></b>(<i>requestId</i>, <i>path</i>)</li>
+</ul>
+<a name="methods"></a>
+<h2 id="methods">Methods<a class="plink" href="#methods" title="Direct link to this headline"></a></h2>
+<ul>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#cancelCapture-method" translate="no">cancelCapture</a></b></b>()</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#capture-method" translate="no">capture</a></b></b>()</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#captureToLocation-method" translate="no">captureToLocation</a></b></b>(<i>location</i>)</li>
+<li class="fn" translate="no"><b><b><a href="./qml-qtmultimedia-cameracapture.htm#setMetadata-method" translate="no">setMetadata</a></b></b>(<i>key</i>, <i>value</i>)</li>
+</ul>
+<!-- $$$CameraCapture-description -->
+<a name="details"></a>
+<h2 id="details">Detailed Description<a class="plink" href="#details" title="Direct link to this headline"></a></h2>
+<p>This type allows you to capture still images and be notified when they are available or saved to disk. You can adjust the resolution of the captured image and where the saved image should go.</p>
+<p>CameraCapture is a child of a <a href="./qml-multimedia.htm#camera" translate="no">Camera</a> (as the <code translate="no">imageCapture</code> property) and cannot be created directly.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="name">width</span>: <span class="number">640</span>
+    <span class="name">height</span>: <span class="number">360</span>
+
+    <span class="type"><a href="./qml-qtmultimedia-camera.htm" translate="no">Camera</a></span> {
+        <span class="name">id</span>: <span class="name">camera</span>
+
+        <span class="type">imageCapture</span> {
+            <span class="name">onImageCaptured</span>: {
+                <span class="comment">// Show the preview in an Image</span>
+                <span class="name">photoPreview</span>.<span class="name">source</span> <span class="operator">=</span> <span class="name">preview</span>
+            }
+        }
+    }
+
+    <span class="type"><a href="./qml-qtmultimedia-videooutput.htm" translate="no">VideoOutput</a></span> {
+        <span class="name">source</span>: <span class="name">camera</span>
+        <span class="name">focus</span> : <span class="name">visible</span> <span class="comment">// to receive focus and capture key events when visible</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+
+        <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+            <span class="name">anchors</span>.fill: <span class="name">parent</span>;
+            <span class="name">onClicked</span>: <span class="name">camera</span>.<span class="name">imageCapture</span>.<span class="name">capture</span>();
+        }
+    }
+
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> {
+        <span class="name">id</span>: <span class="name">photoPreview</span>
+    }
+}</pre></div>
+<!-- @@@CameraCapture -->
+<h2>Property Documentation</h2>
+<!-- $$$capturedImagePath -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="capturedImagePath-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="capturedImagePath-prop"></a><span class="name">capturedImagePath</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#capturedImagePath-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the location of the last captured image.</p>
+</div></div><!-- @@@capturedImagePath -->
+<br>
+<!-- $$$errorString -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="errorString-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="errorString-prop"></a><span class="name">errorString</span> : <span class="type"><a href="./qml-string.htm" translate="no">string</a></span><a class="plink" href="#errorString-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the error message related to the last capture.</p>
+</div></div><!-- @@@errorString -->
+<br>
+<!-- $$$ready -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="ready-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="ready-prop"></a><span class="name">ready</span> : <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span><a class="plink" href="#ready-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds a bool value indicating whether the camera is ready to capture photos or not.</p>
+<p>Calling <a href="./qml-qtmultimedia-cameracapture.htm#capture-method" translate="no">capture()</a> while <i>ready</i> is <code translate="no">false</code> is not permitted and results in an error.</p>
+</div></div><!-- @@@ready -->
+<br>
+<!-- $$$resolution -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="resolution-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="resolution-prop"></a><span class="name">resolution</span> : <span class="type"><a href="./qml-size.htm" translate="no">size</a></span><a class="plink" href="#resolution-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds the resolution/size of the image to be captured. If empty, the system chooses the appropriate resolution.</p>
+<p><b>See also </b><a href="./qml-qtmultimedia-cameracapture.htm#supportedResolutions-prop" translate="no">supportedResolutions</a>.</p>
+</div></div><!-- @@@resolution -->
+<br>
+<!-- $$$supportedResolutions -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="supportedResolutions-prop" valign="top">
+<td class="tblQmlPropNode"><p>
+<a name="supportedResolutions-prop"></a><span class="name">supportedResolutions</span> : <span class="type"><a href="./qml-list.htm" translate="no">list</a></span>&lt;<span class="type"><a href="./qml-size.htm" translate="no">size</a></span>&gt;<a class="plink" href="#supportedResolutions-prop" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This property holds a list of resolutions which are supported for capturing. The information can be used to set a valid <i>resolution</i>. If the camera isn't loaded, the list will be empty.</p>
+<p>This property was introduced in Qt 5.9.</p>
+<p><b>See also </b><a href="./qml-qtmultimedia-cameracapture.htm#resolution-prop" translate="no">resolution</a>.</p>
+</div></div><!-- @@@supportedResolutions -->
+<br>
+<h2>Signal Documentation</h2>
+<!-- $$$captureFailed[overload1]$$$captureFailed -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="captureFailed-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="captureFailed-signal"></a><span class="name">captureFailed</span>(<i>requestId</i>, <i>message</i>)<a class="plink" href="#captureFailed-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when an error occurs during capture with <i translate="no">requestId</i>. A descriptive message is available in <i translate="no">message</i>.</p>
+<p>The corresponding handler is <code translate="no">onCaptureFailed</code>.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onCaptureFailed</code>.</p>
+</div></div><!-- @@@captureFailed -->
+<br>
+<!-- $$$imageCaptured[overload1]$$$imageCaptured -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="imageCaptured-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="imageCaptured-signal"></a><span class="name">imageCaptured</span>(<i>requestId</i>, <i>preview</i>)<a class="plink" href="#imageCaptured-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when an image with <i translate="no">requestId</i> has been captured but not yet saved to the filesystem. The <i translate="no">preview</i> parameter can be used as the URL supplied to an <a href="./qml-qtquick-image.htm" translate="no">Image</a>.</p>
+<p>The corresponding handler is <code translate="no">onImageCaptured</code>.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onImageCaptured</code>.</p>
+<p><b>See also </b><a href="./qml-qtmultimedia-cameracapture.htm#imageSaved-signal" translate="no">imageSaved</a>.</p>
+</div></div><!-- @@@imageCaptured -->
+<br>
+<!-- $$$imageMetadataAvailable[overload1]$$$imageMetadataAvailable -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="imageMetadataAvailable-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="imageMetadataAvailable-signal"></a><span class="name">imageMetadataAvailable</span>(<i>requestId</i>, <i>key</i>, <i>value</i>)<a class="plink" href="#imageMetadataAvailable-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted when the image with <i translate="no">requestId</i> has new metadata available with the key <i translate="no">key</i> and value <i translate="no">value</i>.</p>
+<p>The corresponding handler is <code translate="no">onImageMetadataAvailable</code>.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onImageMetadataAvailable</code>.</p>
+<p><b>See also </b><a href="./qml-qtmultimedia-cameracapture.htm#imageCaptured-signal" translate="no">imageCaptured</a>.</p>
+</div></div><!-- @@@imageMetadataAvailable -->
+<br>
+<!-- $$$imageSaved[overload1]$$$imageSaved -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="imageSaved-signal" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="imageSaved-signal"></a><span class="name">imageSaved</span>(<i>requestId</i>, <i>path</i>)<a class="plink" href="#imageSaved-signal" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>This signal is emitted after the image with <i translate="no">requestId</i> has been written to the filesystem. The <i translate="no">path</i> is a local file path, not a URL.</p>
+<p>The corresponding handler is <code translate="no">onImageSaved</code>.</p>
+<p><b>Note: </b>The corresponding handler is <code translate="no">onImageSaved</code>.</p>
+<p><b>See also </b><a href="./qml-qtmultimedia-cameracapture.htm#imageCaptured-signal" translate="no">imageCaptured</a>.</p>
+</div></div><!-- @@@imageSaved -->
+<br>
+<h2>Method Documentation</h2>
+<!-- $$$cancelCapture[overload1]$$$cancelCapture -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="cancelCapture-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="cancelCapture-method"></a><span class="name">cancelCapture</span>()<a class="plink" href="#cancelCapture-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Cancel pending image capture requests.</p>
+</div></div><!-- @@@cancelCapture -->
+<br>
+<!-- $$$capture[overload1]$$$capture -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="capture-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="capture-method"></a><span class="name">capture</span>()<a class="plink" href="#capture-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Start image capture. The <a href="./qml-qtmultimedia-cameracapture.htm#imageCaptured-signal" translate="no">imageCaptured</a> and <a href="./qml-qtmultimedia-cameracapture.htm#imageSaved-signal" translate="no">imageSaved</a> signals will be emitted when the capture is complete.</p>
+<p>The image will be captured to the default system location, typically <a href="./qstandardpaths.htm#writableLocation" translate="no">QStandardPaths::writableLocation</a>(<a href="./qstandardpaths.htm#StandardLocation-enum" translate="no">QStandardPaths::PicturesLocation</a>) for still imaged or <a href="./qstandardpaths.htm#writableLocation" translate="no">QStandardPaths::writableLocation</a>(<a href="./qstandardpaths.htm#StandardLocation-enum" translate="no">QStandardPaths::MoviesLocation</a>) for video.</p>
+<p>Camera saves all the capture parameters like exposure settings or image processing parameters, so changes to camera parameters after capture() is called do not affect previous capture requests.</p>
+<p>capture() returns the capture requestId parameter, used with imageExposed(), <a href="./qml-qtmultimedia-cameracapture.htm#imageCaptured-signal" translate="no">imageCaptured()</a>, <a href="./qml-qtmultimedia-cameracapture.htm#imageMetadataAvailable-signal" translate="no">imageMetadataAvailable()</a> and <a href="./qml-qtmultimedia-cameracapture.htm#imageSaved-signal" translate="no">imageSaved()</a> signals.</p>
+<p><b>See also </b><a href="./qml-qtmultimedia-cameracapture.htm#ready-prop" translate="no">ready</a>.</p>
+</div></div><!-- @@@capture -->
+<br>
+<!-- $$$captureToLocation[overload1]$$$captureToLocation -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="captureToLocation-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="captureToLocation-method"></a><span class="name">captureToLocation</span>(<i>location</i>)<a class="plink" href="#captureToLocation-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Start image capture to specified <i translate="no">location</i>. The <a href="./qml-qtmultimedia-cameracapture.htm#imageCaptured-signal" translate="no">imageCaptured</a> and <a href="./qml-qtmultimedia-cameracapture.htm#imageSaved-signal" translate="no">imageSaved</a> signals will be emitted when the capture is complete.</p>
+<p>CameraCapture::captureToLocation returns the capture requestId parameter, used with imageExposed(), <a href="./qml-qtmultimedia-cameracapture.htm#imageCaptured-signal" translate="no">imageCaptured()</a>, <a href="./qml-qtmultimedia-cameracapture.htm#imageMetadataAvailable-signal" translate="no">imageMetadataAvailable()</a> and <a href="./qml-qtmultimedia-cameracapture.htm#imageSaved-signal" translate="no">imageSaved()</a> signals.</p>
+<p>If the application is unable to write to the location specified by <code translate="no">location</code> the <a href="./qml-qtmultimedia-cameracapture.htm" translate="no">CameraCapture</a> will emit an error. The most likely reasons for the application to be unable to write to a location is that the path is wrong and the location does not exists, or the application does not have write permission for that location.</p>
+</div></div><!-- @@@captureToLocation -->
+<br>
+<!-- $$$setMetadata[overload1]$$$setMetadata -->
+<div class="qmlitem"><div class="qmlproto" translate="no">
+<div class="table"><table class="qmlname">
+<tbody><tr class="odd" id="setMetadata-method" valign="top">
+<td class="tblQmlFuncNode"><p>
+<a name="setMetadata-method"></a><span class="name">setMetadata</span>(<i>key</i>, <i>value</i>)<a class="plink" href="#setMetadata-method" title="Direct link to this headline"></a></p></td></tr>
+</tbody></table></div></div>
+<div class="qmldoc"><p>Sets a particular metadata <i translate="no">key</i> to <i translate="no">value</i> for the subsequent image captures.</p>
+<p><b>See also </b><a href="./qmediametadata.htm" translate="no">QMediaMetaData</a>.</p>
+</div></div><!-- @@@setMetadata -->
+<br>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

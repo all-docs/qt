@@ -1,0 +1,176 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Extension Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-dialogs.htm" translate="no">Dialog Examples</a></li>
+                            <li><a>Extension Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Extension Example</h1>
+<span class="subtitle"></span>
+<!-- $$$dialogs/extension-brief -->
+<p>The Extension example shows how to add an extension to a <a href="./qdialog.htm" translate="no">QDialog</a> using the <a href="./qabstractbutton.htm#toggled" translate="no">QAbstractButton::toggled</a>() signal and the <a href="./qwidget.htm#visible-prop" translate="no">QWidget::setVisible</a>() slot.</p>
+<!-- @@@dialogs/extension -->
+<!-- $$$dialogs/extension-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="Screenshot of the Extension example" src="./images/extension-example.png"></p><p>The Extension application lets the user add search parameters in a dialog and launch a simple or advanced search.</p>
+<p>The simple search has two options: <b translate="no">Match case</b> and <b translate="no">Search from start</b>. The advanced search offers search for <b translate="no">Whole words</b>, <b translate="no">Search backward</b>, and <b translate="no">Search selection</b>. The application starts with simple search as the default. Click the <b translate="no">More</b> button to show the advanced search options:</p>
+<p class="centerAlign"><img alt="Screenshot of the Extension example" src="./images/extension_more.png"></p><a name="finddialog-class-definition"></a>
+<h4 id="finddialog-class-definition">FindDialog Class Definition<a class="plink" href="#finddialog-class-definition" title="Direct link to this headline"></a></h4>
+<p>The <code translate="no">FindDialog</code> class inherits <a href="./qdialog.htm" translate="no">QDialog</a>. <a href="./qdialog.htm" translate="no">QDialog</a> is the base class for dialog windows. A dialog window is a top-level window mostly used for short-term tasks and brief communications with the user.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> FindDialog : <span class="keyword">public</span> <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    FindDialog(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>label;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>lineEdit;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>caseCheckBox;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>fromStartCheckBox;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>wholeWordsCheckBox;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>searchSelectionCheckBox;
+    <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span> <span class="operator">*</span>backwardCheckBox;
+    <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span> <span class="operator">*</span>buttonBox;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>findButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>moreButton;
+    <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>extension;
+};</pre></div>
+<p>The <code translate="no">FindDialog</code> widget is the main application widget, and displays the application's search options and controlling buttons.</p>
+<p>In addition to the constructor, there are several child widgets:</p>
+<ul>
+<li>A <a href="./qlineedit.htm" translate="no">QLineEdit</a> with an associated <a href="./qlabel.htm" translate="no">QLabel</a> to let the user type a word to search for.</li>
+<li>Several <a href="./qcheckbox.htm" translate="no">QCheckBox</a>es to facilitate the search options.</li>
+<li>Three <a href="./qpushbutton.htm" translate="no">QPushButton</a>s:<ul>
+<li>the <b translate="no">Find</b> button to start a search</li>
+<li>the <b translate="no">More</b> button to enable an advanced search</li>
+<li>a <a href="./qwidget.htm" translate="no">QWidget</a> representing the application's extension part</li>
+</ul>
+</li>
+</ul>
+<a name="finddialog-class-implementation"></a>
+<h4 id="finddialog-class-implementation">FindDialog Class Implementation<a class="plink" href="#finddialog-class-implementation" title="Direct link to this headline"></a></h4>
+<p>Create the standard child widgets for the simple search in the constructor: the <a href="./qlineedit.htm" translate="no">QLineEdit</a> with the associated <a href="./qlabel.htm" translate="no">QLabel</a>, two {<a href="./qcheckbox.htm" translate="no">QCheckBox</a>}es and all the <a href="./qpushbutton.htm" translate="no">QPushButton</a>s.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">FindDialog<span class="operator">::</span>FindDialog(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qdialog.htm" translate="no">QDialog</a></span>(parent)
+{
+    label <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Find &amp;what:"</span>));
+    lineEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>;
+    label<span class="operator">-</span><span class="operator">&gt;</span>setBuddy(lineEdit);
+
+    caseCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(tr(<span class="string">"Match &amp;case"</span>));
+    fromStartCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(tr(<span class="string">"Search from &amp;start"</span>));
+    fromStartCheckBox<span class="operator">-</span><span class="operator">&gt;</span>setChecked(<span class="keyword">true</span>);
+
+    findButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Find"</span>));
+    findButton<span class="operator">-</span><span class="operator">&gt;</span>setDefault(<span class="keyword">true</span>);
+
+    moreButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;More"</span>));
+    moreButton<span class="operator">-</span><span class="operator">&gt;</span>setCheckable(<span class="keyword">true</span>);</pre></div>
+<p>This snippet illustrates how you can define a shortcut key for a widget. A shortcut should be defined by putting the ampersand character (<code translate="no">&amp;</code>) in front of the letter that should become the shortcut. For example, for <b translate="no">Find what</b>, pressing <b translate="no">Alt</b> and <b translate="no">w</b> transfers focus to the <a href="./qlineedit.htm" translate="no">QLineEdit</a> widget. Shortcuts can also be used for checking on or off a checkmark. For example, pressing <b translate="no">Alt</b> and <b translate="no">c</b> puts the check mark on <b translate="no">Match Case</b> if it was unchecked and vice versa. It is the <a href="./qlabel.htm#setBuddy" translate="no">QLabel::setBuddy</a>() method that links a widget to the shortcut character if it has been defined.</p>
+<p>Set the <b translate="no">Find</b> button's default property to true, using the <a href="./qpushbutton.htm#default-prop" translate="no">QPushButton::setDefault</a>() function. Then the push button will be pressed if the user presses the Enter (or Return) key. Note that a <a href="./qdialog.htm" translate="no">QDialog</a> can only have one default button.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    extension <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>;
+
+    wholeWordsCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(tr(<span class="string">"&amp;Whole words"</span>));
+    backwardCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(tr(<span class="string">"Search &amp;backward"</span>));
+    searchSelectionCheckBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qcheckbox.htm" translate="no">QCheckBox</a></span>(tr(<span class="string">"Search se&amp;lection"</span>));</pre></div>
+<p>Create the extension widget, and the <a href="./qcheckbox.htm" translate="no">QCheckBox</a>es associated with the advanced search options.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    buttonBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span>(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>Vertical);
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(findButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>ActionRole);
+    buttonBox<span class="operator">-</span><span class="operator">&gt;</span>addButton(moreButton<span class="operator">,</span> <span class="type"><a href="./qdialogbuttonbox.htm" translate="no">QDialogButtonBox</a></span><span class="operator">::</span>ActionRole);
+
+    connect(moreButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>toggled<span class="operator">,</span> extension<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span><span class="operator">::</span>setVisible);
+
+    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>extensionLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>;
+    extensionLayout<span class="operator">-</span><span class="operator">&gt;</span>setContentsMargins(<span class="type"><a href="./qmargins.htm" translate="no">QMargins</a></span>());
+    extensionLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(wholeWordsCheckBox);
+    extensionLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(backwardCheckBox);
+    extensionLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(searchSelectionCheckBox);
+    extension<span class="operator">-</span><span class="operator">&gt;</span>setLayout(extensionLayout);</pre></div>
+<p>Now that the extension widget is created, connect the <b translate="no">More</b> button's <a href="./qabstractbutton.htm#toggled" translate="no">toggled()</a> signal to the extension widget's <a href="./qwidget.htm#visible-prop" translate="no">setVisible()</a> slot.</p>
+<p>The <a href="./qabstractbutton.htm#toggled" translate="no">QAbstractButton::toggled</a>() signal is emitted whenever a checkable button changes its state. The signal's argument is true if the button is checked, or false if the button is unchecked. The <a href="./qwidget.htm#visible-prop" translate="no">QWidget::setVisible</a>() slot sets the widget's visible status. If the status is true the widget is shown, otherwise the widget is hidden.</p>
+<p>Since the <b translate="no">More</b> button is checkable, the connection makes sure that the extension widget is shown depending on the state of the <b translate="no">More</b> button.</p>
+<p>Create checkboxes associated with the advanced search options in a layout installed on the extension widget.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span> <span class="operator">*</span>topLeftLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span>;
+    topLeftLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(label);
+    topLeftLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(lineEdit);
+
+    <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span> <span class="operator">*</span>leftLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a></span>;
+    leftLayout<span class="operator">-</span><span class="operator">&gt;</span>addLayout(topLeftLayout);
+    leftLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(caseCheckBox);
+    leftLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(fromStartCheckBox);
+
+    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>mainLayout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>;
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>setSizeConstraint(<span class="type"><a href="./qlayout.htm" translate="no">QLayout</a></span><span class="operator">::</span>SetFixedSize);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addLayout(leftLayout<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(buttonBox<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(extension<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span>);
+    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>setRowStretch(<span class="number">2</span><span class="operator">,</span> <span class="number">1</span>);
+
+    setLayout(mainLayout);
+
+    setWindowTitle(tr(<span class="string">"Extension"</span>));</pre></div>
+<p>Before creating the main layout, create several child layouts for the widgets. First align the <a href="./qlabel.htm" translate="no">QLabel</a> and its buddy, the <a href="./qlineedit.htm" translate="no">QLineEdit</a>, using a <a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a>. Then align the <a href="./qlabel.htm" translate="no">QLabel</a> and the <a href="./qlineedit.htm" translate="no">QLineEdit</a> vertically with the checkboxes associated with the simple search, using a <a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a>. Create also a <a href="./qvboxlayout.htm" translate="no">QVBoxLayout</a> for the buttons. Finally, lay out the two latter layouts and the extension widget using a <a href="./qgridlayout.htm" translate="no">QGridLayout</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    extension<span class="operator">-</span><span class="operator">&gt;</span>hide();
+}</pre></div>
+<p>Hide the extension widget using the <a href="./qwidget.htm#hide" translate="no">QWidget::hide</a>() function, making the application only show the simple search options when it starts. When the user wants to access the advanced search options, the dialog only needs to change the visibility of the extension widget. Qt's layout management takes care of the dialog's appearance.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/dialogs/extension?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@dialogs/extension -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

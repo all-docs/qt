@@ -1,0 +1,86 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Restoring a Window's Geometry</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/restoring-geometry.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./overviews-main.htm#best-practices" translate="no">Best Practice Guides</a></li>
+                            <li><a>Restoring a Window's Geometry</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Restoring a Window's Geometry</h1>
+<span class="subtitle"></span>
+<!-- $$$restoring-geometry.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>This document describes how to save and restore a <a href="./application-windows.htm#window-geometry" translate="no">window's geometry</a> using the geometry properties. On Windows, this is basically storing the result of <a href="./qwindow.htm#geometry" translate="no">QWindow::geometry</a>() and calling <a href="./qwindow.htm#setGeometry" translate="no">QWindow::setGeometry</a>() in the next session before calling <a href="./qwindow.htm#show" translate="no">show()</a>.</p>
+<p>On X11, this might not work because an invisible window does not have a frame yet. The window manager will decorate the window later. When this happens, the window shifts towards the bottom/right corner of the screen depending on the size of the decoration frame. Although X provides a way to avoid this shift, some window managers fail to implement this feature.</p>
+<p>When using <a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a>, Qt provides functions that saves and restores a widget window's geometry and state for you. <a href="./qwidget.htm#saveGeometry" translate="no">QWidget::saveGeometry</a>() saves the window geometry and maximized/fullscreen state, while <a href="./qwidget.htm#restoreGeometry" translate="no">QWidget::restoreGeometry</a>() restores it. The restore function also checks if the restored geometry is outside the available screen geometry, and modifies it as appropriate if it is:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> MyMainWindow<span class="operator">::</span>closeEvent(<span class="type"><a href="./qcloseevent.htm" translate="no">QCloseEvent</a></span> <span class="operator">*</span>event)
+{
+    <span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span> settings(<span class="string">"MyCompany"</span><span class="operator">,</span> <span class="string">"MyApp"</span>);
+    settings<span class="operator">.</span>setValue(<span class="string">"geometry"</span><span class="operator">,</span> saveGeometry());
+    settings<span class="operator">.</span>setValue(<span class="string">"windowState"</span><span class="operator">,</span> saveState());
+    <span class="type"><a href="./qmainwindow.htm" translate="no">QMainWindow</a></span><span class="operator">::</span>closeEvent(event);
+}
+<span class="type">void</span> MainWindow<span class="operator">::</span>readSettings()
+{
+    <span class="type"><a href="./qsettings.htm" translate="no">QSettings</a></span> settings(<span class="string">"MyCompany"</span><span class="operator">,</span> <span class="string">"MyApp"</span>);
+    restoreGeometry(settings<span class="operator">.</span>value(<span class="string">"myWidget/geometry"</span>)<span class="operator">.</span>toByteArray());
+    restoreState(settings<span class="operator">.</span>value(<span class="string">"myWidget/windowState"</span>)<span class="operator">.</span>toByteArray());
+}</pre></div>
+<p>Another solution is to store both <a href="./qwidget.htm#pos-prop" translate="no">pos()</a> and <a href="./qwidget.htm#size-prop" translate="no">size()</a> and to restore the geometry using <a href="./qwidget.htm#size-prop" translate="no">QWidget::resize</a>() and <a href="./qwidget.htm#pos-prop" translate="no">move()</a> before calling <a href="./qwidget.htm#show" translate="no">show()</a>, as demonstrated in the <a href="./qtwidgets-mainwindows-application-example.htm" translate="no">Application</a> example.</p>
+</div>
+<!-- @@@restoring-geometry.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

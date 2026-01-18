@@ -1,0 +1,87 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Qt Remote Objects Nodes | Qt Remote Objects</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtremoteobjects-node.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtremoteobjects-index.htm" translate="no">Qt Remote Objects</a></li>
+                            <li><a>Qt Remote Objects Nodes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Qt Remote Objects Nodes</h1>
+<span class="subtitle"></span>
+<!-- $$$qtremoteobjects-node.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>In a QtRO network, information is passed between processes via QRemoteObjectNodes ("nodes"). This peer-to-peer functionality uses a small number of distinct packets passing the necessary data between nodes.</p>
+<p>Each process that participates in the network instantiates a Node-based type, such as <a href="./qremoteobjectnode.htm" translate="no">QRemoteObjectNode</a>, <a href="./qremoteobjecthost.htm" translate="no">QRemoteObjectHost</a>, or <a href="./qremoteobjectregistryhost.htm" translate="no">QRemoteObjectRegistryHost</a>. The host types of Nodes provide additional functionality. Both <a href="./qremoteobjecthost.htm" translate="no">QRemoteObjectHost</a> and <a href="./qremoteobjectregistryhost.htm" translate="no">QRemoteObjectRegistryHost</a> support the <a href="./qremoteobjecthostbase.htm#enableRemoting" translate="no">enableRemoting()</a> and the corresponding <a href="./qremoteobjecthostbase.htm#disableRemoting" translate="no">disableRemoting()</a>) methods, which are the key methods to expose source objects to the network. To use the <a href="./qtremoteobjects-registry.htm#registry" translate="no">Registry</a> functionality, you need to have a <a href="./qremoteobjectregistryhost.htm" translate="no">QRemoteObjectRegistryHost</a> on the network. Then, all other nodes can pass the RegistryHost's URL to the Node's <code translate="no">registryAddress</code> constructor parameter, or pass the URL to the <a href="./qremoteobjectnode.htm#registryUrl-prop" translate="no">setRegistryUrl()</a> method.</p>
+<p>Since QtRO is a peer-to-peer network, to <a href="./qremoteobjectnode.htm#acquire" translate="no">acquire()</a> a valid <a href="./qtremoteobjects-replica.htm#replica" translate="no">Replica</a>, the replica's node needs to be connected to the node that hosts its <a href="./qtremoteobjects-source.htm#source" translate="no">Source</a>. A host node is a node that allows other nodes to connect to it, which is accomplished by giving hosts unique addresses. This address is provided to the <a href="./qremoteobjecthost.htm" translate="no">QRemoteObjectHost</a> constructor or set by the setHostUrl method. The node from which a replica is requested must establish the connection to the host node, to initialize the replica and keep it up to date.</p>
+<a name="connecting-nodes-using-qtro-urls"></a>
+<h2 id="connecting-nodes-using-qtro-urls">Connecting Nodes using QtRO URLs<a class="plink" href="#connecting-nodes-using-qtro-urls" title="Direct link to this headline"></a></h2>
+<p>Host Nodes use custom URLs to simplify connections. Currently, QtRO supports two types of connections:</p>
+<ol class="1" type="1"><li>A TCP connection using the standard TCP/IP protocol - supports connections between devices as well as between processes on the same device.</li>
+<li>A local connection - supports connections between processes on the same device. This type of connection can have less overhead, depending on the underlying Operating System features.</li>
+</ol>
+<p>For local connections, you must use a unique name. For TCP connections, you must provide a unique address and port number combination.</p>
+<p>Currently, QtRO does not include a <a href="http://www.zeroconf.org/" translate="no">zeroconf</a> facility. Therefore, all processes or devices must know beforehand, how to connect to each other. A <a href="./qremoteobjectregistry.htm" translate="no">QRemoteObjectRegistry</a> can be used to simplify the connection process for a network with multiple Host Nodes.</p>
+<p>The table below summarizes the connection types available:</p>
+<div class="table"><table class="generic" width="90%">
+<thead><tr class="qt-style"><th>URL</th><th>Host Node</th><th>Connecting Node</th></tr></thead>
+<tbody><tr class="odd" valign="top"><td><a href="./qurl.htm" translate="no">QUrl</a>("local:service")</td><td><a href="./qlocalserver.htm" translate="no">QLocalServer</a>("service")</td><td><a href="./qlocalsocket.htm" translate="no">QLocalSocket</a>("service")</td></tr>
+<tr class="even" valign="top"><td><a href="./qurl.htm" translate="no">QUrl</a>("tcp://192.168.1.1:9999")</td><td><a href="./qtcpserver.htm" translate="no">QTcpServer</a>("192.168.1.1",9999)</td><td><a href="./qtcpsocket.htm" translate="no">QTcpSocket</a>("192.168.1.1",9999)</td></tr>
+</tbody></table></div>
+<p>Nodes have a few <a href="./qremoteobjecthostbase.htm#enableRemoting" translate="no">enableRemoting()</a> methods that are used to share objects on the network. However, if the node is not a host node, an error is returned.</p>
+<p>Other processes or devices that want to interact with a shared object can use one of the <a href="./qremoteobjectnode.htm#acquire" translate="no">node's acquire()</a> methods, to instantiate a replica.</p>
+</div>
+<!-- @@@qtremoteobjects-node.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

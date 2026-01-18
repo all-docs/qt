@@ -1,0 +1,381 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebEngine Recipe Browser | Qt WebEngine</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwebengine-index.htm" translate="no">Qt WebEngine</a></li>
+                            <li><a href="./webengine-examples.htm" translate="no">Qt WebEngine Examples</a></li>
+                            <li><a>WebEngine Recipe Browser</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">WebEngine Recipe Browser</h1>
+<span class="subtitle"></span>
+<!-- $$$webengine/recipebrowser-brief -->
+<p>A small hybrid application based on the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a> QML type and Qt Quick Controls 2.</p>
+<!-- @@@webengine/recipebrowser -->
+<!-- $$$webengine/recipebrowser-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/recipebrowser-demo.jpg"></p><p><i>Recipe Browser</i> demonstrates how to use the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a> item, <a href="./qtquick-index.htm" translate="no">Qt Quick</a> items, and <a href="./qtquickcontrols-index.htm" translate="no">Qt Quick Controls 2</a> items to develop a small hybrid web browser application. A <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>-based item is used to display a list of recipe names. Clicking on a name causes the web view to load the respective recipe page. The overall appearance of the application is provided by the <a href="./qtquickcontrols-index.htm" translate="no">Qt Quick Controls 2</a> items, which have their active style set to the <a href="./qtquickcontrols2-styles.htm#material-style" translate="no">Material</a> style. The web content is a mix of HTML and Markdown source compiled to HTML, along with CSS and JavaScript.</p>
+<a name="running-the-example"></a>
+<h4 id="running-the-example">Running the Example<a class="plink" href="#running-the-example" title="Direct link to this headline"></a></h4>
+<p>To run the example from <a href="http://doc.qt.io/qtcreator/index.html" translate="no">Qt Creator</a>, open the <b>Welcome</b> mode and select the example from <b>Examples</b>. For more information, visit <a href="https://doc.qt.io/qtcreator/creator-build-example-application.html" translate="no">Building and Running an Example</a>.</p>
+<a name="c-code"></a>
+<h4 id="c-code">C++ Code<a class="plink" href="#c-code" title="Direct link to this headline"></a></h4>
+<p>In <code translate="no">main.cpp</code>, we use the <a href="./qguiapplication.htm" translate="no">QGuiApplication</a> and <a href="./qqmlapplicationengine.htm" translate="no">QQmlApplicationEngine</a> classes to set up and load the main QML file. We call <a href="./qtwebengine.htm#initialize" translate="no">QtWebEngine::initialize</a> so we can use <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a> in our QML code. We enable high DPI screen support by setting the <a href="./qt.htm#ApplicationAttribute-enum" translate="no">Qt::AA_EnableHighDpiScaling</a> attribute. We set the default Qt Quick Controls 2 style to the Material style, so we do not have to specify it for each new item we add. Finally, we use a C++ define to check whether the application is compiled for an embedded platform. The value will be used in the main QML code to determine the window size.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="preprocessor">#include &lt;QGuiApplication&gt;</span>
+<span class="preprocessor">#include &lt;QQmlApplicationEngine&gt;</span>
+<span class="preprocessor">#include &lt;QQmlContext&gt;</span>
+<span class="preprocessor">#include &lt;QQuickStyle&gt;</span>
+<span class="preprocessor">#include &lt;qtwebengineglobal.h&gt;</span>
+
+<span class="type">int</span> main(<span class="type">int</span> argc<span class="operator">,</span> <span class="type">char</span> <span class="operator">*</span>argv<span class="operator">[</span><span class="operator">]</span>)
+{
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setOrganizationName(<span class="string">"QtExamples"</span>);
+    <span class="type"><a href="./qcoreapplication.htm" translate="no">QCoreApplication</a></span><span class="operator">::</span>setAttribute(<span class="type"><a href="./qt.htm" translate="no">Qt</a></span><span class="operator">::</span>AA_EnableHighDpiScaling);
+    <span class="type"><a href="./qtwebengine-module.htm" translate="no">QtWebEngine</a></span><span class="operator">::</span>initialize();
+
+    <span class="type"><a href="./qguiapplication.htm" translate="no">QGuiApplication</a></span> app(argc<span class="operator">,</span> argv);
+
+    <span class="type"><a href="./qquickstyle.htm" translate="no">QQuickStyle</a></span><span class="operator">::</span>setStyle(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"Material"</span>));
+
+    <span class="type"><a href="./qqmlapplicationengine.htm" translate="no">QQmlApplicationEngine</a></span> engine;
+
+    bool isEmbedded <span class="operator">=</span> <span class="keyword">false</span>;
+<span class="preprocessor">#ifdef QTWEBENGINE_RECIPE_BROWSER_EMBEDDED</span>
+    isEmbedded <span class="operator">=</span> <span class="keyword">true</span>;
+<span class="preprocessor">#endif</span>
+    engine<span class="operator">.</span>rootContext()<span class="operator">-</span><span class="operator">&gt;</span>setContextProperty(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"isEmbedded"</span>)<span class="operator">,</span> isEmbedded);
+
+    engine<span class="operator">.</span>load(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span>(<span class="type"><a href="./qstring.htm#QStringLiteral" translate="no">QStringLiteral</a></span>(<span class="string">"qrc:/qml/main.qml"</span>)));
+
+    <span class="keyword">return</span> app<span class="operator">.</span>exec();
+}</pre></div>
+<a name="qml-code"></a>
+<h4 id="qml-code">QML Code<a class="plink" href="#qml-code" title="Direct link to this headline"></a></h4>
+<p>In the <code translate="no">main.qml</code> file, we first create a top-level window and set a title for it. We also set up the size of the window depending on its primary orientation as well as the platform, so that the application is usable on both desktop and embedded platforms. On desktop, the size is constrained by a minimum of 320x480 pixels up to the maximum size that the screen supports. The default window size is 1024 pixels wide and 768 pixels high in landscape orientation. On embedded devices, the window will occupy the whole screen.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-controls2-applicationwindow.htm" translate="no">ApplicationWindow</a></span> {
+    <span class="name">id</span>: <span class="name">appWindow</span>
+    <span class="name">title</span>: <span class="name">qsTr</span>(<span class="string">"Recipe Browser"</span>)
+    <span class="name">visible</span>: <span class="number">true</span>
+
+    property <span class="type">int</span> <span class="name">shorterDesktop</span>: <span class="number">768</span>
+    property <span class="type">int</span> <span class="name">longerDesktop</span>: <span class="number">1024</span>
+    property <span class="type">int</span> <span class="name">shorterMin</span>: <span class="number">360</span>
+    property <span class="type">int</span> <span class="name">longerMin</span>: <span class="number">480</span>
+    property <span class="type">bool</span> <span class="name">isPortrait</span>: <span class="name">Screen</span>.<span class="name">primaryOrientation</span> <span class="operator">===</span> <span class="name">Qt</span>.<span class="name">PortraitOrientation</span>
+    <span class="name">width</span>: {
+        <span class="keyword">if</span> (<span class="name">isEmbedded</span>)
+            <span class="keyword">return</span> <span class="name">Screen</span>.<span class="name">width</span>
+        var potentialWidth = <span class="name">shorterDesktop</span>
+        <span class="keyword">if</span> (!<span class="name">isPortrait</span>)
+            <span class="name">potentialWidth</span> <span class="operator">=</span> <span class="name">longerDesktop</span>
+        <span class="keyword">return</span> <span class="name">potentialWidth</span> <span class="operator">&gt;</span> <span class="name">Screen</span>.<span class="name">width</span> ? <span class="name">Screen</span>.<span class="name">width</span> : <span class="name">potentialWidth</span>
+    }
+    <span class="name">height</span>: {
+        <span class="keyword">if</span> (<span class="name">isEmbedded</span>)
+            <span class="keyword">return</span> <span class="name">Screen</span>.<span class="name">height</span>
+        var potentialHeight = <span class="name">longerDesktop</span>
+        <span class="keyword">if</span> (!<span class="name">isPortrait</span>)
+            <span class="name">potentialHeight</span> <span class="operator">=</span> <span class="name">shorterDesktop</span>
+        <span class="keyword">return</span> <span class="name">potentialHeight</span> <span class="operator">&gt;</span> <span class="name">Screen</span>.<span class="name">height</span> ? <span class="name">Screen</span>.<span class="name">height</span> : <span class="name">potentialHeight</span>
+    }
+    <span class="name">minimumWidth</span>: <span class="name">isPortrait</span> ? <span class="name">shorterMin</span> : <span class="name">longerMin</span>
+    <span class="name">minimumHeight</span>: <span class="name">isPortrait</span> ? <span class="name">longerMin</span> : <span class="name">shorterMin</span></pre></div>
+<p>Next, we add a <a href="./qml-qtquick-layouts-rowlayout.htm" translate="no">RowLayout</a> item so we can divide the window into two parts: one being a custom <code translate="no">RecipeList</code> item containing the recipe titles, and the other being the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a>, which shows the recipe details. The spacing is set to zero so the items are positioned directly next to each other.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-layouts-rowlayout.htm" translate="no">RowLayout</a></span> {
+        <span class="name">id</span>: <span class="name">container</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span>
+        <span class="name">spacing</span>: <span class="number">0</span>
+
+        <span class="type">RecipeList</span> {
+                ...
+            }
+        }
+
+        <span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+                ...
+        }
+    }</pre></div>
+<p>The <code translate="no">RecipeList</code> item has a few <a href="./qml-qtquick-layouts-layout.htm" translate="no">attached Layout properties</a>, in order to scale the item to a maximum of one third of the layout width. We give the item focus, so that the keyboard can be used to navigate the recipes, in addition to using mouse and touch. We also add a handler for the custom <code translate="no">recipeSelected</code> signal, to tell the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a> to load the URL of the selected recipe.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type">RecipeList</span> {
+            <span class="name">id</span>: <span class="name">recipeList</span>
+            <span class="name">Layout</span>.minimumWidth: <span class="number">124</span>
+            <span class="name">Layout</span>.preferredWidth: <span class="name">parent</span>.<span class="name">width</span> <span class="operator">/</span> <span class="number">3</span>
+            <span class="name">Layout</span>.maximumWidth: <span class="number">300</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">Layout</span>.fillHeight: <span class="number">true</span>
+            <span class="name">focus</span>: <span class="number">true</span>
+            <span class="name">activeFocusOnTab</span>: <span class="number">true</span>
+            <span class="name">onRecipeSelected</span>: <span class="keyword">function</span>(url) {
+                <span class="name">webView</span>.<span class="name">showRecipe</span>(<span class="name">url</span>)
+            }</pre></div>
+<p>The <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a> has similar layout properties, to make it occupy two thirds of the layout width.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a></span> {
+            <span class="name">id</span>: <span class="name">webView</span>
+            <span class="name">Layout</span>.preferredWidth: <span class="number">2</span> <span class="operator">*</span> <span class="name">parent</span>.<span class="name">width</span> <span class="operator">/</span> <span class="number">3</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">Layout</span>.fillHeight: <span class="number">true</span></pre></div>
+<p>We then disable the <a href="./qml-qtwebengine-webenginesettings.htm#focusOnNavigationEnabled-prop" translate="no">focusOnNavigationEnabled</a> setting to make sure that the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a> does not steal focus from the <code translate="no">RecipeList</code> item every time its URL is changed. This allows the user to continue navigating through the recipes using the keyboard. We also disable the default context menu by accepting the <a href="./qml-qtwebengine-contextmenurequest.htm" translate="no">ContextMenuRequest</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="name">settings</span>.focusOnNavigationEnabled: <span class="number">false</span>
+
+            <span class="name">onContextMenuRequested</span>: <span class="keyword">function</span>(request) {
+                <span class="name">request</span>.<span class="name">accepted</span> <span class="operator">=</span> <span class="number">true</span>
+            }</pre></div>
+<p>When the application starts, instead of directly showing the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a>, we show a placeholder <a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a> with a <a href="./qml-qtquick-controls2-busyindicator.htm" translate="no">BusyIndicator</a> to provide a nicer user experience while the application is loading.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            property <span class="type">bool</span> <span class="name">firstLoadComplete</span>: <span class="number">false</span>
+            <span class="name">onLoadingChanged</span>: <span class="keyword">function</span>(loadRequest) {
+                <span class="keyword">if</span> (<span class="name">loadRequest</span>.<span class="name">status</span> <span class="operator">===</span> <span class="name">WebEngineView</span>.<span class="name">LoadSucceededStatus</span>
+                    <span class="operator">&amp;&amp;</span> !<span class="name">firstLoadComplete</span>) {
+                    <span class="comment">// Debounce the showing of the web content, so images are more likely</span>
+                    <span class="comment">// to have loaded completely.</span>
+                    <span class="name">showTimer</span>.<span class="name">start</span>()
+                }
+            ...
+            <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                <span class="name">id</span>: <span class="name">webViewPlaceholder</span>
+                <span class="name">anchors</span>.fill: <span class="name">parent</span>
+                <span class="name">z</span>: <span class="number">1</span>
+                <span class="name">color</span>: <span class="string">"white"</span>
+
+                <span class="type"><a href="./qml-qtquick-controls2-busyindicator.htm" translate="no">BusyIndicator</a></span> {
+                    <span class="name">id</span>: <span class="name">busy</span>
+                    <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+                }</pre></div>
+<p>Once the first page in the view is loaded, we start a <a href="./qml-qtqml-timer.htm" translate="no">Timer</a> that will hide the placeholder and show the actual page. The delay provides more time for the recipe images to load, so that when the view is shown, the page is completely rendered. The timer also shows a help <a href="./qml-qtquick-controls2-tooltip.htm" translate="no">ToolTip</a> that informs the user on how to navigate the recipes.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="type"><a href="./qml-qtqml-timer.htm" translate="no">Timer</a></span> {
+                <span class="name">id</span>: <span class="name">showTimer</span>
+                <span class="name">interval</span>: <span class="number">500</span>
+                <span class="name">repeat</span>: <span class="number">false</span>
+                <span class="name">onTriggered</span>: {
+                    <span class="name">webView</span>.<span class="name">show</span>(<span class="number">true</span>)
+                    <span class="name">webView</span>.<span class="name">firstLoadComplete</span> <span class="operator">=</span> <span class="number">true</span>
+                    <span class="name">recipeList</span>.<span class="name">showHelp</span>()
+                }</pre></div>
+<p>Let's see what the <code translate="no">RecipeList</code> item looks like from the inside. The root item is a <a href="./qml-qtquick-focusscope.htm" translate="no">FocusScope</a> to allow transferring focus to the child <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> whenever the root item receives focus. We also declare a custom <code translate="no">recipeSelected</code> signal, which will be emitted when the current item of the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> changes.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-focusscope.htm" translate="no">FocusScope</a></span> {
+    <span class="name">id</span>: <span class="name">root</span>
+    signal <span class="type">recipeSelected</span>(url url)</pre></div>
+<p>A <a href="./qml-qtquick-layouts-columnlayout.htm" translate="no">ColumnLayout</a> holds a header <a href="./qml-qtquick-controls2-label.htm" translate="no">Label</a> above the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>, and the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> itself. Again, we set the spacing to zero and make sure the layout occupies the whole space of the parent item.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qml-qtquick-layouts-columnlayout.htm" translate="no">ColumnLayout</a></span> {
+        <span class="name">spacing</span>: <span class="number">0</span>
+        <span class="name">anchors</span>.fill: <span class="name">parent</span></pre></div>
+<p>Inside the layout there is a styled <a href="./qml-qtquick-controls2-toolbar.htm" translate="no">ToolBar</a> item, with a <a href="./qml-qtquick-controls2-label.htm" translate="no">Label</a> inside of it serving as the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> header.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qtquick-controls2-toolbar.htm" translate="no">ToolBar</a></span> {
+            <span class="name">id</span>: <span class="name">headerBackground</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">implicitHeight</span>: <span class="name">headerText</span>.<span class="name">height</span> <span class="operator">+</span> <span class="number">20</span>
+
+            <span class="type"><a href="./qml-qtquick-controls2-label.htm" translate="no">Label</a></span> {
+                <span class="name">id</span>: <span class="name">headerText</span>
+                <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+                <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Favorite recipes"</span>)
+                <span class="name">padding</span>: <span class="number">10</span>
+                <span class="name">anchors</span>.centerIn: <span class="name">parent</span>
+            }
+        }</pre></div>
+<p>The second item inside the layout is a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>, whose contents will fill the remaining space in the layout. We set <a href="./qml-qtquick-item.htm#clip-prop" translate="no">clip</a> to true, so that the delegates that are scrolled up are not seen under the <a href="./qml-qtquick-controls2-toolbar.htm" translate="no">ToolBar</a> item. We set <a href="./qml-qtquick-item.htm#focus-prop" translate="no">focus</a> to true, so the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> gains focus when the <a href="./qml-qtquick-focusscope.htm" translate="no">FocusScope</a> does. We add a vertical scroll bar, so the user can scroll through the recipes if the window size is small. We also specify the recipe model to be used by the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> as described later in this topic.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">        <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+            <span class="name">id</span>: <span class="name">listView</span>
+            <span class="name">Layout</span>.fillWidth: <span class="number">true</span>
+            <span class="name">Layout</span>.fillHeight: <span class="number">true</span>
+            <span class="name">keyNavigationWraps</span>: <span class="number">true</span>
+            <span class="name">clip</span>: <span class="number">true</span>
+            <span class="name">focus</span>: <span class="number">true</span>
+            <span class="name">ScrollBar</span>.vertical: <span class="name">ScrollBar</span> { }
+
+            <span class="name">model</span>: <span class="name">recipeModel</span></pre></div>
+<p>We have an <a href="./qml-qtquick-controls2-itemdelegate.htm" translate="no">ItemDelegate</a> set as the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> delegate, which displays the recipe title. The contentItem is a <a href="./qml-qtquick-text.htm" translate="no">Text</a> item, customized with a few properties to adjust the visual appearance and position of the text. We create a binding to the current delegate's model URL, so we can access the respective URL outside the delegate itself. We set the <a href="./qml-qtquick-controls2-itemdelegate.htm#highlighted-prop" translate="no">highlighted</a> property to <code translate="no">true</code> whenever the item is the current one in the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> to provide visual feedback. And we set the focus on the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> whenever a delegate is clicked, so that keyboard navigation works in case the focus was previously in the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a>.</p>
+<div class="pre"><pre class="cpp" translate="no">            <span class="name">delegate</span>: <span class="name">ItemDelegate</span> {
+                <span class="name">width</span>: <span class="name">parent</span>.<span class="name">width</span>
+                <span class="name">text</span>: <span class="name">model</span>.<span class="name">name</span>
+                <span class="name">contentItem</span>: <span class="name">Text</span> {
+                    <span class="name">text</span>: <span class="name">parent</span>.<span class="name">text</span>
+                    <span class="name">font</span>: <span class="name">parent</span>.<span class="name">font</span>
+                    <span class="name">color</span>: <span class="name">parent</span>.<span class="name">enabled</span> ? <span class="name">parent</span>.<span class="name">Material</span>.<span class="name">primaryTextColor</span>
+                                          : <span class="name">parent</span>.<span class="name">Material</span>.<span class="name">hintTextColor</span>
+                    <span class="name">elide</span>: <span class="name">Text</span>.<span class="name">ElideRight</span>
+                    <span class="name">horizontalAlignment</span>: <span class="name">Text</span>.<span class="name">AlignLeft</span>
+                    <span class="name">verticalAlignment</span>: <span class="name">Text</span>.<span class="name">AlignVCenter</span>
+                    <span class="name">wrapMode</span>: <span class="name">Text</span>.<span class="name">Wrap</span>
+                }
+
+                property <span class="type">url</span> <span class="name">url</span>: <span class="name">model</span>.<span class="name">url</span>
+                <span class="name">highlighted</span>: <span class="name">ListView</span>.<span class="name">isCurrentItem</span>
+
+                <span class="name">onClicked</span>: {
+                    <span class="name">listView</span>.<span class="name">forceActiveFocus</span>()
+                    <span class="name">listView</span>.<span class="name">currentIndex</span> <span class="operator">=</span> <span class="name">model</span>.<span class="name">index</span>
+                }
+            }</pre></div>
+<p>A handler is defined for the <code translate="no">currentItemChanged</code> signal to emit our own <code translate="no">recipeSelected</code> signal with the URL that the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a> should load.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="name">onCurrentItemChanged</span>: {
+                <span class="name">root</span>.<span class="name">recipeSelected</span>(<span class="name">currentItem</span>.<span class="name">url</span>)
+            }</pre></div>
+<p>We use a ListModel with seven ListElements, each of which contains a recipe title and the URL to an HTML page contained in a resource file. The model is used to populate the <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> with the recipes and to show the recipe details in the <a href="./qml-qtwebengine-webengineview.htm" translate="no">WebEngineView</a>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="type">ListModel</span> {
+                <span class="name">id</span>: <span class="name">recipeModel</span>
+
+                <span class="type">ListElement</span> {
+                    <span class="name">name</span>: <span class="string">"Pizza Diavola"</span>
+                    <span class="name">url</span>: <span class="string">"qrc:///pages/pizza.html"</span>
+                }
+                <span class="type">ListElement</span> {
+                    <span class="name">name</span>: <span class="string">"Steak"</span>
+                    <span class="name">url</span>: <span class="string">"qrc:///pages/steak.html"</span>
+                }
+                <span class="type">ListElement</span> {
+                    <span class="name">name</span>: <span class="string">"Burger"</span>
+                    <span class="name">url</span>: <span class="string">"qrc:///pages/burger.html"</span>
+                }
+                <span class="type">ListElement</span> {
+                    <span class="name">name</span>: <span class="string">"Soup"</span>
+                    <span class="name">url</span>: <span class="string">"qrc:///pages/soup.html"</span>
+                }
+                <span class="type">ListElement</span> {
+                    <span class="name">name</span>: <span class="string">"Pasta"</span>
+                    <span class="name">url</span>: <span class="string">"qrc:///pages/pasta.html"</span>
+                }
+                <span class="type">ListElement</span> {
+                    <span class="name">name</span>: <span class="string">"Grilled Skewers"</span>
+                    <span class="name">url</span>: <span class="string">"qrc:///pages/skewers.html"</span>
+                }
+                <span class="type">ListElement</span> {
+                    <span class="name">name</span>: <span class="string">"Cupcakes"</span>
+                    <span class="name">url</span>: <span class="string">"qrc:///pages/cupcakes.html"</span>
+                }
+            }</pre></div>
+<p>We use a <a href="./qml-qtquick-controls2-tooltip.htm" translate="no">ToolTip</a> item that is displayed on application startup to inform the users how they can navigate and view the details of each recipe. The <a href="./qml-qtquick-controls2-tooltip.htm" translate="no">ToolTip</a> is shown using the <code translate="no">showHelp</code> method, which is invoked by the <a href="./qml-qtqml-timer.htm" translate="no">Timer</a> in the main.qml file.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">            <span class="type">ToolTip</span> {
+                <span class="name">id</span>: <span class="name">help</span>
+                <span class="name">implicitWidth</span>: <span class="name">root</span>.<span class="name">width</span> <span class="operator">-</span> <span class="name">padding</span> <span class="operator">*</span> <span class="number">3</span>
+                <span class="name">y</span>: <span class="name">root</span>.<span class="name">y</span> <span class="operator">+</span> <span class="name">root</span>.<span class="name">height</span>
+                <span class="name">delay</span>: <span class="number">1000</span>
+                <span class="name">timeout</span>: <span class="number">5000</span>
+                <span class="name">text</span>: <span class="name">qsTr</span>(<span class="string">"Use keyboard, mouse, or touch controls to navigate through the\
+                            recipes."</span>)
+
+                <span class="name">contentItem</span>: <span class="name">Text</span> {
+                    <span class="name">text</span>: <span class="name">help</span>.<span class="name">text</span>
+                    <span class="name">font</span>: <span class="name">help</span>.<span class="name">font</span>
+                    <span class="name">color</span>: <span class="name">help</span>.<span class="name">Material</span>.<span class="name">primaryTextColor</span>
+                    <span class="name">wrapMode</span>: <span class="name">Text</span>.<span class="name">Wrap</span>
+                }
+            }
+        }
+    }
+
+    <span class="keyword">function </span><span class="name">showHelp</span>() {
+        <span class="name">help</span>.<span class="name">open</span>()
+    }
+}</pre></div>
+<p>An example of a recipe page can be seen below. The page uses two stylesheets and two JavaScript files:</p>
+<ul>
+<li><a href="http://kevinburke.bitbucket.org/markdowncss/" translate="no">markdown.css</a> is a markdown-friendly stylesheet created by Kevin Burke</li>
+<li><a href="https://github.com/chjj/marked" translate="no">marked.min.js</a> is a markdown parser and compiler designed for speed written by Christopher Jeffrey</li>
+<li>custom.css makes some small styling adjustments to the final recipe page</li>
+<li>custom.js is used to invoke the conversion of the recipe content (which is written in markdown syntax) into HTML</li>
+</ul>
+<p>The images on the pages are loaded from the compiled resource file.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Soup&lt;/title&gt;
+  &lt;link rel="stylesheet" type="text/css" href="assets/3rdparty/markdown.css"&gt;
+  &lt;link rel="stylesheet" type="text/css" href="assets/custom.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="placeholder"&gt;&lt;/div&gt;
+  &lt;div id="content"&gt;
+
+&lt;img src="images/soup.jpg" alt="Soup" title="Soup" /&gt;
+
+Soup
+=============
+
+### Ingredients
+
+* 2 potatoes
+* 2 onions
+* 2 cloves of garlic
+* olive oil
+* 400 ml organic stock
+* 3 bunches of watercress
+
+### Instructions
+* Peel and roughly chop the potatoes, onions and garlic.
+* In a large saucepan, heat a little olive oil, then sauté the potato, onion and garlic until the onions are translucent.
+* Add the stock and simmer until the potato is soft. Chop and add the watercress and simmer for a further 3 to 4 minutes.
+* Using a hand blender, liquidise the soup until smooth.
+* Serve with a swirl of crème fraîche and some Fortt’s Bath Oliver biscuits, if you like.
+
+**Enjoy!**
+
+  &lt;/div&gt;&lt;!--End of content--&gt;
+  &lt;script src="assets/3rdparty/marked.js"&gt;&lt;/script&gt;
+  &lt;script src="assets/custom.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+<a name="files-and-attributions"></a>
+<h4 id="files-and-attributions">Files and Attributions<a class="plink" href="#files-and-attributions" title="Direct link to this headline"></a></h4>
+<p>The example bundles the following code with third-party licenses:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./qtwebengine-attribution-recipebrowser-marked.htm#recipebrowser-marked" translate="no">Marked</a></td><td>MIT License</td></tr>
+<tr class="even" valign="top"><td><a href="./qtwebengine-attribution-recipebrowser-markdowncss.htm#recipebrowser-markdowncss" translate="no">Markdown.css</a></td><td>Apache License 2.0</td></tr>
+</tbody></table></div>
+<p><a href="https://code.qt.io/cgit/qt/qtwebengine.git/tree/examples/webengine/recipebrowser?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@webengine/recipebrowser -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

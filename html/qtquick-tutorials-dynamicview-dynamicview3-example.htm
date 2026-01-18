@@ -1,0 +1,159 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML Dynamic View Ordering Tutorial 3 - Moving Dragged Items | Qt Quick</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtquick-tutorials-dynamicview-dynamicview3-example.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtquick-index.htm" translate="no">Qt Quick</a></li>
+                            <li><a>QML Dynamic View Ordering Tutorial 3 - Moving Dragged Items</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+<link href="qtquick-tutorials-dynamicview-dynamicview2-example.html" rel="prev">
+<link href="qtquick-tutorials-dynamicview-dynamicview4-example.html" rel="next">
+<p class="naviNextPrevious headerNavi">
+<a class="" href="./qtquick-tutorials-dynamicview-dynamicview2-example.htm">QML Dynamic View Ordering Tutorial 2 - Dragging View Items</a>
+<a class="" href="./qtquick-tutorials-dynamicview-dynamicview4-example.htm">QML Dynamic View Ordering Tutorial 4 - Sorting Items</a>
+</p><p></p>
+
+<div class="context">
+<h1 class="title">QML Dynamic View Ordering Tutorial 3 - Moving Dragged Items</h1>
+<span class="subtitle"></span>
+<!-- $$$tutorials/dynamicview/dynamicview3-description -->
+<div class="descr"> <a name="details"></a>
+<p>The next step in our application to move items within the list as they're dragged so that we can re-order the list. To achieve this we introduce three new types to our application; <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a>, <a href="./qml-qtquick-drag.htm" translate="no">Drag</a> and <a href="./qml-qtquick-droparea.htm" translate="no">DropArea</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+    <span class="name">id</span>: <span class="name">root</span>
+
+    <span class="name">width</span>: <span class="number">300</span>; <span class="name">height</span>: <span class="number">400</span>
+
+    <span class="type"><a href="./qml-qtqml-component.htm" translate="no">Component</a></span> {
+        <span class="name">id</span>: <span class="name">dragDelegate</span>
+
+        <span class="type"><a href="./qml-qtquick-mousearea.htm" translate="no">MouseArea</a></span> {
+            <span class="name">id</span>: <span class="name">dragArea</span>
+
+            property <span class="type"><a href="./qml-bool.htm" translate="no">bool</a></span> <span class="name">held</span>: <span class="number">false</span>
+
+            <span class="type">anchors</span> { <span class="name">left</span>: <span class="name">parent</span>.<span class="name">left</span>; <span class="name">right</span>: <span class="name">parent</span>.<span class="name">right</span> }
+            <span class="name">height</span>: <span class="name">content</span>.<span class="name">height</span>
+
+            <span class="name">drag</span>.target: <span class="name">held</span> ? <span class="name">content</span> : <span class="name">undefined</span>
+            <span class="name">drag</span>.axis: <span class="name">Drag</span>.<span class="name">YAxis</span>
+
+            <span class="name">onPressAndHold</span>: <span class="name">held</span> <span class="operator">=</span> <span class="number">true</span>
+            <span class="name">onReleased</span>: <span class="name">held</span> <span class="operator">=</span> <span class="number">false</span>
+
+            <span class="type"><a href="./qml-qtquick-rectangle.htm" translate="no">Rectangle</a></span> {
+                <span class="name">id</span>: <span class="name">content</span>
+                <span class="name">Drag</span>.active: <span class="name">dragArea</span>.<span class="name">held</span>
+                <span class="name">Drag</span>.source: <span class="name">dragArea</span>
+                <span class="name">Drag</span>.hotSpot.x: <span class="name">width</span> <span class="operator">/</span> <span class="number">2</span>
+                <span class="name">Drag</span>.hotSpot.y: <span class="name">height</span> <span class="operator">/</span> <span class="number">2</span>
+            }
+            <span class="type"><a href="./qml-qtquick-droparea.htm" translate="no">DropArea</a></span> {
+                <span class="type">anchors</span> { <span class="name">fill</span>: <span class="name">parent</span>; <span class="name">margins</span>: <span class="number">10</span> }
+
+                <span class="name">onEntered</span>: {
+                    <span class="name">visualModel</span>.<span class="name">items</span>.<span class="name">move</span>(
+                            <span class="name">drag</span>.<span class="name">source</span>.<span class="name">DelegateModel</span>.<span class="name">itemsIndex</span>,
+                            <span class="name">dragArea</span>.<span class="name">DelegateModel</span>.<span class="name">itemsIndex</span>)
+                }
+            }
+        }
+    }
+}</pre></div>
+<a name="walkthrough"></a>
+<h5 id="walkthrough">Walkthrough<a class="plink" href="#walkthrough" title="Direct link to this headline"></a></h5>
+<p>In order to re-order the view we need to determine when one item has been dragged over another. With the Drag attached property we can generate events that are sent to the scene graph whenever the item it is attached to moves.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">                <span class="name">Drag</span>.active: <span class="name">dragArea</span>.<span class="name">held</span>
+                <span class="name">Drag</span>.source: <span class="name">dragArea</span>
+                <span class="name">Drag</span>.hotSpot.x: <span class="name">width</span> <span class="operator">/</span> <span class="number">2</span>
+                <span class="name">Drag</span>.hotSpot.y: <span class="name">height</span> <span class="operator">/</span> <span class="number">2</span></pre></div>
+<p>Drag events are only sent while the active property is true, so in this example the first event would be sent when the delegate was held with additional event sents when dragging. The <a href="./qml-qtquick-drag.htm#hotSpot-attached-prop" translate="no">hotSpot</a> property specifies the relative position of the drag events within the dragged item, the center of the item in this instance.</p>
+<p>Then we use a <a href="./qml-qtquick-droparea.htm" translate="no">DropArea</a> in each view item to determine when the hot spot of the dragged item intersects another item, when a drag enters one of these DropAreas we can move the dragged item to the index of the item it was dragged over.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">            <span class="type"><a href="./qml-qtquick-droparea.htm" translate="no">DropArea</a></span> {
+                <span class="type">anchors</span> { <span class="name">fill</span>: <span class="name">parent</span>; <span class="name">margins</span>: <span class="number">10</span> }
+
+                <span class="name">onEntered</span>: {
+                    <span class="name">visualModel</span>.<span class="name">items</span>.<span class="name">move</span>(
+                            <span class="name">drag</span>.<span class="name">source</span>.<span class="name">DelegateModel</span>.<span class="name">itemsIndex</span>,
+                            <span class="name">dragArea</span>.<span class="name">DelegateModel</span>.<span class="name">itemsIndex</span>)
+                }
+            }</pre></div>
+<p>To move the items within the view we use a <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a>. The <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a> type is used by the view types to instantiate delegate items from model data and when constructed explicitly can be used to filter and re-order the model items provided to <a href="./qml-qtquick-listview.htm" translate="no">ListView</a>. The <a href="./qml-qtqml-models-delegatemodel.htm#items-prop" translate="no">items</a> property of <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a> provides access to the view's items and allows us to change the visible order without modifying the source model. To determine the current visible index of the items we use <a href="./qml-qtqml-models-delegatemodel.htm#itemsIndex-attached-prop" translate="no">itemsIndex</a> {itemsIndex} property on the <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a> attached property of the delegate item.</p>
+<p>To utilize a <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a> with a <a href="./qml-qtquick-listview.htm" translate="no">ListView</a> we bind it to the <a href="./qml-qtquick-listview.htm#model-prop" translate="no">model</a> property of the view and bind the <a href="./qml-qtqml-models-delegatemodel.htm#model-prop" translate="no">model</a> and <a href="./qml-qtqml-models-delegatemodel.htm#delegate-prop" translate="no">delegate</a> to the <a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a>.</p>
+<div class="pre"><pre class="qml prettyprint" translate="no">    <span class="type"><a href="./qml-qtqml-models-delegatemodel.htm" translate="no">DelegateModel</a></span> {
+        <span class="name">id</span>: <span class="name">visualModel</span>
+
+        <span class="name">model</span>: <span class="name">PetsModel</span> {}
+        <span class="name">delegate</span>: <span class="name">dragDelegate</span>
+    }
+
+    <span class="type"><a href="./qml-qtquick-listview.htm" translate="no">ListView</a></span> {
+        <span class="name">id</span>: <span class="name">view</span>
+
+        <span class="type">anchors</span> { <span class="name">fill</span>: <span class="name">parent</span>; <span class="name">margins</span>: <span class="number">2</span> }
+
+        <span class="name">model</span>: <span class="name">visualModel</span>
+
+        <span class="name">spacing</span>: <span class="number">4</span>
+        <span class="name">cacheBuffer</span>: <span class="number">50</span>
+    }</pre></div>
+<p><a href="https://code.qt.io/cgit/qt/qtdeclarative.git/tree/examples/quick/tutorials/dynamicview/dynamicview3?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@tutorials/dynamicview/dynamicview3 -->
+<p class="naviNextPrevious footerNavi">
+<a class="prevPage" href="./qtquick-tutorials-dynamicview-dynamicview2-example.htm">QML Dynamic View Ordering Tutorial 2 - Dragging View Items</a>
+<a class="nextPage" href="./qtquick-tutorials-dynamicview-dynamicview4-example.htm">QML Dynamic View Ordering Tutorial 4 - Sorting Items</a>
+</p>
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

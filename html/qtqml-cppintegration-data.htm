@@ -1,0 +1,332 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Type Conversion Between QML and C++ | Qt QML</title>
+<link rel="canonical" href="https://doc.qt.io/qt-6/qtqml-cppintegration-data.html">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtqml-index.htm" translate="no">Qt QML</a></li>
+                            <li><a>Data Type Conversion Between QML and C++</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Data Type Conversion Between QML and C++</h1>
+<span class="subtitle"></span>
+<!-- $$$qtqml-cppintegration-data.html-description -->
+<div class="descr"> <a name="details"></a>
+<p>When data values are exchanged between QML and C++, they are converted by the QML engine to have the correct data types as appropriate for use in QML or C++. This requires the exchanged data to be of a type that is recognizable by the engine.</p>
+<p>The QML engine provides built-in support for a large number of Qt C++ data types. Additionally, custom C++ types may be registered with the QML type system to make them available to the engine.</p>
+<p>This page discusses the data types supported by the QML engine and how they are converted between QML and C++.</p>
+<a name="data-ownership"></a>
+<h2 id="data-ownership">Data Ownership<a class="plink" href="#data-ownership" title="Direct link to this headline"></a></h2>
+<p>When data is transferred from C++ to QML, the ownership of the data always remains with C++. The exception to this rule is when a <a href="./qobject.htm" translate="no">QObject</a> is returned from an explicit C++ method call: in this case, the QML engine assumes ownership of the object, unless the ownership of the object has explicitly been set to remain with C++ by invoking <a href="./qqmlengine.htm#setObjectOwnership" translate="no">QQmlEngine::setObjectOwnership</a>() with <a href="./qqmlengine.htm#ObjectOwnership-enum" translate="no">QQmlEngine::CppOwnership</a> specified.</p>
+<p>Additionally, the QML engine respects the normal <a href="./qobject.htm" translate="no">QObject</a> parent ownership semantics of Qt C++ objects, and will never delete a <a href="./qobject.htm" translate="no">QObject</a> instance which has a parent.</p>
+<a name="basic-qt-data-types"></a>
+<h2 id="basic-qt-data-types">Basic Qt Data Types<a class="plink" href="#basic-qt-data-types" title="Direct link to this headline"></a></h2>
+<p>By default, QML recognizes the following Qt data types, which are automatically converted to a corresponding <a href="./qtqml-typesystem-basictypes.htm" translate="no">QML basic type</a> when passed from C++ to QML and vice-versa:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>Qt Type</td><td>QML Basic Type</td></tr>
+<tr class="even" valign="top"><td>bool</td><td><a href="./qml-bool.htm" translate="no">bool</a></td></tr>
+<tr class="odd" valign="top"><td>unsigned int, int</td><td><a href="./qml-int.htm" translate="no">int</a></td></tr>
+<tr class="even" valign="top"><td>double</td><td><a href="./qml-double.htm" translate="no">double</a></td></tr>
+<tr class="odd" valign="top"><td>float, qreal</td><td><a href="./qml-real.htm" translate="no">real</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qstring.htm" translate="no">QString</a></td><td><a href="./qml-string.htm" translate="no">string</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qurl.htm" translate="no">QUrl</a></td><td><a href="./qml-url.htm" translate="no">url</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qcolor.htm" translate="no">QColor</a></td><td><a href="./qml-color.htm" translate="no">color</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qfont.htm" translate="no">QFont</a></td><td><a href="./qml-font.htm" translate="no">font</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qdatetime.htm" translate="no">QDateTime</a></td><td><a href="./qml-date.htm" translate="no">date</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qpoint.htm" translate="no">QPoint</a>, <a href="./qpointf.htm" translate="no">QPointF</a></td><td><a href="./qml-point.htm" translate="no">point</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qsize.htm" translate="no">QSize</a>, <a href="./qsizef.htm" translate="no">QSizeF</a></td><td><a href="./qml-size.htm" translate="no">size</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qrect.htm" translate="no">QRect</a>, <a href="./qrectf.htm" translate="no">QRectF</a></td><td><a href="./qml-rect.htm" translate="no">rect</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qmatrix4x4.htm" translate="no">QMatrix4x4</a></td><td><a href="./qml-matrix4x4.htm" translate="no">matrix4x4</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qquaternion.htm" translate="no">QQuaternion</a></td><td><a href="./qml-quaternion.htm" translate="no">quaternion</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qvector2d.htm" translate="no">QVector2D</a>, <a href="./qvector3d.htm" translate="no">QVector3D</a>, <a href="./qvector4d.htm" translate="no">QVector4D</a></td><td><a href="./qml-vector2d.htm" translate="no">vector2d</a>, <a href="./qml-vector3d.htm" translate="no">vector3d</a>, <a href="./qml-vector4d.htm" translate="no">vector4d</a></td></tr>
+<tr class="odd" valign="top"><td>Enums declared with <a href="./qobject.htm#Q_ENUM" translate="no">Q_ENUM</a>() or Q_ENUMS()</td><td><a href="./qml-enumeration.htm" translate="no">enumeration</a></td></tr>
+</tbody></table></div>
+<div class="admonition note">
+<p><b>Note: </b>Classes provided by the <a href="./qtgui-index.htm" translate="no">Qt GUI</a> module, such as <a href="./qcolor.htm" translate="no">QColor</a>, <a href="./qfont.htm" translate="no">QFont</a>, <a href="./qquaternion.htm" translate="no">QQuaternion</a> and <a href="./qmatrix4x4.htm" translate="no">QMatrix4x4</a>, are only available from QML when the <a href="./qtquick-index.htm" translate="no">Qt Quick</a> module is included.</p>
+</div>
+<p>As a convenience, many of these types can be specified in QML by string values, or by a related method provided by the <a href="./qml-qtqml-qt.htm" translate="no">QtQml::Qt</a> object. For example, the <a href="./qml-qtquick-image.htm#sourceSize-prop" translate="no">Image::sourceSize</a> property is of type <a href="./qml-size.htm" translate="no">size</a> (which automatically translates to the <a href="./qsize.htm" translate="no">QSize</a> type) and can be specified by a string value formatted as "width<code translate="no">x</code>height", or by the Qt.<a href="./qml-qtquick-controls2-stackview.htm#size" translate="no">size</a>() function:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> { <span class="name">sourceSize</span>: <span class="string">"100x200"</span> }
+    <span class="type"><a href="./qml-qtquick-image.htm" translate="no">Image</a></span> { <span class="name">sourceSize</span>: <span class="name">Qt</span>.<span class="name">size</span>(<span class="number">100</span>, <span class="number">200</span>) }
+}</pre></div>
+<p>See documentation for each individual type under <a href="./qtqml-typesystem-basictypes.htm" translate="no">QML Basic Types</a> for more information.</p>
+<a name="qobject-derived-types"></a>
+<h2 id="qobject-derived-types">QObject-derived Types<a class="plink" href="#qobject-derived-types" title="Direct link to this headline"></a></h2>
+<p>Any <a href="./qobject.htm" translate="no">QObject</a>-derived class may be used as a type for the exchange of data between QML and C++, providing the class has been registered with the QML type system.</p>
+<p>The engine allows the registration of both instantiable and non-instantiable types. Once a class is registered as a QML type, it can be used as a data type for exchanging data between QML and C++. See <a href="./qtqml-cppintegration-definetypes.htm#registering-c-types-with-the-qml-type-system" translate="no">Registering C++ types with the QML type system</a> for further details on type registration.</p>
+<a name="conversion-between-qt-and-javascript-types"></a>
+<h2 id="conversion-between-qt-and-javascript-types">Conversion Between Qt and JavaScript Types<a class="plink" href="#conversion-between-qt-and-javascript-types" title="Direct link to this headline"></a></h2>
+<p>The QML engine has built-in support for converting a number of Qt types to related JavaScript types, and vice-versa, when transferring data between QML and C++. This makes it possible to use these types and receive them in C++ or JavaScript without needing to implement custom types that provide access to the data values and their attributes.</p>
+<p>(Note that the JavaScript environment in QML modifies native JavaScript object prototypes, including those of <code translate="no">String</code>, <code translate="no">Date</code> and <code translate="no">Number</code>, to provide additional features. See the <a href="./qtqml-javascript-hostenvironment.htm" translate="no">JavaScript Host Environment</a> for further details.)</p>
+<a name="qvariantlist-and-qvariantmap-to-javascript-array-and-object"></a>
+<h3 id="qvariantlist-and-qvariantmap-to-javascript-array-and-object">QVariantList and QVariantMap to JavaScript Array and Object<a class="plink" href="#qvariantlist-and-qvariantmap-to-javascript-array-and-object" title="Direct link to this headline"></a></h3>
+<p>The QML engine provides automatic type conversion between <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> and JavaScript arrays, and between <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> and JavaScript objects.</p>
+<p>For example, the function defined in QML below expects two arguments, an array and an object, and prints their contents using the standard JavaScript syntax for array and object item access. The C++ code below calls this function, passing a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> and a <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a>, which are automatically converted to JavaScript array and object values, repectively:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>QML</td><td><div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// MyItem.qml</span>
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="keyword">function </span><span class="name">readValues</span>(anArray, anObject) {
+        <span class="keyword">for</span> (var i=0; <span class="name">i</span><span class="operator">&lt;</span><span class="name">anArray</span>.<span class="name">length</span>; i++)
+            <span class="name">console</span>.<span class="name">log</span>(<span class="string">"Array item:"</span>, <span class="name">anArray</span>[<span class="name">i</span>])
+
+        <span class="keyword">for</span> (var prop in <span class="name">anObject</span>) {
+            <span class="name">console</span>.<span class="name">log</span>(<span class="string">"Object item:"</span>, <span class="name">prop</span>, <span class="string">"="</span>, <span class="name">anObject</span>[<span class="name">prop</span>])
+        }
+    }
+}</pre></div>
+</td></tr>
+<tr class="even" valign="top"><td>C++</td><td><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// C++</span>
+<span class="type"><a href="./qquickview.htm" translate="no">QQuickView</a></span> view(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span><span class="operator">::</span>fromLocalFile(<span class="string">"MyItem.qml"</span>));
+
+<span class="type"><a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a></span> list;
+list <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="number">10</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="type"><a href="./qcolor.htm" translate="no">QColor</a></span>(<span class="type"><a href="./qml-qtqml-qt.htm" translate="no">Qt</a></span><span class="operator">::</span>green) <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"bottles"</span>;
+
+<span class="type">QVariantMap</span> map;
+map<span class="operator">.</span>insert(<span class="string">"language"</span><span class="operator">,</span> <span class="string">"QML"</span>);
+map<span class="operator">.</span>insert(<span class="string">"released"</span><span class="operator">,</span> <span class="type"><a href="./qdate.htm" translate="no">QDate</a></span>(<span class="number">2010</span><span class="operator">,</span> <span class="number">9</span><span class="operator">,</span> <span class="number">21</span>));
+
+<span class="type"><a href="./qmetaobject.htm" translate="no">QMetaObject</a></span><span class="operator">::</span>invokeMethod(view<span class="operator">.</span>rootObject()<span class="operator">,</span> <span class="string">"readValues"</span><span class="operator">,</span>
+        Q_ARG(<span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(list))<span class="operator">,</span>
+        Q_ARG(<span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(map)));</pre></div>
+</td></tr>
+</tbody></table></div>
+<p>This produces output like:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Array item: <span class="number">10</span>
+Array item: <span class="preprocessor">#00ff00</span>
+Array item: bottles
+Object item: language <span class="operator">=</span> QML
+Object item: released <span class="operator">=</span> Tue Sep <span class="number">21</span> <span class="number">2010</span> <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> GMT<span class="operator">+</span><span class="number">1000</span> (EST)</pre></div>
+<p>Similarly, if a C++ type uses a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> or <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> type for a property type or method parameter, the value can be created as a JavaScript array or object in QML, and is automatically converted to a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> or <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> when it is passed to C++.</p>
+<p>Mind that <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a> and <a href="./qvariant.htm#QVariantMap-typedef" translate="no">QVariantMap</a> properties of C++ types are stored as values and cannot be changed in place by QML code. You can only replace the whole map or list, but not manipulate its contents. The following code does not work if the property <code translate="no">l</code> is a <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MyListExposingItem {
+   l: <span class="operator">[</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">3</span><span class="operator">]</span>
+   Component<span class="operator">.</span>onCompleted: l<span class="operator">[</span><span class="number">0</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">10</span>
+}</pre></div>
+<p>The following code does work:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">MyListExposingItem {
+   l: <span class="operator">[</span><span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">3</span><span class="operator">]</span>
+   Component<span class="operator">.</span>onCompleted: l <span class="operator">=</span> <span class="operator">[</span><span class="number">10</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">3</span><span class="operator">]</span>
+}</pre></div>
+<a name="qdatetime-to-javascript-date"></a>
+<h3 id="qdatetime-to-javascript-date">QDateTime to JavaScript Date<a class="plink" href="#qdatetime-to-javascript-date" title="Direct link to this headline"></a></h3>
+<p>The QML engine provides automatic type conversion between <a href="./qdatetime.htm" translate="no">QDateTime</a> values and JavaScript <code translate="no">Date</code> objects.</p>
+<p>For example, the function defined in QML below expects a JavaScript <code translate="no">Date</code> object, and also returns a new <code translate="no">Date</code> object with the current date and time. The C++ code below calls this function, passing a <a href="./qdatetime.htm" translate="no">QDateTime</a> value that is automatically converted by the engine into a <code translate="no">Date</code> object when it is passed to the <code translate="no">readDate()</code> function. In turn, the readDate() function returns a <code translate="no">Date</code> object that is automatically converted into a <a href="./qdatetime.htm" translate="no">QDateTime</a> value when it is received in C++:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td>QML</td><td><div class="pre"><pre class="qml prettyprint" translate="no"><span class="comment">// MyItem.qml</span>
+<span class="type"><a href="./qml-qtquick-item.htm" translate="no">Item</a></span> {
+    <span class="keyword">function </span><span class="name">readDate</span>(dt) {
+        <span class="name">console</span>.<span class="name">log</span>(<span class="string">"The given date is:"</span>, <span class="name">dt</span>.<span class="name">toUTCString</span>());
+        <span class="keyword">return</span> new <span class="name">Date</span>();
+    }
+}</pre></div>
+</td></tr>
+<tr class="even" valign="top"><td>C++</td><td><div class="pre"><pre class="cpp prettyprint" translate="no"><span class="comment">// C++</span>
+<span class="type"><a href="./qquickview.htm" translate="no">QQuickView</a></span> view(<span class="type"><a href="./qurl.htm" translate="no">QUrl</a></span><span class="operator">::</span>fromLocalFile(<span class="string">"MyItem.qml"</span>));
+
+<span class="type"><a href="./qdatetime.htm" translate="no">QDateTime</a></span> dateTime <span class="operator">=</span> <span class="type"><a href="./qdatetime.htm" translate="no">QDateTime</a></span><span class="operator">::</span>currentDateTime();
+<span class="type"><a href="./qdatetime.htm" translate="no">QDateTime</a></span> retValue;
+
+<span class="type"><a href="./qmetaobject.htm" translate="no">QMetaObject</a></span><span class="operator">::</span>invokeMethod(view<span class="operator">.</span>rootObject()<span class="operator">,</span> <span class="string">"readDate"</span><span class="operator">,</span>
+        Q_RETURN_ARG(<span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">,</span> retValue)<span class="operator">,</span>
+        Q_ARG(<span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">,</span> <span class="type"><a href="./qvariant.htm" translate="no">QVariant</a></span><span class="operator">::</span>fromValue(dateTime)));
+
+<a href="./qtglobal.htm#qDebug" translate="no">qDebug</a>() <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Value returned from readDate():"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> retValue;</pre></div>
+</td></tr>
+</tbody></table></div>
+<p>Similarly, if a C++ type uses a <a href="./qdatetime.htm" translate="no">QDateTime</a> for a property type or method parameter, the value can be created as a JavaScript <code translate="no">Date</code> object in QML, and is automatically converted to a <a href="./qdatetime.htm" translate="no">QDateTime</a> value when it is passed to C++.</p>
+<a name="qtime-to-javascript-date"></a><a name="qtime-and-javascript-date"></a>
+<h3 id="qtime-and-javascript-date">QTime and JavaScript Date<a class="plink" href="#qtime-and-javascript-date" title="Direct link to this headline"></a></h3>
+<p>The QML engine provides automatic type conversion from <a href="./qtime.htm" translate="no">QTime</a> values to JavaScript <code translate="no">Date</code> objects. As <a href="./qtime.htm" translate="no">QTime</a> values do not contain a date component, one is created for the conversion only. Thus, you should not rely on the date component of the resulting Date object.</p>
+<p>Under the hood, conversion from a JavaScript <code translate="no">Date</code> object to <a href="./qtime.htm" translate="no">QTime</a> is done by converting to a <a href="./qdatetime.htm" translate="no">QDateTime</a> object and calling its <a href="./qdatetime.htm#time" translate="no">time()</a> method.</p>
+<a name="sequence-type-to-javascript-array"></a>
+<h3 id="sequence-type-to-javascript-array">Sequence Type to JavaScript Array<a class="plink" href="#sequence-type-to-javascript-array" title="Direct link to this headline"></a></h3>
+<p>Certain C++ sequence types are supported transparently in QML to behave like JavaScript <code translate="no">Array</code> types.</p>
+<p>In particular, QML currently supports:</p>
+<ul>
+<li><code translate="no">QList&lt;int&gt;</code></li>
+<li><code translate="no">QList&lt;qreal&gt;</code></li>
+<li><code translate="no">QList&lt;bool&gt;</code></li>
+<li><code translate="no">QList&lt;QString&gt;</code> and <code translate="no">QStringList</code></li>
+<li><code translate="no">QVector&lt;QString&gt;</code></li>
+<li><code translate="no">std::vector&lt;QString&gt;</code></li>
+<li><code translate="no">QList&lt;QUrl&gt;</code></li>
+<li><code translate="no">QVector&lt;QUrl&gt;</code></li>
+<li><code translate="no">std::vector&lt;QUrl&gt;</code></li>
+<li><code translate="no">QVector&lt;int&gt;</code></li>
+<li><code translate="no">QVector&lt;qreal&gt;</code></li>
+<li><code translate="no">QVector&lt;bool&gt;</code></li>
+<li><code translate="no">std::vector&lt;int&gt;</code></li>
+<li><code translate="no">std::vector&lt;qreal&gt;</code></li>
+<li><code translate="no">std::vector&lt;bool&gt;</code></li>
+</ul>
+<p>and all registered <a href="./qlist.htm" translate="no">QList</a>, <a href="./qvector.htm" translate="no">QVector</a>, <a href="./qqueue.htm" translate="no">QQueue</a>, <a href="./qstack.htm" translate="no">QStack</a>, <a href="./qset.htm" translate="no">QSet</a>, QLinkedList, std::list, std::vector that contain a type marked with <a href="./qmetatype.htm#Q_DECLARE_METATYPE" translate="no">Q_DECLARE_METATYPE</a>.</p>
+<p>These sequence types are implemented directly in terms of the underlying C++ sequence. There are two ways in which such sequences can be exposed to QML: as a <a href="./qobject.htm#Q_PROPERTY" translate="no">Q_PROPERTY</a> of the given sequence type; or as the return type of a <a href="./qobject.htm#Q_INVOKABLE" translate="no">Q_INVOKABLE</a> method. There are some differences in the way these are implemented, which are important to note.</p>
+<p>If the sequence is exposed as a <a href="./qobject.htm#Q_PROPERTY" translate="no">Q_PROPERTY</a>, accessing any value in the sequence by index will cause the sequence data to be read from the <a href="./qobject.htm" translate="no">QObject</a>'s property, then a read to occur. Similarly, modifying any value in the sequence will cause the sequence data to be read, and then the modification will be performed and the modified sequence will be written back to the <a href="./qobject.htm" translate="no">QObject</a>'s property.</p>
+<p>If the sequence is returned from a <a href="./qobject.htm#Q_INVOKABLE" translate="no">Q_INVOKABLE</a> function, access and mutation is much cheaper, as no <a href="./qobject.htm" translate="no">QObject</a> property read or write occurs; instead, the C++ sequence data is accessed and modified directly.</p>
+<p>In both the <a href="./qobject.htm#Q_PROPERTY" translate="no">Q_PROPERTY</a> and return from <a href="./qobject.htm#Q_INVOKABLE" translate="no">Q_INVOKABLE</a> cases, the elements of a std::vector are copied. This copying may be an expensive operation, so std::vector should be used judiciously.</p>
+<p>You can also create a list-like data structure by constructing a <a href="./qjsvalue.htm" translate="no">QJSValue</a> using <a href="./qjsengine.htm#newArray" translate="no">QJSEngine::newArray</a>(). Such a JavaScript array does not need any conversion when passing it between QML and C++. See <a href="./qjsvalue.htm#working-with-arrays" translate="no">QJSValue#Working With Arrays</a> for details on how to manipulate JavaScript arrays from C++.</p>
+<p>Other sequence types are not supported transparently, and instead an instance of any other sequence type will be passed between QML and C++ as an opaque <a href="./qvariant.htm#QVariantList-typedef" translate="no">QVariantList</a>.</p>
+<p><b>Important Note:</b> There are some minor differences between the semantics of such sequence Array types and default JavaScript Array types which result from the use of a C++ storage type in the implementation. In particular, deleting an element from an Array will result in a default-constructed value replacing that element, rather than an Undefined value. Similarly, setting the length property of the Array to a value larger than its current value will result in the Array being padded out to the specified length with default-constructed elements rather than Undefined elements. Finally, the Qt container classes support signed (rather than unsigned) integer indexes; thus, attempting to access any index greater than INT_MAX will fail.</p>
+<p>The default-constructed values for each sequence type are as follows:</p>
+<div class="table"><table class="generic">
+<tbody><tr class="odd" valign="top"><td><a href="./qlist.htm" translate="no">QList</a>&lt;int&gt;</td><td>integer value 0</td></tr>
+<tr class="even" valign="top"><td><a href="./qlist.htm" translate="no">QList</a>&lt;qreal&gt;</td><td>real value 0.0</td></tr>
+<tr class="odd" valign="top"><td><a href="./qlist.htm" translate="no">QList</a>&lt;bool&gt;</td><td>boolean value <code translate="no">false</code></td></tr>
+<tr class="even" valign="top"><td><a href="./qlist.htm" translate="no">QList</a>&lt;<a href="./qstring.htm" translate="no">QString</a>&gt; and <a href="./qstringlist.htm" translate="no">QStringList</a></td><td>empty <a href="./qstring.htm" translate="no">QString</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qvector.htm" translate="no">QVector</a>&lt;<a href="./qstring.htm" translate="no">QString</a>&gt;</td><td>empty <a href="./qstring.htm" translate="no">QString</a></td></tr>
+<tr class="even" valign="top"><td>std::vector&lt;<a href="./qstring.htm" translate="no">QString</a>&gt;</td><td>empty <a href="./qstring.htm" translate="no">QString</a></td></tr>
+<tr class="odd" valign="top"><td><a href="./qlist.htm" translate="no">QList</a>&lt;<a href="./qurl.htm" translate="no">QUrl</a>&gt;</td><td>empty <a href="./qurl.htm" translate="no">QUrl</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qvector.htm" translate="no">QVector</a>&lt;<a href="./qurl.htm" translate="no">QUrl</a>&gt;</td><td>empty <a href="./qurl.htm" translate="no">QUrl</a></td></tr>
+<tr class="odd" valign="top"><td>std::vector&lt;<a href="./qurl.htm" translate="no">QUrl</a>&gt;</td><td>empty <a href="./qurl.htm" translate="no">QUrl</a></td></tr>
+<tr class="even" valign="top"><td><a href="./qvector.htm" translate="no">QVector</a>&lt;int&gt;</td><td>integer value 0</td></tr>
+<tr class="odd" valign="top"><td><a href="./qvector.htm" translate="no">QVector</a>&lt;qreal&gt;</td><td>real value 0.0</td></tr>
+<tr class="even" valign="top"><td><a href="./qvector.htm" translate="no">QVector</a>&lt;bool&gt;</td><td>boolean value <code translate="no">false</code></td></tr>
+<tr class="odd" valign="top"><td>std::vector&lt;int&gt;</td><td>integer value 0</td></tr>
+<tr class="even" valign="top"><td>std::vector&lt;qreal&gt;</td><td>real value 0.0</td></tr>
+<tr class="odd" valign="top"><td>std::vector&lt;bool&gt;</td><td>boolean value <code translate="no">false</code></td></tr>
+</tbody></table></div>
+<p>If you wish to remove elements from a sequence rather than simply replace them with default constructed values, do not use the indexed delete operator ("delete sequence[i]") but instead use the <code translate="no">splice</code> function ("sequence.splice(startIndex, deleteCount)").</p>
+<a name="qbytearray-to-javascript-arraybuffer"></a>
+<h3 id="qbytearray-to-javascript-arraybuffer">QByteArray to JavaScript ArrayBuffer<a class="plink" href="#qbytearray-to-javascript-arraybuffer" title="Direct link to this headline"></a></h3>
+<p>The QML engine provides automatic type conversion between <a href="./qbytearray.htm" translate="no">QByteArray</a> values and JavaScript <code translate="no">ArrayBuffer</code> objects.</p>
+<a name="value-types"></a>
+<h3 id="value-types">Value Types<a class="plink" href="#value-types" title="Direct link to this headline"></a></h3>
+<p>Some value types in Qt such as <a href="./qpoint.htm" translate="no">QPoint</a> are represented in JavaScript as objects that have the same properties and functions like in the C++ API. The same representation is possible with custom C++ value types. To enable a custom value type with the QML engine, the class declaration needs to be annotated with <code translate="no">Q_GADGET</code>. Properties that are intended to be visible in the JavaScript representation need to be declared with <code translate="no">Q_PROPERTY</code>. Similarly functions need to be marked with <code translate="no">Q_INVOKABLE</code>. This is the same with <a href="./qobject.htm" translate="no">QObject</a> based C++ APIs. For example, the <code translate="no">Actor</code> class below is annotated as gadget and has properties:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Actor
+{
+    Q_GADGET
+    Q_PROPERTY(<span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name READ name WRITE setName)
+<span class="keyword">public</span>:
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name() <span class="keyword">const</span> { <span class="keyword">return</span> m_name; }
+    <span class="type">void</span> setName(<span class="keyword">const</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> <span class="operator">&amp;</span>name) { m_name <span class="operator">=</span> name; }
+
+<span class="keyword">private</span>:
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> m_name;
+};
+
+Q_DECLARE_METATYPE(Actor)</pre></div>
+<p>The usual pattern is to use a gadget class as the type of a property, or to emit a gadget as a signal argument. In such cases, the gadget instance is passed by value between C++ and QML (because it's a value type). If QML code changes a property of a gadget property, the entire gadget is re-created and passed back to the C++ property setter. In Qt 5, gadget types cannot be instantiated by direct declaration in QML. In contrast, a <a href="./qobject.htm" translate="no">QObject</a> instance can be declared; and <a href="./qobject.htm" translate="no">QObject</a> instances are always passed by pointer from C++ to QML.</p>
+<a name="enumeration-types"></a>
+<h2 id="enumeration-types">Enumeration Types<a class="plink" href="#enumeration-types" title="Direct link to this headline"></a></h2>
+<p>To use a custom enumeration as a data type, its class must be registered and the enumeration must also be declared with <a href="./qobject.htm#Q_ENUM" translate="no">Q_ENUM</a>() to register it with Qt's meta object system. For example, the <code translate="no">Message</code> class below has a <code translate="no">Status</code> enum:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Message : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+{
+    Q_OBJECT
+    Q_PROPERTY(Status status READ status NOTIFY statusChanged)
+<span class="keyword">public</span>:
+    <span class="keyword">enum</span> Status {
+        Ready<span class="operator">,</span>
+        Loading<span class="operator">,</span>
+        Error
+    };
+    Q_ENUM(Status)
+    Status status() <span class="keyword">const</span>;
+<span class="keyword">signals</span>:
+    <span class="type">void</span> statusChanged();
+};</pre></div>
+<p>Providing the <code translate="no">Message</code> class has been <a href="./qtqml-cppintegration-definetypes.htm#registering-c-types-with-the-qml-type-system" translate="no">registered</a> with the QML type system, its <code translate="no">Status</code> enum can be used from QML:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">Message</span> {
+     <span class="name">onStatusChanged</span>: {
+         <span class="keyword">if</span> (<span class="name">status</span> <span class="operator">==</span> <span class="name">Message</span>.<span class="name">Ready</span>)
+             <span class="name">console</span>.<span class="name">log</span>(<span class="string">"Message is loaded!"</span>)
+     }
+ }</pre></div>
+<p>To use an enum as a <a href="./qflags.htm" translate="no">flags</a> type in QML, see <a href="./qobject.htm#Q_FLAG" translate="no">Q_FLAG</a>().</p>
+<div class="admonition note">
+<p><b>Note: </b>The names of enum values must begin with a capital letter in order to be accessible from QML.</p>
+</div>
+<div class="pre"><pre class="cpp" translate="no"><span class="operator">.</span><span class="operator">.</span><span class="operator">.</span>
+<span class="keyword">enum</span> <span class="keyword">class</span> Status {
+          Ready<span class="operator">,</span>
+          Loading<span class="operator">,</span>
+          Error
+}
+Q_ENUM(Status)
+<span class="operator">.</span><span class="operator">.</span><span class="operator">.</span></pre></div>
+<p>Enum classes are registered in QML as scoped and unscoped properties. The <code translate="no">Ready</code> value will be registered at <code translate="no">Message.Status.Ready</code> and <code translate="no">Message.Ready</code> .</p>
+<p>When using enum classes, there can be multiple enums using the same identifiers. The unscoped registration will be overwriten by the last registered enum. For classes that contain such name conficts it is possible to disable the unscoped registration by annotating your class with a special <a href="./qobject.htm#Q_CLASSINFO" translate="no">Q_CLASSINFO</a> macro. Use the name <code translate="no">RegisterEnumClassesUnscoped</code> with the value <code translate="no">false</code> to prevent scoped enums from being merged into the same name space.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Message : <span class="keyword">public</span> <span class="type"><a href="./qobject.htm" translate="no">QObject</a></span>
+    {
+        Q_OBJECT
+        Q_CLASSINFO(<span class="string">"RegisterEnumClassesUnscoped"</span><span class="operator">,</span> <span class="string">"false"</span>)
+        Q_ENUM(ScopedEnum)
+        Q_ENUM(OtherValue)
+
+    <span class="keyword">public</span>:
+        <span class="keyword">enum</span> <span class="keyword">class</span> ScopedEnum {
+              Value1<span class="operator">,</span>
+              Value2<span class="operator">,</span>
+              OtherValue
+        };
+        <span class="keyword">enum</span> <span class="keyword">class</span> OtherValue {
+              Value1<span class="operator">,</span>
+              Value2
+        };
+    };</pre></div>
+<a name="enumeration-types-as-signal-and-method-parameters"></a>
+<h3 id="enumeration-types-as-signal-and-method-parameters">Enumeration Types as Signal and Method Parameters<a class="plink" href="#enumeration-types-as-signal-and-method-parameters" title="Direct link to this headline"></a></h3>
+<p>C++ signals and methods with enumeration-type parameters can be used from QML provided that the enumeration and the signal or method are both declared within the same class, or that the enumeration value is one of those declared in the <a href="./qml-qtqml-qt.htm" translate="no">Qt Namespace</a>.</p>
+<p>Additionally, if a C++ signal with an enum parameter should be connectable to a QML function using the <a href="./qtqml-syntax-signals.htm#connecting-signals-to-methods-and-signals" translate="no">connect()</a> function, the enum type must be registered using <a href="./qmetatype.htm#qRegisterMetaType-1" translate="no">qRegisterMetaType</a>().</p>
+<p>For QML signals, enum values may be passed as signal parameters using the <code translate="no">int</code> type:</p>
+<div class="pre"><pre class="qml prettyprint" translate="no"><span class="type">Message</span> {
+    signal <span class="type">someOtherSignal</span>(int statusValue)
+
+    <span class="name">Component</span>.onCompleted: {
+        <span class="name">someOtherSignal</span>(<span class="name">Message</span>.<span class="name">Loading</span>)
+    }
+}</pre></div>
+</div>
+<!-- @@@qtqml-cppintegration-data.html -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

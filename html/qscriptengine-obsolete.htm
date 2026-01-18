@@ -1,0 +1,124 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsolete Members for QScriptEngine | Qt Script</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtscript-index.htm" translate="no">Qt Script</a></li>
+                            <li><a href="./qtscript-module.htm" translate="no">C++ Classes</a></li>
+                            <li><a>QScriptEngine</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title" translate="no">Obsolete Members for QScriptEngine</h1>
+<p><b>The following members of class <a href="./qscriptengine.htm" translate="no">QScriptEngine</a> are obsolete.</b> They are provided to keep old source code working. We strongly advise against using them in new code.</p>
+<h2>Public Functions</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>bool </td><td class="memItemRight bottomAlign"><b><a href="./qscriptengine-obsolete.htm#canEvaluate" translate="no">canEvaluate</a></b>(const QString &amp;<i>program</i>) const</td></tr>
+</tbody></table></div>
+<h2>Related Non-Members</h2>
+<div class="table"><table class="alignedsummary" translate="no">
+<tbody><tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>QScriptValue </td><td class="memItemRight bottomAlign"><b><a href="./qscriptengine-obsolete.htm#qScriptValueFromValue" translate="no">qScriptValueFromValue</a></b>(QScriptEngine *<i>engine</i>, const T &amp;<i>value</i>)</td></tr>
+<tr><td class="memItemLeft topAlign rightAlign"> <code translate="no">(obsolete) </code>T </td><td class="memItemRight bottomAlign"><b><a href="./qscriptengine-obsolete.htm#qScriptValueToValue" translate="no">qScriptValueToValue</a></b>(const QScriptValue &amp;<i>value</i>)</td></tr>
+</tbody></table></div>
+<h2>Member Function Documentation</h2>
+<!-- $$$canEvaluate[overload1]$$$canEvaluateconstQString& -->
+<h3 class="fn" id="canEvaluate" translate="no"><a name="canEvaluate"></a><span class="type">bool</span> QScriptEngine::<span class="name">canEvaluate</span>(const <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> &amp;<i>program</i>) const<a class="plink" href="#canEvaluate" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Returns true if <i translate="no">program</i> can be evaluated; i.e. the code is sufficient to determine whether it appears to be a syntactically correct program, or contains a syntax error.</p>
+<p>This function returns false if <i translate="no">program</i> is incomplete; i.e. the input is syntactically correct up to the point where the input is terminated.</p>
+<p>Note that this function only does a static check of <i translate="no">program</i>; e.g. it does not check whether references to variables are valid, and so on.</p>
+<p>A typical usage of canEvaluate() is to implement an interactive interpreter for Qt Script. The user is repeatedly queried for individual lines of code; the lines are concatened internally, and only when canEvaluate() returns true for the resulting program is it passed to <a href="./qscriptengine.htm#evaluate" translate="no">evaluate</a>().</p>
+<p>The following are some examples to illustrate the behavior of canEvaluate(). (Note that all example inputs are assumed to have an explicit newline as their last character, since otherwise the Qt Script parser would automatically insert a semi-colon character at the end of the input, and this could cause canEvaluate() to produce different results.)</p>
+<p>Given the input</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">if</span> (hello <span class="operator">&amp;</span><span class="operator">&amp;</span> world)
+    print(<span class="string">"hello world"</span>);</pre></div>
+<p>canEvaluate() will return true, since the program appears to be complete.</p>
+<p>Given the input</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">if</span> (hello <span class="operator">&amp;</span><span class="operator">&amp;</span></pre></div>
+<p>canEvaluate() will return false, since the if-statement is not complete, but is syntactically correct so far.</p>
+<p>Given the input</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="number">0</span> <span class="operator">=</span> <span class="number">0</span></pre></div>
+<p>canEvaluate() will return true, but <a href="./qscriptengine.htm#evaluate" translate="no">evaluate</a>() will throw a SyntaxError given the same input.</p>
+<p>Given the input</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="operator">.</span><span class="operator">/</span>test<span class="operator">.</span>js</pre></div>
+<p>canEvaluate() will return true, even though the code is clearly not syntactically valid Qt Script code. <a href="./qscriptengine.htm#evaluate" translate="no">evaluate</a>() will throw a SyntaxError when this code is evaluated.</p>
+<p>Given the input</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">foo<span class="operator">[</span><span class="string">"bar"</span><span class="operator">]</span></pre></div>
+<p>canEvaluate() will return true, but <a href="./qscriptengine.htm#evaluate" translate="no">evaluate</a>() will throw a ReferenceError if <code translate="no">foo</code> is not defined in the script environment.</p>
+<p><b>See also </b><a href="./qscriptengine.htm#evaluate" translate="no">evaluate</a>() and <a href="./qscriptengine.htm#checkSyntax" translate="no">checkSyntax</a>().</p>
+<!-- @@@canEvaluate -->
+<h2>Related Non-Members</h2>
+<!-- $$$qScriptValueFromValue[overload1]$$$qScriptValueFromValueQScriptEngine*constT& -->
+<h3 class="fn" id="qScriptValueFromValue" translate="no"><a name="qScriptValueFromValue"></a>template &lt;typename T&gt; <span class="type"><a href="./qscriptvalue.htm" translate="no">QScriptValue</a></span> <span class="name">qScriptValueFromValue</span>(<span class="type"><a href="./qscriptengine.htm#QScriptEngine" translate="no">QScriptEngine</a></span> *<i>engine</i>, const <span class="type">T</span> &amp;<i>value</i>)<a class="plink" href="#qScriptValueFromValue" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Creates a <a href="./qscriptvalue.htm" translate="no">QScriptValue</a> using the given <i translate="no">engine</i> with the given <i translate="no">value</i> of template type <code translate="no">T</code>.</p>
+<p>This function is equivalent to <a href="./qscriptengine.htm#toScriptValue" translate="no">QScriptEngine::toScriptValue</a>().</p>
+<div class="admonition note">
+<p><b>Note: </b>This function was provided as a workaround for MSVC 6 which did not support member template functions. It is advised to use the other form in new code.</p>
+</div>
+<p>This function was introduced in Qt 4.3.</p>
+<p><b>See also </b><a href="./qscriptengine.htm#toScriptValue" translate="no">QScriptEngine::toScriptValue</a>() and <a href="./qscriptvalue.htm#qscriptvalue_cast" translate="no">qscriptvalue_cast</a>().</p>
+<!-- @@@qScriptValueFromValue -->
+<!-- $$$qScriptValueToValue[overload1]$$$qScriptValueToValueconstQScriptValue& -->
+<h3 class="fn" id="qScriptValueToValue" translate="no"><a name="qScriptValueToValue"></a>template &lt;typename T&gt; <span class="type">T</span> <span class="name">qScriptValueToValue</span>(const <span class="type"><a href="./qscriptvalue.htm" translate="no">QScriptValue</a></span> &amp;<i>value</i>)<a class="plink" href="#qScriptValueToValue" title="Direct link to this headline"></a></h3>
+<p>This function is obsolete. It is provided to keep old source code working. We strongly advise against using it in new code.</p>
+<p>Returns the given <i translate="no">value</i> converted to the template type <code translate="no">T</code>.</p>
+<p>This function is equivalent to <a href="./qscriptengine.htm#fromScriptValue" translate="no">QScriptEngine::fromScriptValue</a>().</p>
+<div class="admonition note">
+<p><b>Note: </b>This function was provided as a workaround for MSVC 6 which did not support member template functions. It is advised to use the other form in new code.</p>
+</div>
+<p>This function was introduced in Qt 4.3.</p>
+<p><b>See also </b><a href="./qscriptengine.htm#fromScriptValue" translate="no">QScriptEngine::fromScriptValue</a>().</p>
+<!-- @@@qScriptValueToValue -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

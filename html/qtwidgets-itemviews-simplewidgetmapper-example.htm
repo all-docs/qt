@@ -1,0 +1,192 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple Widget Mapper Example | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a href="./examples-itemviews.htm" translate="no">Item Views Examples</a></li>
+                            <li><a>Simple Widget Mapper Example</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Simple Widget Mapper Example</h1>
+<span class="subtitle"></span>
+<!-- $$$itemviews/simplewidgetmapper-brief -->
+<p>The Simple Widget Mapper example shows how to use a widget mapper to display data from a model in a collection of widgets.</p>
+<!-- @@@itemviews/simplewidgetmapper -->
+<!-- $$$itemviews/simplewidgetmapper-description -->
+<div class="descr"> <a name="details"></a>
+<p class="centerAlign"><img alt="" src="./images/simplewidgetmapper-example.png"></p><p>The <a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a> class allows information obtained from a <a href="./model-view-programming.htm#model-classes" translate="no">model</a> to be viewed and edited in a collection of widgets instead of in an <a href="./model-view-programming.htm#view-classes" translate="no">item view</a>. Any model derived from <a href="./qabstractitemmodel.htm" translate="no">QAbstractItemModel</a> can be used as the source of data and almost any input widget can be used to display it.</p>
+<p>The example itself is very simple: we create <code translate="no">Window</code>, a <a href="./qwidget.htm" translate="no">QWidget</a> subclass that we use to hold the widgets used to present the data, and show it. The <code translate="no">Window</code> class will provide buttons that the user can click to show different records from the model.</p>
+<a name="window-class-definition"></a>
+<h4 id="window-class-definition">Window Class Definition<a class="plink" href="#window-class-definition" title="Direct link to this headline"></a></h4>
+<p>The class provides a constructor, a slot to keep the buttons up to date, and a private function to set up the model:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="keyword">class</span> Window : <span class="keyword">public</span> <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>
+{
+    Q_OBJECT
+
+<span class="keyword">public</span>:
+    Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent <span class="operator">=</span> nullptr);
+
+<span class="keyword">private</span> <span class="keyword">slots</span>:
+    <span class="type">void</span> updateButtons(<span class="type">int</span> row);
+
+<span class="keyword">private</span>:
+    <span class="type">void</span> setupModel();
+
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>nameLabel;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>addressLabel;
+    <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span> <span class="operator">*</span>ageLabel;
+    <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span> <span class="operator">*</span>nameEdit;
+    <span class="type"><a href="./qtextedit.htm" translate="no">QTextEdit</a></span> <span class="operator">*</span>addressEdit;
+    <span class="type"><a href="./qspinbox.htm" translate="no">QSpinBox</a></span> <span class="operator">*</span>ageSpinBox;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>nextButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>previousButton;
+
+    <span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span> <span class="operator">*</span>model;
+    <span class="type"><a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a></span> <span class="operator">*</span>mapper;
+};</pre></div>
+<p>In addition to the <a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a> object and the controls used to make up the user interface, we use a <a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a> to hold our data. We could use a custom model, but this standard implementation is sufficient for our purposes.</p>
+<a name="window-class-implementation"></a>
+<h4 id="window-class-implementation">Window Class Implementation<a class="plink" href="#window-class-implementation" title="Direct link to this headline"></a></h4>
+<p>The constructor of the <code translate="no">Window</code> class can be explained in three parts. In the first part, we set up the widgets used for the user interface:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">Window<span class="operator">::</span>Window(<span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span> <span class="operator">*</span>parent)
+    : <span class="type"><a href="./qwidget.htm" translate="no">QWidget</a></span>(parent)
+{
+    setupModel();
+
+    nameLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"Na&amp;me:"</span>));
+    nameEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlineedit.htm" translate="no">QLineEdit</a></span>();
+    addressLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"&amp;Address:"</span>));
+    addressEdit <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qtextedit.htm" translate="no">QTextEdit</a></span>();
+    ageLabel <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qlabel.htm" translate="no">QLabel</a></span>(tr(<span class="string">"A&amp;ge (in years):"</span>));
+    ageSpinBox <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qspinbox.htm" translate="no">QSpinBox</a></span>();
+    nextButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Next"</span>));
+    previousButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Previous"</span>));
+
+    nameLabel<span class="operator">-</span><span class="operator">&gt;</span>setBuddy(nameEdit);
+    addressLabel<span class="operator">-</span><span class="operator">&gt;</span>setBuddy(addressEdit);
+    ageLabel<span class="operator">-</span><span class="operator">&gt;</span>setBuddy(ageSpinBox);</pre></div>
+<p>We also set up the buddy relationships between various labels and the corresponding input widgets.</p>
+<p>Next, we set up the widget mapper, relating each input widget to a column in the model specified by the call to <a href="./qdatawidgetmapper.htm#setModel" translate="no">setModel()</a>:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    mapper <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a></span>(<span class="keyword">this</span>);
+    mapper<span class="operator">-</span><span class="operator">&gt;</span>setModel(model);
+    mapper<span class="operator">-</span><span class="operator">&gt;</span>addMapping(nameEdit<span class="operator">,</span> <span class="number">0</span>);
+    mapper<span class="operator">-</span><span class="operator">&gt;</span>addMapping(addressEdit<span class="operator">,</span> <span class="number">1</span>);
+    mapper<span class="operator">-</span><span class="operator">&gt;</span>addMapping(ageSpinBox<span class="operator">,</span> <span class="number">2</span>);
+
+    connect(previousButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> mapper<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a></span><span class="operator">::</span>toPrevious);
+    connect(nextButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qabstractbutton.htm" translate="no">QAbstractButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span> mapper<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a></span><span class="operator">::</span>toNext);
+    connect(mapper<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a></span><span class="operator">::</span>currentIndexChanged<span class="operator">,</span> <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>Window<span class="operator">::</span>updateButtons);</pre></div>
+<p>We also connect the mapper to the <b translate="no">Next</b> and <b translate="no">Previous</b> buttons via its <a href="./qdatawidgetmapper.htm#toNext" translate="no">toNext()</a> and <a href="./qdatawidgetmapper.htm#toPrevious" translate="no">toPrevious()</a> slots. The mapper's <a href="./qdatawidgetmapper.htm#currentIndexChanged" translate="no">currentIndexChanged()</a> signal is connected to the <code translate="no">updateButtons()</code> slot in the window which we'll show later.</p>
+<p>In the final part of the constructor, we set up the layout, placing each of the widgets in a grid (we could also use a <a href="./qformlayout.htm" translate="no">QFormLayout</a> for this):</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span> <span class="operator">*</span>layout <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qgridlayout.htm" translate="no">QGridLayout</a></span>();
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(nameLabel<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(nameEdit<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(previousButton<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(addressLabel<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(addressEdit<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(nextButton<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(ageLabel<span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    layout<span class="operator">-</span><span class="operator">&gt;</span>addWidget(ageSpinBox<span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> <span class="number">1</span>);
+    setLayout(layout);
+
+    setWindowTitle(tr(<span class="string">"Simple Widget Mapper"</span>));
+    mapper<span class="operator">-</span><span class="operator">&gt;</span>toFirst();
+}</pre></div>
+<p>Lastly, we set the window title and initialize the mapper by setting it to refer to the first row in the model.</p>
+<p>The model is initialized in the window's <code translate="no">setupModel()</code> function. Here, we create a standard model with 5 rows and 3 columns, and we insert some sample names, addresses and ages into each row:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>setupModel()
+{
+    model <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstandarditemmodel.htm" translate="no">QStandardItemModel</a></span>(<span class="number">5</span><span class="operator">,</span> <span class="number">3</span><span class="operator">,</span> <span class="keyword">this</span>);
+
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> names;
+    names <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Alice"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Bob"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Carol"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Donald"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"Emma"</span>;
+
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> addresses;
+    addresses <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"&lt;qt&gt;123 Main Street&lt;br/&gt;Market Town&lt;/qt&gt;"</span>
+              <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"&lt;qt&gt;PO Box 32&lt;br/&gt;Mail Handling Service"</span>
+                 <span class="string">"&lt;br/&gt;Service City&lt;/qt&gt;"</span>
+              <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"&lt;qt&gt;The Lighthouse&lt;br/&gt;Remote Island&lt;/qt&gt;"</span>
+              <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"&lt;qt&gt;47338 Park Avenue&lt;br/&gt;Big City&lt;/qt&gt;"</span>
+              <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"&lt;qt&gt;Research Station&lt;br/&gt;Base Camp&lt;br/&gt;Big Mountain&lt;/qt&gt;"</span>;
+
+    <span class="type"><a href="./qstringlist.htm" translate="no">QStringList</a></span> ages;
+    ages <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"20"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"31"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"32"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"19"</span> <span class="operator">&lt;</span><span class="operator">&lt;</span> <span class="string">"26"</span>;
+
+    <span class="keyword">for</span> (<span class="type">int</span> row <span class="operator">=</span> <span class="number">0</span>; row <span class="operator">&lt;</span> <span class="number">5</span>; <span class="operator">+</span><span class="operator">+</span>row) {
+      <span class="type"><a href="./qstandarditem.htm" translate="no">QStandardItem</a></span> <span class="operator">*</span>item <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstandarditem.htm" translate="no">QStandardItem</a></span>(names<span class="operator">[</span>row<span class="operator">]</span>);
+      model<span class="operator">-</span><span class="operator">&gt;</span>setItem(row<span class="operator">,</span> <span class="number">0</span><span class="operator">,</span> item);
+      item <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstandarditem.htm" translate="no">QStandardItem</a></span>(addresses<span class="operator">[</span>row<span class="operator">]</span>);
+      model<span class="operator">-</span><span class="operator">&gt;</span>setItem(row<span class="operator">,</span> <span class="number">1</span><span class="operator">,</span> item);
+      item <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qstandarditem.htm" translate="no">QStandardItem</a></span>(ages<span class="operator">[</span>row<span class="operator">]</span>);
+      model<span class="operator">-</span><span class="operator">&gt;</span>setItem(row<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> item);
+    }
+}</pre></div>
+<p>As a result, each row can be treated like a record in a database, and the widget mapper will read the data from each row, using the column numbers specified earlier to access the correct data for each widget. This is shown in the following diagram:</p>
+<p class="centerAlign"><img alt="" src="./images/widgetmapper-simple-mapping.png"></p><p>Since the user can navigate using the buttons in the user interface, the example is fully-functional at this point, but to make it a bit more user-friendly, we implement the <code translate="no">updateButtons()</code> slot to show when the user is viewing the first or last records:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> Window<span class="operator">::</span>updateButtons(<span class="type">int</span> row)
+{
+    previousButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(row <span class="operator">&gt;</span> <span class="number">0</span>);
+    nextButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(row <span class="operator">&lt;</span> model<span class="operator">-</span><span class="operator">&gt;</span>rowCount() <span class="operator">-</span> <span class="number">1</span>);
+}</pre></div>
+<p>If the mapper is referring to the first row in the model, the <b translate="no">Previous</b> button is disabled. Similarly, the <b translate="no">Next</b> button is disabled if the mapper reaches the last row in the model.</p>
+<a name="more-complex-mappings"></a>
+<h4 id="more-complex-mappings">More Complex Mappings<a class="plink" href="#more-complex-mappings" title="Direct link to this headline"></a></h4>
+<p>The <a href="./qdatawidgetmapper.htm" translate="no">QDataWidgetMapper</a> class makes it easy to relate information from a model to widgets in a user interface. However, it is sometimes necessary to use input widgets which offer choices to the user, such as <a href="./qcombobox.htm" translate="no">QComboBox</a>, in conjunction with a widget mapper.</p>
+<p>In these situations, although the mapping to input widgets remains simple, more work needs to be done to expose additional data to the widget mapper. This is covered by the <a href="./qtwidgets-itemviews-combowidgetmapper-example.htm" translate="no">Combo Widget Mapper</a> and <a href="./qtsql-sqlwidgetmapper-example.htm" translate="no">SQL Widget Mapper</a> examples.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/itemviews/simplewidgetmapper?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@itemviews/simplewidgetmapper -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>

@@ -1,0 +1,156 @@
+<html lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Part 3 - Navigating between Entries | Qt Widgets</title>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- Google Tag Manager -->
+    
+  <!-- End Google Tag Manager -->
+  
+  
+</head>
+<body class="qt-design-system" style="background:var(--content-bg-color)" onload="prettyPrint()">
+
+<div data-global-resource-path="qt-design-system/components/b-sidebar.html">
+    <div class="b-sidebar b-sidebar--full-width">
+        
+        <div class="b-sidebar__content">
+            <div class="b-sidebar__topbar" data-margin-bottom="sm">
+                <div class="b-topbar">
+                                        <div class="b-topbar__breadcrump" translate="no">
+                        <ul class="c-breadcrump">
+                            <li><a href="./index.htm" translate="no">Qt 5.15</a></li>
+                            <li><a href="./qtwidgets-index.htm" translate="no">Qt Widgets</a></li>
+                            <li><a>Part 3 - Navigating between Entries</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="b-sidebar__content__wrapper">
+                <article class="b-sidebar__content__left">
+                    <div class="context mainContent" style="margin: 0;padding: 0; background: 0;">
+                    
+
+<div class="context">
+<h1 class="title">Part 3 - Navigating between Entries</h1>
+<span class="subtitle"></span>
+<!-- $$$tutorials/addressbook/part3-brief -->
+<p>Explains the code that enables navigating the contacts.</p>
+<!-- @@@tutorials/addressbook/part3 -->
+<!-- $$$tutorials/addressbook/part3-description -->
+<div class="descr"> <a name="details"></a>
+<p>The address book is now about half complete. We should add the capability to navigate the contacts, but first we must decide what sort of a data structure we need for containing these contacts.</p>
+<p>In the previous section, we used a <a href="./qmap.htm" translate="no">QMap</a> of key-value pairs with the contact's name as the <i>key</i>, and the contact's address as the <i>value</i>. This works well for our case. However, in order to navigate and display each entry, a little bit of enhancement is needed.</p>
+<p>We enhance the <a href="./qmap.htm" translate="no">QMap</a> by making it replicate a data structure similar to a circularly-linked list, where all elements are connected, including the first element and the last element. The figure below illustrates this data structure.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part3-linkedlist.png"></p><a name="defining-the-addressbook-class"></a>
+<h4 id="defining-the-addressbook-class">Defining the AddressBook Class<a class="plink" href="#defining-the-addressbook-class" title="Direct link to this headline"></a></h4>
+<p>To add navigation functions to the address book, we must add two more slots to the <code translate="no">AddressBook</code> class: <code translate="no">next()</code> and <code translate="no">previous()</code> to the <code translate="no">addressbook.h</code> file:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">void</span> next();
+    <span class="type">void</span> previous();</pre></div>
+<p>We also require another two <a href="./qpushbutton.htm" translate="no">QPushButton</a> objects, so we declare <code translate="no">nextButton</code> and <code translate="no">previousButton</code> as private variables:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>nextButton;
+    <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span> <span class="operator">*</span>previousButton;</pre></div>
+<a name="implementing-the-addressbook-class"></a>
+<h4 id="implementing-the-addressbook-class">Implementing the AddressBook Class<a class="plink" href="#implementing-the-addressbook-class" title="Direct link to this headline"></a></h4>
+<p>In the <code translate="no">AddressBook</code> constructor in <code translate="no">addressbook.cpp</code>, we instantiate <code translate="no">nextButton</code> and <code translate="no">previousButton</code> and disable them by default. This is because navigation is only enabled when there is more than one contact in the address book.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    nextButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Next"</span>));
+    nextButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    previousButton <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span>(tr(<span class="string">"&amp;Previous"</span>));
+    previousButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);</pre></div>
+<p>We then connect these push buttons to their respective slots:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    connect(nextButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>AddressBook<span class="operator">::</span>next);
+    connect(previousButton<span class="operator">,</span> <span class="operator">&amp;</span><span class="type"><a href="./qpushbutton.htm" translate="no">QPushButton</a></span><span class="operator">::</span>clicked<span class="operator">,</span>
+            <span class="keyword">this</span><span class="operator">,</span> <span class="operator">&amp;</span>AddressBook<span class="operator">::</span>previous);</pre></div>
+<p>The image below is the expected graphical user interface.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part3-screenshot.png"></p><p>We follow basic conventions for <code translate="no">next()</code> and <code translate="no">previous()</code> functions by placing the <code translate="no">nextButton</code> on the right and the <code translate="no">previousButton</code> on the left. In order to achieve this intuitive layout, we use <a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a> to place the widgets side-by-side:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span> <span class="operator">*</span>buttonLayout2 <span class="operator">=</span> <span class="keyword">new</span> <span class="type"><a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a></span>;
+    buttonLayout2<span class="operator">-</span><span class="operator">&gt;</span>addWidget(previousButton);
+    buttonLayout2<span class="operator">-</span><span class="operator">&gt;</span>addWidget(nextButton);</pre></div>
+<p>The <a href="./qhboxlayout.htm" translate="no">QHBoxLayout</a> object, <code translate="no">buttonLayout2</code>, is then added to <code translate="no">mainLayout</code>.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    mainLayout<span class="operator">-</span><span class="operator">&gt;</span>addLayout(buttonLayout2<span class="operator">,</span> <span class="number">2</span><span class="operator">,</span> <span class="number">1</span>);</pre></div>
+<p>The figure below shows the coordinates of the widgets in <code translate="no">mainLayout</code>.</p>
+<p class="centerAlign"><img alt="" src="./images/addressbook-tutorial-part3-labeled-layout.png"></p><p>Within our <code translate="no">addContact()</code> function, we have to disable these buttons so that the user does not attempt to navigate while adding a contact.</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    nextButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);
+    previousButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(<span class="keyword">false</span>);</pre></div>
+<p>Also, in our <code translate="no">submitContact()</code> function, we enable the navigation buttons, <code translate="no">nextButton</code> and <code translate="no">previousButton</code>, depending on the size of <code translate="no">contacts</code>. As mentioned earlier, navigation is only enabled when there is more than one contact in the address book. The following lines of code demonstrates how to do this:</p>
+<div class="pre"><pre class="cpp prettyprint" translate="no">    <span class="type">int</span> number <span class="operator">=</span> contacts<span class="operator">.</span>size();
+    nextButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(number <span class="operator">&gt;</span> <span class="number">1</span>);
+    previousButton<span class="operator">-</span><span class="operator">&gt;</span>setEnabled(number <span class="operator">&gt;</span> <span class="number">1</span>);</pre></div>
+<p>We also include these lines of code in the <code translate="no">cancel()</code> function.</p>
+<p>Recall that we intend to emulate a circularly-linked list with our <a href="./qmap.htm" translate="no">QMap</a> object, <code translate="no">contacts</code>. So, in the <code translate="no">next()</code> function, we obtain an iterator for <code translate="no">contacts</code> and then:</p>
+<ul>
+<li>If the iterator is not at the end of <code translate="no">contacts</code>, we increment it by one.</li>
+<li>If the iterator is at the end of <code translate="no">contacts</code>, we move it to the beginning of <code translate="no">contacts</code>. This gives us the illusion that our <a href="./qmap.htm" translate="no">QMap</a> is working like a circularly-linked list.</li>
+</ul>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> AddressBook<span class="operator">::</span>next()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name <span class="operator">=</span> nameLine<span class="operator">-</span><span class="operator">&gt;</span>text();
+    <span class="type"><a href="./qmap.htm" translate="no">QMap</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">&gt;</span><span class="operator">::</span>iterator i <span class="operator">=</span> contacts<span class="operator">.</span>find(name);
+
+    <span class="keyword">if</span> (i <span class="operator">!</span><span class="operator">=</span> contacts<span class="operator">.</span>end())
+        i<span class="operator">+</span><span class="operator">+</span>;
+
+    <span class="keyword">if</span> (i <span class="operator">=</span><span class="operator">=</span> contacts<span class="operator">.</span>end())
+        i <span class="operator">=</span> contacts<span class="operator">.</span>begin();
+
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setText(i<span class="operator">.</span>key());
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>setText(i<span class="operator">.</span>value());
+}</pre></div>
+<p>Once we have iterated to the correct object in <code translate="no">contacts</code>, we display its contents on <code translate="no">nameLine</code> and <code translate="no">addressText</code>.</p>
+<p>Similarly, for the <code translate="no">previous()</code> function, we obtain an iterator for <code translate="no">contacts</code> and then:</p>
+<ul>
+<li>If the iterator is at the end of <code translate="no">contacts</code>, we clear the display and return.</li>
+<li>If the iterator is at the beginning of <code translate="no">contacts</code>, we move it to the end.</li>
+<li>We then decrement the iterator by one.</li>
+</ul>
+<div class="pre"><pre class="cpp prettyprint" translate="no"><span class="type">void</span> AddressBook<span class="operator">::</span>previous()
+{
+    <span class="type"><a href="./qstring.htm" translate="no">QString</a></span> name <span class="operator">=</span> nameLine<span class="operator">-</span><span class="operator">&gt;</span>text();
+    <span class="type"><a href="./qmap.htm" translate="no">QMap</a></span><span class="operator">&lt;</span><span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">,</span> <span class="type"><a href="./qstring.htm" translate="no">QString</a></span><span class="operator">&gt;</span><span class="operator">::</span>iterator i <span class="operator">=</span> contacts<span class="operator">.</span>find(name);
+
+    <span class="keyword">if</span> (i <span class="operator">=</span><span class="operator">=</span> contacts<span class="operator">.</span>end()){
+        nameLine<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        addressText<span class="operator">-</span><span class="operator">&gt;</span>clear();
+        <span class="keyword">return</span>;
+    }
+
+    <span class="keyword">if</span> (i <span class="operator">=</span><span class="operator">=</span> contacts<span class="operator">.</span>begin())
+        i <span class="operator">=</span> contacts<span class="operator">.</span>end();
+
+    i<span class="operator">-</span><span class="operator">-</span>;
+    nameLine<span class="operator">-</span><span class="operator">&gt;</span>setText(i<span class="operator">.</span>key());
+    addressText<span class="operator">-</span><span class="operator">&gt;</span>setText(i<span class="operator">.</span>value());
+}</pre></div>
+<p>Again, we display the contents of the current object in <code translate="no">contacts</code>.</p>
+<p><a href="https://code.qt.io/cgit/qt/qtbase.git/tree/examples/widgets/tutorials/addressbook/part3?h=5.15" translate="no">Example project @ code.qt.io</a></p>
+</div>
+<!-- @@@tutorials/addressbook/part3 -->
+</div>
+<p class="copy-notice">
+<acronym title="Copyright">©</acronym> 2025 The Qt Company Ltd.
+   Documentation contributions included herein are the copyrights of
+   their respective owners.     The documentation provided herein is licensed under the terms of the    <a href="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation    License version 1.3</a> as published by the Free Software Foundation.     Qt and respective logos are <a href="https://doc.qt.io/qt/trademarks.html">    trademarks</a> of The Qt Company Ltd. in Finland and/or other countries
+   worldwide. All other trademarks are property of their respective owners. </p>
+
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>
